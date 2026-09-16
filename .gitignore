@@ -1,0 +1,23 @@
+.DS_Store
+
+# Secrets
+.env*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+.vercel/
+
+# Python ingestion environment
+.venv/
+__pycache__/
+*.py[cod]
+
+# Supabase local state
+supabase/.temp/
+supabase/.branches/
