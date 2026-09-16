@@ -1,0 +1,42 @@
+name: PR checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  local-foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.7.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.12.15
+          python-version: '3.12'
+          enable-cache: true
+      - run: pnpm install --frozen-lockfile
+      - run: uv sync --frozen
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.72.7
+      - name: Start local Supabase without printing generated credentials
+        run: supabase start > /dev/null
+      - run: pnpm test:db
+      - name: Stop local services
+        if: always()
+        run: supabase stop

@@ -16,13 +16,13 @@
 ## 3. 스택 (버전 고정)
 
 - Next.js 15 (App Router), TypeScript strict, pnpm
-- Supabase: Postgres 16 + PostGIS 3.4, Auth, Edge Functions (Deno)
+- Supabase: Postgres 17 + PostGIS 3.3.7, Auth, Edge Functions (Deno). 로컬 기준은 Supabase CLI 2.72.7의 PostgreSQL 17.6 이미지다. PR 1에서 CLI가 16을 거부하고 이미지가 PostGIS 3.3.7을 제공함을 확인해 사용자 승인으로 조정했다.
 - 지도: MapLibre GL JS 4.x, deck.gl 9.x (MapboxOverlay 모드)
 - 상태: Zustand
 - 스타일: Tailwind CSS 4
 - 테스트: Vitest (단위), Playwright (E2E, S3부터)
 - 배치 적재: Python 3.12 + PublicDataReader + DuckDB + psycopg. 공공데이터 수집·Parquet 집계를 재사용하기 위해 Python으로 통일한다. PublicDataReader의 소스별 호환성은 실제 응답으로 확인한다.
-- 데이터 저장: Cloudflare R2에 원본 Parquet, Supabase에 조회용 집계와 공간 조회에 필요한 최소 개체 정보. DuckDB 집계는 `/ingest`에서 실행한다.
+- 데이터 저장: Cloudflare R2에 원본 Parquet, Supabase에 조회용 집계와 공간 조회에 필요한 최소 개체 정보. R2 환경변수가 없으면 로컬 파일시스템(`INGEST_LOCAL_ROOT`, 기본 `.local/ingest`)을 사용한다. DuckDB 집계는 `/ingest`에서 실행한다.
 - 배포: Vercel (프론트), Supabase (DB/Functions), GitHub Actions (배치 스케줄)
 - 개발 환경: 원격 Supabase 프로젝트와 R2 버킷은 사용자가 준비한다. 준비 전에는 `supabase start`로 로컬 Supabase에서 진행한다.
 
@@ -78,7 +78,7 @@
 
 ## 7. 현재 스프린트
 
-- **S1 데이터 기반** (PR 0 문서 기준 정리)
+- **S1 데이터 기반** (PR 1 로컬 저장·적재 기반)
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - RPC: `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`. 점수·과목 기준·학원 등록 가능성 판정은 S2, 캐시 미스 사용자 흐름은 S3, 공동주택 세대수는 v2.
 - 완료 기준: `docs/planning/location-simulator.md` 스프린트 계획 표 참조

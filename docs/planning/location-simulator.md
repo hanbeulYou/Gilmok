@@ -1,7 +1,7 @@
 # 길목(GILMOK) 기획서 — 입지 시뮬레이터
 
 > 작성일: 2026-09-16
-> 상태: S1 구현 기준 승인 반영 (v1.3)
+> 상태: S1 PR 1 로컬 개발 기준 반영 (v1.4)
 > Concept: 서비스업 창업자가 후보 점포 여러 곳을 3D 지도 위에서 데이터 기반 점수와 함께 나란히 비교하고, 조건을 바꿔가며 "목"을 시뮬레이션하는 웹 서비스. 첫 업종은 학원.
 
 ---
@@ -101,6 +101,7 @@ flowchart TB
 - **백엔드**: Supabase Postgres + PostGIS(반경 조회·집계), Edge Functions(채점 API, S2), Supabase Auth
 - **배치·저장**: Python 3.12 + PublicDataReader + DuckDB + psycopg, GitHub Actions 스케줄. 원본은 R2의 `raw/{source}/{YYYY-MM}.parquet`, Supabase에는 조회용 집계와 공간 조회에 필요한 최소 개체 정보를 둔다. 집계 스크립트는 `/ingest`에 둔다.
 - **개발 환경**: 원격 Supabase·R2는 사용자가 준비한다. 준비 전에는 `supabase start`로 로컬 Supabase에서 진행한다. PR 1에서 `.env.example`을 만들고, 비밀 값은 커밋하지 않는다.
+- **키 없는 검증**: R2 환경변수가 없으면 `INGEST_LOCAL_ROOT`(기본 `.local/ingest`) 아래에 같은 `raw/{source}/{YYYY-MM}.parquet` 경로로 저장하고 DuckDB로 읽는다. 로컬 저장·집계 테스트에는 원격 키가 필요하지 않다.
 - **배포**: Vercel
 - **구현 도구**: GPT-6 Astra — 이 문서 + 아래 "구현 스펙"을 입력으로 스프린트 단위 위임
 - **대안 검토**: CesiumJS + Vworld 3D 타일은 사실감은 높지만 무겁고 2D 토글이 어색함. MVP는 MapLibre 익스트루전(2.5D)으로 가고, "우와 포인트"는 시간대별 유동인구 애니메이션과 가시성 히트맵으로 만든다.
@@ -222,3 +223,4 @@ Next.js + Supabase/PostGIS + MapLibre/deck.gl, Vercel 배포. 2주 스프린트 
 | 2026-09-16 | v1.1 | 층수 반영(가시성·건물 적합성·프리셋 층 선호), 임대료 효율 축 추가(실거래가·임대동향·사용자 입력) | Definition, Dividing |
 | 2026-09-16 | v1.2 | 프로젝트명 "길목(GILMOK)" 확정                                                                   | -                    |
 | 2026-09-16 | v1.3 | PR 0 사용자 승인: 단계적 적재, 7개 묶음 RPC, 거리·시간·추정 규칙, R2/DuckDB·Python·GitHub Actions, DB p95 기준, S2/S3/v2 이관 범위 확정. API 실응답 검증 아님 | Definition, Drawing, Action Plan, 구현 스펙 |
+| 2026-09-16 | v1.4 | PR 1 사용자 승인: R2 미설정 시 로컬 파일 폴백. 로컬 DB의 실제 제공 버전을 확인하고 AGENTS.md의 버전 기준 조정 | Action Plan, 개발 환경 |

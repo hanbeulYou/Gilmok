@@ -17,6 +17,10 @@ coverage/
 .venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.ruff_cache/
+.local/
+*.egg-info/
 
 # Supabase local state
 supabase/.temp/
