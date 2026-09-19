@@ -81,12 +81,11 @@ def test_daily_weighting_weekends_fragments_and_suppression(tmp_path):
     with duckdb.connect() as connection:
         connection.read_parquet(str(destination)).create_view("profile")
         assert connection.execute(
-            "select dow_type,avg_pop from profile where age_band='total' order by dow_type"
+            "select dow_type,total from profile order by dow_type"
         ).fetchall() == [("weekday", 30), ("weekend", 150)]
         assert connection.execute(
-            "select avg_pop,suppressed_parts from profile "
-            "where age_band='10_14' and dow_type='weekday'"
-        ).fetchone() == (None, 1)
+            "select age_10_14,sample_days from profile where dow_type='weekday'"
+        ).fetchone() == (40, 2)
 
 
 def test_missing_cell_day_is_null_and_incomplete_window_fails(tmp_path):
@@ -96,9 +95,9 @@ def test_missing_cell_day_is_null_and_incomplete_window_fails(tmp_path):
     aggregate_window([path], date(2026, 8, 3), date(2026, 8, 4), destination)
     with duckdb.connect() as connection:
         values = connection.read_parquet(str(destination)).df()
-        assert values.avg_pop.isna().all()
-        assert values.observed_days.eq(1).all()
-        assert values.expected_days.eq(2).all()
+        assert values.total.isna().all()
+        assert values.sample_days.eq(1).all()
+        assert values.age_0_4.isna().all() and values.age_5_9.isna().all()
     with pytest.raises(ValueError, match="complete period"):
         aggregate_window([path], date(2026, 8, 3), date(2026, 8, 5), destination)
 
@@ -133,3 +132,69 @@ def test_repeated_or_overlapping_inputs_do_not_double_population(tmp_path):
     assert output.read_bytes() == b"previous"
     with duckdb.connect() as connection:
         assert connection.read_parquet(str(first)).count("*").fetchone() == (1,)
+
+
+def test_fixed_bands_preserve_age_15_19_and_never_split_age_0_9(tmp_path):
+    item = raw_row(day="20260803")
+    item.update({"남자 15~19세": "15", "여자 15~19세": "19",
+                 "남자 20~24세": "1", "여자 20~24세": "2",
+                 "남자 25~29세": "3", "여자 25~29세": "4"})
+    raw = raw_parquet(tmp_path / "raw.parquet", [item])
+    output = tmp_path / "profile.parquet"
+    aggregate_window([raw], date(2026, 8, 3), date(2026, 8, 3), output)
+    with duckdb.connect() as c:
+        c.read_parquet(str(output)).create_view("p")
+        assert c.execute(
+            "select age_0_4,age_5_9,age_15_19,age_20_29,age_60_plus,sample_days from p"
+        ).fetchone() == (None, None, 34, 10, 60, 1)
+
+
+def test_sample_days_excludes_a_date_with_any_suppressed_total_fragment(tmp_path):
+    rows = [raw_row(day="20260803"),
+            raw_row(day="20260803", dong="11110530", **{"생활인구합계": "*"}),
+            raw_row(day="20260804", **{"남자 25~29세": "*"})]
+    raw = raw_parquet(tmp_path / "raw.parquet", rows)
+    output = tmp_path / "profile.parquet"
+    aggregate_window([raw], date(2026, 8, 3), date(2026, 8, 4), output)
+    with duckdb.connect() as c:
+        c.read_parquet(str(output)).create_view("p")
+        assert c.execute(
+            "select total,age_20_29,age_10_14,sample_days from p"
+        ).fetchone() == (None, 80, 30, 1)
+
+
+def test_age_mean_excludes_whole_invalid_day_and_uses_its_own_denominator(tmp_path):
+    rows = [raw_row(day="20260803"),
+            raw_row(day="20260803", dong="11110530", **{"남자 25~29세": "*"}),
+            raw_row(day="20260804", **{"남자 20~24세": "70"})]
+    for row in rows:
+        row["여자 15~19세"] = "*"
+    raw = raw_parquet(tmp_path / "raw.parquet", rows)
+    output = tmp_path / "profile.parquet"
+    aggregate_window([raw], date(2026, 8, 3), date(2026, 8, 4), output)
+    with duckdb.connect() as c:
+        c.read_parquet(str(output)).create_view("p")
+        assert c.execute(
+            "select age_20_29,age_10_14,age_15_19,sample_days from p"
+        ).fetchone() == (100, 30, None, 2)
+
+
+def test_unequal_month_and_column_valid_days_use_weighted_sums(tmp_path):
+    rows = []
+    for day, total, age10, age15 in [("20260630", "10", "*", "10"),
+                                    ("20260701", "100", "100", "*"),
+                                    ("20260702", "200", "200", "*")]:
+        rows.append(raw_row(day=day, **{"생활인구합계": total,
+                                       "남자 10~14세": age10, "여자 10~14세": "0",
+                                       "남자 15~19세": age15, "여자 15~19세": "0"}))
+    june = raw_parquet(tmp_path / "june.parquet", rows[:1])
+    july = raw_parquet(tmp_path / "july.parquet", rows[1:])
+    output = tmp_path / "profile.parquet"
+    aggregate_window([june, july], date(2026, 6, 30), date(2026, 7, 2), output)
+    with duckdb.connect() as c:
+        c.read_parquet(str(output)).create_view("p")
+        total, age10, age15, days = c.execute(
+            "select total,age_10_14,age_15_19,sample_days from p"
+        ).fetchone()
+        assert total == pytest.approx(310 / 3)
+        assert (age10, age15, days) == (150, 10, 3)

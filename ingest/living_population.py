@@ -11,7 +11,7 @@ import json
 import re
 import shutil
 import tempfile
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path, PurePosixPath
 from zipfile import ZipFile
 
@@ -22,6 +22,16 @@ COLUMNS = ["일자", "시간", "행정동코드", "250M격자", "생활인구합
     f"{sex} {age}" for sex in ("남자", "여자") for age in AGE_BANDS
 ]
 SQL_PATH = Path(__file__).parent / "sql/living_population.sql"
+COARSE_BANDS = {
+    "age_10_14": ["10~14세"],
+    "age_15_19": ["15~19세"],
+    "age_20_29": ["20~24세", "25~29세"],
+    "age_30_39": ["30~34세", "35~39세"],
+    "age_40_49": ["40~44세", "45~49세"],
+    "age_50_59": ["50~54세", "55~59세"],
+    "age_60_plus": ["60~64세", "65~69세", "70세 이상"],
+}
+POPULATION_COLUMNS = ["total", "age_0_4", "age_5_9", *COARSE_BANDS]
 
 
 def prepare_month(archive: Path, month: str, destination: Path) -> dict:
@@ -148,17 +158,17 @@ def aggregate_window(parquets: list[Path], start: date, end: date, destination: 
                 "from range(?::date, ?::date + interval 1 day, interval 1 day)", [start, end]
             )
             expressions = ['try_cast(nullif(trim("생활인구합계"),\'*\') as double) as total']
-            bands = ["total"]
-            for label in AGE_BANDS:
-                band = label.replace("세 이상", "_plus").replace("세", "").replace("~", "_")
-                bands.append(band)
+            bands = ["total", *COARSE_BANDS]
+            for band, labels in COARSE_BANDS.items():
+                terms = [f'try_cast(nullif(trim("{sex} {label}"),\'*\') as double)'
+                         for label in labels for sex in ("남자", "여자")]
                 expressions.append(
-                    f'(try_cast(nullif(trim("남자 {label}"),\'*\') as double) + '
-                    f'try_cast(nullif(trim("여자 {label}"),\'*\') as double)) as "{band}"'
+                    '(' + ' + '.join(terms) + f') as "{band}"'
                 )
             # Trusted, fixed column identifiers only. Dates are bound separately below.
             connection.execute(
                 'create temp view prepared as select strptime("일자",\'%Y%m%d\')::date as date, '
+                '"일자" as raw_date, '
                 'trim("250M격자") as cell_id, cast("시간" as smallint) as hour, '
                 + ",".join(expressions) + ' from raw'
             )
@@ -167,22 +177,37 @@ def aggregate_window(parquets: list[Path], start: date, end: date, destination: 
             ).fetchone()
             if (first, last, days) != (start, end, (end - start).days + 1):
                 raise ValueError("Raw files do not cover exactly the requested complete period")
-            aggregates = []
-            pairs = []
+            # Suppression is decided per entire cell/date/hour, before averaging.
+            # Otherwise a valid dong fragment on an invalid date biases the numerator.
+            daily = []
             for band in bands:
-                aggregates += [f'sum("{band}") as "{band}_sum"',
-                               f'count(*) filter(where "{band}" is null)::integer '
-                               f'as "{band}_suppressed"']
-                pairs.append(f'("{band}_sum", "{band}_suppressed") as "{band}"')
+                daily += [
+                    f'case when count(*)=count("{band}") then sum("{band}") '
+                    f'else 0 end as "{band}_sum"',
+                    f'(case when count(*)=count("{band}") then 1 else 0 end)'
+                    f'::smallint as "{band}_days"',
+                ]
+            # Bound the first aggregation to one day (~206k cells/hours for Seoul).
+            # Materializing all 92 days as an in-memory table exceeds the 1GB budget.
+            daily_directory = Path(temporary) / "daily"
+            daily_directory.mkdir()
+            for offset in range((end - start).days + 1):
+                day = start + timedelta(days=offset)
+                connection.sql(
+                    "select cell_id,date,hour," + ",".join(daily)
+                    + " from prepared where raw_date=? group by cell_id,date,hour",
+                    params=[day.strftime("%Y%m%d")],
+                ).write_parquet(str(daily_directory / f"{day}.parquet"), compression="zstd")
+            connection.read_parquet(str(daily_directory / "*.parquet")).create_view("daily")
+            aggregates = []
+            for band in bands:
+                aggregates += [f'sum("{band}_sum") as "{band}_sum"',
+                               f'sum("{band}_days") as "{band}_days"']
             connection.execute(
                 "create temp table wide_summary as select cell_id, hour, "
                 "case when isodow(date) in (6,7) then 'weekend' else 'weekday' end as dow_type, "
-                "count(distinct date)::smallint as observed_days, " + ",".join(aggregates)
-                + " from prepared group by cell_id, hour, dow_type"
-            )
-            connection.execute(
-                "create temp view summary as select * from wide_summary unpivot include nulls "
-                "((population_sum,suppressed_parts) for age_band in (" + ",".join(pairs) + "))"
+                "count(*)::smallint as observed_days,sum(total_days)::smallint as sample_days, "
+                + ",".join(aggregates) + " from daily group by cell_id, hour, dow_type"
             )
             connection.sql(SQL_PATH.read_text()).write_parquet(
                 str(Path(temporary) / "profile.parquet"), compression="zstd"
@@ -190,11 +215,11 @@ def aggregate_window(parquets: list[Path], start: date, end: date, destination: 
             profile = connection.read_parquet(str(Path(temporary) / "profile.parquet"))
             profile.create_view("profile")
             rows, cells, nulls = connection.execute(
-                "select count(*),count(distinct cell_id),count(*) filter(where avg_pop is null) "
+                "select count(*),count(distinct cell_id),count(*) filter(where total is null) "
                 "from profile"
             ).fetchone()
         (Path(temporary) / "profile.parquet").replace(destination)
-    return {"rows": rows, "cells": cells, "null_values": nulls,
+    return {"rows": rows, "cells": cells, "null_totals": nulls,
             "period_start": start.isoformat(), "period_end": end.isoformat(),
             "parquet_bytes": destination.stat().st_size}
 
