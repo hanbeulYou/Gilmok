@@ -127,6 +127,30 @@ uv run --frozen python -m ingest.verify_population_storage \
 
 월별 원본 게시는 `RawStore(Settings.from_env()).publish_file("living_population", month, path)`로 실행한다. 직접 파일을 읽어 multipart 업로드하므로 전체 원본을 DataFrame으로 만들지 않는다. 키 없는 폴백 검증에는 `.env` 자동 읽기를 피하도록 `Settings.from_env({"INGEST_LOCAL_ROOT": "원본이 있는 로컬 경로"})`를 명시적으로 전달한다. 단위 테스트는 이미 이 방식으로 사용자 키와 독립적이다.
 
+## PR 3 교통 실데이터 재현
+
+PR 2의 427개 행정동이 적재된 로컬 Supabase를 사용한다. `supabase migration up --local`로 새 교통 마이그레이션을 적용한다. 환경은 기존 Python 3.12·DuckDB·psycopg를 그대로 쓰며 새 라이브러리는 없다. 소스 HTTP 기본 URL은 `.env.example`의 `SEOUL_TRANSIT_API_URL`, 인증은 `SEOUL_OPEN_DATA_API_KEY`다. 인증 URL·비밀 값은 출력하지 않는다.
+
+```sh
+uv run --frozen python -m ingest.verify_transit
+uv run --frozen python -m ingest.verify_transit --load
+```
+
+첫 명령은 6월 전체 자료와 일별 교차 검증을 먼저 끝내고 7·8월에 같은 정규화 규칙을 적용한다. 두 번째는 검증된 원본을 선택된 저장소에 게시하고 실제 저장소에서 재읽기·재집계한 뒤 **로컬 Supabase만** 원자 교체한다. R2 4개 변수가 설정돼 있으면 실제 R2에 게시한다. 기존 객체의 크기·SHA-256이 같으면 재사용하며 다르면 덮어쓰지 않는다. R2 실패 시 로컬로 전환하지 않는다. 원격 Supabase는 연결하지 않는다.
+
+현재 명령은 PR 3 검증 기간인 2026-06~08 및 9월 위치 스냅샷의 재현용이며 월별 자동 실행 스케줄이 아니다. 첫 수집의 위치 API는 조회 시점 자료를 반환하므로 미래에 빈 디렉터리에서 실행하면 9월 스냅샷과 달라질 수 있다. 이 경우 기존 R2 객체와 다르다는 오류를 무시하거나 원본을 덮어쓰지 말고 기준월·위치 버전을 먼저 재검증한다. 기존 로컬 원본 또는 고정 R2 스냅샷으로 재집계할 수 있으며, 원격 Parquet는 `RawStore.connection()`으로 읽고 소스별 `stops`/`normalize`와 `aggregate_months`를 그대로 사용한다.
+
+기본 산출물은 `.local/validation/pr3/`다. 실제 원본·상세 목록은 Git에 넣지 않는다.
+
+- `CardSubwayTime-202606.parquet` 등: API 원본. 7월 지하철의 정확한 복제 행도 보존한다.
+- `subwayStationMaster-current.parquet`, `busStopLocationXyInfo-current.parquet`: 검증에 사용한 9월 위치 응답.
+- `CardSubwayStatsNew-202606DD.parquet`, `CardBusStatisticsServiceNew-202606DD_{100,5511}.parquet`: 6월 단위·정차/개명 검증용 일별 자료.
+- `coverage.json`, `unmatched.csv`: 소스·월별 조인 분모/분자, 이름을 포함한 모든 미매칭 ID. 승하차량 조인율 90% 미만 또는 미확인 시 여기에 결과를 남기고 중단한다.
+- `aggregated.parquet`: 실제 저장소에서 읽은 자료로 재집계한 서울 조회용 수치.
+- `report.json`: 원본 해시·R2 재읽기·3개월 집계 대조·DB 환경/용량·대치동 3곳×2반경의 교통 SQL 측정. HTTP와 전체 RPC는 미구현이므로 통과로 표시하지 않는다.
+
+공간·시간·원자성·RLS 검증은 기존 `pnpm test`·`pnpm test:db`에 포함된다. DB 테스트는 트랜잭션 롤백으로 실제 스냅샷을 보존한다. 검증 근거와 실제 수치는 [PR 3 기록](validation/pr3-transit-20260919.md)을 따른다.
+
 ## 종료
 
 ```sh
