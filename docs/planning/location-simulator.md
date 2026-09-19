@@ -1,7 +1,7 @@
 # 길목(GILMOK) 기획서 — 입지 시뮬레이터
 
 > 작성일: 2026-09-16
-> 상태: S1 PR 1 로컬 개발 기준 반영 (v1.4)
+> 상태: S1 PR 2 인구 원본·250m 격자 검증 (v1.5, 저장 형식 결정 대기)
 > Concept: 서비스업 창업자가 후보 점포 여러 곳을 3D 지도 위에서 데이터 기반 점수와 함께 나란히 비교하고, 조건을 바꿔가며 "목"을 시뮬레이션하는 웹 서비스. 첫 업종은 학원.
 
 ---
@@ -111,7 +111,7 @@ flowchart TB
 | 평가 축       | 지표                                                                     | 소스                                                                                              | 비용       | 확인 필요                                                                                     |
 | ------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- |
 | 수요          | 요청 반경의 학령인구(5~18세), 공동주택 세대수(v2, S1 제외) | 행정안전부 주민등록 연령별 인구, 국토부 공동주택 단지정보(v2) | 무료 | 행정동 면적 비례 배분, estimated=true |
-| 유동          | 시간대별·연령별 생활인구 | 서울 열린데이터광장 생활인구(집계구) | 무료 | 집계구 면적 비례 배분, estimated=true. 골든타임 [15:00, 22:00), 평일·주말 분리 반환. 종합·가중은 S2 |
+| 유동          | 시간대별·연령별 생활인구 | 서울 열린데이터광장 생활인구(250m 격자) | 무료 | 250m 격자 면적 비례 배분, estimated=true. 골든타임 [15:00, 22:00), 평일·주말 분리 반환. 종합·가중은 S2 |
 | 교통          | 지하철 역별 시간대 승하차, 버스 정류장 승하차, 정류장까지 거리           | 서울 열린데이터광장                                                                               | 무료       |                                                                                               |
 | 상권          | 반경 내 업종별 점포 수, 상권 경계                                        | 소상공인시장진흥공단 상가정보 API                                                                 | 무료       | 경쟁 밀도는 '수요 대비'로 정규화                                                              |
 | 경쟁·클러스터 | 등록 학원·교습소 수, 과목                                                | 서울시교육청 학원·교습소 정보                                                                     | 무료       | 학원은 밀집이 오히려 플러스일 수 있음 → 가중치 부호 실험                                      |
@@ -153,7 +153,7 @@ flowchart TB
 - `score_inputs(lat, lng, radius_m, floor)`는 `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`를 반환한다. 필드 정의는 `data-sources.md` 3절을 따른다.
 - 모든 개수 지표는 요청 `radius_m` 기준이다. 학원은 `academies_total`과 `academies_by_field`(원천 분야명별 개수 map)를 반환하며, 고정 500m·동일 과목 개수는 사용하지 않는다. 버스정류장도 고정 300m 대신 요청 반경을 따른다.
 - 최근접 지하철역만 요청 반경 밖에서도 찾되 최대 2,000m까지 조회하며, 없으면 `nearest_subway_m=null`이다.
-- 생활인구는 집계구와 반경 원의 면적 비례로 배분하고 `estimated=true`를 반환한다. 골든타임은 [15:00, 22:00), `weekday`와 `weekend`를 분리하며 S1에서 종합값을 만들지 않는다.
+- 생활인구는 250m 격자와 반경 원의 면적 비례로 배분하고 `estimated=true`를 반환한다. 골든타임은 [15:00, 22:00), `weekday`와 `weekend`를 분리하며 S1에서 종합값을 만들지 않는다.
 - 건축물·실거래·임대동향의 미적재 지역이나 연결 자료가 없는 값은 결측으로 표시하며 0이나 임의 대체값으로 채우지 않는다. 실제 관측 범위·기준일을 응답 메타데이터에 남긴다.
 - 성능 검증은 빈 DB·fixture만으로 대체하지 않는다. 대치동 좌표 3건을 고정하고 500m·1km 각 조합의 반복 측정 DB 실행 시간 p95를 판정한다. 데이터 범위·건수, DB 환경, 반복 횟수·준비 호출 여부, HTTP 왕복 시간을 함께 기록한다.
 - 실제 응답으로 확인한 결과가 승인된 결정과 충돌하면 해당 구현을 멈추고 먼저 보고한다. PR마다 끝에 완료 기준 체크리스트·실제 응답에 따른 문서 수정 항목·다음 PR 예고를 붙인다.
@@ -161,7 +161,7 @@ flowchart TB
 #### 리스크
 
 - 공공 API 쿼터·포맷 변경 → 원본은 배치로 적재해 DB에서 서빙, API 직접 호출 최소화.
-- 생활인구가 행정동/집계구 단위라 점포 단위 정밀도에 한계 → "추정"임을 UI에 명시.
+- 생활인구가 250m 격자 단위라 점포 단위 정밀도에 한계 → "추정"임을 UI에 명시.
 - 건물 높이 데이터 결측 → 층수 기반 추정 폴백.
 - 3D 성능 → 뷰포트 밖 건물 컬링, 반경 1km로 제한.
 
@@ -205,10 +205,10 @@ Next.js + Supabase/PostGIS + MapLibre/deck.gl, Vercel 배포. 2주 스프린트 
 역할: 시니어 풀스택 엔지니어. 아래 기획서를 기준 문서로 삼는다.
 스택: Next.js(App Router, TS), Supabase(Postgres+PostGIS), MapLibre GL JS, deck.gl, Vercel.
 이번 스프린트(S1) 목표: 좌표 입력 → 반경 500m/1km 집계 API. 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정.
-1. PostGIS 스키마: candidates(소유자 RLS, 층·보증금·월세·관리비·전용면적), buildings, building_floors, admin_dongs, population_age, census_blocks, living_pop, transit_stops, transit_boardings, stores, academies, schools, geocode_cache, commercial_trade_stats(법정동·층별 매매 집계), rent_survey. 상세 컬럼은 data-sources.md를 따른다.
+1. PostGIS 스키마: candidates(소유자 RLS, 층·보증금·월세·관리비·전용면적), buildings, building_floors, admin_dongs, population_age, population_cells, living_pop, transit_stops, transit_boardings, stores, academies, schools, geocode_cache, commercial_trade_stats(법정동·층별 매매 집계), rent_survey. 상세 컬럼은 data-sources.md를 따른다.
 2. Python 3.12 + PublicDataReader + DuckDB + psycopg. 원본은 R2 Parquet, Supabase에는 집계와 공간 조회용 최소 개체 정보. 개별 실거래는 R2에만 저장한다. 외부 API와 집계 스크립트는 /ingest, 갱신 스케줄은 GitHub Actions.
 3. RPC: score_inputs(lat, lng, radius_m, floor) → demand/flow/transit/market/compete/building/rent의 7개 데이터 묶음 + meta. 모든 개수는 요청 반경 기준. 학원 분야 map을 제공하고 과목 판정·academy_eligible은 S2로 미룬다.
-4. 생활인구는 면적 비례 배분(estimated=true), 골든타임 [15:00, 22:00), weekday/weekend 분리. 최근접 지하철은 요청 반경 밖도 조회하되 2km 상한, 없으면 null. 임대동향 상권 연결 자료가 없으면 결측이며 근접 상권 대체는 금지한다.
+4. 생활인구 공간 키는 (resolution_m, cell_id), 경계는 population_cells. 기존 census_blocks는 보존. 생활인구는 면적 비례 배분(estimated=true), 골든타임 [15:00, 22:00), weekday/weekend 분리. 최근접 지하철은 요청 반경 밖도 조회하되 2km 상한, 없으면 null. 임대동향 상권 연결 자료가 없으면 결측이며 근접 상권 대체는 금지한다.
 5. 완료 기준: 승인된 범위의 실제 데이터에서 대치동 좌표 3건 × 500m/1km 각 조합의 DB 실행 시간 p95 < 1,000ms. HTTP 왕복은 기록만. pnpm lint·typecheck·test 통과.
 제약: 프론트·Edge Function은 Supabase만 조회한다. 결측 높이는 지상층수×3.3m, 1층 단층 상업건물은 4.0m로 추정하고 estimated=true를 남긴다. 캐시 미스 사용자 흐름은 S3, 공동주택 세대수는 v2. 원격 환경 준비 전에는 supabase start로 로컬 개발한다.
 ```
@@ -224,3 +224,4 @@ Next.js + Supabase/PostGIS + MapLibre/deck.gl, Vercel 배포. 2주 스프린트 
 | 2026-09-16 | v1.2 | 프로젝트명 "길목(GILMOK)" 확정                                                                   | -                    |
 | 2026-09-16 | v1.3 | PR 0 사용자 승인: 단계적 적재, 7개 묶음 RPC, 거리·시간·추정 규칙, R2/DuckDB·Python·GitHub Actions, DB p95 기준, S2/S3/v2 이관 범위 확정. API 실응답 검증 아님 | Definition, Drawing, Action Plan, 구현 스펙 |
 | 2026-09-16 | v1.4 | PR 1 사용자 승인: R2 미설정 시 로컬 파일 폴백. 로컬 DB의 실제 제공 버전을 확인하고 AGENTS.md의 버전 기준 조정 | Action Plan, 개발 환경 |
+| 2026-09-19 | v1.5 | PR 2 사용자 승인: 생활인구 250m 격자 전환. 실제 SHP·생성 규칙·3개월 8,598개 관측 셀 확인. 장형 DB 예상 1.37GB로 저장 형식 결정 대기, 상세는 data-sources.md·실측 기록 참조 | 데이터 소스, S1 스키마 |
