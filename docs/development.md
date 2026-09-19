@@ -54,6 +54,34 @@ pnpm test:db
 
 R2 업로드에는 boto3, 직접 Parquet 조회에는 DuckDB `httpfs`를 사용한다. R2 연결을 선택했을 때만 확장 설치와 원격 요청이 발생하며 자격증명은 메모리에서만 사용한다. 로컬 테스트는 실제 R2 연결 성공을 증명하지 않는다.
 
+## Supabase 인증키와 CLI
+
+Supabase 데이터 API와 CLI의 프로젝트 관리 API는 서로 다른 인증을 사용한다.
+
+| 환경변수 | 용도·발급 위치 |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 브라우저·사용자 세션 조회용. 프로젝트 Connect 또는 Settings → API Keys에서 URL과 `sb_publishable_...` 키를 확인한다. RLS 적용 |
+| `SUPABASE_URL`, `SUPABASE_SECRET_KEY` | 서버 관리자 API용. 같은 프로젝트의 API Keys에서 `sb_secret_...` 키를 발급한다. RLS를 우회하므로 Secret key에는 `NEXT_PUBLIC_` 접두사를 붙이지 않는다 |
+| `SUPABASE_ACCESS_TOKEN` | CLI 프로젝트 관리·배포용 계정 Personal Access Token. 계정 [Access Tokens](https://supabase.com/dashboard/account/tokens)에서 발급. 프로젝트 Secret key와 다르다 |
+| `SUPABASE_PROJECT_REF` | 원격 프로젝트 식별자. 대시보드 URL의 `/project/` 다음 값. `link --project-ref`에 명시적으로 전달한다 |
+| `SUPABASE_DB_PASSWORD` | 원격 DB 연결·마이그레이션에 필요한 프로젝트 DB 비밀번호. 프로젝트 생성 시 정한 값이며 API 키가 아니다 |
+| `SUPABASE_DB_URL` | Python 배치의 psycopg 직접 연결 문자열. 원격에서는 프로젝트 Connect의 Postgres 연결 문자열에 DB 비밀번호를 URL 인코딩해 넣는다 |
+
+현재 `ingest/database.py`는 `.env`와 프로세스 환경에서 `SUPABASE_DB_URL`만 읽는다(프로세스 환경 우선). API 클라이언트는 아직 없으므로 Publishable/Secret key는 후속 구현을 위한 선택 항목이며 배치·로컬 테스트에 필요하지 않다. Secret key를 DB URL이나 DB 비밀번호 대신 넣지 않는다.
+
+기존 `.env`를 쓰고 있다면 `SUPABASE_ANON_KEY`를 제거하고 새 Publishable key를 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`에 넣는다. 기존 프로젝트 URL은 `NEXT_PUBLIC_SUPABASE_URL`에도 설정한다. 레거시 JWT 값을 이름만 바꿔 재사용하지 않는다. 로컬 키가 필요하면 `supabase start` 또는 `supabase status`의 로컬 값을 사용한다.
+
+원격 CLI 실행 시 `.env`를 명시적으로 읽도록 기존 uv의 `--env-file`을 사용한다. 아래 `YOUR_PROJECT_REF`를 `.env`의 `SUPABASE_PROJECT_REF` 값으로 바꾼다. 셸의 변수 확장은 uv가 `.env`를 읽기 전에 일어나므로, export하지 않은 `$SUPABASE_PROJECT_REF`를 그대로 쓰지 않는다.
+
+```sh
+uv run --frozen --env-file .env supabase link --project-ref YOUR_PROJECT_REF
+uv run --frozen --env-file .env supabase db push --dry-run
+```
+
+`SUPABASE_ACCESS_TOKEN`과 `SUPABASE_DB_PASSWORD`는 명령 환경으로 전달하므로 인자에 비밀 값을 붙일 필요가 없다. `--dry-run`은 적용 예정 마이그레이션을 확인한다. 실제 반영은 내용을 검토한 뒤 수행한다. 이 설정 변경에서는 원격 연결·배포를 실행하지 않았다.
+
+근거: [Supabase API 키](https://supabase.com/docs/guides/getting-started/api-keys), [CLI 환경변수](https://supabase.com/docs/guides/deployment/managing-environments).
+
 ## 공통 적재 경로
 
 - `ingest/common.py`: `.env`/환경변수 설정, 같은 키 규칙을 쓰는 로컬·R2 원본 저장. 로컬 파일은 임시 파일을 완성한 뒤 교체한다.

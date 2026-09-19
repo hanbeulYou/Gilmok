@@ -1,6 +1,6 @@
 # 길목(GILMOK) 데이터 소스 명세
 
-> 작성일: 2026-09-16 · 버전: v1.2 (PR 1 로컬 폴백 반영)
+> 작성일: 2026-09-16 · 버전: v1.3 (Supabase 인증키 구분)
 > 기준 문서: docs/planning/location-simulator.md
 > 목적: S1(데이터 기반) 구현에 필요한 소스별 접근 방법·컬럼·좌표계·적재 방식을 한 곳에 모은다. "확인 필요" 표시는 실제 키 발급 후 응답 스키마로 검증할 것.
 
@@ -42,10 +42,14 @@ PR 1에서 `.env.example`을 추가했다. 실제 원격 키 발급 상태는 �
 | 주소 지오코딩 | `KAKAO_REST_API_KEY` | 1순위 제공자 |
 | Vworld 대체 경로 | `VWORLD_API_KEY` | 대체 지오코더·건물 소스를 채택할 때 |
 | 나이스 직접 조회 | `NEIS_API_KEY` | 서울 제공 자료 대신 직접 조회할 때 |
-| Supabase 적재·조회 | `SUPABASE_DB_URL`, `SUPABASE_URL`, `SUPABASE_ANON_KEY` | 원격 준비 전 로컬 환경 값 사용 |
+| Supabase 배치 DB 직접 연결 | `SUPABASE_DB_URL` | 현재 Python 적재 코드에서 사용. 원격 준비 전 로컬 DB 기본값 사용 |
+| Supabase 브라우저·사용자 세션 조회 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 클라이언트 구현 시 사용. Publishable key(`sb_publishable_...`), RLS 적용 |
+| Supabase 서버 관리자 API | `SUPABASE_URL`, `SUPABASE_SECRET_KEY` | 관리자 API 구현 시 사용. Secret key(`sb_secret_...`), RLS 우회. 브라우저 노출 금지 |
 | R2 | `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` | 사용자가 버킷 준비 후 설정 |
 | 키 없는 원본 저장 | `INGEST_LOCAL_ROOT` | 기본 `.local/ingest`; R2 변수가 모두 없을 때 사용 |
-| CLI 원격 배포 | `SUPABASE_PROJECT_REF`, `SUPABASE_ACCESS_TOKEN` | 원격 배포를 수행할 때 |
+| CLI 원격 관리·배포 | `SUPABASE_PROJECT_REF`, `SUPABASE_ACCESS_TOKEN`, `SUPABASE_DB_PASSWORD` | 원격 프로젝트 연결·배포 시 사용. Access Token은 계정 Personal Access Token, DB 비밀번호는 프로젝트별 값 |
+
+Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비밀번호를 대체하지 않는다. PR 1의 배치와 로컬 테스트는 API 키 없이 실행한다. 기존 `SUPABASE_ANON_KEY`는 새 계약에서 제거하며, 클라이언트에는 레거시 키의 이름만 바꾸지 말고 새 Publishable key를 설정한다. `.env`의 CLI 변수를 명령 환경에 주입하는 방법과 발급 위치는 `docs/development.md`를 따른다. 이 변경은 [Supabase API 키 문서](https://supabase.com/docs/guides/getting-started/api-keys)와 [CLI 배포 문서](https://supabase.com/docs/guides/deployment/managing-environments)에 근거하며 원격 인증 성공을 검증한 것은 아니다.
 
 소스별 URL도 환경변수로 관리하며 정확한 이름과 값은 소스 확정 시 `.env.example`에 추가한다. 임대동향 API의 인증 방식은 확인 후 필요한 변수만 추가한다. 키가 없는 소스는 실응답 검증 완료로 표시하지 않는다.
 
@@ -220,3 +224,4 @@ GitHub Actions 스케줄로 Python 배치와 DuckDB 집계를 실행한다. `pg_
 | 2026-09-16 | v1   | 최초 작성. 건물 footprint 소스, 임대동향 API, 주민등록 인구 API 경로는 확인 필요 상태 |
 | 2026-09-16 | v1.1 | PR 0 사용자 승인: 단계적 적재, Python·GitHub Actions, R2 원본/DB 집계, 7개 묶음 RPC·거리·시간·추정 규칙, DB p95 기준, 환경변수·S2/S3/v2 범위 정리. API 실응답 검증 없음 |
 | 2026-09-16 | v1.2 | PR 1 사용자 승인: R2 미설정 시 로컬 파일 폴백, 일부 설정·원격 오류는 실패 처리, 환경변수 예시 추가. 공공 API·R2 실응답 검증 없음 |
+| 2026-09-19 | v1.3 | Publishable/Secret key, CLI Personal Access Token, DB 비밀번호의 역할 분리. 현재 배치는 DB URL만 사용. 공식 문서 확인, 원격 인증 실검증 없음 |
