@@ -7,6 +7,7 @@ from contextlib import contextmanager
 import psycopg
 from dotenv import dotenv_values
 from psycopg import sql
+from psycopg.conninfo import conninfo_to_dict
 
 from ingest.common import ROOT
 
@@ -15,9 +16,17 @@ BOUNDARIES = {"admin_dongs": "adm_cd", "census_blocks": "tot_reg_cd"}
 
 
 @contextmanager
-def connect_database():
+def connect_database(*, local_only: bool = False):
     env = {**dotenv_values(ROOT / ".env"), **os.environ}
     url = env.get("SUPABASE_DB_URL") or LOCAL_DB_URL
+    if local_only:
+        try:
+            parameters = conninfo_to_dict(url)
+        except psycopg.Error:
+            raise ValueError("Invalid Supabase connection settings") from None
+        if (parameters.get("host") not in {"localhost", "127.0.0.1", "::1"}
+                or parameters.get("hostaddr") not in {None, "127.0.0.1", "::1"}):
+            raise ValueError("This command requires local Supabase")
     try:
         connection = psycopg.connect(url, connect_timeout=5)
     except psycopg.Error:

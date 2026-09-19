@@ -91,6 +91,42 @@ uv run --frozen --env-file .env supabase db push --dry-run
 - `geocode_cache`는 캐시 스키마만 준비했으며 외부 지오코더 호출이나 S3 주소 검색 흐름은 구현하지 않았다.
 - `candidates`는 사용자 소유권 RLS를 적용하고, 공통 경계 적재 함수의 대상으로 허용하지 않는다.
 
+## PR 2 실데이터 재현
+
+계약·실측·다음 작업은 `docs/planning/data-sources.md` §2.1·§2.6·§6이 기준이다. Supabase는 로컬을 유지한다. `.local` 자료는 Git에 없으며, 현재 워크스페이스에 있는 검증 파일 위치를 아래에 기록한다. 새 체크아웃은 명세의 제공자 파일/고정 커밋 또는 실제 R2 원본에서 복구한다.
+
+DuckDB 공간 확장은 최초 한 번 설치한다(공개 확장 다운로드이며 API 키 불필요).
+
+```sh
+uv run --frozen python -c 'import duckdb; duckdb.connect().execute("INSTALL spatial")'
+supabase migration up --local
+```
+
+주민등록·경계: 아래 명령은 원본 3종을 선택된 저장소에 게시하고 DuckDB로 다시 읽어 전체 행을 대조한 뒤, 행정동·주민등록을 로컬 DB에 원자 적재한다. R2 변수가 있으면 **실제 버킷에 게시하는 명령**이다. 기존 객체는 크기·SHA-256이 같으면 재사용하고 다르면 중단한다. 새 자료로 갱신할 때는 기준월·경계 버전·현재 행정동 코드 집합을 다시 검증한다.
+
+```sh
+uv run --frozen python -m ingest.publish_population \
+  --residents .local/validation/residents-202608.csv \
+  --boundary .local/validation/boundary-final/20260701.geojson \
+  --grid .local/validation/grid250/match/match.shp \
+  --month 2026-08 --directory .local/validation/pr2-final
+```
+
+행정동 파일은 `ingest/admin_boundaries.py`의 `BOUNDARY_URL`에 고정된 커밋을 사용하며 출처 표시를 유지한다. 격자 SHP는 공식 안내의 `match.shp`와 같은 디렉터리의 DBF/SHX/PRJ가 모두 필요하다. `grid_rows`로 CRS·규칙을 확인한 후 `load_population_cells`에 넣는다. 관측 셀 ID는 3개월 원본 `250M격자` 공백 제거 값의 집합이며 제공 경계 밖 두 셀만 검증된 규칙으로 생성한다.
+
+생활인구: 이미 R2에 게시된 월별 원본을 다시 읽고 같은 집계 코드로 로컬 기준본과 대조한다. `--expected`는 앞서 로컬 폴백에서 만든 기준본이다. 원격에서 만든 결과를 자기 자신과 비교하지 않는다.
+
+```sh
+uv run --frozen python -m ingest.verify_population_storage \
+  --months 2026-06 2026-07 2026-08 --start 2026-06-01 --end 2026-08-31 \
+  --expected .local/ingest/aggregates/living_population-fixed-sums-202606-202608.parquet \
+  --directory .local/validation/r2-readback
+```
+
+로컬 기준본을 새로 만들 때는 `prepare_month`로 제공자 ZIP을 월별 raw Parquet로 변환하고, `aggregate_window`에 세 로컬 경로와 위 시작·종료일을 넣는다. 날짜별 합계·일수 임시 파일은 자동 정리한다. 메모리 한도 1GB·threads=2이며 readback 및 디스크 spill을 위한 여유 공간이 필요하다. 최종 profile 행을 `load_living_population`으로 적재한다. DB 실제 검증에 사용한 source는 `seoul_living_population_250m`, source_version은 `2026-06/2026-08`이다. 같은 source의 격자 source_version은 `2026-09-19;raw:2026-06/2026-08`이며 적재 시 기존 값을 먼저 확인한다.
+
+월별 원본 게시는 `RawStore(Settings.from_env()).publish_file("living_population", month, path)`로 실행한다. 직접 파일을 읽어 multipart 업로드하므로 전체 원본을 DataFrame으로 만들지 않는다. 키 없는 폴백 검증에는 `.env` 자동 읽기를 피하도록 `Settings.from_env({"INGEST_LOCAL_ROOT": "원본이 있는 로컬 경로"})`를 명시적으로 전달한다. 단위 테스트는 이미 이 방식으로 사용자 키와 독립적이다.
+
 ## 종료
 
 ```sh
