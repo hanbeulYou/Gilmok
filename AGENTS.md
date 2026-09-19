@@ -16,13 +16,13 @@
 ## 3. 스택 (버전 고정)
 
 - Next.js 15 (App Router), TypeScript strict, pnpm
-- Supabase: Postgres 16 + PostGIS 3.4, Auth, Edge Functions (Deno)
+- Supabase: Postgres 17 + PostGIS 3.3.7, Auth, Edge Functions (Deno). 로컬 기준은 Supabase CLI 2.72.7의 PostgreSQL 17.6 이미지다. PR 1에서 CLI가 16을 거부하고 이미지가 PostGIS 3.3.7을 제공함을 확인해 사용자 승인으로 조정했다.
 - 지도: MapLibre GL JS 4.x, deck.gl 9.x (MapboxOverlay 모드)
 - 상태: Zustand
 - 스타일: Tailwind CSS 4
 - 테스트: Vitest (단위), Playwright (E2E, S3부터)
 - 배치 적재: Python 3.12 + PublicDataReader + DuckDB + psycopg. 공공데이터 수집·Parquet 집계를 재사용하기 위해 Python으로 통일한다. PublicDataReader의 소스별 호환성은 실제 응답으로 확인한다.
-- 데이터 저장: Cloudflare R2에 원본 Parquet, Supabase에 조회용 집계와 공간 조회에 필요한 최소 개체 정보. DuckDB 집계는 `/ingest`에서 실행한다.
+- 데이터 저장: Cloudflare R2에 원본 Parquet, Supabase에 조회용 집계와 공간 조회에 필요한 최소 개체 정보. R2 환경변수가 없으면 로컬 파일시스템(`INGEST_LOCAL_ROOT`, 기본 `.local/ingest`)을 사용한다. DuckDB 집계는 `/ingest`에서 실행한다.
 - 배포: Vercel (프론트), Supabase (DB/Functions), GitHub Actions (배치 스케줄)
 - 개발 환경: 원격 Supabase 프로젝트와 R2 버킷은 사용자가 준비한다. 준비 전에는 `supabase start`로 로컬 Supabase에서 진행한다.
 
@@ -78,8 +78,18 @@
 
 ## 7. 현재 스프린트
 
-- **S1 데이터 기반** (PR 0 문서 기준 정리)
+- **S1 데이터 기반** (PR 2 GitHub #4 머지 완료. PR 3 [GitHub #5](https://github.com/hanbeulYou/Gilmok/pull/5) 지하철·버스 3개월 적재·실제 R2 검증 완료, 리뷰 대기·미머지. S1 전체는 진행 중)
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
+- 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
+- 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
+- 날짜별 임시 파일에는 컬럼별 합계·유효 일수만 저장하고 최종 합계÷일수로 집계한다. 평균의 평균 금지. 실측 living_pop+PK 98,787,328 byte(98.79MB), 주민등록·경계 추가 직후 로컬 DB 전체 122,285,203 byte(122.29MB). 재적재 중 이전 행 공간도 포함한 측정과 검증 조건은 data-sources.md를 따른다.
+- 행정동은 SGIS 기반 공개 가공물 vuski/admdongkor 2026-07-01판, 서울 427개를 2026-08 주민등록 코드와 전수 매칭했다. SGIS `adm_cd` 대신 행안부 `adm_cd2`의 말미 00을 제거해 조인한다. 출처·라이선스 표시는 `docs/data-attribution.md`를 유지한다.
+- PR 2 R2 원본 6개 객체 게시 및 DuckDB 재읽기 검증 완료. 생활인구 411,512행 재집계 불일치 0. 원격 Supabase는 미전환이며 로컬 기본을 유지한다.
+- PR 3 교통은 2026-06~08 월 합계의 합÷92일인 일평균이다. 6월 지하철 전체·버스 100/5511번으로 월 합계와 중복 규칙을 일별 응답과 대조했다. 7월 지하철의 정확한 복제 621행만 집계에서 제거하며 원본은 보존한다. 노선별 환승역·버스 정차 순번·개명 구간을 임의 중복 제거하지 않는다. 신분당선 누락·대체 추정 없음.
+- 교통 R2 원본 8개 객체·재읽기 재집계 대조 완료. 서울 위치 11,620개, 시간대 집계 264,696행(버스 6개 정류장 144행은 3개월 미충족으로 NULL). 승하차량 기준 조인율은 지하철 99.71~99.74%, 버스 95.24~95.42%. 90% 미만 또는 분모 미확인 시 다음 적재 전에 보고한다. 위치는 9월 조회본이므로 6~8월 당시 위치·개폐 이력은 미검증이다.
+- S2 인계: **교통 축은 요일 구분 없는 일평균, 생활인구는 평일/주말 분리**다. 버스 누락 4.6543%는 균일하지 않으며 서울 외 연결 노선·2xx ID 대역에 편중된다. 유형 내 누락률은 서울광역 49.96%, 마을 0.63%. 상세·위치 판정 한계는 docs/validation/pr3-bus-coverage-20260919.md를 따른다. 일괄 보정은 하지 않는다.
+- **PR 4는 새 세션에서** 상가 서울 전체 적재 계획부터 시작한다. data-sources.md의 PR 2·PR 3 인계와 docs/validation/pr3-transit-20260919.md를 읽는다. 전체 score_inputs는 구현 전이며 교통 SQL 측정을 S1 전체 RPC p95 통과로 표시하지 않는다.
+- PR 3 브랜치는 `s1/지하철-버스`, 대상 브랜치는 PR 2가 머지된 `s1/supabase-인증키`다. 다음 세션은 GitHub #5의 리뷰·머지 상태와 최신 기준 브랜치를 확인한 뒤 PR 4 계획을 제시한다. 이번 세션에서는 PR 4 구현을 시작하지 않았다.
 - RPC: `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`. 점수·과목 기준·학원 등록 가능성 판정은 S2, 캐시 미스 사용자 흐름은 S3, 공동주택 세대수는 v2.
 - 완료 기준: `docs/planning/location-simulator.md` 스프린트 계획 표 참조
 - 이 절은 스프린트가 끝날 때마다 갱신한다.

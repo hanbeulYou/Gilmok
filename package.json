@@ -1,0 +1,24 @@
+{
+  "name": "gilmok",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.7.1",
+  "engines": {
+    "node": ">=22.12 <23"
+  },
+  "scripts": {
+    "lint": "eslint . && uv run --frozen ruff check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run && uv run --frozen pytest tests/ingest",
+    "test:db": "uv run --frozen pytest tests/integration",
+    "ingest:smoke": "uv run --frozen python -m ingest.smoke"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.20.3",
+    "eslint": "10.10.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "5.0.1"
+  }
+}
