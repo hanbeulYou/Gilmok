@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import hashlib
 import os
 import re
+import shutil
 import tempfile
 from collections.abc import Mapping
 from contextlib import contextmanager
@@ -15,6 +17,7 @@ import boto3
 import duckdb
 import pandas as pd
 from botocore.config import Config
+from botocore.exceptions import ClientError
 from dotenv import dotenv_values
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -77,6 +80,65 @@ class RawStore:
             return f"s3://{self.settings.r2_bucket}/{key}"
         return str(self._local_path(key))
 
+    def publish_file(self, source: str, month: str, path: Path) -> dict:
+        """Publish a validated Parquet without materializing it as a DataFrame.
+
+        R2 snapshots are immutable here: reuse identical bytes, refuse a different
+        existing object. Multipart upload exposes the new object only on completion.
+        """
+        key = raw_key(source, month)
+        with duckdb.connect() as connection:
+            connection.read_parquet(str(path)).limit(0).fetchall()
+        with path.open("rb") as handle:
+            digest = hashlib.file_digest(handle, "sha256").hexdigest()
+        size = path.stat().st_size
+        status = "published"
+        if not self.settings.uses_r2:
+            target = self._local_path(key)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if path.resolve() != target:
+                with tempfile.NamedTemporaryFile(dir=target.parent, delete=False) as temporary:
+                    temporary_path = Path(temporary.name)
+                try:
+                    shutil.copyfile(path, temporary_path)
+                    os.replace(temporary_path, target)
+                finally:
+                    temporary_path.unlink(missing_ok=True)
+            else:
+                status = "reused"
+        else:
+            settings = self.settings
+            try:
+                client = boto3.client(
+                    "s3", endpoint_url=f"https://{settings.r2_account_id}.r2.cloudflarestorage.com",
+                    aws_access_key_id=settings.r2_access_key_id,
+                    aws_secret_access_key=settings.r2_secret_access_key, region_name="auto",
+                    config=Config(retries={"max_attempts": 3, "mode": "standard"}),
+                )
+                try:
+                    old = client.head_object(Bucket=settings.r2_bucket, Key=key)
+                except ClientError as error:
+                    if error.response["Error"]["Code"] not in {"404", "NoSuchKey", "NotFound"}:
+                        raise
+                    old = None
+                if old is not None:
+                    if (old.get("Metadata", {}).get("sha256") != digest
+                            or old["ContentLength"] != size):
+                        raise StorageError("Existing R2 snapshot differs; refusing to overwrite")
+                    status = "reused"
+                else:
+                    client.upload_file(str(path), settings.r2_bucket, key,
+                                       ExtraArgs={"Metadata": {"sha256": digest}})
+                result = client.head_object(Bucket=settings.r2_bucket, Key=key)
+                if (result["ContentLength"] != size
+                        or result.get("Metadata", {}).get("sha256") != digest):
+                    raise StorageError("R2 uploaded object metadata does not match")
+            except StorageError:
+                raise
+            except Exception:
+                raise StorageError("R2 publication failed; local fallback was not used") from None
+        return {"key": key, "bytes": size, "sha256": digest, "status": status}
+
     def write_parquet(self, source: str, month: str, frame: pd.DataFrame) -> str:
         """Publish only a complete file; a failed write keeps the previous snapshot."""
         key = raw_key(source, month)
@@ -114,9 +176,9 @@ class RawStore:
         return self.location(source, month)
 
     @contextmanager
-    def connection(self):
+    def connection(self, *, config=None):
         """DuckDB is in-memory; remote credentials are never persisted to disk."""
-        connection = duckdb.connect()
+        connection = duckdb.connect(config=config or {})
         try:
             if self.settings.uses_r2:
                 try:

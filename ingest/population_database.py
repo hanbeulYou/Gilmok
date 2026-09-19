@@ -5,7 +5,43 @@ from collections.abc import Iterable, Mapping
 import psycopg
 from psycopg import sql
 
+from ingest.database import load_boundaries
 from ingest.living_population import POPULATION_COLUMNS
+
+
+def load_resident_snapshot(connection: psycopg.Connection, boundaries: Iterable[Mapping],
+                           residents: Iterable[Mapping], *, boundary_source: str,
+                           boundary_version: str, source: str, source_version: str) -> dict:
+    """Commit matching current boundaries and all three resident bands atomically."""
+    if not source.strip() or not source_version.strip():
+        raise ValueError("Source and source_version are required")
+    boundaries, residents = list(boundaries), list(residents)
+    codes = {row["code"] for row in boundaries}
+    expected = {(code, band) for code in codes for band in ("5_9", "10_14", "15_18")}
+    actual = [(row["adm_cd"], row["age_band"]) for row in residents]
+    if not expected or set(actual) != expected or len(actual) != len(expected):
+        raise ValueError("Exactly three resident bands per boundary are required")
+    if len({str(row["ref_month"]) for row in residents}) != 1:
+        raise ValueError("A resident snapshot must have one month")
+    with connection.transaction(), connection.cursor() as cursor:
+        count = load_boundaries(connection, "admin_dongs", boundaries,
+                                source=boundary_source, source_version=boundary_version, srid=4326)
+        cursor.execute("delete from public.population_age where source=%s", (source,))
+        with cursor.copy(
+            "copy public.population_age "
+            "(adm_cd,age_band,population,ref_month,source,source_version) from stdin"
+        ) as copy:
+            for row in residents:
+                copy.write_row((row["adm_cd"], row["age_band"], row["population"],
+                                row["ref_month"], source, source_version))
+        cursor.execute("set constraints public.population_age_dong_fkey immediate")
+        cursor.execute("set constraints public.population_age_dong_fkey deferred")
+        cursor.execute(
+            "insert into ingest_private.ingest_runs "
+            "(source,source_version,target_table,row_count) values (%s,%s,%s,%s)",
+            (source, source_version, "population_age", len(residents)),
+        )
+    return {"boundaries": count, "residents": len(residents)}
 
 
 def load_population_cells(
