@@ -78,4 +78,4 @@ DuckDB `memory_limit=1GB`, `threads=2`, `temp_directory`를 지정한 전체 날
 
 검증: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:db` 통과. Vitest 1 + Python 단위 39 + DB 통합 33 = **73개**. 실제 3개월 재집계·전체 적재·용량 확인까지 완료했다. `score_inputs`는 아직 구현 전이므로 S1 p95 성능 통과로 표시하지 않는다.
 
-원본과 결과는 로컬 `.local/ingest`에 있다. R2 게시·원격 Supabase 전환은 하지 않았다. 기존 PR 2의 최신 427개 행정동 경계 확보와 주민등록 공간 적재, R2 게시가 남아 있어 PR은 초안으로 유지한다.
+이 측정 직후 남아 있던 최신 427개 행정동 경계·주민등록 적재와 실제 R2 게시·재집계 검증은 후속 작업에서 완료했다. [PR 2 최종 기록](pr2-publication-20260919.md)을 따른다. 위 73개 테스트와 DB 크기는 당시 측정값이며, 후속 최종 검증은 98개 테스트 및 경계·주민등록 추가 직후 DB 122,285,203 byte다. 원격 Supabase는 계속 미전환이다.
