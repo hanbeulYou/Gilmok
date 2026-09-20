@@ -36,3 +36,10 @@
 - 학교: [나이스 교육정보 개방포털](https://open.neis.go.kr/), schoolInfo/B10, 2026-09-19 조회. 초·중·고 원천 학교급만 대응하며 그 외 학교급도 R2 원본에 보존한다.
 - 주소 좌표: [Kakao 주소 검색](https://developers.kakao.com/docs/ko/kakaomap/rest-api), [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do). provider와 조회일을 캐시에 기록한다. 반환 도로명·건물번호가 원문과 다른 결과는 수용하지 않으며 좌표를 추정 보정하지 않는다. 캐시·journal은 배치용이고 프론트·Edge Function은 외부 서비스를 직접 호출하지 않는다.
 - 이후 화면·내보내기에서도 데이터 제공자·기준일·지오코딩 provider와 위치 미확보를 표시해야 한다. 캠퍼스 대표 좌표를 개별 교문 위치로 표시하지 않는다. 상세 품질·제약은 [검증 기록](validation/pr4-places-20260920.md)을 따른다.
+
+## 건물 도형·건축물대장 (PR 5)
+
+- 주 도형: 국토교통부 **GIS건물통합정보**, 기존 국가공간정보포털 제공 자료의 [Vworld 파일 배포](https://www.vworld.kr/dtmk/dtmk_ntads_s002.do?svcCde=NA&dsId=18). 사용자 제공 서울 전체 `AL_D010_11_20260909.zip`, 배포 2026-09-09·행 기준 2026-09-06. 사용자 승인 근거는 **CC BY**다. 원천 기관·배포 경로·파일 기준일을 표시하며 SHP 중복 1행 제거, 자기 교차 4건 수리, 좌표 변환과 높이 추정이 적용됐음을 함께 표시한다. 원본 ZIP·원문 속성·원천 geometry는 수정 없이 R2에 보존한다. **수동 다운로드 후 R2 raw/에 게시, 갱신 주기 분기**다.
+- 보조 도형: [Vworld WFS](https://www.vworld.kr/dev/v4dv_wmsguide2_s001.do)의 `lt_c_bldginfo`, 2026-09-20 조회. SHP와 겹치지 않는 도형만 추가하고 `source=vworld_wfs_supplement`로 표시한다. [데이터셋 명세](https://www.data.go.kr/catalog/15123970/openapi.json)의 이용허락범위와 별도 [Vworld 이용약관](https://www.vworld.kr/v4po_prcint_a001.do)을 함께 기록한다. SHP의 API 비의존·CC BY를 WFS API의 이용조건으로 확대하지 않는다.
+- 표제부·층별개요: 국토교통부 [건축HUB 건축물대장정보 서비스](https://www.data.go.kr/data/15134735/openapi.do), `getBrTitleInfo`·`getBrFlrOulnInfo`, 2026-09-20 조회. PK·PNU가 일치하는 SHP만 대장 기반 집계에 연결한다. 조회일은 원천의 측량·생성일을 뜻하지 않는다.
+- 높이는 원천 양수값/층수 추정/unknown을 구분하며 추정값을 실측으로 표시하지 않는다. OSM은 비교 검증에만 사용했고 이번 조회 DB에는 적재하지 않았다. 조사에서 관측한 SHP 배포 화면의 CC BY와 라이선스 바로가기 불일치 등은 [사전 기록](validation/pr5-footprints-20260920.md)에 보존한다. 실제 원본·수리·제외·연결률은 [적재 검증](validation/pr5-buildings-20260920.md)을 따른다.
