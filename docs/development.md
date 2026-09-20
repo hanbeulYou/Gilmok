@@ -244,3 +244,49 @@ drop table ingest_private.building_snapshots;
 ```
 
 공개 원천은 anon/authenticated SELECT·RPC만 허용하며 쓰기·private 감사 조회는 차단한다. 기존 다른 S1 데이터는 보존한다. 전체 score_inputs와 S1 완료 검증은 후속 PR에서 수행한다.
+
+
+## PR 6 실거래·임대동향 재현
+
+새 마이그레이션 3개를 로컬에 적용한다. 기존 데이터 초기화나 VACUUM은 필요하지 않다.
+
+```sh
+supabase migration up --local
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:db
+```
+
+실제 키는 `.env`에만 둔다. 기존 값을 덮지 않고 `.env.example`의 빠진 항목을 병합한다. REB 부동산통계정보 키의 이름은 `RONE_API_KEY`다. URL 항목은 키가 아니며 예시의 공식 주소를 그대로 사용할 수 있다. `VWORLD_SERVICE_URL`은 로컬 등록 도메인 `http://localhost`다. R2가 설정돼 있는데 실패하면 로컬로 몰래 전환하지 않는다.
+
+이번 스냅샷의 수집 캐시는 `.local/validation/pr6/`에 있다. 새 법정동 파일은 다음처럼 `/ingest`의 검증된 수집기를 통해 준비할 수 있다.
+
+```sh
+uv run --frozen python - <<'PYCODE'
+from pathlib import Path
+from ingest.legal_boundaries import fetch_legal_boundaries
+fetch_legal_boundaries(Path('.local/validation/pr6/legal-dongs.geojson'))
+PYCODE
+
+uv run --frozen python -m ingest.verify_rent trades \
+  --snapshot 20260920T120200Z --start-month 202409 --end-month 202608
+uv run --frozen python -m ingest.publish_rent_survey \
+  --quarter 2026-Q2 --directory .local/validation/pr6 --snapshot 20260920T120200Z
+uv run --frozen python -m ingest.verify_rent verify --snapshot 20260920T120200Z
+```
+
+동일 원본/스냅샷의 재실행은 게시된 바이트를 재사용한다. 지연신고·해제 정정을 새로 수집하려면 **새 cache directory**, 새 UTC 스냅샷 ID, `trades --revision`을 사용한다. 캐시 파일을 남긴 채로 “새로 조회했다”고 기록하지 않는다. 새 디렉터리에는 법정동 원본도 준비한다. 임대동향은 항상 revision 원본 경로를 사용하며 `.local/validation/pr6/rone-authenticated/`의 8개 표 전체 캐시를 검증한다. 무키 샘플은 전체 수집으로 인정하지 않는다.
+
+임대동향 게시기는 공간 증거 `boundary-intersections.json`, `rone-cls-names.json`, `rone-cls-office-names.json`, `rone-cls-small-names.json`, `rone-cls-collective-names.json`과 원천 `rone-seoul-boundaries.json`을 보존한다. 이들은 검증 당시의 공식 응답이다. 새 환경에서는 R2 `raw/rent_survey_scope/revisions/20260920T120200Z/2026-06.parquet`의 `evidence_json`에서 `intersections`, `classification_metadata`, `raw_geometry_response`를 복원할 수 있다. 임의로 다른 분기에 유효하다고 표시하지 않는다. 새 분류 코드와 맞지 않으면 다시 공식 자료를 확인한다.
+
+조회 예시(현재 실제 데이터의 임대동향 공간 연결은 비활성):
+
+```sql
+select public.rent_inputs(127.063642,37.494612,500,null,null);
+select public.rent_inputs(127.052873,37.496237,1000,2,null);
+```
+
+앞의 두 좌표는 각각 법정동 대치동·도곡동이다. 요청 층에서 일반/집합 중 표본이 많은 유형을 고르고 5건 미만이면 매매 단가가 NULL이다. 임대료는 상권→공식 정의가 확인된 권역→NULL이며 근접 상권·이전 분기로 대체하지 않는다. 현재 공간 정의 미확인 사유는 [검증 문서](validation/pr6-rent-20260920.md)에 있다. `score_inputs` 전체 통합은 다음 태스크다.
+
+적재 실패는 트랜잭션을 롤백한다. 정정본은 원본 revision으로 보존하며 같은 출처의 이전 DB 집계를 새 완전 스냅샷으로 교체한다. 복구 시 이전 R2 원본과 그 기간/분류 증거를 다시 읽어 집계·적재한다. 현재 원격 Supabase 전환은 하지 않았다. 구조를 철회해야 한다면 새 CLI 마이그레이션으로 PR 6 함수/테이블만 제거하며 기존 S1 테이블을 건드리지 않는다.
