@@ -202,3 +202,45 @@ uv run --frozen python -m ingest.verify_commerce_education \
 캐시는 성공과 확정 실패 모두 재사용한다. Vworld는 이번 입력 주소 중 Kakao NOT_FOUND인 주소에만 호출한다. 명시한 요청 예산은 앱의 실제 잔여 쿼터를 의미하지 않는다. 401/403/429·타임아웃·pending/unknown claim에서는 원인을 검토하며 **자동 재호출하지 않는다**. journal에 응답이 있으면 검토 후 `ingest.geocode.save_result`로 API 호출 없이 복구할 수 있다. 의도적으로 재시도하려면 별도 운영 결정을 먼저 한다.
 
 검증 기록: [PR 4 실데이터·용량·주소 대조](validation/pr4-places-20260920.md). `score_inputs` 전체 RPC와 HTTP 왕복은 아직 미구현이며 이 SQL 결과를 S1 전체 완료로 표시하지 않는다.
+
+## PR 5 강남구 건물
+
+원본 입력은 사용자가 내려받은 서울 전체 GIS건물통합정보 ZIP이다. **수동 다운로드 후 R2 raw/에 게시, 갱신 주기 분기**이며 ZIP을 압축 해제하지 않는다. `.prj` EPSG:5186·CP949·강남구 코드와 필수 컬럼을 확인하고 서울 전체 원문/geometry를 보존한다. 소스·높이·대장 연결 계약과 실측은 [PR 5 검증](validation/pr5-buildings-20260920.md)에 있다.
+
+`.env`에 기존 DATA_GO_KR_SERVICE_KEY, VWORLD_API_KEY와 `VWORLD_SERVICE_URL=http://localhost`를 둔다. WFS 요청의 domain은 등록 서비스 URL과 같아야 한다. R2 환경변수가 있으면 실제 R2에 게시하고, 없으면 기존 `INGEST_LOCAL_ROOT` 정책으로 저장한다. 배치 로그에는 키가 포함된 URL을 쓰지 않는다.
+
+```sh
+supabase db push --local
+uv run --frozen python -m ingest.verify_buildings \
+  --shp-zip .local/downloads/AL_D010_11_20260909.zip \
+  --snapshot 2026-09-20 \
+  --directory .local/validation/pr5/implementation \
+  --load
+```
+
+`--load`를 생략하면 파일/응답 수집과 임시 테이블 기반 geometry 검증까지만 실행한다. `--load`는 원본 4개 Parquet와 ZIP을 먼저 게시·재읽기 검증한 뒤 로컬 DB 스냅샷을 원자적으로 교체한다. `--load` 경로의 DB·HTTP 검증은 로컬만 허용한다. 기존 S1의 강남구 행정동 경계와 대치·한티·학여울 위치가 필요하다. 결과는 지정 디렉터리의 `validation.json`에 기록한다. 같은 원본/월의 R2 객체는 덮어쓰지 않으며 다른 내용이면 실패한다.
+
+건축HUB 성공 페이지는 스냅샷/요청 조건별로 저장해 재사용한다. 정상 0건과 HTTP 오류·200 빈 본문을 구분한다. transient 오류는 최대 8회 시도하고, 인증/쿼터/응용 오류는 중단한다. 프로세스당 건축HUB 호출 상한은 5,000회이며 계정 일일 잔량을 대신하지 않는다. 실패 후 같은 디렉터리·snapshot으로 재실행하면 성공 페이지를 재호출하지 않는다. WFS도 성공 타일을 재사용하며 count/feature ID 합집합과 중복 응답 내용 일치를 확인한다.
+
+전체 저장 페이지를 다시 검증하려면 아래 명령을 사용한다. `register-groups.json`은 표제부 manifest의 `groups`(sigunguCd/bjdongCd/platGbCd 목록)를 JSON 배열로 저장한 파일이며 키 값은 포함하지 않는다. 검증 기록의 재실행에서는 추가 API 호출 0건이었다.
+
+```sh
+uv run --frozen python -m ingest.building_register \
+  --groups-json .local/validation/pr5/register-groups.json \
+  --directory .local/validation/pr5/implementation \
+  --snapshot 2026-09-20
+```
+
+`buildings`는 SHP 주 소스와 WFS 보조의 EPSG:4326 MultiPolygon·출처·높이·연결 상태를 담는다. WFS는 대장 FK가 없으며, `building_registers`와 `building_floors`는 원문 사실을 보존한다. `buildings_in_radius(lng,lat,radius_m)`의 GeoJSON 도형은 모두 차폐 입력이고 unknown은 원래 높이 NULL·표시/차폐 4m·신뢰도 unknown 비율을 반환한다. `registry`는 연결된 SHP 고유 대장만 집계한다. S2 등록 가능성/채점이나 3D 렌더러를 제공하는 RPC가 아니다.
+
+마이그레이션 `20260920095423_buildings.sql`은 기존 테이블을 바꾸지 않는 추가형이다. 세 테이블·스냅샷 감사 기록은 하나의 트랜잭션에서 교체하며 파싱/geometry/제약 오류는 기존 스냅샷을 보존한다. 통합 테스트는 실패 롤백과 반복 적재를 검증한다. 기능을 되돌려야 한다면 소비 코드를 먼저 제거하고 원본·감사 기록을 보관한 뒤 `supabase migration new rollback_buildings`로 새 마이그레이션을 만들어 아래 순서로 제거한다. 기존 migration 파일을 수정하거나 DB 전체 reset을 하지 않는다. 이 롤백은 이번 적재에서는 실행하지 않았다.
+
+```sql
+drop function public.buildings_in_radius(double precision,double precision,integer);
+drop table public.buildings;
+drop table public.building_floors;
+drop table public.building_registers;
+drop table ingest_private.building_snapshots;
+```
+
+공개 원천은 anon/authenticated SELECT·RPC만 허용하며 쓰기·private 감사 조회는 차단한다. 기존 다른 S1 데이터는 보존한다. 전체 score_inputs와 S1 완료 검증은 후속 PR에서 수행한다.
