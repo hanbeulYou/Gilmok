@@ -159,3 +159,46 @@ colima stop --profile gilmok
 ```
 
 `supabase db reset --local`은 로컬 DB 데이터를 지우므로 새 마이그레이션의 초기 적용을 검증할 때만 사용한다. 마이그레이션은 CLI로 생성하고 적용된 파일은 변경하지 않는다.
+
+
+## PR 4 상가·학원·학교 실데이터 재현
+
+Python 3.12, Node 22.x, pnpm 10.7.1, 로컬 Supabase와 기존 인구·교통 데이터가 전제다. 외부 수집은 `/ingest` 모듈만 수행한다. 새 의존성은 없다. `.env.example`의 기존 `SEOUL_OPEN_DATA_API_KEY`, `NEIS_API_KEY`, `KAKAO_REST_API_KEY`, `VWORLD_API_KEY`, R2 설정을 사용한다. 지오코딩 실행 전에 Kakao 제품 활성화와 주소 1건의 HTTP 200/유일한 좌표를 확인한다. 이번 검증에서는 그 1건도 캐시하여 일괄 단계에서 재호출하지 않았다.
+
+```sh
+supabase migration up --local
+uv sync --frozen
+```
+
+사용자가 승인한 로컬 VACUUM FULL은 이미 1회 완료됐고 기준은 171,467,279 byte다. 재현 명령에 VACUUM이나 DB reset은 포함하지 않는다. 원격 DB에서는 실행하지 않는다.
+
+2026-09-19 수집 스냅샷의 재현(해당 원본이 확보된 환경):
+
+```sh
+uv run --frozen python -m ingest.verify_commerce_education \
+  --stores-zip .local/validation/pr4-preflight/stores-20260630.zip \
+  --stores-month 2026-06 --education-version 2026-09-19 \
+  --academy-json .local/validation/pr4-preflight/neisAcademyInfo-all.json \
+  --school-json .local/validation/pr4-preflight/schoolInfo-all.json \
+  --directory .local/validation/pr4/places
+
+uv run --frozen python -m ingest.geocode \
+  .local/validation/pr4/places/addresses.json \
+  --budget 14000 --vworld-budget 1000 \
+  --journal .local/validation/pr4/geocode-responses
+
+uv run --frozen python -m ingest.verify_commerce_education \
+  --stores-zip .local/validation/pr4-preflight/stores-20260630.zip \
+  --stores-month 2026-06 --education-version 2026-09-19 \
+  --academy-json .local/validation/pr4-preflight/neisAcademyInfo-all.json \
+  --school-json .local/validation/pr4-preflight/schoolInfo-all.json \
+  --directory .local/validation/pr4/places --load
+```
+
+첫 명령은 원본 보존·실제 R2 재읽기 대조·주소 목록·원문 분포를 생성한다. 마지막 명령은 캐시가 완성됐는지 확인한 후 표본 용량 측정, 로컬 DB 원자 reconcile, DB 필드/기하 대조, 3곳×2반경 SQL p95를 검증한다. 같은 원본의 재적재에서는 변경 없는 개체 행을 다시 쓰지 않는다. 실패/빈 스냅샷이면 이전 DB를 보존한다. 저장공간은 적재 트랜잭션 중 임시 파일을 포함한 값과 커밋 후 값을 나누어 기록한다.
+
+새 학원·학교 API 스냅샷을 수집할 때는 두 JSON 옵션을 빼고 실제 조회일을 `--education-version`에 지정한다. 수집일별 새 작업 디렉터리를 사용한다. 상가 ZIP은 공공데이터포털 15083033의 최신 분기 파일을 확보한다. 이전 수집일을 새 응답의 기준일로 재사용하지 않는다. 원본 파일과 `.local`은 Git에 넣지 않는다. R2는 같은 월 키의 다른 바이트를 덮어쓰지 않으므로 이미 게시한 월의 새 스냅샷이 다르면 중단한다.
+
+캐시는 성공과 확정 실패 모두 재사용한다. Vworld는 이번 입력 주소 중 Kakao NOT_FOUND인 주소에만 호출한다. 명시한 요청 예산은 앱의 실제 잔여 쿼터를 의미하지 않는다. 401/403/429·타임아웃·pending/unknown claim에서는 원인을 검토하며 **자동 재호출하지 않는다**. journal에 응답이 있으면 검토 후 `ingest.geocode.save_result`로 API 호출 없이 복구할 수 있다. 의도적으로 재시도하려면 별도 운영 결정을 먼저 한다.
+
+검증 기록: [PR 4 실데이터·용량·주소 대조](validation/pr4-places-20260920.md). `score_inputs` 전체 RPC와 HTTP 왕복은 아직 미구현이며 이 SQL 결과를 S1 전체 완료로 표시하지 않는다.
