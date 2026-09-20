@@ -94,6 +94,24 @@ class RawStore:
             raise ValueError("Original source archive must be a ZIP")
         return self._publish_path(key, path)
 
+    def publish_revision(self, source: str, month: str, snapshot: str, path: Path) -> dict:
+        """Keep corrected provider snapshots without overwriting an earlier publication."""
+        raw_key(source, month)
+        if not re.fullmatch(r"[0-9]{8}T[0-9]{6}Z", snapshot):
+            raise ValueError("Snapshot must use UTC YYYYMMDDTHHMMSSZ")
+        datetime.strptime(snapshot, "%Y%m%dT%H%M%SZ")
+        key = f"raw/{source}/revisions/{snapshot}/{month}.parquet"
+        with duckdb.connect() as connection:
+            connection.read_parquet(str(path)).limit(0).fetchall()
+        if not self.settings.uses_r2:
+            target = self._local_path(key)
+            if target.exists():
+                with path.open("rb") as incoming, target.open("rb") as existing:
+                    if (hashlib.file_digest(incoming, "sha256").digest()
+                            != hashlib.file_digest(existing, "sha256").digest()):
+                        raise StorageError("Existing revision differs; use a new snapshot")
+        return self._publish_path(key, path)
+
     def _publish_path(self, key: str, path: Path) -> dict:
         """Publish a validated source file without materializing it as a DataFrame.
 
