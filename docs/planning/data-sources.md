@@ -1,6 +1,6 @@
 # 길목(GILMOK) 데이터 소스 명세
 
-> 작성일: 2026-09-16 · 버전: v1.9 (PR 5 계획·용량 정책, 2026-09-20)
+> 작성일: 2026-09-16 · 버전: v1.10 (PR 6 실거래·임대동향 실제 적재, 2026-09-20)
 > 기준 문서: docs/planning/location-simulator.md
 > 목적: S1(데이터 기반) 구현에 필요한 소스별 접근 방법·컬럼·좌표계·적재 방식을 한 곳에 모은다. "확인 필요" 표시는 실제 키 발급 후 응답 스키마로 검증할 것.
 
@@ -177,19 +177,23 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 ### 2.9 상업용 부동산 매매 실거래 (임대료 효율 축)
 
 - 소스: 국토교통부 상업업무용 부동산 매매 실거래가 자료(공공데이터포털 15126463). 파라미터 `LAWD_CD`(법정동 5자리, 예 강남구 11680), `DEAL_YMD`(계약년월). XML.
-- 컬럼: 시군구, 법정동, 건물명, 층, 전용면적(또는 건물면적), 거래금액, 건축년도, 용도지역, 계약일. 좌표 없음 → 법정동+건물명+지번으로 지오코딩(정확도 낮음, 동 단위 집계로만 사용).
+- 실제 응답은 `sggCd`, `sggNm`, `umdNm`, `jibun`, `floor`, `buildingAr`, `plottageAr`, `buildingType`, `dealAmount`, 계약일, `cdealType`, `cdealDay` 등 22필드다. 건물명·좌표·고유 거래 ID·10자리 법정동코드는 없다. 금액은 만원, 건물면적은 ㎡이며 공식 화면은 전용/연면적이다. 일반/집합 모두 원천 명칭 `building_area`를 유지하고 전용면적으로 일괄 해석하지 않는다.
 - 적재 범위: 최근 24개월, **강남구(LAWD_CD=11680) 한정**.
-- 원본: 개별 거래의 법정동·건물명·층·면적·가격·계약일 등을 `raw/commercial_trades/{YYYY-MM}.parquet`에 보존한다. Supabase에는 개별 거래 테이블을 만들지 않는다.
-- 파생: DuckDB에서 법정동 단위 ㎡당 매매 단가 중앙값과 층별 중앙값을 계산한다. 기간 전체 원본으로 계산하며 월별 중앙값들의 중앙값으로 대체하지 않는다. 원천 금액·면적 단위, 취소 거래·중복 처리, 법정동 연결은 실제 응답으로 확인한다.
-- Supabase 집계 테이블: `commercial_trade_stats(lawd_cd, dong, floor nullable, period_start, period_end, median_price_per_m2, sample_count)`. 층 미지정 전체 통계와 층별 통계의 식별 제약은 스키마에서 명시한다. 공통 출처·기준일·적재일·추정 여부를 포함한다.
+- 원본: 전 필드·조회월·페이지·행 순서를 `raw/commercial_trades/{YYYY-MM}.parquet`에 보존한다. 정정본은 `raw/commercial_trades/revisions/{조회일시}/{YYYY-MM}.parquet`와 스냅샷 manifest로 보존한다. Supabase에는 개별 거래 테이블을 만들지 않는다.
+- 파생: 일반/집합을 분리한 법정동·층별 원/㎡ 중앙값을 DuckDB에서 기간 전체 원본으로 계산한다. 월별 중앙값들의 중앙값을 쓰지 않는다. 취소(`cdealType=O` 또는 해제일 있음), 지분, 금액/면적 미상·0 이하를 제외하고 사유를 기록한다. 공개 필드가 같은 행도 별개 거래일 수 있어 값만으로 제거하지 않는다. 층 미상은 전체층 집계에만 포함한다.
+- 2026-09-20 사용자 승인: `score_inputs`용 기본값은 같은 동·요청 층·기간에서 유효 표본이 많은 유형이다. `trade_building_type`(`general`/`collective`)과 `trade_sample_count`를 반환하며 표본 5건 미만이면 단가 NULL이다. 동률은 집합을 고정 선택해 재현성을 유지한다. 층 지정 시 전체층으로 몰래 대체하지 않는다.
+- 집계 키는 법정동 8자리 코드·유형·전체층/층별·기간이다. 중앙값·표본수·층 미상 건수·면적 기준과 출처를 보존한다. 법정동은 Vworld `lt_c_ademd_info`의 `emd_cd`, `emd_kor_nm`을 사용하는 별도 `legal_dongs` 경계로 찾으며 행정동 `admin_dongs`와 직접 조인하지 않는다.
 - 좌표를 법정동에 연결해 통계를 제공하며 반경 내 개별 거래 통계로 표현하지 않는다. 정확한 연결 자료가 없으면 결측이다.
 
 ### 2.10 상업용 임대 동향 (임대료 효율 축)
 
-- 소스: 한국부동산원 부동산통계정보 R-ONE(r-one.co.kr) 상업용부동산 임대동향조사 — 분기별, 상권 단위 임대료(㎡당)·공실률·투자수익률. OpenAPI 제공 여부와 상권 단위 코드 체계 확인 필요. 없으면 분기별 엑셀 수동 적재.
+- 소스: 한국부동산원 R-ONE `https://www.reb.or.kr/r-one/openapi/`의 `SttsApiTbl.do`, `SttsApiTblItm.do`, `SttsApiTblData.do` 실제 응답을 확인했다. 키는 `RONE_API_KEY`; 무키 5행 샘플을 전체 자료로 적재하지 않는다. 원천 임대료 천원/㎡를 DB 원/㎡로 정규화하고 공실률은 %를 유지한다. 통계표·유형별 코드와 경계는 [PR 6 계획](pr6-rent-plan.md)을 따른다.
 - 용도: 사용자가 임대료를 입력하지 않았을 때 대체값, 그리고 "상권 평균 대비" 비교.
-- 테이블: `rent_survey(district_code, district_name, quarter, building_class, rent_per_m2, vacancy_rate)`
-- S1은 강남구 대상 상권 자료를 적재한다. 후보 좌표와 임대동향 상권의 연결 자료·코드 체계는 실제 자료로 확인한다. 연결 자료가 없으면 임대료·공실률을 결측으로 반환하며 **임의 근접 상권 대체는 금지**한다.
+- 테이블은 상권/권역 수준, 원천 통계표·분류 코드, 분기, 건물유형, 임대료·공실률과 공간 연결 검증 상태를 보존한다. 같은 상권도 유형별 `CLS_ID`가 다르므로 통계표와 함께 식별한다.
+- 2026-09-20 최종 사용자 승인: **검증된 포함 상권 → 공식 정의에 포함되는 권역 → NULL**, `rent_level='district'|'region'|NULL`이다. 자치구(gu) 폴백은 폐기했다. 근접 상권 대체는 금지한다. 한국부동산원 조사개요·공식 통계정보보고서·공식 GIS에서 강남 권역의 포함 자치구 또는 경계를 확인하지 못했으므로 권역 수치는 원천 사실로 보존하되 공간 매핑은 비활성화한다. 정의를 찾기 전 대치동 3곳은 region 값 NULL이 정상이다.
+- 같은 `rent_level`에 서로 다른 공간 수준의 수치를 섞지 않는다. 상권 임대료가 NULL이면 권역으로 내려가며, 상권 임대료가 있고 공실률만 없으면 상권 단계와 공실률 NULL을 유지한다. 건물유형별 결과를 보존하며 유형을 지정하지 않은 조회에서 여러 유형이 가능하면 임대료 scalar는 NULL과 `building_class_required`를 반환한다. 한 유형만 가능하면 그 유형을 반환한다.
+
+- PR 6 실제 적재: 매매 24개월 2,092행 중 유효 1,744행을 180개 동·유형·층 집계로 저장했다. R-ONE 8개 표 1,810행 원본에서 34개 조사 집계를 저장했으나 공간 연결 12개는 미검증으로 비활성화했다. 원본·경계/분류 근거 R2 27개 객체 재읽기 불일치 0, DB 집계 전수 차이 0. [PR 6 검증](../validation/pr6-rent-20260920.md)을 따른다. 한티 검증 좌표의 실제 법정동은 도곡동이며 층2 표본1건의 단가는 NULL이다.
 
 ### 2.11 사용자 입력 (임대료 효율 축)
 
@@ -226,7 +230,7 @@ S1 계약은 **7개 데이터 묶음** `demand`, `flow`, `transit`, `market`, `c
   "market": {"stores_total": null, "stores_by_lcls": null},
   "compete": {"academies_total": null, "academies_by_field": null},
   "building": {"floors_above": null, "height_m": null, "height_estimated": null, "floor_use": null, "elevators": null},
-  "rent": {"trade_median_per_m2": null, "survey_rent_per_m2": null, "survey_vacancy": null},
+  "rent": {"trade_median_per_m2": null, "trade_building_type": null, "trade_sample_count": null, "survey_rent_per_m2": null, "survey_vacancy": null, "rent_level": null},
   "meta": {"radius_m": 500, "sources": {}, "computed_at": null}
 }
 ```
@@ -237,7 +241,7 @@ S1 계약은 **7개 데이터 묶음** `demand`, `flow`, `transit`, `market`, `c
 - 최근접 지하철역만 요청 반경 밖에서도 찾되 상한 2,000m, 없으면 `null`이다. 골든타임 지하철 승하차의 공간 범위는 요청 반경을 따른다.
 - 인구는 행정동, 생활인구는 250m 격자와 반경 원의 면적 비례 배분으로 추정하고 `estimated=true`를 남긴다. 생활인구는 `weekday`/`weekend`를 분리하고 골든타임 [15:00, 22:00)을 적용한다. S1에서 평일·주말 종합값을 계산하지 않는다.
 - `building`은 후보 좌표와 요청 층의 원천 사실이며 `academy_eligible`은 제외한다. 높이 추정은 2.7절을 따른다.
-- `rent`의 매매 통계는 후보 좌표가 속한 법정동·층별 집계다. 임대동향은 연결이 확인된 조사 상권 자료만 사용한다. 개인 임대료를 조회하거나 다른 사용자의 집계에 섞지 않는다.
+- `rent` 매매 기본값은 후보 법정동·층별 일반/집합 중 표본이 많은 유형(5건 이상)이다. 임대동향은 검증된 조사 상권→공식 정의에 포함된 권역→NULL 순서이며 `rent_level`을 반환한다. 개인 임대료를 조회하거나 다른 사용자의 집계에 섞지 않는다.
 - `meta.sources`에는 소스별 기준일·적재 시각·적재 범위·결측 사유를 기록한다. 실제 관측 범위에서 대상이 없으면 0, 미적재·매핑 실패·비공개 값은 `null`로 구분한다. 지오코딩 실패 등의 누락은 집계 범위의 한계로 명시한다.
 - 가시성 축은 클라이언트(Web Worker)에서 계산하므로 이 RPC에 포함하지 않는다. 별도 엔드포인트 `buildings_in_radius`는 반경 1km 내 `buildings` geom+height와 높이 추정 여부·실제 적재 범위를 내려준다. S1 건물 적재 범위는 강남구다.
 
@@ -313,3 +317,4 @@ GitHub Actions 스케줄로 Python 배치와 DuckDB 집계를 실행한다. `pg_
 | 2026-09-19 | v1.7 | 사용자 승인: 교통 6~8월·90% 사전 보고·신분당선 추정 제외. 실응답: OA-12913·새 컬럼/ID 관계·월 합계·7월 복제 검증, R2 8개 원본/재집계 대조·로컬 교통 적재. 전체 RPC는 미검증 |
 | 2026-09-20 | v1.8 | PR 4 최소 stores·원문 분야/과정·기관 지오코딩·주소 보정 거부·캐시 재사용·R2와 공간 조회 검증. 사용자 저장/브랜치/VACUUM 결정은 실제 응답 검증과 구분 |
 | 2026-09-20 | v1.9 | 사용자 결정: 로컬 용량 제한 없음, S1 원격 무료 유지, S2 서울 전체 건물 적재 시 Pro 검토. 용량에 따른 구조 축소 조건 폐기. SHP 직접 ZIP 검증·강남구 WFS/OSM 전수 비교·공식 PK 변환·동 단위 API 페이지 수집 확인 |
+| 2026-09-20 | v1.10 | PR 6 실제 XML·R-ONE 인증 응답, 법정동 경계, R2 27개·DB 집계 대조. 사용자 승인으로 district→region→NULL, 거래 다수 표본 유형·최소5건. 공식 권역 공간 정의 미확보로 region NULL 유지 |
