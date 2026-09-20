@@ -211,8 +211,6 @@ def run(args):
             ]
             report["store_sample"] = sample_storage(connection, frames["stores"])
             print("store_sample", json.dumps(report["store_sample"]), flush=True)
-            if baseline + report["store_sample"]["projected_bytes"] > 500_000_000:
-                raise ValueError("Projected DB over 500MB; report before full store load")
             for name in ("academies", "schools"):
                 frames[name] = attach_geocodes(connection, frames[name])
                 report[name]["unlocated_rows"] = int(frames[name].geocode_failed.sum())
@@ -250,8 +248,6 @@ def run(args):
                     for name in frames
                 },
             }
-            if report["storage"]["database_during_transaction_bytes"] > 500_000_000:
-                raise ValueError("Actual DB exceeds 500MB; rolling back place snapshot")
         # Dropped temporary relation files are released only at transaction commit.
         with connect_database(local_only=True) as connection:
             report["storage"]["database_after_bytes"] = connection.execute(

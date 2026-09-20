@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import tempfile
+import zipfile
 from collections.abc import Mapping
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -81,14 +82,24 @@ class RawStore:
         return str(self._local_path(key))
 
     def publish_file(self, source: str, month: str, path: Path) -> dict:
-        """Publish a validated Parquet without materializing it as a DataFrame.
+        key = raw_key(source, month)
+        with duckdb.connect() as connection:
+            connection.read_parquet(str(path)).limit(0).fetchall()
+        return self._publish_path(key, path)
+
+    def publish_archive(self, source: str, month: str, path: Path) -> dict:
+        """Preserve a manually supplied source ZIP byte-for-byte alongside Parquet."""
+        key = raw_key(source, month).removesuffix(".parquet") + ".zip"
+        if not zipfile.is_zipfile(path):
+            raise ValueError("Original source archive must be a ZIP")
+        return self._publish_path(key, path)
+
+    def _publish_path(self, key: str, path: Path) -> dict:
+        """Publish a validated source file without materializing it as a DataFrame.
 
         R2 snapshots are immutable here: reuse identical bytes, refuse a different
         existing object. Multipart upload exposes the new object only on completion.
         """
-        key = raw_key(source, month)
-        with duckdb.connect() as connection:
-            connection.read_parquet(str(path)).limit(0).fetchall()
         with path.open("rb") as handle:
             digest = hashlib.file_digest(handle, "sha256").hexdigest()
         size = path.stat().st_size
@@ -110,9 +121,11 @@ class RawStore:
             settings = self.settings
             try:
                 client = boto3.client(
-                    "s3", endpoint_url=f"https://{settings.r2_account_id}.r2.cloudflarestorage.com",
+                    "s3",
+                    endpoint_url=f"https://{settings.r2_account_id}.r2.cloudflarestorage.com",
                     aws_access_key_id=settings.r2_access_key_id,
-                    aws_secret_access_key=settings.r2_secret_access_key, region_name="auto",
+                    aws_secret_access_key=settings.r2_secret_access_key,
+                    region_name="auto",
                     config=Config(retries={"max_attempts": 3, "mode": "standard"}),
                 )
                 try:
@@ -122,16 +135,24 @@ class RawStore:
                         raise
                     old = None
                 if old is not None:
-                    if (old.get("Metadata", {}).get("sha256") != digest
-                            or old["ContentLength"] != size):
+                    if (
+                        old.get("Metadata", {}).get("sha256") != digest
+                        or old["ContentLength"] != size
+                    ):
                         raise StorageError("Existing R2 snapshot differs; refusing to overwrite")
                     status = "reused"
                 else:
-                    client.upload_file(str(path), settings.r2_bucket, key,
-                                       ExtraArgs={"Metadata": {"sha256": digest}})
+                    client.upload_file(
+                        str(path),
+                        settings.r2_bucket,
+                        key,
+                        ExtraArgs={"Metadata": {"sha256": digest}},
+                    )
                 result = client.head_object(Bucket=settings.r2_bucket, Key=key)
-                if (result["ContentLength"] != size
-                        or result.get("Metadata", {}).get("sha256") != digest):
+                if (
+                    result["ContentLength"] != size
+                    or result.get("Metadata", {}).get("sha256") != digest
+                ):
                     raise StorageError("R2 uploaded object metadata does not match")
             except StorageError:
                 raise
@@ -185,6 +206,7 @@ class RawStore:
                     connection.execute("INSTALL httpfs")
                     connection.execute("LOAD httpfs")
                     settings = self.settings
+
                     # SQL literals are escaped; connection setup errors must not echo secrets.
                     def literal(value: str) -> str:
                         return "'" + value.replace("'", "''") + "'"
@@ -192,7 +214,8 @@ class RawStore:
                     connection.execute(
                         "CREATE SECRET (TYPE S3, KEY_ID "
                         + literal(settings.r2_access_key_id)
-                        + ", SECRET " + literal(settings.r2_secret_access_key)
+                        + ", SECRET "
+                        + literal(settings.r2_secret_access_key)
                         + ", ENDPOINT "
                         + literal(f"{settings.r2_account_id}.r2.cloudflarestorage.com")
                         + ", REGION 'auto', URL_STYLE 'path')"
