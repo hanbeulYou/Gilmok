@@ -27,3 +27,12 @@
 - 위치: [서울시 역사마스터 정보 OA-21212](https://data.seoul.go.kr/dataList/OA-21212/S/1/datasetView.do), [버스정류소 위치정보 OA-15067](https://data.seoul.go.kr/dataList/OA-15067/S/1/datasetView.do), 2026-09-19 API 조회본.
 - 길목 가공: 노선 안의 역명 정규화·버스 내부 ID 조인, 정확한 복제 행 제거, 서울 경계 필터, 시간대 월 합계의 합÷92일. R2에는 원래 컬럼·원천 ID·복제 행을 유지한다.
 - 신분당선 승하차 미제공 및 위치 미매칭은 대체 추정하지 않았다. 과거 6~8월 위치와 9월 조회 좌표의 동일성을 보장하지 않는다. 후속 화면·내보내기에도 출처·기간·결측 한계를 표시한다.
+
+
+## PR 4 상가·학원·학교 및 지오코딩
+
+- 상가: 소상공인시장진흥공단, [공공데이터포털 15083033](https://www.data.go.kr/data/15083033/fileData.do), 2026-06-30 기준 서울 CSV. 원본 전체 컬럼을 R2에 보존하고 DB에는 업소번호·업종 코드·층·위치만 투영했다. 최신 분류와 표준산업분류를 합치지 않는다.
+- 학원·교습소: NEIS 원천, [서울 열린데이터광장 OA-20528](https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do), 2026-09-19 조회. 분야·계열·과정명과 원천 갱신일 원문을 보존한다.
+- 학교: [나이스 교육정보 개방포털](https://open.neis.go.kr/), schoolInfo/B10, 2026-09-19 조회. 초·중·고 원천 학교급만 대응하며 그 외 학교급도 R2 원본에 보존한다.
+- 주소 좌표: [Kakao 주소 검색](https://developers.kakao.com/docs/ko/kakaomap/rest-api), [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do). provider와 조회일을 캐시에 기록한다. 반환 도로명·건물번호가 원문과 다른 결과는 수용하지 않으며 좌표를 추정 보정하지 않는다. 캐시·journal은 배치용이고 프론트·Edge Function은 외부 서비스를 직접 호출하지 않는다.
+- 이후 화면·내보내기에서도 데이터 제공자·기준일·지오코딩 provider와 위치 미확보를 표시해야 한다. 캠퍼스 대표 좌표를 개별 교문 위치로 표시하지 않는다. 상세 품질·제약은 [검증 기록](validation/pr4-places-20260920.md)을 따른다.
