@@ -78,7 +78,7 @@
 
 ## 7. 현재 스프린트
 
-- **S1 데이터 기반** (PR 1~3은 통합 GitHub #6으로 main 반영 완료. PR 4 상가·학원·학교 로컬 실데이터·R2 검증 완료, PR 게시 준비. S1 전체는 진행 중)
+- **S1 데이터 기반** (PR 1~3은 통합 GitHub #6으로 main 반영 완료. PR 4 [GitHub #7](https://github.com/hanbeulYou/Gilmok/pull/7) 상가·학원·학교 로컬 실데이터·R2 검증 완료, 리뷰 대기·미머지. S1 전체는 진행 중)
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
