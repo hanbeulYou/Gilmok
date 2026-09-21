@@ -1,0 +1,250 @@
+"""Independent, rollback-only data proves the S2 input contract, not live statistics."""
+
+import copy
+
+import psycopg
+import pytest
+
+POINT = "extensions.st_setsrid(extensions.st_makepoint(127.4,37.7),4326)"
+AREA = (
+    f"extensions.st_multi(extensions.st_buffer({POINT}::extensions.geography,2000)"
+    "::extensions.geometry)"
+)
+PK = "9999999999999999999901"
+PNU = "1168010100100010000"
+BUNDLES = {"demand", "flow", "transit", "market", "compete", "building", "rent"}
+
+
+def query(db, **changes):
+    args = dict(lat=37.7, lng=127.4, radius_m=500, floor=2)
+    args.update(changes)
+    return db.execute(
+        "select public.score_inputs(%(lat)s,%(lng)s,%(radius_m)s,%(floor)s)", args
+    ).fetchone()[0]
+
+
+def stable_result(result):
+    result = copy.deepcopy(result)
+    for name in ["computed_at", "bundle_ms", "sources_ms", "total_ms"]:
+        result["meta"].pop(name)
+    return result
+
+
+@pytest.fixture
+def data(db):
+    # A synthetic location outside the live Seoul data: no production rows are replaced.
+    db.execute(f"""insert into public.admin_dongs(adm_cd,name,geom,source,source_version)
+        values('pr7','fixture',{AREA},'pr7','2026-08-01')""")
+    db.execute("""insert into public.population_age
+        (adm_cd,age_band,population,ref_month,source,source_version)
+        values ('pr7','5_9',100,'2026-08-01','pr7','2026-08'),
+        ('pr7','10_14',200,'2026-08-01','pr7','2026-08'),
+        ('pr7','15_18',300,'2026-08-01','pr7','2026-08')""")
+    db.execute(f"""insert into public.population_cells
+        (resolution_m,cell_id,geom,boundary_generated,source,source_version)
+        select 250,'pr7',extensions.st_transform(
+          extensions.st_makeenvelope(extensions.st_x(p)-125,extensions.st_y(p)-125,
+           extensions.st_x(p)+125,extensions.st_y(p)+125,5186),4326),false,'pr7','fixture'
+        from (select extensions.st_transform({POINT},5186) p) q""")
+    db.execute("""insert into public.living_pop
+        (resolution_m,cell_id,dow_type,hour,total,sample_days,period_start,period_end,
+         source,source_version)
+        select 250,'pr7',d,h,10+h+case d when 'weekday' then 0 else 100 end,10,
+        '2026-06-01'::date,'2026-08-31'::date,'pr7','fixture'
+        from (values('weekday'),('weekend')) days(d),generate_series(0,23) hours(h)""")
+    for table in ["stores", "academies", "schools"]:
+        db.execute(
+            """insert into ingest_private.place_snapshots
+            (target_table,source,source_version,raw_key,row_count,located_count,report)
+            values(%s,'pr7','2026-08','fixture',3,3,'{}')
+            on conflict(target_table) do update set row_count=3,located_count=3""",
+            (table,),
+        )
+    db.execute(f"""insert into public.stores
+        select 'pr7-'||n,'P1','P105','P10501',null,{POINT} from generate_series(1,2) n""")
+    db.execute(f"""insert into public.academies
+        (id,name,institution_type,registration_status,field,affiliation,course_list,course,
+        address,geom,geocode_failed,source,source_version)
+        select 'pr7-'||n,'fixture','교습소','개원','보습','보통교과','원문','원문','fixture',
+        {POINT},false,'pr7','fixture' from generate_series(1,2) n""")
+    db.execute(f"""insert into public.schools
+        (id,name,level,school_type,address,geom,geocode_failed,source,source_version)
+        select 'pr7-'||n,'fixture','elem','초등학교','fixture',{POINT},false,'pr7','fixture'
+        from generate_series(1,3) n""")
+    db.execute("""insert into ingest_private.transit_coverage(type,report) values
+        ('subway','{"coordinates":{"retrieved_on":"2026-09-19"}}'),
+        ('bus','{"coordinates":{"retrieved_on":"2026-09-19"}}') on conflict do nothing""")
+    db.execute(f"""insert into public.transit_stops(id,type,name,line,geom,source,source_version)
+        values('pr7-subway','subway','fixture','fixture',{POINT},'pr7','fixture'),
+        ('pr7-bus','bus','fixture','fixture',{POINT},'pr7','fixture')""")
+    db.execute("""insert into public.transit_boardings
+        (stop_id,hour,boarding,alighting,sample_months,period_start,period_end,source,source_version)
+        select 'pr7-subway',h,10,20,3,'2026-06-01'::date,'2026-08-31'::date,'pr7','fixture'
+        from generate_series(15,21) h""")
+    db.execute(
+        """insert into public.building_registers
+        (register_pk,pnu,passenger_elevators,emergency_elevators,source_version)
+        values(%s,%s,1,0,'fixture')""",
+        (PK, PNU),
+    )
+    db.execute(
+        f"""insert into public.buildings
+        (id,source_id,pnu,source,source_version,register_pk,register_link_status,geom,
+         geometry_repaired,source_height_m,floors_above,height_m,height_source,
+         height_estimated)
+        values('pr7','pr7',%s,'gis_buildings_shp','fixture',%s,'matched',
+         extensions.st_multi(extensions.st_buffer({POINT}::extensions.geography,10)
+          ::extensions.geometry),false,12.5,4,12.5,'source',false)""",
+        (PNU, PK),
+    )
+    db.execute(
+        """insert into public.building_floors
+        (id,source_register_pk,register_pk,register_link_status,pnu,floor_kind,floor_no,
+         use_code,use_name,area,main_attached_code,source_version)
+        select 'pr7-'||n,%s,%s,'matched',%s,'20',2,'03','근린생활시설',50,'0','fixture'
+        from generate_series(1,2) n""",
+        (PK, PK, PNU),
+    )
+    db.execute(f"""insert into public.legal_dongs(code8,name,geom,source,source_version)
+        values('11680999','fixture',{AREA},'pr7','fixture')""")
+    db.execute("""insert into public.commercial_trade_stats
+        (legal_dong_code,trade_kind,aggregation_level,floor,period_start,period_end,
+         median_price_per_m2,sample_count,unknown_floor_count,area_basis,source,source_version)
+        values('11680999','general','floor',2,'2024-09-01','2026-08-31',1000,5,0,
+         'building_area','pr7','fixture'),
+        ('11680999','collective','floor',2,'2024-09-01','2026-08-31',2000,10,0,
+         'building_area','pr7','fixture')""")
+    return db
+
+
+def test_complete_contract_single_row_and_independent_counts(data):
+    r = query(data)
+    assert set(r) == BUNDLES | {"meta"}
+    assert r["market"]["stores_total"] == r["compete"]["academies_total"] == 2
+    assert r["demand"]["schools"] == dict(elem=3, mid=0, high=0)
+    assert r["demand"]["pop_10_14"] == pytest.approx(r["demand"]["pop_5_9"] * 2)
+    assert r["flow"]["weekday"]["hourly"] == pytest.approx(list(range(10, 34)))
+    assert r["flow"]["weekend"]["golden_avg_pop"] == pytest.approx(128)
+    assert r["transit"]["subway_boardings_golden"] == 210
+    assert r["building"]["elevators"] == dict(passenger=1, emergency=0)
+    assert len(r["building"]["floor_use"]) == 2
+    assert r["rent"]["trade_sample_count"] == 10
+    assert r["rent"]["trade_median_per_m2"] == 2000
+    assert r["meta"]["flow_coverage"]["weekday"]["valid_cells"] == [1] * 24
+    assert set(r["meta"]["bundle_ms"]) == BUNDLES
+    assert all(ms >= 0 for ms in r["meta"]["bundle_ms"].values())
+    assert r["meta"]["total_ms"] >= sum(r["meta"]["bundle_ms"].values())
+    expected_nulls = data.execute(
+        "select path from score_internal.null_paths(%s::jsonb)",
+        (psycopg.types.json.Jsonb({k: v for k, v in r.items() if k != "meta"}),),
+    ).fetchall()
+    assert {x["path"] for x in r["meta"]["missing_fields"]} == {x[0] for x in expected_nulls}
+
+
+@pytest.mark.parametrize("missing", sorted(BUNDLES))
+def test_one_missing_bundle_does_not_remove_or_change_other_bundles(data, missing):
+    before = query(data)
+    statements = {
+        "demand": [
+            "update public.population_age set population=null where adm_cd='pr7'",
+            "delete from ingest_private.place_snapshots where target_table='schools'",
+        ],
+        "flow": ["update public.living_pop set total=null where cell_id='pr7'"],
+        "transit": ["delete from ingest_private.transit_coverage"],
+        "market": ["delete from ingest_private.place_snapshots where target_table='stores'"],
+        "compete": ["delete from ingest_private.place_snapshots where target_table='academies'"],
+        "building": ["delete from public.buildings where id='pr7'"],
+        "rent": ["delete from public.commercial_trade_stats where legal_dong_code='11680999'"],
+    }
+    for statement in statements[missing]:
+        data.execute(statement)
+    after = query(data)
+    assert after[missing] != before[missing]
+    for bundle in BUNDLES - {missing}:
+        assert after[bundle] == before[bundle]
+    assert any(x["path"].startswith(missing + ".") for x in after["meta"]["missing_fields"])
+
+
+def test_no_cross_source_multiplication(data):
+    before = query(data)
+    data.execute(f"""insert into public.stores
+      select 'pr7-extra-'||n,'P1','P105','P10501',null,{POINT} from generate_series(1,5) n""")
+    after = query(data)
+    assert after["market"]["stores_total"] == 7
+    for name in BUNDLES - {"market"}:
+        assert before[name] == after[name]
+
+
+def test_partial_hour_is_null_not_shorter_golden_average(data):
+    data.execute("update public.living_pop set total=null where cell_id='pr7' and hour=17")
+    r = query(data)
+    assert r["flow"]["weekday"]["golden_avg_pop"] is None
+    assert r["flow"]["weekday"]["hourly"][16] == pytest.approx(26)
+    assert r["flow"]["weekday"]["hourly"][17] is None
+    assert r["meta"]["flow_coverage"]["weekday"]["valid_cells"][17] == 0
+
+
+def test_floor_exact_match_unknown_ratio_and_ambiguous_building(data):
+    assert query(data, floor=-2)["building"]["floor_use"] is None
+    data.execute("""update public.buildings set source_height_m=null,height_m=null,
+        floors_above=null,height_source='unknown' where id='pr7'""")
+    r = query(data)
+    assert r["building"]["height_m"] is None  # no display-only 4m substitution
+    assert r["meta"]["height_quality"]["unknown_ratio"] == 1
+    data.execute("""insert into public.buildings
+      (id,source_id,pnu,source,source_version,register_link_status,geom,geometry_repaired,
+       height_source,height_estimated)
+      select 'pr7-overlap','pr7-overlap',pnu,'vworld_wfs_supplement','fixture',
+       'supplemental_unlinked',geom,false,'unknown',false
+      from public.buildings where id='pr7'""")
+    r = query(data)
+    assert r["building"]["id"] is None
+    assert any(x["reason"] == "ambiguous_containing_building" for x in r["meta"]["missing_fields"])
+
+
+def test_zero_is_different_from_unloaded(data):
+    data.execute("delete from public.stores where store_id like 'pr7-%'")
+    assert query(data)["market"]["stores_total"] == 0
+    data.execute("delete from ingest_private.place_snapshots where target_table='stores'")
+    assert query(data)["market"]["stores_total"] is None
+
+
+@pytest.mark.parametrize("role", ["anon", "authenticated"])
+def test_public_read_preserves_rls_and_hides_private_metadata(data, role):
+    before = stable_result(query(data))
+    data.execute(f"set local role {role}")
+    assert stable_result(query(data)) == before
+    for sql in [
+        "select * from ingest_private.place_snapshots",
+        "select * from ingest_private.rent_snapshots",
+        "update public.stores set floor='2'",
+        "delete from public.population_age",
+    ]:
+        with pytest.raises(psycopg.errors.InsufficientPrivilege), data.transaction():
+            data.execute(sql)
+    sources = query(data)["meta"]["sources"]
+    assert all(not ({"report", "raw_key", "raw_objects"} & set(v)) for v in sources.values())
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        dict(lat=None),
+        dict(lng=37.7),
+        dict(radius_m=0),
+        dict(floor=None),
+        dict(floor=0),
+        dict(lat=float("nan")),
+    ],
+)
+def test_invalid_inputs_rejected(db, changes):
+    with pytest.raises(psycopg.errors.InvalidParameterValue), db.transaction():
+        query(db, **changes)
+
+
+def test_legacy_rent_rpc_result_preserved(data):
+    args = (127.4, 37.7, 500, 2, None)
+    old = data.execute("select public.rent_inputs(%s,%s,%s,%s,%s)", args).fetchone()[0]
+    internal = data.execute("select score_internal.rent_inputs(%s,%s,%s,%s,%s)", args).fetchone()[0]
+    assert old == internal
+    assert old["trade_median_per_m2"] == query(data)["rent"]["trade_median_per_m2"]
