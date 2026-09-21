@@ -2,63 +2,64 @@
   "flow": {
     "weekday": {
       "hourly": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        26886.4686522679,
+        26928.6216634253,
+        26989.4956475511,
+        27013.6087243408,
+        27034.6537318699,
+        27113.8722588412,
+        27154.8311012565,
+        26719.6122522735,
+        25484.7940565596,
+        24849.3571531556,
+        24782.9648177208,
+        24875.3300662533,
+        24956.3079281717,
+        25469.3377299467,
+        26302.260934849,
+        27790.2227846632,
+        29084.3102082564,
+        29901.0814846698,
+        30233.8976142119,
+        29903.6984171999,
+        29313.2001122058,
+        29332.4093795475,
+        28494.2091408878,
+        27302.7107481557
       ],
-      "golden_avg_pop": null
+      "golden_avg_pop": 29365.5457143935
     },
     "weekend": {
       "hourly": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
+        27140.8622217263,
+        27237.6434178867,
+        27349.3796491227,
+        27415.6672261727,
+        27453.5223140634,
+        27490.6489775135,
+        27445.1099930131,
+        27513.396959249,
+        28139.595043442,
+        28850.9371921799,
+        29423.1426516912,
+        29380.4044021857,
+        29220.9074404077,
+        29513.5204480953,
+        29550.1038498194,
+        29518.5482282421,
+        29363.8656624376,
+        29031.1673116401,
+        27887.782180248,
+        27207.6216303693,
+        27288.2486304791,
+        27722.4015450219,
+        27755.6851473775,
+        27130.4376796808
       ],
-      "golden_avg_pop": null
+      "golden_avg_pop": 28288.519312634
     },
-    "estimated": true
+    "estimated": true,
+    "low_coverage": false
   },
   "meta": {
     "floor": 2,
@@ -232,6 +233,22 @@
         "source_version": "2026-07-01",
         "unlocated_count": null
       },
+      "building_address": {
+        "source": "building_hub_address",
+        "quarter": null,
+        "coverage": "exact supplied Gangnam road address",
+        "available": false,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": null,
+        "limitations": [
+          "address_not_requested"
+        ],
+        "period_start": null,
+        "reference_date": null,
+        "source_version": null,
+        "unlocated_count": null
+      },
       "legal_boundaries": {
         "source": "vworld_lt_c_ademd_info",
         "quarter": null,
@@ -327,18 +344,18 @@
       }
     },
     "radius_m": 500,
-    "total_ms": 18.626,
+    "total_ms": 17.985,
     "bundle_ms": {
-      "flow": 3.919,
-      "rent": 0.273,
-      "demand": 0.443,
-      "market": 2.836,
-      "compete": 0.87,
-      "transit": 0.275,
-      "building": 5.39
+      "flow": 3.481,
+      "rent": 0.248,
+      "demand": 0.39,
+      "market": 2.109,
+      "compete": 0.989,
+      "transit": 0.183,
+      "building": 6.053
     },
-    "sources_ms": 3.91,
-    "computed_at": "2026-09-21T06:12:23.852352+00:00",
+    "sources_ms": 3.337,
+    "computed_at": "2026-09-21T07:09:17.166782+00:00",
     "flow_coverage": {
       "weekday": {
         "valid_cells": [
@@ -366,6 +383,32 @@
           18,
           18,
           18
+        ],
+        "coverage_ratio": [
+          0.8571428571428571,
+          0.8571428571428571,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.9047619047619048,
+          0.9523809523809523,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8095238095238095,
+          0.8095238095238095,
+          0.8095238095238095,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571
         ],
         "expected_cells": 21
       },
@@ -396,14 +439,46 @@
           19,
           19
         ],
+        "coverage_ratio": [
+          0.8571428571428571,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.9047619047619048,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.9047619047619048,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.8571428571428571,
+          0.9047619047619048,
+          0.9047619047619048
+        ],
         "expected_cells": 21
       }
     },
     "height_quality": {
       "radius_m": 500,
-      "unknown_ratio": 0.42,
-      "total_buildings": 300,
-      "unknown_buildings": 126
+      "unknown_ratio": 0.13917525773195877,
+      "total_buildings": 194,
+      "unknown_buildings": 27,
+      "excluded_buildings": 106,
+      "observed_buildings": 300,
+      "excluded_use_buildings": 0,
+      "excluded_small_buildings": 106,
+      "excluded_unknown_buildings": 99,
+      "observed_unknown_buildings": 126
     },
     "missing_fields": [
       {
@@ -427,208 +502,20 @@
         "reason": "source_or_requested_floor_missing"
       },
       {
-        "path": "building.register_pk",
+        "path": "building.main_use.code",
         "reason": "source_or_requested_floor_missing"
       },
       {
-        "path": "flow.weekday.golden_avg_pop",
-        "reason": "missing_cell_or_hour"
+        "path": "building.main_use.name",
+        "reason": "source_or_requested_floor_missing"
       },
       {
-        "path": "flow.weekday.hourly[0]",
-        "reason": "missing_cell_or_hour"
+        "path": "building.main_use.other_use",
+        "reason": "source_or_requested_floor_missing"
       },
       {
-        "path": "flow.weekday.hourly[1]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[10]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[11]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[12]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[13]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[14]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[15]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[16]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[17]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[18]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[19]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[2]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[20]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[21]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[22]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[23]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[3]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[4]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[5]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[6]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[7]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[8]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekday.hourly[9]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.golden_avg_pop",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[0]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[1]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[10]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[11]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[12]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[13]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[14]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[15]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[16]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[17]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[18]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[19]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[2]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[20]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[21]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[22]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[23]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[3]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[4]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[5]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[6]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[7]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[8]",
-        "reason": "missing_cell_or_hour"
-      },
-      {
-        "path": "flow.weekend.hourly[9]",
-        "reason": "missing_cell_or_hour"
+        "path": "building.register_pk",
+        "reason": "source_or_requested_floor_missing"
       },
       {
         "path": "rent.rent_level",
@@ -647,7 +534,15 @@
         "reason": "no_verified_district_or_region_data"
       }
     ],
-    "schema_version": "1.0",
+    "schema_version": "1.1",
+    "building_lookup": {
+      "pnu": null,
+      "status": "not_requested",
+      "address": null,
+      "expires_at": null,
+      "fetched_at": null,
+      "address_distance_m": null
+    },
     "legal_dong_code": "11680106",
     "estimated_fields": [
       {
@@ -660,6 +555,206 @@
       },
       {
         "path": "demand.pop_5_9",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.golden_avg_pop",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[0]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[1]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[10]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[11]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[12]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[13]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[14]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[15]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[16]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[17]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[18]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[19]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[2]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[20]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[21]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[22]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[23]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[3]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[4]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[5]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[6]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[7]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[8]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekday.hourly[9]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.golden_avg_pop",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[0]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[1]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[10]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[11]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[12]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[13]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[14]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[15]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[16]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[17]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[18]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[19]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[2]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[20]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[21]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[22]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[23]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[3]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[4]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[5]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[6]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[7]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[8]",
+        "method": "area_proportion_epsg5186"
+      },
+      {
+        "path": "flow.weekend.hourly[9]",
         "method": "area_proportion_epsg5186"
       }
     ],
@@ -735,8 +830,14 @@
   },
   "building": {
     "id": "wfs:lt_c_bldginfo.15531428",
+    "pnu": "1168010600103170003",
     "source": "vworld_wfs_supplement",
     "height_m": null,
+    "main_use": {
+      "code": null,
+      "name": null,
+      "other_use": null
+    },
     "elevators": {
       "emergency": null,
       "passenger": null
@@ -745,7 +846,9 @@
     "floor_use": null,
     "register_pk": null,
     "floors_above": null,
+    "floors_below": 2,
     "height_source": "unknown",
+    "location_basis": "footprint",
     "height_estimated": false
   }
 }

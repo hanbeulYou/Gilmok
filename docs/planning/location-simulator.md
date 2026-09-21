@@ -1,7 +1,7 @@
 # 길목(GILMOK) 기획서 — 입지 시뮬레이터
 
 > 작성일: 2026-09-16
-> 상태: S1 PR 1~6 main 머지 완료(GitHub #6~#9). PR 7 `s1/score-inputs`에서 7개 묶음 score_inputs 통합·실제 6조합 완료 검증 통과, main 반영 전 (v1.13, 2026-09-21). 임대동향 공간 연결은 미검증으로 비활성 유지. S1 완료 근거는 [PR 7 검증](../validation/pr7-score-inputs-20260921.md), S2 입력 계약은 data-sources.md 3절을 따른다.
+> 상태: S1 PR 1~6 main 머지 완료(GitHub #6~#9). PR 7 `s1/score-inputs`에서 7개 묶음 score_inputs 통합·실제 6조합 완료 검증 통과, main 반영 전 (v1.14, 2026-09-21, 재검토 후 머지 보류). 임대동향 공간 연결은 미검증으로 비활성 유지. S1 완료 근거는 [PR 7 v1.1 검증](../validation/pr7-score-inputs-v11-20260921.md), S2 입력 계약은 data-sources.md 3절을 따른다.
 > Concept: 서비스업 창업자가 후보 점포 여러 곳을 3D 지도 위에서 데이터 기반 점수와 함께 나란히 비교하고, 조건을 바꿔가며 "목"을 시뮬레이션하는 웹 서비스. 첫 업종은 학원.
 
 ---
@@ -154,7 +154,7 @@ flowchart TB
 
 #### S1 조회·검증 계약
 
-- `score_inputs(lat, lng, radius_m, floor)`는 `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`를 반환한다. 필드 정의는 `data-sources.md` 3절을 따른다.
+- `score_inputs(lat, lng, radius_m, floor, address DEFAULT NULL)`는 `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`를 반환한다. 필드 정의는 `data-sources.md` 3절을 따른다.
 - 모든 개수 지표는 요청 `radius_m` 기준이다. 학원은 `academies_total`과 `academies_by_field`(원천 분야명별 개수 map)를 반환하며, 고정 500m·동일 과목 개수는 사용하지 않는다. 버스정류장도 고정 300m 대신 요청 반경을 따른다.
 - 최근접 지하철역만 요청 반경 밖에서도 찾되 최대 2,000m까지 조회하며, 없으면 `nearest_subway_m=null`이다.
 - 생활인구는 250m 격자와 반경 원의 면적 비례로 배분하고 `estimated=true`를 반환한다. 골든타임은 [15:00, 22:00), `weekday`와 `weekend`를 분리하며 S1에서 종합값을 만들지 않는다.
@@ -237,3 +237,5 @@ Next.js + Supabase/PostGIS + MapLibre/deck.gl, Vercel 배포. 2주 스프린트 
 | 2026-09-20 | v1.11 | 사용자 승인 SHP 주 소스·WFS 보조, 양 출처 차폐 포함·대장 집계 분리, 확정 높이/unknown 계약 구현. 강남구 건물 30,112개 실측 | [PR 5 검증](../validation/pr5-buildings-20260920.md) |
 | 2026-09-20 | v1.12 | PR 6 실제 실거래·법정동·임대동향 적재와 검증. 사용자 승인으로 상권→공식 권역→NULL 및 다수 표본 유형·최소 5건 적용. 임대 공간 연결은 미검증으로 비활성 | [PR 6 검증](../validation/pr6-rent-20260920.md) |
 | 2026-09-21 | v1.13 | PR 7 통합 RPC·묶음별 시간·결측 격리, 전체 JSON 스키마와 실제 응답 확정. 6조합 DB p95 12.631~74.117ms로 S1 완료 검증 통과, main 반영 전 | S1 완료·S2 입력 계약 |
+
+| 2026-09-21 | v1.14 | PR 7 재검토 승인: 입력 계약 v1.1, flow 관측 격자 합계·80% 커버리지, 주소 대장 온디맨드 30일 캐시, unknown 소형/부속 제외. 단일 연령 주민등록 15~18 합계 확인. DB p95 15.622~88.994ms, PR 머지 보류 | 데이터 계약·검증 |

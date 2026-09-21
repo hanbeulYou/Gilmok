@@ -1,0 +1,1880 @@
+{
+  "address": {
+    "exact_address": {
+      "lat": 37.5025724504279,
+      "lng": 127.057585738094,
+      "radius_m": 500,
+      "floor": 2,
+      "result": {
+        "flow": {
+          "weekday": {
+            "hourly": [
+              21530.1736719349,
+              21335.97821285,
+              23337.5178731491,
+              23271.3142265554,
+              22803.2362984424,
+              22950.9461275208,
+              23691.808629754,
+              25015.5153533139,
+              31724.5297610232,
+              39930.3376995041,
+              43640.6304430176,
+              44089.257985173,
+              45126.881878577,
+              46739.3168939077,
+              44579.2665010094,
+              48969.7627865338,
+              49726.6977407607,
+              46506.0118894484,
+              44341.0272532975,
+              42894.1570463442,
+              38584.6979103605,
+              35395.5348201292,
+              30061.4567323869,
+              25124.2932534679
+            ],
+            "golden_avg_pop": 43773.9842066963
+          },
+          "weekend": {
+            "hourly": [
+              23301.0700689155,
+              23503.2646746376,
+              23306.5196210231,
+              23231.5127468958,
+              23183.5159905591,
+              23163.8169565934,
+              23355.7961271207,
+              24124.0371986907,
+              26977.9106985025,
+              29159.707659801,
+              30444.0536950727,
+              35845.9282659136,
+              38078.0165228979,
+              40758.2267692015,
+              41684.5959944274,
+              36932.3928068317,
+              40550.1828382312,
+              40813.0752670712,
+              37702.5939513541,
+              35425.3526938431,
+              33783.2181393883,
+              32133.4139592379,
+              30567.5530180344,
+              24405.6627234493
+            ],
+            "golden_avg_pop": 36762.8899508511
+          },
+          "estimated": true,
+          "low_coverage": true
+        },
+        "meta": {
+          "floor": 2,
+          "sources": {
+            "stores": {
+              "source": "semas_stores",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-06",
+              "source_version": "2026-06",
+              "unlocated_count": 0
+            },
+            "schools": {
+              "source": "neis_schools",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [
+                "unlocated_records_not_in_spatial_counts"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": 7
+            },
+            "academies": {
+              "source": "seoul_neis_academies",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [
+                "unlocated_records_not_in_spatial_counts"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": 86
+            },
+            "rent_survey": {
+              "source": "R-ONE",
+              "quarter": "2026-Q2",
+              "coverage": "Gangnam-linked survey areas",
+              "available": true,
+              "date_kind": "quarter",
+              "period_end": null,
+              "ingested_at": "2026-09-20T12:11:36.518016+00:00",
+              "limitations": [
+                "no_verified_spatial_mapping"
+              ],
+              "period_start": null,
+              "reference_date": null,
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "building_shp": {
+              "source": "gis_buildings_shp",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "source_version",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-06",
+              "source_version": "2026-09-06",
+              "unlocated_count": null
+            },
+            "building_wfs": {
+              "source": "vworld_wfs_supplement",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [
+                "register_unlinked"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "bus_positions": {
+              "source": "seoul_transit",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "historical_positions_unverified"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": null
+            },
+            "transit_counts": {
+              "source": "seoul_subway_boardings",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "daily_mean_without_weekday_split",
+                "unmatched_units_not_imputed"
+              ],
+              "period_start": "2026-06-01",
+              "reference_date": null,
+              "source_version": "2026-06-01/2026-08-31",
+              "unlocated_count": null
+            },
+            "building_floors": {
+              "source": "building_hub_floor",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "population_grid": {
+              "source": "seoul_living_population_250m",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "unknown",
+              "period_end": null,
+              "ingested_at": "2026-09-19T10:12:14.655762+00:00",
+              "limitations": [
+                "boundary_reference_date_not_verified"
+              ],
+              "period_start": null,
+              "reference_date": null,
+              "source_version": "2026-09-19;raw:2026-06/2026-08",
+              "unlocated_count": null
+            },
+            "admin_boundaries": {
+              "source": "sgis_admdongkor",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "boundary_version",
+              "period_end": null,
+              "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-07-01",
+              "source_version": "2026-07-01",
+              "unlocated_count": null
+            },
+            "building_address": {
+              "source": "building_hub_address",
+              "quarter": null,
+              "coverage": "exact supplied Gangnam road address",
+              "available": false,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": null,
+              "limitations": [
+                "address_not_needed"
+              ],
+              "period_start": null,
+              "reference_date": null,
+              "source_version": null,
+              "unlocated_count": null
+            },
+            "legal_boundaries": {
+              "source": "vworld_lt_c_ademd_info",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "subway_positions": {
+              "source": "seoul_transit",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "historical_positions_unverified",
+                "신분당선: 승하차 미제공; 대체 추정 없음"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": null
+            },
+            "commercial_trades": {
+              "source": "molit_commercial_trades",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "contract_period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+              "limitations": [
+                "legal_dong_not_radius",
+                "late_reports_and_cancellations_possible"
+              ],
+              "period_start": "2024-09-01",
+              "reference_date": null,
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "living_population": {
+              "source": "seoul_living_population_250m",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-19T11:24:30.244264+00:00",
+              "limitations": [
+                "valid_days_mean",
+                "age_0_4_and_5_9_not_separable"
+              ],
+              "period_start": "2026-06-01",
+              "reference_date": null,
+              "source_version": "2026-06/2026-08",
+              "unlocated_count": null
+            },
+            "building_registers": {
+              "source": "building_hub_title",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "resident_population": {
+              "source": "mois_resident_population",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "reference_month",
+              "period_end": null,
+              "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-08-01",
+              "source_version": "2026-08",
+              "unlocated_count": null
+            }
+          },
+          "radius_m": 500,
+          "total_ms": 73.817,
+          "bundle_ms": {
+            "flow": 4.79,
+            "rent": 1.363,
+            "demand": 2.8,
+            "market": 9.944,
+            "compete": 1.713,
+            "transit": 0.787,
+            "building": 21.857
+          },
+          "sources_ms": 6.84,
+          "computed_at": "2026-09-21T07:11:09.779348+00:00",
+          "flow_coverage": {
+            "weekday": {
+              "valid_cells": [
+                18,
+                18,
+                20,
+                20,
+                19,
+                19,
+                19,
+                18,
+                18,
+                19,
+                19,
+                18,
+                18,
+                18,
+                17,
+                18,
+                18,
+                17,
+                17,
+                18,
+                18,
+                18,
+                18,
+                18
+              ],
+              "coverage_ratio": [
+                0.8181818181818182,
+                0.8181818181818182,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.8636363636363636,
+                0.8636363636363636,
+                0.8636363636363636,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8636363636363636,
+                0.8636363636363636,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.7727272727272727,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.7727272727272727,
+                0.7727272727272727,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182
+              ],
+              "expected_cells": 22
+            },
+            "weekend": {
+              "valid_cells": [
+                19,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                18,
+                17,
+                18,
+                18,
+                18,
+                18,
+                17,
+                18,
+                19,
+                18,
+                18,
+                18,
+                18,
+                20,
+                19
+              ],
+              "coverage_ratio": [
+                0.8636363636363636,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.9090909090909091,
+                0.8181818181818182,
+                0.7727272727272727,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.7727272727272727,
+                0.8181818181818182,
+                0.8636363636363636,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.8181818181818182,
+                0.9090909090909091,
+                0.8636363636363636
+              ],
+              "expected_cells": 22
+            }
+          },
+          "height_quality": {
+            "radius_m": 500,
+            "unknown_ratio": 0.026366559485530548,
+            "total_buildings": 1555,
+            "unknown_buildings": 41,
+            "excluded_buildings": 40,
+            "observed_buildings": 1595,
+            "excluded_use_buildings": 1,
+            "excluded_small_buildings": 39,
+            "excluded_unknown_buildings": 34,
+            "observed_unknown_buildings": 75
+          },
+          "missing_fields": [
+            {
+              "path": "rent.rent_level",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_building_class",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_rent_per_m2",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_vacancy",
+              "reason": "no_verified_district_or_region_data"
+            }
+          ],
+          "schema_version": "1.1",
+          "building_lookup": {
+            "pnu": null,
+            "status": "not_needed",
+            "address": "서울특별시 강남구 역삼로 460",
+            "expires_at": null,
+            "fetched_at": null,
+            "address_distance_m": null
+          },
+          "legal_dong_code": "11680106",
+          "estimated_fields": [
+            {
+              "path": "building.height_m",
+              "method": "approved_floor_height"
+            },
+            {
+              "path": "demand.pop_10_14",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "demand.pop_15_18",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "demand.pop_5_9",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.golden_avg_pop",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[0]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[1]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[10]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[11]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[12]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[13]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[14]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[15]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[16]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[17]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[18]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[19]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[2]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[20]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[21]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[22]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[23]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[3]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[4]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[5]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[6]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[7]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[8]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[9]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.golden_avg_pop",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[0]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[1]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[10]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[11]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[12]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[13]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[14]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[15]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[16]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[17]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[18]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[19]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[2]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[20]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[21]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[22]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[23]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[3]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[4]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[5]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[6]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[7]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[8]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[9]",
+              "method": "area_proportion_epsg5186"
+            }
+          ],
+          "rent_spatial_scope": "legal_dong_and_survey_area"
+        },
+        "rent": {
+          "estimated": false,
+          "rent_level": null,
+          "survey_vacancy": null,
+          "survey_rent_per_m2": null,
+          "trade_sample_count": 11,
+          "trade_building_type": "collective",
+          "trade_median_per_m2": 23715087.702951,
+          "survey_building_class": null,
+          "trade_by_building_type": [
+            {
+              "area_basis": "building_area",
+              "period_end": "2026-08-31",
+              "period_start": "2024-09-01",
+              "sample_count": 11,
+              "building_type": "collective",
+              "median_per_m2": 23715087.702951
+            }
+          ],
+          "survey_by_building_class": {}
+        },
+        "demand": {
+          "pop_5_9": 434.45840580177,
+          "schools": {
+            "mid": 1,
+            "elem": 1,
+            "high": 1
+          },
+          "estimated": true,
+          "pop_10_14": 1050.73986359861,
+          "pop_15_18": 1107.21502577482
+        },
+        "market": {
+          "estimated": false,
+          "stores_total": 3799,
+          "stores_by_lcls": {
+            "G2": 344,
+            "I1": 64,
+            "I2": 598,
+            "L1": 154,
+            "M1": 1270,
+            "N1": 212,
+            "P1": 801,
+            "Q1": 29,
+            "R1": 131,
+            "S2": 196
+          }
+        },
+        "compete": {
+          "estimated": false,
+          "academies_total": 626,
+          "academies_by_field": {
+            "국제화": 15,
+            "독서실": 24,
+            "기예(대)": 8,
+            "기타(대)": 9,
+            "예능(대)": 27,
+            "종합(대)": 32,
+            "직업기술": 4,
+            "입시.검정 및 보습": 507
+          }
+        },
+        "transit": {
+          "bus_stops": 13,
+          "estimated": false,
+          "nearest_subway_m": 816.55370856,
+          "subway_boardings_golden": 0,
+          "subway_units_missing_golden": 0
+        },
+        "building": {
+          "id": "shp:1980205023774444864800000000",
+          "pnu": "1168010600109120013",
+          "source": "gis_buildings_shp",
+          "height_m": 13.2,
+          "main_use": {
+            "code": "04000",
+            "name": "제2종근린생활시설",
+            "other_use": "근린생활시설"
+          },
+          "elevators": {
+            "emergency": 0,
+            "passenger": 0
+          },
+          "estimated": true,
+          "floor_use": [
+            {
+              "area_m2": 173.68,
+              "use_code": "04010",
+              "use_name": "학원",
+              "other_use": "제2종근린생활시설(학원)",
+              "main_attached_code": "0"
+            }
+          ],
+          "register_pk": "1024123872",
+          "floors_above": 4,
+          "floors_below": 1,
+          "height_source": "floors_estimate",
+          "location_basis": "footprint",
+          "height_estimated": true
+        }
+      }
+    },
+    "outside_footprint_10m_south": {
+      "lat": 37.5024823498996,
+      "lng": 127.057585668895,
+      "radius_m": 500,
+      "floor": 2,
+      "result": {
+        "flow": {
+          "weekday": {
+            "hourly": [
+              21566.416776994,
+              21374.375019205,
+              23428.6653581019,
+              23364.1330909329,
+              22846.7946785075,
+              22985.2299992412,
+              23693.6996010903,
+              24888.6292287349,
+              31355.7427461997,
+              39391.8238357028,
+              42996.6749802312,
+              43339.2778177483,
+              44412.8435629309,
+              45977.5261499058,
+              43811.2369931657,
+              48241.7730604724,
+              49070.6063119012,
+              45979.005820918,
+              44029.3825677733,
+              42805.5360920614,
+              38613.0607698802,
+              35463.4756828326,
+              30119.727304492,
+              25165.1011067226
+            ],
+            "golden_avg_pop": 43457.5486151199
+          },
+          "weekend": {
+            "hourly": [
+              23350.1536381273,
+              23603.6805698456,
+              23409.2637810289,
+              23336.1556852237,
+              23290.2685468512,
+              23272.130800593,
+              23461.1165847167,
+              24219.2530516478,
+              27097.1609173105,
+              29252.1413383862,
+              30573.9215308888,
+              35971.3341169053,
+              38214.2904868741,
+              40931.9890949842,
+              41856.1165666037,
+              37096.0382955599,
+              40719.6336818338,
+              41154.1229818051,
+              37897.2984795289,
+              35612.2728405001,
+              33958.1172132633,
+              32292.1055898275,
+              30769.9922558923,
+              24549.7634490244
+            ],
+            "golden_avg_pop": 36961.3698689026
+          },
+          "estimated": true,
+          "low_coverage": true
+        },
+        "meta": {
+          "floor": 2,
+          "sources": {
+            "stores": {
+              "source": "semas_stores",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-06",
+              "source_version": "2026-06",
+              "unlocated_count": 0
+            },
+            "schools": {
+              "source": "neis_schools",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [
+                "unlocated_records_not_in_spatial_counts"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": 7
+            },
+            "academies": {
+              "source": "seoul_neis_academies",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "snapshot",
+              "period_end": null,
+              "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+              "limitations": [
+                "unlocated_records_not_in_spatial_counts"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": 86
+            },
+            "rent_survey": {
+              "source": "R-ONE",
+              "quarter": "2026-Q2",
+              "coverage": "Gangnam-linked survey areas",
+              "available": true,
+              "date_kind": "quarter",
+              "period_end": null,
+              "ingested_at": "2026-09-20T12:11:36.518016+00:00",
+              "limitations": [
+                "no_verified_spatial_mapping"
+              ],
+              "period_start": null,
+              "reference_date": null,
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "building_shp": {
+              "source": "gis_buildings_shp",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "source_version",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-06",
+              "source_version": "2026-09-06",
+              "unlocated_count": null
+            },
+            "building_wfs": {
+              "source": "vworld_wfs_supplement",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [
+                "register_unlinked"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "bus_positions": {
+              "source": "seoul_transit",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "historical_positions_unverified"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": null
+            },
+            "transit_counts": {
+              "source": "seoul_subway_boardings",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "daily_mean_without_weekday_split",
+                "unmatched_units_not_imputed"
+              ],
+              "period_start": "2026-06-01",
+              "reference_date": null,
+              "source_version": "2026-06-01/2026-08-31",
+              "unlocated_count": null
+            },
+            "building_floors": {
+              "source": "building_hub_floor",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "population_grid": {
+              "source": "seoul_living_population_250m",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "unknown",
+              "period_end": null,
+              "ingested_at": "2026-09-19T10:12:14.655762+00:00",
+              "limitations": [
+                "boundary_reference_date_not_verified"
+              ],
+              "period_start": null,
+              "reference_date": null,
+              "source_version": "2026-09-19;raw:2026-06/2026-08",
+              "unlocated_count": null
+            },
+            "admin_boundaries": {
+              "source": "sgis_admdongkor",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "boundary_version",
+              "period_end": null,
+              "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-07-01",
+              "source_version": "2026-07-01",
+              "unlocated_count": null
+            },
+            "building_address": {
+              "source": "building_hub_address",
+              "quarter": null,
+              "coverage": "exact supplied Gangnam road address",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-21T06:59:38.385113+00:00",
+              "limitations": [
+                "address_based_not_coordinate_inference"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-21",
+              "source_version": "2026-09-21T06:59:38.385113+00:00",
+              "unlocated_count": null
+            },
+            "legal_boundaries": {
+              "source": "vworld_lt_c_ademd_info",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "subway_positions": {
+              "source": "seoul_transit",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+              "limitations": [
+                "historical_positions_unverified",
+                "신분당선: 승하차 미제공; 대체 추정 없음"
+              ],
+              "period_start": null,
+              "reference_date": "2026-09-19",
+              "source_version": "2026-09-19",
+              "unlocated_count": null
+            },
+            "commercial_trades": {
+              "source": "molit_commercial_trades",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "contract_period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+              "limitations": [
+                "legal_dong_not_radius",
+                "late_reports_and_cancellations_possible"
+              ],
+              "period_start": "2024-09-01",
+              "reference_date": null,
+              "source_version": "20260920T120200Z",
+              "unlocated_count": null
+            },
+            "living_population": {
+              "source": "seoul_living_population_250m",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "period",
+              "period_end": "2026-08-31",
+              "ingested_at": "2026-09-19T11:24:30.244264+00:00",
+              "limitations": [
+                "valid_days_mean",
+                "age_0_4_and_5_9_not_separable"
+              ],
+              "period_start": "2026-06-01",
+              "reference_date": null,
+              "source_version": "2026-06/2026-08",
+              "unlocated_count": null
+            },
+            "building_registers": {
+              "source": "building_hub_title",
+              "quarter": null,
+              "coverage": "Gangnam-gu",
+              "available": true,
+              "date_kind": "retrieved_on",
+              "period_end": null,
+              "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-09-20",
+              "source_version": "2026-09-20",
+              "unlocated_count": null
+            },
+            "resident_population": {
+              "source": "mois_resident_population",
+              "quarter": null,
+              "coverage": "Seoul",
+              "available": true,
+              "date_kind": "reference_month",
+              "period_end": null,
+              "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+              "limitations": [],
+              "period_start": null,
+              "reference_date": "2026-08-01",
+              "source_version": "2026-08",
+              "unlocated_count": null
+            }
+          },
+          "radius_m": 500,
+          "total_ms": 39.918,
+          "bundle_ms": {
+            "flow": 3.59,
+            "rent": 0.615,
+            "demand": 0.541,
+            "market": 7.951,
+            "compete": 1.335,
+            "transit": 0.214,
+            "building": 20.914
+          },
+          "sources_ms": 3.504,
+          "computed_at": "2026-09-21T07:11:09.854676+00:00",
+          "flow_coverage": {
+            "weekday": {
+              "valid_cells": [
+                17,
+                17,
+                19,
+                19,
+                18,
+                18,
+                18,
+                17,
+                17,
+                18,
+                18,
+                17,
+                17,
+                17,
+                16,
+                17,
+                17,
+                16,
+                16,
+                17,
+                17,
+                17,
+                17,
+                17
+              ],
+              "coverage_ratio": [
+                0.8095238095238095,
+                0.8095238095238095,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.8571428571428571,
+                0.8571428571428571,
+                0.8571428571428571,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8571428571428571,
+                0.8571428571428571,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.7619047619047619,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.7619047619047619,
+                0.7619047619047619,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095
+              ],
+              "expected_cells": 21
+            },
+            "weekend": {
+              "valid_cells": [
+                18,
+                19,
+                19,
+                19,
+                19,
+                19,
+                19,
+                19,
+                19,
+                17,
+                16,
+                17,
+                17,
+                17,
+                17,
+                16,
+                17,
+                18,
+                17,
+                17,
+                17,
+                17,
+                19,
+                18
+              ],
+              "coverage_ratio": [
+                0.8571428571428571,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.9047619047619048,
+                0.8095238095238095,
+                0.7619047619047619,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.7619047619047619,
+                0.8095238095238095,
+                0.8571428571428571,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.8095238095238095,
+                0.9047619047619048,
+                0.8571428571428571
+              ],
+              "expected_cells": 21
+            }
+          },
+          "height_quality": {
+            "radius_m": 500,
+            "unknown_ratio": 0.02619808306709265,
+            "total_buildings": 1565,
+            "unknown_buildings": 41,
+            "excluded_buildings": 40,
+            "observed_buildings": 1605,
+            "excluded_use_buildings": 1,
+            "excluded_small_buildings": 39,
+            "excluded_unknown_buildings": 34,
+            "observed_unknown_buildings": 75
+          },
+          "missing_fields": [
+            {
+              "path": "building.height_m",
+              "reason": "address_register_field_or_floor_missing"
+            },
+            {
+              "path": "building.id",
+              "reason": "address_register_field_or_floor_missing"
+            },
+            {
+              "path": "rent.rent_level",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_building_class",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_rent_per_m2",
+              "reason": "no_verified_district_or_region_data"
+            },
+            {
+              "path": "rent.survey_vacancy",
+              "reason": "no_verified_district_or_region_data"
+            }
+          ],
+          "schema_version": "1.1",
+          "building_lookup": {
+            "pnu": "1168010600109120013",
+            "status": "ready",
+            "address": "서울특별시 강남구 역삼로 460",
+            "expires_at": "2026-10-21T06:59:38.385113+00:00",
+            "fetched_at": "2026-09-21T06:59:38.385113+00:00",
+            "address_distance_m": 9.99999681
+          },
+          "legal_dong_code": "11680106",
+          "estimated_fields": [
+            {
+              "path": "demand.pop_10_14",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "demand.pop_15_18",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "demand.pop_5_9",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.golden_avg_pop",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[0]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[1]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[10]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[11]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[12]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[13]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[14]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[15]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[16]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[17]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[18]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[19]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[2]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[20]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[21]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[22]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[23]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[3]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[4]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[5]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[6]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[7]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[8]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekday.hourly[9]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.golden_avg_pop",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[0]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[1]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[10]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[11]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[12]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[13]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[14]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[15]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[16]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[17]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[18]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[19]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[2]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[20]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[21]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[22]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[23]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[3]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[4]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[5]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[6]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[7]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[8]",
+              "method": "area_proportion_epsg5186"
+            },
+            {
+              "path": "flow.weekend.hourly[9]",
+              "method": "area_proportion_epsg5186"
+            }
+          ],
+          "rent_spatial_scope": "legal_dong_and_survey_area"
+        },
+        "rent": {
+          "estimated": false,
+          "rent_level": null,
+          "survey_vacancy": null,
+          "survey_rent_per_m2": null,
+          "trade_sample_count": 11,
+          "trade_building_type": "collective",
+          "trade_median_per_m2": 23715087.702951,
+          "survey_building_class": null,
+          "trade_by_building_type": [
+            {
+              "area_basis": "building_area",
+              "period_end": "2026-08-31",
+              "period_start": "2024-09-01",
+              "sample_count": 11,
+              "building_type": "collective",
+              "median_per_m2": 23715087.702951
+            }
+          ],
+          "survey_by_building_class": {}
+        },
+        "demand": {
+          "pop_5_9": 434.929030793654,
+          "schools": {
+            "mid": 1,
+            "elem": 1,
+            "high": 1
+          },
+          "estimated": true,
+          "pop_10_14": 1053.84192084729,
+          "pop_15_18": 1111.44508859242
+        },
+        "market": {
+          "estimated": false,
+          "stores_total": 3827,
+          "stores_by_lcls": {
+            "G2": 348,
+            "I1": 64,
+            "I2": 598,
+            "L1": 158,
+            "M1": 1272,
+            "N1": 212,
+            "P1": 815,
+            "Q1": 30,
+            "R1": 132,
+            "S2": 198
+          }
+        },
+        "compete": {
+          "estimated": false,
+          "academies_total": 652,
+          "academies_by_field": {
+            "국제화": 16,
+            "독서실": 25,
+            "기예(대)": 8,
+            "기타(대)": 11,
+            "예능(대)": 27,
+            "종합(대)": 34,
+            "직업기술": 4,
+            "입시.검정 및 보습": 527
+          }
+        },
+        "transit": {
+          "bus_stops": 10,
+          "estimated": false,
+          "nearest_subway_m": 808.77635933,
+          "subway_boardings_golden": 0,
+          "subway_units_missing_golden": 0
+        },
+        "building": {
+          "id": null,
+          "pnu": "1168010600109120013",
+          "source": "building_hub_address",
+          "height_m": null,
+          "main_use": {
+            "code": "04000",
+            "name": "제2종근린생활시설",
+            "other_use": "근린생활시설"
+          },
+          "elevators": {
+            "emergency": 0,
+            "passenger": 0
+          },
+          "estimated": false,
+          "floor_use": [
+            {
+              "area_m2": 173.68,
+              "use_code": "04010",
+              "use_name": "학원",
+              "other_use": "제2종근린생활시설(학원)",
+              "main_attached_code": "0"
+            }
+          ],
+          "register_pk": "1024123872",
+          "floors_above": 4,
+          "floors_below": 1,
+          "height_source": "unknown",
+          "location_basis": "address",
+          "height_estimated": false
+        }
+      }
+    }
+  },
+  "unknown_area_histogram_m2": [
+    {
+      "min_inclusive": 0,
+      "max_exclusive": 5,
+      "count": 17
+    },
+    {
+      "min_inclusive": 5,
+      "max_exclusive": 10,
+      "count": 18
+    },
+    {
+      "min_inclusive": 10,
+      "max_exclusive": 20,
+      "count": 56
+    },
+    {
+      "min_inclusive": 20,
+      "max_exclusive": 30,
+      "count": 8
+    },
+    {
+      "min_inclusive": 30,
+      "max_exclusive": 50,
+      "count": 14
+    },
+    {
+      "min_inclusive": 50,
+      "max_exclusive": 100,
+      "count": 5
+    },
+    {
+      "min_inclusive": 100,
+      "max_exclusive": 500,
+      "count": 5
+    },
+    {
+      "min_inclusive": 500,
+      "max_exclusive": null,
+      "count": 3
+    }
+  ],
+  "unknown_area_sorted_m2": [
+    2.29822425943347,
+    2.50525041283791,
+    2.57132533102273,
+    2.74507251822754,
+    3.09559833847224,
+    3.14759550572985,
+    3.20369409746726,
+    3.48950595531368,
+    3.59087930068562,
+    3.81211023654776,
+    3.93891667409146,
+    4.15351470161945,
+    4.26618485863883,
+    4.33614474171812,
+    4.92522465804997,
+    4.93992597803777,
+    4.96441956203079,
+    5.31933179184313,
+    5.47711823983522,
+    5.9083807550307,
+    5.92484146876261,
+    6.30440185313322,
+    6.53109316101239,
+    6.54499544618579,
+    6.5989925855669,
+    7.20159828593965,
+    7.50472538840132,
+    7.50542505017343,
+    7.50685089670004,
+    7.63987219684212,
+    7.67479365223427,
+    7.83824801296998,
+    8.798435389947,
+    9.0061900733196,
+    9.89303877026059,
+    10.3422483922882,
+    10.4321160088312,
+    10.5427552376537,
+    10.8005280640157,
+    10.9517856280693,
+    11.0371490891936,
+    11.083738493348,
+    11.1006601788376,
+    11.2618956327934,
+    11.3419543188924,
+    11.3773097176965,
+    11.3854875859377,
+    11.4013993370859,
+    11.6968885487944,
+    11.7639188512022,
+    12.0507658360947,
+    12.1744118289434,
+    12.2881444177609,
+    12.3579208468411,
+    12.4324105407399,
+    12.7547114165566,
+    12.7586528378697,
+    12.8187983669097,
+    12.9718347884976,
+    13.0969538894095,
+    13.1601698748521,
+    13.2962436215086,
+    13.3410962028483,
+    13.5702801992743,
+    13.5780320855569,
+    13.7402894643852,
+    13.8514866803835,
+    14.2642589121424,
+    14.2655089318827,
+    14.6880591196933,
+    14.7032503763665,
+    14.8196309802903,
+    14.8360487369352,
+    14.9181723277127,
+    15.0406918802545,
+    15.3362123720591,
+    15.4549587462926,
+    15.4719254141688,
+    15.4808917820852,
+    15.5475606893526,
+    15.6688321899571,
+    15.8434248860349,
+    15.946493739112,
+    16.1002001814712,
+    16.1545373323957,
+    16.6373340522715,
+    16.7709198613768,
+    17.1252284797276,
+    18.0790545212588,
+    18.2947894688197,
+    18.672150437394,
+    20.7209943232802,
+    21.5995698044758,
+    22.488051735042,
+    24.8699115505712,
+    25.4046273768538,
+    26.0741244653897,
+    27.9124594403302,
+    29.5068106181038,
+    30.6772763209668,
+    30.7219222797954,
+    32.6270614999134,
+    34.1514403036141,
+    34.5729672702778,
+    37.0100061558684,
+    37.9674005595505,
+    38.0613870767742,
+    38.7516083838696,
+    39.4324661722171,
+    41.5680155691786,
+    45.7460753633704,
+    46.3131908517423,
+    49.4692259857373,
+    52.103632232679,
+    53.4800083517374,
+    53.8009682329048,
+    55.3062048280131,
+    56.4220316074105,
+    103.41403760405,
+    115.881302629597,
+    125.479267504665,
+    132.416900299596,
+    167.842560407305,
+    787.411462514105,
+    1867.79606432926,
+    2371.05671534617
+  ],
+  "height_quality": {
+    "radius_m": 500,
+    "unknown_ratio": 0.13917525773195877,
+    "total_buildings": 194,
+    "unknown_buildings": 27,
+    "excluded_buildings": 106,
+    "observed_buildings": 300,
+    "excluded_use_buildings": 0,
+    "excluded_small_buildings": 106,
+    "excluded_unknown_buildings": 99,
+    "observed_unknown_buildings": 126
+  },
+  "demand": {
+    "source_sha256": "a05aea5237364f21c2b4f1716d855346c85747b9768f2d57529ef30fe6fa9334",
+    "rows": 1281,
+    "mismatches": 0,
+    "single_ages": [
+      15,
+      16,
+      17,
+      18
+    ],
+    "totals": {
+      "10_14": 341692,
+      "15_18": 291292,
+      "5_9": 244007
+    }
+  }
+}
