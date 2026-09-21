@@ -198,3 +198,13 @@ def test_unequal_month_and_column_valid_days_use_weighted_sums(tmp_path):
         ).fetchone()
         assert total == pytest.approx(310 / 3)
         assert (age10, age15, days) == (150, 10, 3)
+
+
+def test_resident_15_18_sums_exact_single_years_without_age19_proration(tmp_path):
+    row = {'행정구역': '서울특별시 강남구 대치1동(1168060000)'}
+    row.update({f'2026년08월_계_{age}세': str(age) for age in range(5,20)})
+    row['2026년08월_계_19세'] = '10000'
+    path = tmp_path / 'residents.csv'
+    pd.DataFrame([row]).to_csv(path,encoding='cp949',index=False)
+    bands = normalize_residents(path,'2026-08').set_index('age_band').population
+    assert bands['15_18'] == 15 + 16 + 17 + 18

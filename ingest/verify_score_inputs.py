@@ -230,12 +230,22 @@ def independent_comparisons(db, case, result):
     buildings = db.execute(
         "select public.buildings_in_radius(%(lng)s,%(lat)s,%(radius_m)s)", case
     ).fetchone()[0]
-    assert equivalent(
-        buildings["meta"]["unknown_ratio"], result["meta"]["height_quality"]["unknown_ratio"]
-    )
-    assert (
-        buildings["meta"]["total_buildings"] == result["meta"]["height_quality"]["total_buildings"]
-    )
+    quality = result["meta"]["height_quality"]
+    assert buildings["meta"]["total_buildings"] == quality["observed_buildings"]
+    assert equivalent(buildings["meta"]["unknown_ratio"],
+                      quality["observed_unknown_buildings"] / quality["observed_buildings"]
+                      if quality["observed_buildings"] else None)
+    eligible = db.execute("""select count(*),count(*) filter(where height_source='unknown')
+        from public.buildings b left join public.building_registers r
+        on r.register_pk=b.register_pk
+        where extensions.st_dwithin(b.geom::extensions.geography,
+        extensions.st_setsrid(extensions.st_makepoint(%(lng)s,%(lat)s),4326)
+        ::extensions.geography,%(radius_m)s)
+        and extensions.st_area(extensions.st_transform(b.geom,5186))>=30
+        and coalesce(nullif(b.main_use_name,''),r.main_use_name,'') !~ '(부속|창고)'""",
+        case).fetchone()
+    assert eligible == (quality["total_buildings"], quality["unknown_buildings"])
+    assert equivalent(quality["unknown_ratio"], eligible[1]/eligible[0] if eligible[0] else None)
     legacy = db.execute(
         "select public.rent_inputs(%(lng)s,%(lat)s,%(radius_m)s,2,null)", case
     ).fetchone()[0]
@@ -305,12 +315,19 @@ def independent_comparisons(db, case, result):
       cross join generate_series(0,23) hours(h) cross join weights w
       left join public.living_pop l on l.cell_id=w.cell_id and l.resolution_m=w.resolution_m
         and l.dow_type=d and l.hour=h where w.weight>0)
-      select d,h,case when count(total)=count(*) then sum(total*weight) end
+        select d,h,sum(total*weight),count(total),count(*),
+        count(total)::numeric/nullif(count(*),0)
       from observed group by d,h order by d,h""",
         (circle,),
     ).fetchall()
-    for day, hour, value in flow:
+    for day, hour, value, valid, expected, ratio in flow:
         assert equivalent(value, result["flow"][day]["hourly"][hour])
+        coverage = result["meta"]["flow_coverage"][day]
+        assert coverage["valid_cells"][hour] == valid
+        assert coverage["expected_cells"] == expected
+        assert equivalent(coverage["coverage_ratio"][hour],
+                          float(ratio) if ratio is not None else None)
+    assert result["flow"]["low_coverage"] == any((r[5] or 0) < .8 for r in flow)
     return {name: "matched" for name in BUNDLES}
 
 

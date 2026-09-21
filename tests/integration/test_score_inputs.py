@@ -16,10 +16,10 @@ BUNDLES = {"demand", "flow", "transit", "market", "compete", "building", "rent"}
 
 
 def query(db, **changes):
-    args = dict(lat=37.7, lng=127.4, radius_m=500, floor=2)
+    args = dict(lat=37.7, lng=127.4, radius_m=500, floor=2, address=None)
     args.update(changes)
     return db.execute(
-        "select public.score_inputs(%(lat)s,%(lng)s,%(radius_m)s,%(floor)s)", args
+        "select public.score_inputs(%(lat)s,%(lng)s,%(radius_m)s,%(floor)s,%(address)s)", args
     ).fetchone()[0]
 
 
@@ -248,3 +248,196 @@ def test_legacy_rent_rpc_result_preserved(data):
     internal = data.execute("select score_internal.rent_inputs(%s,%s,%s,%s,%s)", args).fetchone()[0]
     assert old == internal
     assert old["trade_median_per_m2"] == query(data)["rent"]["trade_median_per_m2"]
+
+
+def test_partial_cells_sum_observed_values_and_coverage_threshold(data):
+    data.execute("""insert into public.population_cells
+        (resolution_m,cell_id,geom,boundary_generated,source,source_version)
+        select 250,'pr7-extra-'||n,extensions.st_transform(
+        extensions.st_translate(extensions.st_transform(geom,5186),x,y),4326),
+        false,'pr7','fixture' from public.population_cells
+        cross join (values(1,250,0),(2,-250,0),(3,0,250),(4,0,-250)) v(n,x,y)
+        where cell_id='pr7'""")
+    data.execute("""insert into public.living_pop
+        (resolution_m,cell_id,dow_type,hour,total,sample_days,period_start,period_end,
+        source,source_version)
+        select 250,'pr7-extra-'||n,dow_type,hour,100,sample_days,period_start,period_end,
+        source,source_version from public.living_pop cross join generate_series(1,4) n
+        where cell_id='pr7'""")
+    data.execute("""update public.living_pop set total=null
+        where cell_id='pr7-extra-1' and dow_type='weekday' and hour=17""")
+    r = query(data)
+    c = r["meta"]["flow_coverage"]["weekday"]
+    assert c["expected_cells"] == 5
+    assert c["valid_cells"][17] == 4
+    assert c["coverage_ratio"][17] == 0.8
+    assert r["flow"]["weekday"]["hourly"][17] == pytest.approx(327)
+    assert r["flow"]["low_coverage"] is False
+    data.execute("""update public.living_pop set total=null
+        where cell_id='pr7-extra-2' and dow_type='weekday' and hour=17""")
+    r = query(data)
+    assert r["meta"]["flow_coverage"]["weekday"]["coverage_ratio"][17] == 0.6
+    assert r["flow"]["weekday"]["hourly"][17] == pytest.approx(227)
+    assert r["flow"]["weekday"]["golden_avg_pop"] == pytest.approx((428 * 7 - 200) / 7)
+    assert r["flow"]["weekend"]["hourly"][17] == pytest.approx(527)
+    assert r["flow"]["low_coverage"] is True
+
+
+def test_small_and_auxiliary_buildings_excluded_only_from_quality(data):
+    data.execute(
+        f"""insert into public.buildings
+        (id,source_id,pnu,source,source_version,register_link_status,geom,
+        geometry_repaired,height_source,height_estimated,height_m,source_height_m,main_use_name)
+        select 'pr7-'||label,'pr7-'||label,%s,'vworld_wfs_supplement','fixture',
+        'supplemental_unlinked',extensions.st_multi(extensions.st_transform(
+        extensions.st_buffer(extensions.st_transform({POINT},5186),size),4326)),
+        false,hs,false,h,h,use_name
+        from (values('small',2,'unknown',null::numeric,null::text),
+        ('small-known',2,'source',10,null),('warehouse',10,'unknown',null,'창고시설'))
+        v(label,size,hs,h,use_name)""",
+        (PNU,),
+    )
+    q = query(data)["meta"]["height_quality"]
+    assert q == dict(
+        radius_m=500,
+        total_buildings=1,
+        unknown_buildings=0,
+        unknown_ratio=0,
+        observed_buildings=4,
+        observed_unknown_buildings=2,
+        excluded_buildings=3,
+        excluded_unknown_buildings=2,
+        excluded_small_buildings=2,
+        excluded_use_buildings=1,
+    )
+    visible = data.execute("select public.buildings_in_radius(127.4,37.7,500)").fetchone()[0]
+    assert visible["meta"]["total_buildings"] == 4
+
+
+ADDRESS = "서울특별시 강남구 역삼로 460"
+
+
+def clear_address(data):
+    for table in ("building_address_cache", "building_address_requests"):
+        data.execute(f"delete from ingest_private.{table} where address=%s", (ADDRESS,))
+
+
+def cached_address(data, status="ready"):
+    from psycopg.types.json import Jsonb
+
+    payload = dict(
+        building=dict(
+            id=None,
+            pnu=PNU,
+            source="building_hub_address",
+            location_basis="address",
+            register_pk=PK,
+            main_use=dict(code="04", name="fixture", other_use=None),
+            floors_above=4,
+            floors_below=1,
+            height_m=None,
+            height_estimated=False,
+            height_source="unknown",
+            elevators=dict(passenger=0, emergency=0),
+            estimated=False,
+        ),
+        floors=[
+            dict(
+                floor_kind="20",
+                floor_no=2,
+                use_code="04010",
+                use_name="학원",
+                other_use=None,
+                area_m2=173.68,
+                main_attached_code="0",
+            )
+        ],
+    )
+    data.execute(
+        f"""insert into ingest_private.building_address_cache
+        (address,pnu,geom,status,payload,fetched_at,expires_at)
+        values(%s,%s,{POINT},%s,%s,now(),now()+interval '30 days')""",
+        (ADDRESS, PNU, status, Jsonb(payload)),
+    )
+
+
+@pytest.mark.parametrize("role", ["anon", "authenticated"])
+def test_address_miss_enqueues_once_with_public_role(data, role):
+    clear_address(data)
+    data.execute("delete from public.buildings where id='pr7'")
+    data.execute(f"set local role {role}")
+    for address in ("역삼로460", ADDRESS, "서울 강남구 역삼로460"):
+        r = query(data, address=address)
+        assert r["meta"]["building_lookup"]["status"] == "pending"
+        assert r["building"]["register_pk"] is None
+        assert r["demand"]["estimated"] is True
+    for table in ("building_address_cache", "building_address_requests"):
+        with pytest.raises(psycopg.errors.InsufficientPrivilege), data.transaction():
+            data.execute(f"select * from ingest_private.{table}")
+    data.execute("reset role")
+    assert (
+        data.execute(
+            "select count(*) from ingest_private.building_address_requests where address=%s",
+            (ADDRESS,),
+        ).fetchone()[0]
+        == 1
+    )
+
+
+def test_address_cache_ready_floor_matching_and_expiry(data):
+    clear_address(data)
+    data.execute(
+        "update public.buildings set register_pk=null,register_link_status='title_not_found' "
+        "where id='pr7'"
+    )
+    cached_address(data)
+    r = query(data, address=ADDRESS)
+    b = r["building"]
+    assert b["location_basis"] == "address"
+    assert b["floors_above"] == 4 and b["floors_below"] == 1
+    assert b["elevators"] == dict(passenger=0, emergency=0)
+    assert b["floor_use"][0]["area_m2"] == 173.68
+    assert b["height_m"] is None
+    assert r["meta"]["building_lookup"]["status"] == "ready"
+    assert r["meta"]["sources"]["building_address"]["available"] is True
+    assert query(data, address=ADDRESS, floor=-2)["building"]["floor_use"] is None
+    assert (
+        data.execute(
+            "select count(*) from ingest_private.building_address_requests where address=%s",
+            (ADDRESS,),
+        ).fetchone()[0]
+        == 0
+    )
+    data.execute(
+        """update ingest_private.building_address_cache
+        set fetched_at=now()-interval '31 days',expires_at=now()-interval '1 day'
+        where address=%s""",
+        (ADDRESS,),
+    )
+    r = query(data, address=ADDRESS)
+    assert r["meta"]["building_lookup"]["status"] == "pending"
+    assert r["building"]["register_pk"] is None
+    assert r["building"]["location_basis"] == "footprint"
+
+
+def test_address_absent_linked_invalid_and_ambiguous(data):
+    clear_address(data)
+    assert query(data)["meta"]["building_lookup"]["status"] == "not_requested"
+    assert query(data, address=ADDRESS)["meta"]["building_lookup"]["status"] == "not_needed"
+    data.execute("delete from public.buildings where id='pr7'")
+    assert (
+        query(data, address="서울특별시 종로구 역삼로460")["meta"]["building_lookup"]["status"]
+        == "invalid_address"
+    )
+    cached_address(data, status="ambiguous")
+    r = query(data, address=ADDRESS)
+    assert r["meta"]["building_lookup"]["status"] == "ambiguous"
+    assert r["building"]["register_pk"] is None
+    assert r["building"]["floors_above"] is None
+    assert (
+        data.execute(
+            "select count(*) from ingest_private.building_address_requests where address=%s",
+            (ADDRESS,),
+        ).fetchone()[0]
+        == 0
+    )
