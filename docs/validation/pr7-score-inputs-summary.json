@@ -1,0 +1,288 @@
+{
+  "measured_at": "2026-09-21T06:12:22.597946+00:00",
+  "warmups": 3,
+  "runs_per_case": 30,
+  "p95_method": "nearest rank (29th of 30)",
+  "role": "anon",
+  "http_connections": "urllib requests, no explicit connection pool",
+  "nested_plan_method": "stored function SQL extraction; auto_explain LOAD denied",
+  "before": {
+    "rows": {
+      "admin_dongs": 427,
+      "population_age": 1281,
+      "population_cells": 10127,
+      "living_pop": 411512,
+      "transit_stops": 11620,
+      "transit_boardings": 264696,
+      "stores": 554092,
+      "academies": 25508,
+      "schools": 1319,
+      "buildings": 30112,
+      "building_registers": 24324,
+      "building_floors": 198637,
+      "legal_dongs": 14,
+      "commercial_trade_stats": 180,
+      "rent_areas": 12,
+      "rent_survey": 34
+    },
+    "database_bytes": 423398547,
+    "version": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit",
+    "postgis": "POSTGIS=\"3.3.7 a0c7967\" [EXTENSION] PGSQL=\"170\" GEOS=\"3.12.1-CAPI-1.18.1\" PROJ=\"9.4.0\" LIBXML=\"2.12.6\" LIBJSON=\"0.17\" LIBPROTOBUF=\"1.4.1\" WAGYU=\"0.5.0 (Internal)\""
+  },
+  "positive_building_proof": {
+    "name": "actual_building_supplement",
+    "lng": 127.020937983636,
+    "lat": 37.5246562306353,
+    "radius_m": 500,
+    "floor": 2,
+    "building": {
+      "id": "shp:0000201804824469406000000000",
+      "source": "gis_buildings_shp",
+      "height_m": 19.2,
+      "elevators": {
+        "emergency": 0,
+        "passenger": 0
+      },
+      "estimated": false,
+      "floor_use": [
+        {
+          "area_m2": 1788,
+          "use_code": "10102",
+          "use_name": "중학교",
+          "other_use": "교육연구시설",
+          "main_attached_code": "0"
+        },
+        {
+          "area_m2": 9.92,
+          "use_code": "10004",
+          "use_name": "연구소",
+          "other_use": "교육연구시설",
+          "main_attached_code": "0"
+        }
+      ],
+      "register_pk": "1024114780",
+      "floors_above": 4,
+      "height_source": "source",
+      "height_estimated": false
+    },
+    "source_comparison": "matched",
+    "excluded_from_six_case_performance": true
+  },
+  "after": {
+    "rows": {
+      "admin_dongs": 427,
+      "population_age": 1281,
+      "population_cells": 10127,
+      "living_pop": 411512,
+      "transit_stops": 11620,
+      "transit_boardings": 264696,
+      "stores": 554092,
+      "academies": 25508,
+      "schools": 1319,
+      "buildings": 30112,
+      "building_registers": 24324,
+      "building_floors": 198637,
+      "legal_dongs": 14,
+      "commercial_trade_stats": 180,
+      "rent_areas": 12,
+      "rent_survey": 34
+    },
+    "database_bytes": 423398547,
+    "version": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 13.2.0, 64-bit",
+    "postgis": "POSTGIS=\"3.3.7 a0c7967\" [EXTENSION] PGSQL=\"170\" GEOS=\"3.12.1-CAPI-1.18.1\" PROJ=\"9.4.0\" LIBXML=\"2.12.6\" LIBJSON=\"0.17\" LIBPROTOBUF=\"1.4.1\" WAGYU=\"0.5.0 (Internal)\""
+  },
+  "cases": [
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 500,
+      "floor": 2,
+      "db_p95_ms": 18.631,
+      "bundle_p95_ms": {
+        "demand": 0.506,
+        "flow": 3.961,
+        "transit": 0.327,
+        "market": 2.836,
+        "compete": 0.976,
+        "building": 5.38,
+        "rent": 0.496
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 20.801458042114973,
+      "http_p95_ms": 23.320792010053992,
+      "http_max_ms": 73.5034579411149,
+      "http_bytes": 13683,
+      "http_matches": true
+    },
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_p95_ms": 58.439,
+      "bundle_p95_ms": {
+        "demand": 0.858,
+        "flow": 11.751,
+        "transit": 0.396,
+        "market": 8.286,
+        "compete": 1.922,
+        "building": 26.145,
+        "rent": 0.272
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 57.1494169998914,
+      "http_p95_ms": 61.19216699153185,
+      "http_max_ms": 63.20495787076652,
+      "http_bytes": 13742,
+      "http_matches": true
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 500,
+      "floor": 2,
+      "db_p95_ms": 12.631,
+      "bundle_p95_ms": {
+        "demand": 0.529,
+        "flow": 3.501,
+        "transit": 0.193,
+        "market": 0.777,
+        "compete": 0.234,
+        "building": 3.685,
+        "rent": 0.205
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 17.52704195678234,
+      "http_p95_ms": 18.325832905247808,
+      "http_max_ms": 18.6814998742193,
+      "http_bytes": 13829,
+      "http_matches": true
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_p95_ms": 37.817,
+      "bundle_p95_ms": {
+        "demand": 0.825,
+        "flow": 10.681,
+        "transit": 0.341,
+        "market": 5.316,
+        "compete": 1.344,
+        "building": 16.737,
+        "rent": 0.254
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 43.02399978041649,
+      "http_p95_ms": 48.98716718889773,
+      "http_max_ms": 54.19316701591015,
+      "http_bytes": 13872,
+      "http_matches": true
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 500,
+      "floor": 2,
+      "db_p95_ms": 23.933,
+      "bundle_p95_ms": {
+        "demand": 0.59,
+        "flow": 3.62,
+        "transit": 0.265,
+        "market": 3.335,
+        "compete": 1.009,
+        "building": 11.959,
+        "rent": 0.312
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 29.313750099390745,
+      "http_p95_ms": 30.85312503390014,
+      "http_max_ms": 31.989832874387503,
+      "http_bytes": 13919,
+      "http_matches": true
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_p95_ms": 74.117,
+      "bundle_p95_ms": {
+        "demand": 0.842,
+        "flow": 11.002,
+        "transit": 0.379,
+        "market": 18.153,
+        "compete": 2.03,
+        "building": 39.067,
+        "rent": 0.272
+      },
+      "bundle_samples_note": "30 adjacent calls; separate from EXPLAIN samples",
+      "independent_comparisons": {
+        "demand": "matched",
+        "flow": "matched",
+        "transit": "matched",
+        "market": "matched",
+        "compete": "matched",
+        "building": "matched",
+        "rent": "matched"
+      },
+      "http_p50_ms": 79.45791608653963,
+      "http_p95_ms": 85.35987487994134,
+      "http_max_ms": 86.83387516066432,
+      "http_bytes": 13895,
+      "http_matches": true
+    }
+  ]
+}
