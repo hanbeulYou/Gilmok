@@ -52,11 +52,13 @@ def publish_verified(store, source, month, path, *, snapshot=None):
         if mismatch:
             raise ValueError("Published raw snapshot differs from input")
         rows = connection.execute("select count(*) from published").fetchone()[0]
+    with path.open("rb") as handle:
+        digest = hashlib.file_digest(handle, "sha256").hexdigest()
     return manifest | {
         "location": location,
         "rows": rows,
         "reread_mismatches": mismatch,
-        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "sha256": digest,
         "bytes": path.stat().st_size,
     }
 

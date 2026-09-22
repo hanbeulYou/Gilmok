@@ -42,3 +42,45 @@ def normalize_residents(path: Path, month: str) -> pd.DataFrame:
     if not output:
         raise ValueError("No Seoul dong population rows")
     return pd.DataFrame(output).astype({"population": "Int64"})
+
+
+def fetch_month(month, destination):
+    """Download the already verified MOIS one-year-age form; no age-band substitution."""
+    from urllib.parse import urlencode
+    from urllib.request import Request, urlopen
+
+    year, number = month.split("-")
+    form = dict(
+        sltOrgType="1",
+        sltOrgLvl1="A",
+        sltOrgLvl2="",
+        sltUndefType="",
+        searchYearStart=year,
+        searchMonthStart=number,
+        searchYearEnd=year,
+        searchMonthEnd=number,
+        sltOrderType="1",
+        sltOrderValue="ASC",
+        sltArgTypes="1",
+        sltArgTypeA="5",
+        sltArgTypeB="18",
+        category="month",
+        gender="gender",
+        sum="sum",
+    )
+    request = Request(
+        "https://jumin.mois.go.kr/downloadCsvAge.do?searchYearMonth=month&xlsStats=3",
+        data=urlencode(form).encode(),
+        headers={"User-Agent": "Gilmok-ingest/1.0"},
+    )
+    destination = Path(destination)
+    temporary = destination.with_suffix(".download")
+    try:
+        with urlopen(request, timeout=90) as response:
+            temporary.write_bytes(response.read())
+        normalize_residents(temporary, month)
+        temporary.replace(destination)
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise RuntimeError("MOIS requested month unavailable or invalid") from None
+    return destination
