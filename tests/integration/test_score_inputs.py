@@ -441,3 +441,83 @@ def test_address_absent_linked_invalid_and_ambiguous(data):
         ).fetchone()[0]
         == 0
     )
+
+
+def test_all_floors_preserves_multi_use_basement_roof_and_requested_floor(data):
+    data.execute(
+        """insert into public.building_floors
+        (id,register_pk,source_register_pk,register_link_status,pnu,floor_kind,floor_no,
+         use_code,use_name,area,main_attached_code,source_version)
+        select 'pr7-all-'||id,%s,%s,'matched',%s,kind,num,'04',name,area,'0','fixture'
+        from (values('b1','10',1,'음식점',80),('3','20',3,'학원',130),
+          ('4','20',4,'학원',140),('roof','30',1,'계단실',10)) f(id,kind,num,name,area)""",
+        (PK, PK, PNU),
+    )
+    expected = [
+        dict(floor_no=-1, floor_kind="10", use_name="음식점", area_m2=80),
+        dict(floor_no=1, floor_kind="30", use_name="계단실", area_m2=10),
+        dict(floor_no=2, floor_kind="20", use_name="근린생활시설", area_m2=50),
+        dict(floor_no=2, floor_kind="20", use_name="근린생활시설", area_m2=50),
+        dict(floor_no=3, floor_kind="20", use_name="학원", area_m2=130),
+        dict(floor_no=4, floor_kind="20", use_name="학원", area_m2=140),
+    ]
+    for floor in (2, 3, 4, 9, -1):
+        r = query(data, floor=floor)
+        assert r["meta"]["schema_version"] == "1.2"
+        assert r["building"]["all_floors"] == expected
+        if floor == 9:
+            assert r["building"]["floor_use"] is None
+        else:
+            areas = [u["area_m2"] for u in r["building"]["floor_use"]]
+            assert areas == {2: [50, 50], 3: [130], 4: [140], -1: [80]}[floor]
+
+
+def test_all_floors_is_always_an_array_when_no_floor_data(data):
+    data.execute("delete from public.building_floors where register_pk=%s", (PK,))
+    assert query(data)["building"]["all_floors"] == []
+    data.execute(
+        "update public.buildings set register_pk=null,"
+        "register_link_status='title_not_found' where id='pr7'"
+    )
+    assert query(data)["building"]["all_floors"] == []
+    data.execute("delete from public.buildings where id='pr7'")
+    assert query(data)["building"]["all_floors"] == []
+    clear_address(data)
+    assert query(data, address=ADDRESS)["building"]["all_floors"] == []
+
+
+def test_existing_address_cache_returns_all_floors_without_refetch(data):
+    from psycopg.types.json import Jsonb
+
+    clear_address(data)
+    cached_address(data)
+    data.execute("delete from public.buildings where id='pr7'")
+    floors = [
+        dict(floor_kind=k, floor_no=n, use_name=u, area_m2=a)
+        for k, n, u, a in [
+            ("20", 4, "학원", 140),
+            ("10", 1, "음식점", 80),
+            ("20", 3, "학원", 130),
+            ("20", 3, "학원", 5),
+            ("30", 1, "계단실", 10),
+        ]
+    ]
+    data.execute(
+        """update ingest_private.building_address_cache set payload=
+        jsonb_set(payload,'{floors}',payload->'floors'||%s) where address=%s""",
+        (Jsonb(floors), ADDRESS),
+    )
+    a = query(data, address=ADDRESS, floor=3)
+    b = query(data, address=ADDRESS, floor=4)
+    assert a["building"]["all_floors"] == b["building"]["all_floors"]
+    assert [f["floor_no"] for f in a["building"]["all_floors"]] == [-1, 1, 2, 3, 3, 4]
+    assert [f["area_m2"] for f in a["building"]["floor_use"]] == [130, 5]
+    assert b["building"]["floor_use"][0]["area_m2"] == 140
+    assert a["meta"]["building_lookup"]["status"] == "ready"
+    assert (
+        data.execute(
+            "select count(*) from ingest_private.building_address_requests where address=%s",
+            (ADDRESS,),
+        ).fetchone()[0]
+        == 0
+    )

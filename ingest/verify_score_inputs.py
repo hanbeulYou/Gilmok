@@ -283,6 +283,16 @@ def independent_comparisons(db, case, result):
             (candidate["register_pk"],),
         ).fetchone()[0]
         assert equivalent(uses, candidate["floor_use"])
+        all_floors = db.execute(
+            """select coalesce(jsonb_agg(jsonb_build_object(
+            'floor_no',case when floor_kind='10' then -abs(floor_no) else floor_no end,
+            'floor_kind',floor_kind,'use_name',use_name,'area_m2',area)
+            order by case when floor_kind='10' then -abs(floor_no) else floor_no end,
+            floor_kind,use_name,area,id),'[]'::jsonb)
+            from public.building_floors where register_pk=%s""",
+            (candidate["register_pk"],),
+        ).fetchone()[0]
+        assert equivalent(all_floors, candidate["all_floors"])
     # Straight spatial intersection oracles intentionally omit the optimized bounding-box path.
     circle = db.execute(
         """select extensions.st_astext(extensions.st_buffer(
