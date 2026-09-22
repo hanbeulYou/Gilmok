@@ -344,18 +344,18 @@
       }
     },
     "radius_m": 500,
-    "total_ms": 17.985,
+    "total_ms": 11.845,
     "bundle_ms": {
-      "flow": 3.481,
-      "rent": 0.248,
-      "demand": 0.39,
-      "market": 2.109,
-      "compete": 0.989,
-      "transit": 0.183,
-      "building": 6.053
+      "flow": 2.295,
+      "rent": 0.144,
+      "demand": 0.233,
+      "market": 1.841,
+      "compete": 0.515,
+      "transit": 0.135,
+      "building": 3.567
     },
-    "sources_ms": 3.337,
-    "computed_at": "2026-09-21T07:09:17.166782+00:00",
+    "sources_ms": 2.358,
+    "computed_at": "2026-09-22T04:50:56.584768+00:00",
     "flow_coverage": {
       "weekday": {
         "valid_cells": [
@@ -534,7 +534,7 @@
         "reason": "no_verified_district_or_region_data"
       }
     ],
-    "schema_version": "1.1",
+    "schema_version": "1.2",
     "building_lookup": {
       "pnu": null,
       "status": "not_requested",
@@ -844,6 +844,7 @@
     },
     "estimated": false,
     "floor_use": null,
+    "all_floors": [],
     "register_pk": null,
     "floors_above": null,
     "floors_below": 2,

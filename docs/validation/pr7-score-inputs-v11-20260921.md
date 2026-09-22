@@ -1,5 +1,7 @@
 # PR 7 재검토 — score_inputs 입력 계약 v1.1
 
+> v1.1 재검토 이력이다. 최신 v1.2 전 층 배열·응답·재측정은 [2026-09-22 검증](pr7-building-all-floors-20260922.md)을 따른다. 공용 예시/요약 JSON은 최신판이다.
+
 2026-09-21, `s1/score-inputs`, PR #10. 사용자 요청으로 머지 보류 상태에서 수정·검증했다. 기존 v1.0 수치는 [최초 검증](pr7-score-inputs-20260921.md)의 이력이며 현재 계약·예시는 v1.1이다. 임대동향 공간 연결은 계속 비활성이다.
 
 ## 변경과 실제 응답
@@ -82,4 +84,4 @@
 - 한 묶음 결측 시 나머지 6개 정상 반환, 부분 격자 합계, 80% 경계/60% low_coverage, 무관측 시간 NULL, 주소 캐시 적중·만료/정확한 층, anon/authenticated 큐 이용과 private 차단, 제외 건물의 렌더링 유지 포함.
 - 새 마이그레이션 3개를 CLI로 생성·로컬 적용했다: `20260921065136`, `20260921065937`, `20260921070105`. 기존 적용 파일은 수정하지 않았다. 원복 필요 시 별도 CLI 마이그레이션으로 이전 함수 정의를 복구하고 캐시/원본은 보존한다. 주소만 끄려면 호출의 address를 생략할 수 있다.
 
-재실행: `uv run --frozen python -m ingest.verify_score_inputs --directory .local/validation/pr7/20260921-v11`. 전체 SQL 계획은 해당 디렉터리 report.json에, 커밋 가능한 각 30회 원시 시간과 요약은 [요약 JSON](pr7-score-inputs-summary.json)에 있다. [입력 계약](../planning/data-sources.md#3-score_inputs--s2-채점-입력-계약-v11)은 묶음별 모든 필드·타입·단위·NULL·추정 플래그와 실제 응답을 명시한다. 기존 개별 RPC는 호환용 병존, buildings_in_radius는 별도 유지한다. 다음 작업은 S2 채점 명세 작성이며 채점·UI는 구현하지 않았다.
+재실행: `uv run --frozen python -m ingest.verify_score_inputs --directory .local/validation/pr7/20260921-v11`. 전체 SQL 계획은 해당 디렉터리 report.json에, 커밋 가능한 각 30회 원시 시간과 요약은 [요약 JSON](pr7-score-inputs-summary.json)에 있다. [입력 계약](../planning/data-sources.md#3-score_inputs--s2-채점-입력-계약-v12)은 묶음별 모든 필드·타입·단위·NULL·추정 플래그와 실제 응답을 명시한다. 기존 개별 RPC는 호환용 병존, buildings_in_radius는 별도 유지한다. 다음 작업은 S2 채점 명세 작성이며 채점·UI는 구현하지 않았다.
