@@ -1,6 +1,6 @@
 # 길목(GILMOK) 데이터 소스 명세
 
-> 작성일: 2026-09-16 · 버전: v1.10 (PR 6 실거래·임대동향 실제 적재, 2026-09-20)
+> 작성일: 2026-09-16 · 버전: v1.13 (PR 7 전 층 조회 2026-09-22)
 > 기준 문서: docs/planning/location-simulator.md
 > 목적: S1(데이터 기반) 구현에 필요한 소스별 접근 방법·컬럼·좌표계·적재 방식을 한 곳에 모은다. "확인 필요" 표시는 실제 키 발급 후 응답 스키마로 검증할 것.
 
@@ -200,57 +200,243 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 - 후보지 등록 시 선택 입력: 보증금, 월세, 관리비, 전용면적. 저장은 `candidates` 테이블 컬럼으로.
 - 이 값은 사용자 소유 데이터이므로 다른 사용자 집계에 쓰지 않는다.
 
-## 3. 반경 집계 RPC 입출력 (S1 완료 기준)
+## 3. score_inputs — S2 채점 입력 계약 v1.2
 
-`score_inputs(lat float, lng float, radius_m int, floor int)` → JSON
+`public.score_inputs(lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL) → jsonb`. PostgREST는 이름 있는 JSON 인자로 호출한다. 좌표는 EPSG:4326, 반경은 m(1~5,000), 층은 지상 양수/지하 음수(-100~200, 0 제외)이다. 앞의 네 인자는 필수이며 `address`는 선택 인자다. 주소 미입력은 기존 도형 경로를 유지한다. 주소는 강남구 도로명+건물번호(층·호 제외)이며 `역삼로460`도 정규화한다. 주소 형식 오류는 `meta.building_lookup.status=invalid_address`로 표시하고 나머지 묶음은 정상 반환한다. NULL·범위 오류는 SQLSTATE 22023으로 거부한다. 내부 `ST_MakePoint`는 lng,lat 순서다.
 
-S1 계약은 **7개 데이터 묶음** `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`와 `meta`다. 최종 점수 축의 개수를 뜻하지 않으며 정규화·가중치·과목 기준·등록 가능성 판정은 S2에서 정의한다.
+**이 절이 S2 채점 명세의 입력 계약이다.** 7개 묶음 `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`와 `meta`는 항상 존재하는 비NULL 객체다. 한 묶음의 관측 결측은 그 묶음의 값만 NULL로 만들고 다른 묶음을 제거하지 않는다. DB/프로그래밍 오류를 결측으로 삼켜 정상 응답처럼 반환하지는 않는다. 채점·가중치·과목 분류·학원 등록 가능성 판정은 포함하지 않는다.
 
-아래는 필드 구조 예시이며 실제 API 응답이나 관측 수치가 아니다. `hourly`는 0~23시 순서로 24개 값을 갖고, `null`은 결측을 뜻한다.
+### 3.1 JSON 타입과 묶음별 전체 필드
+
+`number`는 유한 JSON 숫자, `integer`는 정수 JSON 숫자, `string`은 문자열이다. 아래 경로는 모두 필수이며 NULL 허용과 키 생략은 다르다. 동적 map의 키는 관측된 분류/건물유형만 포함한다. 금액은 DB numeric에서 JSON number로 출력하며 원천·DB 정밀도를 유지한다. JavaScript 소비자는 IEEE-754 표현 오차를 고려한다.
+
+| 경로 | 타입 | NULL | 단위·의미 | 추정 플래그 |
+| --- | --- | --- | --- | --- |
+| demand.pop_5_9, pop_10_14, pop_15_18 | number | 허용 | 명. 주민등록 연령대별 반경 배분 인구 | demand.estimated=true |
+| demand.schools | object | 불가 | 학교급별 관측 개수 | 학교 개수 자체는 비추정 |
+| demand.schools.elem, mid, high | integer | 허용 | 개. 초/중/고 요청 반경 내 위치 확인 학교 | 비추정 |
+| demand.estimated | boolean | 불가 | 인구에 면적 비례 방식을 적용하는 묶음임을 표시. 학교까지 추정이라는 뜻은 아님 | 항상 true |
+| flow.weekday, flow.weekend | object | 불가 | 평일/주말을 별도 유지 | flow.low_coverage | boolean | 불가 | 평일/주말 24시간 중 유효/전체 격자 비율이 한 번이라도 0.8 미만이면 true. 전체 격자 0개도 true | 비추정 품질 지표 |
+| flow.estimated |
+| flow.{weekday,weekend}.hourly | array[number 또는 null], 길이 24 | 배열 불가, 원소 허용 | 명. 인덱스 0~23시의 공간 배분 생활인구 | true |
+| flow.{weekday,weekend}.golden_avg_pop | number | 허용 | 명. [15:00,22:00) 7개 시간 인구의 평균 | true |
+| flow.estimated | boolean | 불가 | 격자 면적 비례 배분 방식 | 항상 true |
+| transit.nearest_subway_m | number | 허용 | m. 최대 2,000m 내 최근접 역 거리(역 위치와 같으면 0) | false |
+| transit.subway_boardings_golden | number | 허용 | 명/일. 반경 내 지하철 15~21시 승차+하차 일평균 합 | false |
+| transit.bus_stops | integer | 허용 | 개. 요청 반경 내 버스정류장 | false |
+| transit.subway_units_missing_golden | integer | 불가 | 개. 반경 내 7시간 승하차가 불완전한 지하철 위치 단위. 소스 미적재 시 이 값만으로 완전성을 판정하지 않음 | false |
+| transit.estimated | boolean | 불가 | 원천 관측의 집계 | 항상 false |
+| market.stores_total | integer | 허용 | 개. 요청 반경 내 업소 | false |
+| market.stores_by_lcls | object[string→integer] | 허용 | 원천 대분류 코드별 개수. 적재 확인 후 관측 0개면 {} | false |
+| market.estimated | boolean | 불가 | 원천 관측의 집계 | 항상 false |
+| compete.academies_total | integer | 허용 | 개. 요청 반경 내 개원 학원·교습소 | false |
+| compete.academies_by_field | object[string→integer] | 허용 | 원천 분야명별 개수. 원문 빈 문자열도 유효한 키이며 임의 재분류 없음 | false |
+| compete.estimated | boolean | 불가 | 원천 관측의 집계 | 항상 false |
+| building.id | string | 허용 | 후보를 포함하는 유일한 footprint ID | 비추정 |
+| building.source | string | 허용 | gis_buildings_shp / vworld_wfs_supplement / building_hub_address | 비추정 |
+| building.pnu | string | 허용 | 19자리 법정동·필지 코드. 숫자로 변환하지 않음 | 비추정 |
+| building.location_basis | string | 허용 | footprint / address. 주소 캐시 대장은 좌표 포함 추론과 구분 | 비추정 |
+| building.main_use | object | 불가 | 대장/도형의 주용도. 값이 없어도 객체 유지 | 비추정 |
+| building.main_use.code, name, other_use | 각각 string | 허용 | 원문 주용도 코드·명칭·기타 용도 | 비추정 |
+| building.floors_below | integer | 허용 | 지하 층수. 원천 0 보존 | 비추정 |
+| building.register_pk | string | 허용 | 검증된 대장 PK. 22자리도 문자열로 유지 | 비추정 |
+| building.floors_above | integer | 허용 | 층. 선택 footprint의 지상층수 | 비추정 |
+| building.height_m | number | 허용 | m. 원천 양수 높이 또는 승인된 층수 기반 추정. unknown은 NULL | height_estimated |
+| building.height_estimated | boolean | 허용 | 선택 건물이 있으면 true/false, 건물 미매칭/모호하면 NULL | 높이만 표시 |
+| building.height_source | string | 허용 | source / floors_estimate / unknown. 후보 미매칭/모호 시 NULL | 근거 구분 |
+| building.all_floors | array[AllFloor] | 불가 | 후보 대장 PK의 전 층 원문 용도 행. 요청 층과 무관하며 항상 배열, 자료 없음은 [] | 비추정 |
+| building.floor_use | array[FloorUse] | 허용 | 요청 층 원문 용도 목록. 여러 용도/주부속을 보존. 미연결·해당 층 없음은 NULL | 비추정 |
+| building.elevators | object | 불가 | 대장 연결 건물 승강기 | 비추정 |
+| building.elevators.passenger, emergency | integer | 허용 | 대. 승용/비상용을 구분. 원천 0은 0 | 비추정 |
+| building.estimated | boolean | 불가 | 높이 추정 여부. 후보 없음/unknown은 false이며 관측값이 있다는 뜻은 아님 | height_estimated가 true일 때만 true |
+| rent.trade_median_per_m2 | number | 허용 | 원/㎡. 법정동·요청 층·24개월에서 선택된 유형의 중앙값, 최소 5건 | false |
+| rent.trade_building_type | string | 허용 | general / collective. 표본수가 큰 쪽, 동률 collective | false |
+| rent.trade_sample_count | integer | 허용 | 건. 선택 유형의 공개 레코드 수. 5 미만이어도 수 자체는 보존 | false |
+| rent.trade_by_building_type | array[TradeType] | 불가 | 같은 동·층의 유형별 집계. 없으면 [] | false |
+| rent.survey_rent_per_m2 | number | 허용 | 원/㎡. R-ONE 임대료(원천 천원/㎡×1,000). 면적 기준을 사용자 점포 면적으로 변환하지 않음 | false |
+| rent.survey_vacancy | number | 허용 | %. 같은 공간 단계·유형의 공실률 | false |
+| rent.rent_level | string | 허용 | district / region. 검증된 포함 상권→공식 정의의 포함 권역→NULL | false |
+| rent.survey_building_class | string | 허용 | office / medium_large / small / collective. 통합 RPC에서 여러 유형이 가능하면 scalar와 함께 NULL | false |
+| rent.survey_by_building_class | object[string→SurveyType] | 불가 | 적용 가능한 유형별 값. 미검증 공간은 포함하지 않으며 없으면 {} | false |
+| rent.estimated | boolean | 불가 | 원천 조사 집계/실거래 집계. 점포별 추정 임대료가 아님 | 항상 false |
+
+중첩 배열·map 값의 **전체** 스키마:
+
+| 객체 | 필드 | 타입·NULL | 단위·의미 |
+| --- | --- | --- | --- |
+| AllFloor | floor_no | integer 또는 null | 층번호. 지하는 -abs(원천 층번호), 나머지는 원천 번호. 번호 없는 행도 NULL로 보존 |
+| AllFloor | floor_kind | string 또는 null | 원천 층 구분. 10=지하, 20=지상, 30=옥탑. 옥탑 번호를 지상 층수로 오해하지 않도록 함께 사용 |
+| AllFloor | use_name | string 또는 null | 원문 용도명. 같은 층의 복수 용도 행을 병합하지 않음 |
+| AllFloor | area_m2 | number 또는 null | ㎡. 해당 층 용도 행의 원천 면적. 순수 전용면적으로 단정하지 않음 |
+| FloorUse | use_code, use_name, other_use, main_attached_code | 각각 string 또는 null | 원천 용도 코드·명칭·기타 용도·주부속 코드 |
+| FloorUse | area_m2 | number 또는 null | ㎡. 원천 층 용도 면적 |
+| TradeType | building_type | string, 비NULL | general / collective |
+| TradeType | sample_count | integer, 비NULL | 건 |
+| TradeType | median_per_m2 | number 또는 null | 원/㎡. 해당 유형 표본도 5건 미만이면 NULL |
+| TradeType | area_basis | string, 비NULL | building_area. 전용면적으로 단정하지 않음 |
+| TradeType | period_start, period_end | 각각 string, 비NULL | YYYY-MM-DD, 계약일 집계 기간 양 끝 포함 |
+| SurveyType | rent_per_m2 | number, 비NULL | 원/㎡. 임대료가 있어 선택된 단계 |
+| SurveyType | vacancy_rate | number 또는 null | %. 공실률만 없으면 같은 단계에서 NULL 유지 |
+| SurveyType | rent_level | string, 비NULL | district / region |
+| SurveyType | area_code | string, 비NULL | 내부 조사 공간 식별자. 법정동/행정동 코드가 아님 |
+| SurveyType | quarter | string, 비NULL | YYYY-Q1~Q4 |
+
+### 3.2 meta 전체 스키마
+
+| 경로 | 타입·NULL | 단위·계약 |
+| --- | --- | --- |
+| meta.schema_version | string, 비NULL | 현재 1.2 |
+| meta.radius_m, meta.floor | integer, 비NULL | m / 요청 층. 입력값 그대로 |
+| meta.computed_at | string, 비NULL | 시간대 포함 ISO 타임스탬프. DB statement_timestamp |
+| meta.sources | object[string→Source], 비NULL | 아래 18개 고정 소스 키 모두 존재 |
+| meta.estimated_fields | array[EstimatedField], 비NULL | 실제 비NULL 추정값 경로 목록. 없으면 [] |
+| meta.missing_fields | array[MissingField], 비NULL | 7개 데이터 묶음의 NULL leaf 전체 경로와 사유. meta 자체의 NULL은 이 목록에 포함하지 않음 |
+| meta.height_quality | object, 비NULL | 요청 반경 내 SHP+WFS 고유 footprint 기준 |
+| meta.height_quality.radius_m | integer, 비NULL | m |
+| meta.height_quality.total_buildings, unknown_buildings | integer, 비NULL | 개. 30㎡ 미만 또는 주용도 부속·창고인 도형을 제외한 분모·unknown 분자 |
+| meta.height_quality.observed_buildings, observed_unknown_buildings | integer, 비NULL | 개. 제외 전 전체 도형·unknown 수 |
+| meta.height_quality.excluded_buildings, excluded_unknown_buildings | integer, 비NULL | 개. 제외 조건 OR의 고유 도형 수·그중 unknown 수 |
+| meta.height_quality.excluded_small_buildings, excluded_use_buildings | integer, 비NULL | 개. 30㎡ 미만 / 부속·창고 조건별 수. 서로 중복될 수 있으므로 합하지 않음 |
+| meta.height_quality.unknown_ratio | number 또는 null | 0~1, unknown/total. total=0이면 NULL |
+| meta.legal_dong_code | string 또는 null | 유일하게 포함되는 법정동 8자리 코드. 한티 고정 좌표는 11680118(도곡동) |
+| meta.rent_spatial_scope | string, 비NULL | legal_dong_and_survey_area. 반경 거래 통계가 아님 |
+| meta.flow_coverage | object, 비NULL | weekday/weekend 각각 아래 Coverage 객체 |
+| meta.flow_coverage.{weekday,weekend}.expected_cells | integer, 비NULL | 개. 반경과 양의 면적으로 교차하는 250m 격자 |
+| meta.flow_coverage.{weekday,weekend}.valid_cells | array[integer], 비NULL, 길이 24 | 시간별 total이 비NULL인 격자 수. 결측을 0명으로 채운 인구값이 아님 |
+| meta.flow_coverage.{weekday,weekend}.coverage_ratio | array[number 또는 null], 비NULL, 길이 24 | 시간별 valid_cells/expected_cells, 0~1. 전체 격자 0개면 NULL |
+| meta.building_lookup | object, 비NULL | 아래 주소 조회 상태와 캐시 메타데이터. 주소 미입력도 키 유지 |
+| meta.building_lookup.status | string, 비NULL | not_requested / not_needed / invalid_address / pending / processing / failed / ready / not_found / ambiguous |
+| meta.building_lookup.address, pnu | 각각 string 또는 null | 정규화 주소 / 19자리 PNU |
+| meta.building_lookup.fetched_at, expires_at | 각각 string 또는 null | 시간대 포함 ISO 타임스탬프. 만료는 조회 후 30일 |
+| meta.building_lookup.address_distance_m | number 또는 null | 요청 좌표와 주소 대표점의 geography 거리(m). 가까운 건물로 대체했다는 뜻이 아님 |
+| meta.bundle_ms | object, 비NULL | demand/flow/transit/market/compete/building/rent의 7개 고정 키 |
+| meta.bundle_ms.{묶음명} | number, 비NULL | ms. clock_timestamp 전후 차이. 해당 묶음 집계·JSON 구성 구간의 경과시간 |
+| meta.sources_ms | number, 비NULL | ms. 출처 메타데이터·서울 포함 여부 조회 구간 |
+| meta.total_ms | number, 비NULL | ms. 함수 진입부터 최종 meta 구성 직전까지. 공통 도형·결측/추정 목록 구성 포함 |
+
+시간은 요청마다 달라지는 진단값이며 점수·캐시 키에 사용하지 않는다. bundle_ms 합에는 sources_ms와 공통 작업이 빠져 있으므로 total_ms와 같지 않다. total_ms는 EXPLAIN Execution Time이나 HTTP 왕복 시간과 같지 않으며, 성능 완료 판정은 별도로 측정한 DB EXPLAIN p95다. 같은 DB 문장 스냅샷에서 각 묶음을 순서대로 한 행으로 집계하므로 계측을 위해 별도 HTTP/RPC를 호출하지 않는다.
+
+| 객체 | 필드 | 타입·NULL | 의미 |
+| --- | --- | --- | --- |
+| EstimatedField | path | string, 비NULL | 예: demand.pop_5_9, flow.weekday.hourly[15], building.height_m |
+| EstimatedField | method | string, 비NULL | area_proportion_epsg5186 / approved_floor_height |
+| MissingField | path | string, 비NULL | 객체는 점 표기, 배열은 0부터 시작하는 [인덱스] |
+| MissingField | reason | string, 비NULL | 아래 결측 사유 코드. 같은 사유가 여러 경로에 적용 가능 |
+| Source | source, source_version | 각각 string 또는 null | 출처 식별자와 원문 버전. 미적재는 NULL |
+| Source | reference_date | string 또는 null | YYYY-MM 또는 YYYY-MM-DD. 의미는 date_kind와 함께 해석 |
+| Source | date_kind | string, 비NULL | snapshot / reference_month / boundary_version / period / source_version / retrieved_on / contract_period / quarter / unknown |
+| Source | period_start, period_end | 각각 string 또는 null | YYYY-MM-DD. 해당 소스가 기간형일 때 양 끝 포함 |
+| Source | quarter | string 또는 null | YYYY-Q1~Q4 |
+| Source | ingested_at | string 또는 null | 시간대 포함 ISO 타임스탬프. 기준일과 구분 |
+| Source | coverage | string 또는 null | 적재된 원천의 범위 설명. 요청 원 전체의 무결측을 보장하는 플래그가 아님 |
+| Source | available | boolean, 비NULL | 소스 적재/메타데이터 존재. 좌표 매칭 성공과는 다름 |
+| Source | unlocated_count | integer 또는 null | 학원·학교·상가 스냅샷의 위치 미확보 행수. 집계하지 않는 소스는 NULL |
+| Source | limitations | array[string], 비NULL | 부분 관측·이력 미확인·공간 연결 미검증 등 소스 제약. 없으면 [] |
+
+고정 소스 키: `admin_boundaries`, `resident_population`, `population_grid`, `living_population`, `subway_positions`, `bus_positions`, `transit_counts`, `stores`, `academies`, `schools`, `building_shp`, `building_wfs`, `building_registers`, `building_floors`, `legal_boundaries`, `commercial_trades`, `rent_survey`, `building_address`.
+
+주소 경로 결측 사유는 `building_address_pending/processing/failed/ambiguous/not_found/invalid_address`, `address_register_field_or_floor_missing`이다. 주소 기반 건물은 footprint ID가 없으므로 `building.id=NULL`도 명시한다.
+
+현재 결측 사유: `missing_population_or_school_coverage`, `missing_cell_or_hour`, `missing_source_or_station_hours_or_outside_coverage`, `not_loaded_or_outside_coverage`, `no_containing_building`, `ambiguous_containing_building`, `source_or_requested_floor_missing`, `outside_coverage`, `ambiguous_legal_boundary`, `no_samples_for_requested_floor`, `fewer_than_five_samples`, `no_unique_legal_dong`, `no_verified_district_or_region_data`, `building_class_required`, `source_value_missing`.
+
+주소 소스의 limitations는 `address_based_not_coordinate_inference` 또는 `address_{조회상태}`다.
+
+Source.limitations의 현행 코드: `not_loaded`, `unlocated_records_not_in_spatial_counts`, `boundary_reference_date_not_verified`, `valid_days_mean`, `age_0_4_and_5_9_not_separable`, `historical_positions_unverified`, `daily_mean_without_weekday_split`, `unmatched_units_not_imputed`, `register_unlinked`, `legal_dong_not_radius`, `late_reports_and_cancellations_possible`, `no_verified_spatial_mapping`. 교통 원천의 누락 노선 설명 문자열도 그대로 포함한다. 이를 임대 공간 수준 코드나 점수로 해석하지 않는다.
+
+### 3.3 집계·결측·호환 규칙
+
+- EPSG:5186 반경 원에 행정동/격자 면적 비례 배분을 적용한다. demand는 필요한 행정동 연령 값이 없으면 NULL이다. **flow는 시간별 total이 유효한 격자만 면적 가중 합산**한다. 일부 비공개 격자 때문에 전체를 NULL로 만들지 않으며 유효 격자가 0개인 시간만 NULL이다. 커버리지로 나누어 전체 인구를 추정하지 않는다. `meta.flow_coverage`의 시간별 전체/유효 개수·비율과 함께 소비해야 한다. 80% 정확히는 low_coverage=false, 80% 미만은 true이며 평일/주말 48시간 전체에 적용한다.
+- 이 변경은 반경 조회 단계의 격자 간 집계만 변경한다. PR 2의 날짜×셀 내 비공개 조각 처리, 컬럼별 유효 날짜 평균·원천 15~19세 보존은 유지한다. 골든타임 7시간 중 유효 격자가 없는 시간이 있으면 평균은 NULL이고, 7시간 모두 부분 합산값이라도 유효하면 그 7개를 평균한다.
+- `demand.pop_15_18`은 행안부 CSV의 `2026년08월_계_15세`·16세·17세·18세를 **정확히 합산**한 주민등록 인구다. 5세 단위 비례 절단이 아니다. 원본 재집계 1,281행/DB 불일치 0, 서울 합계 291,292명. 반경 면적 배분 단계만 estimated=true이며 생활인구 15~19세와 서로 변환하지 않는다.
+- 골든타임은 7시간 값 모두 유효할 때 산술평균이다. 평일·주말을 섞지 않는다. 학령인구 15~18세와 생활인구 15~19세를 임의 변환하지 않는다.
+- 학교·상가·학원·버스 개수는 요청 반경이다. 미적재/범위 밖과 관측 0개를 구분한다. 위치 미확보 원천은 공간 개수에서 빠지며 소스별 limitations/unlocated_count로 한계를 표시한다. 해당 숫자는 위치가 확인된 원천의 관측 개수다.
+- 최근접 역만 최대 2,000m까지 탐색한다. 지하철 골든타임은 해당 역별 승차·하차 7시간 완전성을 요구한다. 교통은 요일 구분 없는 일평균이고 신분당선 등을 대체 추정하지 않는다.
+- `building.all_floors`는 요청 층 필터 없이 선택된 동일 대장 PK의 모든 층·용도 행을 반환한다. signed floor_no→floor_kind→use_name→area_m2 순(각 NULL 뒤)으로 정렬하고 중복/복수 용도는 제거하거나 합산하지 않는다. 도형·대장·층별 자료 미확보와 주소 캐시 pending은 []이며 실제 건물에 층이 없다는 뜻이 아니다. 기존 `floor_use`는 요청 층의 행/NULL을 그대로 유지한다. 기존 30일 캐시의 원문 floors를 읽으므로 캐시 구조 변경·API 재호출·적재 재실행이 필요 없다. v1.2는 all_floors 추가와 schema_version 변경만 하며 기존 필드 의미를 바꾸지 않는다.
+- 후보 건물은 ST_Covers로 유일하게 포함되는 도형을 선택한다. 주소가 없으면 기존 도형·층 매칭과 NULL 정책을 유지한다. 도형이 없거나 대장 미연결이고 address가 있으면 아래 주소 캐시 경로를 적용한다. 등록 가능성·학원 적합성은 판정하지 않는다.
+- 높이 품질 분모·분자는 EPSG:5186 footprint 바닥면적 **30㎡ 미만** 또는 원문 주용도에 `부속`/`창고`가 포함된 도형을 모두 제외한다. 면적 30㎡ 정확히는 면적으로 제외하지 않는다. 주용도는 도형 값 우선, 없으면 연결 대장 값이며 둘 다 없으면 용도를 추정하지 않는다. 제외 수는 별도 반환하며 도형 삭제·3D 표시·차폐 제외는 하지 않는다. `buildings_in_radius.meta`는 기존 전체 도형 품질이고 `score_inputs.meta.height_quality`만 새 정책을 적용한다. unknown의 4m 표시값을 실측 높이로 반환하지 않는다.
+- 매매는 법정동·요청 층별 일반/집합을 보존하며 다수 표본 유형, 동률 집합을 선택한다. 각 유형도 5건 미만이면 단가는 NULL이다. 층별 자료를 전체층 자료로 대체하지 않는다.
+- 임대는 검증된 포함 상권→공식 정의가 확인된 포함 권역→NULL이다. 최신 적재 분기는 공간/NULL 필터 이전에 정하며, 과거 분기나 근접 상권으로 대체하지 않는다. 임대료가 있는 단계의 공실률만 NULL이면 그 단계를 유지한다. 여러 건물유형이 가능할 때 통합 RPC의 scalar는 NULL, 유형별 map은 보존한다.
+- 소스별로 집계한 한 행만 최종 JSON에 결합한다. 기존 rent_inputs는 상세 조회와 과거 검증을 위해 병존하고 공통 내부 임대 함수를 사용한다. buildings_in_radius는 geometry·표시/차폐 높이용 별도 RPC로 유지한다.
+- score_inputs는 SECURITY INVOKER이며 공개 원천 RLS를 따른다. 출처 조회와 주소 캐시/큐만 제한된 SECURITY DEFINER helper를 사용하고 비공개 감사 보고서·R2 객체·개인 후보지 정보를 노출하지 않는다. 사용자 임대료는 이 응답과 타 사용자 집계에 포함하지 않는다.
+
+### 3.4 주소 기반 건축물대장 온디맨드 경로
+
+`score_inputs(..., address => '역삼로460')`는 동기 DB 조회이며 외부 HTTP를 직접 호출하지 않는다. 대장 연결 도형이면 `not_needed`; 미연결/도형 없음은 정규화 주소의 30일 캐시를 확인한다. fresh ready 캐시만 건물 묶음을 주소 대장으로 교체하며 다른 묶음의 중심 좌표·반경은 바꾸지 않는다. 캐시 응답은 `location_basis=address`, `source=building_hub_address`, footprint `id=NULL`과 주소 대표점 거리를 반환한다. 높이 0은 unknown/NULL, 승강기 0은 관측 0으로 보존한다. 주소 캐시에서는 층수로 높이를 새로 추정하지 않는다.
+
+캐시 미스·만료는 비공개 `ingest_private.building_address_requests`에 1건을 넣고 `pending`과 기존 도형의 가용 값/NULL을 즉시 반환한다. `/ingest` 워커가 정확한 도로명·건물번호 대조 후 Kakao의 법정동/지번으로 PNU를 구성하고 BuildingHub 표제부·층별개요를 조회한다. PNU 불일치, 같은 주소 주건물 다수는 임의 선택하지 않는다. 원본 Parquet을 R2 raw/에 게시·DuckDB 재읽기 대조한 뒤 최소 대장 사실을 캐시한다. 다음 RPC에서 값을 받는다. 프론트·Edge는 계속 Supabase만 호출한다.
+
+실행: `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10` (로컬 DB만, 30초 큐 폴링, 처리 주소 10건 후 종료; 상한 100). 일회 처리는 `--watch` 없이 실행한다. **배포된 상시 워커는 아직 없다.** 운영자가 이 프로세스를 실행해야 pending이 처리되며, 이번 검증은 일회 실행으로 처리했다. 기존 `.env`의 `KAKAO_REST_API_KEY`, `DATA_GO_KR_SERVICE_KEY`, R2 키를 재사용하며 새 키는 필요 없다. R2 미설정은 기존 로컬 원본 저장 정책을 따른다.
+
+`fetched_at+30일`까지만 캐시가 유효하며 만료된 값은 재사용하지 않는다. not_found/ambiguous도 30일 음성 캐시다. claim을 HTTP 전에 커밋하므로 동시 워커·반복 RPC가 중복 작업을 가져가지 않는다. failed/중단된 processing은 자동 재시도하지 않는다. 원본·오류를 점검한 운영자만 해당 private 요청을 pending으로 재설정해 재호출하며 키/주소 원문 오류를 로그로 노출하지 않는다. anon/authenticated는 private 테이블을 읽거나 수정할 수 없고 좁은 SECURITY DEFINER 캐시/큐 함수만 실행한다. RPC는 VOLATILE이며 기존 4개 필수 인자 호출도 기본 address=NULL로 계속 동작한다.
+
+### 3.5 실제 응답 예시 및 S1 검증
+
+아래 예시는 **실제 로컬 적재 데이터에 대한 대치 좌표(37.494612,127.063642), 반경 500m, 2층 응답**이다. 값·NULL·필드 목록을 축약하거나 가상 수치로 바꾸지 않았다. 다른 요청의 computed_at/시간 계측은 달라진다. [동일 응답 JSON](../validation/pr7-score-inputs-example.json), [v1.2 전 층·6조합 검증](../validation/pr7-building-all-floors-20260922.md)을 함께 본다.
+
+생활인구의 격자 21개는 행이 있으나 시간별 total 비NULL 격자는 17~20개여서 hourly/golden 값이 NULL이다. 임대동향은 공간 정의 미검증으로 NULL이다. 이를 0·근접 상권·부분 인구 합계로 바꾸지 않는다. 나머지 묶음은 정상 반환된다.
+
+<details>
+<summary>실제 응답 전체 JSON</summary>
 
 ```json
 {
-  "demand": {
-    "pop_5_9": null, "pop_10_14": null, "pop_15_18": null,
-    "schools": {"elem": null, "mid": null, "high": null},
-    "estimated": true
-  },
-  "flow": {
-    "weekday": {
-      "golden_avg_pop": null,
-      "hourly": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-    },
-    "weekend": {
-      "golden_avg_pop": null,
-      "hourly": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-    },
-    "estimated": true
-  },
-  "transit": {"nearest_subway_m": null, "subway_boardings_golden": null, "bus_stops": null},
-  "market": {"stores_total": null, "stores_by_lcls": null},
-  "compete": {"academies_total": null, "academies_by_field": null},
-  "building": {"floors_above": null, "height_m": null, "height_estimated": null, "floor_use": null, "elevators": null},
-  "rent": {"trade_median_per_m2": null, "trade_building_type": null, "trade_sample_count": null, "survey_rent_per_m2": null, "survey_vacancy": null, "rent_level": null},
-  "meta": {"radius_m": 500, "sources": {}, "computed_at": null}
+  "flow": {"weekday": {"hourly": [26886.4686522679, 26928.6216634253, 26989.4956475511, 27013.6087243408, 27034.6537318699, 27113.8722588412, 27154.8311012565, 26719.6122522735, 25484.7940565596, 24849.3571531556, 24782.9648177208, 24875.3300662533, 24956.3079281717, 25469.3377299467, 26302.260934849, 27790.2227846632, 29084.3102082564, 29901.0814846698, 30233.8976142119, 29903.6984171999, 29313.2001122058, 29332.4093795475, 28494.2091408878, 27302.7107481557], "golden_avg_pop": 29365.5457143935}, "weekend": {"hourly": [27140.8622217263, 27237.6434178867, 27349.3796491227, 27415.6672261727, 27453.5223140634, 27490.6489775135, 27445.1099930131, 27513.396959249, 28139.595043442, 28850.9371921799, 29423.1426516912, 29380.4044021857, 29220.9074404077, 29513.5204480953, 29550.1038498194, 29518.5482282421, 29363.8656624376, 29031.1673116401, 27887.782180248, 27207.6216303693, 27288.2486304791, 27722.4015450219, 27755.6851473775, 27130.4376796808], "golden_avg_pop": 28288.519312634}, "estimated": true, "low_coverage": false},
+  "meta": {"floor": 2, "sources": {"stores": {"source": "semas_stores", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "snapshot", "period_end": null, "ingested_at": "2026-09-20T08:22:14.138177+00:00", "limitations": [], "period_start": null, "reference_date": "2026-06", "source_version": "2026-06", "unlocated_count": 0}, "schools": {"source": "neis_schools", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "snapshot", "period_end": null, "ingested_at": "2026-09-20T08:22:14.138177+00:00", "limitations": ["unlocated_records_not_in_spatial_counts"], "period_start": null, "reference_date": "2026-09-19", "source_version": "2026-09-19", "unlocated_count": 7}, "academies": {"source": "seoul_neis_academies", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "snapshot", "period_end": null, "ingested_at": "2026-09-20T08:22:14.138177+00:00", "limitations": ["unlocated_records_not_in_spatial_counts"], "period_start": null, "reference_date": "2026-09-19", "source_version": "2026-09-19", "unlocated_count": 86}, "rent_survey": {"source": "R-ONE", "quarter": "2026-Q2", "coverage": "Gangnam-linked survey areas", "available": true, "date_kind": "quarter", "period_end": null, "ingested_at": "2026-09-20T12:11:36.518016+00:00", "limitations": ["no_verified_spatial_mapping"], "period_start": null, "reference_date": null, "source_version": "20260920T120200Z", "unlocated_count": null}, "building_shp": {"source": "gis_buildings_shp", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "source_version", "period_end": null, "ingested_at": "2026-09-20T10:33:29.603051+00:00", "limitations": [], "period_start": null, "reference_date": "2026-09-06", "source_version": "2026-09-06", "unlocated_count": null}, "building_wfs": {"source": "vworld_wfs_supplement", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-20T10:33:29.603051+00:00", "limitations": ["register_unlinked"], "period_start": null, "reference_date": "2026-09-20", "source_version": "2026-09-20", "unlocated_count": null}, "bus_positions": {"source": "seoul_transit", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-19T12:38:37.082199+00:00", "limitations": ["historical_positions_unverified"], "period_start": null, "reference_date": "2026-09-19", "source_version": "2026-09-19", "unlocated_count": null}, "transit_counts": {"source": "seoul_subway_boardings", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "period", "period_end": "2026-08-31", "ingested_at": "2026-09-19T12:38:37.082199+00:00", "limitations": ["daily_mean_without_weekday_split", "unmatched_units_not_imputed"], "period_start": "2026-06-01", "reference_date": null, "source_version": "2026-06-01/2026-08-31", "unlocated_count": null}, "building_floors": {"source": "building_hub_floor", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-20T10:33:29.603051+00:00", "limitations": [], "period_start": null, "reference_date": "2026-09-20", "source_version": "2026-09-20", "unlocated_count": null}, "population_grid": {"source": "seoul_living_population_250m", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "unknown", "period_end": null, "ingested_at": "2026-09-19T10:12:14.655762+00:00", "limitations": ["boundary_reference_date_not_verified"], "period_start": null, "reference_date": null, "source_version": "2026-09-19;raw:2026-06/2026-08", "unlocated_count": null}, "admin_boundaries": {"source": "sgis_admdongkor", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "boundary_version", "period_end": null, "ingested_at": "2026-09-19T11:48:03.029308+00:00", "limitations": [], "period_start": null, "reference_date": "2026-07-01", "source_version": "2026-07-01", "unlocated_count": null}, "building_address": {"source": "building_hub_address", "quarter": null, "coverage": "exact supplied Gangnam road address", "available": false, "date_kind": "retrieved_on", "period_end": null, "ingested_at": null, "limitations": ["address_not_requested"], "period_start": null, "reference_date": null, "source_version": null, "unlocated_count": null}, "legal_boundaries": {"source": "vworld_lt_c_ademd_info", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-20T12:07:27.825784+00:00", "limitations": [], "period_start": null, "reference_date": "2026-09-20", "source_version": "20260920T120200Z", "unlocated_count": null}, "subway_positions": {"source": "seoul_transit", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-19T12:38:37.082199+00:00", "limitations": ["historical_positions_unverified", "신분당선: 승하차 미제공; 대체 추정 없음"], "period_start": null, "reference_date": "2026-09-19", "source_version": "2026-09-19", "unlocated_count": null}, "commercial_trades": {"source": "molit_commercial_trades", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "contract_period", "period_end": "2026-08-31", "ingested_at": "2026-09-20T12:07:27.825784+00:00", "limitations": ["legal_dong_not_radius", "late_reports_and_cancellations_possible"], "period_start": "2024-09-01", "reference_date": null, "source_version": "20260920T120200Z", "unlocated_count": null}, "living_population": {"source": "seoul_living_population_250m", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "period", "period_end": "2026-08-31", "ingested_at": "2026-09-19T11:24:30.244264+00:00", "limitations": ["valid_days_mean", "age_0_4_and_5_9_not_separable"], "period_start": "2026-06-01", "reference_date": null, "source_version": "2026-06/2026-08", "unlocated_count": null}, "building_registers": {"source": "building_hub_title", "quarter": null, "coverage": "Gangnam-gu", "available": true, "date_kind": "retrieved_on", "period_end": null, "ingested_at": "2026-09-20T10:33:29.603051+00:00", "limitations": [], "period_start": null, "reference_date": "2026-09-20", "source_version": "2026-09-20", "unlocated_count": null}, "resident_population": {"source": "mois_resident_population", "quarter": null, "coverage": "Seoul", "available": true, "date_kind": "reference_month", "period_end": null, "ingested_at": "2026-09-19T11:48:03.029308+00:00", "limitations": [], "period_start": null, "reference_date": "2026-08-01", "source_version": "2026-08", "unlocated_count": null}}, "radius_m": 500, "total_ms": 11.845, "bundle_ms": {"flow": 2.295, "rent": 0.144, "demand": 0.233, "market": 1.841, "compete": 0.515, "transit": 0.135, "building": 3.567}, "sources_ms": 2.358, "computed_at": "2026-09-22T04:50:56.584768+00:00", "flow_coverage": {"weekday": {"valid_cells": [18, 18, 19, 19, 18, 18, 18, 18, 18, 19, 20, 18, 18, 18, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18], "coverage_ratio": [0.8571428571428571, 0.8571428571428571, 0.9047619047619048, 0.9047619047619048, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.9047619047619048, 0.9523809523809523, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8095238095238095, 0.8095238095238095, 0.8095238095238095, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571], "expected_cells": 21}, "weekend": {"valid_cells": [18, 19, 19, 19, 19, 19, 19, 19, 19, 18, 18, 18, 18, 18, 18, 18, 18, 19, 18, 18, 18, 18, 19, 19], "coverage_ratio": [0.8571428571428571, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.9047619047619048, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.9047619047619048, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.8571428571428571, 0.9047619047619048, 0.9047619047619048], "expected_cells": 21}}, "height_quality": {"radius_m": 500, "unknown_ratio": 0.13917525773195877, "total_buildings": 194, "unknown_buildings": 27, "excluded_buildings": 106, "observed_buildings": 300, "excluded_use_buildings": 0, "excluded_small_buildings": 106, "excluded_unknown_buildings": 99, "observed_unknown_buildings": 126}, "missing_fields": [{"path": "building.elevators.emergency", "reason": "source_or_requested_floor_missing"}, {"path": "building.elevators.passenger", "reason": "source_or_requested_floor_missing"}, {"path": "building.floor_use", "reason": "source_or_requested_floor_missing"}, {"path": "building.floors_above", "reason": "source_or_requested_floor_missing"}, {"path": "building.height_m", "reason": "source_or_requested_floor_missing"}, {"path": "building.main_use.code", "reason": "source_or_requested_floor_missing"}, {"path": "building.main_use.name", "reason": "source_or_requested_floor_missing"}, {"path": "building.main_use.other_use", "reason": "source_or_requested_floor_missing"}, {"path": "building.register_pk", "reason": "source_or_requested_floor_missing"}, {"path": "rent.rent_level", "reason": "no_verified_district_or_region_data"}, {"path": "rent.survey_building_class", "reason": "no_verified_district_or_region_data"}, {"path": "rent.survey_rent_per_m2", "reason": "no_verified_district_or_region_data"}, {"path": "rent.survey_vacancy", "reason": "no_verified_district_or_region_data"}], "schema_version": "1.2", "building_lookup": {"pnu": null, "status": "not_requested", "address": null, "expires_at": null, "fetched_at": null, "address_distance_m": null}, "legal_dong_code": "11680106", "estimated_fields": [{"path": "demand.pop_10_14", "method": "area_proportion_epsg5186"}, {"path": "demand.pop_15_18", "method": "area_proportion_epsg5186"}, {"path": "demand.pop_5_9", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.golden_avg_pop", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[0]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[1]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[10]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[11]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[12]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[13]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[14]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[15]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[16]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[17]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[18]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[19]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[2]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[20]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[21]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[22]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[23]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[3]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[4]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[5]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[6]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[7]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[8]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekday.hourly[9]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.golden_avg_pop", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[0]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[1]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[10]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[11]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[12]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[13]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[14]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[15]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[16]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[17]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[18]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[19]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[2]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[20]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[21]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[22]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[23]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[3]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[4]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[5]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[6]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[7]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[8]", "method": "area_proportion_epsg5186"}, {"path": "flow.weekend.hourly[9]", "method": "area_proportion_epsg5186"}], "rent_spatial_scope": "legal_dong_and_survey_area"},
+  "rent": {"estimated": false, "rent_level": null, "survey_vacancy": null, "survey_rent_per_m2": null, "trade_sample_count": 11, "trade_building_type": "collective", "trade_median_per_m2": 23715087.702951, "survey_building_class": null, "trade_by_building_type": [{"area_basis": "building_area", "period_end": "2026-08-31", "period_start": "2024-09-01", "sample_count": 11, "building_type": "collective", "median_per_m2": 23715087.702951}], "survey_by_building_class": {}},
+  "demand": {"pop_5_9": 770.368325549834, "schools": {"mid": 0, "elem": 2, "high": 0}, "estimated": true, "pop_10_14": 1927.69503102372, "pop_15_18": 1544.12863119103},
+  "market": {"estimated": false, "stores_total": 822, "stores_by_lcls": {"G2": 160, "I1": 1, "I2": 139, "L1": 70, "M1": 56, "N1": 18, "P1": 216, "Q1": 63, "R1": 34, "S2": 65}},
+  "compete": {"estimated": false, "academies_total": 207, "academies_by_field": {"국제화": 8, "독서실": 10, "기예(대)": 1, "기타(대)": 2, "예능(대)": 16, "종합(대)": 10, "입시.검정 및 보습": 160}},
+  "transit": {"bus_stops": 15, "estimated": false, "nearest_subway_m": 0, "subway_boardings_golden": 10705.4565217391, "subway_units_missing_golden": 0},
+  "building": {"id": "wfs:lt_c_bldginfo.15531428", "pnu": "1168010600103170003", "source": "vworld_wfs_supplement", "height_m": null, "main_use": {"code": null, "name": null, "other_use": null}, "elevators": {"emergency": null, "passenger": null}, "estimated": false, "floor_use": null, "all_floors": [], "register_pk": null, "floors_above": null, "floors_below": 2, "height_source": "unknown", "location_basis": "footprint", "height_estimated": false}
 }
 ```
 
-### 3.1 집계 규칙
+</details>
 
-- 모든 개수 지표(학교·상가·학원·분야별 학원·버스정류장)는 요청 `radius_m` 기준이다. `academies_total`은 개원 중 학원·교습소 수, `academies_by_field`는 원천 분야명별 개수 map이다. 예를 들어 적재·분류가 확인된 경우 `{"보습": 3, "외국어": 2}`처럼 반환하며, 미적재를 빈 map으로 위장하지 않는다.
-- 최근접 지하철역만 요청 반경 밖에서도 찾되 상한 2,000m, 없으면 `null`이다. 골든타임 지하철 승하차의 공간 범위는 요청 반경을 따른다.
-- 인구는 행정동, 생활인구는 250m 격자와 반경 원의 면적 비례 배분으로 추정하고 `estimated=true`를 남긴다. 생활인구는 `weekday`/`weekend`를 분리하고 골든타임 [15:00, 22:00)을 적용한다. S1에서 평일·주말 종합값을 계산하지 않는다.
-- `building`은 후보 좌표와 요청 층의 원천 사실이며 `academy_eligible`은 제외한다. 높이 추정은 2.7절을 따른다.
-- `rent` 매매 기본값은 후보 법정동·층별 일반/집합 중 표본이 많은 유형(5건 이상)이다. 임대동향은 검증된 조사 상권→공식 정의에 포함된 권역→NULL 순서이며 `rent_level`을 반환한다. 개인 임대료를 조회하거나 다른 사용자의 집계에 섞지 않는다.
-- `meta.sources`에는 소스별 기준일·적재 시각·적재 범위·결측 사유를 기록한다. 실제 관측 범위에서 대상이 없으면 0, 미적재·매핑 실패·비공개 값은 `null`로 구분한다. 지오코딩 실패 등의 누락은 집계 범위의 한계로 명시한다.
-- 가시성 축은 클라이언트(Web Worker)에서 계산하므로 이 RPC에 포함하지 않는다. 별도 엔드포인트 `buildings_in_radius`는 반경 1km 내 `buildings` geom+height와 높이 추정 여부·실제 적재 범위를 내려준다. S1 건물 적재 범위는 강남구다.
+S1 완료 기준은 대치·학여울·한티 × 500m/1km × 2층의 각 30회 DB 실행 p95 < 1,000ms다. 각 조합 준비 호출 3회, nearest-rank p95(30개 중 29번째), HTTP 왕복 30회 별도 기록을 따른다. 내부 실행계획과 독립 집계 대조 결과도 검증 문서에 남긴다. 과거 개별 RPC 시간이나 빈 DB fixture의 시간을 전체 RPC 실측으로 대신하지 않는다.
 
-### 3.2 S1 검증 기준
+### 3.6 역삼로 460 전 층 실제 응답
 
-- 데이터 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구. 이 범위의 **실제 데이터**로 성능을 판정하며 빈 DB나 fixture 테스트로 대체하지 않는다.
-- 대치동 내 확인된 좌표 3건을 고정하고 반경 500m·1km 각각에서 `score_inputs`를 반복 측정한다. **각 좌표·반경 조합의 DB 실행 시간 p95 < 1,000ms**를 충족해야 한다.
-- HTTP 왕복 시간은 별도 기록만 하며 성능 합격 기준으로 사용하지 않는다. DB 환경·데이터 기준일과 건수·준비 호출 여부·반복 횟수·측정 방식을 함께 기록한다.
-- `pnpm lint`, `pnpm typecheck`, `pnpm test` 통과와 실제 DB 통합·성능 검증이 모두 필요하다. 키나 데이터 부족으로 미실행한 검사를 통과로 표시하지 않는다.
+2026-09-22 로컬 실제 score_inputs 조회, 대표점 `(lat=37.5025724504279,lng=127.057585738094)`, 반경 500m, address='역삼로460'. floor=3과 floor=4 각각 `floor_use`는 use_code=04010, use_name=학원, other_use=제2종근린생활시설(학원), area_m2=173.68이다. 요청 층에 상관없이 아래 `building.all_floors` 5행을 모두 반환한다.
+
+```json
+{
+  "all_floors": [
+    {
+      "area_m2": 153.39,
+      "floor_no": -1,
+      "use_name": "휴게음식점",
+      "floor_kind": "10"
+    },
+    {
+      "area_m2": 175.54,
+      "floor_no": 1,
+      "use_name": "학원",
+      "floor_kind": "20"
+    },
+    {
+      "area_m2": 173.68,
+      "floor_no": 2,
+      "use_name": "학원",
+      "floor_kind": "20"
+    },
+    {
+      "area_m2": 173.68,
+      "floor_no": 3,
+      "use_name": "학원",
+      "floor_kind": "20"
+    },
+    {
+      "area_m2": 173.68,
+      "floor_no": 4,
+      "use_name": "학원",
+      "floor_kind": "20"
+    }
+  ]
+}
+```
+
+[3층·4층 전체 실제 응답 JSON](../validation/pr7-building-all-floors-20260922.json)은 도형 경로와 주소 캐시 경로 각각을 보존한다. 2026-09-21에 확인한 원천 대장/유효 캐시로 조회했고 외부 API를 새로 호출하지 않았다. 대장 자료와의 일치이며 현장 방문 검증은 아니다.
 
 ## 4. 갱신 주기
 
@@ -305,6 +491,8 @@ GitHub Actions 스케줄로 Python 배치와 DuckDB 집계를 실행한다. `pg_
 
 ## 변경 이력
 
+
+
 | 날짜       | 버전 | 내용                                                                                  |
 | ---------- | ---- | ------------------------------------------------------------------------------------- |
 | 2026-09-16 | v1   | 최초 작성. 건물 footprint 소스, 임대동향 API, 주민등록 인구 API 경로는 확인 필요 상태 |
@@ -318,3 +506,6 @@ GitHub Actions 스케줄로 Python 배치와 DuckDB 집계를 실행한다. `pg_
 | 2026-09-20 | v1.8 | PR 4 최소 stores·원문 분야/과정·기관 지오코딩·주소 보정 거부·캐시 재사용·R2와 공간 조회 검증. 사용자 저장/브랜치/VACUUM 결정은 실제 응답 검증과 구분 |
 | 2026-09-20 | v1.9 | 사용자 결정: 로컬 용량 제한 없음, S1 원격 무료 유지, S2 서울 전체 건물 적재 시 Pro 검토. 용량에 따른 구조 축소 조건 폐기. SHP 직접 ZIP 검증·강남구 WFS/OSM 전수 비교·공식 PK 변환·동 단위 API 페이지 수집 확인 |
 | 2026-09-20 | v1.10 | PR 6 실제 XML·R-ONE 인증 응답, 법정동 경계, R2 27개·DB 집계 대조. 사용자 승인으로 district→region→NULL, 거래 다수 표본 유형·최소5건. 공식 권역 공간 정의 미확보로 region NULL 유지 |
+| 2026-09-21 | v1.11 | PR 7 score_inputs 통합, S2 입력 전체 JSON 타입·NULL·단위·추정 계약과 실제 응답, 묶음별 ms, 부분 결측 격리·6조합 DB/HTTP 검증. 외부 원천 API 재호출 없음 |
+| 2026-09-21 | v1.12 | 사용자 재검토 반영: 입력 계약 v1.1, 관측 격자 합계·80% 커버리지, 주소 대장 30일 캐시, unknown 소형/부속 제외, 주민등록 단일 연령 재검증 |
+| 2026-09-22 | v1.13 | 입력 계약 v1.2: building.all_floors 전 층 용도·면적 추가. 기존 요청 층 필드·30일 캐시 보존. 역삼로 460 3/4층 실조회와 전체 JSON·성능 재검증 |

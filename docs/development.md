@@ -290,3 +290,35 @@ select public.rent_inputs(127.052873,37.496237,1000,2,null);
 앞의 두 좌표는 각각 법정동 대치동·도곡동이다. 요청 층에서 일반/집합 중 표본이 많은 유형을 고르고 5건 미만이면 매매 단가가 NULL이다. 임대료는 상권→공식 정의가 확인된 권역→NULL이며 근접 상권·이전 분기로 대체하지 않는다. 현재 공간 정의 미확인 사유는 [검증 문서](validation/pr6-rent-20260920.md)에 있다. `score_inputs` 전체 통합은 다음 태스크다.
 
 적재 실패는 트랜잭션을 롤백한다. 정정본은 원본 revision으로 보존하며 같은 출처의 이전 DB 집계를 새 완전 스냅샷으로 교체한다. 복구 시 이전 R2 원본과 그 기간/분류 증거를 다시 읽어 집계·적재한다. 현재 원격 Supabase 전환은 하지 않았다. 구조를 철회해야 한다면 새 CLI 마이그레이션으로 PR 6 함수/테이블만 제거하며 기존 S1 테이블을 건드리지 않는다.
+
+
+## PR 7 score_inputs 통합·S1 검증
+
+PR 7의 두 신규 마이그레이션을 적용한다. 기존 적재 데이터를 초기화하지 않는다.
+
+```sh
+supabase migration list --local
+supabase migration up --local
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm test:db
+uv run --frozen python -m ingest.verify_score_inputs \
+  --directory .local/validation/pr7/20260921-final
+```
+
+```sql
+select public.score_inputs(
+  lat => 37.494612, lng => 127.063642, radius_m => 500, floor => 2
+);
+```
+
+위경도 위치 인자 순서는 score_inputs가 lat,lng이고 이전 rent_inputs/buildings_in_radius는 lng,lat이다. 이름 있는 인자를 사용한다. HTTP는 `/rest/v1/rpc/score_inputs`에 같은 네 필드를 POST한다. 공개 원천 조회만 하며 개인 임대료 입력은 이 RPC에 포함하지 않는다.
+
+검증 스크립트는 로컬 DB/HTTP만 허용한다. 6조합 각각 준비 호출 3회·EXPLAIN 30회, 바로 뒤 별도 진단값 RPC 30회, HTTP 30회를 수행한다. EXPLAIN p95와 meta.bundle_ms/total_ms는 서로 다른 계측값이다. 내부 SQL 본문을 추출해 계획·결과를 대조하며, 독립 소스 집계와 전체 JSON을 비교한다. `.local/`의 보고서는 새 directory로 남겨 이전 실측을 보존한다. R2 재게시나 외부 API 재수집은 하지 않는다.
+
+전체 JSON 타입·NULL·단위·추정 계약은 [data-sources.md 3절](planning/data-sources.md#3-score_inputs--s2-채점-입력-계약-v10)이다. 기준일은 소스별로 다르며 공간 적용 미확인 임대동향, 불완전 셀 인구, 미연결 대장 등은 사유와 NULL을 반환한다. 모든 값이 비NULL이어야 S1이 완료되는 것은 아니다.
+
+기존 rent_inputs는 score_internal.rent_inputs와 공통 구현을 사용한다. buildings_in_radius는 지도·차폐용 별도 RPC로 유지한다. score_internal은 PostgREST 공개 스키마에 추가하지 않는다. 기존 공개 테이블 RLS와 비공개 ingest_private 권한을 그대로 둔다.
+
+복구가 필요하면 `supabase migration new rollback_score_inputs`로 새 마이그레이션을 만든다. 의존성 역순으로 public.score_inputs와 새 public.rent_inputs wrapper를 제거하고, score_internal.rent_inputs를 public으로 옮겨 PR 6 경로를 복원한 뒤 남은 내부 helper/schema를 제거한다. 기존 buildings_in_radius·적재 테이블·R2 원본은 보존한다. 이미 적용한 두 마이그레이션을 편집하거나 DB reset으로 복구하지 않는다.
