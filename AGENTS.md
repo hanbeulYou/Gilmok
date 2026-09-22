@@ -47,7 +47,7 @@
 
 ### 데이터
 
-- 외부 API는 `/ingest` 안에서만 호출한다. 프론트·Edge Function은 Supabase만 본다.
+- 외부 데이터 API는 `/ingest` 안에서만 호출한다. 프론트·Edge Function은 Supabase만 본다. PR 8 사용자 승인 예외: DB의 pg_net webhook이 고정 GitHub repository_dispatch 엔드포인트를 호출하여 Python 주소 워커를 깨울 수 있다. 주소·PNU 전송 및 DB/Edge의 데이터 API 호출은 허용하지 않는다. 원격 전환 후 수동 활성화한다.
 - 좌표는 DB에 EPSG:4326으로 저장. 거리 계산은 `geography` 또는 5186 변환 후.
 - 추정값에는 반드시 `estimated` 플래그. 추정 로직은 `data-sources.md`에 적힌 것만 쓴다. 새 추정이 필요하면 문서에 먼저 추가.
 - 로컬 인증키·비밀은 `.env`에만. GitHub Actions에서는 Secrets를 실행 환경에 주입한다. 키 값은 코드·문서·로그에 기록하지 않는다. `.env.example`을 항상 최신으로 유지하고, `.gitignore`에 `.env*`와 예외 `!.env.example`을 둔다.
@@ -79,7 +79,7 @@
 
 ## 7. 현재 스프린트
 
-- **S1 데이터 기반** (PR 1~3은 통합 GitHub #6으로 main 반영 완료. PR 4 [GitHub #7](https://github.com/hanbeulYou/Gilmok/pull/7)은 main 머지 완료. PR 5 [GitHub #8](https://github.com/hanbeulYou/Gilmok/pull/8) 강남구 footprint·건축물대장·층별개요 실제 적재·검증 완료, main 머지 완료다. PR 6 [GitHub #9](https://github.com/hanbeulYou/Gilmok/pull/9)도 main 머지 완료. PR 7 `s1/score-inputs`에서 통합 RPC 및 S1 완료 검증 통과, 아직 main 반영 전)
+- **S1 데이터 기반 완료**. PR 1~7(GitHub #6~#10) main 머지 및 실제 데이터 score_inputs v1.2 검증 완료. PR 8 `s1/refresh-close`는 월간/수동 갱신·이벤트 주소 워커·운영 문서·S2 인계를 구현한다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -92,12 +92,14 @@
 - PR 4: 서울 상가 554,092행, 학원·교습소 25,508행, 초·중·고 1,319행. stores는 사용자 승인에 따라 업소번호·대/중/소 코드·층·geom 6컬럼만 둔다. 상호명·주소·표준산업분류는 R2 원본에만, 출처는 스냅샷 메타데이터에 둔다. 분야·계열·과정 원문을 보존하고 국어·논술 분류는 S2로 남긴다.
 - 기준 브랜치는 **main**, PR 4 브랜치는 `s1/상가-학원-학교`다. `s1/supabase-인증키`는 원격·로컬 삭제 완료. 다음 PR도 main에서 분기한다. PR 설명 첫 줄은 `base: main`이다.
 - PR 4 지오코딩: 고유 주소 13,542개 중 13,491개 확보, 51개 실패(학원 86행·학교 7행). 성공/실패 캐시와 호출 전 영속 claim으로 같은 주소 재호출을 막는다. provider가 도로명·건물번호를 바꾼 응답은 거부한다. 자세한 한계·학교 캠퍼스 대표점·주소 대조는 docs/validation/pr4-places-20260920.md를 따른다.
-- 용량 기준: 사용자 승인으로 로컬 VACUUM FULL 1회 후 171,467,279 byte. 추가 VACUUM·원격 VACUUM은 하지 않는다. 적재 트랜잭션의 임시 공간과 커밋 후 용량을 구분한다.
+- 용량 기준: 사용자 승인으로 로컬 VACUUM FULL 1회 후 171,467,279 byte. PR 8 승인으로 갱신 커밋 후 별도 연결의 VACUUM (ANALYZE)를 허용한다. 추가 VACUUM FULL과 이번 PR의 원격 실행은 하지 않는다. 적재 트랜잭션의 임시 공간과 커밋 후 용량을 구분한다.
 - 2026-09-20 사용자 결정으로 이전 500MB 목표를 폐기했다. PR 4 커밋 후 로컬 DB 312,110,227 byte는 관측값이며 다음 적재의 통과 조건이 아니다. S1 원격 무료 유지, S2 서울 전체 건물 적재 시 Pro 검토를 따른다.
 - PR 5는 `docs/planning/pr5-buildings-plan.md` 승인 범위로 구현한다. 주 소스는 SHP(PNU 100%, 대장 연결률 우위, CC BY, 주 원본의 API 약관·쿼터 비의존), WFS는 SHP에 없는 도형만 source를 구분해 보조 추가한다. WFS는 대장 미연결·대장 기반 집계 제외이며 3D 표시와 차폐 계산에는 포함한다. 높이는 원천 양수→층수×3.3m(1층 단층 상업건물 4m)→NULL/unknown 순서다. unknown의 표시·차폐 입력은 4m이고 신뢰도에 unknown 비율을 반환한다. SHP 중복 1쌍은 하나만, 자기 교차 4건은 ST_MakeValid로 정리하고 원본은 R2에 그대로 보존한다. 운영은 **수동 다운로드 후 R2 raw/에 게시, 갱신 주기 분기**다. 서울 전체 원본 중 S1 DB 적재는 강남구만이다.
 - PR 5 실측: SHP 28,227개 + WFS 보조 1,885개, 표제부 24,324행, 층별개요 198,637행. SHP 대장 연결 19,016개(67.37%), 미연결·층별개요 부모 없음 66행도 보존. unknown 6,152개는 4m 차폐 입력과 신뢰도 분모에 포함한다. WFS 겹침 3,231개·붕괴 1개는 제외 기록을 남겼다. R2 원본 5개 재읽기 일치, 건물 RPC 6개 조합 DB p95 16.084~157.651ms. `docs/validation/pr5-buildings-20260920.md`를 따른다.
-- PR 6 강남구 실거래·임대동향은 `s1/실거래-임대동향`에서 실제 적재·검증 완료했다. 매매 원본 2,092행·유효1,744행·집계180행, 법정동14개, 임대동향원본1,810행·집계34행이다. R2 27개 객체 재읽기·매매집계 DB전수 대조 불일치0, rent RPC DB p95 0.122~0.485ms. 상권/권역12개 공간 연결은 정의·분기 적용 미확인으로 비활성화하여 실제 rent_level은 NULL이다. `docs/validation/pr6-rent-20260920.md`를 따른다. 실거래 일반/집합 중 표본이 많은 유형을 기본값으로 반환하고 5건 미만은 NULL. 임대동향은 포함 상권→공식 정의에 포함된 권역→NULL과 rent_level(district/region/NULL)을 반환하며 근접 상권 대체는 금지한다. 공식 강남 권역 경계/포함 자치구를 확인하기 전에는 region을 NULL로 둔다. PR 7에서 전체 7개 묶음 `score_inputs` 통합·S1 완료 검증을 통과했다. 현재 브랜치의 검증 완료이며 main 반영 여부와 구분한다. 현재 건물 RPC 데이터 계약을 실제 렌더러·레이캐스트에서 소비하는 작업은 후속 스프린트이며 가시성 점수/학원 적합성은 구현하지 않았다.
-- PR 7 재검토: `score_inputs(lat,lng,radius_m,floor,address DEFAULT NULL)` 입력 계약 v1.2, 머지 보류 상태다. flow는 유효 격자 부분 합계·시간별 커버리지와 80% 미만 low_coverage를 반환한다. 주민등록 15~18세는 단일 연령 정확 합계이며 생활인구 15~19세와 구분한다. 도형/대장 미연결 시 주소 캐시(30일)→private 큐→`ingest/building_on_demand.py` 경로를 쓴다. 최초 미스는 pending이며 상시 워커 미배포, 실행 방법·전체 JSON 계약은 `docs/planning/data-sources.md` 3절을 따른다. unknown 비율은 30㎡ 미만 또는 주용도 부속·창고를 분자/분모에서 제외하고 원래/제외 수를 병기한다. 대치 500m는 27/194=13.92%. 6조합 각 30회 DB p95 14.803~61.198ms, HTTP 기록·내부 EXPLAIN·독립 원천 대조·묶음별 결측 테스트 통과. `pnpm lint/typecheck/test/test:db` 통과(Python 205·Vitest 1, DB 121). `building.all_floors`는 요청 층과 무관한 전 층 용도·면적 배열이며 기존 floor_use를 보존한다. `docs/validation/pr7-building-all-floors-20260922.md`가 최신 증거다. 임대 공간 연결은 비활성, 기존 RPC·buildings_in_radius 병존. 채점/UI는 미구현이다.
+- PR 6 강남구 실거래·임대동향은 `s1/실거래-임대동향`에서 실제 적재·검증 완료했다. 매매 원본 2,092행·유효1,744행·집계180행, 법정동14개, 임대동향원본1,810행·집계34행이다. R2 27개 객체 재읽기·매매집계 DB전수 대조 불일치0, rent RPC DB p95 0.122~0.485ms. 상권/권역12개 공간 연결은 정의·분기 적용 미확인으로 비활성화하여 실제 rent_level은 NULL이다. `docs/validation/pr6-rent-20260920.md`를 따른다. 실거래 일반/집합 중 표본이 많은 유형을 기본값으로 반환하고 5건 미만은 NULL. 임대동향은 포함 상권→공식 정의에 포함된 권역→NULL과 rent_level(district/region/NULL)을 반환하며 근접 상권 대체는 금지한다. 공식 강남 권역 경계/포함 자치구를 확인하기 전에는 region을 NULL로 둔다. PR 7에서 전체 7개 묶음 `score_inputs` 통합·S1 완료 검증을 통과했다. PR 7(GitHub #10)은 main 머지 완료다. 현재 건물 RPC 데이터 계약을 실제 렌더러·레이캐스트에서 소비하는 작업은 후속 스프린트이며 가시성 점수/학원 적합성은 구현하지 않았다.
+- PR 7 재검토: `score_inputs(lat,lng,radius_m,floor,address DEFAULT NULL)` 입력 계약 v1.2, 머지 보류 상태다. flow는 유효 격자 부분 합계·시간별 커버리지와 80% 미만 low_coverage를 반환한다. 주민등록 15~18세는 단일 연령 정확 합계이며 생활인구 15~19세와 구분한다. 도형/대장 미연결 시 주소 캐시(30일)→private 큐→`ingest/building_on_demand.py` 경로를 쓴다. 최초 미스는 pending이며 PR 8 이벤트/시간별 워크플로우는 원격 활성화 전, 실행 방법·전체 JSON 계약은 `docs/planning/data-sources.md` 3절을 따른다. unknown 비율은 30㎡ 미만 또는 주용도 부속·창고를 분자/분모에서 제외하고 원래/제외 수를 병기한다. 대치 500m는 27/194=13.92%. 6조합 각 30회 DB p95 14.803~61.198ms, HTTP 기록·내부 EXPLAIN·독립 원천 대조·묶음별 결측 테스트 통과. `pnpm lint/typecheck/test/test:db` 통과(Python 205·Vitest 1, DB 121). `building.all_floors`는 요청 층과 무관한 전 층 용도·면적 배열이며 기존 floor_use를 보존한다. `docs/validation/pr7-building-all-floors-20260922.md`가 최신 증거다. 임대 공간 연결은 비활성, 기존 RPC·buildings_in_radius 병존. 채점/UI는 미구현이다.
 - RPC: `demand`, `flow`, `transit`, `market`, `compete`, `building`, `rent`의 7개 데이터 묶음과 `meta`. 점수·과목 기준·학원 등록 가능성 판정은 S2, 캐시 미스 사용자 흐름은 S3, 공동주택 세대수는 v2.
 - 완료 기준: `docs/planning/location-simulator.md` 스프린트 계획 표 참조
 - 이 절은 스프린트가 끝날 때마다 갱신한다.
+
+- PR 8: 월간 6개 소스 자동, 상가·건물 SHP·임대동향 수동. 소스별 atomic promotion 후 별도 VACUUM ANALYZE. 주소 pending은 DB webhook→repository_dispatch, 매시간 sweep 보완이며 10분 폴링은 사용하지 않는다. `INGEST_REMOTE_ENABLED` 기본 false. [운영](docs/operations/data-refresh.md), [S2 인계](docs/planning/location-simulator.md#s2-인계--s1-마감)를 따른다.
