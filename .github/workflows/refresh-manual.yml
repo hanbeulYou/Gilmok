@@ -1,0 +1,31 @@
+name: Manual source refresh
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        type: choice
+        options: [stores, buildings, rent]
+        required: true
+      end_month:
+        description: Completed source month YYYY-MM
+        type: string
+        required: true
+      quarter:
+        description: Rent only, YYYY-Qn
+        type: string
+      asset_manifest_key:
+        description: R2 raw/ JSON manifest with verified input keys and SHA256
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  refresh:
+    if: vars.INGEST_REMOTE_ENABLED == 'true'
+    uses: ./.github/workflows/refresh-source.yml
+    with:
+      source: ${{ inputs.source }}
+      end_month: ${{ inputs.end_month }}
+      quarter: ${{ inputs.quarter || '' }}
+      asset_manifest_key: ${{ inputs.asset_manifest_key }}
+    secrets: inherit

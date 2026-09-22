@@ -233,3 +233,67 @@ if __name__ == "__main__":
     parser.add_argument("destination", type=Path)
     args = parser.parse_args()
     print(json.dumps(prepare_month(args.archive, args.month, args.destination)))
+
+
+def monthly_files(html):
+    """Read actual monthly file IDs; daily ZIP IDs must not stand in for a month."""
+    import re
+    from html.parser import HTMLParser
+
+    class Catalog(HTMLParser):
+        files = None
+
+        def __init__(self):
+            super().__init__()
+            self.files = {}
+
+        def handle_starttag(self, tag, attributes):
+            attrs = dict(attributes)
+            name = re.fullmatch(r"250_LOCAL_RESD_([0-9]{4})([0-9]{2})\.zip", attrs.get("title", ""))
+            action = re.search(r"downloadFile\('([0-9]+)'\)", attrs.get("onclick", ""))
+            if name and action:
+                month = name[1] + "-" + name[2]
+                if month in self.files and self.files[month] != action[1]:
+                    raise ValueError("Ambiguous monthly file ID")
+                self.files[month] = action[1]
+
+    catalog = Catalog()
+    catalog.feed(html)
+    return catalog.files
+
+
+def fetch_catalog():
+    from urllib.request import urlopen
+
+    with urlopen(
+        "https://data.seoul.go.kr/dataList/OA-22784/S/1/datasetView.do", timeout=90
+    ) as response:
+        return monthly_files(response.read().decode("utf-8"))
+
+
+def fetch_month(month, destination):
+    from urllib.parse import urlencode
+    from urllib.request import Request, urlopen
+
+    files = fetch_catalog()
+    if month not in files:
+        raise ValueError("Requested completed month is not published in the official catalog")
+    body = urlencode(dict(infId="OA-22784", infSeq="1", seq=files[month])).encode()
+    request = Request(
+        "https://datafile.seoul.go.kr/bigfile/iot/inf/nio_download.do?useCache=false",
+        data=body,
+        headers={"User-Agent": "Gilmok-ingest/1.0"},
+    )
+    destination = Path(destination)
+    temporary = destination.with_suffix(".download")
+    try:
+        with urlopen(request, timeout=180) as source, temporary.open("wb") as target:
+            shutil.copyfileobj(source, target)
+        with ZipFile(temporary) as bundle:
+            if not bundle.namelist():
+                raise ValueError("Empty monthly archive")
+        temporary.replace(destination)
+    except Exception:
+        temporary.unlink(missing_ok=True)
+        raise RuntimeError("Living population monthly download failed") from None
+    return destination

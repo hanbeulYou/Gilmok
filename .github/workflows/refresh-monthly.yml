@@ -1,0 +1,31 @@
+name: Monthly source refresh
+on:
+  schedule:
+    # 03:17 KST on the 10th = 18:17 UTC on the 9th.
+    - cron: '17 18 9 * *'
+  workflow_dispatch:
+    inputs:
+      source:
+        description: Select one failed source for retry, or all
+        type: choice
+        options: [all, living, transit, academies, schools, population, trades]
+        default: all
+      end_month:
+        description: Completed end month YYYY-MM; empty selects last completed month
+        required: false
+        type: string
+permissions:
+  contents: read
+jobs:
+  refresh:
+    if: vars.INGEST_REMOTE_ENABLED == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        source: ${{ fromJSON(inputs.source && inputs.source != 'all' && format('["{0}"]', inputs.source) || '["living","transit","academies","schools","population","trades"]') }}
+    uses: ./.github/workflows/refresh-source.yml
+    with:
+      source: ${{ matrix.source }}
+      end_month: ${{ inputs.end_month || '' }}
+    secrets: inherit
