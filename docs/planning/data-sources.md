@@ -537,3 +537,11 @@ S2-2 실제 입력 계약 v1.3: reference preset v0.1.2 / snapshot `20260923T111
 - DB 저장 좌표는 4326으로 유지한다. 새 RPC만 추가하므로 이전 독자는 그대로 동작한다. 롤백은 호출자를 pending/NULL 가시성 경로로 되돌리는 것으로 충분하며 기존 데이터/함수 삭제나 역마이그레이션은 필요 없다.
 
 S2-3 실제 계약 확인: 소스 메타데이터의 available·원천 기준일을 그대로 보존하며, visibility 결과에는 층 기반 목표 높이의 target_height_estimated=true와 estimated=true를 명시한다. 역삼로460 3층 실제 입력/샘플/시간 증거는 [검증](../validation/s2-3-visibility-20260923.md)을 따른다.
+
+## 노출 조건 입력 계약 — exposure_inputs v0.2
+
+PR #15 후속 사용자 승인으로 exposure_inputs(lng,lat)를 추가한다. 기존 visibility_inputs v0.1을 그대로 보존하고 그 건물/후보/학교 좌표를 재사용한다. 기존 단일 station 필드는 새 응답에서 제거하고 1km 내 모든 subway ID의 stations 배열을 거리·ID 순으로 반환한다. 동명 환승역의 노선별 대표점은 임의로 합치지 않는다. schema_version=0.2, EPSG:5186 미터, 도형 범위1km다.
+
+밀어내기는 실제 보도 위치의 추정이 아닌 사용자 승인 계산 규칙이다. 후보→샘플 방향으로 최대30m 내 모든 footprint를 벗어난 첫 경계에서1mm 밖을 사용한다. 원래·최종 좌표와 moved_m, estimated=true를 보존하고 실패 시 제외 비율을 기록한다. 원래 반경의 가중치를 유지한다. 결과 근거에는 항상 가로수·가로시설물·간판 크기 미반영, 현장 확인 필요를 표시한다.
+
+현재 채점 preset0.2는 reference_version0.1.2를 명시적으로 재사용한다. 기존 raw 추출 계수/분포 데이터/HTTP 정밀도는 바뀌지 않는다. 배치 메타데이터도 원시값 분포 버전0.1.2를 기록한다. 이전 RPC·분포는 읽을 수 있으며 롤백은 이전 코드+visibility_inputs로 복귀한다. 기존 마이그레이션·적재 데이터는 수정하지 않는다.

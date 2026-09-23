@@ -1,6 +1,6 @@
 # 길목(GILMOK) 채점 명세 — scoring-spec.md
 
-> 작성일: 2026-09-22 · 버전: **v0.1.4 (2026-09-23 사용자 승인, S2-3 가시성)**
+> 작성일: 2026-09-22 · 버전: **v0.2 (2026-09-23 사용자 승인, 건물 배치상 노출 조건)**
 > 입력 계약: `docs/planning/data-sources.md` §3 `score_inputs` **v1.3** (all_floors 포함) + `buildings_in_radius`
 > 기준 문서: `docs/planning/location-simulator.md` — "S2 인계 — S1 마감" 절
 > 상태: **전부 가설.** 가중치·부호·계수·임계값은 §8 검증을 통과하기 전까지 가설이며, 검증 결과에 따라 v0.2로 갱신한다. S2-1은 medium, S2-2는 high로 구현한다. S2-1 PR을 먼저 올리고 머지 후 main에서 S2-2를 시작한다. S2-3·S2-4는 별도 세션이다.
@@ -47,7 +47,7 @@
 
 ```
 {
-  id: "academy_v0", version: "0.1.2",
+  id: "academy_v0", version: "0.2", reference_version: "0.1.2",
   radius_primary_m: 800, radius_school_m: 1000,
   golden_hours: [15, 22),                 // 반개구간, S1과 동일
   weights: { … §3 },
@@ -92,11 +92,11 @@ pct(axis, raw) = percentile_rank(score_reference[axis], raw)   // 0~100
 
 | #   | 축 key          | 가중치 | 방향    | 주 입력 (v1.2)                                                          | 정규화       |
 | --- | --------------- | ------ | ------- | ----------------------------------------------------------------------- | ------------ |
-| 1   | demand          | 25     | ↑       | demand.pop_5_9·pop_10_14·pop_15_18, demand.schools(1km)                 | 백분위       |
+| 1   | demand          | 30     | ↑       | demand.pop_5_9·pop_10_14·pop_15_18, demand.schools(1km)                 | 백분위       |
 | 2   | flow            | 15     | ↑       | flow.weekday.golden_avg_pop, flow.weekend.golden_avg_pop                | 백분위       |
 | 3   | transit         | 15     | ↑       | transit.nearest_subway_m, subway_boardings_golden, bus_stops            | 백분위(합성) |
 | 4   | cluster         | 15     | ↑ (log) | compete.academies_by_field["입시.검정 및 보습"], academies_total        | 백분위(log)  |
-| 5   | visibility      | 10     | ↑       | 레이캐스트 visible_ratio (클라이언트)                                   | 절대         |
+| 5   | exposure      | 5     | ↑       | 레이캐스트 visible_ratio (클라이언트)                                   | 절대         |
 | 6   | building        | 10     | 규칙    | building.floor_use, all_floors, elevators, floors_above, location_basis | 절대         |
 | 7   | environment     | 5      | 규칙    | market.stores_total, stores_by_lcls                                     | 백분위+감점  |
 | 8   | rent_efficiency | 5      | ↑       | 사용자 임대료, demand·flow 점수, rent.trade_median_per_m2(근거만)       | 절대         |
@@ -174,34 +174,26 @@ level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 
 ## 5. 축별 계산 — 규칙 축 (절대 점수)
 
-### 5.5 visibility (가시성) — 클라이언트 Web Worker
+### 5.5 exposure (건물 배치상 노출 조건) — v0.2
 
-역·학교 좌표는 score_inputs v1.2에 없다. S2-3에서 별도 공간 조회 계약을 설계한다. S2-1·2에서는 미계산 visibility를 pending/NULL로 받으며 워커를 구현하지 않는다.
+**입력:** 기존 buildings_in_radius(1km)의 footprint와 차폐 높이(unknown=4m), 후보 좌표·층, **1km 내 모든 역** 좌표, 1km 내 학교 좌표. exposure_inputs v0.2가 전부 EPSG:5186 미터 좌표로 제공한다. 역은 transit_stops의 역 ID 기준이며 노선별 환승역 대표점을 임의로 합치지 않는다. 역이 없으면 역 동선 집합은 빈 배열이다.
 
-**입력:** `buildings_in_radius(1km)` footprint + height(unknown은 4m), 후보 좌표·층, 최근접 역 좌표, 1km 학교 좌표.
+**목표점:** 후보 건물 도형이 있으면 이동 완료한 샘플에서 가장 가까운 도형 경계점, 없으면 후보 좌표. target_z=(floor−1)×3.3+2.0m, 눈높이는 1.5m다. 후보 좌표 fallback에는 `candidate_footprint_missing_self_occlusion_unaccounted`를 남기고 §7 신뢰도 −5를 한 번 적용한다.
 
-**목표점:** 후보 건물 외벽의 간판 위치. `target_z = (floor − 1)×3.3 + 2.0` m. 후보 건물 도형이 있으면 각 샘플점에서 가장 가까운 도형 경계점, 없으면 후보 좌표. 이 fallback을 사용하면 근거에 `candidate_footprint_missing_self_occlusion_unaccounted`를 남긴다. 자기 건물 차폐를 계산하지 못해 과대평가될 수 있으므로 §7 신뢰도에서 −5를 한 번 적용한다.
+**샘플과 가중치:**
 
-**샘플점(눈높이 1.5m):**
+- 링: 5186 격자 북쪽 0°에서 시계방향 10° 간격, **{30,60,100}m × 36방향 = 108점**, 가중치 100/d. 도심 3층 간판의 유효 노출 범위를 앞 도로 건너편까지로 본다는 사용자 결정이다. 150·200·300m 링은 사용하지 않는다.
+- 역 동선: 1km 내 각 역마다 후보→역 대표점 직선 20등분의 i/20(i=1…20) 점, 가중치 3.
+- 학교 동선: 1km 내 학교마다 후보→학교 대표점 직선 10등분의 i/10(i=1…10) 점, 가중치 2.
+- 서로 다른 집합의 중복 좌표는 각 집합의 가중치를 유지한다.
 
-| 집합      | 생성                                        | 가중치      |
-| --------- | ------------------------------------------- | ----------- |
-| 링        | 36방향 × 거리 {50,100,150,200,300}m = 180점 | 1 × (100/d) |
-| 역 동선   | 후보→최근접 역 직선 20등분                  | 3           |
-| 학교 동선 | 1km 내 학교별 후보→학교 직선 10등분         | 2           |
+**footprint 내부·경계 샘플 처리:** 후보에서 원래 샘플을 향하는 방향을 유지해 그 샘플 위치부터 바깥쪽으로 최대 30m 밀어낸다. 모든 도형의 합집합을 벗어난 첫 지점을 사용한다. 중간에 붙어 있거나 겹친 건물이 있으면 함께 통과해야 한다. 구멍 내부도 건물 밖으로 취급한다. 경계 바로 밖 1mm를 사용하고 이동 총량은 30m를 넘기지 않는다. 30m 안에 못 나오거나 원점과 같아 방향을 정할 수 없으면 제외한다. 이미 밖이면 이동하지 않는다. 가중치는 **원래 샘플 반경·집합 기준**을 유지하며 도로에 스냅하지 않는다.
 
-- 건물 footprint 안에 떨어진 샘플점은 제외(도로가 아님).
-- 각 샘플점→목표점 선분이 후보 건물을 제외한 footprint 익스트루전(2.5D)과 교차하면 차폐. WFS 보조 도형도 차폐에 포함(S1 결정).
+원래/최종 좌표·이동거리·이동 여부를 보존한다. 근거에 전체·집합별 제외 비율(제외 점 수/생성 점 수), 이동 점 수, 제외 전/후 가중치와 제외 가중치 비율을 남긴다. 제외된 점은 점수 분자·분모에서 뺀다. 유효 가중치가 0이면 점수 NULL이다.
 
-**출력:**
+차폐 판정은 기존 3D 시선-건물 프리즘 교차를 유지한다. 후보 건물만 제외하며 WFS·작은 부속건물도 포함하고 unknown은 4m다. 가시 가중치/유효 가중치가 visible_ratio, exposure 점수는 100×visible_ratio다. 실제 간판이 보인다는 단정 대신 건물 배치상 노출 조건을 뜻한다.
 
-```
-visible_ratio = Σ(가시 샘플 가중치) / Σ(전체 샘플 가중치)   // 0~1
-score         = 100 × visible_ratio
-```
-
-- 절대값이다. "역에서 오는 길의 70% 구간에서 간판이 보인다"가 그대로 의미를 갖는다.
-- 신뢰도는 `meta.height_quality`의 **부속건물 제외 후** unknown 비율로 §7에서 반영.
+근거에는 상태와 관계없이 항상 **"가로수·가로시설물·간판 크기 미반영, 현장 확인 필요"**를 표시한다. 지형·실제 보도·출입구 경로를 모델링하지 않는다. 신뢰도는 §7을 유지한다.
 
 ### 5.6 building (건물 적합성)
 
@@ -279,7 +271,7 @@ total     = Σ_{axis ∈ available} score[axis] × weights[axis] / W
 
 - 결측 축의 가중치를 나머지에 비례 배분한 것과 같다. `axes[].status ∈ {scored, missing, pending}`으로 드러낸다.
 - **백분위 축 5개(demand·flow·transit·cluster·environment) 중 2개 이상 normalized=NULL이면 total=NULL**, "평가 불가"로 표시. 가중치가 0인 축도 결측 개수에 포함하며 3D·근거는 그대로 보여준다.
-- 규칙 축(visibility·building·rent_efficiency)은 결측이어도 total을 계산하고, 결측 축의 `evidence.notes`에 유효 축으로 가중치를 비례 재배분한다는 사실을 남긴다. 결측 점수 자체는 NULL로 유지한다. 워커 미주입·좌표가 건물 도형 밖·사용자 임대료 미입력은 자주 발생하므로 이 사유만으로 평가를 막지 않는다.
+- 규칙 축(exposure·building·rent_efficiency)은 결측이어도 total을 계산하고, 결측 축의 `evidence.notes`에 유효 축으로 가중치를 비례 재배분한다는 사실을 남긴다. 결측 점수 자체는 NULL로 유지한다. 워커 미주입·좌표가 건물 도형 밖·사용자 임대료 미입력은 자주 발생하므로 이 사유만으로 평가를 막지 않는다.
 - 유효 가중치 합 W=0도 total=NULL이다. 음수/비유한 가중치는 입력 오류다.
 - 슬라이더 재계산은 `normalized`를 유지한 채 weight만 바꿔 total·contribution·effective_weight를 다시 구한다. RPC 재호출 없음.
 
@@ -331,7 +323,7 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 - **반경 800m:** 500m로 바꿔 채점했을 때 순위가 뒤집히는지. 뒤집히면 반경이 결과를 지배하는 것이니 두 반경을 모두 보여주는 UI를 S3에서 검토.
 - **demand 계수:** 학교 1개 = 300명 등가가 과한지.
 - **environment 가설(숙박 감점)**이 대치동 안에서 의미 있는 차이를 만드는지. 없으면 v0.2에서 축 제거.
-- **visibility:** 포도밭 3층 간판이 대치역 방향에서 실제로 보이는지와 visible_ratio가 맞는지 — 사용자가 직접 아는 유일한 축.
+- **exposure:** 포도밭 3층 간판이 대치역 방향에서 실제로 보이는지와 visible_ratio가 맞는지 — 사용자가 직접 아는 유일한 축.
 - **building 90점(§5.6 예시)**이 "4층·승강기 없음"에 대한 실제 체감과 맞는지.
 
 ---
@@ -433,3 +425,9 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 - 링은 5186 격자 북쪽 0°에서 시계방향 10° 간격이다. 동선은 후보→목적지 직선의 i/N(i=1…N) 점이며 후보는 제외·목적지는 포함한다. footprint 내부/경계 샘플은 분자·분모에서 제외한다. 서로 다른 집합의 중복 좌표는 각 집합의 가중치를 유지한다.
 - 입력은 PostGIS가 EPSG:5186으로 변환하며 Worker와 Node는 같은 순수 함수를 사용한다. 지형·실제 도로 경로·출입구는 모델에 없다. 건물 밑면 0m와 높이 사이의 닫힌 프리즘에 시선이 접촉하면 차폐다. 후보 목표점은 구멍을 포함한 도형 경계에서 가장 가까운 점을 선택한다.
 - 프리셋/기준 분포 0.1.2, score_inputs v1.3, ScoreResult v0.1은 유지한다. 추가 계약은 data-sources.md의 visibility_inputs를 따른다. 정책 변경은 사용자 결정이며 외부 API 실응답 검증 결과가 아니다.
+
+### v0.2 — 2026-09-23 사용자 결정
+
+- §5.5 전체 개정: 1km 모든 역, 30/60/100m 링, 바깥 방향 최대30m 이동·제외 비율 근거. 축 key는 exposure, 표시는 건물 배치상 노출 조건이다.
+- demand 25→30, exposure 10→5. 다른 가중치는 유지하며 합계100이다. 채점 preset.version=0.2, ScoreResult v0.2로 구별한다. 백분위 원시값은 바뀌지 않아 reference_version=0.1.2를 명시적으로 사용한다. score_inputs v1.3과 과거 기준 분포/검증 JSON은 유지한다. 구 visibility 축을 가진 결과는 재계산해야 하며 새 가중치로 조용히 재사용하지 않는다.
+- 이전 버전 절의 샘플·가중치 규칙은 당시 기록이며 현재 §3·§5.5가 우선한다. 변경은 사용자 결정으로, 현장 검증 완료를 뜻하지 않는다.
