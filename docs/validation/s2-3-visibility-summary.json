@@ -1,0 +1,287 @@
+{
+  "spec_version": "0.1.4",
+  "input_schema_version": "0.1",
+  "reference_snapshot": "20260923T111436Z",
+  "candidate": {
+    "lat": 37.5025724504279,
+    "lng": 127.057585738094,
+    "floor": 3,
+    "address": "역삼로460"
+  },
+  "input_sha256": "3f12a72c9217e4d95538f7236e52f7afba086bd95496b37c6921ba127bc8ea9a",
+  "scene_sha256": "c04ef137f928fa645bc2d54fc4419dc17c27fa998f68d27e6afde3ef6ea80b32",
+  "http_ms": 290.25225015357137,
+  "db_roundtrip_ms": 255.5201672948897,
+  "http_db_scene_equal": true,
+  "node_worker_result_equal": true,
+  "geometry_proof": {
+    "samples": 310,
+    "classification_mismatches": 0,
+    "max_target_error_m": 0.0
+  },
+  "node_timing": {
+    "samples": 30,
+    "warmups": 3,
+    "median_ms": 15.905854500000004,
+    "p95_ms": 16.956707999999992,
+    "max_ms": 17.09212499999998,
+    "runs_ms": [
+      15.706208000000004,
+      16.465458999999996,
+      17.09212499999998,
+      16.064249999999987,
+      16.956707999999992,
+      16.05520899999999,
+      16.084082999999993,
+      15.934792000000016,
+      15.887208000000015,
+      16.178499999999985,
+      15.855000000000018,
+      15.369542000000024,
+      16.214124999999967,
+      16.154791999999986,
+      15.625917000000015,
+      15.141124999999988,
+      15.912166000000013,
+      15.90295900000001,
+      15.363708000000031,
+      15.056291999999985,
+      16.687666999999976,
+      15.878874999999994,
+      15.192000000000007,
+      15.069999999999993,
+      15.908749999999998,
+      15.938666000000012,
+      15.89266699999996,
+      15.415958000000046,
+      15.900292000000036,
+      16.341292000000067
+    ]
+  },
+  "worker_timing": {
+    "warmups": 3,
+    "samples": 30,
+    "compute": {
+      "median_ms": 14.549999952316284,
+      "p95_ms": 18,
+      "max_ms": 21.299999713897705
+    },
+    "roundtrip": {
+      "median_ms": 21.15000009536743,
+      "p95_ms": 25.700000286102295,
+      "max_ms": 28.199999809265137
+    },
+    "first_compute_ms": 42.90000009536743,
+    "first_roundtrip_ms": 98,
+    "runs": [
+      {
+        "computeMs": 16.59999990463257,
+        "roundtripMs": 24.799999713897705
+      },
+      {
+        "computeMs": 18,
+        "roundtripMs": 25.700000286102295
+      },
+      {
+        "computeMs": 18,
+        "roundtripMs": 25.09999990463257
+      },
+      {
+        "computeMs": 21.299999713897705,
+        "roundtripMs": 28.199999809265137
+      },
+      {
+        "computeMs": 14.599999904632568,
+        "roundtripMs": 21.09999990463257
+      },
+      {
+        "computeMs": 14.5,
+        "roundtripMs": 21.300000190734863
+      },
+      {
+        "computeMs": 14.699999809265137,
+        "roundtripMs": 21.300000190734863
+      },
+      {
+        "computeMs": 15.199999809265137,
+        "roundtripMs": 22.5
+      },
+      {
+        "computeMs": 16.90000009536743,
+        "roundtripMs": 23.399999618530273
+      },
+      {
+        "computeMs": 14.700000286102295,
+        "roundtripMs": 21.199999809265137
+      },
+      {
+        "computeMs": 14.900000095367432,
+        "roundtripMs": 21.59999990463257
+      },
+      {
+        "computeMs": 15.099999904632568,
+        "roundtripMs": 21.700000286102295
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 21.100000381469727
+      },
+      {
+        "computeMs": 15.799999713897705,
+        "roundtripMs": 22.59999990463257
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 20.90000009536743
+      },
+      {
+        "computeMs": 14.199999809265137,
+        "roundtripMs": 20.700000286102295
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 21.100000381469727
+      },
+      {
+        "computeMs": 14.300000190734863,
+        "roundtripMs": 20.800000190734863
+      },
+      {
+        "computeMs": 15.599999904632568,
+        "roundtripMs": 22.40000009536743
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 21.09999990463257
+      },
+      {
+        "computeMs": 14.299999713897705,
+        "roundtripMs": 20.699999809265137
+      },
+      {
+        "computeMs": 14.299999713897705,
+        "roundtripMs": 20.799999713897705
+      },
+      {
+        "computeMs": 14.199999809265137,
+        "roundtripMs": 20.699999809265137
+      },
+      {
+        "computeMs": 15.900000095367432,
+        "roundtripMs": 22.5
+      },
+      {
+        "computeMs": 14.300000190734863,
+        "roundtripMs": 20.800000190734863
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 21
+      },
+      {
+        "computeMs": 14.400000095367432,
+        "roundtripMs": 21
+      },
+      {
+        "computeMs": 14.099999904632568,
+        "roundtripMs": 20.5
+      },
+      {
+        "computeMs": 15.800000190734863,
+        "roundtripMs": 22.59999990463257
+      },
+      {
+        "computeMs": 14.300000190734863,
+        "roundtripMs": 20.90000009536743
+      }
+    ]
+  },
+  "browser_invalid_scene_rejected": true,
+  "browser_recovered": true,
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+  "host": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "cpu": "Apple M5 Pro",
+    "node": "v22.22.0"
+  },
+  "sources": {
+    "schools": {
+      "source": "neis_schools",
+      "quarter": null,
+      "coverage": "Seoul",
+      "available": true,
+      "date_kind": "snapshot",
+      "period_end": null,
+      "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+      "limitations": [
+        "unlocated_records_not_in_spatial_counts"
+      ],
+      "period_start": null,
+      "reference_date": "2026-09-19",
+      "source_version": "2026-09-19",
+      "unlocated_count": 7
+    },
+    "building_shp": {
+      "source": "gis_buildings_shp",
+      "quarter": null,
+      "coverage": "Gangnam-gu",
+      "available": true,
+      "date_kind": "source_version",
+      "period_end": null,
+      "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+      "limitations": [],
+      "period_start": null,
+      "reference_date": "2026-09-06",
+      "source_version": "2026-09-06",
+      "unlocated_count": null
+    },
+    "building_wfs": {
+      "source": "vworld_wfs_supplement",
+      "quarter": null,
+      "coverage": "Gangnam-gu",
+      "available": true,
+      "date_kind": "retrieved_on",
+      "period_end": null,
+      "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+      "limitations": [
+        "register_unlinked"
+      ],
+      "period_start": null,
+      "reference_date": "2026-09-20",
+      "source_version": "2026-09-20",
+      "unlocated_count": null
+    },
+    "subway_positions": {
+      "source": "seoul_transit",
+      "quarter": null,
+      "coverage": "Seoul",
+      "available": true,
+      "date_kind": "retrieved_on",
+      "period_end": null,
+      "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+      "limitations": [
+        "historical_positions_unverified",
+        "신분당선: 승하차 미제공; 대체 추정 없음"
+      ],
+      "period_start": null,
+      "reference_date": "2026-09-19",
+      "source_version": "2026-09-19",
+      "unlocated_count": null
+    }
+  },
+  "building_meta": {
+    "radius_m": 1000,
+    "confidence": {
+      "unknown_count": 457,
+      "unknown_ratio": 0.12844294547498594,
+      "occluder_count": 3558
+    },
+    "primary_count": 3410,
+    "unknown_ratio": 0.12844294547498594,
+    "total_buildings": 3558,
+    "linked_buildings": 2523,
+    "unknown_buildings": 457,
+    "supplemental_count": 148,
+    "estimated_buildings": 722
+  }
+}

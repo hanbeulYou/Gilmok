@@ -1,0 +1,33 @@
+<!doctype html><meta charset="utf-8"><title>Visibility Worker verification</title>
+<pre id="result">running</pre>
+<script type="module">
+import { createVisibilityClient } from '/.local/visibility-browser/lib/visibility/client.js';
+const worker = new Worker('/.local/visibility-browser/workers/visibility.worker.js', { type: 'module' });
+const client = createVisibilityClient(worker);
+globalThis.verification = (async () => {
+  const scene = await (await fetch('/.local/validation/s2-3/scene.json')).json();
+  const send = async scene => {
+    const start = performance.now();
+    const { requestId, response } = client.request(scene);
+    const reply = await response;
+    if (reply.requestId !== requestId || !('result' in reply)) throw new Error('Worker protocol mismatch');
+    return { ...reply, roundtripMs: performance.now() - start };
+  };
+  const first = await send(scene);
+  for (let i = 0; i < 3; i++) await send(scene);
+  const runs = [];
+  for (let i = 0; i < 30; i++) {
+    const reply = await send(scene);
+    if (JSON.stringify(reply.result) !== JSON.stringify(first.result)) throw new Error('Worker nondeterministic');
+    runs.push({ computeMs: reply.computeMs, roundtripMs: reply.roundtripMs });
+  }
+  let rejected = false;
+  try { await send({ ...scene, srid: 4326 }); } catch { rejected = true; }
+  if (!rejected) throw new Error('Invalid scene did not reject');
+  const recovered = await send(scene);
+  if (JSON.stringify(recovered.result) !== JSON.stringify(first.result)) throw new Error('Worker failed to recover');
+  return { result: first.result, firstComputeMs: first.computeMs, firstRoundtripMs: first.roundtripMs,
+    runs, invalidSceneRejected: true, recovered: true, userAgent: navigator.userAgent };
+})().then(value => { document.querySelector('#result').textContent = JSON.stringify(value); return value; })
+  .finally(() => { client.dispose(); worker.terminate(); });
+</script>

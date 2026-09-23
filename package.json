@@ -8,11 +8,12 @@
   },
   "scripts": {
     "lint": "eslint . && uv run --frozen ruff check .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.visibility-worker.json --noEmit",
     "test": "vitest run && uv run --frozen pytest tests/ingest",
     "test:db": "uv run --frozen pytest tests/integration",
     "ingest:smoke": "uv run --frozen python -m ingest.smoke",
-    "score:reference:build": "tsc -p tsconfig.scoring-batch.json"
+    "score:reference:build": "tsc -p tsconfig.scoring-batch.json",
+    "visibility:build": "tsc -p tsconfig.scoring-batch.json && tsc -p tsconfig.visibility-worker.json"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

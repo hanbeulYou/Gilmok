@@ -80,15 +80,17 @@ export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: R
   return [demand, flow, transit, cluster, environment];
 }
 export function visibilityAxis(visibility: VisibilityInput): AxisResult {
+  const e = evidence(visibility?.evidence ? structuredClone(visibility.evidence.values) : {});
+  e.notes.push(...(visibility?.evidence?.notes ?? []));
   if (visibility?.status === 'ready') {
     if (!Number.isFinite(visibility.visible_ratio) || visibility.visible_ratio < 0 || visibility.visible_ratio > 1)
       throw new Error('Invalid visible_ratio');
-    const e = evidence({ visible_ratio: visibility.visible_ratio });
+    e.values.visible_ratio = visibility.visible_ratio;
     e.rules_applied.push('visible_ratio_times100');
     return axis('visibility', visibility.visible_ratio, visibility.visible_ratio * 100, e);
   }
   const reason = visibility?.reason ?? 'visibility_worker_pending';
-  return axis('visibility', null, null, evidence(), reason, visibility?.status ?? 'pending');
+  return axis('visibility', null, null, e, reason, visibility?.status ?? 'pending');
 }
 export function rentAxis(primary: ScoreInputs, candidate: Candidate, preset: ScoringPreset,
   context: ScoreContext, demand: AxisResult, flow: AxisResult): AxisResult {
