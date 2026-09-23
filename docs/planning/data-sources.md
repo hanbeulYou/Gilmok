@@ -535,3 +535,5 @@ S2-2 실제 입력 계약 v1.3: reference preset v0.1.2 / snapshot `20260923T111
 - 높이는 기존 occlusion_height_m을 사용한다. unknown은 4m, WFS도 차폐 포함. height_source/estimated/source/source_version을 보존한다. 30㎡ 미만·부속·창고도 차폐에서 빼지 않는다. score_inputs.meta.height_quality만 기존 §7 신뢰도 계산에 사용한다.
 - 건물 SHP/WFS·역 위치·학교 소스의 available을 반환한다. 미적재는 missing, 정상 조회 결과 빈 배열은 관측 0건이다. 건물 커버리지는 현재 강남구뿐이며 1km 밖 역 동선과 경계 밖 데이터 한계를 notes에 남긴다. 임의 반경 확대나 보정은 없다.
 - DB 저장 좌표는 4326으로 유지한다. 새 RPC만 추가하므로 이전 독자는 그대로 동작한다. 롤백은 호출자를 pending/NULL 가시성 경로로 되돌리는 것으로 충분하며 기존 데이터/함수 삭제나 역마이그레이션은 필요 없다.
+
+S2-3 실제 계약 확인: 소스 메타데이터의 available·원천 기준일을 그대로 보존하며, visibility 결과에는 층 기반 목표 높이의 target_height_estimated=true와 estimated=true를 명시한다. 역삼로460 3층 실제 입력/샘플/시간 증거는 [검증](../validation/s2-3-visibility-20260923.md)을 따른다.

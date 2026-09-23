@@ -1,0 +1,5943 @@
+{
+  "result": {
+    "status": "ready",
+    "visible_ratio": 0.11649874055415617,
+    "evidence": {
+      "values": {
+        "srid": 5186,
+        "radius_m": 1000,
+        "eye_height_m": 1.5,
+        "target_height_m": 8.6,
+        "target_height_estimated": true,
+        "candidate_wgs84": {
+          "lat": 37.5025724504279,
+          "lng": 127.057585738094
+        },
+        "floor": 3,
+        "candidate_building_id": "shp:1980205023774444864800000000",
+        "containing_building_count": 1,
+        "building_count": 3558,
+        "unknown_count": 457,
+        "wfs_count": 148,
+        "estimated": true,
+        "estimated_building_count": 1179,
+        "station": {
+          "id": "subway:1023",
+          "line": "분당선",
+          "name": "선릉",
+          "point": [
+            204315.501288808,
+            545044.195824601
+          ],
+          "distance_m": 816.55370856
+        },
+        "schools": [
+          {
+            "id": "7010137",
+            "name": "단국대학교사범대학부속고등학교",
+            "level": "high",
+            "point": [
+              205108.47999997,
+              544019.290000018
+            ],
+            "distance_m": 772.0784418
+          },
+          {
+            "id": "7010245",
+            "name": "진선여자고등학교",
+            "level": "high",
+            "point": [
+              204269.63000004,
+              544760.810000023
+            ],
+            "distance_m": 822.80082389
+          },
+          {
+            "id": "7010268",
+            "name": "휘문고등학교",
+            "level": "high",
+            "point": [
+              205481.450000027,
+              545092.990000026
+            ],
+            "distance_m": 492.80386482
+          },
+          {
+            "id": "7011489",
+            "name": "단국대학교부속소프트웨어고등학교",
+            "level": "high",
+            "point": [
+              205108.47999997,
+              544019.290000018
+            ],
+            "distance_m": 772.0784418
+          },
+          {
+            "id": "7091381",
+            "name": "서울대현초등학교",
+            "level": "elem",
+            "point": [
+              205596.369999961,
+              544892.920000025
+            ],
+            "distance_m": 514.65430767
+          },
+          {
+            "id": "7091382",
+            "name": "서울도곡초등학교",
+            "level": "elem",
+            "point": [
+              204816.170000006,
+              544451.290000026
+            ],
+            "distance_m": 437.65555432
+          },
+          {
+            "id": "7091383",
+            "name": "서울도성초등학교",
+            "level": "elem",
+            "point": [
+              204321.459999968,
+              544667.510000024
+            ],
+            "distance_m": 780.27429648
+          },
+          {
+            "id": "7091424",
+            "name": "대명중학교",
+            "level": "mid",
+            "point": [
+              205373.879999981,
+              545207.180000024
+            ],
+            "distance_m": 502.57054214
+          },
+          {
+            "id": "7091449",
+            "name": "단국대학교사범대학부속중학교",
+            "level": "mid",
+            "point": [
+              205108.47999997,
+              544019.290000018
+            ],
+            "distance_m": 772.0784418
+          },
+          {
+            "id": "7091456",
+            "name": "진선여자중학교",
+            "level": "mid",
+            "point": [
+              204269.63000004,
+              544760.810000023
+            ],
+            "distance_m": 822.80082389
+          },
+          {
+            "id": "7091457",
+            "name": "휘문중학교",
+            "level": "mid",
+            "point": [
+              205481.450000027,
+              545092.990000026
+            ],
+            "distance_m": 492.80386482
+          }
+        ],
+        "sources": {
+          "schools": {
+            "source": "neis_schools",
+            "quarter": null,
+            "coverage": "Seoul",
+            "available": true,
+            "date_kind": "snapshot",
+            "period_end": null,
+            "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+            "limitations": [
+              "unlocated_records_not_in_spatial_counts"
+            ],
+            "period_start": null,
+            "reference_date": "2026-09-19",
+            "source_version": "2026-09-19",
+            "unlocated_count": 7
+          },
+          "building_shp": {
+            "source": "gis_buildings_shp",
+            "quarter": null,
+            "coverage": "Gangnam-gu",
+            "available": true,
+            "date_kind": "source_version",
+            "period_end": null,
+            "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+            "limitations": [],
+            "period_start": null,
+            "reference_date": "2026-09-06",
+            "source_version": "2026-09-06",
+            "unlocated_count": null
+          },
+          "building_wfs": {
+            "source": "vworld_wfs_supplement",
+            "quarter": null,
+            "coverage": "Gangnam-gu",
+            "available": true,
+            "date_kind": "retrieved_on",
+            "period_end": null,
+            "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+            "limitations": [
+              "register_unlinked"
+            ],
+            "period_start": null,
+            "reference_date": "2026-09-20",
+            "source_version": "2026-09-20",
+            "unlocated_count": null
+          },
+          "subway_positions": {
+            "source": "seoul_transit",
+            "quarter": null,
+            "coverage": "Seoul",
+            "available": true,
+            "date_kind": "retrieved_on",
+            "period_end": null,
+            "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+            "limitations": [
+              "historical_positions_unverified",
+              "신분당선: 승하차 미제공; 대체 추정 없음"
+            ],
+            "period_start": null,
+            "reference_date": "2026-09-19",
+            "source_version": "2026-09-19",
+            "unlocated_count": null
+          }
+        },
+        "coverage": {
+          "building_region": "Gangnam-gu",
+          "query_within_loaded_region": true
+        },
+        "summary": {
+          "all": {
+            "generated": 310,
+            "excluded": 122,
+            "visible": 18,
+            "blocked": 170,
+            "total_weight": 264.6666666666667,
+            "visible_weight": 30.833333333333336
+          },
+          "ring": {
+            "generated": 180,
+            "excluded": 67,
+            "visible": 10,
+            "blocked": 103,
+            "total_weight": 103.66666666666669,
+            "visible_weight": 13.833333333333334
+          },
+          "station": {
+            "generated": 20,
+            "excluded": 9,
+            "visible": 1,
+            "blocked": 10,
+            "total_weight": 33,
+            "visible_weight": 3
+          },
+          "school": {
+            "generated": 110,
+            "excluded": 46,
+            "visible": 7,
+            "blocked": 57,
+            "total_weight": 128,
+            "visible_weight": 14
+          }
+        }
+      },
+      "notes": [
+        "straight_paths_from_representative_points_not_walk_routes",
+        "flat_ground_no_terrain_model"
+      ]
+    },
+    "samples": [
+      {
+        "id": "ring:0:50",
+        "group": "ring",
+        "bearing_deg": 0,
+        "radius_m": 50,
+        "point": [
+          205091.870000036,
+          544841.19000002
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:0:100",
+        "group": "ring",
+        "bearing_deg": 0,
+        "radius_m": 100,
+        "point": [
+          205091.870000036,
+          544891.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:0000205022304445692000000000"
+      },
+      {
+        "id": "ring:0:150",
+        "group": "ring",
+        "bearing_deg": 0,
+        "radius_m": 150,
+        "point": [
+          205091.870000036,
+          544941.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1986205033144445832000000000"
+      },
+      {
+        "id": "ring:0:200",
+        "group": "ring",
+        "bearing_deg": 0,
+        "radius_m": 200,
+        "point": [
+          205091.870000036,
+          544991.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1986205033144445832000000000"
+      },
+      {
+        "id": "ring:0:300",
+        "group": "ring",
+        "bearing_deg": 0,
+        "radius_m": 300,
+        "point": [
+          205091.870000036,
+          545091.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1986205033144445832000000000"
+      },
+      {
+        "id": "ring:10:50",
+        "group": "ring",
+        "bearing_deg": 10,
+        "radius_m": 50,
+        "point": [
+          205100.55240891935,
+          544840.4303876705
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1990205043044445326500000000"
+      },
+      {
+        "id": "ring:10:100",
+        "group": "ring",
+        "bearing_deg": 10,
+        "radius_m": 100,
+        "point": [
+          205109.2348178027,
+          544889.6707753212
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1986205033144445832000000000"
+      },
+      {
+        "id": "ring:10:150",
+        "group": "ring",
+        "bearing_deg": 10,
+        "radius_m": 150,
+        "point": [
+          205117.91722668603,
+          544938.9111629718
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004205017954446198100000000"
+      },
+      {
+        "id": "ring:10:200",
+        "group": "ring",
+        "bearing_deg": 10,
+        "radius_m": 200,
+        "point": [
+          205126.59963556938,
+          544988.1515506224
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1986205033144445832000000000"
+      },
+      {
+        "id": "ring:10:300",
+        "group": "ring",
+        "bearing_deg": 10,
+        "radius_m": 300,
+        "point": [
+          205143.96445333608,
+          545086.6323259237
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1999205071414447782400000000"
+      },
+      {
+        "id": "ring:20:50",
+        "group": "ring",
+        "bearing_deg": 20,
+        "radius_m": 50,
+        "point": [
+          205108.9710072023,
+          544838.1746310593
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1990205043044445326500000000"
+      },
+      {
+        "id": "ring:20:100",
+        "group": "ring",
+        "bearing_deg": 20,
+        "radius_m": 100,
+        "point": [
+          205126.07201436858,
+          544885.1592620986
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:20:150",
+        "group": "ring",
+        "bearing_deg": 20,
+        "radius_m": 150,
+        "point": [
+          205143.17302153484,
+          544932.1438931378
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:20:200",
+        "group": "ring",
+        "bearing_deg": 20,
+        "radius_m": 200,
+        "point": [
+          205160.27402870113,
+          544979.1285241771
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1990205086394446763600000000"
+      },
+      {
+        "id": "ring:20:300",
+        "group": "ring",
+        "bearing_deg": 20,
+        "radius_m": 300,
+        "point": [
+          205194.4760430337,
+          545073.0977862558
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:30:50",
+        "group": "ring",
+        "bearing_deg": 30,
+        "radius_m": 50,
+        "point": [
+          205116.870000036,
+          544834.4912702092
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1990205043044445326500000000"
+      },
+      {
+        "id": "ring:30:100",
+        "group": "ring",
+        "bearing_deg": 30,
+        "radius_m": 100,
+        "point": [
+          205141.870000036,
+          544877.7925403984
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:30:150",
+        "group": "ring",
+        "bearing_deg": 30,
+        "radius_m": 150,
+        "point": [
+          205166.870000036,
+          544921.0938105877
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:30:200",
+        "group": "ring",
+        "bearing_deg": 30,
+        "radius_m": 200,
+        "point": [
+          205191.870000036,
+          544964.3950807769
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1983205129874446555000000000"
+      },
+      {
+        "id": "ring:30:300",
+        "group": "ring",
+        "bearing_deg": 30,
+        "radius_m": 300,
+        "point": [
+          205241.870000036,
+          545050.9976211553
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:40:50",
+        "group": "ring",
+        "bearing_deg": 40,
+        "radius_m": 50,
+        "point": [
+          205124.00938052032,
+          544829.4922221759
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:40:100",
+        "group": "ring",
+        "bearing_deg": 40,
+        "radius_m": 100,
+        "point": [
+          205156.14876100465,
+          544867.7944443319
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "ring:40:150",
+        "group": "ring",
+        "bearing_deg": 40,
+        "radius_m": 150,
+        "point": [
+          205188.28814148897,
+          544906.0966664879
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2006205129514445957300000000"
+      },
+      {
+        "id": "ring:40:200",
+        "group": "ring",
+        "bearing_deg": 40,
+        "radius_m": 200,
+        "point": [
+          205220.4275219733,
+          544944.3988886437
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1978205142634446329300000000"
+      },
+      {
+        "id": "ring:40:300",
+        "group": "ring",
+        "bearing_deg": 40,
+        "radius_m": 300,
+        "point": [
+          205284.70628294194,
+          545021.0033329556
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2006205219384447130400000000"
+      },
+      {
+        "id": "ring:50:50",
+        "group": "ring",
+        "bearing_deg": 50,
+        "radius_m": 50,
+        "point": [
+          205130.17222219193,
+          544823.3293805043
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:50:100",
+        "group": "ring",
+        "bearing_deg": 50,
+        "radius_m": 100,
+        "point": [
+          205168.4744443479,
+          544855.4687609887
+        ],
+        "weight": 1,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:50:150",
+        "group": "ring",
+        "bearing_deg": 50,
+        "radius_m": 150,
+        "point": [
+          205206.77666650384,
+          544887.6081414729
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205134134445748500000000"
+      },
+      {
+        "id": "ring:50:200",
+        "group": "ring",
+        "bearing_deg": 50,
+        "radius_m": 200,
+        "point": [
+          205245.0788886598,
+          544919.7475219573
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205173074446129100000000"
+      },
+      {
+        "id": "ring:50:300",
+        "group": "ring",
+        "bearing_deg": 50,
+        "radius_m": 300,
+        "point": [
+          205321.6833329717,
+          544984.026282926
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004205253424446751700000000"
+      },
+      {
+        "id": "ring:60:50",
+        "group": "ring",
+        "bearing_deg": 60,
+        "radius_m": 50,
+        "point": [
+          205135.17127022523,
+          544816.19000002
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.79297790476,
+          544800.4333824876
+        ],
+        "building_id": "shp:1993205042204444960400000000"
+      },
+      {
+        "id": "ring:60:100",
+        "group": "ring",
+        "bearing_deg": 60,
+        "radius_m": 100,
+        "point": [
+          205178.47254041443,
+          544841.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1993205042204444960400000000"
+      },
+      {
+        "id": "ring:60:150",
+        "group": "ring",
+        "bearing_deg": 60,
+        "radius_m": 150,
+        "point": [
+          205221.77381060366,
+          544866.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:60:200",
+        "group": "ring",
+        "bearing_deg": 60,
+        "radius_m": 200,
+        "point": [
+          205265.07508079289,
+          544891.19000002
+        ],
+        "weight": 0.5,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:60:300",
+        "group": "ring",
+        "bearing_deg": 60,
+        "radius_m": 300,
+        "point": [
+          205351.67762117131,
+          544941.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1982205188564445932900000000"
+      },
+      {
+        "id": "ring:70:50",
+        "group": "ring",
+        "bearing_deg": 70,
+        "radius_m": 50,
+        "point": [
+          205138.8546310753,
+          544808.2910071863
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205100.09951171177,
+          544792.3796792894
+        ],
+        "building_id": "shp:1989205057854445006600000000"
+      },
+      {
+        "id": "ring:70:100",
+        "group": "ring",
+        "bearing_deg": 70,
+        "radius_m": 100,
+        "point": [
+          205185.83926211458,
+          544825.3920143525
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205100.86860483637,
+          544790.5064040959
+        ],
+        "building_id": "shp:1984205096794445108900000000"
+      },
+      {
+        "id": "ring:70:150",
+        "group": "ring",
+        "bearing_deg": 70,
+        "radius_m": 150,
+        "point": [
+          205232.8238931539,
+          544842.4930215188
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205101.63769796095,
+          544788.6331289024
+        ],
+        "building_id": "shp:1984205096794445108900000000"
+      },
+      {
+        "id": "ring:70:200",
+        "group": "ring",
+        "bearing_deg": 70,
+        "radius_m": 200,
+        "point": [
+          205279.80852419318,
+          544859.5940286851
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1989205208574445542300000000"
+      },
+      {
+        "id": "ring:70:300",
+        "group": "ring",
+        "bearing_deg": 70,
+        "radius_m": 300,
+        "point": [
+          205373.77778627176,
+          544893.7960430176
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1984205281424445743800000000"
+      },
+      {
+        "id": "ring:80:50",
+        "group": "ring",
+        "bearing_deg": 80,
+        "radius_m": 50,
+        "point": [
+          205141.1103876866,
+          544799.8724089033
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:80:100",
+        "group": "ring",
+        "bearing_deg": 80,
+        "radius_m": 100,
+        "point": [
+          205190.35077533723,
+          544808.5548177867
+        ],
+        "weight": 1,
+        "status": "visible",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:80:150",
+        "group": "ring",
+        "bearing_deg": 80,
+        "radius_m": 150,
+        "point": [
+          205239.59116298784,
+          544817.23722667
+        ],
+        "weight": 0.6666666666666666,
+        "status": "visible",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:80:200",
+        "group": "ring",
+        "bearing_deg": 80,
+        "radius_m": 200,
+        "point": [
+          205288.83155063842,
+          544825.9196355534
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:0000205219744445299700000000"
+      },
+      {
+        "id": "ring:80:300",
+        "group": "ring",
+        "bearing_deg": 80,
+        "radius_m": 300,
+        "point": [
+          205387.31232593965,
+          544843.2844533201
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987205323304445405100000000"
+      },
+      {
+        "id": "ring:90:50",
+        "group": "ring",
+        "bearing_deg": 90,
+        "radius_m": 50,
+        "point": [
+          205141.870000036,
+          544791.19000002
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "wfs:lt_c_bldginfo.15532749"
+      },
+      {
+        "id": "ring:90:100",
+        "group": "ring",
+        "bearing_deg": 90,
+        "radius_m": 100,
+        "point": [
+          205191.870000036,
+          544791.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1980205110134444814100000000"
+      },
+      {
+        "id": "ring:90:150",
+        "group": "ring",
+        "bearing_deg": 90,
+        "radius_m": 150,
+        "point": [
+          205241.870000036,
+          544791.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1980205110134444814100000000"
+      },
+      {
+        "id": "ring:90:200",
+        "group": "ring",
+        "bearing_deg": 90,
+        "radius_m": 200,
+        "point": [
+          205291.870000036,
+          544791.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1980205110134444814100000000"
+      },
+      {
+        "id": "ring:90:300",
+        "group": "ring",
+        "bearing_deg": 90,
+        "radius_m": 300,
+        "point": [
+          205391.870000036,
+          544791.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1980205110134444814100000000"
+      },
+      {
+        "id": "ring:100:50",
+        "group": "ring",
+        "bearing_deg": 100,
+        "radius_m": 50,
+        "point": [
+          205141.1103876866,
+          544782.5075911366
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1996205065294444803700000000"
+      },
+      {
+        "id": "ring:100:100",
+        "group": "ring",
+        "bearing_deg": 100,
+        "radius_m": 100,
+        "point": [
+          205190.35077533723,
+          544773.8251822533
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1996205065294444803700000000"
+      },
+      {
+        "id": "ring:100:150",
+        "group": "ring",
+        "bearing_deg": 100,
+        "radius_m": 150,
+        "point": [
+          205239.59116298784,
+          544765.1427733699
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1984205123284444569100000000"
+      },
+      {
+        "id": "ring:100:200",
+        "group": "ring",
+        "bearing_deg": 100,
+        "radius_m": 200,
+        "point": [
+          205288.83155063842,
+          544756.4603644866
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1984205123284444569100000000"
+      },
+      {
+        "id": "ring:100:300",
+        "group": "ring",
+        "bearing_deg": 100,
+        "radius_m": 300,
+        "point": [
+          205387.31232593965,
+          544739.0955467199
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1983205325704444332900000000"
+      },
+      {
+        "id": "ring:110:50",
+        "group": "ring",
+        "bearing_deg": 110,
+        "radius_m": 50,
+        "point": [
+          205138.8546310753,
+          544774.0889928536
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205061974444633600000000"
+      },
+      {
+        "id": "ring:110:100",
+        "group": "ring",
+        "bearing_deg": 110,
+        "radius_m": 100,
+        "point": [
+          205185.83926211458,
+          544756.9879856874
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:0000205113264444527000000000"
+      },
+      {
+        "id": "ring:110:150",
+        "group": "ring",
+        "bearing_deg": 110,
+        "radius_m": 150,
+        "point": [
+          205232.8238931539,
+          544739.8869785211
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:0000205113264444527000000000"
+      },
+      {
+        "id": "ring:110:200",
+        "group": "ring",
+        "bearing_deg": 110,
+        "radius_m": 200,
+        "point": [
+          205279.80852419318,
+          544722.7859713548
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1983205133744444354200000000"
+      },
+      {
+        "id": "ring:110:300",
+        "group": "ring",
+        "bearing_deg": 110,
+        "radius_m": 300,
+        "point": [
+          205373.77778627176,
+          544688.5839570223
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1980205293274443803900000000"
+      },
+      {
+        "id": "ring:120:50",
+        "group": "ring",
+        "bearing_deg": 120,
+        "radius_m": 50,
+        "point": [
+          205135.17127022523,
+          544766.19000002
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205061974444633600000000"
+      },
+      {
+        "id": "ring:120:100",
+        "group": "ring",
+        "bearing_deg": 120,
+        "radius_m": 100,
+        "point": [
+          205178.47254041443,
+          544741.19000002
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002205111284444395700000000"
+      },
+      {
+        "id": "ring:120:150",
+        "group": "ring",
+        "bearing_deg": 120,
+        "radius_m": 150,
+        "point": [
+          205221.77381060366,
+          544716.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1996205101084444477600000000"
+      },
+      {
+        "id": "ring:120:200",
+        "group": "ring",
+        "bearing_deg": 120,
+        "radius_m": 200,
+        "point": [
+          205265.07508079289,
+          544691.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1983205133744444354200000000"
+      },
+      {
+        "id": "ring:120:300",
+        "group": "ring",
+        "bearing_deg": 120,
+        "radius_m": 300,
+        "point": [
+          205351.67762117131,
+          544641.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1999205268244443317900000000"
+      },
+      {
+        "id": "ring:130:50",
+        "group": "ring",
+        "bearing_deg": 130,
+        "radius_m": 50,
+        "point": [
+          205130.17222219193,
+          544759.0506195356
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205061974444633600000000"
+      },
+      {
+        "id": "ring:130:100",
+        "group": "ring",
+        "bearing_deg": 130,
+        "radius_m": 100,
+        "point": [
+          205168.4744443479,
+          544726.9112390513
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1991205088164444371700000000"
+      },
+      {
+        "id": "ring:130:150",
+        "group": "ring",
+        "bearing_deg": 130,
+        "radius_m": 150,
+        "point": [
+          205206.77666650384,
+          544694.771858567
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1991205088164444371700000000"
+      },
+      {
+        "id": "ring:130:200",
+        "group": "ring",
+        "bearing_deg": 130,
+        "radius_m": 200,
+        "point": [
+          205245.0788886598,
+          544662.6324780827
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:0000205169194443582100000000"
+      },
+      {
+        "id": "ring:130:300",
+        "group": "ring",
+        "bearing_deg": 130,
+        "radius_m": 300,
+        "point": [
+          205321.6833329717,
+          544598.353717114
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1977205245204443069000000000"
+      },
+      {
+        "id": "ring:140:50",
+        "group": "ring",
+        "bearing_deg": 140,
+        "radius_m": 50,
+        "point": [
+          205124.00938052032,
+          544752.887777864
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205047484444507200000000"
+      },
+      {
+        "id": "ring:140:100",
+        "group": "ring",
+        "bearing_deg": 140,
+        "radius_m": 100,
+        "point": [
+          205156.14876100465,
+          544714.585555708
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1976205081114444219200000000"
+      },
+      {
+        "id": "ring:140:150",
+        "group": "ring",
+        "bearing_deg": 140,
+        "radius_m": 150,
+        "point": [
+          205188.28814148897,
+          544676.2833335521
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1989205116544443702200000000"
+      },
+      {
+        "id": "ring:140:200",
+        "group": "ring",
+        "bearing_deg": 140,
+        "radius_m": 200,
+        "point": [
+          205220.4275219733,
+          544637.9811113962
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1977205132234443680500000000"
+      },
+      {
+        "id": "ring:140:300",
+        "group": "ring",
+        "bearing_deg": 140,
+        "radius_m": 300,
+        "point": [
+          205284.70628294194,
+          544561.3766670843
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1977205132234443680500000000"
+      },
+      {
+        "id": "ring:150:50",
+        "group": "ring",
+        "bearing_deg": 150,
+        "radius_m": 50,
+        "point": [
+          205116.870000036,
+          544747.8887298307
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205047484444507200000000"
+      },
+      {
+        "id": "ring:150:100",
+        "group": "ring",
+        "bearing_deg": 150,
+        "radius_m": 100,
+        "point": [
+          205141.870000036,
+          544704.5874596415
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:2003205047484444507200000000"
+      },
+      {
+        "id": "ring:150:150",
+        "group": "ring",
+        "bearing_deg": 150,
+        "radius_m": 150,
+        "point": [
+          205166.870000036,
+          544661.2861894523
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:2003205047484444507200000000"
+      },
+      {
+        "id": "ring:150:200",
+        "group": "ring",
+        "bearing_deg": 150,
+        "radius_m": 200,
+        "point": [
+          205191.870000036,
+          544617.984919263
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001205119344443065500000000"
+      },
+      {
+        "id": "ring:150:300",
+        "group": "ring",
+        "bearing_deg": 150,
+        "radius_m": 300,
+        "point": [
+          205241.870000036,
+          544531.3823788846
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1994205117354443272900000000"
+      },
+      {
+        "id": "ring:160:50",
+        "group": "ring",
+        "bearing_deg": 160,
+        "radius_m": 50,
+        "point": [
+          205108.9710072023,
+          544744.2053689806
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205092.83227378334,
+          544784.02871119
+        ],
+        "building_id": "shp:1990205029554444650000000000"
+      },
+      {
+        "id": "ring:160:100",
+        "group": "ring",
+        "bearing_deg": 160,
+        "radius_m": 100,
+        "point": [
+          205126.07201436858,
+          544697.2207379413
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205061324443923400000000"
+      },
+      {
+        "id": "ring:160:150",
+        "group": "ring",
+        "bearing_deg": 160,
+        "radius_m": 150,
+        "point": [
+          205143.17302153484,
+          544650.2361069021
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205029554444650000000000"
+      },
+      {
+        "id": "ring:160:200",
+        "group": "ring",
+        "bearing_deg": 160,
+        "radius_m": 200,
+        "point": [
+          205160.27402870113,
+          544603.2514758628
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205092734442949300000000"
+      },
+      {
+        "id": "ring:160:300",
+        "group": "ring",
+        "bearing_deg": 160,
+        "radius_m": 300,
+        "point": [
+          205194.4760430337,
+          544509.2822137842
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205029554444650000000000"
+      },
+      {
+        "id": "ring:170:50",
+        "group": "ring",
+        "bearing_deg": 170,
+        "radius_m": 50,
+        "point": [
+          205100.55240891935,
+          544741.9496123694
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205029554444650000000000"
+      },
+      {
+        "id": "ring:170:100",
+        "group": "ring",
+        "bearing_deg": 170,
+        "radius_m": 100,
+        "point": [
+          205109.2348178027,
+          544692.7092247187
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "wfs:lt_c_bldginfo.17566621"
+      },
+      {
+        "id": "ring:170:150",
+        "group": "ring",
+        "bearing_deg": 170,
+        "radius_m": 150,
+        "point": [
+          205117.91722668603,
+          544643.4688370682
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:170:200",
+        "group": "ring",
+        "bearing_deg": 170,
+        "radius_m": 200,
+        "point": [
+          205126.59963556938,
+          544594.2284494175
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:170:300",
+        "group": "ring",
+        "bearing_deg": 170,
+        "radius_m": 300,
+        "point": [
+          205143.96445333608,
+          544495.7476741163
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2013205069904441951700000000"
+      },
+      {
+        "id": "ring:180:50",
+        "group": "ring",
+        "bearing_deg": 180,
+        "radius_m": 50,
+        "point": [
+          205091.870000036,
+          544741.19000002
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:180:100",
+        "group": "ring",
+        "bearing_deg": 180,
+        "radius_m": 100,
+        "point": [
+          205091.870000036,
+          544691.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:180:150",
+        "group": "ring",
+        "bearing_deg": 180,
+        "radius_m": 150,
+        "point": [
+          205091.870000036,
+          544641.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2008205015014443361800000000"
+      },
+      {
+        "id": "ring:180:200",
+        "group": "ring",
+        "bearing_deg": 180,
+        "radius_m": 200,
+        "point": [
+          205091.870000036,
+          544591.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "ring:180:300",
+        "group": "ring",
+        "bearing_deg": 180,
+        "radius_m": 300,
+        "point": [
+          205091.870000036,
+          544491.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1997205019924441897700000000"
+      },
+      {
+        "id": "ring:190:50",
+        "group": "ring",
+        "bearing_deg": 190,
+        "radius_m": 50,
+        "point": [
+          205083.18759115264,
+          544741.9496123694
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:190:100",
+        "group": "ring",
+        "bearing_deg": 190,
+        "radius_m": 100,
+        "point": [
+          205074.5051822693,
+          544692.7092247187
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205012184443883700000000"
+      },
+      {
+        "id": "ring:190:150",
+        "group": "ring",
+        "bearing_deg": 190,
+        "radius_m": 150,
+        "point": [
+          205065.82277338597,
+          544643.4688370682
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:190:200",
+        "group": "ring",
+        "bearing_deg": 190,
+        "radius_m": 200,
+        "point": [
+          205057.14036450261,
+          544594.2284494175
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "ring:190:300",
+        "group": "ring",
+        "bearing_deg": 190,
+        "radius_m": 300,
+        "point": [
+          205039.7755467359,
+          544495.7476741163
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003204973114441873700000000"
+      },
+      {
+        "id": "ring:200:50",
+        "group": "ring",
+        "bearing_deg": 200,
+        "radius_m": 50,
+        "point": [
+          205074.7689928697,
+          544744.2053689806
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1991205006054444329100000000"
+      },
+      {
+        "id": "ring:200:100",
+        "group": "ring",
+        "bearing_deg": 200,
+        "radius_m": 100,
+        "point": [
+          205057.66798570342,
+          544697.2207379413
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1988204985194443959300000000"
+      },
+      {
+        "id": "ring:200:150",
+        "group": "ring",
+        "bearing_deg": 200,
+        "radius_m": 150,
+        "point": [
+          205040.56697853716,
+          544650.2361069021
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1995204966464443403700000000"
+      },
+      {
+        "id": "ring:200:200",
+        "group": "ring",
+        "bearing_deg": 200,
+        "radius_m": 200,
+        "point": [
+          205023.46597137087,
+          544603.2514758628
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1988204985194443959300000000"
+      },
+      {
+        "id": "ring:200:300",
+        "group": "ring",
+        "bearing_deg": 200,
+        "radius_m": 300,
+        "point": [
+          204989.2639570383,
+          544509.2822137842
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1988204985194443959300000000"
+      },
+      {
+        "id": "ring:210:50",
+        "group": "ring",
+        "bearing_deg": 210,
+        "radius_m": 50,
+        "point": [
+          205066.870000036,
+          544747.8887298307
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1992204996904444517600000000"
+      },
+      {
+        "id": "ring:210:100",
+        "group": "ring",
+        "bearing_deg": 210,
+        "radius_m": 100,
+        "point": [
+          205041.870000036,
+          544704.5874596415
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1975204990474444269400000000"
+      },
+      {
+        "id": "ring:210:150",
+        "group": "ring",
+        "bearing_deg": 210,
+        "radius_m": 150,
+        "point": [
+          205016.870000036,
+          544661.2861894523
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1975204990474444269400000000"
+      },
+      {
+        "id": "ring:210:200",
+        "group": "ring",
+        "bearing_deg": 210,
+        "radius_m": 200,
+        "point": [
+          204991.870000036,
+          544617.984919263
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1975204990474444269400000000"
+      },
+      {
+        "id": "ring:210:300",
+        "group": "ring",
+        "bearing_deg": 210,
+        "radius_m": 300,
+        "point": [
+          204941.870000036,
+          544531.3823788846
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1994204868604442257300000000"
+      },
+      {
+        "id": "ring:220:50",
+        "group": "ring",
+        "bearing_deg": 220,
+        "radius_m": 50,
+        "point": [
+          205059.73061955167,
+          544752.887777864
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1992204996904444517600000000"
+      },
+      {
+        "id": "ring:220:100",
+        "group": "ring",
+        "bearing_deg": 220,
+        "radius_m": 100,
+        "point": [
+          205027.59123906735,
+          544714.585555708
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1984204957394444072300000000"
+      },
+      {
+        "id": "ring:220:150",
+        "group": "ring",
+        "bearing_deg": 220,
+        "radius_m": 150,
+        "point": [
+          204995.45185858302,
+          544676.2833335521
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993204930334443740700000000"
+      },
+      {
+        "id": "ring:220:200",
+        "group": "ring",
+        "bearing_deg": 220,
+        "radius_m": 200,
+        "point": [
+          204963.3124780987,
+          544637.9811113962
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1996204888984443294300000000"
+      },
+      {
+        "id": "ring:220:300",
+        "group": "ring",
+        "bearing_deg": 220,
+        "radius_m": 300,
+        "point": [
+          204899.03371713005,
+          544561.3766670843
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1984204957394444072300000000"
+      },
+      {
+        "id": "ring:230:50",
+        "group": "ring",
+        "bearing_deg": 230,
+        "radius_m": 50,
+        "point": [
+          205053.56777788006,
+          544759.0506195356
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987204980914444523800000000"
+      },
+      {
+        "id": "ring:230:100",
+        "group": "ring",
+        "bearing_deg": 230,
+        "radius_m": 100,
+        "point": [
+          205015.2655557241,
+          544726.9112390513
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987204951704444204500000000"
+      },
+      {
+        "id": "ring:230:150",
+        "group": "ring",
+        "bearing_deg": 230,
+        "radius_m": 150,
+        "point": [
+          204976.96333356816,
+          544694.771858567
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2005204909614443894300000000"
+      },
+      {
+        "id": "ring:230:200",
+        "group": "ring",
+        "bearing_deg": 230,
+        "radius_m": 200,
+        "point": [
+          204938.6611114122,
+          544662.6324780827
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1987204951704444204500000000"
+      },
+      {
+        "id": "ring:230:300",
+        "group": "ring",
+        "bearing_deg": 230,
+        "radius_m": 300,
+        "point": [
+          204862.0566671003,
+          544598.353717114
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1988204796874442910900000000"
+      },
+      {
+        "id": "ring:240:50",
+        "group": "ring",
+        "bearing_deg": 240,
+        "radius_m": 50,
+        "point": [
+          205048.56872984677,
+          544766.19000002
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205089.97718866784,
+          544783.7194249994
+        ],
+        "building_id": "shp:0000204980984444645400000000"
+      },
+      {
+        "id": "ring:240:100",
+        "group": "ring",
+        "bearing_deg": 240,
+        "radius_m": 100,
+        "point": [
+          205005.26745965757,
+          544741.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1975204942294444511000000000"
+      },
+      {
+        "id": "ring:240:150",
+        "group": "ring",
+        "bearing_deg": 240,
+        "radius_m": 150,
+        "point": [
+          204961.96618946834,
+          544716.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1975204942294444511000000000"
+      },
+      {
+        "id": "ring:240:200",
+        "group": "ring",
+        "bearing_deg": 240,
+        "radius_m": 200,
+        "point": [
+          204918.6649192791,
+          544691.19000002
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1983204846724443898000000000"
+      },
+      {
+        "id": "ring:240:300",
+        "group": "ring",
+        "bearing_deg": 240,
+        "radius_m": 300,
+        "point": [
+          204832.06237890068,
+          544641.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003204769394443405600000000"
+      },
+      {
+        "id": "ring:250:50",
+        "group": "ring",
+        "bearing_deg": 250,
+        "radius_m": 50,
+        "point": [
+          205044.8853689967,
+          544774.0889928536
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1974204965814444671600000000"
+      },
+      {
+        "id": "ring:250:100",
+        "group": "ring",
+        "bearing_deg": 250,
+        "radius_m": 100,
+        "point": [
+          204997.90073795742,
+          544756.9879856874
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1974204919504444477600000000"
+      },
+      {
+        "id": "ring:250:150",
+        "group": "ring",
+        "bearing_deg": 250,
+        "radius_m": 150,
+        "point": [
+          204950.9161069181,
+          544739.8869785211
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1974204919504444477600000000"
+      },
+      {
+        "id": "ring:250:200",
+        "group": "ring",
+        "bearing_deg": 250,
+        "radius_m": 200,
+        "point": [
+          204903.9314758788,
+          544722.7859713548
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1974204919504444477600000000"
+      },
+      {
+        "id": "ring:250:300",
+        "group": "ring",
+        "bearing_deg": 250,
+        "radius_m": 300,
+        "point": [
+          204809.96221380023,
+          544688.5839570223
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1974204965814444671600000000"
+      },
+      {
+        "id": "ring:260:50",
+        "group": "ring",
+        "bearing_deg": 260,
+        "radius_m": 50,
+        "point": [
+          205042.62961238538,
+          544782.5075911366
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "ring:260:100",
+        "group": "ring",
+        "bearing_deg": 260,
+        "radius_m": 100,
+        "point": [
+          204993.38922473477,
+          544773.8251822533
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "ring:260:150",
+        "group": "ring",
+        "bearing_deg": 260,
+        "radius_m": 150,
+        "point": [
+          204944.14883708415,
+          544765.1427733699
+        ],
+        "weight": 0.6666666666666666,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1992204874754444674700000000"
+      },
+      {
+        "id": "ring:260:200",
+        "group": "ring",
+        "bearing_deg": 260,
+        "radius_m": 200,
+        "point": [
+          204894.90844943357,
+          544756.4603644866
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1992204874754444674700000000"
+      },
+      {
+        "id": "ring:260:300",
+        "group": "ring",
+        "bearing_deg": 260,
+        "radius_m": 300,
+        "point": [
+          204796.42767413234,
+          544739.0955467199
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002204729294444380500000000"
+      },
+      {
+        "id": "ring:270:50",
+        "group": "ring",
+        "bearing_deg": 270,
+        "radius_m": 50,
+        "point": [
+          205041.870000036,
+          544791.19000002
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "ring:270:100",
+        "group": "ring",
+        "bearing_deg": 270,
+        "radius_m": 100,
+        "point": [
+          204991.870000036,
+          544791.19000002
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2006204918184444850500000000"
+      },
+      {
+        "id": "ring:270:150",
+        "group": "ring",
+        "bearing_deg": 270,
+        "radius_m": 150,
+        "point": [
+          204941.870000036,
+          544791.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "ring:270:200",
+        "group": "ring",
+        "bearing_deg": 270,
+        "radius_m": 200,
+        "point": [
+          204891.870000036,
+          544791.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "ring:270:300",
+        "group": "ring",
+        "bearing_deg": 270,
+        "radius_m": 300,
+        "point": [
+          204791.870000036,
+          544791.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1998204725434444845900000000"
+      },
+      {
+        "id": "ring:280:50",
+        "group": "ring",
+        "bearing_deg": 280,
+        "radius_m": 50,
+        "point": [
+          205042.62961238538,
+          544799.8724089033
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": null
+      },
+      {
+        "id": "ring:280:100",
+        "group": "ring",
+        "bearing_deg": 280,
+        "radius_m": 100,
+        "point": [
+          204993.38922473477,
+          544808.5548177867
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2006204918184444850500000000"
+      },
+      {
+        "id": "ring:280:150",
+        "group": "ring",
+        "bearing_deg": 280,
+        "radius_m": 150,
+        "point": [
+          204944.14883708415,
+          544817.23722667
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:280:200",
+        "group": "ring",
+        "bearing_deg": 280,
+        "radius_m": 200,
+        "point": [
+          204894.90844943357,
+          544825.9196355534
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002204819794445231200000000"
+      },
+      {
+        "id": "ring:280:300",
+        "group": "ring",
+        "bearing_deg": 280,
+        "radius_m": 300,
+        "point": [
+          204796.42767413234,
+          544843.2844533201
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:290:50",
+        "group": "ring",
+        "bearing_deg": 290,
+        "radius_m": 50,
+        "point": [
+          205044.8853689967,
+          544808.2910071863
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:290:100",
+        "group": "ring",
+        "bearing_deg": 290,
+        "radius_m": 100,
+        "point": [
+          204997.90073795742,
+          544825.3920143525
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:290:150",
+        "group": "ring",
+        "bearing_deg": 290,
+        "radius_m": 150,
+        "point": [
+          204950.9161069181,
+          544842.4930215188
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:290:200",
+        "group": "ring",
+        "bearing_deg": 290,
+        "radius_m": 200,
+        "point": [
+          204903.9314758788,
+          544859.5940286851
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:290:300",
+        "group": "ring",
+        "bearing_deg": 290,
+        "radius_m": 300,
+        "point": [
+          204809.96221380023,
+          544893.7960430176
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001204738144445810500000000"
+      },
+      {
+        "id": "ring:300:50",
+        "group": "ring",
+        "bearing_deg": 300,
+        "radius_m": 50,
+        "point": [
+          205048.56872984677,
+          544816.19000002
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:300:100",
+        "group": "ring",
+        "bearing_deg": 300,
+        "radius_m": 100,
+        "point": [
+          205005.26745965757,
+          544841.19000002
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "ring:300:150",
+        "group": "ring",
+        "bearing_deg": 300,
+        "radius_m": 150,
+        "point": [
+          204961.96618946834,
+          544866.19000002
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1975204904234445586400000000"
+      },
+      {
+        "id": "ring:300:200",
+        "group": "ring",
+        "bearing_deg": 300,
+        "radius_m": 200,
+        "point": [
+          204918.6649192791,
+          544891.19000002
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1975204904234445586400000000"
+      },
+      {
+        "id": "ring:300:300",
+        "group": "ring",
+        "bearing_deg": 300,
+        "radius_m": 300,
+        "point": [
+          204832.06237890068,
+          544941.19000002
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1977204762054446341200000000"
+      },
+      {
+        "id": "ring:310:50",
+        "group": "ring",
+        "bearing_deg": 310,
+        "radius_m": 50,
+        "point": [
+          205053.56777788006,
+          544823.3293805043
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:310:100",
+        "group": "ring",
+        "bearing_deg": 310,
+        "radius_m": 100,
+        "point": [
+          205015.2655557241,
+          544855.4687609887
+        ],
+        "weight": 1,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003204950374445496400000000"
+      },
+      {
+        "id": "ring:310:150",
+        "group": "ring",
+        "bearing_deg": 310,
+        "radius_m": 150,
+        "point": [
+          204976.96333356816,
+          544887.6081414729
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:310:200",
+        "group": "ring",
+        "bearing_deg": 310,
+        "radius_m": 200,
+        "point": [
+          204938.6611114122,
+          544919.7475219573
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1989204865454446166200000000"
+      },
+      {
+        "id": "ring:310:300",
+        "group": "ring",
+        "bearing_deg": 310,
+        "radius_m": 300,
+        "point": [
+          204862.0566671003,
+          544984.026282926
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204897104445893700000000"
+      },
+      {
+        "id": "ring:320:50",
+        "group": "ring",
+        "bearing_deg": 320,
+        "radius_m": 50,
+        "point": [
+          205059.73061955167,
+          544829.4922221759
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:320:100",
+        "group": "ring",
+        "bearing_deg": 320,
+        "radius_m": 100,
+        "point": [
+          205027.59123906735,
+          544867.7944443319
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:320:150",
+        "group": "ring",
+        "bearing_deg": 320,
+        "radius_m": 150,
+        "point": [
+          204995.45185858302,
+          544906.0966664879
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:320:200",
+        "group": "ring",
+        "bearing_deg": 320,
+        "radius_m": 200,
+        "point": [
+          204963.3124780987,
+          544944.3988886437
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:320:300",
+        "group": "ring",
+        "bearing_deg": 320,
+        "radius_m": 300,
+        "point": [
+          204899.03371713005,
+          545021.0033329556
+        ],
+        "weight": 0.3333333333333333,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1980204815504447071800000000"
+      },
+      {
+        "id": "ring:330:50",
+        "group": "ring",
+        "bearing_deg": 330,
+        "radius_m": 50,
+        "point": [
+          205066.870000036,
+          544834.4912702092
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:330:100",
+        "group": "ring",
+        "bearing_deg": 330,
+        "radius_m": 100,
+        "point": [
+          205041.870000036,
+          544877.7925403984
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:330:150",
+        "group": "ring",
+        "bearing_deg": 330,
+        "radius_m": 150,
+        "point": [
+          205016.870000036,
+          544921.0938105877
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:330:200",
+        "group": "ring",
+        "bearing_deg": 330,
+        "radius_m": 200,
+        "point": [
+          204991.870000036,
+          544964.3950807769
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:330:300",
+        "group": "ring",
+        "bearing_deg": 330,
+        "radius_m": 300,
+        "point": [
+          204941.870000036,
+          545050.9976211553
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1991204983864445307300000000"
+      },
+      {
+        "id": "ring:340:50",
+        "group": "ring",
+        "bearing_deg": 340,
+        "radius_m": 50,
+        "point": [
+          205074.7689928697,
+          544838.1746310593
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205091.0468709502,
+          544798.3756401327
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:340:100",
+        "group": "ring",
+        "bearing_deg": 340,
+        "radius_m": 100,
+        "point": [
+          205057.66798570342,
+          544885.1592620986
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205092.85946854248,
+          544799.1169966828
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:340:150",
+        "group": "ring",
+        "bearing_deg": 340,
+        "radius_m": 150,
+        "point": [
+          205040.56697853716,
+          544932.1438931378
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205094.67206613472,
+          544799.8583532331
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:340:200",
+        "group": "ring",
+        "bearing_deg": 340,
+        "radius_m": 200,
+        "point": [
+          205023.46597137087,
+          544979.1285241771
+        ],
+        "weight": 0.5,
+        "status": "blocked",
+        "target": [
+          205096.484663727,
+          544800.5997097833
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:340:300",
+        "group": "ring",
+        "bearing_deg": 340,
+        "radius_m": 300,
+        "point": [
+          204989.2639570383,
+          545073.0977862558
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:350:50",
+        "group": "ring",
+        "bearing_deg": 350,
+        "radius_m": 50,
+        "point": [
+          205083.18759115264,
+          544840.4303876705
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1991205001434445155200000000"
+      },
+      {
+        "id": "ring:350:100",
+        "group": "ring",
+        "bearing_deg": 350,
+        "radius_m": 100,
+        "point": [
+          205074.5051822693,
+          544889.6707753212
+        ],
+        "weight": 1,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1990205013994445748100000000"
+      },
+      {
+        "id": "ring:350:150",
+        "group": "ring",
+        "bearing_deg": 350,
+        "radius_m": 150,
+        "point": [
+          205065.82277338597,
+          544938.9111629718
+        ],
+        "weight": 0.6666666666666666,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1990205013994445748100000000"
+      },
+      {
+        "id": "ring:350:200",
+        "group": "ring",
+        "bearing_deg": 350,
+        "radius_m": 200,
+        "point": [
+          205057.14036450261,
+          544988.1515506224
+        ],
+        "weight": 0.5,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004205000614446820700000000"
+      },
+      {
+        "id": "ring:350:300",
+        "group": "ring",
+        "bearing_deg": 350,
+        "radius_m": 300,
+        "point": [
+          205039.7755467359,
+          545086.6323259237
+        ],
+        "weight": 0.3333333333333333,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1990205013994445748100000000"
+      },
+      {
+        "id": "station:subway:1023:1",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 1,
+        "point": [
+          205053.0515644746,
+          544803.840291249
+        ],
+        "weight": 3,
+        "status": "visible",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": null
+      },
+      {
+        "id": "station:subway:1023:2",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 2,
+        "point": [
+          205014.2331289132,
+          544816.4905824781
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2007204943124445137100000000"
+      },
+      {
+        "id": "station:subway:1023:3",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 3,
+        "point": [
+          204975.4146933518,
+          544829.1408737071
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001204908484445305900000000"
+      },
+      {
+        "id": "station:subway:1023:4",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 4,
+        "point": [
+          204936.5962577904,
+          544841.7911649361
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "station:subway:1023:5",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 5,
+        "point": [
+          204897.777822229,
+          544854.4414561652
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "wfs:lt_c_bldginfo.16762289"
+      },
+      {
+        "id": "station:subway:1023:6",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 6,
+        "point": [
+          204858.9593866676,
+          544867.0917473943
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "station:subway:1023:7",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 7,
+        "point": [
+          204820.1409511062,
+          544879.7420386233
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1989204969374445054600000000"
+      },
+      {
+        "id": "station:subway:1023:8",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 8,
+        "point": [
+          204781.3225155448,
+          544892.3923298523
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:9",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 9,
+        "point": [
+          204742.5040799834,
+          544905.0426210815
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:10",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 10,
+        "point": [
+          204703.68564442202,
+          544917.6929123105
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204636384446185600000000"
+      },
+      {
+        "id": "station:subway:1023:11",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 11,
+        "point": [
+          204664.8672088606,
+          544930.3432035395
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1997204596804446227800000000"
+      },
+      {
+        "id": "station:subway:1023:12",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 12,
+        "point": [
+          204626.0487732992,
+          544942.9934947686
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:13",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 13,
+        "point": [
+          204587.2303377378,
+          544955.6437859976
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204530554446669600000000"
+      },
+      {
+        "id": "station:subway:1023:14",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 14,
+        "point": [
+          204548.4119021764,
+          544968.2940772267
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2006204484024446641100000000"
+      },
+      {
+        "id": "station:subway:1023:15",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 15,
+        "point": [
+          204509.593466615,
+          544980.9443684558
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003204430784446648000000000"
+      },
+      {
+        "id": "station:subway:1023:16",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 16,
+        "point": [
+          204470.7750310536,
+          544993.5946596848
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:17",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 17,
+        "point": [
+          204431.9565954922,
+          545006.2449509138
+        ],
+        "weight": 3,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1990204349744446867600000000"
+      },
+      {
+        "id": "station:subway:1023:18",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 18,
+        "point": [
+          204393.13815993082,
+          545018.8952421428
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:19",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 19,
+        "point": [
+          204354.31972436942,
+          545031.545533372
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "station:subway:1023:20",
+        "group": "station",
+        "anchor_id": "subway:1023",
+        "step": 20,
+        "point": [
+          204315.501288808,
+          545044.195824601
+        ],
+        "weight": 3,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1981204723324445764900000000"
+      },
+      {
+        "id": "school:7010137:1",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 1,
+        "point": [
+          205093.5310000294,
+          544714.0000000198
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205024024444107100000000"
+      },
+      {
+        "id": "school:7010137:2",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 2,
+        "point": [
+          205095.1920000228,
+          544636.8100000196
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "school:7010137:3",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 3,
+        "point": [
+          205096.85300001618,
+          544559.6200000193
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7010137:4",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 4,
+        "point": [
+          205098.5140000096,
+          544482.4300000191
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7010137:5",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 5,
+        "point": [
+          205100.17500000302,
+          544405.240000019
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1996205032654441005000000000"
+      },
+      {
+        "id": "school:7010137:6",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 6,
+        "point": [
+          205101.8359999964,
+          544328.0500000188
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1978205025694440856100000000"
+      },
+      {
+        "id": "school:7010137:7",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 7,
+        "point": [
+          205103.4969999898,
+          544250.8600000186
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7010137:8",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 8,
+        "point": [
+          205105.1579999832,
+          544173.6700000183
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7010137:9",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 9,
+        "point": [
+          205106.81899997662,
+          544096.4800000181
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7010137:10",
+        "group": "school",
+        "anchor_id": "7010137",
+        "step": 10,
+        "point": [
+          205108.47999997,
+          544019.290000018
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987205036514437115700000000"
+      },
+      {
+        "id": "school:7010245:1",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 1,
+        "point": [
+          205009.6460000364,
+          544788.1520000203
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "school:7010245:2",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 2,
+        "point": [
+          204927.4220000368,
+          544785.1140000205
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:0000204861824444794500000000"
+      },
+      {
+        "id": "school:7010245:3",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 3,
+        "point": [
+          204845.1980000372,
+          544782.0760000208
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204771714444754900000000"
+      },
+      {
+        "id": "school:7010245:4",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 4,
+        "point": [
+          204762.9740000376,
+          544779.0380000211
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1988204692144444805800000000"
+      },
+      {
+        "id": "school:7010245:5",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 5,
+        "point": [
+          204680.750000038,
+          544776.0000000214
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7010245:6",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 6,
+        "point": [
+          204598.5260000384,
+          544772.9620000218
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204524984444655100000000"
+      },
+      {
+        "id": "school:7010245:7",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 7,
+        "point": [
+          204516.3020000388,
+          544769.9240000221
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7010245:8",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 8,
+        "point": [
+          204434.07800003918,
+          544766.8860000224
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7010245:9",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 9,
+        "point": [
+          204351.8540000396,
+          544763.8480000227
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7010245:10",
+        "group": "school",
+        "anchor_id": "7010245",
+        "step": 10,
+        "point": [
+          204269.63000004,
+          544760.810000023
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1977204199934444554700000000"
+      },
+      {
+        "id": "school:7010268:1",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 1,
+        "point": [
+          205130.8280000351,
+          544821.3700000206
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7010268:2",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 2,
+        "point": [
+          205169.7860000342,
+          544851.5500000211
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7010268:3",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 3,
+        "point": [
+          205208.7440000333,
+          544881.7300000218
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205134134445748500000000"
+      },
+      {
+        "id": "school:7010268:4",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 4,
+        "point": [
+          205247.70200003238,
+          544911.9100000224
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205173074446129100000000"
+      },
+      {
+        "id": "school:7010268:5",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 5,
+        "point": [
+          205286.6600000315,
+          544942.0900000229
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004205215684446295700000000"
+      },
+      {
+        "id": "school:7010268:6",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 6,
+        "point": [
+          205325.6180000306,
+          544972.2700000235
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1993205134134445748500000000"
+      },
+      {
+        "id": "school:7010268:7",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 7,
+        "point": [
+          205364.5760000297,
+          545002.4500000242
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001205300204446946000000000"
+      },
+      {
+        "id": "school:7010268:8",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 8,
+        "point": [
+          205403.5340000288,
+          545032.6300000248
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1982205229304446543500000000"
+      },
+      {
+        "id": "school:7010268:9",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 9,
+        "point": [
+          205442.49200002788,
+          545062.8100000253
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1982205229304446543500000000"
+      },
+      {
+        "id": "school:7010268:10",
+        "group": "school",
+        "anchor_id": "7010268",
+        "step": 10,
+        "point": [
+          205481.450000027,
+          545092.990000026
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002205411774447876400000000"
+      },
+      {
+        "id": "school:7011489:1",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 1,
+        "point": [
+          205093.5310000294,
+          544714.0000000198
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205024024444107100000000"
+      },
+      {
+        "id": "school:7011489:2",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 2,
+        "point": [
+          205095.1920000228,
+          544636.8100000196
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "school:7011489:3",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 3,
+        "point": [
+          205096.85300001618,
+          544559.6200000193
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7011489:4",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 4,
+        "point": [
+          205098.5140000096,
+          544482.4300000191
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7011489:5",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 5,
+        "point": [
+          205100.17500000302,
+          544405.240000019
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1996205032654441005000000000"
+      },
+      {
+        "id": "school:7011489:6",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 6,
+        "point": [
+          205101.8359999964,
+          544328.0500000188
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1978205025694440856100000000"
+      },
+      {
+        "id": "school:7011489:7",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 7,
+        "point": [
+          205103.4969999898,
+          544250.8600000186
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7011489:8",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 8,
+        "point": [
+          205105.1579999832,
+          544173.6700000183
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7011489:9",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 9,
+        "point": [
+          205106.81899997662,
+          544096.4800000181
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7011489:10",
+        "group": "school",
+        "anchor_id": "7011489",
+        "step": 10,
+        "point": [
+          205108.47999997,
+          544019.290000018
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987205036514437115700000000"
+      },
+      {
+        "id": "school:7091381:1",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 1,
+        "point": [
+          205142.3200000285,
+          544801.3630000205
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7091381:2",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 2,
+        "point": [
+          205192.770000021,
+          544811.5360000209
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7091381:3",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 3,
+        "point": [
+          205243.2200000135,
+          544821.7090000215
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1984205161544445182400000000"
+      },
+      {
+        "id": "school:7091381:4",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 4,
+        "point": [
+          205293.670000006,
+          544831.882000022
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:0000205219744445299700000000"
+      },
+      {
+        "id": "school:7091381:5",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 5,
+        "point": [
+          205344.11999999848,
+          544842.0550000225
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1984205270894445348800000000"
+      },
+      {
+        "id": "school:7091381:6",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 6,
+        "point": [
+          205394.56999999098,
+          544852.2280000229
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1984205330294445513100000000"
+      },
+      {
+        "id": "school:7091381:7",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 7,
+        "point": [
+          205445.0199999835,
+          544862.4010000235
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205102.0023461587,
+          544787.7449576246
+        ],
+        "building_id": "shp:1984205249374445283500000000"
+      },
+      {
+        "id": "school:7091381:8",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 8,
+        "point": [
+          205495.469999976,
+          544872.574000024
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205428704445632000000000"
+      },
+      {
+        "id": "school:7091381:9",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 9,
+        "point": [
+          205545.9199999685,
+          544882.7470000244
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003205482734445659600000000"
+      },
+      {
+        "id": "school:7091381:10",
+        "group": "school",
+        "anchor_id": "7091381",
+        "step": 10,
+        "point": [
+          205596.369999961,
+          544892.920000025
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1997205550844446137100000000"
+      },
+      {
+        "id": "school:7091382:1",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 1,
+        "point": [
+          205064.300000033,
+          544757.2000000206
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1992204996904444517600000000"
+      },
+      {
+        "id": "school:7091382:2",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 2,
+        "point": [
+          205036.73000003,
+          544723.2100000212
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1981204977924444215900000000"
+      },
+      {
+        "id": "school:7091382:3",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 3,
+        "point": [
+          205009.160000027,
+          544689.2200000217
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1981204977924444215900000000"
+      },
+      {
+        "id": "school:7091382:4",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 4,
+        "point": [
+          204981.590000024,
+          544655.2300000223
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1981204977924444215900000000"
+      },
+      {
+        "id": "school:7091382:5",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 5,
+        "point": [
+          204954.020000021,
+          544621.240000023
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1981204977924444215900000000"
+      },
+      {
+        "id": "school:7091382:6",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 6,
+        "point": [
+          204926.450000018,
+          544587.2500000236
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1981204977924444215900000000"
+      },
+      {
+        "id": "school:7091382:7",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 7,
+        "point": [
+          204898.880000015,
+          544553.2600000242
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1984204957394444072300000000"
+      },
+      {
+        "id": "school:7091382:8",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 8,
+        "point": [
+          204871.31000001202,
+          544519.2700000248
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1984204957394444072300000000"
+      },
+      {
+        "id": "school:7091382:9",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 9,
+        "point": [
+          204843.740000009,
+          544485.2800000254
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1984204957394444072300000000"
+      },
+      {
+        "id": "school:7091382:10",
+        "group": "school",
+        "anchor_id": "7091382",
+        "step": 10,
+        "point": [
+          204816.170000006,
+          544451.290000026
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2008204746484441459400000000"
+      },
+      {
+        "id": "school:7091383:1",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 1,
+        "point": [
+          205014.8290000292,
+          544778.8220000204
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "school:7091383:2",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 2,
+        "point": [
+          204937.7880000224,
+          544766.4540000207
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1992204874754444674700000000"
+      },
+      {
+        "id": "school:7091383:3",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 3,
+        "point": [
+          204860.7470000156,
+          544754.0860000212
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1992204806464444407700000000"
+      },
+      {
+        "id": "school:7091383:4",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 4,
+        "point": [
+          204783.7060000088,
+          544741.7180000215
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1986204717494444333200000000"
+      },
+      {
+        "id": "school:7091383:5",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 5,
+        "point": [
+          204706.66500000202,
+          544729.350000022
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001204640494444203200000000"
+      },
+      {
+        "id": "school:7091383:6",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 6,
+        "point": [
+          204629.6239999952,
+          544716.9820000224
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2003204565814444157100000000"
+      },
+      {
+        "id": "school:7091383:7",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 7,
+        "point": [
+          204552.5829999884,
+          544704.6140000228
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091383:8",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 8,
+        "point": [
+          204475.5419999816,
+          544692.2460000232
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993204404154443916800000000"
+      },
+      {
+        "id": "school:7091383:9",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 9,
+        "point": [
+          204398.5009999748,
+          544679.8780000235
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091383:10",
+        "group": "school",
+        "anchor_id": "7091383",
+        "step": 10,
+        "point": [
+          204321.459999968,
+          544667.510000024
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:0000204254684443636300000000"
+      },
+      {
+        "id": "school:7091424:1",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 1,
+        "point": [
+          205120.0710000305,
+          544832.7890000204
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7091424:2",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 2,
+        "point": [
+          205148.272000025,
+          544874.3880000208
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "school:7091424:3",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 3,
+        "point": [
+          205176.4730000195,
+          544915.9870000212
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "school:7091424:4",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 4,
+        "point": [
+          205204.674000014,
+          544957.5860000215
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1983205129874446555000000000"
+      },
+      {
+        "id": "school:7091424:5",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 5,
+        "point": [
+          205232.8750000085,
+          544999.185000022
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1981205073594445634600000000"
+      },
+      {
+        "id": "school:7091424:6",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 6,
+        "point": [
+          205261.076000003,
+          545040.7840000225
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2005205196334447367600000000"
+      },
+      {
+        "id": "school:7091424:7",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 7,
+        "point": [
+          205289.2769999975,
+          545082.3830000228
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002205217884447783000000000"
+      },
+      {
+        "id": "school:7091424:8",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 8,
+        "point": [
+          205317.477999992,
+          545123.9820000232
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1977205207894447619400000000"
+      },
+      {
+        "id": "school:7091424:9",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 9,
+        "point": [
+          205345.6789999865,
+          545165.5810000236
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1977205207894447619400000000"
+      },
+      {
+        "id": "school:7091424:10",
+        "group": "school",
+        "anchor_id": "7091424",
+        "step": 10,
+        "point": [
+          205373.879999981,
+          545207.180000024
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1996205322494449037800000000"
+      },
+      {
+        "id": "school:7091449:1",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 1,
+        "point": [
+          205093.5310000294,
+          544714.0000000198
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205024024444107100000000"
+      },
+      {
+        "id": "school:7091449:2",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 2,
+        "point": [
+          205095.1920000228,
+          544636.8100000196
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205020894444392300000000"
+      },
+      {
+        "id": "school:7091449:3",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 3,
+        "point": [
+          205096.85300001618,
+          544559.6200000193
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7091449:4",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 4,
+        "point": [
+          205098.5140000096,
+          544482.4300000191
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1990205019544443229700000000"
+      },
+      {
+        "id": "school:7091449:5",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 5,
+        "point": [
+          205100.17500000302,
+          544405.240000019
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1996205032654441005000000000"
+      },
+      {
+        "id": "school:7091449:6",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 6,
+        "point": [
+          205101.8359999964,
+          544328.0500000188
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1978205025694440856100000000"
+      },
+      {
+        "id": "school:7091449:7",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 7,
+        "point": [
+          205103.4969999898,
+          544250.8600000186
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7091449:8",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 8,
+        "point": [
+          205105.1579999832,
+          544173.6700000183
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7091449:9",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 9,
+        "point": [
+          205106.81899997662,
+          544096.4800000181
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205090.28351756433,
+          544782.9958069965
+        ],
+        "building_id": "shp:1977205030154439907100000000"
+      },
+      {
+        "id": "school:7091449:10",
+        "group": "school",
+        "anchor_id": "7091449",
+        "step": 10,
+        "point": [
+          205108.47999997,
+          544019.290000018
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1987205036514437115700000000"
+      },
+      {
+        "id": "school:7091456:1",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 1,
+        "point": [
+          205009.6460000364,
+          544788.1520000203
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:2002205009634444808500000000"
+      },
+      {
+        "id": "school:7091456:2",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 2,
+        "point": [
+          204927.4220000368,
+          544785.1140000205
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:0000204861824444794500000000"
+      },
+      {
+        "id": "school:7091456:3",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 3,
+        "point": [
+          204845.1980000372,
+          544782.0760000208
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204771714444754900000000"
+      },
+      {
+        "id": "school:7091456:4",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 4,
+        "point": [
+          204762.9740000376,
+          544779.0380000211
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1988204692144444805800000000"
+      },
+      {
+        "id": "school:7091456:5",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 5,
+        "point": [
+          204680.750000038,
+          544776.0000000214
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091456:6",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 6,
+        "point": [
+          204598.5260000384,
+          544772.9620000218
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004204524984444655100000000"
+      },
+      {
+        "id": "school:7091456:7",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 7,
+        "point": [
+          204516.3020000388,
+          544769.9240000221
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091456:8",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 8,
+        "point": [
+          204434.07800003918,
+          544766.8860000224
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091456:9",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 9,
+        "point": [
+          204351.8540000396,
+          544763.8480000227
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205084.84635405164,
+          544795.8396145762
+        ],
+        "building_id": "shp:1978204892234444806200000000"
+      },
+      {
+        "id": "school:7091456:10",
+        "group": "school",
+        "anchor_id": "7091456",
+        "step": 10,
+        "point": [
+          204269.63000004,
+          544760.810000023
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1977204199934444554700000000"
+      },
+      {
+        "id": "school:7091457:1",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 1,
+        "point": [
+          205130.8280000351,
+          544821.3700000206
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7091457:2",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 2,
+        "point": [
+          205169.7860000342,
+          544851.5500000211
+        ],
+        "weight": 2,
+        "status": "visible",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": null
+      },
+      {
+        "id": "school:7091457:3",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 3,
+        "point": [
+          205208.7440000333,
+          544881.7300000218
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:1993205134134445748500000000"
+      },
+      {
+        "id": "school:7091457:4",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 4,
+        "point": [
+          205247.70200003238,
+          544911.9100000224
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2000205173074446129100000000"
+      },
+      {
+        "id": "school:7091457:5",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 5,
+        "point": [
+          205286.6600000315,
+          544942.0900000229
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2004205215684446295700000000"
+      },
+      {
+        "id": "school:7091457:6",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 6,
+        "point": [
+          205325.6180000306,
+          544972.2700000235
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1993205134134445748500000000"
+      },
+      {
+        "id": "school:7091457:7",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 7,
+        "point": [
+          205364.5760000297,
+          545002.4500000242
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2001205300204446946000000000"
+      },
+      {
+        "id": "school:7091457:8",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 8,
+        "point": [
+          205403.5340000288,
+          545032.6300000248
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1982205229304446543500000000"
+      },
+      {
+        "id": "school:7091457:9",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 9,
+        "point": [
+          205442.49200002788,
+          545062.8100000253
+        ],
+        "weight": 2,
+        "status": "blocked",
+        "target": [
+          205096.69018009753,
+          544800.6837664477
+        ],
+        "building_id": "shp:1982205229304446543500000000"
+      },
+      {
+        "id": "school:7091457:10",
+        "group": "school",
+        "anchor_id": "7091457",
+        "step": 10,
+        "point": [
+          205481.450000027,
+          545092.990000026
+        ],
+        "weight": 2,
+        "status": "excluded",
+        "target": null,
+        "building_id": "shp:2002205411774447876400000000"
+      }
+    ],
+    "summary": {
+      "all": {
+        "generated": 310,
+        "excluded": 122,
+        "visible": 18,
+        "blocked": 170,
+        "total_weight": 264.6666666666667,
+        "visible_weight": 30.833333333333336
+      },
+      "ring": {
+        "generated": 180,
+        "excluded": 67,
+        "visible": 10,
+        "blocked": 103,
+        "total_weight": 103.66666666666669,
+        "visible_weight": 13.833333333333334
+      },
+      "station": {
+        "generated": 20,
+        "excluded": 9,
+        "visible": 1,
+        "blocked": 10,
+        "total_weight": 33,
+        "visible_weight": 3
+      },
+      "school": {
+        "generated": 110,
+        "excluded": 46,
+        "visible": 7,
+        "blocked": 57,
+        "total_weight": 128,
+        "visible_weight": 14
+      }
+    }
+  },
+  "score": {
+    "preset": {
+      "id": "academy_v0",
+      "version": "0.1.2"
+    },
+    "inputs_schema_version": "1.3",
+    "total": 79.59896895595803,
+    "confidence": {
+      "value": 90,
+      "reasons": [
+        "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+        "인구는 행정동·격자 면적 비례 추정 (-5)"
+      ]
+    },
+    "axes": [
+      {
+        "key": "demand",
+        "label": "수요",
+        "weight": 25,
+        "effective_weight": 26.31578947368421,
+        "status": "scored",
+        "raw": 9319.066818835283,
+        "normalized": 96.56364174977782,
+        "contribution": 25.41148467099416,
+        "evidence": {
+          "values": {
+            "population": {
+              "pop_5_9": 1352.581220547948,
+              "pop_10_14": 3178.640970506858,
+              "pop_15_18": 2947.951089862583
+            },
+            "schools_1km": {
+              "mid": 4,
+              "elem": 3,
+              "high": 4
+            },
+            "coefficients": {
+              "pop_5_9": 0.8,
+              "pop_10_14": 1,
+              "pop_15_18": 0.8,
+              "school_elem": 300,
+              "school_mid": 300,
+              "school_high": 150
+            },
+            "estimated": true
+          },
+          "percentile": 96.56364174977782,
+          "rules_applied": [
+            "weighted_population_plus_1km_schools"
+          ],
+          "reference": {
+            "population_size": 10127,
+            "coverage": 1
+          },
+          "notes": []
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "flow",
+        "label": "유동",
+        "weight": 15,
+        "effective_weight": 15.789473684210526,
+        "status": "scored",
+        "raw": 105975.8177931866,
+        "normalized": 99.33406222045522,
+        "contribution": 15.684325613756087,
+        "evidence": {
+          "values": {
+            "weekday": 114272.3643498999,
+            "weekend": 86617.20916085555,
+            "low_coverage": false,
+            "coverage": {
+              "weekday": {
+                "valid_cells": [
+                  39,
+                  39,
+                  40,
+                  40,
+                  40,
+                  40,
+                  40,
+                  40,
+                  41,
+                  42,
+                  42,
+                  41,
+                  41,
+                  40,
+                  40,
+                  41,
+                  41,
+                  40,
+                  40,
+                  41,
+                  41,
+                  41,
+                  39,
+                  40
+                ],
+                "coverage_ratio": [
+                  0.8666666666666667,
+                  0.8666666666666667,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9333333333333333,
+                  0.9333333333333333,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.8666666666666667,
+                  0.8888888888888888
+                ],
+                "expected_cells": 45
+              },
+              "weekend": {
+                "valid_cells": [
+                  40,
+                  40,
+                  40,
+                  41,
+                  41,
+                  41,
+                  41,
+                  41,
+                  43,
+                  41,
+                  40,
+                  41,
+                  41,
+                  41,
+                  41,
+                  40,
+                  41,
+                  42,
+                  40,
+                  40,
+                  39,
+                  40,
+                  41,
+                  40
+                ],
+                "coverage_ratio": [
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9555555555555556,
+                  0.9111111111111111,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.9111111111111111,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.9333333333333333,
+                  0.8888888888888888,
+                  0.8888888888888888,
+                  0.8666666666666667,
+                  0.8888888888888888,
+                  0.9111111111111111,
+                  0.8888888888888888
+                ],
+                "expected_cells": 45
+              }
+            },
+            "estimated": true
+          },
+          "percentile": 99.33406222045522,
+          "rules_applied": [
+            "weekday_0.7_weekend_0.3_renormalize_available"
+          ],
+          "reference": {
+            "population_size": 10061,
+            "coverage": 0.9934827688357856
+          },
+          "notes": []
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "transit",
+        "label": "교통",
+        "weight": 15,
+        "effective_weight": 15.789473684210526,
+        "status": "scored",
+        "raw": null,
+        "normalized": 38.336803260049486,
+        "contribution": 6.053179462113077,
+        "evidence": {
+          "values": {
+            "components": [
+              {
+                "key": "transit.nearest_subway_m",
+                "weight": 0.5,
+                "raw": 816.55370856,
+                "value": 37.84815349700846,
+                "reason": null,
+                "reference": {
+                  "population_size": 9694,
+                  "coverage": 0.9572430137256838
+                }
+              },
+              {
+                "key": "transit.subway_boardings_golden",
+                "weight": 0.3,
+                "raw": 0,
+                "value": 20.255474452554743,
+                "reason": null,
+                "reference": {
+                  "population_size": 9316,
+                  "coverage": 0.9199170534215464
+                }
+              },
+              {
+                "key": "transit.bus_stops",
+                "weight": 0.2,
+                "raw": 48,
+                "value": 66.68042087889417,
+                "reason": null,
+                "reference": {
+                  "population_size": 9694,
+                  "coverage": 0.9572430137256838
+                }
+              }
+            ],
+            "subway_units_missing_golden": 0,
+            "seoul_boundary_distance_m": 4689.59592312
+          },
+          "percentile": null,
+          "rules_applied": [
+            "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+          ],
+          "reference": null,
+          "notes": [
+            "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+          ]
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "cluster",
+        "label": "학원 집적",
+        "weight": 15,
+        "effective_weight": 15.789473684210526,
+        "status": "scored",
+        "raw": 6.976348070447749,
+        "normalized": 99.9484217041469,
+        "contribution": 15.781329742760036,
+        "evidence": {
+          "values": {
+            "field": "입시.검정 및 보습",
+            "n_field": 1070,
+            "students": 7479.173280917389,
+            "saturation": 143.06394033282174,
+            "saturation_level": "high",
+            "saturation_percentile": 99.98968434082938,
+            "saturation_reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "saturation_thresholds": {
+              "high": 60,
+              "mid": 25
+            }
+          },
+          "percentile": 99.9484217041469,
+          "rules_applied": [
+            "log1p_academy_count",
+            "saturation_evidence_only"
+          ],
+          "reference": {
+            "population_size": 9694,
+            "coverage": 0.9572430137256838
+          },
+          "notes": [
+            "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+            "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+          ]
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "visibility",
+        "label": "가시성",
+        "weight": 10,
+        "effective_weight": 10.526315789473683,
+        "status": "scored",
+        "raw": 0.11649874055415617,
+        "normalized": 11.649874055415617,
+        "contribution": 1.2263025321490124,
+        "evidence": {
+          "values": {
+            "srid": 5186,
+            "radius_m": 1000,
+            "eye_height_m": 1.5,
+            "target_height_m": 8.6,
+            "target_height_estimated": true,
+            "candidate_wgs84": {
+              "lat": 37.5025724504279,
+              "lng": 127.057585738094
+            },
+            "floor": 3,
+            "candidate_building_id": "shp:1980205023774444864800000000",
+            "containing_building_count": 1,
+            "building_count": 3558,
+            "unknown_count": 457,
+            "wfs_count": 148,
+            "estimated": true,
+            "estimated_building_count": 1179,
+            "station": {
+              "id": "subway:1023",
+              "line": "분당선",
+              "name": "선릉",
+              "point": [
+                204315.501288808,
+                545044.195824601
+              ],
+              "distance_m": 816.55370856
+            },
+            "schools": [
+              {
+                "id": "7010137",
+                "name": "단국대학교사범대학부속고등학교",
+                "level": "high",
+                "point": [
+                  205108.47999997,
+                  544019.290000018
+                ],
+                "distance_m": 772.0784418
+              },
+              {
+                "id": "7010245",
+                "name": "진선여자고등학교",
+                "level": "high",
+                "point": [
+                  204269.63000004,
+                  544760.810000023
+                ],
+                "distance_m": 822.80082389
+              },
+              {
+                "id": "7010268",
+                "name": "휘문고등학교",
+                "level": "high",
+                "point": [
+                  205481.450000027,
+                  545092.990000026
+                ],
+                "distance_m": 492.80386482
+              },
+              {
+                "id": "7011489",
+                "name": "단국대학교부속소프트웨어고등학교",
+                "level": "high",
+                "point": [
+                  205108.47999997,
+                  544019.290000018
+                ],
+                "distance_m": 772.0784418
+              },
+              {
+                "id": "7091381",
+                "name": "서울대현초등학교",
+                "level": "elem",
+                "point": [
+                  205596.369999961,
+                  544892.920000025
+                ],
+                "distance_m": 514.65430767
+              },
+              {
+                "id": "7091382",
+                "name": "서울도곡초등학교",
+                "level": "elem",
+                "point": [
+                  204816.170000006,
+                  544451.290000026
+                ],
+                "distance_m": 437.65555432
+              },
+              {
+                "id": "7091383",
+                "name": "서울도성초등학교",
+                "level": "elem",
+                "point": [
+                  204321.459999968,
+                  544667.510000024
+                ],
+                "distance_m": 780.27429648
+              },
+              {
+                "id": "7091424",
+                "name": "대명중학교",
+                "level": "mid",
+                "point": [
+                  205373.879999981,
+                  545207.180000024
+                ],
+                "distance_m": 502.57054214
+              },
+              {
+                "id": "7091449",
+                "name": "단국대학교사범대학부속중학교",
+                "level": "mid",
+                "point": [
+                  205108.47999997,
+                  544019.290000018
+                ],
+                "distance_m": 772.0784418
+              },
+              {
+                "id": "7091456",
+                "name": "진선여자중학교",
+                "level": "mid",
+                "point": [
+                  204269.63000004,
+                  544760.810000023
+                ],
+                "distance_m": 822.80082389
+              },
+              {
+                "id": "7091457",
+                "name": "휘문중학교",
+                "level": "mid",
+                "point": [
+                  205481.450000027,
+                  545092.990000026
+                ],
+                "distance_m": 492.80386482
+              }
+            ],
+            "sources": {
+              "schools": {
+                "source": "neis_schools",
+                "quarter": null,
+                "coverage": "Seoul",
+                "available": true,
+                "date_kind": "snapshot",
+                "period_end": null,
+                "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+                "limitations": [
+                  "unlocated_records_not_in_spatial_counts"
+                ],
+                "period_start": null,
+                "reference_date": "2026-09-19",
+                "source_version": "2026-09-19",
+                "unlocated_count": 7
+              },
+              "building_shp": {
+                "source": "gis_buildings_shp",
+                "quarter": null,
+                "coverage": "Gangnam-gu",
+                "available": true,
+                "date_kind": "source_version",
+                "period_end": null,
+                "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+                "limitations": [],
+                "period_start": null,
+                "reference_date": "2026-09-06",
+                "source_version": "2026-09-06",
+                "unlocated_count": null
+              },
+              "building_wfs": {
+                "source": "vworld_wfs_supplement",
+                "quarter": null,
+                "coverage": "Gangnam-gu",
+                "available": true,
+                "date_kind": "retrieved_on",
+                "period_end": null,
+                "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+                "limitations": [
+                  "register_unlinked"
+                ],
+                "period_start": null,
+                "reference_date": "2026-09-20",
+                "source_version": "2026-09-20",
+                "unlocated_count": null
+              },
+              "subway_positions": {
+                "source": "seoul_transit",
+                "quarter": null,
+                "coverage": "Seoul",
+                "available": true,
+                "date_kind": "retrieved_on",
+                "period_end": null,
+                "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+                "limitations": [
+                  "historical_positions_unverified",
+                  "신분당선: 승하차 미제공; 대체 추정 없음"
+                ],
+                "period_start": null,
+                "reference_date": "2026-09-19",
+                "source_version": "2026-09-19",
+                "unlocated_count": null
+              }
+            },
+            "coverage": {
+              "building_region": "Gangnam-gu",
+              "query_within_loaded_region": true
+            },
+            "summary": {
+              "all": {
+                "generated": 310,
+                "excluded": 122,
+                "visible": 18,
+                "blocked": 170,
+                "total_weight": 264.6666666666667,
+                "visible_weight": 30.833333333333336
+              },
+              "ring": {
+                "generated": 180,
+                "excluded": 67,
+                "visible": 10,
+                "blocked": 103,
+                "total_weight": 103.66666666666669,
+                "visible_weight": 13.833333333333334
+              },
+              "station": {
+                "generated": 20,
+                "excluded": 9,
+                "visible": 1,
+                "blocked": 10,
+                "total_weight": 33,
+                "visible_weight": 3
+              },
+              "school": {
+                "generated": 110,
+                "excluded": 46,
+                "visible": 7,
+                "blocked": 57,
+                "total_weight": 128,
+                "visible_weight": 14
+              }
+            },
+            "visible_ratio": 0.11649874055415617
+          },
+          "percentile": null,
+          "rules_applied": [
+            "visible_ratio_times100"
+          ],
+          "reference": null,
+          "notes": [
+            "straight_paths_from_representative_points_not_walk_routes",
+            "flat_ground_no_terrain_model"
+          ]
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "building",
+        "label": "건물 적합성",
+        "weight": 10,
+        "effective_weight": 10.526315789473683,
+        "status": "scored",
+        "raw": 110,
+        "normalized": 100,
+        "contribution": 10.526315789473683,
+        "evidence": {
+          "values": {
+            "building": {
+              "id": "shp:1980205023774444864800000000",
+              "pnu": "1168010600109120013",
+              "source": "gis_buildings_shp",
+              "height_m": 13.2,
+              "main_use": {
+                "code": "04000",
+                "name": "제2종근린생활시설",
+                "other_use": "근린생활시설"
+              },
+              "elevators": {
+                "emergency": 0,
+                "passenger": 0
+              },
+              "estimated": true,
+              "floor_use": [
+                {
+                  "area_m2": 173.68,
+                  "use_code": "04010",
+                  "use_name": "학원",
+                  "other_use": "제2종근린생활시설(학원)",
+                  "main_attached_code": "0"
+                }
+              ],
+              "all_floors": [
+                {
+                  "area_m2": 153.39,
+                  "floor_no": -1,
+                  "use_name": "휴게음식점",
+                  "floor_kind": "10"
+                },
+                {
+                  "area_m2": 175.54,
+                  "floor_no": 1,
+                  "use_name": "학원",
+                  "floor_kind": "20"
+                },
+                {
+                  "area_m2": 173.68,
+                  "floor_no": 2,
+                  "use_name": "학원",
+                  "floor_kind": "20"
+                },
+                {
+                  "area_m2": 173.68,
+                  "floor_no": 3,
+                  "use_name": "학원",
+                  "floor_kind": "20"
+                },
+                {
+                  "area_m2": 173.68,
+                  "floor_no": 4,
+                  "use_name": "학원",
+                  "floor_kind": "20"
+                }
+              ],
+              "gross_area": 849.97,
+              "register_pk": "1024123872",
+              "floors_above": 4,
+              "floors_below": 1,
+              "height_source": "floors_estimate",
+              "location_basis": "footprint",
+              "height_estimated": true
+            },
+            "requested_floor": 3,
+            "exclusive_area_m2": null,
+            "building_lookup_status": "not_needed",
+            "other_academy_floor_count": 3,
+            "harmful_floor_uses": []
+          },
+          "percentile": null,
+          "rules_applied": [
+            "R1:+25",
+            "R4:+10",
+            "R5:+15"
+          ],
+          "reference": null,
+          "notes": []
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "environment",
+        "label": "환경",
+        "weight": 5,
+        "effective_weight": 5.263157894736842,
+        "status": "scored",
+        "raw": 9678,
+        "normalized": 93.40459174952771,
+        "contribution": 4.916031144711984,
+        "evidence": {
+          "values": {
+            "stores_total": 9678,
+            "stores_by_lcls": {
+              "G2": 1263,
+              "I1": 116,
+              "I2": 1533,
+              "L1": 516,
+              "M1": 2991,
+              "N1": 449,
+              "P1": 1756,
+              "Q1": 288,
+              "R1": 319,
+              "S2": 447
+            },
+            "share_I1": 0.011985947509816079,
+            "penalty": 5.992973754908039,
+            "vitality": 99.24695688054467
+          },
+          "percentile": 99.24695688054467,
+          "rules_applied": [
+            "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+          ],
+          "reference": {
+            "population_size": 9694,
+            "coverage": 0.9572430137256838
+          },
+          "notes": []
+        },
+        "missing_reason": null
+      },
+      {
+        "key": "rent_efficiency",
+        "label": "임대료 효율",
+        "weight": 5,
+        "effective_weight": 0,
+        "status": "missing",
+        "raw": null,
+        "normalized": null,
+        "contribution": null,
+        "evidence": {
+          "values": {
+            "legal_dong": "11680106",
+            "legal_dong_code": "11680106",
+            "floor": 3,
+            "trade_building_type": "collective",
+            "trade_sample_count": 11,
+            "trade_median_per_m2_krw": 21466762.429176,
+            "trade_median_per_m2_manwon": 2146.6762429176,
+            "survey_rent_per_m2": null,
+            "survey_vacancy": null,
+            "survey_building_class": null,
+            "rent_level": null,
+            "survey_by_building_class": {},
+            "exclusive_area_m2": null,
+            "deposit_krw": null,
+            "monthly_rent_krw": null,
+            "maintenance_krw": null
+          },
+          "percentile": null,
+          "rules_applied": [],
+          "reference": null,
+          "notes": [
+            "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음",
+            "종합점수 계산 시 결측 축의 가중치는 점수가 있는 축에 비례 재배분한다."
+          ]
+        },
+        "missing_reason": "user_rent_inputs_missing"
+      }
+    ],
+    "derived": {
+      "academy_eligible": null,
+      "academy_eligible_reasons": [
+        "requested_floor_use_allowed",
+        "exclusive_area_unknown"
+      ]
+    },
+    "computed_at": "2026-09-23T13:54:02.930958+00:00"
+  }
+}
