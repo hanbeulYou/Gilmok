@@ -1,14 +1,24 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ],
+    "allowImportingTsExtensions": true
   },
-  "include": ["vitest.config.ts", "tests/**/*.ts"]
+  "include": [
+    "vitest.config.ts",
+    "tests/**/*.ts",
+    "lib/**/*.ts",
+    "ingest/score_reference_raw.ts"
+  ]
 }

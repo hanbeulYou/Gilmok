@@ -21,6 +21,7 @@ from ingest.database import connect_database
 AUTO = ("living", "transit", "academies", "schools", "population", "trades")
 MANUAL = ("stores", "buildings", "rent")
 TABLES = {
+    "score_reference": ("score_reference", "score_reference_sets"),
     "living": ("living_pop",),
     "transit": ("transit_stops", "transit_boardings"),
     "academies": ("academies",),

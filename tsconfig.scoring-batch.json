@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": ".local/scoring-build",
+    "rootDir": ".",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "declaration": false,
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": [
+    "lib/scoring/**/*.ts",
+    "ingest/score_reference_raw.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests"
+  ]
+}
