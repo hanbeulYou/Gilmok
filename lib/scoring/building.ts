@@ -59,7 +59,7 @@ export function buildingAxis(inputs: ScoreInputs, candidate: Candidate) {
   if (passenger === 0 && candidate.floor >= 4) apply('R3', candidate.floor >= 6 ? -30 : -15);
   else if (passenger === null) e.notes.push('R3: 승강기 대수 미확인(0대로 대체하지 않음)');
   const f = candidate.floor;
-  apply('R4', f < 0 ? -20 : f === 1 ? 0 : f <= 3 ? 10 : f <= 5 ? 5 : -10);
+  if (f > 0) apply('R4', f === 1 ? 0 : f <= 3 ? 10 : f <= 5 ? 5 : -10);
   const academyFloors = new Set(b.all_floors.filter(row =>
     (row.floor_kind === '10' || row.floor_kind === '20') && row.floor_no !== null &&
     row.floor_no !== 0 && row.floor_no !== f && compact(row.use_name).includes('학원'))

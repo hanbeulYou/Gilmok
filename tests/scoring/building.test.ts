@@ -29,9 +29,13 @@ describe('building rules and real register fixtures', () => {
     expect(six.axis.evidence.rules_applied.filter(r => r.startsWith('R3:'))).toEqual(['R3:-30']);
     p.building!.elevators.passenger = null;
     expect(buildingAxis(p, { ...candidate, floor: 6 }).axis.evidence.rules_applied).not.toContain('R3:-30');
-    const basement = buildingAxis(p, { ...candidate, floor: -1 });
-    expect(basement.axis.evidence.rules_applied).toContain('R4:-20');
-    expect(basement.axis.evidence.rules_applied).toContain('R7:-25');
+  });
+  it.each([-1, -2])('basement %s applies only R7 for floor preference, preserving other rules', floor => {
+    const result = buildingAxis(inputs(), { ...candidate, floor });
+    expect(result.axis.evidence.rules_applied.some(r => r.startsWith('R4:'))).toBe(false);
+    expect(result.axis.evidence.rules_applied).toContain('R7:-25');
+    expect(result.axis.evidence.rules_applied).toContain('R1:+25');
+    expect(result.axis.normalized).toBe(60); // Base 60 + R1 25 - R7 25.
   });
   it.each([[1649, false], [1649.999, false], [1650, null], [1651, null], [null, null]] as const)(
     'R6 gross_area=%s -> eligible=%s, always -40, no room-distance calculation', (area, eligible) => {
