@@ -50,3 +50,5 @@ R2 원본에서 재구축할 때는 기존 population_database, transit_database
 원격 실행 미측정 계획치: link/dry-run/schema 10~20분, 로컬 데이터 dump·업로드·복원 30~90분, 유지보수·전수 대조·성능 검증 30~90분, Secrets/worker 점검 15~30분. 합계 약 1.5~4시간이며 네트워크·DB 크기·플랜에 따라 초과할 수 있다. R2 재집계 경로는 추가 시간이 필요하다. 대장 전수 API 재수집은 일일 쿼터로 수일이 걸릴 수 있어 이 예상에서 제외한다. 작업별 시작/종료, byte 수, DB/인덱스/임시 공간, API 호출 수를 기록한다.
 
 근거: [Supabase CLI workflow](https://supabase.com/docs/guides/local-development/cli-workflows), [PostgreSQL 17 VACUUM](https://www.postgresql.org/docs/17/sql-vacuum.html).
+
+S2-1 추가: 위 S1 데이터 초기 복원·검증 후 `pnpm score:reference:build`, `python -m ingest.score_reference --target remote`로 원격 소스 기반 기준 분포를 생성한다. 로컬 분포를 다른 소스 버전으로 그대로 옮기지 않는다. 실제 실행은 이 PR 범위에 포함하지 않는다.

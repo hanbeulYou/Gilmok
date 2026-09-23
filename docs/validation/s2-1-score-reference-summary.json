@@ -1,0 +1,434 @@
+{
+  "snapshot": "20260923T101705Z",
+  "preset_version": "0.1.1",
+  "inputs_schema_version": "1.2",
+  "cell_count": 10127,
+  "row_count": 162032,
+  "database_r2_mismatches": 0,
+  "db_bytes_after": 480218259,
+  "tables": [
+    {
+      "table": "score_reference",
+      "table_bytes": 21086208,
+      "index_bytes": 31203328,
+      "total_bytes": 52289536
+    },
+    {
+      "table": "score_reference_sets",
+      "table_bytes": 98304,
+      "index_bytes": 32768,
+      "total_bytes": 131072
+    }
+  ],
+  "local_snapshot_bytes": 1362734046,
+  "statistics": [
+    {
+      "max": 7.104144092987527,
+      "min": 0.0,
+      "axis_key": "cluster",
+      "coverage": 0.9572430137256838,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 147.2337368607462,
+      "min": 0.0,
+      "axis_key": "cluster.saturation",
+      "coverage": 0.9572430137256838,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 14150.994977713246,
+      "min": 22.46431332105296,
+      "axis_key": "demand",
+      "coverage": 1.0,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 0,
+      "missing_ratio": 0.0,
+      "population_size": 10127
+    },
+    {
+      "max": 14412.0,
+      "min": 0.0,
+      "axis_key": "environment.stores_total",
+      "coverage": 0.9572430137256838,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 152156.63103638258,
+      "min": 0.5546163930289453,
+      "axis_key": "flow",
+      "coverage": 0.9934827688357856,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 66,
+      "missing_ratio": 0.006517231164214476,
+      "population_size": 10061
+    },
+    {
+      "max": 137.0,
+      "min": 0.0,
+      "axis_key": "transit.bus_stops",
+      "coverage": 0.9572430137256838,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 2000.0,
+      "min": 7.30028132,
+      "axis_key": "transit.nearest_subway_m",
+      "coverage": 0.9572430137256838,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 233728.641304348,
+      "min": 0.0,
+      "axis_key": "transit.subway_boardings_golden",
+      "coverage": 0.9199170534215464,
+      "radius_m": 800,
+      "cell_count": 10127,
+      "missing_count": 811,
+      "missing_ratio": 0.08008294657845363,
+      "population_size": 9316
+    },
+    {
+      "max": 7.158513997329321,
+      "min": 0.0,
+      "axis_key": "cluster",
+      "coverage": 0.9572430137256838,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 113.27512862889408,
+      "min": 0.0,
+      "axis_key": "cluster.saturation",
+      "coverage": 0.9572430137256838,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 18447.863483361616,
+      "min": 31.81856957784477,
+      "axis_key": "demand",
+      "coverage": 1.0,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 0,
+      "missing_ratio": 0.0,
+      "population_size": 10127
+    },
+    {
+      "max": 19175.0,
+      "min": 0.0,
+      "axis_key": "environment.stores_total",
+      "coverage": 0.9572430137256838,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 201107.86162216502,
+      "min": 0.35791668669507515,
+      "axis_key": "flow",
+      "coverage": 0.9982225733188506,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 18,
+      "missing_ratio": 0.0017774266811494026,
+      "population_size": 10109
+    },
+    {
+      "max": 176.0,
+      "min": 0.0,
+      "axis_key": "transit.bus_stops",
+      "coverage": 0.9572430137256838,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 2000.0,
+      "min": 7.30028132,
+      "axis_key": "transit.nearest_subway_m",
+      "coverage": 0.9572430137256838,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 433,
+      "missing_ratio": 0.042756986274316185,
+      "population_size": 9694
+    },
+    {
+      "max": 307551.293478261,
+      "min": 0.0,
+      "axis_key": "transit.subway_boardings_golden",
+      "coverage": 0.9020440406833218,
+      "radius_m": 1000,
+      "cell_count": 10127,
+      "missing_count": 992,
+      "missing_ratio": 0.09795595931667819,
+      "population_size": 9135
+    }
+  ],
+  "local_all_runs_bytes": 1503918550,
+  "call_timings": {
+    "800": {
+      "calls": 10127,
+      "mean_ms": 19.330144466427086,
+      "p95_ms": 31.952625140547752,
+      "max_ms": 154.4625419192016
+    },
+    "1000": {
+      "calls": 10127,
+      "mean_ms": 25.889575019983866,
+      "p95_ms": 44.07408367842436,
+      "max_ms": 254.25058277323842
+    }
+  },
+  "collection_seconds": 463.91245562490076,
+  "publish_and_promote_seconds": 19.903203915804625,
+  "elapsed_seconds": 483.8156595407054,
+  "git_commit": "a19259b332173768c927b980232b702ed75e68e2",
+  "source_fingerprint": "bd9603fd3a7aab0ec79b4c9a8590f10d2a1ffcd22a7f0ce1e5565ae702262b17",
+  "sources": {
+    "grid": {
+      "cell_count": 10127,
+      "geometry_md5": "9de87aa34f67d7bffbe48fd38a258db4",
+      "resolution_m": 250
+    },
+    "sources": {
+      "stores": {
+        "source": "semas_stores",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-06",
+        "source_version": "2026-06",
+        "unlocated_count": 0
+      },
+      "schools": {
+        "source": "neis_schools",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-09-19",
+        "source_version": "2026-09-19",
+        "unlocated_count": 7
+      },
+      "academies": {
+        "source": "seoul_neis_academies",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-09-19",
+        "source_version": "2026-09-19",
+        "unlocated_count": 86
+      },
+      "bus_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+        "limitations": [
+          "historical_positions_unverified"
+        ],
+        "period_start": null,
+        "reference_date": "2026-09-19",
+        "source_version": "2026-09-19",
+        "unlocated_count": null
+      },
+      "transit_counts": [
+        {
+          "source": "seoul_bus_boardings",
+          "quarter": null,
+          "coverage": "Seoul",
+          "available": true,
+          "date_kind": "period",
+          "period_end": "2026-08-31",
+          "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+          "limitations": [
+            "daily_mean_without_weekday_split",
+            "unmatched_units_not_imputed"
+          ],
+          "period_start": "2026-06-01",
+          "reference_date": null,
+          "source_version": "2026-06-01/2026-08-31",
+          "unlocated_count": null
+        },
+        {
+          "source": "seoul_subway_boardings",
+          "quarter": null,
+          "coverage": "Seoul",
+          "available": true,
+          "date_kind": "period",
+          "period_end": "2026-08-31",
+          "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+          "limitations": [
+            "daily_mean_without_weekday_split",
+            "unmatched_units_not_imputed"
+          ],
+          "period_start": "2026-06-01",
+          "reference_date": null,
+          "source_version": "2026-06-01/2026-08-31",
+          "unlocated_count": null
+        }
+      ],
+      "population_grid": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "unknown",
+        "period_end": null,
+        "ingested_at": "2026-09-19T10:12:14.655762+00:00",
+        "limitations": [
+          "boundary_reference_date_not_verified"
+        ],
+        "period_start": null,
+        "reference_date": null,
+        "source_version": "2026-09-19;raw:2026-06/2026-08",
+        "unlocated_count": null
+      },
+      "admin_boundaries": {
+        "source": "sgis_admdongkor",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "boundary_version",
+        "period_end": null,
+        "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-07-01",
+        "source_version": "2026-07-01",
+        "unlocated_count": null
+      },
+      "subway_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-19T12:38:37.082199+00:00",
+        "limitations": [
+          "historical_positions_unverified",
+          "신분당선: 승하차 미제공; 대체 추정 없음"
+        ],
+        "period_start": null,
+        "reference_date": "2026-09-19",
+        "source_version": "2026-09-19",
+        "unlocated_count": null
+      },
+      "living_population": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "period",
+        "period_end": "2026-08-31",
+        "ingested_at": "2026-09-19T11:24:30.244264+00:00",
+        "limitations": [
+          "valid_days_mean",
+          "age_0_4_and_5_9_not_separable"
+        ],
+        "period_start": "2026-06-01",
+        "reference_date": null,
+        "source_version": "2026-06/2026-08",
+        "unlocated_count": null
+      },
+      "resident_population": {
+        "source": "mois_resident_population",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "reference_month",
+        "period_end": null,
+        "ingested_at": "2026-09-19T11:48:03.029308+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-08-01",
+        "source_version": "2026-08",
+        "unlocated_count": null
+      }
+    }
+  },
+  "objects": {
+    "score_reference": {
+      "key": "raw/score_reference/revisions/20260923T101705Z/2026-09.parquet",
+      "rows": 162032,
+      "bytes": 734130,
+      "sha256": "910bba4754946f8d2166607398bbf5c25625526172b6ccdebf9f7e27bd5a921d",
+      "status": "published",
+      "reread_mismatches": 0
+    },
+    "score_reference_inputs": {
+      "key": "raw/score_reference_inputs/revisions/20260923T101705Z/2026-09.parquet",
+      "rows": 20254,
+      "bytes": 25019366,
+      "sha256": "32a417b20cbe78e7db0a5bffcb98dd0c8d056e474688ac52b4a991c0fb0d669b",
+      "status": "published",
+      "reread_mismatches": 0
+    }
+  },
+  "manifest_key": "raw/score_reference_manifest/revisions/20260923T101705Z/2026-09.parquet",
+  "manifest_bytes": 4450,
+  "retry": {
+    "status": "already_current",
+    "changed": false,
+    "elapsed_seconds": 2.131594541016966
+  },
+  "reread_recompute_mismatches": 0,
+  "database_comparison": "psycopg binary cursor; exact double values"
+}

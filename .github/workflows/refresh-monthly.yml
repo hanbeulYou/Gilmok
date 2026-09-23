@@ -29,3 +29,8 @@ jobs:
       source: ${{ matrix.source }}
       end_month: ${{ inputs.end_month || '' }}
     secrets: inherit
+  reference:
+    needs: refresh
+    if: vars.INGEST_REMOTE_ENABLED == 'true'
+    uses: ./.github/workflows/score-reference.yml
+    secrets: inherit

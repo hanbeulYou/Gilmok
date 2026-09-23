@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run && uv run --frozen pytest tests/ingest",
     "test:db": "uv run --frozen pytest tests/integration",
-    "ingest:smoke": "uv run --frozen python -m ingest.smoke"
+    "ingest:smoke": "uv run --frozen python -m ingest.smoke",
+    "score:reference:build": "tsc -p tsconfig.scoring-batch.json"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
