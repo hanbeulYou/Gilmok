@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import type { ScoreResult } from '../../lib/scoring/types.ts';
 import { score, reweight } from '../../lib/scoring/score.ts';
 import { academyV0, loadPreset } from '../../lib/scoring/presets.ts';
 import { inputs, reference, context, candidate } from './fixtures.ts';
@@ -16,17 +18,52 @@ describe('pure ScoreResult v0.1', () => {
       expect(a.axes).toHaveLength(8); expect(a.total).not.toBeNull();
     } finally { clock.mockRestore(); }
   });
-  it('reallocates one/two missing axes, but three missing or zero available weight gives NULL', () => {
+  it('reallocates missing axes until two percentile axes are missing; zero available weight gives NULL', () => {
     const p = inputs(), s = inputs(1000), r = reference(p);
     const one = score(p, s, [], { status: 'ready', visible_ratio: .5 }, candidate, academyV0, r, context);
     expect(one.axes.filter(a => a.normalized === null)).toHaveLength(1);
     const two = run(p, s); expect(two.axes.filter(a => a.normalized === null)).toHaveLength(2);
     expect(two.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
     p.demand.pop_5_9 = null; const three = run(p, s);
-    expect(three.total).toBeNull(); expect(three.axes.find(a => a.key === 'flow')!.normalized).not.toBeNull();
+    expect(three.total).not.toBeNull(); expect(three.axes.find(a => a.key === 'flow')!.normalized).not.toBeNull();
+    p.market.stores_by_lcls = null;
+    expect(run(p, s).total).toBeNull();
     const zero = Object.fromEntries(Object.keys(academyV0.weights).map(k => [k, 0])) as unknown as typeof academyV0.weights;
     expect(reweight(two, zero).total).toBeNull();
   });
+  it('scores with all three rule axes missing, retaining missing values and redistribution evidence', () => {
+    const p = inputs(); p.building = null;
+    const result = run(p);
+    expect(result.axes.filter(a => a.normalized === null).map(a => a.key)).toEqual(['visibility', 'building', 'rent_efficiency']);
+    expect(result.total).not.toBeNull();
+    expect(result.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
+    for (const a of result.axes.filter(a => a.normalized === null)) {
+      expect(a.effective_weight).toBe(0); expect(a.contribution).toBeNull();
+      expect(a.evidence.notes.some(n => n.includes('재배분'))).toBe(true);
+    }
+    expect(reweight(result, academyV0.weights)).toEqual(result);
+  });
+  const actualResults = JSON.parse(readFileSync(new URL('../../docs/validation/s2-2-score-results.json', import.meta.url), 'utf8')) as
+    { name: string; candidate: { lat: number; lng: number }; radius_m: number; result: ScoreResult }[];
+  it.each(actualResults.filter(c => c.name === '학여울'))('학여울 $radius_m m: recorded axes produce a total with rule axes missing', c => {
+    expect(c.candidate).toMatchObject({ lat: 37.496663, lng: 127.070594 });
+    const result = reweight(c.result, academyV0.weights);
+    const available = result.axes.filter(a => a.normalized !== null);
+    expect(available.map(a => a.key)).toEqual(['demand', 'flow', 'transit', 'cluster', 'environment']);
+    const expected = available.reduce((sum, a) => sum + a.normalized! * a.weight, 0) / 75;
+    expect(result.total).toBeCloseTo(expected, 10);
+    expect(result.confidence).toEqual(c.result.confidence);
+    expect(reweight(result, { ...academyV0.weights, building: 100 }).total).toBeCloseTo(expected, 10);
+  });
+  it.each(['demand', 'flow', 'transit', 'cluster', 'environment'] as const)(
+    '%s counts toward the percentile missing threshold even with zero weight', key => {
+      const result = run();
+      for (const a of result.axes) { a.normalized = 50; a.status = 'scored'; }
+      result.axes.find(a => a.key === key)!.normalized = null;
+      expect(reweight(result, academyV0.weights).total).toBeCloseTo(50, 10);
+      result.axes.find(a => a.key === (key === 'demand' ? 'environment' : 'demand'))!.normalized = null;
+      expect(reweight(result, { ...academyV0.weights, [key]: 0 }).total).toBeNull();
+    });
   it('sliders change total/contributions only; normalized/raw/reference/confidence are invariant', () => {
     const result = run(), before = structuredClone(result);
     const changed = reweight(result, { ...academyV0.weights, building: 100, demand: 0 });

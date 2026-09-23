@@ -23,15 +23,20 @@ function validateCandidate(candidate: Candidate): void {
 export function reweight(result: ScoreResult, weights: Weights): ScoreResult {
   validateWeights(weights);
   const copy = structuredClone(result);
-  const missing = copy.axes.filter(a => a.normalized === null).length;
+  const percentileKeys = ['demand', 'flow', 'transit', 'cluster', 'environment'];
+  const missing = copy.axes.filter(a => a.normalized === null && percentileKeys.includes(a.key)).length;
   const w = copy.axes.reduce((sum, a) => sum + (a.normalized === null ? 0 : weights[a.key]), 0);
   if (!Number.isFinite(w)) throw new Error('Weight sum overflow');
   for (const a of copy.axes) {
+    if (a.normalized === null) {
+      const note = '종합점수 계산 시 결측 축의 가중치는 점수가 있는 축에 비례 재배분한다.';
+      if (!a.evidence.notes.includes(note)) a.evidence.notes.push(note);
+    }
     a.weight = weights[a.key];
     a.effective_weight = a.normalized === null || w === 0 ? 0 : weights[a.key] / w * 100;
     a.contribution = a.normalized === null ? null : a.normalized * a.effective_weight / 100;
   }
-  copy.total = missing >= 3 || w === 0 ? null : clamp(copy.axes.reduce((sum, a) => sum + (a.contribution ?? 0), 0));
+  copy.total = missing >= 2 || w === 0 ? null : clamp(copy.axes.reduce((sum, a) => sum + (a.contribution ?? 0), 0));
   return copy;
 }
 function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: ScoringPreset, context: ScoreContext) {
