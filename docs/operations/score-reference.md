@@ -1,6 +1,6 @@
 # score_reference 운영 — S2-1
 
-기준은 [채점 명세 v0.1.1](../planning/scoring-spec.md)다. 이번 PR은 기준 분포와 공통 원시값 추출만 구현한다. 종합/축 점수, 가시성, 실제 학원 순위 검증은 포함하지 않는다. 원격 활성화 변수는 기존처럼 false 상태를 유지한다.
+기준은 [채점 명세 v0.1.2](../planning/scoring-spec.md)다. 이번 PR은 기준 분포와 공통 원시값 추출만 구현한다. 종합/축 점수, 가시성, 실제 학원 순위 검증은 포함하지 않는다. 원격 활성화 변수는 기존처럼 false 상태를 유지한다.
 
 ## 실행
 
@@ -47,3 +47,7 @@ source fingerprint는 관련 소스의 버전·기준일·ingested_at 및 격자
 `cluster.saturation`은 8번째 근거 지표이며 점수에는 사용하지 않는다. 동일 셀의 n_field 또는 students가 NULL이거나 students=0이면 NULL, 관측 n_field=0·students>0이면 0이다. 교통 원천은 버스·지하철의 모든 버전을 manifest에 기록한다. S1 RPC의 transit_counts 메타데이터는 LIMIT 1에 따라 둘 중 하나를 반환하므로 이 검증된 버전 집합의 멤버인지 확인한다.
 
 실측은 [S2-1 검증](../validation/s2-1-score-reference-20260923.md)을 따른다. 로컬 20,254회 조회·R2·전수 검증·적재 합계 483.816초다. PostgreSQL 텍스트 조회의 extra_float_digits 설정은 소수를 반올림할 수 있으므로 정확한 저장값 대조는 psycopg 바이너리 커서를 사용한다. S2-2 reference 공급 경로에서도 이 정밀도를 보존하고, HTTP 응답의 동률 판정은 별도로 검증해야 한다.
+
+## S2-2 이후 소비 계약
+
+현재 preset v0.1.2 / inputs_schema_version=1.3이다. 스키마·코드 적용 후 `pnpm score:reference:build`와 새 snapshot 배치를 실행한다. 기존 v1.2 분포와 섞지 않는다. Supabase 클라이언트는 `score_reference_distribution(requested_preset_id,requested_radius_m)`의 정밀도 보존 JSON을 reference로 주입한다. 직접 DB 클라이언트는 binary cursor를 사용한다. 일반 테이블 HTTP의 반올림된 raw_value는 동률 판정에 사용하지 않는다. `uv run --frozen python -m ingest.verify_scoring`은 로컬 실제 데이터에서 HTTP/binary 전수 대조와 ScoreResult 연결을 확인한다. [검증](../validation/s2-2-scoring-20260923.md)을 따른다.

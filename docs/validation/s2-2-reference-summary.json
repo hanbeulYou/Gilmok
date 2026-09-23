@@ -1,0 +1,62 @@
+{
+  "snapshot": "20260923T111436Z",
+  "preset_version": "0.1.2",
+  "inputs_schema_version": "1.3",
+  "cell_count": 10127,
+  "row_count": 162032,
+  "database_r2_mismatches": 0,
+  "db_bytes_before": 480644243,
+  "db_bytes_after": 522382483,
+  "tables": [
+    {
+      "table": "score_reference",
+      "table_bytes": 41828352,
+      "index_bytes": 51896320,
+      "total_bytes": 93724672
+    },
+    {
+      "table": "score_reference_sets",
+      "table_bytes": 98304,
+      "index_bytes": 32768,
+      "total_bytes": 131072
+    }
+  ],
+  "local_snapshot_bytes": 1378346946,
+  "call_timings": {
+    "800": {
+      "calls": 10127,
+      "mean_ms": 14.8376972072262,
+      "p95_ms": 28.04029081016779,
+      "max_ms": 219.48779188096523
+    },
+    "1000": {
+      "calls": 10127,
+      "mean_ms": 19.756764396153287,
+      "p95_ms": 39.09233259037137,
+      "max_ms": 205.82025032490492
+    }
+  },
+  "collection_seconds": 354.9989589159377,
+  "publish_and_promote_seconds": 20.203433833085,
+  "elapsed_seconds": 375.2023927490227,
+  "objects": {
+    "score_reference_inputs": {
+      "key": "raw/score_reference_inputs/revisions/20260923T111436Z/2026-09.parquet",
+      "bytes": 26293540,
+      "sha256": "183cddec688f7adab2b6ececbdffcc8f39a5dfdc3078ccb7629adc7bc989a05c",
+      "status": "published",
+      "rows": 20254,
+      "reread_mismatches": 0
+    },
+    "score_reference": {
+      "key": "raw/score_reference/revisions/20260923T111436Z/2026-09.parquet",
+      "bytes": 734432,
+      "sha256": "0c48770c17d51a00da08dbfebdcbd27f830f25353160ca7a52f9cfe936470ccb",
+      "status": "published",
+      "rows": 162032,
+      "reread_mismatches": 0
+    }
+  },
+  "git_commit": "4da62c15e17dbaea59ed1193e159c1927279b443",
+  "reread_recompute_mismatches": 0
+}

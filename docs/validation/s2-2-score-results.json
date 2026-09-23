@@ -1,0 +1,5082 @@
+[
+  {
+    "name": "대치",
+    "candidate": {
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4249.90062712,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 89.09609891872888,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "건물 대장 미연결, 용도·승강기 미확인 (-10)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 12199.484359223516,
+          "normalized": 99.53589414436655,
+          "contribution": 29.275262983637223,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1952.7321829819714,
+                "pop_10_14": 4538.282818685235,
+                "pop_15_18": 3686.2697426908785
+              },
+              "schools_1km": {
+                "mid": 3,
+                "elem": 6,
+                "high": 3
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 99.53589414436655,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 66939.52114140627,
+          "normalized": 92.80389623297883,
+          "contribution": 16.37715815876097,
+          "evidence": {
+            "values": {
+              "weekday": 65982.06622855683,
+              "weekend": 69173.58260472167,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    40,
+                    40,
+                    41,
+                    41,
+                    40,
+                    41,
+                    41,
+                    41,
+                    40,
+                    42,
+                    42,
+                    39,
+                    40,
+                    40,
+                    38,
+                    39,
+                    39,
+                    39,
+                    39,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8695652173913043,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.8695652173913043,
+                    0.9130434782608695,
+                    0.9130434782608695,
+                    0.8478260869565217,
+                    0.8695652173913043,
+                    0.8695652173913043,
+                    0.8260869565217391,
+                    0.8478260869565217,
+                    0.8478260869565217,
+                    0.8478260869565217,
+                    0.8478260869565217,
+                    0.8695652173913043,
+                    0.8478260869565217,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8695652173913043
+                  ],
+                  "expected_cells": 46
+                },
+                "weekend": {
+                  "valid_cells": [
+                    40,
+                    41,
+                    41,
+                    41,
+                    42,
+                    42,
+                    42,
+                    41,
+                    42,
+                    40,
+                    40,
+                    41,
+                    39,
+                    40,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    42,
+                    41
+                  ],
+                  "coverage_ratio": [
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.9130434782608695,
+                    0.9130434782608695,
+                    0.9130434782608695,
+                    0.8913043478260869,
+                    0.9130434782608695,
+                    0.8695652173913043,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8478260869565217,
+                    0.8695652173913043,
+                    0.8695652173913043,
+                    0.8478260869565217,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8695652173913043,
+                    0.8695652173913043,
+                    0.8913043478260869,
+                    0.8913043478260869,
+                    0.9130434782608695,
+                    0.8913043478260869
+                  ],
+                  "expected_cells": 46
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 92.80389623297883,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 80.8859663008808,
+          "contribution": 14.273994053096612,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 16040.98913043478,
+                  "value": 68.50579647917561,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 38,
+                  "value": 51.671136785640606,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4249.90062712
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.505784060128229,
+          "normalized": 99.72147720239323,
+          "contribution": 17.597907741598807,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 668,
+              "students": 10177.284744358085,
+              "saturation": 65.63636733956126,
+              "saturation_level": "high",
+              "saturation_percentile": 99.05095935630287,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.72147720239323,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "pending",
+          "raw": 60,
+          "normalized": 60,
+          "contribution": 7.0588235294117645,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "wfs:lt_c_bldginfo.15531428",
+                "pnu": "1168010600103170003",
+                "source": "vworld_wfs_supplement",
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": 2,
+                "height_source": "unknown",
+                "location_basis": "footprint",
+                "height_estimated": false
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested",
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "floor_use_missing_hold60"
+            ],
+            "reference": null,
+            "notes": [
+              "요청 층 용도 미확인: 60점 보류, 관측된 R6 유해업소만 반영"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 2564,
+          "normalized": 76.72019168779956,
+          "contribution": 4.5129524522235025,
+          "evidence": {
+            "values": {
+              "stores_total": 2564,
+              "stores_by_lcls": {
+                "G2": 415,
+                "I1": 11,
+                "I2": 449,
+                "L1": 177,
+                "M1": 161,
+                "N1": 51,
+                "P1": 803,
+                "Q1": 162,
+                "R1": 141,
+                "S2": 194
+              },
+              "share_I1": 0.004290171606864275,
+              "penalty": 2.145085803432137,
+              "vitality": 73.58159686403961
+            },
+            "percentile": 73.58159686403961,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 23715087.702951,
+              "trade_median_per_m2_manwon": 2371.5087702951,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.229997+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "대치",
+    "candidate": {
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 1000,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4249.90062712,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 89.02656042743826,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "건물 대장 미연결, 용도·승강기 미확인 (-10)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 16322.300480550832,
+          "normalized": 99.65438925644317,
+          "contribution": 29.31011448718917,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 2991.476031170842,
+                "pop_10_14": 6505.6702240197865,
+                "pop_15_18": 5341.811789492964
+              },
+              "schools_1km": {
+                "mid": 3,
+                "elem": 6,
+                "high": 3
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 99.65438925644317,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 93128.82656948944,
+          "normalized": 89.96933425660303,
+          "contribution": 15.876941339400537,
+          "evidence": {
+            "values": {
+              "weekday": 91470.98384611755,
+              "weekend": 96997.1262573572,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    61,
+                    61,
+                    61,
+                    60,
+                    63,
+                    63,
+                    60,
+                    61,
+                    60,
+                    59,
+                    60,
+                    60,
+                    60,
+                    60,
+                    61,
+                    60,
+                    61,
+                    62,
+                    60
+                  ],
+                  "coverage_ratio": [
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.8970588235294118,
+                    0.8970588235294118,
+                    0.8823529411764706,
+                    0.9264705882352942,
+                    0.9264705882352942,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.8823529411764706,
+                    0.8676470588235294,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.9117647058823529,
+                    0.8823529411764706
+                  ],
+                  "expected_cells": 68
+                },
+                "weekend": {
+                  "valid_cells": [
+                    60,
+                    60,
+                    60,
+                    61,
+                    62,
+                    62,
+                    62,
+                    62,
+                    63,
+                    61,
+                    61,
+                    62,
+                    60,
+                    61,
+                    61,
+                    60,
+                    61,
+                    62,
+                    61,
+                    61,
+                    62,
+                    62,
+                    63,
+                    62
+                  ],
+                  "coverage_ratio": [
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.9117647058823529,
+                    0.9117647058823529,
+                    0.9117647058823529,
+                    0.9117647058823529,
+                    0.9264705882352942,
+                    0.8970588235294118,
+                    0.8970588235294118,
+                    0.9117647058823529,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.8970588235294118,
+                    0.8823529411764706,
+                    0.8970588235294118,
+                    0.9117647058823529,
+                    0.8970588235294118,
+                    0.8970588235294118,
+                    0.9117647058823529,
+                    0.9117647058823529,
+                    0.9264705882352942,
+                    0.9117647058823529
+                  ],
+                  "expected_cells": 68
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 89.96933425660303,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10109,
+              "coverage": 0.9982225733188506
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 85.48060368118279,
+          "contribution": 15.084812414326375,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 48713.010869565216,
+                  "value": 85.80186097427477,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9135,
+                    "coverage": 0.9020440406833218
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 56,
+                  "value": 48.70022694450175,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4249.90062712
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.838405200847344,
+          "normalized": 99.71116154322262,
+          "contribution": 17.596087331156934,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 932,
+              "students": 14838.958044683592,
+              "saturation": 62.807644390767116,
+              "saturation_level": "high",
+              "saturation_percentile": 99.39137610893336,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.71116154322262,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "pending",
+          "raw": 60,
+          "normalized": 60,
+          "contribution": 7.0588235294117645,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "wfs:lt_c_bldginfo.15531428",
+                "pnu": "1168010600103170003",
+                "source": "vworld_wfs_supplement",
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": 2,
+                "height_source": "unknown",
+                "location_basis": "footprint",
+                "height_estimated": false
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested",
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "floor_use_missing_hold60"
+            ],
+            "reference": null,
+            "notes": [
+              "요청 층 용도 미확인: 60점 보류, 관측된 R6 유해업소만 반영"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 3493,
+          "normalized": 69.69628254120904,
+          "contribution": 4.099781325953473,
+          "evidence": {
+            "values": {
+              "stores_total": 3493,
+              "stores_by_lcls": {
+                "G2": 641,
+                "I1": 32,
+                "I2": 589,
+                "L1": 218,
+                "M1": 201,
+                "N1": 74,
+                "P1": 1105,
+                "Q1": 184,
+                "R1": 183,
+                "S2": 266
+              },
+              "share_I1": 0.009161179501860864,
+              "penalty": 4.580589750930432,
+              "vitality": 67.84609036517433
+            },
+            "percentile": 67.84609036517433,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 23715087.702951,
+              "trade_median_per_m2_manwon": 2371.5087702951,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.315184+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "학여울",
+    "candidate": {
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4523.9602884,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": null,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 33.33333333333333,
+          "status": "scored",
+          "raw": 8308.895002397894,
+          "normalized": 93.06803594351733,
+          "contribution": 31.022678647839108,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1402.7176858037167,
+                "pop_10_14": 3012.070354290081,
+                "pop_15_18": 2405.813124331049
+              },
+              "schools_1km": {
+                "mid": 1,
+                "elem": 6,
+                "high": 1
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 93.06803594351733,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": 48428.37781274106,
+          "normalized": 74.05824470728555,
+          "contribution": 14.811648941457111,
+          "evidence": {
+            "values": {
+              "weekday": 48273.811606793664,
+              "weekend": 48789.032293284996,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    42,
+                    42,
+                    42,
+                    42,
+                    41,
+                    43,
+                    43,
+                    42,
+                    42,
+                    42,
+                    43,
+                    42,
+                    43,
+                    42,
+                    42,
+                    43,
+                    42
+                  ],
+                  "coverage_ratio": [
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8367346938775511,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8367346938775511,
+                    0.8775510204081632,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8571428571428571
+                  ],
+                  "expected_cells": 49
+                },
+                "weekend": {
+                  "valid_cells": [
+                    41,
+                    42,
+                    42,
+                    42,
+                    43,
+                    42,
+                    42,
+                    43,
+                    43,
+                    42,
+                    43,
+                    43,
+                    41,
+                    43,
+                    44,
+                    44,
+                    44,
+                    43,
+                    42,
+                    41,
+                    42,
+                    43,
+                    42,
+                    44
+                  ],
+                  "coverage_ratio": [
+                    0.8367346938775511,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8775510204081632,
+                    0.8367346938775511,
+                    0.8775510204081632,
+                    0.8979591836734694,
+                    0.8979591836734694,
+                    0.8979591836734694,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8367346938775511,
+                    0.8571428571428571,
+                    0.8775510204081632,
+                    0.8571428571428571,
+                    0.8979591836734694
+                  ],
+                  "expected_cells": 49
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 74.05824470728555,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": null,
+          "normalized": 78.56772143875675,
+          "contribution": 15.713544287751349,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 17211.760869565216,
+                  "value": 70.33061399742378,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 27,
+                  "value": 37.34268619764803,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4523.9602884
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": 5.472270673671475,
+          "normalized": 97.81308025582835,
+          "contribution": 19.562616051165673,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 237,
+              "students": 6820.6011644248465,
+              "saturation": 34.747670225339334,
+              "saturation_level": "mid",
+              "saturation_percentile": 94.33670311532907,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 97.81308025582835,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": null,
+                "pnu": null,
+                "source": null,
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": null,
+                "height_source": null,
+                "location_basis": null,
+                "height_estimated": null
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested"
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "candidate_building_missing"
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 6.666666666666667,
+          "status": "scored",
+          "raw": 1168,
+          "normalized": 56.70416455878654,
+          "contribution": 3.7802776372524356,
+          "evidence": {
+            "values": {
+              "stores_total": 1168,
+              "stores_by_lcls": {
+                "G2": 237,
+                "I1": 1,
+                "I2": 250,
+                "L1": 67,
+                "M1": 87,
+                "N1": 29,
+                "P1": 260,
+                "Q1": 63,
+                "R1": 62,
+                "S2": 112
+              },
+              "share_I1": 0.0008561643835616438,
+              "penalty": 0.4280821917808219,
+              "vitality": 46.4153084382092
+            },
+            "percentile": 46.4153084382092,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 23715087.702951,
+              "trade_median_per_m2_manwon": 2371.5087702951,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "candidate_building_missing"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.404565+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "학여울",
+    "candidate": {
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 1000,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4523.9602884,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": null,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 33.33333333333333,
+          "status": "scored",
+          "raw": 11988.781079256845,
+          "normalized": 96.28715315493235,
+          "contribution": 32.09571771831078,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 2303.9592400011848,
+                "pop_10_14": 4813.143468287274,
+                "pop_15_18": 3853.0877737107794
+              },
+              "schools_1km": {
+                "mid": 1,
+                "elem": 6,
+                "high": 1
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 96.28715315493235,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": 74062.32830872094,
+          "normalized": 74.3298051241468,
+          "contribution": 14.86596102482936,
+          "evidence": {
+            "values": {
+              "weekday": 73679.82150530537,
+              "weekend": 74954.84418335727,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    56,
+                    56,
+                    56,
+                    56,
+                    56,
+                    56,
+                    56,
+                    58,
+                    58,
+                    58,
+                    59,
+                    58,
+                    58,
+                    59,
+                    57,
+                    58,
+                    58,
+                    58,
+                    57,
+                    59,
+                    58,
+                    58,
+                    58,
+                    57
+                  ],
+                  "coverage_ratio": [
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8484848484848485,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8939393939393939,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8939393939393939,
+                    0.8636363636363636,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8636363636363636,
+                    0.8939393939393939,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8636363636363636
+                  ],
+                  "expected_cells": 66
+                },
+                "weekend": {
+                  "valid_cells": [
+                    56,
+                    57,
+                    57,
+                    57,
+                    58,
+                    57,
+                    57,
+                    58,
+                    58,
+                    56,
+                    57,
+                    58,
+                    57,
+                    59,
+                    60,
+                    58,
+                    59,
+                    58,
+                    57,
+                    57,
+                    57,
+                    58,
+                    57,
+                    59
+                  ],
+                  "coverage_ratio": [
+                    0.8484848484848485,
+                    0.8636363636363636,
+                    0.8636363636363636,
+                    0.8636363636363636,
+                    0.8787878787878788,
+                    0.8636363636363636,
+                    0.8636363636363636,
+                    0.8787878787878788,
+                    0.8787878787878788,
+                    0.8484848484848485,
+                    0.8636363636363636,
+                    0.8787878787878788,
+                    0.8636363636363636,
+                    0.8939393939393939,
+                    0.9090909090909091,
+                    0.8787878787878788,
+                    0.8939393939393939,
+                    0.8787878787878788,
+                    0.8636363636363636,
+                    0.8636363636363636,
+                    0.8636363636363636,
+                    0.8787878787878788,
+                    0.8636363636363636,
+                    0.8939393939393939
+                  ],
+                  "expected_cells": 66
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 74.3298051241468,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10109,
+              "coverage": 0.9982225733188506
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": null,
+          "normalized": 79.66427966717517,
+          "contribution": 15.932855933435032,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 28980.217391304348,
+                  "value": 71.23152709359606,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9135,
+                    "coverage": 0.9020440406833218
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 48,
+                  "value": 41.47410769548174,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4523.9602884
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 20,
+          "status": "scored",
+          "raw": 6.07993319509559,
+          "normalized": 98.6744377965752,
+          "contribution": 19.73488755931504,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 436,
+              "students": 10970.190481999238,
+              "saturation": 39.74406832000078,
+              "saturation_level": "mid",
+              "saturation_percentile": 97.06003713637301,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 98.6744377965752,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": null,
+                "pnu": null,
+                "source": null,
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": null,
+                "height_source": null,
+                "location_basis": null,
+                "height_estimated": null
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested"
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "candidate_building_missing"
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 6.666666666666667,
+          "status": "scored",
+          "raw": 2329,
+          "normalized": 59.49576491033527,
+          "contribution": 3.966384327355685,
+          "evidence": {
+            "values": {
+              "stores_total": 2329,
+              "stores_by_lcls": {
+                "G2": 413,
+                "I1": 7,
+                "I2": 442,
+                "L1": 155,
+                "M1": 215,
+                "N1": 67,
+                "P1": 578,
+                "Q1": 138,
+                "R1": 116,
+                "S2": 198
+              },
+              "share_I1": 0.0030055817947617003,
+              "penalty": 1.5027908973808501,
+              "vitality": 51.248194759645145
+            },
+            "percentile": 51.248194759645145,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 23715087.702951,
+              "trade_median_per_m2_manwon": 2371.5087702951,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "candidate_building_missing"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.456296+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "한티",
+    "candidate": {
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 3873.31403098,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 91.68220961030133,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "건물 대장 미연결, 용도·승강기 미확인 (-10)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 13206.845828824848,
+          "normalized": 99.76300977584674,
+          "contribution": 29.34206169877846,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 2100.0622745195124,
+                "pop_10_14": 4599.791989429669,
+                "pop_15_18": 3971.255024724459
+              },
+              "schools_1km": {
+                "mid": 6,
+                "elem": 4,
+                "high": 5
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 99.76300977584674,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 83661.07056449479,
+          "normalized": 97.92267170261405,
+          "contribution": 17.280471476931893,
+          "evidence": {
+            "values": {
+              "weekday": 84627.10454580784,
+              "weekend": 81406.99127476434,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    43,
+                    43,
+                    43,
+                    43,
+                    43,
+                    44,
+                    44,
+                    45,
+                    44,
+                    46,
+                    46,
+                    45,
+                    43,
+                    43,
+                    43,
+                    44,
+                    44,
+                    43,
+                    43,
+                    44,
+                    43,
+                    44,
+                    44,
+                    44
+                  ],
+                  "coverage_ratio": [
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9375,
+                    0.9166666666666666,
+                    0.9583333333333334,
+                    0.9583333333333334,
+                    0.9375,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9166666666666666
+                  ],
+                  "expected_cells": 48
+                },
+                "weekend": {
+                  "valid_cells": [
+                    43,
+                    43,
+                    43,
+                    44,
+                    44,
+                    45,
+                    45,
+                    44,
+                    46,
+                    44,
+                    44,
+                    45,
+                    44,
+                    44,
+                    44,
+                    43,
+                    44,
+                    45,
+                    43,
+                    43,
+                    44,
+                    44,
+                    45,
+                    44
+                  ],
+                  "coverage_ratio": [
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9375,
+                    0.9375,
+                    0.9166666666666666,
+                    0.9583333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9375,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9375,
+                    0.8958333333333334,
+                    0.8958333333333334,
+                    0.9166666666666666,
+                    0.9166666666666666,
+                    0.9375,
+                    0.9166666666666666
+                  ],
+                  "expected_cells": 48
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 97.92267170261405,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 87.88635897360032,
+          "contribution": 15.50935746592947,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 25642.30434782609,
+                  "value": 80.82331472735079,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 49,
+                  "value": 68.19682277697545,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 3873.31403098
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.75110146893676,
+          "normalized": 99.83494945327007,
+          "contribution": 17.617932256459426,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 854,
+              "students": 10671.10928867364,
+              "saturation": 80.02916818652012,
+              "saturation_level": "high",
+              "saturation_percentile": 99.56674231483392,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.83494945327007,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "pending",
+          "raw": 60,
+          "normalized": 60,
+          "contribution": 7.0588235294117645,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "wfs:lt_c_bldginfo.15660635",
+                "pnu": "1168010600110110028",
+                "source": "vworld_wfs_supplement",
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": 1,
+                "height_source": "unknown",
+                "location_basis": "footprint",
+                "height_estimated": false
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested",
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "floor_use_missing_hold60"
+            ],
+            "reference": null,
+            "notes": [
+              "요청 층 용도 미확인: 60점 보류, 관측된 R6 유해업소만 반영"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 3887,
+          "normalized": 82.85057410743539,
+          "contribution": 4.873563182790317,
+          "evidence": {
+            "values": {
+              "stores_total": 3887,
+              "stores_by_lcls": {
+                "G2": 630,
+                "I1": 64,
+                "I2": 675,
+                "L1": 305,
+                "M1": 284,
+                "N1": 69,
+                "P1": 1185,
+                "Q1": 202,
+                "R1": 193,
+                "S2": 280
+              },
+              "share_I1": 0.01646514021095961,
+              "penalty": 8.232570105479805,
+              "vitality": 88.853930266144
+            },
+            "percentile": 88.853930266144,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "도곡동",
+              "legal_dong_code": "11680118",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 1,
+              "trade_median_per_m2_krw": null,
+              "trade_median_per_m2_manwon": null,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.515742+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "한티",
+    "candidate": {
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "floor": 2,
+      "address": null,
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 1000,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 3873.31403098,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 92.72519059815697,
+      "confidence": {
+        "value": 70,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "건물 대장 미연결, 용도·승강기 미확인 (-10)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 18058.575880562952,
+          "normalized": 99.93087785128863,
+          "contribution": 29.391434662143716,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 3185.330713200384,
+                "pop_10_14": 6973.463694814377,
+                "pop_15_18": 5983.559518985333
+              },
+              "schools_1km": {
+                "mid": 6,
+                "elem": 4,
+                "high": 5
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 99.93087785128863,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 142361.333502413,
+          "normalized": 98.85250766643586,
+          "contribution": 17.44456017642986,
+          "evidence": {
+            "values": {
+              "weekday": 148128.53836113325,
+              "weekend": 128904.52216539912,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    59,
+                    59,
+                    60,
+                    60,
+                    60,
+                    61,
+                    61,
+                    61,
+                    61,
+                    63,
+                    63,
+                    61,
+                    60,
+                    60,
+                    60,
+                    61,
+                    61,
+                    60,
+                    60,
+                    61,
+                    60,
+                    61,
+                    60,
+                    60
+                  ],
+                  "coverage_ratio": [
+                    0.8805970149253731,
+                    0.8805970149253731,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.9402985074626866,
+                    0.9402985074626866,
+                    0.9104477611940298,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.8955223880597015,
+                    0.8955223880597015
+                  ],
+                  "expected_cells": 67
+                },
+                "weekend": {
+                  "valid_cells": [
+                    60,
+                    60,
+                    60,
+                    61,
+                    61,
+                    62,
+                    62,
+                    61,
+                    64,
+                    62,
+                    61,
+                    62,
+                    61,
+                    61,
+                    61,
+                    60,
+                    61,
+                    62,
+                    60,
+                    59,
+                    59,
+                    61,
+                    62,
+                    60
+                  ],
+                  "coverage_ratio": [
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.9253731343283582,
+                    0.9253731343283582,
+                    0.9104477611940298,
+                    0.9552238805970149,
+                    0.9253731343283582,
+                    0.9104477611940298,
+                    0.9253731343283582,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.9104477611940298,
+                    0.8955223880597015,
+                    0.9104477611940298,
+                    0.9253731343283582,
+                    0.8955223880597015,
+                    0.8805970149253731,
+                    0.8805970149253731,
+                    0.9104477611940298,
+                    0.9253731343283582,
+                    0.8955223880597015
+                  ],
+                  "expected_cells": 67
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 98.85250766643586,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10109,
+              "coverage": 0.9982225733188506
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 90.55841864502038,
+          "contribution": 15.980897407944774,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 0,
+                  "value": 100,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 82123.34782608696,
+                  "value": 94.71264367816092,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9135,
+                    "coverage": 0.9020440406833218
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 68,
+                  "value": 60.723127707860534,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 3873.31403098
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 7.013915474810528,
+          "normalized": 99.83494945327007,
+          "contribution": 17.617932256459426,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 1111,
+              "students": 16142.353927000095,
+              "saturation": 68.82515431294777,
+              "saturation_level": "high",
+              "saturation_percentile": 99.51516401898081,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.83494945327007,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "pending",
+          "raw": 60,
+          "normalized": 60,
+          "contribution": 7.0588235294117645,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "wfs:lt_c_bldginfo.15660635",
+                "pnu": "1168010600110110028",
+                "source": "vworld_wfs_supplement",
+                "height_m": null,
+                "main_use": {
+                  "code": null,
+                  "name": null,
+                  "other_use": null
+                },
+                "elevators": {
+                  "emergency": null,
+                  "passenger": null
+                },
+                "estimated": false,
+                "floor_use": null,
+                "all_floors": [],
+                "gross_area": null,
+                "register_pk": null,
+                "floors_above": null,
+                "floors_below": 1,
+                "height_source": "unknown",
+                "location_basis": "footprint",
+                "height_estimated": false
+              },
+              "requested_floor": 2,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_requested",
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "floor_use_missing_hold60"
+            ],
+            "reference": null,
+            "notes": [
+              "요청 층 용도 미확인: 60점 보류, 관측된 R6 유해업소만 반영"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 7557,
+          "normalized": 88.93622361804636,
+          "contribution": 5.231542565767432,
+          "evidence": {
+            "values": {
+              "stores_total": 7557,
+              "stores_by_lcls": {
+                "G2": 1053,
+                "I1": 95,
+                "I2": 1304,
+                "L1": 573,
+                "M1": 1407,
+                "N1": 282,
+                "P1": 1669,
+                "Q1": 337,
+                "R1": 302,
+                "S2": 535
+              },
+              "share_I1": 0.012571126108244013,
+              "penalty": 6.285563054122006,
+              "vitality": 94.02723334021044
+            },
+            "percentile": 94.02723334021044,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "도곡동",
+              "legal_dong_code": "11680118",
+              "floor": 2,
+              "trade_building_type": "collective",
+              "trade_sample_count": 1,
+              "trade_median_per_m2_krw": null,
+              "trade_median_per_m2_manwon": null,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.641943+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "역삼로460 footprint",
+    "candidate": {
+      "lat": 37.5025724504279,
+      "lng": 127.057585738094,
+      "floor": 3,
+      "address": "역삼로460",
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4689.59592312,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 87.59298012072774,
+      "confidence": {
+        "value": 80,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 9319.066818835283,
+          "normalized": 96.56364174977782,
+          "contribution": 28.401071102875832,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1352.581220547948,
+                "pop_10_14": 3178.640970506858,
+                "pop_15_18": 2947.951089862583
+              },
+              "schools_1km": {
+                "mid": 4,
+                "elem": 3,
+                "high": 4
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 96.56364174977782,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 105975.8177931866,
+          "normalized": 99.33406222045522,
+          "contribution": 17.529540391845043,
+          "evidence": {
+            "values": {
+              "weekday": 114272.3643498999,
+              "weekend": 86617.20916085555,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    39,
+                    39,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    41,
+                    42,
+                    42,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    39,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8666666666666667,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.9333333333333333,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8666666666666667,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                },
+                "weekend": {
+                  "valid_cells": [
+                    40,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    43,
+                    41,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    40,
+                    41,
+                    42,
+                    40,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9555555555555556,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 99.33406222045522,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 38.336803260049486,
+          "contribution": 6.765318222361674,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 816.55370856,
+                  "value": 37.84815349700846,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 0,
+                  "value": 20.255474452554743,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 48,
+                  "value": 66.68042087889417,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4689.59592312
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.976348070447749,
+          "normalized": 99.9484217041469,
+          "contribution": 17.63795677132004,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 1070,
+              "students": 7479.173280917389,
+              "saturation": 143.06394033282174,
+              "saturation_level": "high",
+              "saturation_percentile": 99.98968434082938,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.9484217041469,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "scored",
+          "raw": 110,
+          "normalized": 100,
+          "contribution": 11.764705882352938,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "shp:1980205023774444864800000000",
+                "pnu": "1168010600109120013",
+                "source": "gis_buildings_shp",
+                "height_m": 13.2,
+                "main_use": {
+                  "code": "04000",
+                  "name": "제2종근린생활시설",
+                  "other_use": "근린생활시설"
+                },
+                "elevators": {
+                  "emergency": 0,
+                  "passenger": 0
+                },
+                "estimated": true,
+                "floor_use": [
+                  {
+                    "area_m2": 173.68,
+                    "use_code": "04010",
+                    "use_name": "학원",
+                    "other_use": "제2종근린생활시설(학원)",
+                    "main_attached_code": "0"
+                  }
+                ],
+                "all_floors": [
+                  {
+                    "area_m2": 153.39,
+                    "floor_no": -1,
+                    "use_name": "휴게음식점",
+                    "floor_kind": "10"
+                  },
+                  {
+                    "area_m2": 175.54,
+                    "floor_no": 1,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 2,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 3,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 4,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  }
+                ],
+                "gross_area": 849.97,
+                "register_pk": "1024123872",
+                "floors_above": 4,
+                "floors_below": 1,
+                "height_source": "floors_estimate",
+                "location_basis": "footprint",
+                "height_estimated": true
+              },
+              "requested_floor": 3,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_needed",
+              "other_academy_floor_count": 3,
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "R1:+25",
+              "R4:+10",
+              "R5:+15"
+            ],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 9678,
+          "normalized": 93.40459174952771,
+          "contribution": 5.494387749972218,
+          "evidence": {
+            "values": {
+              "stores_total": 9678,
+              "stores_by_lcls": {
+                "G2": 1263,
+                "I1": 116,
+                "I2": 1533,
+                "L1": 516,
+                "M1": 2991,
+                "N1": 449,
+                "P1": 1756,
+                "Q1": 288,
+                "R1": 319,
+                "S2": 447
+              },
+              "share_I1": 0.011985947509816079,
+              "penalty": 5.992973754908039,
+              "vitality": 99.24695688054467
+            },
+            "percentile": 99.24695688054467,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 3,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 21466762.429176,
+              "trade_median_per_m2_manwon": 2146.6762429176,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_allowed",
+          "exclusive_area_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.771687+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "역삼로460 footprint",
+    "candidate": {
+      "lat": 37.5025724504279,
+      "lng": 127.057585738094,
+      "floor": 4,
+      "address": "역삼로460",
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4689.59592312,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 86.41650953249246,
+      "confidence": {
+        "value": 80,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 9319.066818835283,
+          "normalized": 96.56364174977782,
+          "contribution": 28.401071102875832,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1352.581220547948,
+                "pop_10_14": 3178.640970506858,
+                "pop_15_18": 2947.951089862583
+              },
+              "schools_1km": {
+                "mid": 4,
+                "elem": 3,
+                "high": 4
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 96.56364174977782,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 105975.8177931866,
+          "normalized": 99.33406222045522,
+          "contribution": 17.529540391845043,
+          "evidence": {
+            "values": {
+              "weekday": 114272.3643498999,
+              "weekend": 86617.20916085555,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    39,
+                    39,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    41,
+                    42,
+                    42,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    39,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8666666666666667,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.9333333333333333,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8666666666666667,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                },
+                "weekend": {
+                  "valid_cells": [
+                    40,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    43,
+                    41,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    40,
+                    41,
+                    42,
+                    40,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9555555555555556,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 99.33406222045522,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 38.336803260049486,
+          "contribution": 6.765318222361674,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 816.55370856,
+                  "value": 37.84815349700846,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 0,
+                  "value": 20.255474452554743,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 48,
+                  "value": 66.68042087889417,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4689.59592312
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.976348070447749,
+          "normalized": 99.9484217041469,
+          "contribution": 17.63795677132004,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 1070,
+              "students": 7479.173280917389,
+              "saturation": 143.06394033282174,
+              "saturation_level": "high",
+              "saturation_percentile": 99.98968434082938,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.9484217041469,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "scored",
+          "raw": 90,
+          "normalized": 90,
+          "contribution": 10.588235294117647,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": "shp:1980205023774444864800000000",
+                "pnu": "1168010600109120013",
+                "source": "gis_buildings_shp",
+                "height_m": 13.2,
+                "main_use": {
+                  "code": "04000",
+                  "name": "제2종근린생활시설",
+                  "other_use": "근린생활시설"
+                },
+                "elevators": {
+                  "emergency": 0,
+                  "passenger": 0
+                },
+                "estimated": true,
+                "floor_use": [
+                  {
+                    "area_m2": 173.68,
+                    "use_code": "04010",
+                    "use_name": "학원",
+                    "other_use": "제2종근린생활시설(학원)",
+                    "main_attached_code": "0"
+                  }
+                ],
+                "all_floors": [
+                  {
+                    "area_m2": 153.39,
+                    "floor_no": -1,
+                    "use_name": "휴게음식점",
+                    "floor_kind": "10"
+                  },
+                  {
+                    "area_m2": 175.54,
+                    "floor_no": 1,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 2,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 3,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 4,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  }
+                ],
+                "gross_area": 849.97,
+                "register_pk": "1024123872",
+                "floors_above": 4,
+                "floors_below": 1,
+                "height_source": "floors_estimate",
+                "location_basis": "footprint",
+                "height_estimated": true
+              },
+              "requested_floor": 4,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "not_needed",
+              "other_academy_floor_count": 3,
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "R1:+25",
+              "R3:-15",
+              "R4:+5",
+              "R5:+15"
+            ],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 9678,
+          "normalized": 93.40459174952771,
+          "contribution": 5.494387749972218,
+          "evidence": {
+            "values": {
+              "stores_total": 9678,
+              "stores_by_lcls": {
+                "G2": 1263,
+                "I1": 116,
+                "I2": 1533,
+                "L1": 516,
+                "M1": 2991,
+                "N1": 449,
+                "P1": 1756,
+                "Q1": 288,
+                "R1": 319,
+                "S2": 447
+              },
+              "share_I1": 0.011985947509816079,
+              "penalty": 5.992973754908039,
+              "vitality": 99.24695688054467
+            },
+            "percentile": 99.24695688054467,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 4,
+              "trade_building_type": "collective",
+              "trade_sample_count": 4,
+              "trade_median_per_m2_krw": null,
+              "trade_median_per_m2_manwon": null,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_allowed",
+          "exclusive_area_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.87975+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "역삼로460 address_cache",
+    "candidate": {
+      "lat": 37.5024823498996,
+      "lng": 127.057585668895,
+      "floor": 3,
+      "address": "역삼로460",
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4680.76371313,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 87.6311059070972,
+      "confidence": {
+        "value": 80,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 9372.452875212746,
+          "normalized": 96.7315098252197,
+          "contribution": 28.450444066241094,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1361.9887305535638,
+                "pop_10_14": 3206.8355368627635,
+                "pop_15_18": 2970.0329423839135
+              },
+              "schools_1km": {
+                "mid": 4,
+                "elem": 3,
+                "high": 4
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 96.7315098252197,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 105884.08021000621,
+          "normalized": 99.33406222045522,
+          "contribution": 17.529540391845043,
+          "evidence": {
+            "values": {
+              "weekday": 114033.11162799636,
+              "weekend": 86869.6735680292,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    39,
+                    39,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    41,
+                    42,
+                    42,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    39,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8666666666666667,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.9333333333333333,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8666666666666667,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                },
+                "weekend": {
+                  "valid_cells": [
+                    40,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    43,
+                    41,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    40,
+                    41,
+                    42,
+                    40,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9555555555555556,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 99.33406222045522,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 38.28831966194757,
+          "contribution": 6.756762293284866,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 808.77635933,
+                  "value": 38.384567773880754,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 0,
+                  "value": 20.255474452554743,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 47,
+                  "value": 65.09696719620383,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4680.76371313
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.976348070447749,
+          "normalized": 99.9484217041469,
+          "contribution": 17.63795677132004,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 1070,
+              "students": 7538.8572098002405,
+              "saturation": 141.93132595866638,
+              "saturation_level": "high",
+              "saturation_percentile": 99.97936868165876,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.9484217041469,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "scored",
+          "raw": 110,
+          "normalized": 100,
+          "contribution": 11.764705882352938,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": null,
+                "pnu": "1168010600109120013",
+                "source": "building_hub_address",
+                "height_m": null,
+                "main_use": {
+                  "code": "04000",
+                  "name": "제2종근린생활시설",
+                  "other_use": "근린생활시설"
+                },
+                "elevators": {
+                  "emergency": 0,
+                  "passenger": 0
+                },
+                "estimated": false,
+                "floor_use": [
+                  {
+                    "area_m2": 173.68,
+                    "use_code": "04010",
+                    "use_name": "학원",
+                    "other_use": "제2종근린생활시설(학원)",
+                    "main_attached_code": "0"
+                  }
+                ],
+                "all_floors": [
+                  {
+                    "area_m2": 153.39,
+                    "floor_no": -1,
+                    "use_name": "휴게음식점",
+                    "floor_kind": "10"
+                  },
+                  {
+                    "area_m2": 175.54,
+                    "floor_no": 1,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 2,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 3,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 4,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  }
+                ],
+                "gross_area": 849.97,
+                "register_pk": "1024123872",
+                "floors_above": 4,
+                "floors_below": 1,
+                "height_source": "unknown",
+                "location_basis": "address",
+                "height_estimated": false
+              },
+              "requested_floor": 3,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "ready",
+              "other_academy_floor_count": 3,
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "R1:+25",
+              "R4:+10",
+              "R5:+15"
+            ],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 9631,
+          "normalized": 93.35884053490447,
+          "contribution": 5.4916965020532045,
+          "evidence": {
+            "values": {
+              "stores_total": 9631,
+              "stores_by_lcls": {
+                "G2": 1264,
+                "I1": 116,
+                "I2": 1526,
+                "L1": 514,
+                "M1": 2956,
+                "N1": 447,
+                "P1": 1753,
+                "Q1": 290,
+                "R1": 319,
+                "S2": 446
+              },
+              "share_I1": 0.01204443982971654,
+              "penalty": 6.022219914858271,
+              "vitality": 99.22632556220343
+            },
+            "percentile": 99.22632556220343,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 3,
+              "trade_building_type": "collective",
+              "trade_sample_count": 11,
+              "trade_median_per_m2_krw": 21466762.429176,
+              "trade_median_per_m2_manwon": 2146.6762429176,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_allowed",
+          "exclusive_area_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:02.986809+00:00"
+    },
+    "slider_invariance": true
+  },
+  {
+    "name": "역삼로460 address_cache",
+    "candidate": {
+      "lat": 37.5024823498996,
+      "lng": 127.057585668895,
+      "floor": 4,
+      "address": "역삼로460",
+      "exclusive_area_m2": null,
+      "deposit_krw": null,
+      "monthly_rent_krw": null,
+      "maintenance_krw": null
+    },
+    "radius_m": 800,
+    "context": {
+      "inside_seoul": true,
+      "seoul_boundary_distance_m": 4680.76371313,
+      "legal_dong_names": {
+        "11680101": "역삼동",
+        "11680103": "개포동",
+        "11680104": "청담동",
+        "11680105": "삼성동",
+        "11680106": "대치동",
+        "11680107": "신사동",
+        "11680108": "논현동",
+        "11680110": "압구정동",
+        "11680111": "세곡동",
+        "11680112": "자곡동",
+        "11680113": "율현동",
+        "11680114": "일원동",
+        "11680115": "수서동",
+        "11680118": "도곡동"
+      }
+    },
+    "result": {
+      "preset": {
+        "id": "academy_v0",
+        "version": "0.1.2"
+      },
+      "inputs_schema_version": "1.3",
+      "total": 86.4546353188619,
+      "confidence": {
+        "value": 80,
+        "reasons": [
+          "가시성 축 평가 불가: visibility_worker_pending (-10)",
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "label": "수요",
+          "weight": 25,
+          "effective_weight": 29.411764705882355,
+          "status": "scored",
+          "raw": 9372.452875212746,
+          "normalized": 96.7315098252197,
+          "contribution": 28.450444066241094,
+          "evidence": {
+            "values": {
+              "population": {
+                "pop_5_9": 1361.9887305535638,
+                "pop_10_14": 3206.8355368627635,
+                "pop_15_18": 2970.0329423839135
+              },
+              "schools_1km": {
+                "mid": 4,
+                "elem": 3,
+                "high": 4
+              },
+              "coefficients": {
+                "pop_5_9": 0.8,
+                "pop_10_14": 1,
+                "pop_15_18": 0.8,
+                "school_elem": 300,
+                "school_mid": 300,
+                "school_high": 150
+              },
+              "estimated": true
+            },
+            "percentile": 96.7315098252197,
+            "rules_applied": [
+              "weighted_population_plus_1km_schools"
+            ],
+            "reference": {
+              "population_size": 10127,
+              "coverage": 1
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "flow",
+          "label": "유동",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 105884.08021000621,
+          "normalized": 99.33406222045522,
+          "contribution": 17.529540391845043,
+          "evidence": {
+            "values": {
+              "weekday": 114033.11162799636,
+              "weekend": 86869.6735680292,
+              "low_coverage": false,
+              "coverage": {
+                "weekday": {
+                  "valid_cells": [
+                    39,
+                    39,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    41,
+                    42,
+                    42,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    39,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8666666666666667,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.9333333333333333,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8666666666666667,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                },
+                "weekend": {
+                  "valid_cells": [
+                    40,
+                    40,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    41,
+                    43,
+                    41,
+                    40,
+                    41,
+                    41,
+                    41,
+                    41,
+                    40,
+                    41,
+                    42,
+                    40,
+                    40,
+                    39,
+                    40,
+                    41,
+                    40
+                  ],
+                  "coverage_ratio": [
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9555555555555556,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.9111111111111111,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.9333333333333333,
+                    0.8888888888888888,
+                    0.8888888888888888,
+                    0.8666666666666667,
+                    0.8888888888888888,
+                    0.9111111111111111,
+                    0.8888888888888888
+                  ],
+                  "expected_cells": 45
+                }
+              },
+              "estimated": true
+            },
+            "percentile": 99.33406222045522,
+            "rules_applied": [
+              "weekday_0.7_weekend_0.3_renormalize_available"
+            ],
+            "reference": {
+              "population_size": 10061,
+              "coverage": 0.9934827688357856
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "transit",
+          "label": "교통",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": null,
+          "normalized": 38.28831966194757,
+          "contribution": 6.756762293284866,
+          "evidence": {
+            "values": {
+              "components": [
+                {
+                  "key": "transit.nearest_subway_m",
+                  "weight": 0.5,
+                  "raw": 808.77635933,
+                  "value": 38.384567773880754,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                },
+                {
+                  "key": "transit.subway_boardings_golden",
+                  "weight": 0.3,
+                  "raw": 0,
+                  "value": 20.255474452554743,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9316,
+                    "coverage": 0.9199170534215464
+                  }
+                },
+                {
+                  "key": "transit.bus_stops",
+                  "weight": 0.2,
+                  "raw": 47,
+                  "value": 65.09696719620383,
+                  "reason": null,
+                  "reference": {
+                    "population_size": 9694,
+                    "coverage": 0.9572430137256838
+                  }
+                }
+              ],
+              "subway_units_missing_golden": 0,
+              "seoul_boundary_distance_m": 4680.76371313
+            },
+            "percentile": null,
+            "rules_applied": [
+              "subway_distance_down_0.5_boardings_0.3_bus_0.2_renormalize"
+            ],
+            "reference": null,
+            "notes": [
+              "교통은 요일 구분 없는 일평균; 생활인구와 시간 기준이 다름"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "cluster",
+          "label": "학원 집적",
+          "weight": 15,
+          "effective_weight": 17.647058823529413,
+          "status": "scored",
+          "raw": 6.976348070447749,
+          "normalized": 99.9484217041469,
+          "contribution": 17.63795677132004,
+          "evidence": {
+            "values": {
+              "field": "입시.검정 및 보습",
+              "n_field": 1070,
+              "students": 7538.8572098002405,
+              "saturation": 141.93132595866638,
+              "saturation_level": "high",
+              "saturation_percentile": 99.97936868165876,
+              "saturation_reference": {
+                "population_size": 9694,
+                "coverage": 0.9572430137256838
+              },
+              "saturation_thresholds": {
+                "high": 60,
+                "mid": 25
+              }
+            },
+            "percentile": 99.9484217041469,
+            "rules_applied": [
+              "log1p_academy_count",
+              "saturation_evidence_only"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": [
+              "이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다",
+              "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"
+            ]
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "visibility",
+          "label": "가시성",
+          "weight": 10,
+          "effective_weight": 0,
+          "status": "pending",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {},
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": "visibility_worker_pending"
+        },
+        {
+          "key": "building",
+          "label": "건물 적합성",
+          "weight": 10,
+          "effective_weight": 11.76470588235294,
+          "status": "scored",
+          "raw": 90,
+          "normalized": 90,
+          "contribution": 10.588235294117647,
+          "evidence": {
+            "values": {
+              "building": {
+                "id": null,
+                "pnu": "1168010600109120013",
+                "source": "building_hub_address",
+                "height_m": null,
+                "main_use": {
+                  "code": "04000",
+                  "name": "제2종근린생활시설",
+                  "other_use": "근린생활시설"
+                },
+                "elevators": {
+                  "emergency": 0,
+                  "passenger": 0
+                },
+                "estimated": false,
+                "floor_use": [
+                  {
+                    "area_m2": 173.68,
+                    "use_code": "04010",
+                    "use_name": "학원",
+                    "other_use": "제2종근린생활시설(학원)",
+                    "main_attached_code": "0"
+                  }
+                ],
+                "all_floors": [
+                  {
+                    "area_m2": 153.39,
+                    "floor_no": -1,
+                    "use_name": "휴게음식점",
+                    "floor_kind": "10"
+                  },
+                  {
+                    "area_m2": 175.54,
+                    "floor_no": 1,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 2,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 3,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  },
+                  {
+                    "area_m2": 173.68,
+                    "floor_no": 4,
+                    "use_name": "학원",
+                    "floor_kind": "20"
+                  }
+                ],
+                "gross_area": 849.97,
+                "register_pk": "1024123872",
+                "floors_above": 4,
+                "floors_below": 1,
+                "height_source": "unknown",
+                "location_basis": "address",
+                "height_estimated": false
+              },
+              "requested_floor": 4,
+              "exclusive_area_m2": null,
+              "building_lookup_status": "ready",
+              "other_academy_floor_count": 3,
+              "harmful_floor_uses": []
+            },
+            "percentile": null,
+            "rules_applied": [
+              "R1:+25",
+              "R3:-15",
+              "R4:+5",
+              "R5:+15"
+            ],
+            "reference": null,
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "environment",
+          "label": "환경",
+          "weight": 5,
+          "effective_weight": 5.88235294117647,
+          "status": "scored",
+          "raw": 9631,
+          "normalized": 93.35884053490447,
+          "contribution": 5.4916965020532045,
+          "evidence": {
+            "values": {
+              "stores_total": 9631,
+              "stores_by_lcls": {
+                "G2": 1264,
+                "I1": 116,
+                "I2": 1526,
+                "L1": 514,
+                "M1": 2956,
+                "N1": 447,
+                "P1": 1753,
+                "Q1": 290,
+                "R1": 319,
+                "S2": 446
+              },
+              "share_I1": 0.01204443982971654,
+              "penalty": 6.022219914858271,
+              "vitality": 99.22632556220343
+            },
+            "percentile": 99.22632556220343,
+            "rules_applied": [
+              "clamp_0.8_vitality_minus_min25_500_lodging_share_plus20"
+            ],
+            "reference": {
+              "population_size": 9694,
+              "coverage": 0.9572430137256838
+            },
+            "notes": []
+          },
+          "missing_reason": null
+        },
+        {
+          "key": "rent_efficiency",
+          "label": "임대료 효율",
+          "weight": 5,
+          "effective_weight": 0,
+          "status": "missing",
+          "raw": null,
+          "normalized": null,
+          "contribution": null,
+          "evidence": {
+            "values": {
+              "legal_dong": "대치동",
+              "legal_dong_code": "11680106",
+              "floor": 4,
+              "trade_building_type": "collective",
+              "trade_sample_count": 4,
+              "trade_median_per_m2_krw": null,
+              "trade_median_per_m2_manwon": null,
+              "survey_rent_per_m2": null,
+              "survey_vacancy": null,
+              "survey_building_class": null,
+              "rent_level": null,
+              "survey_by_building_class": {},
+              "exclusive_area_m2": null,
+              "deposit_krw": null,
+              "monthly_rent_krw": null,
+              "maintenance_krw": null
+            },
+            "percentile": null,
+            "rules_applied": [],
+            "reference": null,
+            "notes": [
+              "매매 실거래와 임대동향은 근거 전용; 매매→임대 환산 없음"
+            ]
+          },
+          "missing_reason": "user_rent_inputs_missing"
+        }
+      ],
+      "derived": {
+        "academy_eligible": null,
+        "academy_eligible_reasons": [
+          "requested_floor_use_allowed",
+          "exclusive_area_unknown"
+        ]
+      },
+      "computed_at": "2026-09-23T11:34:03.092409+00:00"
+    },
+    "slider_invariance": true
+  }
+]
