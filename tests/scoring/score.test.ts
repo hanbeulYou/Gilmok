@@ -100,6 +100,13 @@ describe('pure ScoreResult v0.1', () => {
     expect(loadPreset('academy_v0', 1000).radius_primary_m).toBe(1000);
     expect(() => loadPreset('other')).toThrow();
   });
+  it('uses oriented demand/flow scores in a supplied calibrated rent range', () => {
+    const p = inputs(), c = { ...candidate, deposit_krw: 0, maintenance_krw: 0, monthly_rent_krw: 100 };
+    const preset = { ...academyV0, rent_range: { lo: 0, hi: 100 }, signs: { ...academyV0.signs, demand: -1 as const } };
+    const result = score(p, inputs(1000), [], null, c, preset, reference(p), context);
+    expect(result.axes.find(a => a.key === 'rent_efficiency')!.normalized).toBe(50);
+    expect(() => score(p, inputs(1000), [], null, { ...c, monthly_rent_krw: Number.MAX_VALUE, maintenance_krw: Number.MAX_VALUE }, preset, reference(p), context)).toThrow('overflow');
+  });
   it('treats source changes as local to the affected axis, without guessing a neighbor reference', () => {
     const p = inputs(), ref = reference(p); p.meta.sources = { ...p.meta.sources, living_population: { available: false } };
     const r = score(p, inputs(1000), [], null, candidate, academyV0, ref, context);

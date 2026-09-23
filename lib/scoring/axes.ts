@@ -3,10 +3,10 @@ import type { ReferenceKey, ReferenceRaw } from './raw.ts';
 import type { AxisKey, AxisResult, Candidate, Evidence, ScoreContext, ScoreInputs,
   ScoreReference, ScoringPreset, VisibilityInput } from './types.ts';
 
-export const labels: Record<AxisKey, string> = {
+export const labels: Readonly<Record<AxisKey, string>> = Object.freeze({
   demand: '수요', flow: '유동', transit: '교통', cluster: '학원 집적',
   visibility: '가시성', building: '건물 적합성', environment: '환경', rent_efficiency: '임대료 효율',
-};
+});
 export const axisKeys = Object.freeze(Object.keys(labels) as AxisKey[]);
 export const clamp = (v: number) => Math.max(0, Math.min(100, v));
 export function evidence(values: Record<string, unknown> = {}): Evidence {
@@ -109,6 +109,7 @@ export function rentAxis(primary: ScoreInputs, candidate: Candidate, preset: Sco
     return axis('rent_efficiency', null, null, e, 'user_rent_inputs_missing');
   const monthly = costs[0]! + costs[1]! + costs[2]! * .05 / 12;
   const perM2 = monthly / candidate.exclusive_area_m2;
+  if (!Number.isFinite(monthly) || !Number.isFinite(perM2)) throw new Error('Rent arithmetic overflow');
   e.values.monthly_total = monthly; e.values.rent_per_m2 = perM2;
   if (perM2 === 0) return axis('rent_efficiency', null, null, e, 'zero_rent_denominator');
   if (demand.normalized === null || flow.normalized === null)

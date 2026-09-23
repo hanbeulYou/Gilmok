@@ -90,10 +90,14 @@ export function score(primary: ScoreInputs, school: ScoreInputs, buildings: read
     const building = buildingAxis(primary, candidate);
     derived = { academy_eligible: building.eligible, academy_eligible_reasons: building.reasons };
     axes.push(visibilityAxis(visibility), building.axis);
-    axes.push(rentAxis(primary, candidate, preset, context, axes.find(a => a.key === 'demand')!, axes.find(a => a.key === 'flow')!));
-    for (const a of axes) if (a.normalized !== null && preset.signs[a.key] === -1) {
-      a.normalized = 100 - a.normalized; a.evidence.rules_applied.push('preset_sign_negative');
-    }
+    const orient = (a: AxisResult) => {
+      if (a.normalized !== null && preset.signs[a.key] === -1) {
+        a.normalized = 100 - a.normalized; a.evidence.rules_applied.push('preset_sign_negative');
+      }
+    };
+    axes.forEach(orient);
+    const rent = rentAxis(primary, candidate, preset, context, axes.find(a => a.key === 'demand')!, axes.find(a => a.key === 'flow')!);
+    orient(rent); axes.push(rent);
     axes.sort((a, b) => axisKeys.indexOf(a.key) - axisKeys.indexOf(b.key));
   }
   return reweight({ preset: { id: preset.id, version: preset.version }, inputs_schema_version: primary.meta.schema_version,

@@ -19,7 +19,7 @@ export function buildingAxis(inputs: ScoreInputs, candidate: Candidate) {
     e.rules_applied.push('building_pending_hold60');
     return finish(60, null, true);
   }
-  if (b === null) { reasons.push('candidate_building_missing'); return finish(null, 'candidate_building_missing'); }
+  if (b === null || (b.location_basis === null && b.id === null && b.register_pk === null)) { reasons.push('candidate_building_missing'); return finish(null, 'candidate_building_missing'); }
   let raw = 60;
   const apply = (rule: string, delta: number) => { raw += delta; e.rules_applied.push(`${rule}:${delta >= 0 ? '+' : ''}${delta}`); };
   const applyHarmful = () => {
@@ -51,7 +51,7 @@ export function buildingAxis(inputs: ScoreInputs, candidate: Candidate) {
     apply('R1', -40); eligible = false; reasons.push('requested_floor_use_disallowed');
   } else { e.notes.push('R1: 요청 층의 등록 가능 용도 미확인'); reasons.push('requested_floor_use_unknown'); }
   if (candidate.exclusive_area_m2 == null) {
-    reasons.push('exclusive_area_unknown'); if (eligible === true && !education) eligible = null;
+    if (!education) { reasons.push('exclusive_area_unknown'); if (eligible === true) eligible = null; }
   } else if (candidate.exclusive_area_m2 >= 500 && !education) {
     apply('R2', -30); eligible = false; reasons.push('exclusive_area_requires_education_use');
   }

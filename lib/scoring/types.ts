@@ -59,7 +59,7 @@ export interface FloorUse {
   other_use?: string | null; use_code?: string | null; area_m2: number | null;
 }
 export interface BuildingInput {
-  id: string | null; register_pk: string | null; location_basis: string;
+  id: string | null; register_pk: string | null; location_basis: string | null;
   main_use: { code: string | null; name: string | null; other_use: string | null };
   gross_area: number | null; floors_above: number | null; floors_below: number | null;
   floor_use: readonly FloorUse[] | null; all_floors: readonly FloorUse[];

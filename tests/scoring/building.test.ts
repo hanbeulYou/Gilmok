@@ -48,6 +48,24 @@ describe('building rules and real register fixtures', () => {
     p.building!.floor_use = [{ floor_no: 2, floor_kind: '20', use_name: '제1종근린생활시설', area_m2: 10 }];
     expect(buildingAxis(p, candidate).eligible).toBe(false);
   });
+  it('holds missing floor use at 60 but preserves an observed R6 prohibition', () => {
+    const p = inputs(); p.building!.floor_use = null;
+    expect(buildingAxis(p, candidate).axis).toMatchObject({ normalized: 60, status: 'pending' });
+    p.building!.all_floors = [{ floor_no: 1, floor_kind: '20', use_name: '숙박', area_m2: 20 }];
+    expect(buildingAxis(p, candidate).axis.normalized).toBe(20);
+    expect(buildingAxis(p, candidate).eligible).toBe(false);
+  });
+  it('education use does not require an invented exclusive area', () => {
+    const p = inputs(); p.building!.floor_use = [{ floor_no: 2, floor_kind: '20', use_name: '교육연구시설', area_m2: null }];
+    const result = buildingAxis(p, { ...candidate, exclusive_area_m2: null });
+    expect(result.eligible).toBe(true);
+    expect(result.reasons).not.toContain('exclusive_area_unknown');
+  });
+  it('recognizes the RPC all-null building placeholder as no candidate building', () => {
+    const p = inputs(); p.building!.id = p.building!.register_pk = p.building!.location_basis = null;
+    p.building!.floor_use = null;
+    expect(buildingAxis(p, candidate).axis).toMatchObject({ normalized: null, status: 'missing' });
+  });
   it('holds pending/processing at 60 even with no building; plain absence is missing', () => {
     const p = inputs(); p.building = null;
     expect(buildingAxis(p, candidate).axis.normalized).toBeNull();
