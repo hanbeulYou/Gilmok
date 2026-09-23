@@ -515,3 +515,14 @@ R2는 실행별 불변 revision key에 raw·집계 Parquet와 manifest를 보존
 | 2026-09-22 | v1.13 | 입력 계약 v1.2: building.all_floors 전 층 용도·면적 추가. 기존 요청 층 필드·30일 캐시 보존. 역삼로 460 3/4층 실조회와 전체 JSON·성능 재검증 |
 
 - 2026-09-22 PR 8: 월간/수동 갱신·별도 VACUUM·이벤트 워커·R2 보존 정책. 실제 MOIS 2026-08 CSV 및 생활인구 월 목록 재확인. 스케줄/트리거 결정은 사용자 승인 사항이며 API 검증 결과가 아니다.
+
+
+## 9. S2-1 기준 분포 저장
+
+score_inputs v1.2의 데이터 계약은 유지한다. 채점 명세 v0.1.1 원시값은 `/lib/scoring/raw.ts` 한 구현을 Python 배치와 S2-2에서 공유한다. 새 `score_reference` / `score_reference_sets`는 서울 격자 전체의 현재 기준 분포이며 공개 읽기만 허용한다. schema·preset·소스 fingerprint와 R2 원본 manifest로 실행을 구분한다. 상세 컬럼·원자 교체·갱신/복구는 [reference 운영](../operations/score-reference.md)을 따른다.
+
+R6 추가 입력 예약: 표제부 `building_registers.gross_area`는 원천 `totArea`(㎡)로 적재돼 있다. 실제 역삼로 460 대장 PK 1024123872는 849.97㎡다(2026-09-23 로컬 적재본 조회). **score_inputs v1.2에는 gross_area가 노출되지 않는다.** S2-2에서 도형/주소 대장 두 경로에 필드를 추가하고 입력 계약·예시·기준 분포 버전을 함께 갱신한다. 사용자 점포 전용면적이나 층별개요 합계를 대신 쓰지 않는다. 이번 reference에 건물 축을 포함하지 않는다.
+
+`score_reference`는 점수용 원시 지표 7개와 근거 전용 `cluster.saturation` 1개를 저장한다(10,127셀×2반경×8=162,032행). 포화는 같은 셀·반경의 분야별 학원 수를 학생 인구 합계/1,000으로 나눈 값이다. 어느 한쪽이 NULL이거나 학생 수가 0이면 NULL이며, 점수 계산에는 사용하지 않는다.
+
+실제 적재·R2 전수 재계산·DB 바이너리 전수 대조는 모두 불일치 0이다. 반경/지표별 모집단·결측 비율과 시간·용량은 [S2-1 검증](../validation/s2-1-score-reference-20260923.md)을 따른다. 원격 실행은 아직 하지 않았다.

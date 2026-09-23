@@ -79,7 +79,7 @@
 
 ## 7. 현재 스프린트
 
-- **S2-1 기준 분포 구현 중**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
+- **S2-1 기준 분포 구현·로컬 실제 검증 완료, PR 머지 대기**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -105,3 +105,5 @@
 - PR 8: 월간 6개 소스 자동, 상가·건물 SHP·임대동향 수동. 소스별 atomic promotion 후 별도 VACUUM ANALYZE. 주소 pending은 DB webhook→repository_dispatch, 매시간 sweep 보완이며 10분 폴링은 사용하지 않는다. `INGEST_REMOTE_ENABLED` 기본 false. [운영](docs/operations/data-refresh.md), [S2 인계](docs/planning/location-simulator.md#s2-인계--s1-마감)를 따른다.
 
 - 2026-09-23 승인: scoring-spec.md v0.1.1 기준 S2-1(medium) 먼저 PR, 머지 후 main에서 S2-2(high). R6 유해 용도 관측 시 표제부 gross_area<1650㎡이면 false, ≥1650/결측이면 NULL; 실간 거리 계산 제외. gross_area는 현재 표제부 DB에만 있어 S2-2에서 RPC에 추가한다. S2-3·S2-4는 별도 세션.
+
+- S2-1 2026-09-23: 10,127셀×800/1000m×8지표=162,032행, RPC 20,254회. 수집 463.912초·게시/검증/적재 19.903초(합계 483.816초), R2 재계산·DB 바이너리 전수 대조 불일치 0. cluster.saturation은 근거 전용이며 NULL/0 분모는 NULL, 점수 제외. [검증](docs/validation/s2-1-score-reference-20260923.md) 및 [운영](docs/operations/score-reference.md)을 따른다. S2-2는 이 PR 머지 후 main에서 시작하며 reference 조회 정밀도도 보존한다.

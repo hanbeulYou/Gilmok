@@ -59,3 +59,5 @@ Repository variable `INGEST_REMOTE_ENABLED` 기본 미설정/false: 모든 원�
 새 실행의 raw 및 집계 Parquet, 소스별 manifest를 UTC 실행 스냅샷별 불변 key로 보존한다. manifest에는 소스 기준일·입력 계약 버전·Git SHA·원본 key/체크섬을 남기고 DB에는 현재 manifest만 둔다. 이전 실행 객체를 덮어쓰거나 lifecycle로 자동 만료시키지 않는다. 실패 실행의 미참조 객체도 자동 삭제하지 않는다. 원래 수동 SHP ZIP도 보존한다.
 
 계절 비교는 해당 시점의 기준일·연령대·집계 범위·소스 버전을 맞춘 후 S2 명세로 정의한다. 과거에 저장하지 않은 기간은 복원 가능하다고 간주하지 않는다. 최소 한 해 비교 자료가 쌓이기 전에도 자동 삭제하지 않으며 보존 기간 변경은 별도 결정으로 한다.
+
+S2-1: 월간 갱신 성공 뒤 [score_reference 배치](score-reference.md)를 후속 job으로 실행한다. 원본 갱신 실패 시 reference job도 실행하지 않는다. 각 reference에 소스 버전이 기록되므로 채점 시 현재 입력과 일치하는지 확인해야 한다.
