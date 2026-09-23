@@ -1,6 +1,6 @@
 # 길목(GILMOK) 채점 명세 — scoring-spec.md
 
-> 작성일: 2026-09-22 · 버전: **v0.1.2 (2026-09-23 사용자 승인, S2-1·S2-2 구현 기준)**
+> 작성일: 2026-09-22 · 버전: **v0.1.3 (2026-09-23 사용자 승인, PR #13 후속 보정)**
 > 입력 계약: `docs/planning/data-sources.md` §3 `score_inputs` **v1.3** (all_floors 포함) + `buildings_in_radius`
 > 기준 문서: `docs/planning/location-simulator.md` — "S2 인계 — S1 마감" 절
 > 상태: **전부 가설.** 가중치·부호·계수·임계값은 §8 검증을 통과하기 전까지 가설이며, 검증 결과에 따라 v0.2로 갱신한다. S2-1은 medium, S2-2는 high로 구현한다. S2-1 PR을 먼저 올리고 머지 후 main에서 S2-2를 시작한다. S2-3·S2-4는 별도 세션이다.
@@ -215,7 +215,7 @@ score         = 100 × visible_ratio
 | R2 면적           | exclusive_area_m2 ≥ 500 이고 교육연구시설 아님                                                       | −30, `academy_eligible=false`                 |
 | R3 승강기         | floor ≥ 4 이고 elevators.passenger = 0                                                               | −15                                           |
 |                   | floor ≥ 6 이고 passenger = 0                                                                         | −30                                           |
-| R4 층 선호        | §5.7 floor_curve                                                                                     | −20 ~ +10                                     |
+| R4 층 선호 | §5.7 floor_curve (지상층만) | −10 ~ +10 |
 | R5 같은 건물 학원 | all_floors 중 "학원" 용도인 서로 다른 (floor_kind,floor_no) 수 n (요청 층·옥탑·미상 제외)                                            | +5×min(n, 3)                                  |
 | R6 유해업소 동거  | all_floors 용도명에 유흥주점·단란주점·숙박·노래연습장·무도 포함                                      | −40. gross_area<1650이면 false, ≥1650 또는 면적 결측이면 NULL (§5.6 상세) |
 | R7 지하           | floor < 0                                                                                            | −25                                           |
@@ -237,7 +237,7 @@ score         = 100 × visible_ratio
 | 2~3  | +10     | 최적                              |
 | 4~5  | +5      | 승강기 없으면 R3가 따로 감점      |
 | 6+   | −10     |                                   |
-| 지하 | R7 처리 |                                   |
+| 지하 | R7 −25만 적용 | R4 곡선은 적용하지 않음         |
 
 ### 5.8 environment (상권 환경)
 
@@ -278,7 +278,8 @@ total     = Σ_{axis ∈ available} score[axis] × weights[axis] / W
 ```
 
 - 결측 축의 가중치를 나머지에 비례 배분한 것과 같다. `axes[].status ∈ {scored, missing, pending}`으로 드러낸다.
-- **8축 중 3축 이상 결측이면 total = NULL**, "평가 불가"로 표시. 3D·근거는 그대로 보여준다.
+- **백분위 축 5개(demand·flow·transit·cluster·environment) 중 2개 이상 normalized=NULL이면 total=NULL**, "평가 불가"로 표시. 가중치가 0인 축도 결측 개수에 포함하며 3D·근거는 그대로 보여준다.
+- 규칙 축(visibility·building·rent_efficiency)은 결측이어도 total을 계산하고, 결측 축의 `evidence.notes`에 유효 축으로 가중치를 비례 재배분한다는 사실을 남긴다. 결측 점수 자체는 NULL로 유지한다. 워커 미주입·좌표가 건물 도형 밖·사용자 임대료 미입력은 자주 발생하므로 이 사유만으로 평가를 막지 않는다.
 - 유효 가중치 합 W=0도 total=NULL이다. 음수/비유한 가중치는 입력 오류다.
 - 슬라이더 재계산은 `normalized`를 유지한 채 weight만 바꿔 total·contribution·effective_weight를 다시 구한다. RPC 재호출 없음.
 
@@ -367,7 +368,7 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 | 태스크              | 내용                                                                                                                                   | 완료 기준                                    |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | S2-1 기준 분포      | `score_reference` 배치(10,127셀×2반경), refresh-monthly 성공 후속 job 추가                                                                    | 축별 모집단 크기·결측 비율·실행 시간 기록    |
-| S2-2 채점 함수      | `/lib/scoring` 순수 함수, 프리셋 로더, ScoreResult v0.1, 단위 테스트(결측 재배분·3축 결측 NULL·슬라이더 불변성·역삼로 460 3층=100·4층=90, R6 gross_area 1650 경계) | 대치·학여울·한티×800/1000m×2층 실제 입력으로 ScoreResult 생성    |
+| S2-2 채점 함수      | `/lib/scoring` 순수 함수, 프리셋 로더, ScoreResult v0.1, 단위 테스트(결측 재배분·백분위 2축 결측 NULL·규칙 3축 결측 계산·슬라이더 불변성·역삼로 460 3층=100·4층=90, R6 gross_area 1650 경계·지하층 R7 단독) | 대치·학여울·한티×800/1000m×2층 실제 입력으로 ScoreResult 생성    |
 | S2-3 가시성 워커    | 레이캐스트 Web Worker, 샘플점 생성, 자기 건물 제외                                                                                     | 역삼로 460 3층 visible_ratio 산출, 계산 시간 |
 | S2-4 검증           | §8 3곳 + 무작위 5셀, 조정, v0.2 문서                                                                                                   | 사용자 서명                                  |
 | S2-5 서울 전체 건물 | 별도 태스크(원격 용량 실측 → Pro 검토)                                                                                                 | —                                            |
@@ -413,8 +414,14 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 명세 v0.1.2의 식을 구현했으며 입력은 v1.3이다. gross_area가 포함된 실제 계약과 전체 JSON은 [data-sources §3](data-sources.md)을 따른다. v1.2 언급은 S1 확인 당시 입력의 출처 기록이며 현재 채점에는 v1.3만 사용한다.
 
 - `loadPreset(id,radius)`는 800/1000m만 허용한다. score는 reference/context를 인자로 받고 DB·네트워크·시계를 읽지 않는다. primary schema/radius/floor 불일치는 모든 축 결측, school 계약 불일치는 demand만 결측, reference의 소스 불일치는 관련 축만 결측이다. 정규화 식의 원시값 추출은 배치와 동일 함수다.
-- effective_weight는 유효 축에 재배분된 **0~100%**, contribution은 normalized×effective_weight/100이다. 3축 이상 normalized=NULL 또는 유효 가중치 합 0이면 total=NULL이다. `reweight`는 이미 계산된 normalized/raw/evidence/confidence를 그대로 보존한다. confidence의 결측 감점은 기본 가중치다.
+- effective_weight는 유효 축에 재배분된 **0~100%**, contribution은 normalized×effective_weight/100이다. v0.1.3에서는 백분위 5축 중 2축 이상 normalized=NULL 또는 유효 가중치 합 0이면 total=NULL이다. 규칙 축 결측은 이 개수에서 제외한다. `reweight`는 이미 계산된 normalized/raw/confidence를 보존하고, 결측 축 evidence에는 재배분 안내를 중복 없이 남긴다. confidence의 결측 감점은 기본 가중치다.
 - 대장 조회 pending/processing은 60점 보류한다. 요청 층 용도 NULL/[]도 60점 보류하며 R4 등 추가 가점은 적용하지 않는다. 다만 이미 관측된 R6 유해업소는 −40과 연면적 판정을 유지한다. 보류 점수는 status=pending, normalized=60(유해업소 관측 시 20)으로 총점에 포함되며, NULL인 결측 축과 구분한다. building 자체 NULL 또는 id/register_pk/location_basis가 모두 NULL인 RPC의 미연결 객체이고 조회 대기도 아니면 축 NULL이다.
 - `academy_eligible`은 false 사유가 있으면 false가 우선한다. 용도/면적/유해업소 예외 확인이 부족하면 NULL이다. 전용면적 미입력은 R2 면적을 표제부/층 면적으로 추정하지 않는다. 교육연구시설처럼 면적 조건을 이미 만족하는 용도는 R2 미확인 사유를 붙이지 않는다.
 - 일반 테이블 HTTP 숫자를 반올림해 동률을 판정하지 않는다. 정밀도 보존 reference RPC와 binary DB 값의 전수 일치 및 동률 회귀 테스트를 [검증](../validation/s2-2-scoring-20260923.md)에 기록했다. 기준 분포 NULL은 제외하고 관측 0은 보존한다.
 - 가시성은 worker 결과가 주입되기 전 pending/NULL, 임대료 효율은 입력과 검증된 lo/hi가 모두 준비되기 전 NULL이다. 근접 상권·평균 임대료·층 면적 대체는 없다. 세 고정 좌표는 계약 연결 검증용이며 실제 학원 순위 검증은 S2-4에 남긴다.
+
+### v0.1.3 — 2026-09-23 사용자 결정
+
+- §6: total 평가 불가 기준을 백분위 5축 중 2축 이상 결측으로 변경. 규칙 축 결측은 유효 축으로 재배분하고 근거에 표시한다. 워커 미주입·도형 밖 좌표·사용자 미입력으로 평가가 막히는 문제를 해소한다.
+- §5.7: 지하층은 R4를 적용하지 않고 R7 −25만 적용한다. 다른 용도·면적 규칙은 그대로다.
+- 이번 버전은 명세·계산 정책 보정이다. 백분위 원시값·가중치·분포가 바뀌지 않으므로 academy_v0 및 기준 분포 버전 0.1.2, 입력 계약 v1.3, ScoreResult v0.1을 유지한다. 외부 API 응답에 따른 변경이 아니다.
