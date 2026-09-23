@@ -463,7 +463,7 @@ def test_all_floors_preserves_multi_use_basement_roof_and_requested_floor(data):
     ]
     for floor in (2, 3, 4, 9, -1):
         r = query(data, floor=floor)
-        assert r["meta"]["schema_version"] == "1.2"
+        assert r["meta"]["schema_version"] == "1.3"
         assert r["building"]["all_floors"] == expected
         if floor == 9:
             assert r["building"]["floor_use"] is None
@@ -520,4 +520,47 @@ def test_existing_address_cache_returns_all_floors_without_refetch(data):
             (ADDRESS,),
         ).fetchone()[0]
         == 0
+    )
+
+
+def test_v13_gross_area_comes_from_title_not_floor_or_footprint(data):
+    data.execute(
+        "update public.building_registers set gross_area=1649.99 where register_pk=%s", (PK,)
+    )
+    result = query(data)
+    assert result["meta"]["schema_version"] == "1.3"
+    assert result["building"]["gross_area"] == 1649.99
+    assert all(f["area_m2"] == 50 for f in result["building"]["floor_use"])
+    data.execute("update public.building_registers set gross_area=null where register_pk=%s", (PK,))
+    result = query(data)
+    assert result["building"]["gross_area"] is None
+    assert any(f["path"] == "building.gross_area" for f in result["meta"]["missing_fields"])
+
+
+def test_v13_address_legacy_cache_title_fallback_and_new_payload(data):
+    clear_address(data)
+    data.execute("delete from public.buildings where id='pr7'")
+    cached_address(data)
+    data.execute(
+        "update public.building_registers set gross_area=849.97 where register_pk=%s", (PK,)
+    )
+    assert query(data, address=ADDRESS)["building"]["gross_area"] == 849.97
+    # A new on-demand payload is authoritative even if no title row exists locally.
+    data.execute(
+        """update ingest_private.building_address_cache set payload=
+      jsonb_set(jsonb_set(payload,'{building,register_pk}','"new_uncached_title"'),
+      '{building,gross_area}','1650.5') where address=%s""",
+        (ADDRESS,),
+    )
+    assert query(data, address=ADDRESS)["building"]["gross_area"] == 1650.5
+    data.execute(
+        """update ingest_private.building_address_cache set payload=
+      jsonb_set(payload,'{building,gross_area}','null') where address=%s""",
+        (ADDRESS,),
+    )
+    result = query(data, address=ADDRESS)
+    assert result["building"]["gross_area"] is None
+    assert (
+        len([f for f in result["meta"]["missing_fields"] if f["path"] == "building.gross_area"])
+        == 1
     )

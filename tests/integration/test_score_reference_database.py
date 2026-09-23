@@ -22,7 +22,7 @@ def manifest(snapshot="20260923T000000Z"):
     return dict(
         snapshot=snapshot,
         computed_at="2026-09-23T00:00:00Z",
-        preset=dict(id="pr_s2_fixture", version="0.1.1", schema_version="1.2"),
+        preset=dict(id="pr_s2_fixture", version="0.1.2", schema_version="1.3"),
         cell_count=1,
         row_count=1,
         source_state={},
@@ -120,3 +120,31 @@ def test_copy_keeps_binary_float_precision_even_if_text_reads_are_rounded(db, tm
         .fetchone()[0]
     )
     assert exact == value
+
+
+@pytest.mark.parametrize("role", ["anon", "authenticated"])
+def test_reference_rpc_preserves_float_precision_and_null_population(db, tmp_path, role):
+    from psycopg import sql
+
+    value = 1.2345678901234567
+    load_snapshot(db, fixture_file(tmp_path, value), manifest(), verify_sources=False)
+    db.execute("set local extra_float_digits=0")
+    db.execute(sql.SQL("set local role {}").format(sql.Identifier(role)))
+    result = db.execute(
+        "select public.score_reference_distribution('pr_s2_fixture',800)"
+    ).fetchone()[0]
+    assert result["distributions"] == [
+        dict(radius_m=800, key="demand", cell_count=1, values=[value])
+    ]
+    assert result["inputs_schema_version"] == "1.3"
+    assert (
+        db.execute("select public.score_reference_distribution('absent',800)").fetchone()[0] is None
+    )
+
+
+def test_reference_rpc_refuses_nearby_radius_substitution(db):
+    from psycopg.errors import InvalidParameterValue
+
+    with pytest.raises(InvalidParameterValue):
+        with db.transaction():
+            db.execute("select public.score_reference_distribution('academy_v0',500)")

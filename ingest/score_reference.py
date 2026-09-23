@@ -1,4 +1,4 @@
-"""S2-1 reference batch: v1.2 RPC -> shared TS raw formulas -> verified R2 -> atomic COPY."""
+"""S2 reference batch: v1.3 RPC -> shared TS raw formulas -> verified R2 -> atomic COPY."""
 
 import argparse
 import hashlib
@@ -105,7 +105,7 @@ def collect_inputs(db, directory, *, expected_cells=10127):
                     ).fetchone()[0]
                     durations[radius].append((time.perf_counter() - tick) * 1000)
                     if (
-                        payload["meta"]["schema_version"] != "1.2"
+                        payload["meta"]["schema_version"] != "1.3"
                         or payload["meta"]["radius_m"] != radius
                         or payload["meta"]["floor"] != 2
                     ):
@@ -195,8 +195,8 @@ def validate_distribution(path, cells, metadata):
     preset, keys = metadata["preset"], metadata["keys"]
     if (
         preset["id"] != "academy_v0"
-        or preset["version"] != "0.1.1"
-        or preset["schema_version"] != "1.2"
+        or preset["version"] != "0.1.2"
+        or preset["schema_version"] != "1.3"
     ):
         raise ValueError("Unexpected reference preset/schema")
     if preset["radii"] != list(RADII) or not keys or len(keys) != len(set(keys)):
