@@ -80,7 +80,7 @@ R1 보완 시 실제 fixture로 3층 100·4층 90이 성립한다. 키 이름이
 ### 데이터와 실패 정책
 
 1. 10,127셀×2반경을 직접 DB 연결로 조회한다. 800m demand는 인구 800m+학교 1000m, 1000m demand는 인구 1000m+학교 1000m. 동일 셀의 두 응답을 재사용한다.
-2. 참조 키는 7개: demand, flow, transit.nearest_subway_m, transit.subway_boardings_golden, transit.bus_stops, cluster(log1p), environment.stores_total. 예상 **141,778행**. NULL 행도 보관해 모집단/결측 분모를 보존한다. 실제 백분위 모집단은 키별 비NULL 행만이다.
+2. 참조 키는 점수용 7개 + 근거용 1개: demand, flow, transit.nearest_subway_m, transit.subway_boardings_golden, transit.bus_stops, cluster(log1p), environment.stores_total 및 근거 전용 cluster.saturation. 예상 **8개 지표·162,032행**. 포화는 동일 셀·반경의 n_field 또는 students가 NULL이거나 students=0이면 NULL이며 점수 계산에는 사용하지 않는다. NULL 행도 보관해 모집단/결측 분모를 보존한다. 실제 백분위 모집단은 키별 비NULL 행만이다.
 3. 건물·실거래·임대·visibility·사용자 임대료는 기준 분포에 넣지 않는다. 기준 셀 층 2의 건물 점수를 서울 분포에 섞지 않는다.
 4. 일관된 읽기 스냅샷으로 수집하고 소스 버전·그리드 버전·preset 버전·Git SHA·입력 계약을 manifest에 기록한다. 활성화 직전 소스가 바뀌었다면 성공으로 교체하지 않는다.
 5. R2에는 재현 가능한 배치 입력/원시 분포/manifest를 실행별 보존한다. 일부 셀의 관측 결측은 허용하되 RPC 예외·누락 호출·중복 키·잘못된 계약 버전은 전체 배치 실패다. 이전 reference를 유지하고 staging은 노출하지 않는다. 전수 완료 후 원자 교체, 커밋 후 별도 VACUUM ANALYZE.

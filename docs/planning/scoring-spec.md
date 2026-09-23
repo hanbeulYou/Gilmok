@@ -74,6 +74,8 @@
 - 데이터·manifest는 원자 교체한다. 실패하면 이전 기준 분포를 유지한다. 월별 실행 원본·분포·manifest는 R2에 불변 revision으로 보존한다.
 - 셀 중심이 한강·산·비거주지면 여러 축이 NULL이다. 모집단에서 제외하되 제외 비율을 `reference_coverage`로 축별 기록하고 근거에 표시한다.
 
+- 저장 지표는 점수용 7개와 근거 전용 `cluster.saturation` 1개, 총 8개·**162,032행**이다. `cluster.saturation`은 동일 셀·반경의 `n_field / (students / 1000)`이며 분자 또는 분모가 NULL이거나 students=0이면 NULL이다. 관측 n_field=0이고 students>0일 때만 0이다. 포화 서울 백분위 표시용으로만 사용하며 점수 계산에는 쓰지 않는다. 테이블 주석에도 이 구분을 명시한다.
+
 ### 2.2 정규화 함수
 
 ```
