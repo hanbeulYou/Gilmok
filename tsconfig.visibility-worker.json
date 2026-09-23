@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "WebWorker"], "types": [], "noEmit": false,
+    "module": "ESNext", "outDir": ".local/visibility-browser", "rootDir": ".",
+    "rewriteRelativeImportExtensions": true
+  },
+  "include": ["workers/visibility.worker.ts", "lib/visibility/**/*.ts"],
+  "exclude": ["node_modules", "tests"]
+}

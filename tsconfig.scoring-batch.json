@@ -12,7 +12,9 @@
   "include": [
     "lib/scoring/**/*.ts",
     "ingest/score_reference_raw.ts",
-    "ingest/score_candidates.ts"
+    "ingest/score_candidates.ts",
+    "lib/visibility/**/*.ts",
+    "ingest/visibility_report.ts"
   ],
   "exclude": [
     "node_modules",

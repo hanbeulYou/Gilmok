@@ -121,5 +121,7 @@ export interface ScoreResult {
   derived: { academy_eligible: boolean | null; academy_eligible_reasons: string[] };
   computed_at: string;
 }
-export type VisibilityInput = { status: 'ready'; visible_ratio: number } |
-  { status: 'pending' | 'missing'; reason: string } | null;
+export type VisibilityInput = ({ status: 'ready'; visible_ratio: number } |
+  { status: 'pending' | 'missing'; reason: string }) & {
+    evidence?: { values: Record<string, unknown>; notes: readonly string[] };
+  } | null;

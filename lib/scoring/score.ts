@@ -1,5 +1,6 @@
 import { axis, axisKeys, clamp, evidence, percentileAxes, rentAxis, visibilityAxis } from './axes.ts';
 import { buildingAxis } from './building.ts';
+import { FOOTPRINT_MISSING } from '../visibility/types.ts';
 import { extractReferenceRaw, parseReferenceInputs } from './raw.ts';
 import type { AxisResult, Candidate, ScoreContext, ScoreInputs, ScoreReference, ScoreResult,
   ScoringPreset, VisibilityInput, Weights } from './types.ts';
@@ -43,6 +44,8 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
   let value = 100;
   const reasons: string[] = [];
   const deduct = (amount: number, reason: string) => { value -= amount; reasons.push(`${reason} (-${amount})`); };
+  if (axes.find(a => a.key === 'visibility')?.evidence.notes.includes(FOOTPRINT_MISSING))
+    deduct(5, FOOTPRINT_MISSING);
   for (const a of axes) if (a.normalized === null) deduct(preset.weights[a.key], `${a.label} 축 평가 불가: ${a.missing_reason}`);
   if (primary.flow.low_coverage) {
     const coverage = [...primary.meta.flow_coverage.weekday.coverage_ratio,
