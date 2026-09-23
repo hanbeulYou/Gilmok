@@ -124,3 +124,13 @@ def test_negative_geocoder_response_is_also_published_and_re_read(tmp_path):
         rows = db.read_parquet(str(tmp_path / "raw" / key)).fetchall()
     assert len(rows) == 1
     assert rows[0][0] == "geocode"
+
+
+def test_gross_area_is_total_title_area_not_floor_area():
+    parcel = address_parcel(response(), ADDRESS)
+    record = title() | dict(totArea="849.97")
+    floor = title() | dict(flrGbCd="20", flrNo=3, mainPurpsCdNm="학원", area=173.68)
+    result = normalize_register(parcel, [record], [floor])
+    assert result["payload"]["building"]["gross_area"] == 849.97
+    result = normalize_register(parcel, [title()], [floor])
+    assert result["payload"]["building"]["gross_area"] is None

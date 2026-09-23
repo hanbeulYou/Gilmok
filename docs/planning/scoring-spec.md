@@ -1,11 +1,11 @@
 # 길목(GILMOK) 채점 명세 — scoring-spec.md
 
 > 작성일: 2026-09-22 · 버전: **v0.1.2 (2026-09-23 사용자 승인, S2-1·S2-2 구현 기준)**
-> 입력 계약: `docs/planning/data-sources.md` §3 `score_inputs` **v1.2** (all_floors 포함) + `buildings_in_radius`
+> 입력 계약: `docs/planning/data-sources.md` §3 `score_inputs` **v1.3** (all_floors 포함) + `buildings_in_radius`
 > 기준 문서: `docs/planning/location-simulator.md` — "S2 인계 — S1 마감" 절
 > 상태: **전부 가설.** 가중치·부호·계수·임계값은 §8 검증을 통과하기 전까지 가설이며, 검증 결과에 따라 v0.2로 갱신한다. S2-1은 medium, S2-2는 high로 구현한다. S2-1 PR을 먼저 올리고 머지 후 main에서 S2-2를 시작한다. S2-3·S2-4는 별도 세션이다.
 
-> §3 v1.2 및 실제 PR 7 JSON과 필드명을 전수 대조했다. [대조표와 승인 계획](s2-1-2-plan.md)을 따른다. R6의 `building.gross_area`는 표제부 DB에 이미 존재하지만 RPC v1.2에는 없다. S2-2에서 additive 입력 계약 변경으로 노출하고 문서·fixture·기준 분포 버전을 함께 갱신한다. S2-1은 v1.2 그대로 사용한다.
+> 입력 보완: S1 v1.2 실제 JSON 대조와 사용자 결정을 [대조표와 계획](s2-1-2-plan.md)에 반영했다. S2-2에서 `building.gross_area`를 RPC v1.3에 추가했고, 코드와 기준 분포도 같은 계약으로 갱신했다.
 
 ---
 
@@ -47,13 +47,13 @@
 
 ```
 {
-  id: "academy_v0", version: "0.1.1",
+  id: "academy_v0", version: "0.1.2",
   radius_primary_m: 800, radius_school_m: 1000,
   golden_hours: [15, 22),                 // 반개구간, S1과 동일
   weights: { … §3 },
   floor_curve: { … §5.7 },
   demand_coef: { pop_5_9: 0.8, pop_10_14: 1.0, pop_15_18: 0.8, school_elem: 300, school_mid: 300, school_high: 150 },
-  saturation: { field: "입시.검정 및 보습", per_1000_students_high: 40 },   // §4.4 포화 지표
+  saturation: { field: "입시.검정 및 보습", per_1000_students_high: 60, per_1000_students_mid: 25 },   // §4.4 포화 지표
   rules: { … §5 }
 }
 ```
@@ -325,7 +325,7 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 
 ### 8.3 특히 볼 것
 
-- **cluster:** 2번(도곡로 409)이 3번보다 cluster 점수가 높게 나오는가. 포화 지표가 세 곳에서 어떻게 갈리는지, 임계값 40/20이 대치동에서 의미 있는 구분을 만드는지.
+- **cluster:** 2번(도곡로 409)이 3번보다 cluster 점수가 높게 나오는가. 포화 지표가 세 곳에서 어떻게 갈리는지, 임계값 60/25가 대치동에서 의미 있는 구분을 만드는지.
 - **반경 800m:** 500m로 바꿔 채점했을 때 순위가 뒤집히는지. 뒤집히면 반경이 결과를 지배하는 것이니 두 반경을 모두 보여주는 UI를 S3에서 검토.
 - **demand 계수:** 학교 1개 = 300명 등가가 과한지.
 - **environment 가설(숙박 감점)**이 대치동 안에서 의미 있는 차이를 만드는지. 없으면 v0.2에서 축 제거.
@@ -339,7 +339,7 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 ```
 {
   preset: { id, version },
-  inputs_schema_version: "1.2",
+  inputs_schema_version: "1.3",
   total: number | null,
   confidence: { value: number, reasons: [string] },
   axes: [
@@ -406,3 +406,15 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 5. 가시성 역/학교 좌표·서울 경계 거리·gross_area를 v1.2에 있다고 가정하지 않음. 역/학교는 S2-3, 경계는 context, gross_area는 S2-2 입력 추가.
 6. reference/context 주입으로 순수성 유지.
 7. S2 기술 검증 800/1000m 6조합, 학교 1000m 고정. S2-4의 500m 민감도 비교는 별도 500m 분포 준비 후 수행.
+
+
+### S2-2 구현 계약 보충 — 2026-09-23
+
+명세 v0.1.2의 식을 구현했으며 입력은 v1.3이다. gross_area가 포함된 실제 계약과 전체 JSON은 [data-sources §3](data-sources.md)을 따른다. v1.2 언급은 S1 확인 당시 입력의 출처 기록이며 현재 채점에는 v1.3만 사용한다.
+
+- `loadPreset(id,radius)`는 800/1000m만 허용한다. score는 reference/context를 인자로 받고 DB·네트워크·시계를 읽지 않는다. primary schema/radius/floor 불일치는 모든 축 결측, school 계약 불일치는 demand만 결측, reference의 소스 불일치는 관련 축만 결측이다. 정규화 식의 원시값 추출은 배치와 동일 함수다.
+- effective_weight는 유효 축에 재배분된 **0~100%**, contribution은 normalized×effective_weight/100이다. 3축 이상 normalized=NULL 또는 유효 가중치 합 0이면 total=NULL이다. `reweight`는 이미 계산된 normalized/raw/evidence/confidence를 그대로 보존한다. confidence의 결측 감점은 기본 가중치다.
+- 대장 조회 pending/processing은 60점 보류한다. 요청 층 용도 NULL/[]도 60점 보류하며 R4 등 추가 가점은 적용하지 않는다. 다만 이미 관측된 R6 유해업소는 −40과 연면적 판정을 유지한다. 보류 점수는 status=pending, normalized=60(유해업소 관측 시 20)으로 총점에 포함되며, NULL인 결측 축과 구분한다. building 자체 NULL 또는 id/register_pk/location_basis가 모두 NULL인 RPC의 미연결 객체이고 조회 대기도 아니면 축 NULL이다.
+- `academy_eligible`은 false 사유가 있으면 false가 우선한다. 용도/면적/유해업소 예외 확인이 부족하면 NULL이다. 전용면적 미입력은 R2 면적을 표제부/층 면적으로 추정하지 않는다. 교육연구시설처럼 면적 조건을 이미 만족하는 용도는 R2 미확인 사유를 붙이지 않는다.
+- 일반 테이블 HTTP 숫자를 반올림해 동률을 판정하지 않는다. 정밀도 보존 reference RPC와 binary DB 값의 전수 일치 및 동률 회귀 테스트를 [검증](../validation/s2-2-scoring-20260923.md)에 기록했다. 기준 분포 NULL은 제외하고 관측 0은 보존한다.
+- 가시성은 worker 결과가 주입되기 전 pending/NULL, 임대료 효율은 입력과 검증된 lo/hi가 모두 준비되기 전 NULL이다. 근접 상권·평균 임대료·층 면적 대체는 없다. 세 고정 좌표는 계약 연결 검증용이며 실제 학원 순위 검증은 S2-4에 남긴다.

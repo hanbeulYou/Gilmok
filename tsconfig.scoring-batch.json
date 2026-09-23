@@ -11,7 +11,8 @@
   },
   "include": [
     "lib/scoring/**/*.ts",
-    "ingest/score_reference_raw.ts"
+    "ingest/score_reference_raw.ts",
+    "ingest/score_candidates.ts"
   ],
   "exclude": [
     "node_modules",

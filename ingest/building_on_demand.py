@@ -98,6 +98,7 @@ def normalize_register(parcel, titles, floors):
             name=title.get("mainPurpsCdNm"),
             other_use=title.get("etcPurps"),
         ),
+        gross_area=number(title.get("totArea")),
         floors_above=integer(title.get("grndFlrCnt")),
         floors_below=integer(title.get("ugrndFlrCnt")),
         height_m=height,

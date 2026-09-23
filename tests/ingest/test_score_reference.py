@@ -24,7 +24,7 @@ def sample(radius=800):
         compete=dict(academies_by_field={"입시.검정 및 보습": 10}),
         market=dict(stores_total=0),
         meta=dict(
-            schema_version="1.2",
+            schema_version="1.3",
             radius_m=radius,
             floor=2,
             sources=dict(subway_positions=dict(available=True)),

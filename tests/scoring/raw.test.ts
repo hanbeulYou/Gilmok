@@ -10,7 +10,7 @@ function inputs(radius = 800): ReferenceInputs {
     transit: { nearest_subway_m: 200, subway_boardings_golden: 1000, bus_stops: 5 },
     compete: { academies_by_field: { "입시.검정 및 보습": 10 } },
     market: { stores_total: 50 },
-    meta: { schema_version: "1.2", radius_m: radius, floor: 2, sources: { subway_positions: { available: true } } },
+    meta: { schema_version: "1.3", radius_m: radius, floor: 2, sources: { subway_positions: { available: true } } },
   };
 }
 const context = { inside_seoul: true };
@@ -27,7 +27,7 @@ describe("approved reference raw formulas", () => {
     expect(raw["transit.subway_boardings_golden"].value).toBe(1000);
     expect(JSON.stringify([primary, school])).toBe(before);
     expect(extractReferenceRaw(primary, school, context)).toEqual(raw);
-    expect(academyV0.version).toBe("0.1.1");
+    expect(academyV0.version).toBe("0.1.2");
   });
   it("retains population null but excludes only missing school terms", () => {
     const p = inputs(), s = inputs(1000);
@@ -81,7 +81,7 @@ describe("approved reference raw formulas", () => {
     const p = inputs();
     p.meta.schema_version = "1.1";
     expect(() => parseReferenceInputs(p)).toThrow();
-    p.meta.schema_version = "1.2";
+    p.meta.schema_version = "1.3";
     p.demand.pop_5_9 = Infinity;
     expect(() => parseReferenceInputs(p)).toThrow();
     expect(() => parseReferenceInputs({})).toThrow();

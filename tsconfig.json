@@ -19,6 +19,7 @@
     "vitest.config.ts",
     "tests/**/*.ts",
     "lib/**/*.ts",
-    "ingest/score_reference_raw.ts"
+    "ingest/score_reference_raw.ts",
+    "ingest/score_candidates.ts"
   ]
 }
