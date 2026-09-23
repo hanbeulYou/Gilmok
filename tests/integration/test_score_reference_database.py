@@ -108,3 +108,15 @@ def test_source_fingerprint_changes_with_boundary_geometry(db):
           'POLYGON((127 37.5,127.001 37.5,127.001 37.501,127 37.501,127 37.5))',4326),
         'fixture','1',false,false)""")
     assert fingerprint(source_state(db)) != before
+
+
+def test_copy_keeps_binary_float_precision_even_if_text_reads_are_rounded(db, tmp_path):
+    value = 1.2345678901234567
+    db.execute("set local extra_float_digits=0")
+    load_snapshot(db, fixture_file(tmp_path, value), manifest(), verify_sources=False)
+    exact = (
+        db.cursor(binary=True)
+        .execute("select raw_value from public.score_reference where preset_id='pr_s2_fixture'")
+        .fetchone()[0]
+    )
+    assert exact == value
