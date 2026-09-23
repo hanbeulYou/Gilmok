@@ -43,7 +43,7 @@ export function referencePercentile(key: ReferenceKey, raw: number | null,
   reference: ScoreReference | null, direction: 1 | -1 = 1): ReferenceValue {
   const fail = (reason: string): ReferenceValue => ({ value: null, reason, reference: null });
   if (reference === null) return fail('reference_missing');
-  if (reference.preset.id !== preset.id || reference.preset.version !== preset.version)
+  if (reference.preset.id !== preset.id || reference.preset.version !== preset.reference_version)
     return fail('reference_preset_version_mismatch');
   if (reference.inputs_schema_version !== preset.schema_version)
     return fail('reference_schema_version_mismatch');

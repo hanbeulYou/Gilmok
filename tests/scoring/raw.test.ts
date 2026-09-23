@@ -27,7 +27,7 @@ describe("approved reference raw formulas", () => {
     expect(raw["transit.subway_boardings_golden"].value).toBe(1000);
     expect(JSON.stringify([primary, school])).toBe(before);
     expect(extractReferenceRaw(primary, school, context)).toEqual(raw);
-    expect(academyV0.version).toBe("0.1.2");
+    expect(academyV0.reference_version).toBe("0.1.2");
   });
   it("retains population null but excludes only missing school terms", () => {
     const p = inputs(), s = inputs(1000);

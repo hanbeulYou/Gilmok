@@ -35,7 +35,7 @@ describe('percentile contract', () => {
     const get = () => referencePercentile('demand', 2, p, s, academyV0, r);
     expect(get().reference).toEqual({ population_size: 3, coverage: .75 });
     r.preset.version = 'old'; expect(get().reason).toBe('reference_preset_version_mismatch');
-    r.preset.version = academyV0.version; r.inputs_schema_version = '1.2';
+    r.preset.version = academyV0.reference_version; r.inputs_schema_version = '1.2';
     expect(get().reason).toBe('reference_schema_version_mismatch'); r.inputs_schema_version = '1.3';
     p.meta.radius_m = 500; expect(get().reason).toBe('reference_radius_or_key_missing'); p.meta.radius_m = 800;
     s.meta.sources = { ...s.meta.sources, schools: { available: true, source_version: 'changed' } };

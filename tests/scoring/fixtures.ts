@@ -27,7 +27,7 @@ export function inputs(radius = 800): ScoreInputs {
   };
 }
 export function reference(primary = inputs()): ScoreReference {
-  return { preset: { id: academyV0.id, version: academyV0.version }, inputs_schema_version: academyV0.schema_version,
+  return { preset: { id: academyV0.id, version: academyV0.reference_version }, inputs_schema_version: academyV0.schema_version,
     snapshot: '20260923T000000Z', source_fingerprint: 'fixture', sources: structuredClone(primary.meta.sources),
     distributions: referenceKeys.map(key => ({ radius_m: primary.meta.radius_m, key, cell_count: 4, values: [1, 2, 3] })) };
 }

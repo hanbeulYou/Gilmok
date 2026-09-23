@@ -13,11 +13,11 @@ export interface Anchor {
   line?: string | null; level?: string;
 }
 export interface VisibilityScene {
-  schema_version: '0.1'; srid: 5186; units: 'm'; radius_m: 1000;
+  schema_version: '0.2'; srid: 5186; units: 'm'; radius_m: 1000;
   candidate: XY; candidate_wgs84: { lat: number; lng: number }; floor: number;
   candidate_building_id: string | null; containing_building_count: number;
   buildings: readonly VisibilityBuilding[];
-  station: Anchor | null; schools: readonly Anchor[];
+  stations: readonly Anchor[]; schools: readonly Anchor[];
   sources: Readonly<Record<string, { available: boolean; [key: string]: unknown } | null>>;
   coverage: { building_region: string; query_within_loaded_region: boolean };
 }
@@ -27,10 +27,10 @@ export interface VisibilitySample {
 }
 export interface SampleResult extends VisibilitySample {
   status: 'visible' | 'blocked' | 'excluded';
-  target: XY | null; building_id: string | null;
+  original_point: XY; moved_m: number; target: XY | null; building_id: string | null;
 }
 export interface SampleSummary {
-  generated: number; excluded: number; visible: number; blocked: number;
+  generated: number; moved: number; excluded_ratio: number; generated_weight: number; excluded_weight_ratio: number; excluded: number; visible: number; blocked: number;
   total_weight: number; visible_weight: number;
 }
 export interface VisibilityEvidence {
@@ -38,7 +38,7 @@ export interface VisibilityEvidence {
   notes: readonly string[];
 }
 export type VisibilityResult = {
-  status: 'ready'; visible_ratio: number; evidence: VisibilityEvidence;
+  status: 'ready'; model_version: '0.2'; visible_ratio: number; evidence: VisibilityEvidence;
   samples: SampleResult[]; summary: Record<'all' | 'ring' | 'station' | 'school', SampleSummary>;
 } | { status: 'missing'; reason: string; evidence: VisibilityEvidence;
   samples: SampleResult[]; summary: Record<'all' | 'ring' | 'station' | 'school', SampleSummary> };
@@ -46,3 +46,5 @@ export const FOOTPRINT_MISSING = 'candidate_footprint_missing_self_occlusion_una
 export interface VisibilityRequest { requestId: string; scene: VisibilityScene }
 export type VisibilityResponse = { requestId: string; result: VisibilityResult; computeMs: number } |
   { requestId: string; error: string };
+
+export const EXPOSURE_LIMITATION = '가로수·가로시설물·간판 크기 미반영, 현장 확인 필요';

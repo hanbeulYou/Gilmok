@@ -6,7 +6,7 @@ import { academyV0, loadPreset } from '../../lib/scoring/presets.ts';
 import { inputs, reference, context, candidate } from './fixtures.ts';
 const run = (p = inputs(), s = inputs(1000)) => score(p, s, [], null, candidate, academyV0, reference(p), context);
 
-describe('pure ScoreResult v0.1', () => {
+describe('pure ScoreResult v0.2', () => {
   it('is deterministic, does not mutate inputs, and does not read the clock', () => {
     const p = inputs(), s = inputs(1000), r = reference(p), before = JSON.stringify([p, s, r, candidate, academyV0]);
     const clock = vi.spyOn(Date, 'now').mockImplementation(() => { throw new Error('clock forbidden'); });
@@ -20,7 +20,7 @@ describe('pure ScoreResult v0.1', () => {
   });
   it('reallocates missing axes until two percentile axes are missing; zero available weight gives NULL', () => {
     const p = inputs(), s = inputs(1000), r = reference(p);
-    const one = score(p, s, [], { status: 'ready', visible_ratio: .5 }, candidate, academyV0, r, context);
+    const one = score(p, s, [], { status: 'ready', model_version: '0.2', visible_ratio: .5 }, candidate, academyV0, r, context);
     expect(one.axes.filter(a => a.normalized === null)).toHaveLength(1);
     const two = run(p, s); expect(two.axes.filter(a => a.normalized === null)).toHaveLength(2);
     expect(two.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
@@ -34,7 +34,7 @@ describe('pure ScoreResult v0.1', () => {
   it('scores with all three rule axes missing, retaining missing values and redistribution evidence', () => {
     const p = inputs(); p.building = null;
     const result = run(p);
-    expect(result.axes.filter(a => a.normalized === null).map(a => a.key)).toEqual(['visibility', 'building', 'rent_efficiency']);
+    expect(result.axes.filter(a => a.normalized === null).map(a => a.key)).toEqual(['exposure', 'building', 'rent_efficiency']);
     expect(result.total).not.toBeNull();
     expect(result.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
     for (const a of result.axes.filter(a => a.normalized === null)) {
@@ -47,10 +47,14 @@ describe('pure ScoreResult v0.1', () => {
     { name: string; candidate: { lat: number; lng: number }; radius_m: number; result: ScoreResult }[];
   it.each(actualResults.filter(c => c.name === '학여울'))('학여울 $radius_m m: recorded axes produce a total with rule axes missing', c => {
     expect(c.candidate).toMatchObject({ lat: 37.496663, lng: 127.070594 });
-    const result = reweight(c.result, academyV0.weights);
+    expect(() => reweight(c.result, academyV0.weights)).toThrow('axis contract mismatch');
+    // Reuse only the historical normalized observations as a v0.2 reweight fixture.
+    const updated = { ...c.result, preset: { id: academyV0.id, version: academyV0.version },
+      axes: c.result.axes.map(a => ({ ...a, key: (String(a.key) === 'visibility' ? 'exposure' : a.key) as typeof a.key })) };
+    const result = reweight(updated, academyV0.weights);
     const available = result.axes.filter(a => a.normalized !== null);
     expect(available.map(a => a.key)).toEqual(['demand', 'flow', 'transit', 'cluster', 'environment']);
-    const expected = available.reduce((sum, a) => sum + a.normalized! * a.weight, 0) / 75;
+    const expected = available.reduce((sum, a) => sum + a.normalized! * a.weight, 0) / 80;
     expect(result.total).toBeCloseTo(expected, 10);
     expect(result.confidence).toEqual(c.result.confidence);
     expect(reweight(result, { ...academyV0.weights, building: 100 }).total).toBeCloseTo(expected, 10);
@@ -100,11 +104,11 @@ describe('pure ScoreResult v0.1', () => {
     p.meta.height_quality.unknown_ratio = .31; p.transit.subway_units_missing_golden = 1;
     p.meta.building_lookup.status = 'pending'; p.building = null;
     const result = score(p, inputs(1000), [], null, candidate, academyV0, reference(p), { ...context, seoul_boundary_distance_m: 999 });
-    // Missing visibility/rent=15, estimate=5, flow=10, height=10, pending=15, subway=5, boundary=5.
-    expect(result.confidence.value).toBe(35);
+    // Missing exposure/rent=10, estimate=5, flow=10, height=10, pending=15, subway=5, boundary=5.
+    expect(result.confidence.value).toBe(40);
     expect(result.confidence.reasons.filter(r => r.includes('면적 비례'))).toHaveLength(1);
     expect(result.confidence.reasons.some(r => r.includes('대장 미연결'))).toBe(false);
-    expect(reweight(result, { ...academyV0.weights, visibility: 0 }).confidence).toEqual(result.confidence);
+    expect(reweight(result, { ...academyV0.weights, exposure: 0 }).confidence).toEqual(result.confidence);
   });
   it('uses v0.1.2 saturation thresholds; values never alter cluster scoring', () => {
     const p = inputs(); p.demand.pop_5_9 = p.demand.pop_10_14 = 0; p.demand.pop_15_18 = 1000;

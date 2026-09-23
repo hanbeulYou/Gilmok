@@ -38,7 +38,7 @@ export interface RawValue {
   notes: string[];
 }
 
-export type AxisKey = 'demand' | 'flow' | 'transit' | 'cluster' | 'visibility' |
+export type AxisKey = 'demand' | 'flow' | 'transit' | 'cluster' | 'exposure' |
   'building' | 'environment' | 'rent_efficiency';
 export type Weights = Readonly<Record<AxisKey, number>>;
 export interface RawPreset {
@@ -49,7 +49,7 @@ export interface RawPreset {
   weekday_weight: number; weekend_weight: number; cluster_field: string;
 }
 export interface ScoringPreset extends RawPreset {
-  radius_primary_m: number; weights: Weights;
+  reference_version: string; radius_primary_m: number; weights: Weights;
   signs: Readonly<Record<AxisKey, 1 | -1>>;
   saturation: { readonly high: number; readonly mid: number };
   rent_range: { readonly lo: number; readonly hi: number } | null;
@@ -121,7 +121,7 @@ export interface ScoreResult {
   derived: { academy_eligible: boolean | null; academy_eligible_reasons: string[] };
   computed_at: string;
 }
-export type VisibilityInput = ({ status: 'ready'; visible_ratio: number } |
+export type ExposureInput = ({ status: 'ready'; model_version: '0.2'; visible_ratio: number } |
   { status: 'pending' | 'missing'; reason: string }) & {
     evidence?: { values: Record<string, unknown>; notes: readonly string[] };
   } | null;
