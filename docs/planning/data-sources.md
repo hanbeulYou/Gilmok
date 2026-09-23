@@ -525,3 +525,13 @@ R6 추가 입력 구현: 표제부 `building_registers.gross_area`는 원천 `to
 실제 적재·R2 전수 재계산·DB 바이너리 전수 대조는 모두 불일치 0이다. 반경/지표별 모집단·결측 비율과 시간·용량은 [S2-1 검증](../validation/s2-1-score-reference-20260923.md)을 따른다. 원격 실행은 아직 하지 않았다.
 
 S2-2 실제 입력 계약 v1.3: reference preset v0.1.2 / snapshot `20260923T111436Z`로 162,032행을 재생성했다. 과거 v1.2 분포를 v1.3과 섞지 않는다. [정밀도·채점 검증](../validation/s2-2-scoring-20260923.md)을 따른다.
+
+## S2-3 가시성 입력 계약 — v0.1 (승인 계획)
+
+`visibility_inputs(lng,lat)`는 읽기 전용 RPC다. 기존 `buildings_in_radius(lng,lat,1000)`의 ID·출처·높이 집합을 재사용하고 원본 도형을 EPSG:5186으로 변환한다. 기존 4326 GeoJSON RPC와 score_inputs v1.3은 유지한다. 새 DTO는 schema_version=0.1, srid=5186, units=m, radius_m=1000을 명시하며 계산용 polygon 좌표 배열이다. 5186 좌표를 표준 4326 GeoJSON으로 표시하지 않는다.
+
+- 후보는 ST_Covers로 도형이 정확히 하나일 때 그 ID를 쓴다. 0개 또는 복수이면 candidate_building_id=NULL, containing_building_count에 실제 수를 남긴다. 후보 좌표 fallback은 estimated=true와 candidate_footprint_missing_self_occlusion_unaccounted를 남기고 채점 신뢰도 −5다.
+- 최근접 역은 transit_stops(type=subway)에서 geography 2km 이내 거리·ID 순 한 곳, 학교는 schools에서 geography 1km 이내 좌표가 있는 초·중·고 전체다. 기존 대표점을 사용하며 역 출입구/학교 정문/실제 보행 경로로 추정하지 않는다. 모두 같은 5186으로 변환한다.
+- 높이는 기존 occlusion_height_m을 사용한다. unknown은 4m, WFS도 차폐 포함. height_source/estimated/source/source_version을 보존한다. 30㎡ 미만·부속·창고도 차폐에서 빼지 않는다. score_inputs.meta.height_quality만 기존 §7 신뢰도 계산에 사용한다.
+- 건물 SHP/WFS·역 위치·학교 소스의 available을 반환한다. 미적재는 missing, 정상 조회 결과 빈 배열은 관측 0건이다. 건물 커버리지는 현재 강남구뿐이며 1km 밖 역 동선과 경계 밖 데이터 한계를 notes에 남긴다. 임의 반경 확대나 보정은 없다.
+- DB 저장 좌표는 4326으로 유지한다. 새 RPC만 추가하므로 이전 독자는 그대로 동작한다. 롤백은 호출자를 pending/NULL 가시성 경로로 되돌리는 것으로 충분하며 기존 데이터/함수 삭제나 역마이그레이션은 필요 없다.
