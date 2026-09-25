@@ -32,6 +32,15 @@ it('always shows the field limitation and rejects an old computed visibility res
   expect(r.axes.find(a => a.key === 'exposure')!.missing_reason).toBe('exposure_model_version_mismatch');
   expect(academyV0.weights.demand).toBe(30); expect(academyV0.weights.exposure).toBe(5);
   expect(Object.values(academyV0.weights).reduce((a, b) => a + b, 0)).toBe(100);
-  expect(r.preset.version).toBe('0.2');
+  expect(r.preset.version).toBe('0.2.1');
   expect(academyV0.reference_version).toBe('0.1.2');
+});
+
+it('rejects v0.2 weighted-approach results instead of reusing them as ring-only scores', () => {
+  const p = inputs(), result = score(p, inputs(1000), [], null, candidate, academyV0, reference(p), context);
+  result.preset.version = '0.2';
+  expect(() => reweight(result, academyV0.weights)).toThrow('model version mismatch');
+  const old = { status: 'ready', model_version: '0.2', visible_ratio: .5 } as never;
+  expect(score(p, inputs(1000), [], old, candidate, academyV0, reference(p), context)
+    .axes.find(a => a.key === 'exposure')!.missing_reason).toBe('exposure_model_version_mismatch');
 });

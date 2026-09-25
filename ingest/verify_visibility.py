@@ -9,12 +9,12 @@ from ingest.verify_scoring import local_http
 
 
 def main():
-    directory = ROOT / '.local/validation/exposure-v02'
+    directory = ROOT / '.local/validation/exposure-v021'
     directory.mkdir(parents=True, exist_ok=True)
     rpc = local_http()
     candidate = dict(lat=37.5025724504279, lng=127.057585738094, floor=3, address='역삼로460')
     start = time.perf_counter()
-    scene = rpc('exposure_inputs', {k: candidate[k] for k in ('lng', 'lat')})
+    scene = rpc('exposure_inputs_v021', {k: candidate[k] for k in ('lng', 'lat')})
     http_ms = (time.perf_counter() - start) * 1000
     scene['floor'] = candidate['floor']
     primary = rpc('score_inputs', dict(**candidate, radius_m=800))
@@ -25,7 +25,7 @@ def main():
     with target_database('local') as db:
         db.execute('set transaction read only')
         start = time.perf_counter()
-        direct = db.execute('select public.exposure_inputs(%s,%s)',
+        direct = db.execute('select public.exposure_inputs_v021(%s,%s)',
                             (candidate['lng'], candidate['lat'])).fetchone()[0]
         db_ms = (time.perf_counter() - start) * 1000
         assert direct == {k: v for k, v in scene.items() if k != 'floor'}

@@ -6,7 +6,7 @@ import type { AxisKey, AxisResult, Candidate, Evidence, ScoreContext, ScoreInput
 
 export const labels: Readonly<Record<AxisKey, string>> = Object.freeze({
   demand: '수요', flow: '유동', transit: '교통', cluster: '학원 집적',
-  exposure: '건물 배치상 노출 조건', building: '건물 적합성', environment: '환경', rent_efficiency: '임대료 효율',
+  exposure: '건물 앞 도로·맞은편에서의 간판 노출', building: '건물 적합성', environment: '환경', rent_efficiency: '임대료 효율',
 });
 export const axisKeys = Object.freeze(Object.keys(labels) as AxisKey[]);
 export const clamp = (v: number) => Math.max(0, Math.min(100, v));
@@ -85,11 +85,11 @@ export function exposureAxis(visibility: ExposureInput): AxisResult {
   e.notes.push(...(visibility?.evidence?.notes ?? []));
   if (!e.notes.includes(EXPOSURE_LIMITATION)) e.notes.push(EXPOSURE_LIMITATION);
   if (visibility?.status === 'ready') {
-    if (visibility.model_version !== '0.2') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
+    if (visibility.model_version !== '0.2.1') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
     if (!Number.isFinite(visibility.visible_ratio) || visibility.visible_ratio < 0 || visibility.visible_ratio > 1)
       throw new Error('Invalid visible_ratio');
     e.values.visible_ratio = visibility.visible_ratio;
-    e.rules_applied.push('visible_ratio_times100');
+    e.rules_applied.push('ring_visible_ratio_times100');
     return axis('exposure', visibility.visible_ratio, visibility.visible_ratio * 100, e);
   }
   const reason = visibility?.reason ?? 'exposure_worker_pending';

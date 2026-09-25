@@ -20,7 +20,7 @@ describe('pure ScoreResult v0.2', () => {
   });
   it('reallocates missing axes until two percentile axes are missing; zero available weight gives NULL', () => {
     const p = inputs(), s = inputs(1000), r = reference(p);
-    const one = score(p, s, [], { status: 'ready', model_version: '0.2', visible_ratio: .5 }, candidate, academyV0, r, context);
+    const one = score(p, s, [], { status: 'ready', model_version: '0.2.1', visible_ratio: .5 }, candidate, academyV0, r, context);
     expect(one.axes.filter(a => a.normalized === null)).toHaveLength(1);
     const two = run(p, s); expect(two.axes.filter(a => a.normalized === null)).toHaveLength(2);
     expect(two.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
