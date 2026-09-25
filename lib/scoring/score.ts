@@ -1,9 +1,9 @@
-import { axis, axisKeys, clamp, evidence, percentileAxes, rentAxis, visibilityAxis } from './axes.ts';
+import { axis, axisKeys, clamp, evidence, percentileAxes, rentAxis, exposureAxis } from './axes.ts';
 import { buildingAxis } from './building.ts';
-import { FOOTPRINT_MISSING } from '../visibility/types.ts';
+import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from '../visibility/types.ts';
 import { extractReferenceRaw, parseReferenceInputs } from './raw.ts';
 import type { AxisResult, Candidate, ScoreContext, ScoreInputs, ScoreReference, ScoreResult,
-  ScoringPreset, VisibilityInput, Weights } from './types.ts';
+  ScoringPreset, ExposureInput, Weights } from './types.ts';
 
 function validateWeights(weights: Weights): void {
   if (axisKeys.some(key => !Number.isFinite(weights[key]) || weights[key] < 0))
@@ -23,6 +23,8 @@ function validateCandidate(candidate: Candidate): void {
 /** Reuses already-normalized axes. Confidence is intentionally independent of sliders. */
 export function reweight(result: ScoreResult, weights: Weights): ScoreResult {
   validateWeights(weights);
+  if (result.axes.length !== axisKeys.length || axisKeys.some(k => result.axes.filter(a => a.key === k).length !== 1))
+    throw new Error('ScoreResult axis contract mismatch: recompute with exposure v0.2');
   const copy = structuredClone(result);
   const percentileKeys = ['demand', 'flow', 'transit', 'cluster', 'environment'];
   const missing = copy.axes.filter(a => a.normalized === null && percentileKeys.includes(a.key)).length;
@@ -44,7 +46,7 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
   let value = 100;
   const reasons: string[] = [];
   const deduct = (amount: number, reason: string) => { value -= amount; reasons.push(`${reason} (-${amount})`); };
-  if (axes.find(a => a.key === 'visibility')?.evidence.notes.includes(FOOTPRINT_MISSING))
+  if (axes.find(a => a.key === 'exposure')?.evidence.notes.includes(FOOTPRINT_MISSING))
     deduct(5, FOOTPRINT_MISSING);
   for (const a of axes) if (a.normalized === null) deduct(preset.weights[a.key], `${a.label} 축 평가 불가: ${a.missing_reason}`);
   if (primary.flow.low_coverage) {
@@ -55,7 +57,7 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
   }
   if (primary.demand.estimated || primary.flow.estimated) deduct(5, '인구는 행정동·격자 면적 비례 추정');
   const unknown = primary.meta.height_quality.unknown_ratio;
-  if (unknown !== null && unknown > .3) deduct(10, `주변 건물 ${(unknown * 100).toFixed(1)}%가 높이 미상, 가시성 신뢰 낮음`);
+  if (unknown !== null && unknown > .3) deduct(10, `주변 건물 ${(unknown * 100).toFixed(1)}%가 높이 미상, 노출 조건 신뢰 낮음`);
   const pending = ['pending', 'processing'].includes(primary.meta.building_lookup.status);
   if (pending) deduct(15, '건축물대장 조회 대기 중');
   else if (primary.building?.location_basis === 'footprint' && primary.building.register_pk === null)
@@ -65,9 +67,9 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
     deduct(5, '경기 정류장 데이터 없음');
   return { value: clamp(value), reasons };
 }
-/** Pure ScoreResult v0.1. The caller owns DB, context queries, and visibility work. */
+/** Pure ScoreResult v0.2. The caller owns DB, context queries, and visibility work. */
 export function score(primary: ScoreInputs, school: ScoreInputs, buildings: readonly unknown[],
-  visibility: VisibilityInput, candidate: Candidate, preset: ScoringPreset,
+  visibility: ExposureInput, candidate: Candidate, preset: ScoringPreset,
   reference: ScoreReference | null, context: ScoreContext): ScoreResult {
   // Building geometries are an explicit input for the separate S2-3 worker, not a height guess.
   void buildings;
@@ -97,7 +99,7 @@ export function score(primary: ScoreInputs, school: ScoreInputs, buildings: read
     if (!schoolValid) axes.find(a => a.key === 'demand')!.missing_reason = 'school_input_contract_mismatch';
     const building = buildingAxis(primary, candidate);
     derived = { academy_eligible: building.eligible, academy_eligible_reasons: building.reasons };
-    axes.push(visibilityAxis(visibility), building.axis);
+    axes.push(exposureAxis(visibility), building.axis);
     const orient = (a: AxisResult) => {
       if (a.normalized !== null && preset.signs[a.key] === -1) {
         a.normalized = 100 - a.normalized; a.evidence.rules_applied.push('preset_sign_negative');
@@ -108,6 +110,8 @@ export function score(primary: ScoreInputs, school: ScoreInputs, buildings: read
     orient(rent); axes.push(rent);
     axes.sort((a, b) => axisKeys.indexOf(a.key) - axisKeys.indexOf(b.key));
   }
+  const exposure = axes.find(a => a.key === 'exposure')!;
+  if (!exposure.evidence.notes.includes(EXPOSURE_LIMITATION)) exposure.evidence.notes.push(EXPOSURE_LIMITATION);
   return reweight({ preset: { id: preset.id, version: preset.version }, inputs_schema_version: primary.meta.schema_version,
     total: null, confidence: confidence(primary, axes, preset, context), axes, derived, computed_at }, preset.weights);
 }

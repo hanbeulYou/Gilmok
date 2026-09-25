@@ -8,7 +8,11 @@ import { extractReferenceRaw, parseReferenceInputs, referenceKeys } from "../lib
 async function main(): Promise<void> {
   const [inputPath, outputPath, metadataPath] = process.argv.slice(2);
   if (!inputPath || !outputPath || !metadataPath) throw new Error("Expected input/output/metadata paths");
-  writeFileSync(metadataPath, JSON.stringify({ preset: academyV0, keys: referenceKeys }));
+  // Distribution metadata describes only the unchanged raw extractor, not scoring weights.
+  const preset = { id: academyV0.id, version: academyV0.reference_version, schema_version: academyV0.schema_version,
+    radii: academyV0.radii, school_radius_m: academyV0.school_radius_m, demand_coef: academyV0.demand_coef,
+    weekday_weight: academyV0.weekday_weight, weekend_weight: academyV0.weekend_weight, cluster_field: academyV0.cluster_field };
+  writeFileSync(metadataPath, JSON.stringify({ preset, keys: referenceKeys }));
   const output = createWriteStream(outputPath, { flags: "wx" });
   const finished = once(output, "finish");
   const lines = createInterface({ input: createReadStream(inputPath), crlfDelay: Infinity });

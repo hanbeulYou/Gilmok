@@ -6,7 +6,7 @@ from ingest.refresh import target_database
 
 
 def main():
-    directory = ROOT / '.local/validation/s2-3'
+    directory = ROOT / '.local/validation/exposure-v02'
     data = json.loads((directory / 'input.json').read_text())
     result = json.loads((directory / 'result.json').read_text())['result']
     scene = data['scene']
@@ -55,13 +55,48 @@ def main():
             scene['candidate_building_id'], result['evidence']['values']['target_height_m'],
             result['evidence']['values']['target_height_m'], scene['candidate_building_id'],
         )).fetchall()
+        pushed = []
+        for s in result['samples']:
+            ox, oy = s['original_point']
+            dx, dy = ox - scene['candidate'][0], oy - scene['candidate'][1]
+            distance = (dx * dx + dy * dy) ** 0.5
+            if not s['moved_m'] and s['status'] != 'excluded':
+                continue
+            assert distance > 0
+            x, y = s['point']
+            if s['status'] == 'excluded':
+                x, y = ox + dx / distance * 30, oy + dy / distance * 30
+            else:
+                assert 0 < s['moved_m'] <= 30 + 1e-8
+                assert abs((x - ox) * dy - (y - oy) * dx) / distance < 1e-6
+                assert (x - ox) * dx + (y - oy) * dy > 0
+            pushed.append(dict(id=s['id'], ox=ox, oy=oy, x=x, y=y))
+        push_rows = db.execute('''with buildings as materialized (
+            select extensions.st_transform(geom,5186) g
+            from public.buildings where id=any(%s)
+        ), paths as (
+            select id,extensions.st_setsrid(extensions.st_makeline(
+                extensions.st_makepoint(ox,oy),extensions.st_makepoint(x,y)),5186) line
+            from jsonb_to_recordset(%s::jsonb) as s(id text,ox double precision,
+                oy double precision,x double precision,y double precision)
+        ) select p.id,extensions.st_length(extensions.st_difference(p.line,
+            (select extensions.st_unaryunion(extensions.st_collect(b.g)) from buildings b
+                where b.g operator(extensions.&&) p.line))) outside_m from paths p''',
+            ([b['id'] for b in scene['buildings']], json.dumps(pushed))).fetchall()
     expected = {s['id']: s['status'] for s in result['samples']}
     errors = [(i, status, expected[i]) for i, status, _ in rows if status != expected[i]]
     target_errors = [error for _, _, error in rows if error is not None]
     assert not errors, errors
     assert max(target_errors) < 1e-6
+    for sample_id, outside_m in push_rows:
+        status = expected[sample_id]
+        # A selected point is within 1mm of the first exit; an excluded path has no exit.
+        assert outside_m <= (1e-6 if status == 'excluded' else .001001), (sample_id, outside_m)
+        if status != 'excluded':
+            assert outside_m > 0, sample_id
     proof = dict(samples=len(rows), classification_mismatches=len(errors),
-                 max_target_error_m=max(target_errors))
+                 max_target_error_m=max(target_errors), push_paths_verified=len(push_rows),
+                 max_open_distance_before_selected_m=max(v for _, v in push_rows))
     (directory / 'geometry-proof.json').write_text(json.dumps(proof, indent=2) + '\n')
     print(json.dumps(proof))
 

@@ -1,11 +1,12 @@
 import { referencePercentile } from './percentile.ts';
+import { EXPOSURE_LIMITATION } from '../visibility/types.ts';
 import type { ReferenceKey, ReferenceRaw } from './raw.ts';
 import type { AxisKey, AxisResult, Candidate, Evidence, ScoreContext, ScoreInputs,
-  ScoreReference, ScoringPreset, VisibilityInput } from './types.ts';
+  ScoreReference, ScoringPreset, ExposureInput } from './types.ts';
 
 export const labels: Readonly<Record<AxisKey, string>> = Object.freeze({
   demand: '수요', flow: '유동', transit: '교통', cluster: '학원 집적',
-  visibility: '가시성', building: '건물 적합성', environment: '환경', rent_efficiency: '임대료 효율',
+  exposure: '건물 배치상 노출 조건', building: '건물 적합성', environment: '환경', rent_efficiency: '임대료 효율',
 });
 export const axisKeys = Object.freeze(Object.keys(labels) as AxisKey[]);
 export const clamp = (v: number) => Math.max(0, Math.min(100, v));
@@ -79,18 +80,20 @@ export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: R
   const environment = axis('environment', stores, env, ee, vitality.reason ?? (categories === null ? 'store_categories_missing' : null));
   return [demand, flow, transit, cluster, environment];
 }
-export function visibilityAxis(visibility: VisibilityInput): AxisResult {
+export function exposureAxis(visibility: ExposureInput): AxisResult {
   const e = evidence(visibility?.evidence ? structuredClone(visibility.evidence.values) : {});
   e.notes.push(...(visibility?.evidence?.notes ?? []));
+  if (!e.notes.includes(EXPOSURE_LIMITATION)) e.notes.push(EXPOSURE_LIMITATION);
   if (visibility?.status === 'ready') {
+    if (visibility.model_version !== '0.2') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
     if (!Number.isFinite(visibility.visible_ratio) || visibility.visible_ratio < 0 || visibility.visible_ratio > 1)
       throw new Error('Invalid visible_ratio');
     e.values.visible_ratio = visibility.visible_ratio;
     e.rules_applied.push('visible_ratio_times100');
-    return axis('visibility', visibility.visible_ratio, visibility.visible_ratio * 100, e);
+    return axis('exposure', visibility.visible_ratio, visibility.visible_ratio * 100, e);
   }
-  const reason = visibility?.reason ?? 'visibility_worker_pending';
-  return axis('visibility', null, null, e, reason, visibility?.status ?? 'pending');
+  const reason = visibility?.reason ?? 'exposure_worker_pending';
+  return axis('exposure', null, null, e, reason, visibility?.status ?? 'pending');
 }
 export function rentAxis(primary: ScoreInputs, candidate: Candidate, preset: ScoringPreset,
   context: ScoreContext, demand: AxisResult, flow: AxisResult): AxisResult {

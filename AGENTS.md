@@ -79,7 +79,7 @@
 
 ## 7. 현재 스프린트
 
-- **S2-3 가시성 Worker 구현·로컬 실제 검증 완료, PR 머지 대기**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
+- **S2-3 PR #15 머지 완료, 노출 조건 v0.2 후속 구현·로컬 검증 완료**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -113,3 +113,5 @@
 - 2026-09-23 PR #13 후속 사용자 결정: 명세 v0.1.3 §6은 백분위 5축 중 2축 이상 결측일 때 total=NULL이다. 규칙 축 결측은 재배분 근거를 남기고 계산한다. §5.7 지하층은 R4 없이 R7 −25만 적용한다. 기존 학여울 total=NULL 기록은 v0.1.2 당시 결과다. 기준 분포·프리셋 0.1.2와 입력 v1.3은 유지한다.
 
 - S2-3 2026-09-23: GitHub #13·#14 머지 후 구현. 명세 v0.1.4는 후보 도형 부재 fallback에 candidate_footprint_missing_self_occlusion_unaccounted 근거와 신뢰도 −5를 추가한다. visibility_inputs v0.1은 1km 건물·학교와 2km 이내 최근접 역을 5186으로 반환하고 Worker/Node는 같은 순수 함수를 실행한다. 역삼로460 3층 visible_ratio=0.11649874055415617, 역 20점 가시1/차폐10/제외9. 310샘플 독립 PostGIS 판정 불일치0, Node/브라우저 Worker 결과 일치. lint/typecheck/test(63·234)/test:db(144) 통과. [현장 대조표](docs/validation/s2-3-visibility-field-report.md), [검증·시간](docs/validation/s2-3-visibility-20260923.md)을 따른다. 현장 검증은 사용자 대조 전이며 S2-4는 별도다.
+
+- 2026-09-24 PR #15 후속: 명세/ScoreResult/preset v0.2, 축 exposure 5·demand 30. 1km 내 모든 역 각각20점, 링30/60/100m×36, 내부 샘플 최대30m 이동을 적용했다. exposure_inputs는 EPSG:5186이며 기존 visibility_inputs v0.1과 raw 분포0.1.2는 보존한다. 역삼로460 3층 visible_ratio=0.12460209185993637, 역 동선4/100점 가시, 링23/108점 가시, 전체120점 이동·1/318점 제외. Worker/Node 결과 및 독립 PostGIS 검산 일치. lint/typecheck/test(68·234)/test:db(146) 통과. [현장 대조표](docs/validation/exposure-v02-field-report.md), [검증](docs/validation/exposure-v02-20260924.md)을 따른다. S2-4 실제 학원 검증·임대료 보정은 별도 태스크다.

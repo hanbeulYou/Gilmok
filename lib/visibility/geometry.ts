@@ -54,12 +54,10 @@ export function overlaps(b: Bounds, a: XY, c: XY = a): boolean {
   return b[0] <= Math.max(a[0], c[0]) + EPS && b[2] >= Math.min(a[0], c[0]) - EPS &&
     b[1] <= Math.max(a[1], c[1]) + EPS && b[3] >= Math.min(a[1], c[1]) - EPS;
 }
-/** Intersect a closed vertical prism with an eye→target 3D segment. */
-export function blocks(polygons: Footprint, height: number, eye: XY, target: XY, eyeZ: number, targetZ: number): boolean {
+/** Exact segment/footprint boundary parameters, including collinear edges. */
+export function segmentCuts(polygons: Footprint, eye: XY, target: XY): number[] {
   const d = sub(target, eye), length = Math.hypot(...d), cuts = [0, 1];
-  const z = (t: number) => eyeZ + (targetZ - eyeZ) * t;
-  const zInside = (t: number) => z(t) >= -EPS && z(t) <= height + EPS;
-  if (length <= EPS) return covers(polygons, eye) && Math.max(eyeZ, targetZ) >= 0 && Math.min(eyeZ, targetZ) <= height;
+  if (length <= EPS) return cuts;
   const tEps = EPS / length;
   for (const polygon of polygons) for (const ring of polygon) for (let i = 1; i < ring.length; i++) {
     const a = ring[i - 1], e = sub(ring[i], a), offset = sub(a, eye), denom = cross(d, e);
@@ -75,6 +73,15 @@ export function blocks(polygons: Footprint, height: number, eye: XY, target: XY,
     }
   }
   cuts.sort((a, b) => a - b);
+  return cuts;
+}
+/** Intersect a closed vertical prism with an eye→target 3D segment. */
+export function blocks(polygons: Footprint, height: number, eye: XY, target: XY, eyeZ: number, targetZ: number): boolean {
+  const length = Math.hypot(target[0] - eye[0], target[1] - eye[1]);
+  const z = (t: number) => eyeZ + (targetZ - eyeZ) * t;
+  const zInside = (t: number) => z(t) >= -EPS && z(t) <= height + EPS;
+  if (length <= EPS) return covers(polygons, eye) && Math.max(eyeZ, targetZ) >= 0 && Math.min(eyeZ, targetZ) <= height;
+  const cuts = segmentCuts(polygons, eye, target), tEps = EPS / length;
   for (let i = 0; i < cuts.length; i++) {
     const t = cuts[i];
     if (zInside(t) && covers(polygons, at(eye, target, t))) return true;
@@ -84,4 +91,24 @@ export function blocks(polygons: Footprint, height: number, eye: XY, target: XY,
       Math.min(z(prev), z(t)) <= height + EPS && Math.max(z(prev), z(t)) >= -EPS) return true;
   }
   return false;
+}
+
+/** Move an indoor sample radially outward to the first open interval, at most 30m. */
+export function pushOutside(shapes: readonly { polygons: Footprint; bounds: Bounds }[], origin: XY, point: XY): XY | null {
+  if (!shapes.some(b => overlaps(b.bounds, point) && covers(b.polygons, point))) return point;
+  const distance = Math.hypot(point[0] - origin[0], point[1] - origin[1]);
+  if (distance <= EPS) return null;
+  const end: XY = [point[0] + (point[0] - origin[0]) / distance * 30,
+    point[1] + (point[1] - origin[1]) / distance * 30];
+  const nearby = shapes.filter(b => overlaps(b.bounds, point, end));
+  const cuts = [...new Set(nearby.flatMap(b => segmentCuts(b.polygons, point, end)))].sort((a, b) => a - b);
+  for (let i = 1; i < cuts.length; i++) {
+    const lo = cuts[i - 1], hi = cuts[i];
+    if ((hi - lo) * 30 <= 2 * EPS) continue;
+    const sample = at(point, end, (lo + hi) / 2);
+    if (nearby.some(b => covers(b.polygons, sample))) continue;
+    const outside = at(point, end, lo + Math.min(.001 / 30, (hi - lo) / 2));
+    if (!nearby.some(b => covers(b.polygons, outside))) return outside;
+  }
+  return null;
 }
