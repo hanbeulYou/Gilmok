@@ -1,0 +1,10 @@
+{
+  "anonymous_sign_in": true,
+  "owner_rls": true,
+  "other_uid_denied": true,
+  "score_inputs_schema": "1.3",
+  "email_link_verified": true,
+  "same_uid_after_upgrade": true,
+  "candidate_and_comparison_preserved": true,
+  "scope": "local Auth HTTP + Mailpit, not remote"
+}

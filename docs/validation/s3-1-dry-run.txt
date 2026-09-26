@@ -1,0 +1,36 @@
+Finished supabase db push.
+
+DRY RUN: migrations will *not* be pushed to the database.
+Connecting to remote database...
+Would push these migrations:
+ • 20260916095243_ingest_foundation.sql
+ • 20260919093952_population_foundation.sql
+ • 20260919111139_living_population_fixed.sql
+ • 20260919111751_living_population_valid_age_days.sql
+ • 20260919114511_resident_population.sql
+ • 20260919122817_transit.sql
+ • 20260920073554_stores_education.sql
+ • 20260920095423_buildings.sql
+ • 20260920114642_commercial_rent.sql
+ • 20260920115702_rent_survey_availability.sql
+ • 20260920120131_rent_current_snapshot.sql
+ • 20260920124903_score_inputs.sql
+ • 20260920125502_score_input_coverage.sql
+ • 20260921065136_score_inputs_v11.sql
+ • 20260921065937_address_request_conflict.sql
+ • 20260921070105_preserve_building_missing_reason.sql
+ • 20260922044742_score_inputs_all_floors.sql
+ • 20260922045014_score_inputs_all_floors_contract.sql
+ • 20260922053832_refresh_snapshot_state.sql
+ • 20260923095659_score_reference.sql
+ • 20260923101606_score_reference_saturation_evidence.sql
+ • 20260923111339_score_inputs_v13_gross_area.sql
+ • 20260923111516_score_reference_precision_rpc.sql
+ • 20260923112209_score_inputs_v13_missing_area_once.sql
+ • 20260923133222_visibility_inputs.sql
+ • 20260923144728_exposure_inputs.sql
+ • 20260925142522_exposure_inputs_v021.sql
+ • 20260926073858_exposure_coverage.sql
+ • 20260926093918_s3_foundation_auth.sql
+A new version of Supabase CLI is available: v2.118.0 (currently installed v2.72.7)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli

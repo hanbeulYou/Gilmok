@@ -48,6 +48,7 @@
 ### 데이터
 
 - 외부 데이터 API는 `/ingest` 안에서만 호출한다. 프론트·Edge Function은 Supabase만 본다. PR 8 사용자 승인 예외: DB의 pg_net webhook이 고정 GitHub repository_dispatch 엔드포인트를 호출하여 Python 주소 워커를 깨울 수 있다. 주소·PNU 전송 및 DB/Edge의 데이터 API 호출은 허용하지 않는다. 원격 전환 후 수동 활성화한다.
+- S3 사용자 승인 예외: 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 호출할 수 있다. 키는 서버 환경변수에만 두고 결과를 `geocode_cache`에 캐시하며 uid당 일일 제한을 둔다. 배치·건축물 대장 조회는 여전히 `/ingest`에서만 호출한다. 구현은 S3-2다.
 - 좌표는 DB에 EPSG:4326으로 저장. 거리 계산은 `geography` 또는 5186 변환 후.
 - 추정값에는 반드시 `estimated` 플래그. 추정 로직은 `data-sources.md`에 적힌 것만 쓴다. 새 추정이 필요하면 문서에 먼저 추가.
 - 로컬 인증키·비밀은 `.env`에만. GitHub Actions에서는 Secrets를 실행 환경에 주입한다. 키 값은 코드·문서·로그에 기록하지 않는다. `.env.example`을 항상 최신으로 유지하고, `.gitignore`에 `.env*`와 예외 `!.env.example`을 둔다.
