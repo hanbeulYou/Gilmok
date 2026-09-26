@@ -1,6 +1,6 @@
 # 길목(GILMOK) 채점 명세 — scoring-spec.md
 
-> 작성일: 2026-09-22 · 버전: **v0.2.1 (2026-09-25 사용자 요청, 근거리 간판 노출)**
+> 작성일: 2026-09-22 · 버전: **v0.3 (2026-09-26 사용자 요청, cluster 고정 선형 스케일)**
 > 입력 계약: `docs/planning/data-sources.md` §3 `score_inputs` **v1.3** (all_floors 포함) + `buildings_in_radius`
 > 기준 문서: `docs/planning/location-simulator.md` — "S2 인계 — S1 마감" 절
 > 상태: **전부 가설.** 가중치·부호·계수·임계값은 §8 검증을 통과하기 전까지 가설이며, 검증 결과에 따라 후속 버전으로 갱신한다.
@@ -49,7 +49,7 @@ S2-1·S2-2·S2-3(PR #16)는 main에 머지됐다. 이 문서는 PR #16 후속 �
 
 ```
 {
-  id: "academy_v0", version: "0.2.1", reference_version: "0.1.2",
+  id: "academy_v0", version: "0.3", reference_version: "0.1.2",
   radius_primary_m: 800, radius_school_m: 1000,
   golden_hours: [15, 22),                 // 반개구간, S1과 동일
   weights: { … §3 },
@@ -63,6 +63,8 @@ S2-1·S2-2·S2-3(PR #16)는 main에 머지됐다. 이 문서는 PR #16 후속 �
 ---
 
 ## 2. 정규화 — 기준 분포 테이블
+
+cluster 점수는 §4.4의 고정 상수로 계산한다. 아래 실시간 백분위 규칙은 나머지 데이터 축 및 포화 근거에 적용한다.
 
 "서울에서 이 값이 상위 몇 %인가"를 답하려면 서울 전체 후보 지점의 분포가 필요하다.
 
@@ -109,7 +111,7 @@ pct(axis, raw) = percentile_rank(score_reference[axis], raw)   // 0~100
 
 ---
 
-## 4. 축별 계산 — 백분위 축
+## 4. 축별 계산 — 데이터 축
 
 ### 4.1 demand (수요)
 
@@ -158,13 +160,19 @@ score        = 0.5×subway + 0.3×board + 0.2×bus    (NULL 지표 제외 후 �
 ```
 n_field = compete.academies_by_field["입시.검정 및 보습"]   // 원문 키 그대로
 raw     = ln(1 + n_field)
-score   = pct(cluster, raw)                                 // 점수는 단조 증가
+score = clamp((raw - p50) / (upper - p50) * 100, 0, 100) // p50에서 0점
 
 // 포화 지표 (점수에 넣지 않고 근거·경고로만)
 students   = pop_5_9 + pop_10_14 + pop_15_18                // 반경 내 학령인구
 saturation = n_field / (students / 1000)                    // 학생 1,000명당 입시·보습 학원 수
 level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 ```
+
+**고정 정규화 상수(v0.3):** `score_reference`의 academy_v0/reference v0.1.2, snapshot `20260923T111436Z`, 반경 800m `cluster`의 비NULL 9,694개 raw에 PostgreSQL `percentile_cont`를 적용했다. p50 = **3.332204510175204**, upper = **p99.97 = 7.070653980704802**. DB binary float8로 읽은 값을 프리셋 `cluster_scale`에 고정한다. 조회 시 다시 분위수를 구하지 않는다. 지원 반경 800/1000m 모두 이 고정 스케일을 사용하며 상수의 보정 분포는 800m다.
+
+p99부터 p100까지 **0.01%p 간격**으로 탐색하여 a·b·c의 최대 raw(도곡로409: 7.011213987350367)보다 큰 상한 중 가장 낮은 분위수를 선택했다. p99=5.92232509339011, p99.5=6.16917945666582, p99.96=6.98865173585314는 적어도 한 곳이 100에 붙는다. p99.97은 세 곳 모두 100 미만이다. 연속 분위수 전체의 최솟값을 뜻하지 않는다. 하한 이하 0, 상한 이상 100이며 NULL raw는 NULL이다.
+
+서울 상위 구간의 구분력이 부족하다는 사용자 검증에 따라 백분위 점수를 고정 선형 스케일로 교체했다. ln(1+n), 포화 지표, 다른 축과 가중치는 유지한다. 근거에 raw·상수·상한 분위수·분포 snapshot·클램프 전 값을 기록한다. cluster 점수는 실행 시 분포 조회에 의존하지 않으며, 포화 백분위는 기존처럼 근거 전용이다. 원시 기준 분포 v0.1.2를 재생성하지 않는다.
 
 - 포화 지표는 서울 백분위도 함께 표시한다("서울 상위 5% 밀도"). v0.1.2의 사용자 승인 임계값은 **high ≥ 60, mid ≥ 25**다. 근거는 실제 800m 분포의 **p90=26.1, p99=65.2**이며, high는 서울 상위 약 1%, mid는 상위 약 10% 구간을 표시하려는 기준이다. 본 절의 60/25가 문서의 이전 40/20 예시보다 우선한다. 실제 공급 과잉 여부는 §8에서 검증한다.
 - level=high면 근거에 "경쟁 포화 구간: 이 자리는 검증된 목이지만 신규 진입 시 차별화가 필요"를 표시한다. 점수는 깎지 않는다. 포화 지표의 근거에는 다음 문구를 함께 표시한다: **"이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다"**.
@@ -178,7 +186,9 @@ level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 
 ### 5.5 exposure (건물 앞 도로·맞은편에서의 간판 노출) — v0.2.1
 
-**입력:** buildings_in_radius(1,230m)의 footprint와 차폐 높이(unknown=4m), 후보 좌표·층, **1.2km 내 모든 역** 좌표, 1km 내 학교 좌표. exposure_inputs_v021이 전부 EPSG:5186 미터 좌표로 제공한다. 건물 범위는 1.2km 동선과 최대30m 밀어내기를 포함한다. transit_stops의 역 ID 기준이며 노선별 환승역 대표점을 임의로 합치지 않는다. 역이 없으면 역 근거 집합은 빈 배열이다. 역삼로460에서 대치역 대표점이1,033m로 잘리는 것을 반경 확대 이유로 기록한다.
+**입력:** buildings_in_radius(1,230m)의 footprint와 차폐 높이(unknown=4m), 후보 좌표·층, **1.2km 내 모든 역** 좌표, 1km 내 학교 좌표. exposure_inputs_v022가 전부 EPSG:5186 미터 좌표로 제공한다. 건물 범위는 1.2km 동선과 최대30m 밀어내기를 포함한다. transit_stops의 역 ID 기준이며 노선별 환승역 대표점을 임의로 합치지 않는다. 역이 없으면 역 근거 집합은 빈 배열이다. 역삼로460에서 대치역 대표점이1,033m로 잘리는 것을 반경 확대 이유로 기록한다.
+
+**적재 범위 확인(버그 수정):** scene/model v0.2.2. `coverage.score_ring_within_loaded_region`은 후보 중심 90m(최대 링60m+이동30m)가 적재 지역(현재 강남구) 안에 포함되는지 확인한다. true가 아니면 exposure=NULL, 사유 `building_coverage_insufficient`를 기록하며 §6 재배분·§7 결측 감점을 따른다. 전체 1,230m 범위의 `query_within_loaded_region=false`만으로 점수 링을 결측 처리하지 않는다. 원천이 있고 90m가 적재 범위 안인 실제 빈 공간은 계산 가능하다. 적재 범위 밖 건물 0개를 차폐 없음으로 간주하지 않는다. 이 경우 역·학교 동선 근거도 계산하지 않는다.
 
 **목표점:** 후보 건물 도형이 있으면 이동 완료한 샘플에서 가장 가까운 경계점, 없으면 후보 좌표. target_z=(floor−1)×3.3+2.0m, 눈높이는1.5m다. 후보 좌표 fallback에는 `candidate_footprint_missing_self_occlusion_unaccounted`를 남기고 §7 신뢰도−5를 한 번 적용한다.
 
@@ -202,7 +212,7 @@ level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 
 | 규칙              | 판정                                                                                                 | 점수                                          |
 | ----------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| R1 등록 가능 용도 | 요청 층 `floor_use[]`의 `use_name`·`other_use` 중 하나에 "제2종근린생활시설" 또는 "교육연구시설" 포함 | +25                                           |
+| R1 등록 가능 용도 | 요청 층 `floor_use[]`의 `use_name`·`other_use` 중 하나에 "제2종근린생활시설" 또는 "교육연구시설" 포함, 또는 요청 층 `use_code="10003"`(학원) | +25                                           |
 |                   | "제1종근린생활시설"만 있거나 주거·공업·창고                                                          | −40, `academy_eligible=false`                 |
 |                   | floor_use NULL(대장 미연결·pending)                                                                  | 보류(60 유지), §7 감점                        |
 | R2 면적           | exclusive_area_m2 ≥ 500 이고 교육연구시설 아님                                                       | −30, `academy_eligible=false`                 |
@@ -221,6 +231,8 @@ level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 - `academy_eligible`은 이 축의 부산물(`derived`)로 반환한다. RPC에는 없다(S1 결정).
 - `meta.building_lookup.status ∈ {pending, processing}`이면 60 유지, 근거 "대장 조회 대기 중", §7 −15. 앱은 ready 후 재채점.
 - 역삼로 460 예시: 2종근생 +25, 4층·승강기 0 −15, 4층 곡선 +5, 다른 층 학원 3개 +15, 유해업소 없음 → 60+25−15+5+15 = **90**. 3층이면 승강기 감점이 없어 100 상한. (검증 §8.3에서 이 값이 직관과 맞는지 본다.)
+
+요청 층 `use_code="10003"`은 명칭이 "학원"만 있어도 교육연구시설군 학원으로 인식하여 R1 +25를 한 번 적용한다. R2의 교육연구시설 판정에도 같은 분류를 사용한다. 도곡로409 실제 응답의 코드10003·use_name/other_use "학원"이 R1 미확인으로 처리된 버그를 수정하며, 임의의 다른 코드는 추정하지 않는다.
 
 ### 5.7 floor_curve (academy_v0)
 
@@ -271,7 +283,7 @@ total     = Σ_{axis ∈ available} score[axis] × weights[axis] / W
 ```
 
 - 결측 축의 가중치를 나머지에 비례 배분한 것과 같다. `axes[].status ∈ {scored, missing, pending}`으로 드러낸다.
-- **백분위 축 5개(demand·flow·transit·cluster·environment) 중 2개 이상 normalized=NULL이면 total=NULL**, "평가 불가"로 표시. 가중치가 0인 축도 결측 개수에 포함하며 3D·근거는 그대로 보여준다.
+- **데이터 축 5개(demand·flow·transit·cluster·environment) 중 2개 이상 normalized=NULL이면 total=NULL**, "평가 불가"로 표시. 가중치가 0인 축도 결측 개수에 포함하며 3D·근거는 그대로 보여준다.
 - 규칙 축(exposure·building·rent_efficiency)은 결측이어도 total을 계산하고, 결측 축의 `evidence.notes`에 유효 축으로 가중치를 비례 재배분한다는 사실을 남긴다. 결측 점수 자체는 NULL로 유지한다. 워커 미주입·좌표가 건물 도형 밖·사용자 임대료 미입력은 자주 발생하므로 이 사유만으로 평가를 막지 않는다.
 - 유효 가중치 합 W=0도 total=NULL이다. 음수/비유한 가중치는 입력 오류다.
 - 슬라이더 재계산은 `normalized`를 유지한 채 weight만 바꿔 total·contribution·effective_weight를 다시 구한다. RPC 재호출 없음.
@@ -329,7 +341,7 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 
 ---
 
-## 9. 출력 계약 — ScoreResult v0.2.1
+## 9. 출력 계약 — ScoreResult v0.3
 
 ```
 {
@@ -436,3 +448,9 @@ confidence의 결측 감점은 preset 기본 가중치를 사용하며 슬라이
 ### v0.2.1 변경 — 2026-09-25
 
 PR #16 머지 후 §5.5를 링20/40/60m 점수와 역·학교 첫 가시 샘플까지 거리 근거로 분리했다. 역 반경1.2km, 건물 반경1.23km이며 preset/ScoreResult/model_version0.2.1이다. v0.2 점수는 동선 가중치가 섞여 있으므로 재계산한다. 기준 분포0.1.2·가중치demand30/exposure5는 유지한다.
+
+### v0.3 2026-09-26
+
+- §4.4: 사용자 재지정 수식, p50=0점·p99.97=100점 고정 스케일. preset/ScoreResult 0.3, raw reference 0.1.2 유지.
+- 두 승인 버그: 적재 범위 밖 exposure=NULL(scene/model 0.2.2, v022 RPC 추가), 요청 층10003 학원 R1 인식. 기존 v021 RPC는 재현용으로 보존한다.
+- total NULL 조건의 다섯 데이터 축과 다른 축·가중치는 그대로다.
