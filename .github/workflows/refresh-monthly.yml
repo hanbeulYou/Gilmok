@@ -34,3 +34,25 @@ jobs:
     if: vars.INGEST_REMOTE_ENABLED == 'true'
     uses: ./.github/workflows/score-reference.yml
     secrets: inherit
+  warmup:
+    needs: reference
+    if: vars.INGEST_REMOTE_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: ingest-production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.12.15
+          python-version: '3.12'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Warm six RPC cases after all refresh and reference commits
+        env:
+          INGEST_REMOTE_ENABLED: 'true'
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: uv run --frozen python -m ingest.warm_score_inputs
