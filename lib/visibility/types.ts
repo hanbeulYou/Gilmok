@@ -13,7 +13,7 @@ export interface Anchor {
   line?: string | null; level?: string;
 }
 export interface VisibilityScene {
-  schema_version: '0.2'; srid: 5186; units: 'm'; radius_m: 1000;
+  schema_version: '0.2.1'; srid: 5186; units: 'm'; radius_m: 1230; station_radius_m: 1200; school_radius_m: 1000;
   candidate: XY; candidate_wgs84: { lat: number; lng: number }; floor: number;
   candidate_building_id: string | null; containing_building_count: number;
   buildings: readonly VisibilityBuilding[];
@@ -38,7 +38,7 @@ export interface VisibilityEvidence {
   notes: readonly string[];
 }
 export type VisibilityResult = {
-  status: 'ready'; model_version: '0.2'; visible_ratio: number; evidence: VisibilityEvidence;
+  status: 'ready'; model_version: '0.2.1'; visible_ratio: number; evidence: VisibilityEvidence;
   samples: SampleResult[]; summary: Record<'all' | 'ring' | 'station' | 'school', SampleSummary>;
 } | { status: 'missing'; reason: string; evidence: VisibilityEvidence;
   samples: SampleResult[]; summary: Record<'all' | 'ring' | 'station' | 'school', SampleSummary> };

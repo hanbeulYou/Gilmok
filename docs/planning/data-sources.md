@@ -545,3 +545,11 @@ PR #15 후속 사용자 승인으로 exposure_inputs(lng,lat)를 추가한다. �
 밀어내기는 실제 보도 위치의 추정이 아닌 사용자 승인 계산 규칙이다. 후보→샘플 방향으로 최대30m 내 모든 footprint를 벗어난 첫 경계에서 최대1mm 밖(더 좁은 빈 구간은 중간점)을 사용한다. 원래·최종 좌표와 moved_m, estimated=true를 보존하고 실패 시 제외 비율을 기록한다. 원래 반경의 가중치를 유지한다. 결과 근거에는 항상 가로수·가로시설물·간판 크기 미반영, 현장 확인 필요를 표시한다.
 
 현재 채점 preset0.2는 reference_version0.1.2를 명시적으로 재사용한다. 기존 raw 추출 계수/분포 데이터/HTTP 정밀도는 바뀌지 않는다. 배치 메타데이터도 원시값 분포 버전0.1.2를 기록한다. 이전 RPC·분포는 읽을 수 있으며 롤백은 이전 코드+visibility_inputs로 복귀한다. 기존 마이그레이션·적재 데이터는 수정하지 않는다.
+
+### 3.11 노출 조건 v0.2.1 근거리 점수와 동선 근거
+
+PR #16 후속 사용자 요청으로 exposure_inputs_v021(lng,lat)을 추가한다. 역은 geography1,200m·학교는1,000m, buildings_in_radius는1,230m(역 반경+최대30m 이동)로 조회한다. 도형과 대표점은 EPSG:5186 미터로 변환한다. schema_version=0.2.1, radius_m=1230, station_radius_m=1200, school_radius_m=1000이다. 기존 exposure_inputs v0.2와 visibility_inputs v0.1은 보존한다.
+
+점수는20/40/60m 링만 사용하고 역·학교는 가중치0인 근거다. 기존 역20등분·학교10등분 샘플 중 출발점에서 후보로 가는 선분 안의 첫 가시 샘플까지 거리(first_exposure_distance_m)를 EPSG:5186에서 계산한다. NULL이면 가시 샘플 없음/자료 결측 사유를 구분한다. estimated=true, 원래·최종 좌표·샘플 간격·선택 샘플 ID를 남긴다. 실제 보행 경로나 연속 최초 노출 경계를 추정하지 않는다. 소스 결측은 해당 동선 근거만 결측으로 만들며 링 점수는 건물 자료로 계산한다.
+
+preset/ScoreResult/model_version은0.2.1이며 기존0.2 점수는 재계산한다. raw 기준 분포reference_version0.1.2는 그대로다. 롤백은 기존0.2 코드와 exposure_inputs를 사용한다. 가중치demand30·exposure5, 후보 도형 결측 신뢰도−5와 현장 확인 문구는 유지한다.

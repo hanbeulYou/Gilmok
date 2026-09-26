@@ -3,7 +3,7 @@ export type { RawPreset } from './types.ts';
 
 /** Versioned immutable rules. No inferred calibration or environment/IO. */
 export const academyV0: ScoringPreset = Object.freeze({
-  id: 'academy_v0', version: '0.2', reference_version: '0.1.2', schema_version: '1.3', radius_primary_m: 800,
+  id: 'academy_v0', version: '0.2.1', reference_version: '0.1.2', schema_version: '1.3', radius_primary_m: 800,
   radii: Object.freeze([800, 1000]), school_radius_m: 1000,
   demand_coef: Object.freeze({ pop_5_9: 0.8, pop_10_14: 1, pop_15_18: 0.8,
     school_elem: 300, school_mid: 300, school_high: 150 }),

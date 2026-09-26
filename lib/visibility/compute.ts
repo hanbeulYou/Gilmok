@@ -1,10 +1,12 @@
 import { blocks, bounds, covers, nearestBoundary, overlaps, pushOutside } from './geometry.ts';
 import { generateSamples } from './samples.ts';
+import { approachEvidence } from './approach.ts';
 import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from './types.ts';
 import type { SampleResult, SampleSummary, VisibilityResult, VisibilityScene, XY } from './types.ts';
 function validate(scene: VisibilityScene): void {
   const point = (p: XY) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
-  if (scene.schema_version !== '0.2' || scene.srid !== 5186 || scene.units !== 'm' || scene.radius_m !== 1000 ||
+  if (scene.schema_version !== '0.2.1' || scene.srid !== 5186 || scene.units !== 'm' || scene.radius_m !== 1230 ||
+    scene.station_radius_m !== 1200 || scene.school_radius_m !== 1000 ||
     !point(scene.candidate) || !Number.isInteger(scene.floor) || scene.floor === 0 || scene.floor < -100 || scene.floor > 200)
     throw new Error('Invalid visibility scene coordinate contract/floor');
   if (!Number.isFinite(scene.candidate_wgs84.lat) || !Number.isFinite(scene.candidate_wgs84.lng)) throw new Error('Invalid candidate identity');
@@ -39,7 +41,10 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
   const summary = { all: emptySummary(), ring: emptySummary(), station: emptySummary(), school: emptySummary() };
   const samples: SampleResult[] = [], notes: string[] = [EXPOSURE_LIMITATION];
   const targetZ = (scene.floor - 1) * 3.3 + 2;
-  const evidence = { values: { srid: 5186, radius_m: 1000, eye_height_m: 1.5, target_height_m: targetZ,
+  const evidence = { values: { srid: 5186, radius_m: scene.radius_m, station_radius_m: scene.station_radius_m,
+    school_radius_m: scene.school_radius_m, eye_height_m: 1.5, target_height_m: targetZ,
+    score_sample_group: 'ring', approach_distances: [] as ReturnType<typeof approachEvidence>,
+    approach_sources_available: { station: !!scene.sources.subway_positions?.available, school: !!scene.sources.schools?.available },
     target_height_estimated: true,
     candidate_wgs84: { ...scene.candidate_wgs84 }, floor: scene.floor,
     candidate_building_id: scene.candidate_building_id, containing_building_count: scene.containing_building_count,
@@ -49,11 +54,14 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
     estimated_building_count: scene.buildings.filter(b => b.estimated).length,
     stations: structuredClone(scene.stations), schools: structuredClone(scene.schools),
     sources: structuredClone(scene.sources), coverage: { ...scene.coverage }, summary }, notes };
-  const missing = ['building_shp', 'building_wfs', 'subway_positions', 'schools'].filter(k => !scene.sources[k]?.available);
+  const missing = ['building_shp', 'building_wfs'].filter(k => !scene.sources[k]?.available);
   if (missing.length) return { status: 'missing', reason: 'visibility_sources_missing:' + missing.join(','), evidence, samples, summary };
   if (!scene.coverage.query_within_loaded_region) notes.push('building_query_extends_beyond_loaded_region');
-  if (!scene.stations.length) notes.push('no_station_within_1km');
-  if (!scene.schools.length) notes.push('no_located_school_within_1km');
+  if (!scene.sources.subway_positions?.available) notes.push('station_approach_source_unavailable');
+  else if (!scene.stations.length) notes.push('no_station_within_1_2km');
+  if (!scene.sources.schools?.available) notes.push('school_approach_source_unavailable');
+  else if (!scene.schools.length) notes.push('no_located_school_within_1km');
+  notes.push('approach_distances_sampled_estimates_not_scored');
   notes.push('straight_paths_from_representative_points_not_walk_routes', 'flat_ground_no_terrain_model');
   const prepared = scene.buildings.map(b => ({ ...b, bounds: bounds(b.polygons) }));
   const candidate = prepared.find(b => b.id === scene.candidate_building_id);
@@ -83,9 +91,10 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
     s.excluded_ratio = s.generated ? s.excluded / s.generated : 0;
     s.excluded_weight_ratio = s.generated_weight ? (s.generated_weight - s.total_weight) / s.generated_weight : 0;
   }
-  if (samples.some(s => s.status !== 'excluded' && Math.hypot(s.point[0] - scene.candidate[0], s.point[1] - scene.candidate[1]) > 1000))
+  evidence.values.approach_distances = approachEvidence(scene, samples);
+  if (samples.some(s => s.status !== 'excluded' && Math.hypot(s.point[0] - scene.candidate[0], s.point[1] - scene.candidate[1]) > scene.radius_m))
     notes.push('moved_sample_extends_beyond_building_radius');
-  if (summary.all.total_weight === 0) return { status: 'missing', reason: 'no_valid_samples', evidence, samples, summary };
+  if (summary.ring.total_weight === 0) return { status: 'missing', reason: 'no_valid_ring_samples', evidence, samples, summary };
   if (scene.candidate_building_id === null) notes.push(FOOTPRINT_MISSING);
-  return { status: 'ready', model_version: '0.2', visible_ratio: summary.all.visible_weight / summary.all.total_weight, evidence, samples, summary };
+  return { status: 'ready', model_version: '0.2.1', visible_ratio: summary.ring.visible_weight / summary.ring.total_weight, evidence, samples, summary };
 }
