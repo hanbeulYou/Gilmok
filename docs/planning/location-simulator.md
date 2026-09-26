@@ -1,7 +1,7 @@
 # 길목(GILMOK) 기획서 — 입지 시뮬레이터
 
 > 작성일: 2026-09-16
-> 상태: **S1 데이터 기반 완료** (PR 1~7, GitHub #6~#10 머지; PR 8 갱신 운영 경로·마감 문서 구현, 2026-09-22). 실제 데이터 6조합 성능 기준은 PR 7 v1.2로 통과했다. 원격 Supabase 전환·웹훅 활성화는 별도 운영 작업이며 아직 실행하지 않았다.
+> 상태: **S2 채점 엔진 완료 — v0.3, 대치동3곳 검증 통과(b>a>c)** (2026-09-26 사용자 마감 승인, PR #18 머지). S3 인계는 아래 절을 따른다. 서울 전체 건물 적재·원격 전환·webhook 활성화는 보류 상태다.
 > Concept: 서비스업 창업자가 후보 점포 여러 곳을 3D 지도 위에서 데이터 기반 점수와 함께 나란히 비교하고, 조건을 바꿔가며 "목"을 시뮬레이션하는 웹 서비스. 첫 업종은 학원.
 
 ---
@@ -22,7 +22,7 @@
 - 1차 사용자: 서비스업 창업자 전반. 첫 업종은 학원, 제품명·구조는 전 업종을 담을 수 있게.
 - 3D: 시각화("우와 포인트")와 분석(가시성) 둘 다. 단, 2D 토글로 간략 보기 제공. 2D만으로도 핵심 정보는 완결돼야 함.
 - 결과물: 후보지 나란히 비교 + 종합점수/항목별 근거 + 조건 변경 가능.
-- S1 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크로 진행한다.
+- 현재 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 고정 연령 컬럼으로 저장하고 학원 채점 입력에 15~19세를 그대로 사용한다. 0~9세에서 0~4·5~9세를 추정 분할하지 않는다. 연령대 평균은 각 컬럼의 유효 날짜만 사용하며 sample_days는 total 기준이다. 세부 결측·편향 정책은 data-sources.md를 따른다.
 - S1은 원시 수치 7개 묶음을 반환한다. 채점 축과 가중치, 과목 기준, 학원 등록 가능성 판정은 S2의 `scoring-spec.md`에서 확정한다. 공동주택 세대수는 v2다.
 - PR 3 교통은 생활인구와 같은 최근 완료 3개월(2026-06~08)을 사용한다. 6월에서 단위·중복을 검증한 뒤 같은 규칙으로 7·8월을 처리하며, 실측 월 합계의 합÷92일로 일평균을 만든다. 신분당선 대체 추정은 제외한다. 조인율은 실측·미매칭 목록을 보고하고 승하차량 기준 90% 미만이면 먼저 알린다. PR 3은 교통 적재·조회 검증까지이며 전체 RPC는 후속 통합 태스크다.
@@ -131,23 +131,22 @@ flowchart TB
 - 건물 적합성 축의 층별 용도 적합 여부(법적 등록 가능성)와 층 선호 곡선은 S2 채점 명세에서 확정한다. S1은 층별 용도·면적·승강기 등 원천 사실을 제공하고 `academy_eligible` 판정을 하지 않는다.
 - 매매 실거래는 층이 있는 거래만 층별 집계한다. 일반/집합을 분리하고 표본이 많은 유형을 기본값으로 반환하되 5건 미만은 NULL이다.
 
-#### 채점 엔진 설계
+#### 채점 로직 — S2 마감 v0.3
 
-아래는 S2 설계 초안이다. 채점 축의 개수·정규화·과목 기준·평일/주말 종합 방식은 `scoring-spec.md`에서 확정하며, 해당 문서 없이 S1에서 점수나 판정을 구현하지 않는다. S1의 7개 데이터 묶음은 최종 채점 축 개수를 뜻하지 않는다.
+현행 계약은 [scoring-spec.md](scoring-spec.md)를 따른다. 초기 초안의 가중치·임대료 대체 규칙은 아래로 대체한다.
 
-- 각 축을 0~100으로 정규화(서울 전체 분포 대비 백분위).
-- 종합점수 = Σ(축 점수 × 업종 가중치). 학원 프리셋 초안: 수요 25 / 유동(골든타임) 20 / 교통 15 / 가시성 15 / 경쟁 10 / 건물 적합성(층·용도·승강기) 10 / 임대료 효율 5.
-- 임대료 효율 = 수요·유동 점수 합 ÷ 사용자 입력 임대료(또는 상권 평균 임대료 대체). 임대료 미입력 시 상권 밴드로 계산하고 estimated=true 표시.
-- 가중치는 슬라이더로 조정 → 클라이언트에서 즉시 재계산. 프리셋 저장 가능.
-- 가시성 점수: 후보 점포의 층 높이·방향에서, 주변 보행로 샘플 포인트(정류장·교차로·학교 정문 방향 우선)로 레이캐스트해 건물에 가려지지 않는 비율. 2.5D 익스트루전 데이터로 계산 가능.
-- 모든 점수에 "근거" 필드 동봉: 원 데이터 수치 + 서울 평균 + 백분위.
+- demand30 / flow15 / transit15 / cluster15 / exposure5 / building10 / environment5 / rent_efficiency5. 데이터 축의 백분위와 cluster 고정 선형 스케일, 규칙 축을 구분한다.
+- 종합점수는 유효 축에 가중치를 재배분한다. 데이터5축 중2개 이상NULL 또는 유효 가중치 합0이면 total=NULL이다.
+- 임대료 미입력은 NULL과 사유를 표시하며 상권 평균으로 대체하지 않는다. lo/hi 미확정으로 입력 후에도 rent_efficiency 점수는 보류한다.
+- 슬라이더는 normalized·confidence를 유지하며 클라이언트에서 reweight한다. exposure는20/40/60m 링만 점수에 반영하고 역·학교 동선은 근거 전용이다.
+- 모든 축에 원시값·정규화 근거·적용 규칙·결측 사유를 동봉한다.
 
 #### 스프린트 계획 (2주 단위, 총 10주)
 
 | 스프린트         | 산출물                                                                                                               | 완료 기준                                                        |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | **S1 데이터 기반 — 완료** | PostGIS 스키마, Python 적재·R2 원본·DuckDB 집계·GitHub Actions, 지오코딩 배치·캐시, 7개 묶음 RPC. 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정 | 승인된 범위의 실제 데이터에서 대치동 좌표 3건 × 반경 500m·1km 각 조합의 score_inputs DB 실행 시간 p95 < 1,000ms. HTTP 왕복은 기록만. pnpm lint·typecheck·test 통과 |
-| S2 채점 엔진 | 초반 별도 태스크: 서울 전체 건축물 적재. 학원 가중치 프리셋, 정규화, 근거 필드, 채점 API, 과목 기준·학원 등록 가능성·평일/주말 종합 방식 명세 | 대치동 실제 학원 3곳으로 검증해 직관과 순위가 크게 어긋나지 않음 |
+| **S2 채점 엔진 — 완료** | 학원 프리셋v0.3, 정규화·근거·순수 채점 함수, exposure Worker0.2.2, 3곳+무작위5셀 검증. 서울 전체 건물 적재는 이월, 채점 Edge Function 배포는 S3 | 대치동 실제 학원 3곳으로 검증해 직관과 순위가 크게 어긋나지 않음 — **b>a>c**, PR #18·2026-09-26 사용자 승인 |
 | S3 2D 비교 UI | 후보지 등록(최대 5, 층·임대료 입력), 지도 마커, 점수 카드, 비교표, 가중치 슬라이더, 주소·건물 캐시 미스 사용자 흐름 정의 | 2D만으로 의사결정이 가능한 상태 |
 | S4 3D 레이어     | 건물 익스트루전, 2D/3D 토글, 시간대별 생활인구 애니메이션                                                            | 토글 전환 1초 내, 모바일 제외 데스크톱 60fps 근접                |
 | S5 가시성 + 마감 | 레이캐스트 가시성 점수·히트맵, 리포트 화면, 로그인·후보지 저장, 배포                                                 | 포도밭 후보지 1곳을 실제로 평가해 사용                           |
@@ -244,7 +243,7 @@ Next.js + Supabase/PostGIS + MapLibre/deck.gl, Vercel 배포. 2주 스프린트 
 
 ## S2 인계 — S1 마감
 
-입력 계약: [data-sources.md 3절](data-sources.md#3-score_inputs-s2-채점-입력-계약-v12). v1.1 수정(유효 격자 합산·주소 대장·부속건물 분리)을 포함하며, PR 7 마지막 변경 `building.all_floors`로 현재 버전은 **v1.2**다. S2는 이 전체 JSON 계약을 입력으로 삼는다. [PR 7 최종 검증](../validation/pr7-building-all-floors-20260922.md)의 6조합×30회 DB p95 14.803~61.198ms와 HTTP 왕복·EXPLAIN 근거를 승계한다. 개별 RPC와 buildings_in_radius는 호환을 위해 병존한다.
+입력 계약: [data-sources.md 3절](data-sources.md#3-score_inputs--s2-채점-입력-계약-v13). v1.1 수정(유효 격자 합산·주소 대장·부속건물 분리)을 포함하며, PR 7 마지막 변경 `building.all_floors`로 당시 버전은 **v1.2**였다. 현행 v1.3 계약은 S3 인계 절을 따른다. S2는 이 전체 JSON 계약을 입력으로 삼는다. [PR 7 최종 검증](../validation/pr7-building-all-floors-20260922.md)의 6조합×30회 DB p95 14.803~61.198ms와 HTTP 왕복·EXPLAIN 근거를 승계한다. 개별 RPC와 buildings_in_radius는 호환을 위해 병존한다.
 
 | 알려진 결측·편향 | S2에서 지킬 사항 |
 |---|---|
@@ -277,3 +276,118 @@ PR #15 머지 후 사용자 승인으로 축을 exposure(건물 배치상 노출
 ## S2-3 근거리 간판 노출 v0.2.1 — 2026-09-25
 
 PR #16 머지 후 사용자 요청으로 exposure를 “건물 앞 도로·맞은편에서의 간판 노출”로 설명한다. [명세 §5.5](scoring-spec.md)에 따라20/40/60m 링만 점수에 반영하고 역(1.2km)·학교 동선은 첫 가시 샘플까지 거리 근거로 분리했다. 역삼로460 3층 링 가중 가시율38.383838%, 가시32/108점으로 사용자 현장 진술 “맞은편에서 보임”의 절반 이상 기준은 미충족이다. [현장 대조표](../validation/exposure-v021-field-report.md)와 [검증](../validation/exposure-v021-20260925.md)을 따른다. 기존 기록과 raw 기준 분포는 보존하며 S2-4 실제 학원 순위 검증은 별도다.
+
+## S3 인계 — S2 마감
+
+2026-09-26 PR #18 머지 및 사용자 마감 승인. **v0.3, 대치동3곳 검증 통과(b>a>c)**. [명세 §8](scoring-spec.md#8-검증-절차--대치동-실제-학원-3곳)에 결과·cluster 스케일1회 조정·과적합 유의 사항을 기록했다. 상세 수치·원본 근거는 [조정 전](../validation/s2-4-20260926.md)과 [조정 후](../validation/s2-4-v03-20260926.md)를 따른다. 앞선 날짜별 진행 기록의 미완료 표시는 당시 상태이며 현재 상태는 이 절이 우선한다.
+
+### 계약 위치와 버전
+
+| 계약 | 위치·S3 사용 기준 |
+|---|---|
+| 최초 ScoreResult v0.1 | [최초 타입 정의](https://github.com/hanbeulYou/Gilmok/blob/4da62c15e17dbaea59ed1193e159c1927279b443/lib/scoring/types.ts), [S2-2 계획](s2-1-2-plan.md), [당시 실제 결과](../validation/s2-2-score-results.json) |
+| 현행 ScoreResult v0.3 | [명세 §9](scoring-spec.md#9-출력-계약--scoreresult-v03), [lib/scoring/types.ts](../../lib/scoring/types.ts)의 `ScoreResult`·`AxisResult`·`Candidate`·`ScoreContext`·`ExposureInput` |
+| 순수 채점·슬라이더 | [lib/scoring/score.ts](../../lib/scoring/score.ts)의 `score`·`reweight`, [presets.ts](../../lib/scoring/presets.ts)의 `loadPreset('academy_v0', 800)` |
+| 원시 입력·기준 분포 | `score_inputs(lat,lng,radius_m,floor,address DEFAULT NULL)` v1.3; `score_reference_distribution`의 reference_version0.1.2. [data-sources.md §3](data-sources.md#3-score_inputs--s2-채점-입력-계약-v13) 및 [기준 분포 운영](../operations/score-reference.md) |
+| exposure 모델0.2.2 | `exposure_inputs_v022(lng,lat)` → scene.schema_version0.2.2, EPSG:5186 미터. [마이그레이션](../../supabase/migrations/20260926073858_exposure_coverage.sql), [데이터 계약 §3.12](data-sources.md#312-s2-4-노출-적재-범위-계약-v022-2026-09-26) |
+| Worker·Node 공용 | [lib/visibility/compute.ts](../../lib/visibility/compute.ts)의 `computeVisibility(scene)`, [workers/visibility.worker.ts](../../workers/visibility.worker.ts), [client.ts](../../lib/visibility/client.ts)의 `createVisibilityClient`, [types.ts](../../lib/visibility/types.ts) |
+
+v0.1은 최초 계약 이력이다. S3는 현행 `preset={id:'academy_v0',version:'0.3'}`을 사용한다. 별도 `ScoreResult.version` 필드는 없다. 초기 visibility 축은 exposure로 바뀌었고 가중치·정규화도 갱신됐으므로 구 결과를 v0.3으로 간주하지 않는다. `reweight`는 v0.3 결과만 받으며 구 저장 결과는 원시 입력에서 다시 채점한다. RPC 입력1.3, preset/ScoreResult0.3, reference0.1.2, exposure0.2.2는 서로 다른 버전이다.
+
+호출 순서:
+
+1. 동일 후보의 주 반경800m 입력과 학교용1000m 입력을 `score_inputs`로 확보한다. 선택 반경1000m도 지원하지만 S2 검증 프리셋은800m다. 주소를 함께 전달한다. RPC는 **lat,lng**, exposure RPC는 **lng,lat** 순서다.
+2. 기준 분포와 `ScoreContext`를 준비한다. `inside_seoul`은 RPC와 동일한 행정동 `ST_Covers` 판정, `seoul_boundary_distance_m`은 검증된 미터 거리다. 경계 거리·법정동명 미확인은 임의 추정하지 않는다. `computed_at`은 주입값 또는 입력 meta 값을 사용한다.
+3. exposure scene의 `floor`에 후보 층을 넣어 Worker에 `{requestId,scene}`을 보낸다. RPC가 이미 미터 좌표를 반환하므로 Worker에서4326을 다시 투영하지 않는다. 건물1230m·역1200m·학교1000m 입력이며 점수는20/40/60m 링만, 역·학교 동선은 근거 전용이다.
+4. `score(primary,school,scene.buildings,exposure,candidate,preset,reference,context)`에 Worker의 `result`를 주입한다. 준비 전 `exposure=null`이면 해당 축은 pending/NULL이다. `createVisibilityClient`의 요청 ID로 응답을 연결하며 후보·층 변경 후 과거 요청 결과를 현재 후보에 적용하지 않도록 호출자가 관리한다. Worker 예외는 응답의 `error`/클라이언트 Promise 거부로 구분한다.
+5. 성공 후 `axes[].raw/normalized/evidence/missing_reason`, `confidence`, `derived.academy_eligible`을 함께 소비한다. `effective_weight`는0~100%, `contribution=normalized×effective_weight/100`이다. pending이라도 building은 수치가 있을 수 있으므로 점수 유무는 normalized의 NULL 여부로 판단한다. 슬라이더는 `reweight(result,weights)`만 호출하며 normalized·confidence를 바꾸지 않는다.
+
+채점 Edge Function 배포·화면 및 주소 대기 UX는 S3 작업이다. 현재는 공용 순수 함수와 RPC/Worker가 준비된 상태다. 프론트·Edge Function은 Supabase만 조회하며 외부 데이터 API를 직접 호출하지 않는다. UI 구현 전 `screens.md`를 작성·승인받는 기존 절차를 따른다.
+
+### 주소 pending 큐 흐름
+
+[data-sources.md의 주소 기반 대장 조회](data-sources.md)와 [갱신 운영](../operations/data-refresh.md), [주소 워커](../../ingest/building_on_demand.py)를 따른다.
+
+1. RPC가 후보 도형·연결 대장을 우선 확인한다. 도형 또는 대장 미확보 시 정규화 주소 캐시를 조회한다. 캐시는 fetched_at부터30일이며 만료 값을 재사용하지 않는다.
+2. 캐시 미스·만료는 private `ingest_private.building_address_requests`에 중복 없는 요청을 넣고 즉시 `meta.building_lookup.status=pending`과 기존 가용 값/NULL을 반환한다. `pending/processing` 동안 building은60점·status=pending으로 보류하고 신뢰도−15를 적용한다. 가용한 다른 축은 계속 채점한다.
+3. `/ingest` 워커가 영속 claim 후 정확한 주소→PNU→표제부·층별개요를 조회한다. 원본 보존·재읽기 검증 후 캐시를 갱신한다. 준비된 운영 경로는 DB webhook→고정 GitHub `repository_dispatch(gilmok_address_pending)`→[address-queue.yml](../../.github/workflows/address-queue.yml), 매시23분 sweep 보완이다. 이벤트에 주소·PNU를 전송하지 않는다.
+4. 원격 Supabase 전환·webhook 활성화는 아직 미실행이고 `INGEST_REMOTE_ENABLED` 기본 false다. 로컬에서는 운영자가 `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10`을 실행해야 대기 요청이 처리된다. 처리 후 다음 RPC 조회·재채점으로 반영하며, S3에서 조회 갱신 UX를 정한다.
+5. 상태 전체: `not_requested`, `not_needed`, `invalid_address`, `pending`, `processing`, `failed`, `ready`, `not_found`, `ambiguous`. not_found/ambiguous도30일 음성 캐시다. failed·중단된 processing은 자동 재시도하지 않으며 운영자 확인 후 private 요청을 재설정한다. UI는 모호한 주건물/PNU를 임의 선택하거나 private 큐를 읽고 수정하지 않는다.
+
+### 임대료·서울 경계·미적재 지역의 결측
+
+| 경우 | 현행 동작 |
+|---|---|
+| 월세·관리비·보증금·전용면적 중 하나라도 미입력 | rent_efficiency.normalized=NULL, `user_rent_inputs_missing`. 기본 가중치5만큼 신뢰도 감점, 유효 축으로 가중치 재배분. 미입력만으로 total=NULL이 되지는 않는다. 0원 입력과 미입력은 구분한다. |
+| 임대료 입력 완료 | 월세+관리비+보증금×0.05/12를 면적으로 나눈 분모가0이면 `zero_rent_denominator`; demand/flow 결측이면 `demand_or_flow_missing`. 그 외에도 현재 rent_range=null이므로 `rent_range_uncalibrated`로 점수NULL이다. lo/hi는 아직 보정하지 않았다. 공공 매매·임대동향은 근거 전용이며 사용자 금액을 대체하지 않는다. |
+| 서울 밖 후보 | RPC의 서울 포함 조건에 따라 market/compete가NULL이므로 environment/cluster가 결측이며 데이터5축 중2축 이상 결측 조건으로 total=NULL이다. 겹치는 생활인구 등 가용 원시값·근거는 보존한다. `inside_seoul=false`만 전달하면 순수 함수가 모든 축을 일괄 NULL로 만드는 구조는 아니므로 같은 좌표의 RPC/context를 함께 사용한다. |
+| 서울 안, 최근접 역이2km 내 없음 | 지하철 위치 원천 가용·서울 내부가 확인된 경우에만 거리 raw=2000m로 처리한다. 서울 밖·원천 미확인은 이 대체를 적용하지 않는다. |
+| 건물 미적재 지역 | 현재 강남구만 적재. exposure의 `coverage.score_ring_within_loaded_region`이 true가 아니면 `building_coverage_insufficient`로 NULL이며 빈 건물 배열을100점으로 해석하지 않는다. 판정 범위는60m 링+최대 이동30m=90m다. 전체1230m의 `query_within_loaded_region=false`만으로 유효한90m 링을 막지는 않는다. |
+| 도형·대장 모두 없음 | building은 `candidate_building_missing`으로 NULL. 단, 주소 큐 pending/processing은 위의60점 보류가 우선하며 주소 캐시 대장이 있으면 도형 없이도 건물 규칙을 계산할 수 있다. |
+| 점수 링이 적재 범위 안이지만 후보 도형 없음 | 가능한 샘플을 계산할 때 후보 좌표를 목표점으로 사용한다. 성공 결과에 `candidate_footprint_missing_self_occlusion_unaccounted`가 있으면 신뢰도−5. 건물 미적재로 계산 자체가 결측인 경우 이 fallback 감점을 중복 적용하지 않는다. |
+
+데이터5축은 demand·flow·transit·cluster·environment다. 그중 normalized=NULL이2개 이상이거나 유효 가중치 합0이면 total=NULL이다. 규칙3축 exposure·building·rent_efficiency 결측은 이 개수에서 제외하고 재배분 사실을 해당 축 evidence.notes에 남긴다. 서울 경계1km 이내 경기 정류장 누락과 생활인구 커버리지는 값을 보정하지 않고 근거·신뢰도에 드러낸다.
+
+### 신뢰도 사유 전체 목록 — 현행 코드 기준
+
+구현 기준은 [score.ts의 confidence](../../lib/scoring/score.ts)다. 시작100에서 아래 감점을 누적하고0~100으로 제한한다. **`confidence.reasons`는 별도 enum/code 필드가 없는 문자열 배열**이다. 실제 저장 형태는 아래 문구 뒤에 ` (-감점)`을 붙인다. S3는 존재하지 않는 `confidence.reason_codes`를 전제로 구현하지 않는다. 영문 `missing_reason`은 축에 별도로 제공되며 아래 표에서 구분한다. 임의의 새 사유 코드를 이번 문서 작업에서 도입하지 않았다.
+
+| 조건 | reasons에 들어가는 실제 본문 | 감점 |
+|---|---|---:|
+| exposure.evidence.notes에 후보 도형 fallback 코드 존재 | `candidate_footprint_missing_self_occlusion_unaccounted` | 5 |
+| 축 normalized=NULL | `{label} 축 평가 불가: {missing_reason}` | 해당 프리셋 기본 가중치 |
+| flow.low_coverage=true | `생활인구 격자 일부 비공개(최소 커버리지 {최솟값×100 소수1자리}%)` | 10 |
+| demand.estimated 또는 flow.estimated | `인구는 행정동·격자 면적 비례 추정` | 5, 둘 다 true여도 한 번 |
+| primary.meta.height_quality.unknown_ratio>0.3 | `주변 건물 {비율×100 소수1자리}%가 높이 미상, 노출 조건 신뢰 낮음` | 10 |
+| meta.building_lookup.status가 pending/processing | `건축물대장 조회 대기 중` | 15 |
+| 위 pending이 아니고 building.location_basis=footprint, register_pk=NULL | `건물 대장 미연결, 용도·승강기 미확인` | 10 |
+| transit.subway_units_missing_golden>0 | `지하철 일부 시간대 데이터 없음` | 5 |
+| context.seoul_boundary_distance_m가 비NULL이며 ≤1000 | `경기 정류장 데이터 없음` | 5 |
+
+커버리지 문구 예: `생활인구 격자 일부 비공개(최소 커버리지 68.3%) (-10)`. 평일/주말의 비NULL 시간별 커버리지 중 최솟값을 쓰며 없으면 `생활인구 격자 일부 비공개(최소 커버리지 미확인) (-10)`이다. 임대료 미입력 감점은 결측 축 감점에 포함되며 별도 추가 감점은 없다. 슬라이더로 이 감점을 줄이지 않는다. 신뢰도 판정의 unknown_ratio는 주 반경 score_inputs의 값이며 exposure 장면 전체 건물 수로 다시 계산하지 않는다.
+
+결측 축 본문에 들어갈 **내장 missing_reason 전체 목록**은 다음과 같다. [score.ts](../../lib/scoring/score.ts), [axes.ts](../../lib/scoring/axes.ts), [percentile.ts](../../lib/scoring/percentile.ts), [building.ts](../../lib/scoring/building.ts), [compute.ts](../../lib/visibility/compute.ts)를 대조했다.
+
+| 코드·패턴 | 발생 위치·의미 |
+|---|---|
+| `input_schema_version_mismatch` | 주 입력 schema_version 불일치, 모든 축NULL |
+| `input_radius_mismatch` | 주 입력 반경과 프리셋 불일치·미지원 반경, 모든 축NULL |
+| `candidate_floor_mismatch` | 입력 층과 후보 층 불일치, 모든 축NULL |
+| `school_input_contract_mismatch` | 학교 입력의 schema·1000m 반경·층 불일치, demand 결측 |
+| `raw_missing` | 원시값 결측. cluster 고정 스케일 및 백분위 입력에서 사용 |
+| `reference_missing` | 기준 분포 미주입 |
+| `reference_preset_version_mismatch` | 분포 preset.id/reference_version 불일치 |
+| `reference_schema_version_mismatch` | 분포 입력 스키마 불일치 |
+| `reference_radius_or_key_missing` | 해당 반경·지표 분포가 없거나 여러 개 |
+| `reference_source_mismatch:{sourceKey}` | 현재 원천 메타데이터와 분포 원천 불일치 |
+| `invalid_reference_distribution` | cell_count·값 개수·유한성·음수 등 분포 계약 위반 |
+| `reference_empty` | 유효 raw는 있으나 분포 값 배열이 비어 있음 |
+| `all_transit_components_missing` | transit의 거리·승하차·버스 세 구성 점수가 모두NULL |
+| `store_categories_missing` | environment 상가 업종별 구성이NULL |
+| `candidate_building_missing` | 후보 건물 없음, 주소 pending/processing 예외는 위 흐름 참조 |
+| `exposure_worker_pending` | exposure 미주입 기본 사유 |
+| `exposure_model_version_mismatch` | ready 결과의 model_version이0.2.2가 아님 |
+| `visibility_sources_missing:building_shp` | SHP 원천 미가용 |
+| `visibility_sources_missing:building_wfs` | WFS 원천 미가용 |
+| `visibility_sources_missing:building_shp,building_wfs` | 두 건물 원천 모두 미가용, 이 순서로 연결 |
+| `building_coverage_insufficient` | exposure 점수 링90m 적재 범위 포함 미확인/false |
+| `no_valid_ring_samples` | 이동·제외 후 유효 점수 링 가중치 합0 |
+| `user_rent_inputs_missing` | 임대료·면적 필수 사용자 입력 결측 |
+| `zero_rent_denominator` | 면적당 월 비용0 |
+| `demand_or_flow_missing` | 임대료 효율의 demand/flow 점수 결측 |
+| `rent_range_uncalibrated` | rent_efficiency 정규화 lo/hi 미확정 |
+
+`reference_source_mismatch`의 sourceKey 정의 전체는 `resident_population`, `admin_boundaries`, `schools`, `living_population`, `population_grid`, `subway_positions`, `transit_counts`, `bus_positions`, `academies`, `stores`다. 현재 cluster 점수는 고정 상수이므로 분포 사유로 결측이 되지 않고, academies의 분포 불일치는 포화 근거에만 남는다. transit 구성요소의 분포 사유도 components/notes에 보존하며 축 자체가 결측이면 `all_transit_components_missing`을 쓴다. 포화 근거의 `saturation:{reason}`는 별도 신뢰도 감점 코드가 아니다.
+
+노출 호출자가 `ExposureInput`의 pending/missing에 넣은 `reason:string`은 그대로 전달될 수 있으므로 위 목록은 닫힌 enum이 아니다. Worker의 `error` 응답과 타입/좌표/금액 검증 예외는 자동으로 ScoreResult 신뢰도 사유가 되지 않는다. 또한 `derived.academy_eligible_reasons`, RPC `meta.missing_reason` 및 evidence.notes의 경고는 `confidence.reasons`와 다른 필드다. 원천 결측 사유는 [data-sources.md §3](data-sources.md)에 있는 전체 계약을 따른다.
+
+### S2에서 미룬 것
+
+| 항목 | S2 마감 상태·후속 검토 |
+|---|---|
+| transit 축의 라이딩 학원 이슈 | 역 거리 중심 평가가 a를 약5점 낮춘다는 **사용자 관찰**을 보존한다. 현재 transit 축 전체 가중치15, 내부 최근접 역거리 비중0.5다. 라이딩 수요를 반영한 **S3 이후 프리셋v0.4 검토**로 남기며 v0.3의 가중치·식은 유지한다. |
+| rent_efficiency lo/hi | 아직 미확정, preset.rent_range=null. 사용자 금액을 입력해도 분모·demand/flow 조건 통과 후 `rent_range_uncalibrated`. 후속 표본·보정 승인 전 임의 범위나 상권 평균을 사용하지 않는다. |
+| 서울 전체 건물 적재·Pro 전환 | 현재 SHP+WFS·대장은 강남구 한정. 전체 적재 전 용량 실측과 원격 Supabase Pro 전환 검토가 필요하다. 로컬500MB 제한은 없으며 용량을 이유로 자동 축소·유료 전환하지 않는다. |
+| 임대동향 공간 연결 | 상권/권역 정의·분기 적용이 미확인이라 district/region 연결 비활성, rent_level=NULL. 공식 포함 관계 확인 후 활성화하며 근접 상권 대체·매매→임대 환산은 하지 않는다. |
+
+원격 전환·webhook 활성화와 채점 Edge Function 배포는 별도 운영/S3 작업이다. S2 완료는 위 보류 항목의 완료나 서울 전체 건물 커버리지를 뜻하지 않는다.
