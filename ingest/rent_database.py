@@ -8,6 +8,7 @@ from psycopg import sql
 from psycopg.types.json import Jsonb
 
 from ingest.common import ROOT
+from ingest.copy_batches import chunked_copy
 from ingest.legal_boundaries import GANGNAM_DONGS
 
 STAT_COLUMNS = (
@@ -35,7 +36,7 @@ def aggregate_trades(normalized_frame):
 
 
 def _copy(cursor, table, columns, frame):
-    with cursor.copy(sql.SQL("copy {} ({}) from stdin").format(
+    with chunked_copy(cursor, sql.SQL("copy {} ({}) from stdin").format(
         sql.Identifier(table), sql.SQL(",").join(map(sql.Identifier, columns))
     )) as stream:
         for row in frame.loc[:, list(columns)].itertuples(index=False, name=None):

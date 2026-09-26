@@ -13,6 +13,7 @@ from psycopg.types.json import Jsonb
 
 from ingest import academies, schools, stores
 from ingest.common import ROOT, RawStore, Settings
+from ingest.copy_batches import chunked_copy
 from ingest.database import load_boundaries
 from ingest.refresh import maintain, target_database
 from ingest.restore_manifest import cached_object, sha256
@@ -22,6 +23,7 @@ from ingest.restore_provenance import (
     table_signature,
     verify_living_profile,
 )
+from ingest.restore_stages import STAGES, execute_stage
 from ingest.score_reference import load_snapshot as load_reference
 from ingest.seoul_transit import read_frame
 
@@ -54,8 +56,29 @@ class Replay:
         version, = values
         return version
 
-    def boundaries_population(self, db):
+    def boundaries(self, db):
+
+        admin = self.frame("admin_boundaries")
+        admin_rows = admin[["code", "name", "wkt"]].to_dict("records")
+        load_boundaries(db, "admin_dongs", admin_rows, source=admin.source.iloc[0],
+                        source_version=admin.source_version.iloc[0], srid=4326)
+        self.legal = self.legal_frame()
+        for r in self.legal.itertuples():
+            db.execute("""insert into public.legal_dongs(code8,name,geom,source,source_version)
+                values(%s,%s,extensions.st_multi(extensions.st_geomfromtext(%s,4326)),%s,%s)""",
+                (r.code8, r.name, r.wkt, r.source, r.source_version))
+    def legal_frame(self):
         from ingest.legal_boundaries import prepare_legal_boundaries
+
+        raw_legal = self.frame("legal_boundaries")
+        collection = json.loads(raw_legal.collection_metadata_json.iloc[0])
+        collection["features"] = [json.loads(v) for v in raw_legal.feature_json]
+        legal_file = self.directory / "legal-boundaries.geojson"
+        legal_file.write_text(json.dumps(collection))
+        return prepare_legal_boundaries(
+            legal_file, source_version=self.version("legal_dongs"))
+
+    def population(self, db):
         from ingest.living_population import aggregate_window
         from ingest.population import normalize_residents
         from ingest.population_database import (
@@ -67,19 +90,6 @@ class Replay:
 
         admin = self.frame("admin_boundaries")
         admin_rows = admin[["code", "name", "wkt"]].to_dict("records")
-        load_boundaries(db, "admin_dongs", admin_rows, source=admin.source.iloc[0],
-                        source_version=admin.source_version.iloc[0], srid=4326)
-        raw_legal = self.frame("legal_boundaries")
-        collection = json.loads(raw_legal.collection_metadata_json.iloc[0])
-        collection["features"] = [json.loads(v) for v in raw_legal.feature_json]
-        legal_file = self.directory / "legal-boundaries.geojson"
-        legal_file.write_text(json.dumps(collection))
-        self.legal = prepare_legal_boundaries(
-            legal_file, source_version=self.version("legal_dongs"))
-        for r in self.legal.itertuples():
-            db.execute("""insert into public.legal_dongs(code8,name,geom,source,source_version)
-                values(%s,%s,extensions.st_multi(extensions.st_geomfromtext(%s,4326)),%s,%s)""",
-                (r.code8, r.name, r.wkt, r.source, r.source_version))
         living_path = self.directory / "living-profile.parquet"
         raw_paths = [self.paths[e["key"]] for e in self.objects("living_population")]
         aggregate_window(raw_paths, date(2026, 6, 1), date(2026, 8, 31), living_path)
@@ -167,7 +177,8 @@ class Replay:
         baseline = self.frame("building_geometry_baseline")
         db.execute("create temporary table restore_geometry (id text primary key, "
                    "geom extensions.geometry(MultiPolygon,4326) not null) on commit drop")
-        with db.cursor().copy("copy restore_geometry(id,geom) from stdin") as copy:
+        with (db.cursor() as cursor,
+              chunked_copy(cursor, "copy restore_geometry(id,geom) from stdin") as copy):
             for row in baseline.itertuples(index=False, name=None):
                 copy.write_row(row)
         if db.execute("""select count(*) from public.buildings b full join restore_geometry g
@@ -194,6 +205,7 @@ class Replay:
                    "where b.id=g.id and extensions.st_asewkb(b.geom)<>extensions.st_asewkb(g.geom)")
 
     def rent(self, db):
+        self.legal = self.legal_frame()
         from ingest.commercial_trades import normalize_trades
         from ingest.rent_database import aggregate_trades, load_survey_snapshot, load_trade_snapshot
         from ingest.rent_survey import normalize_survey
@@ -212,10 +224,12 @@ class Replay:
         load_survey_snapshot(db, pd.DataFrame(evidence["areas"]), surveys,
                              source_version=version, report={})
 
-    def provenance_and_reference(self, db):
+    def restore_timestamps(self, db, tables):
         for table, entries in self.provenance["timestamps"].items():
             if table not in DATA_TABLES:
                 raise ValueError("Unexpected provenance table")
+            if table not in tables:
+                continue
             for entry in entries:
                 predicates = [sql.SQL("{} is not distinct from %s").format(sql.Identifier(c))
                               for c in entry["match"]]
@@ -223,9 +237,12 @@ class Replay:
                 if "ids" in entry:
                     predicates.append(sql.SQL("id=any(%s)"))
                     values.append(entry["ids"])
+                predicates.append(sql.SQL("ingested_at is distinct from %s"))
+                values.append(entry["at"])
                 db.execute(sql.SQL("update public.{} set ingested_at=%s where {}").format(
                     sql.Identifier(table), sql.SQL(" and ").join(predicates) if predicates
                     else sql.SQL("true")), values)
+    def reference(self, db):
         for table in METADATA_TABLES:
             db.execute(sql.SQL("delete from ingest_private.{}").format(sql.Identifier(table)))
             db.execute(sql.SQL("insert into ingest_private.{} select * from "
@@ -243,48 +260,70 @@ def verify_tables(db, expected):
     return actual
 
 
-def run(manifest_path, directory, target, approved_manifest_sha256=None):
+def run(manifest_path, directory, target, approved_manifest_sha256=None, *, stop_after=None):
     digest = sha256(manifest_path)
     if target == "remote" and digest != approved_manifest_sha256:
-        raise ValueError("Remote restore requires the explicitly approved manifest SHA256")
+        raise ValueError("Remote replay requires the approved manifest SHA256")
     manifest = json.loads(manifest_path.read_text())
     replay = Replay(manifest, directory, RawStore(Settings.from_env()))
     report = dict(manifest_sha256=digest, target=target, stages=[])
     started = time.monotonic()
+    report_path = directory / (target + "-restore-report.json")
+
     def factory():
         return target_database(target)
+
+    def save():
+        report["seconds"] = round(time.monotonic() - started, 3)
+        report_path.write_text(json.dumps(report, indent=2))
+
     with factory() as db:
         if target == "local" and db.info.dbname == "postgres":
             raise ValueError("Local replay requires an isolated database")
-        db.execute("select pg_advisory_xact_lock(7412809)")
-        occupied = any(db.execute(sql.SQL("select exists(select 1 from public.{})").format(
-                       sql.Identifier(t))).fetchone()[0] for t in DATA_TABLES)
-        if occupied:
-            report["tables"] = verify_tables(db, manifest["expected_tables"])
-            report["already_restored"] = True
-            return report
         report["before_bytes"] = db.execute(
             "select pg_database_size(current_database())").fetchone()[0]
-        for name in ("boundaries_population", "transit", "places", "buildings", "rent",
-                     "provenance_and_reference"):
-            start = time.monotonic()
-            getattr(replay, name)(db)
-            report["stages"].append(dict(name=name, seconds=round(time.monotonic()-start, 3)))
-            print(json.dumps(report["stages"][-1]), flush=True)
-        report["tables"] = verify_tables(db, manifest["expected_tables"])
-        report["geometry_proof"] = replay.geometry_proof
-        # Entire replay commits together; any failed stage/check leaves the target empty.
-    maintain(factory, DATA_TABLES)
-    with factory() as db:
-        report["after_bytes"] = db.execute(
-            "select pg_database_size(current_database())").fetchone()[0]
-        report["relations"] = db.execute("""select jsonb_agg(jsonb_build_object(
-            'table',relname,'table_bytes',pg_table_size(relid),
-            'index_bytes',pg_indexes_size(relid))) from pg_stat_user_tables
-            where schemaname='public'""").fetchone()[0]
-    report["seconds"] = round(time.monotonic()-started, 3)
-    (directory / (target + "-restore-report.json")).write_text(json.dumps(report, indent=2))
-    return report
+    try:
+        for ordinal, (name, tables) in enumerate(STAGES, 1):
+            report["current_stage"] = name
+            def load(db, name=name, tables=tables):
+                getattr(replay, name)(db)
+                # Resident loader also refreshes admin boundaries; preserve their proof.
+                inherited = {"population": ("admin_dongs",), "rent": ("legal_dongs",)}
+                replay.restore_timestamps(db, (*tables, *inherited.get(name, ())))
+            result = execute_stage(factory, ordinal, digest, manifest["expected_tables"], load)
+            report["stages"].append(result)
+            if hasattr(replay, "geometry_proof"):
+                report["geometry_proof"] = replay.geometry_proof
+            save()
+            print(json.dumps({k: result[k] for k in ("name", "status", "seconds")}), flush=True)
+            if stop_after == name:
+                report["stopped_after"] = name
+                save()
+                return report
+        with factory() as db:
+            report["tables"] = verify_tables(db, manifest["expected_tables"])
+        report["already_restored"] = all(s["status"] == "skipped" for s in report["stages"])
+        report["current_stage"] = "vacuum_analyze"
+        maintenance_started = time.monotonic()
+        if not report["already_restored"]:
+            maintain(factory, DATA_TABLES)
+        report["maintenance_seconds"] = round(time.monotonic() - maintenance_started, 3)
+        with factory() as db:
+            report["after_bytes"] = db.execute(
+                "select pg_database_size(current_database())").fetchone()[0]
+            report["relations"] = db.execute("""select jsonb_agg(jsonb_build_object(
+                'table',relname,'table_bytes',pg_table_size(relid),
+                'index_bytes',pg_indexes_size(relid))) from pg_stat_user_tables
+                where schemaname='public'""").fetchone()[0]
+        report["status"] = "success"
+        report.pop("current_stage", None)
+        save()
+        return report
+    except Exception as error:
+        report["status"] = "failed"
+        report["error_type"] = type(error).__name__
+        save()
+        raise
 
 
 if __name__ == "__main__":
@@ -293,5 +332,7 @@ if __name__ == "__main__":
     parser.add_argument("--directory", type=Path, default=ROOT / ".local/restore/s3-1")
     parser.add_argument("--target", choices=("local", "remote"), required=True)
     parser.add_argument("--approved-manifest-sha256")
+    parser.add_argument("--stop-after", choices=[s[0] for s in STAGES])
     args = parser.parse_args()
-    run(args.manifest, args.directory, args.target, args.approved_manifest_sha256)
+    run(args.manifest, args.directory, args.target, args.approved_manifest_sha256,
+        stop_after=args.stop_after)

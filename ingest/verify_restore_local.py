@@ -15,7 +15,7 @@ from ingest.common import ROOT
 from ingest.database import connect_database
 
 
-def verify(database, manifest):
+def verify(database, manifest, *, resume_proof=False):
     if not re.fullmatch(r"gilmok_s3_replay_[a-z0-9_]+", database):
         raise ValueError("Use an isolated gilmok_s3_replay_* database")
     with connect_database(local_only=True) as source:
@@ -40,6 +40,10 @@ def verify(database, manifest):
         for path in sorted((ROOT / "supabase/migrations").glob("*.sql")):
             db.execute(path.read_text())
     env = {**os.environ, "SUPABASE_DB_URL": make_conninfo(**params)}
+    if resume_proof:
+        subprocess.run([sys.executable, "-m", "ingest.verify_restore_resume", "--manifest",
+                        str(manifest)], env=env, check=True)
+        return
     for module, extra in [("ingest.restore_remote", []), ("ingest.verify_remote", ["--no-http"])]:
         subprocess.run([sys.executable, "-m", module, "--target", "local", "--manifest",
                         str(manifest), *extra], env=env, check=True)
@@ -49,5 +53,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--database", required=True)
     parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--resume-proof", action="store_true")
     args = parser.parse_args()
-    verify(args.database, args.manifest)
+    verify(args.database, args.manifest, resume_proof=args.resume_proof)
