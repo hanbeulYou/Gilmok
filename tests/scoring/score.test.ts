@@ -6,7 +6,7 @@ import { academyV0, loadPreset } from '../../lib/scoring/presets.ts';
 import { inputs, reference, context, candidate } from './fixtures.ts';
 const run = (p = inputs(), s = inputs(1000)) => score(p, s, [], null, candidate, academyV0, reference(p), context);
 
-describe('pure ScoreResult v0.2', () => {
+describe('pure ScoreResult v0.3', () => {
   it('is deterministic, does not mutate inputs, and does not read the clock', () => {
     const p = inputs(), s = inputs(1000), r = reference(p), before = JSON.stringify([p, s, r, candidate, academyV0]);
     const clock = vi.spyOn(Date, 'now').mockImplementation(() => { throw new Error('clock forbidden'); });
@@ -18,9 +18,9 @@ describe('pure ScoreResult v0.2', () => {
       expect(a.axes).toHaveLength(8); expect(a.total).not.toBeNull();
     } finally { clock.mockRestore(); }
   });
-  it('reallocates missing axes until two percentile axes are missing; zero available weight gives NULL', () => {
+  it('reallocates missing axes until two data axes are missing; zero available weight gives NULL', () => {
     const p = inputs(), s = inputs(1000), r = reference(p);
-    const one = score(p, s, [], { status: 'ready', model_version: '0.2.1', visible_ratio: .5 }, candidate, academyV0, r, context);
+    const one = score(p, s, [], { status: 'ready', model_version: '0.2.2', visible_ratio: .5 }, candidate, academyV0, r, context);
     expect(one.axes.filter(a => a.normalized === null)).toHaveLength(1);
     const two = run(p, s); expect(two.axes.filter(a => a.normalized === null)).toHaveLength(2);
     expect(two.axes.reduce((sum, a) => sum + a.effective_weight, 0)).toBeCloseTo(100);
@@ -116,7 +116,9 @@ describe('pure ScoreResult v0.2', () => {
       p.compete.academies_by_field = { '입시.검정 및 보습': n };
       const c = run(p).axes.find(a => a.key === 'cluster')!;
       expect(c.evidence.values.saturation_level).toBe(level);
-      expect(c.normalized).toBe(100);
+      const differentPopulation = inputs();
+      differentPopulation.compete.academies_by_field = { '입시.검정 및 보습': n };
+      expect(c.normalized).toBe(run(differentPopulation).axes.find(a => a.key === 'cluster')!.normalized);
       expect(c.evidence.notes.some(n => n.includes('외부 통학 수요'))).toBe(true);
     }
   });

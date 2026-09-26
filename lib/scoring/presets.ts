@@ -3,11 +3,13 @@ export type { RawPreset } from './types.ts';
 
 /** Versioned immutable rules. No inferred calibration or environment/IO. */
 export const academyV0: ScoringPreset = Object.freeze({
-  id: 'academy_v0', version: '0.2.1', reference_version: '0.1.2', schema_version: '1.3', radius_primary_m: 800,
+  id: 'academy_v0', version: '0.3', reference_version: '0.1.2', schema_version: '1.3', radius_primary_m: 800,
   radii: Object.freeze([800, 1000]), school_radius_m: 1000,
   demand_coef: Object.freeze({ pop_5_9: 0.8, pop_10_14: 1, pop_15_18: 0.8,
     school_elem: 300, school_mid: 300, school_high: 150 }),
   weekday_weight: 0.7, weekend_weight: 0.3, cluster_field: '입시.검정 및 보습',
+  cluster_scale: Object.freeze({ p50: 3.332204510175204, upper: 7.070653980704802,
+    upper_percentile: 99.97, calibration_radius_m: 800, snapshot: '20260923T111436Z', population_size: 9694 }),
   weights: Object.freeze({ demand: 30, flow: 15, transit: 15, cluster: 15,
     exposure: 5, building: 10, environment: 5, rent_efficiency: 5 }),
   signs: Object.freeze({ demand: 1, flow: 1, transit: 1, cluster: 1,

@@ -44,7 +44,9 @@ export function buildingAxis(inputs: ScoreInputs, candidate: Candidate) {
     return finish(raw, null, true);
   }
   const uses = b.floor_use?.map(f => compact(f.use_name) + ' ' + compact(f.other_use)).join(' ') ?? '';
-  const education = uses.includes('교육연구시설');
+  const educationCode = b.floor_use?.some(f => f.use_code === '10003') ?? false;
+  const education = uses.includes('교육연구시설') || educationCode;
+  if (educationCode) e.notes.push('R1: 요청 층 용도 코드 10003(교육연구시설군 학원) 확인');
   if (uses.includes('제2종근린생활시설') || education) {
     apply('R1', 25); eligible = true; reasons.push('requested_floor_use_allowed');
   } else if (/(제1종근린생활시설|주거|주택|아파트|공업|공장|창고)/.test(uses)) {

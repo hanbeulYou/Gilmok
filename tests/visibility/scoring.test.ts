@@ -32,7 +32,7 @@ it('always shows the field limitation and rejects an old computed visibility res
   expect(r.axes.find(a => a.key === 'exposure')!.missing_reason).toBe('exposure_model_version_mismatch');
   expect(academyV0.weights.demand).toBe(30); expect(academyV0.weights.exposure).toBe(5);
   expect(Object.values(academyV0.weights).reduce((a, b) => a + b, 0)).toBe(100);
-  expect(r.preset.version).toBe('0.2.1');
+  expect(r.preset.version).toBe('0.3');
   expect(academyV0.reference_version).toBe('0.1.2');
 });
 

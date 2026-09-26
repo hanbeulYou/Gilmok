@@ -71,3 +71,39 @@ def test_v021_1200m_stations_and_1230m_buildings_preserve_v02(db, role):
     db.execute('delete from public.transit_stops')
     empty = db.execute('select public.exposure_inputs_v021(127.062,37.496)').fetchone()[0]
     assert empty['stations'] == []
+
+
+@pytest.mark.parametrize('role', ['anon', 'authenticated'])
+def test_v022_checks_score_ring_coverage_and_preserves_v021(db, role):
+    load(db, frames(db))
+    # CI starts with no real admin boundaries; keep coverage assertions self-contained.
+    db.execute('''insert into public.admin_dongs(adm_cd,name,geom,source,source_version)
+      values('11680999','coverage fixture',extensions.st_multi(
+      extensions.st_makeenvelope(127.06,37.49,127.07,37.50,4326)),'fixture','fixture')''')
+    # All synthetic loaded-region polygons cover only a 200m square around the candidate.
+    db.execute('''update public.admin_dongs set geom=extensions.st_multi(
+      extensions.st_transform(extensions.st_expand(extensions.st_transform(
+      extensions.st_setsrid(extensions.st_makepoint(127.062,37.496),4326),5186),100),4326))
+      where left(adm_cd,5)='11680' ''')
+    before = db.execute('select public.exposure_inputs_v021(127.062,37.496)').fetchone()[0]
+    with db.transaction():
+        db.execute(f'set local role {role}')
+        actual = db.execute('select public.exposure_inputs_v022(127.062,37.496)').fetchone()[0]
+        assert actual['schema_version'] == '0.2.2'
+        assert actual['coverage']['score_ring_within_loaded_region'] is True
+        assert actual['coverage']['query_within_loaded_region'] is False
+        assert actual['buildings'] == before['buildings']
+        assert actual['stations'] == before['stations']
+        assert actual['schools'] == before['schools']
+        unchanged = db.execute('select public.exposure_inputs_v021(127.062,37.496)').fetchone()[0]
+        assert unchanged == before
+        outside = db.execute('select public.exposure_inputs_v022(126.88,37.48)').fetchone()[0]
+        assert outside['coverage']['score_ring_within_loaded_region'] is False
+    db.execute('reset role')
+    # A candidate inside the region still fails if the shifted 60m ring could leave it.
+    db.execute('''update public.admin_dongs set geom=extensions.st_multi(
+      extensions.st_transform(extensions.st_expand(extensions.st_transform(
+      extensions.st_setsrid(extensions.st_makepoint(127.062,37.496),4326),5186),80),4326))
+      where left(adm_cd,5)='11680' ''')
+    narrow = db.execute('select public.exposure_inputs_v022(127.062,37.496)').fetchone()[0]
+    assert narrow['coverage']['score_ring_within_loaded_region'] is False

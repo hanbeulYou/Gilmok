@@ -79,7 +79,7 @@
 
 ## 7. 현재 스프린트
 
-- **S2-3 PR #16 머지 완료, 근거리 노출 v0.2.1 후속 구현·로컬 검증 완료**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
+- **S2-3 PR #17 머지 완료, S2-4 검증·v0.3 조정 1회차 완료(사용자 검토 대기)**. S1 PR 1~8(GitHub #6~#11)은 main 머지 완료. score_inputs v1.2 실제 데이터 검증 및 월간/수동 갱신·이벤트 주소 워커·S2 인계를 완료했다. 원격 Supabase 전환 및 webhook 활성화는 아직 실행하지 않았다.
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2 초반 별도 태스크.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -117,3 +117,5 @@
 - 2026-09-24 PR #15 후속: 명세/ScoreResult/preset v0.2, 축 exposure 5·demand 30. 1km 내 모든 역 각각20점, 링30/60/100m×36, 내부 샘플 최대30m 이동을 적용했다. exposure_inputs는 EPSG:5186이며 기존 visibility_inputs v0.1과 raw 분포0.1.2는 보존한다. 역삼로460 3층 visible_ratio=0.12460209185993637, 역 동선4/100점 가시, 링23/108점 가시, 전체120점 이동·1/318점 제외. Worker/Node 결과 및 독립 PostGIS 검산 일치. lint/typecheck/test(68·234)/test:db(146) 통과. [현장 대조표](docs/validation/exposure-v02-field-report.md), [검증](docs/validation/exposure-v02-20260924.md)을 따른다. S2-4 실제 학원 검증·임대료 보정은 별도 태스크다.
 
 - 2026-09-25 PR #16 후속: 명세/ScoreResult/preset/model_version0.2.1. exposure는 “건물 앞 도로·맞은편에서의 간판 노출”, 점수는20/40/60m×36방향 링만 사용한다. exposure_inputs_v021은 역1.2km·학교1km·건물1.23km(이동30m 포함), EPSG:5186이다. 역/학교 각각 첫 가시 샘플까지 거리(근거 전용·직선 샘플 추정·점수0)를 반환한다. 역삼로460 3층 가중 가시율38.383838%, 링32/108점 가시(20m20·40m8·60m4), 사용자 현장 진술의 절반 이상 기준은 미충족이다. 대치역3호선1,033.143m가 포함되며 가시 샘플이 없어 첫 노출 거리NULL이다. lint/typecheck/test(73·234)/test:db(148), Worker/Node 일치, 독립 PostGIS338판정·17동선 거리 검산 통과. [현장 대조표](docs/validation/exposure-v021-field-report.md), [검증](docs/validation/exposure-v021-20260925.md). S2-4는 별도 태스크다.
+
+- S2-4 2026-09-26: PR #17 머지 후 고정 주소3곳+시드20260926 서울5셀 검증. [조정 전](docs/validation/s2-4-20260926.md)과 [v0.3 조정1회차](docs/validation/s2-4-v03-20260926.md)를 구분한다. 승인된 두 버그(적재 범위 밖 exposure=100, 요청 층10003 학원 미인식)를 수정하고 cluster만 p50=3.332204510175204 / p99.97=7.070653980704802 고정 선형 스케일로 변경했다. 원시 reference v0.1.2·가중치는 유지한다. preset/ScoreResult0.3, exposure scene/model0.2.2 및 v022 RPC. 실제 순위 b>a>c, 추가 조정은 사용자 판단 대기. 서울 전체 건축물 적재·원격 전환은 미실행이며 현재 적재는 강남구다.

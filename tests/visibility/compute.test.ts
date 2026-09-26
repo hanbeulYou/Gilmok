@@ -4,6 +4,20 @@ import { generateSamples } from '../../lib/visibility/samples.ts';
 import { FOOTPRINT_MISSING } from '../../lib/visibility/types.ts';
 import { building, rectangle, scene } from './fixtures.ts';
 describe('metric visibility, spec 0.2.1', () => {
+  it('requires score ring coverage independently of full approach coverage and building count', () => {
+    const s = scene();
+    s.coverage.query_within_loaded_region = false;
+    expect(computeVisibility(s)).toMatchObject({ status: 'ready', visible_ratio: 1 });
+    for (const loaded of [false, undefined]) {
+      s.coverage.score_ring_within_loaded_region = loaded as boolean;
+      for (const buildings of [[], [building('wall', rectangle(1, -12, 2, 12), 9)]]) {
+        s.buildings = buildings;
+        const r = computeVisibility(s);
+        expect(r).toMatchObject({ status: 'missing', reason: 'building_coverage_insufficient', samples: [] });
+        expect(r.evidence.notes).not.toContain(FOOTPRINT_MISSING);
+      }
+    }
+  });
   it.each([[7, 61 / 66, 6], [9, 19 / 36, 51]])('single wall h=%s has hand-calculated ratio %s', (height, expected, blocked) => {
     const s = scene(); s.buildings = [building('wall', rectangle(1, -12, 2, 12), height)];
     const before = structuredClone(s);

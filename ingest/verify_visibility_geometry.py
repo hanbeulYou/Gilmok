@@ -6,7 +6,7 @@ from ingest.refresh import target_database
 
 
 def main():
-    directory = ROOT / '.local/validation/exposure-v021'
+    directory = ROOT / '.local/validation/exposure-v022'
     data = json.loads((directory / 'input.json').read_text())
     result = json.loads((directory / 'result.json').read_text())['result']
     scene = data['scene']

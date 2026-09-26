@@ -6,6 +6,17 @@ import { candidate, inputs } from './fixtures.ts';
 
 const real = JSON.parse(readFileSync(new URL('../../docs/validation/pr7-building-all-floors-20260922.json', import.meta.url), 'utf8'));
 describe('building rules and real register fixtures', () => {
+  it('recognizes Dogok-ro 409 code 10003 once for R1 and R2 with academy-only labels', () => {
+    const p = inputs();
+    const row = { floor_no: 2, floor_kind: '20', use_code: '10003', use_name: '학원', other_use: '학원', area_m2: 378.07 };
+    p.building!.floor_use = [row, { ...row }];
+    const r = buildingAxis(p, { ...candidate, exclusive_area_m2: 500 });
+    expect(r.axis.evidence.rules_applied.filter(v => v.startsWith('R1:'))).toEqual(['R1:+25']);
+    expect(r.axis.evidence.rules_applied).not.toContain('R2:-30');
+    expect(r.eligible).toBe(true);
+    p.building!.floor_use = [{ ...row, use_code: 'unknown' }];
+    expect(buildingAxis(p, candidate).axis.evidence.rules_applied).not.toContain('R1:+25');
+  });
   for (const path of ['footprint', 'address_cache']) for (const floor of [3, 4]) {
     it(`${path} 역삼로460 ${floor}층 = ${floor === 3 ? 100 : 90}`, () => {
       const p = structuredClone(real[path][floor].result) as ScoreInputs;

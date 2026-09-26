@@ -50,6 +50,8 @@ export interface RawPreset {
 }
 export interface ScoringPreset extends RawPreset {
   reference_version: string; radius_primary_m: number; weights: Weights;
+  cluster_scale: Readonly<{ p50: number; upper: number; upper_percentile: number;
+    calibration_radius_m: number; snapshot: string; population_size: number }>;
   signs: Readonly<Record<AxisKey, 1 | -1>>;
   saturation: { readonly high: number; readonly mid: number };
   rent_range: { readonly lo: number; readonly hi: number } | null;
@@ -121,7 +123,7 @@ export interface ScoreResult {
   derived: { academy_eligible: boolean | null; academy_eligible_reasons: string[] };
   computed_at: string;
 }
-export type ExposureInput = ({ status: 'ready'; model_version: '0.2.1'; visible_ratio: number } |
+export type ExposureInput = ({ status: 'ready'; model_version: '0.2.2'; visible_ratio: number } |
   { status: 'pending' | 'missing'; reason: string }) & {
     evidence?: { values: Record<string, unknown>; notes: readonly string[] };
   } | null;

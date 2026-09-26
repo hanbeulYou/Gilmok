@@ -5,7 +5,7 @@ import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from './types.ts';
 import type { SampleResult, SampleSummary, VisibilityResult, VisibilityScene, XY } from './types.ts';
 function validate(scene: VisibilityScene): void {
   const point = (p: XY) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
-  if (scene.schema_version !== '0.2.1' || scene.srid !== 5186 || scene.units !== 'm' || scene.radius_m !== 1230 ||
+  if (scene.schema_version !== '0.2.2' || scene.srid !== 5186 || scene.units !== 'm' || scene.radius_m !== 1230 ||
     scene.station_radius_m !== 1200 || scene.school_radius_m !== 1000 ||
     !point(scene.candidate) || !Number.isInteger(scene.floor) || scene.floor === 0 || scene.floor < -100 || scene.floor > 200)
     throw new Error('Invalid visibility scene coordinate contract/floor');
@@ -56,6 +56,10 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
     sources: structuredClone(scene.sources), coverage: { ...scene.coverage }, summary }, notes };
   const missing = ['building_shp', 'building_wfs'].filter(k => !scene.sources[k]?.available);
   if (missing.length) return { status: 'missing', reason: 'visibility_sources_missing:' + missing.join(','), evidence, samples, summary };
+  if (scene.coverage.score_ring_within_loaded_region !== true) {
+    notes.push('score_ring_outside_or_unverified_building_coverage');
+    return { status: 'missing', reason: 'building_coverage_insufficient', evidence, samples, summary };
+  }
   if (!scene.coverage.query_within_loaded_region) notes.push('building_query_extends_beyond_loaded_region');
   if (!scene.sources.subway_positions?.available) notes.push('station_approach_source_unavailable');
   else if (!scene.stations.length) notes.push('no_station_within_1_2km');
@@ -96,5 +100,5 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
     notes.push('moved_sample_extends_beyond_building_radius');
   if (summary.ring.total_weight === 0) return { status: 'missing', reason: 'no_valid_ring_samples', evidence, samples, summary };
   if (scene.candidate_building_id === null) notes.push(FOOTPRINT_MISSING);
-  return { status: 'ready', model_version: '0.2.1', visible_ratio: summary.ring.visible_weight / summary.ring.total_weight, evidence, samples, summary };
+  return { status: 'ready', model_version: '0.2.2', visible_ratio: summary.ring.visible_weight / summary.ring.total_weight, evidence, samples, summary };
 }

@@ -553,3 +553,9 @@ PR #16 후속 사용자 요청으로 exposure_inputs_v021(lng,lat)을 추가한�
 점수는20/40/60m 링만 사용하고 역·학교는 가중치0인 근거다. 기존 역20등분·학교10등분 샘플 중 출발점에서 후보로 가는 선분 안의 첫 가시 샘플까지 거리(first_exposure_distance_m)를 EPSG:5186에서 계산한다. NULL이면 가시 샘플 없음/자료 결측 사유를 구분한다. estimated=true, 원래·최종 좌표·샘플 간격·선택 샘플 ID를 남긴다. 실제 보행 경로나 연속 최초 노출 경계를 추정하지 않는다. 소스 결측은 해당 동선 근거만 결측으로 만들며 링 점수는 건물 자료로 계산한다.
 
 preset/ScoreResult/model_version은0.2.1이며 기존0.2 점수는 재계산한다. raw 기준 분포reference_version0.1.2는 그대로다. 롤백은 기존0.2 코드와 exposure_inputs를 사용한다. 가중치demand30·exposure5, 후보 도형 결측 신뢰도−5와 현장 확인 문구는 유지한다.
+
+### 3.12 S2-4 노출 적재 범위 계약 v0.2.2 (2026-09-26)
+
+`exposure_inputs_v022(lng,lat)`은 v021 응답을 보존하고 schema_version=0.2.2 및 `coverage.score_ring_within_loaded_region`을 추가한다. EPSG:5186 후보 중심90m(60m 링+30m 이동)를 강남구 행정동 합집합이 덮는지 확인한다. 전체1230m 포함 여부와 구분한다. Worker는 이 플래그가 true가 아니면 `building_coverage_insufficient`로 결측을 반환한다. 원천 적재 여부 검사도 유지하며 빈 배열만으로 100점을 만들지 않는다. v021/이전 RPC와 원본 데이터는 변경하지 않는다. 롤백은 소비자를 기존 RPC/model/preset으로 되돌리는 방식이며 신규 RPC 제거는 의존 소비자 제거 후 별도 마이그레이션으로 한다.
+
+도곡로409 2층 실제 floor_use의 `use_code=10003`, `use_name=학원`, `other_use=학원`을 확인했다. 사용자 승인에 따라 R1/R2 교육연구시설군 학원으로 인식한다. 문자열 "학원"만으로 모든 미상 코드를 확장 분류하지 않는다.

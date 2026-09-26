@@ -25,7 +25,7 @@ const approaches = approachEvidence(data.scene, result.samples);
 const fieldAgreement = result.summary.ring.visible >= result.summary.ring.generated / 2;
 const state = { visible: '가시', blocked: '차폐', excluded: '제외' };
 const lines = [
-  '# 역삼로 460 3층 간판 노출 v0.2.1 — 현장 대조표', '',
+  '# 역삼로 460 3층 간판 노출 v0.2.2 — 현장 대조표', '',
   'exposure: 건물 앞 도로·맞은편에서의 간판 노출.',
   `후보 (${data.candidate.lat}, ${data.candidate.lng}), 목표 높이 8.6m, 눈높이 1.5m.`,
   `링 전용 visible_ratio **${result.visible_ratio.toFixed(8)} (${(100 * result.visible_ratio).toFixed(4)}%)**, exposure 점수 **${(100 * result.visible_ratio).toFixed(4)}**.`,
