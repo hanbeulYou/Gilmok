@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "anonymous_users": 2,
+  "candidate_owner_rls": true,
+  "comparison_owner_rls": true,
+  "score_inputs_schema": "1.3",
+  "test_users_cleaned": 2,
+  "seconds": 7.447
+}

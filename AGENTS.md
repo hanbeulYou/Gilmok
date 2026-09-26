@@ -123,4 +123,4 @@
 
 - S2 마감 2026-09-26: PR #18 머지 확인. [명세 §8](docs/planning/scoring-spec.md#8-검증-절차--대치동-실제-학원-3곳)에 결과·cluster 스케일1회 조정·과적합 유의 사항을 기록했다. ScoreResult 최초v0.1→현행v0.3, exposure scene/model0.2.2 및 v022 RPC, 주소 pending·임대료/지역 결측·신뢰도 문자열/코드는 S3 인계를 따른다. transit 라이딩 학원 이슈는 S3 이후 프리셋v0.4 검토이며 현재 식·가중치는 유지한다.
 
-- S3-1 2026-09-26 진행: 원격 gp3 8GB 확장·migration 30개·7단계 R2 복원 완료. 18테이블 digest 일치, 유지보수 후 DB 889,810,067 byte. 초기 복원 종료 원인은 WAL 공간 부족이며 keepalive는 보조 조치다. HTTP 검증은 anon role 3초 timeout(57014)으로 중단했다. Auth·Vault·webhook 미실행, `INGEST_REMOTE_ENABLED=false`, PR #20 Draft. [최신 원격 기록](docs/validation/s3-1-remote-20260926.md)을 따른다.
+- S3-1 2026-09-26: Pro gp3 8GB 확장·31개 migration·7단계 복원 완료(고정 manifest f5b48dd9…, 18테이블 digest 일치). 첫 실패 원인은 pg_wal 디스크 부족. 직접 SQL 새 세션 첫 실행과 웜 30회 분리: 웜 p95 52.203~220.983ms 통과. authenticated statement_timeout=15s 및 월간 갱신 후 6조합 예열 적용. 익명 로그인 세션 HTTP 186회·고정 응답 기준 일치, Auth·Vault·비활성 웹훅과 원격 RLS 확인 완료. DB 최종 890,186,899 byte. `INGEST_REMOTE_ENABLED=false`; 웹훅 활성화·pending 1건 Actions 실증과 Vercel 연결은 main 머지 후. [최신 검산](docs/validation/s3-1-product-rpc-20260926.md), [복원 기록](docs/validation/s3-1-remote-20260926.md)을 따른다.

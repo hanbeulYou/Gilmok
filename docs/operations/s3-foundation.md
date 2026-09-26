@@ -1,13 +1,13 @@
 # S3-1 실행 절차
 
-2026-09-26 · 원격 gp3 8GB 확장·30개 migration·7단계 복원을 완료했다. HTTP RPC 검증은 anon 3초 statement timeout으로 중단했고 Auth·Vault·webhook은 미실행이다. [최신 실행 기록](../validation/s3-1-remote-20260926.md)을 따른다. Vercel 연결·Auth URL 등록은 main 머지 후 사용자가 수행한다.
+2026-09-26 · 원격 gp3 8GB·31개 migration·7단계 복원 완료. 직접 SQL 웜 p95 52.203~220.983ms, authenticated 익명 세션 HTTP 186회·고정 기준 대조 통과. Auth·Vault·비활성 webhook 준비 완료. [최신 검산](../validation/s3-1-product-rpc-20260926.md), [복원·디스크 기록](../validation/s3-1-remote-20260926.md)을 따른다. 웹훅 실증과 Vercel 연결·Auth URL 등록은 main 머지 후 진행한다.
 
 ## 준비·승인 대상
 
-- CLI 2.72.7, PostgreSQL 17.6, PostGIS 3.3.7. 기존 28개 + `20260926093918_s3_foundation_auth.sql`의 원격 적용은 완료했다. 재개 상태 테이블 `20260926112125_restore_stage_manifest.sql` 1개를 추가 적용한다. 기존 마이그레이션 파일은 수정하지 않는다.
+- CLI 2.72.7, PostgreSQL 17.6, PostGIS 3.3.7. 기존 28개 + `20260926093918_s3_foundation_auth.sql`의 원격 적용은 완료했다. 재개 상태 테이블 `20260926112125_restore_stage_manifest.sql`과 역할 제한 `20260926123953_authenticated_rpc_timeout.sql`까지 31개 적용했다. 기존 마이그레이션 파일은 수정하지 않는다.
 - 새 마이그레이션: comparisons와 소유자 RLS, 같은 소유자의 후보 최대 5개 참조 검증, private 익명 uid별 한국 날짜 기준 10건 카운터·트리거, 큐 요청자 uid. 무세션 큐 생성은 거절하고 조회 전용 RPC는 유지한다.
 - S3-2의 raw→백분위 RPC, uid별 상태 뷰/구독, 주소 Route Handler는 이번에 구현하지 않는다. [확정 결정](../planning/s3-1-plan.md#9-예상-리스크와-후속-경계)을 따른다.
-- [복원 manifest](../validation/s3-1-restore-manifest.json)의 SHA256은 최초 승인 값을 유지한다. 기존 29개 원격 이력과 신규 상태 테이블 1개 dry-run을 대조한다. 승인 이후 코드/원본/manifest가 바뀌면 변경 내용을 보고하고 해당 대상을 다시 대조한다.
+- [복원 manifest](../validation/s3-1-restore-manifest.json)의 SHA256은 최초 승인 값을 유지한다. 최종 원격 이력 31개를 대조하고 후속 변경은 dry-run으로 확인한다. 승인 이후 코드/원본/manifest가 바뀌면 변경 내용을 보고하고 해당 대상을 다시 대조한다.
 
 ## R2 복원 준비
 
@@ -33,8 +33,8 @@ manifest의 원본 키·SHA256·행 수·bytes를 검토한다. 메타데이터/
 uv run --frozen python -m ingest.restore_remote --target remote \
   --manifest docs/validation/s3-1-restore-manifest.json \
   --approved-manifest-sha256 <SHA256>
-uv run --frozen python -m ingest.verify_remote --target remote \
-  --manifest docs/validation/s3-1-restore-manifest.json
+uv run --frozen python -m ingest.measure_product_rpc --target remote \
+  --output .local/validation/product-sql.json
 uv run --frozen python -m ingest.configure_remote --step auth \
   --manifest docs/validation/s3-1-restore-manifest.json \
   --approved-manifest-sha256 <SHA256>
@@ -42,7 +42,7 @@ uv run --frozen python -m ingest.configure_remote --step auth \
 
 순서는 경계→인구→교통→상가·학원·학교→건물→실거래·임대→기준 분포다. 각 단계는 새 연결의 독립 트랜잭션이며 데이터와 `ingest_private.restore_stages`(단계·manifest SHA256·테이블별 행수/digest·소요 시간)를 함께 커밋한다. 같은 manifest 재실행은 완료 단계의 digest를 확인하고 건너뛴다. 다른 해시·변조된 완료 기록·미기록 기존 데이터는 거절한다. COPY는 5만 행마다 나누되 단계 내 커밋은 하지 않는다. 연결은 TCP keepalive idle 30초·interval 10초·count 5를 사용한다. 실패하면 후속 단계로 진행하지 않는다. 복원은 원본 API를 호출하지 않는다. 커밋 후 별도 연결의 VACUUM ANALYZE를 수행한다. VACUUM FULL은 하지 않는다. 단계별 시간과 전후 DB·테이블·인덱스 bytes를 `.local/restore/s3-1/remote-restore-report.json`에 기록한다. R2 원본 bytes와 임시 디스크 사용량을 DB 용량과 구분해 운영 검증 문서에 옮긴다.
 
-`verify_remote`는 읽기 전용 트랜잭션에서 원본 테이블과 3좌표×500/1,000m·2층을 대조한다. 각 조합 3회 예열·30회 DB 측정, p95 <1,000ms가 통과 기준이다. HTTP 30회는 별도 기록한다. 원격 Auth는 익명 로그인·수동 identity linking·이메일 확인을 활성화하고 Site URL/Redirect URLs는 사용자의 Vercel 연결 후 설정을 따른다.
+`measure_product_rpc.sql_measure`는 3좌표×500/1,000m·2층을 새 세션 첫 실행 1회와 웜 30회로 분리한다. 직접 EXPLAIN ANALYZE 웜 p95 <1,000ms가 합격 기준이고 HTTP는 실제 익명 로그인 세션으로 별도 기록한다. 최종 검산은 아래 제품 RPC 절차를 따른다. Auth Site URL/Redirect URLs는 main 머지 후 사용자 Vercel 설정 단계다.
 
 ## Vault·Database Webhook·실제 pending 1건
 
@@ -107,3 +107,13 @@ Marketplace가 주입하는 공개 변수 이름과 `.env.example` 이름은 같
 8GB 확장과 18개 원천 테이블 전수 digest 대조를 완료했다. 상태 테이블 migration 포함 총 30개, 복원 완료 기록 7개다. 복원·검증 589.764초, VACUUM ANALYZE 18.320초, 유지보수 후 DB 889,810,067 byte. 원인은 기존 로그의 WAL 디스크 부족이며 keepalive는 보조 조치다. `df` 직접 실행 대신 Metrics API로 `/data` 전체 8,416,882,688 byte·가용 7,085,551,616 byte를 확인했다. Pro gp3 8GB 포함 기준은 공식 요금표로 확인했으며 조직 청구서 API는 권한 제한으로 열람하지 못했다.
 
 HTTP 검증은 200 150건 후 500 1건으로 중단됐다. PostgREST 57014 statement timeout과 anon role 3초 설정을 확인했다. 개별 DB/HTTP p95 파일은 성공 시에만 저장돼 이번에는 생성되지 않았다. Auth·Vault·webhook은 아직 적용하지 않았으며 `INGEST_REMOTE_ENABLED=false`를 유지한다. [상세 결과와 실패 로그](../validation/s3-1-remote-20260926.md)를 따른다.
+
+## 제품 RPC의 첫 실행·웜 검산과 갱신 후 예열
+
+`ingest.measure_product_rpc.sql_measure`는 조합마다 새 연결의 EXPLAIN ANALYZE와 같은 호출의 bundle_ms를 기록한다. 공유 캐시는 비우지 않는다. 웜 p95가 1초를 넘으면 후속 설정을 중단하고 Small 검토를 보고한다. 최신 실측은 모두 통과하여 authenticated의 statement_timeout=15s를 적용했다. rollback은 새 migration에서 8초로 되돌리고 PostgREST config를 reload한다.
+
+HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급한 사용자 access token과 고정 manifest provenance를 전달한다. Authorization에 프로젝트 anon 키를 넣는 기존 `verify_remote` HTTP 경로는 제품 합격 검증에 사용하지 않는다. 프로젝트 apikey 헤더와 사용자 JWT는 구분한다. 조합별 첫 실행+웜 30회, 응답 대조와 실패 전 표본 저장을 수행하며 검증 사용자는 삭제한다. 원격 Auth 활성화는 이 HTTP 검증 전에 필요하다.
+
+월간 workflow는 소스 갱신→기준 분포 갱신이 모두 성공하면 마지막에 `uv run --frozen python -m ingest.warm_score_inputs`로 6조합을 예열한다. 원격 환경은 위와 같이 프로세스에만 주입한다. 명령의 실제 원격 실행은 2.788초로 통과했다. 모든 PostgREST 세션 캐시를 보장하는 것은 아니다.
+
+현재 Vault 저장과 Database Webhook 생성은 완료했지만 트리거는 **disabled**다. main 머지 후 위 활성화 절차와 실제 pending 1건 실증을 진행한다. Repository variable은 false로 유지한다.
