@@ -50,6 +50,8 @@ export interface RawPreset {
 }
 export interface ScoringPreset extends RawPreset {
   reference_version: string; radius_primary_m: number; weights: Weights;
+  cluster_scale: Readonly<{ p50: number; upper: number; upper_percentile: number;
+    calibration_radius_m: number; snapshot: string; population_size: number }>;
   signs: Readonly<Record<AxisKey, 1 | -1>>;
   saturation: { readonly high: number; readonly mid: number };
   rent_range: { readonly lo: number; readonly hi: number } | null;

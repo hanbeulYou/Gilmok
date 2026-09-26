@@ -24,11 +24,11 @@ function validateCandidate(candidate: Candidate): void {
 export function reweight(result: ScoreResult, weights: Weights): ScoreResult {
   validateWeights(weights);
   if (result.axes.length !== axisKeys.length || axisKeys.some(k => result.axes.filter(a => a.key === k).length !== 1))
-    throw new Error('ScoreResult axis contract mismatch: recompute with exposure v0.2.1');
-  if (result.preset.version !== '0.2.1') throw new Error('ScoreResult model version mismatch: recompute with exposure v0.2.1');
+    throw new Error('ScoreResult axis contract mismatch: recompute with preset v0.3');
+  if (result.preset.version !== '0.3') throw new Error('ScoreResult model version mismatch: recompute with preset v0.3');
   const copy = structuredClone(result);
-  const percentileKeys = ['demand', 'flow', 'transit', 'cluster', 'environment'];
-  const missing = copy.axes.filter(a => a.normalized === null && percentileKeys.includes(a.key)).length;
+  const dataKeys = ['demand', 'flow', 'transit', 'cluster', 'environment'];
+  const missing = copy.axes.filter(a => a.normalized === null && dataKeys.includes(a.key)).length;
   const w = copy.axes.reduce((sum, a) => sum + (a.normalized === null ? 0 : weights[a.key]), 0);
   if (!Number.isFinite(w)) throw new Error('Weight sum overflow');
   for (const a of copy.axes) {
@@ -68,7 +68,7 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
     deduct(5, '경기 정류장 데이터 없음');
   return { value: clamp(value), reasons };
 }
-/** Pure ScoreResult v0.2.1. The caller owns DB, context queries, and visibility work. */
+/** Pure ScoreResult v0.3. The caller owns DB, context queries, and visibility work. */
 export function score(primary: ScoreInputs, school: ScoreInputs, buildings: readonly unknown[],
   visibility: ExposureInput, candidate: Candidate, preset: ScoringPreset,
   reference: ScoreReference | null, context: ScoreContext): ScoreResult {

@@ -22,7 +22,7 @@ export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: R
   preset: ScoringPreset, reference: ScoreReference | null, context: ScoreContext): AxisResult[] {
   const p = (key: ReferenceKey, direction: 1 | -1 = 1) =>
     referencePercentile(key, raw[key].value, primary, school, preset, reference, direction);
-  const single = (key: 'demand' | 'flow' | 'cluster', values: Record<string, unknown>) => {
+  const single = (key: 'demand' | 'flow', values: Record<string, unknown>) => {
     const found = p(key), e = evidence(values);
     e.percentile = found.value; e.reference = found.reference; e.notes.push(...raw[key].notes);
     return axis(key, raw[key].value, found.value, e, found.reason);
@@ -40,13 +40,24 @@ export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: R
   const map = primary.compete.academies_by_field;
   const pops = [primary.demand.pop_5_9, primary.demand.pop_10_14, primary.demand.pop_15_18];
   const saturation = raw['cluster.saturation'].value, satPct = p('cluster.saturation');
-  const cluster = single('cluster', { field: preset.cluster_field,
+  const ce = evidence({ field: preset.cluster_field,
     n_field: map === null ? null : map[preset.cluster_field] ?? 0,
     students: pops.some(v => v === null) ? null : pops.reduce<number>((a, b) => a + b!, 0),
     saturation, saturation_level: saturation === null ? null : saturation >= preset.saturation.high ? 'high' :
       saturation >= preset.saturation.mid ? 'mid' : 'low',
     saturation_percentile: satPct.value, saturation_reference: satPct.reference,
     saturation_thresholds: { ...preset.saturation } });
+  const scale = preset.cluster_scale;
+  if (!Number.isFinite(scale.p50) || !Number.isFinite(scale.upper) || scale.upper <= scale.p50)
+    throw new Error('Invalid cluster fixed scale');
+  const clusterRaw = raw.cluster.value;
+  const linear = clusterRaw === null ? null : (clusterRaw - scale.p50) / (scale.upper - scale.p50) * 100;
+  ce.values.fixed_scale = { ...scale, method: 'percentile_cont', reference_version: preset.reference_version };
+  ce.values.unclamped_score = linear;
+  ce.notes.push(...raw.cluster.notes);
+  const cluster = axis('cluster', clusterRaw, linear === null ? null : clamp(linear), ce,
+    clusterRaw === null ? 'raw_missing' : null);
+  cluster.evidence.rules_applied.push('fixed_linear_p50_zero_upper_100');
   cluster.evidence.rules_applied.push('log1p_academy_count', 'saturation_evidence_only');
   cluster.evidence.notes.push('이 지표는 반경 내 거주 학령인구 대비이며, 대치동처럼 외부 통학 수요가 큰 곳은 실제 공급 과잉과 다를 수 있다');
   if (saturation !== null && saturation >= preset.saturation.high)

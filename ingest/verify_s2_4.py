@@ -1,6 +1,8 @@
 """S2-4 frozen-preset validation inputs; reuse saved exact-address responses, local DB only."""
+import argparse
 import hashlib
 import json
+import math
 import random
 
 from ingest.building_on_demand import address_parcel
@@ -9,13 +11,17 @@ from ingest.refresh import target_database
 from ingest.score_reference import fingerprint, source_state
 from ingest.verify_scoring import local_http
 
-DIRECTORY = ROOT / '.local/validation/s2-4-20260926'
 ADDRESSES = [('a', '역삼로 460', 3), ('b', '도곡로 409', 2), ('c', '역삼로 546', 3)]
 SEED = 20260926
 
 
 def main():
-    DIRECTORY.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--directory', default='.local/validation/s2-4-v03-20260926')
+    parser.add_argument('--preset-version', default='0.3')
+    args = parser.parse_args()
+    directory = ROOT / args.directory
+    directory.mkdir(parents=True, exist_ok=True)
     rpc = local_http()
     reference = rpc('score_reference_distribution', dict(
         requested_preset_id='academy_v0', requested_radius_m=800))
@@ -42,8 +48,8 @@ def main():
                                  (lat, lng, floor, address)).fetchone()[0]
             school = db.execute('select public.score_inputs(%s,%s,1000,%s,%s)',
                                 (lat, lng, floor, address)).fetchone()[0]
-            scene = rpc('exposure_inputs_v021', dict(lng=lng, lat=lat))
-            assert scene == db.execute('select public.exposure_inputs_v021(%s,%s)',
+            scene = rpc('exposure_inputs_v022', dict(lng=lng, lat=lat))
+            assert scene == db.execute('select public.exposure_inputs_v022(%s,%s)',
                                        (lng, lat)).fetchone()[0]
             scene['floor'] = floor
             for radius, expected in [(800, primary), (1000, school)]:
@@ -108,17 +114,33 @@ def main():
         selected = random.Random(SEED).sample(cells, 5)
         for cell_id, lat, lng in selected:
             add(cell_id, lat, lng, 2)
-        metadata = dict(seed=SEED, population_size=len(cells), random_cells=selected,
-                        population_sha256=hashlib.sha256(json.dumps(cells).encode()).hexdigest(),
-                        sampling='Python random.Random(seed).sample(sorted inside-Seoul cells, 5)',
-                        reference_snapshot=reference['snapshot'],
-                        binary_values_verified=len(stored),
-                        preset_version='0.2.1', reference_version='0.1.2',
-                        prior_order=['b', 'a', 'c'])
-    (DIRECTORY / 'inputs.json').write_text(json.dumps(dict(
+        quantiles = [i / 10000 for i in range(9900, 10001)]
+        # Scalar percentile_cont is the frozen contract; its array overload can differ by ulps.
+        anchors = [row[0] for row in db.cursor(binary=True).execute('''select
+          (select percentile_cont(q) within group (order by raw_value)
+           from public.score_reference where preset_id='academy_v0' and radius_m=800
+           and axis_key='cluster' and raw_value is not null)
+          from unnest(%s::double precision[]) with ordinality as quantiles(q,ord)
+          order by ord''', ([0.5, *quantiles],)).fetchall()]
+        max_raw = max(math.log1p(c['primary']['compete']['academies_by_field']['입시.검정 및 보습'])
+                      for c in cases[:3])
+        q, upper = next((q, value) for q, value in zip(quantiles, anchors[1:]) if value > max_raw)
+        calibration = dict(p50=anchors[0], upper=upper, upper_percentile=round(q * 100, 2),
+                           search_step_percentage_points=0.01, max_candidate_raw=max_raw,
+                           method='percentile_cont', radius_m=800, snapshot=reference['snapshot'],
+                           searched=[dict(percentile=round(q * 100, 2), value=v)
+                                     for q, v in zip(quantiles, anchors[1:])])
+    metadata = dict(seed=SEED, population_size=len(cells), random_cells=selected,
+                    population_sha256=hashlib.sha256(json.dumps(cells).encode()).hexdigest(),
+                    sampling='Python random.Random(seed).sample(sorted inside-Seoul cells, 5)',
+                    reference_snapshot=reference['snapshot'],
+                    binary_values_verified=len(stored),
+                    preset_version=args.preset_version, reference_version='0.1.2',
+                    prior_order=['b', 'a', 'c'], cluster_calibration=calibration)
+    (directory / 'inputs.json').write_text(json.dumps(dict(
         metadata=metadata, reference=reference, cases=cases), ensure_ascii=False) + '\n')
     # Native browser harness consumes exactly the same scenes as the Node verifier.
-    (DIRECTORY / 'worker-harness.html').write_text('''<!doctype html><meta charset="utf-8">
+    (directory / 'worker-harness.html').write_text('''<!doctype html><meta charset="utf-8">
 <script type="module">
 import {createVisibilityClient} from '/.local/visibility-browser/lib/visibility/client.js';
 const worker=new Worker('/.local/visibility-browser/workers/visibility.worker.js',{type:'module'});

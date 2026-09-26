@@ -91,7 +91,8 @@ def test_v022_checks_score_ring_coverage_and_preserves_v021(db, role):
         assert actual['buildings'] == before['buildings']
         assert actual['stations'] == before['stations']
         assert actual['schools'] == before['schools']
-        assert db.execute('select public.exposure_inputs_v021(127.062,37.496)').fetchone()[0] == before
+        unchanged = db.execute('select public.exposure_inputs_v021(127.062,37.496)').fetchone()[0]
+        assert unchanged == before
         outside = db.execute('select public.exposure_inputs_v022(126.88,37.48)').fetchone()[0]
         assert outside['coverage']['score_ring_within_loaded_region'] is False
     db.execute('reset role')

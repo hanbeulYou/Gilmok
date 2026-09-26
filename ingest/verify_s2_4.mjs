@@ -2,6 +2,8 @@
 /* global console */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import process from 'node:process';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { URL } from 'node:url';
 import { deepStrictEqual } from 'node:assert';
@@ -10,8 +12,15 @@ const require = createRequire(import.meta.url);
 const { computeVisibility } = require('../.local/scoring-build/lib/visibility/compute.js');
 const { score } = require('../.local/scoring-build/lib/scoring/score.js');
 const { loadPreset } = require('../.local/scoring-build/lib/scoring/presets.js');
-const directory = fileURLToPath(new URL('../.local/validation/s2-4-20260926/', import.meta.url));
+const directory = process.argv[2] ? resolve(process.argv[2]) + '/' : fileURLToPath(new URL('../.local/validation/s2-4-v03-20260926/', import.meta.url));
 const input = JSON.parse(readFileSync(directory + 'inputs.json', 'utf8'));
+const preset = loadPreset('academy_v0', 800);
+deepStrictEqual(input.metadata.preset_version, preset.version);
+if (input.metadata.cluster_calibration) {
+  const c = input.metadata.cluster_calibration;
+  deepStrictEqual([preset.cluster_scale.p50, preset.cluster_scale.upper, preset.cluster_scale.upper_percentile],
+    [c.p50, c.upper, c.upper_percentile]);
+}
 const browser = JSON.parse(readFileSync(directory + 'browser.json', 'utf8'));
 const results = input.cases.map(c => {
   const run = browser.runs.find(r => r.key === c.key);
