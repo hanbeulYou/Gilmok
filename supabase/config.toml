@@ -1,4 +1,4 @@
-# Initialized with Supabase CLI 2.72.7. Only S1 services are enabled.
+# Initialized with Supabase CLI 2.72.7. Remote Auth changes require execution approval.
 project_id = "gilmok"
 
 [api]
@@ -27,6 +27,11 @@ enabled = false
 enabled = true
 site_url = "http://127.0.0.1:3000"
 additional_redirect_urls = []
+enable_anonymous_sign_ins = true
+enable_manual_linking = true
+
+[auth.email]
+enable_confirmations = true
 
 [realtime]
 enabled = false
@@ -35,7 +40,7 @@ enabled = false
 enabled = false
 
 [inbucket]
-enabled = false
+enabled = true
 
 [storage]
 enabled = false

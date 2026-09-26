@@ -9,9 +9,19 @@ import duckdb
 def grid_rows(shapefile: Path, observed_cells: set[str]) -> list[dict]:
     with duckdb.connect() as connection:
         connection.execute("LOAD spatial")
-        connection.execute("create table grid as select * from ST_Read(?)", [str(shapefile)])
+        if shapefile.suffix == ".parquet":
+            # R2 preserves the original geometry and CRS; apply the same full rule audit.
+            connection.execute("create table original_grid as select * from read_parquet(?)",
+                               [str(shapefile)])
+            if connection.execute("select count(*) from original_grid where srid is distinct "
+                                  "from 5179").fetchone()[0]:
+                raise ValueError("Grid CRS must be verified EPSG:5179")
+            connection.execute("create table grid as select *,ST_GeomFromWKB(geometry_wkb) "
+                               "as geom from original_grid")
+        else:
+            connection.execute("create table grid as select * from ST_Read(?)", [str(shapefile)])
         schema = dict((row[0], row[1]) for row in connection.execute("describe grid").fetchall())
-        if schema.get("geom") != "GEOMETRY('EPSG:5179')":
+        if shapefile.suffix != ".parquet" and schema.get("geom") != "GEOMETRY('EPSG:5179')":
             raise ValueError("Grid CRS must be verified EPSG:5179")
         # CELL_ID = 다사 + easting/10 (4 digits) + northing/10 (4 digits).
         # Validate this observed rule against EVERY supplied geometry and center first.
