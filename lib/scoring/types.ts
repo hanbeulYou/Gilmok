@@ -121,7 +121,7 @@ export interface ScoreResult {
   derived: { academy_eligible: boolean | null; academy_eligible_reasons: string[] };
   computed_at: string;
 }
-export type ExposureInput = ({ status: 'ready'; model_version: '0.2.1'; visible_ratio: number } |
+export type ExposureInput = ({ status: 'ready'; model_version: '0.2.2'; visible_ratio: number } |
   { status: 'pending' | 'missing'; reason: string }) & {
     evidence?: { values: Record<string, unknown>; notes: readonly string[] };
   } | null;

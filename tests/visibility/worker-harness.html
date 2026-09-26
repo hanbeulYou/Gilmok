@@ -5,7 +5,7 @@ import { createVisibilityClient } from '/.local/visibility-browser/lib/visibilit
 const worker = new Worker('/.local/visibility-browser/workers/visibility.worker.js', { type: 'module' });
 const client = createVisibilityClient(worker);
 globalThis.verification = (async () => {
-  const scene = await (await fetch('/.local/validation/exposure-v021/scene.json')).json();
+  const scene = await (await fetch('/.local/validation/exposure-v022/scene.json')).json();
   const send = async scene => {
     const start = performance.now();
     const { requestId, response } = client.request(scene);

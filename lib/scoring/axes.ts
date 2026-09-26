@@ -85,7 +85,7 @@ export function exposureAxis(visibility: ExposureInput): AxisResult {
   e.notes.push(...(visibility?.evidence?.notes ?? []));
   if (!e.notes.includes(EXPOSURE_LIMITATION)) e.notes.push(EXPOSURE_LIMITATION);
   if (visibility?.status === 'ready') {
-    if (visibility.model_version !== '0.2.1') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
+    if (visibility.model_version !== '0.2.2') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
     if (!Number.isFinite(visibility.visible_ratio) || visibility.visible_ratio < 0 || visibility.visible_ratio > 1)
       throw new Error('Invalid visible_ratio');
     e.values.visible_ratio = visibility.visible_ratio;
