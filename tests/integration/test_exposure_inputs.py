@@ -76,6 +76,10 @@ def test_v021_1200m_stations_and_1230m_buildings_preserve_v02(db, role):
 @pytest.mark.parametrize('role', ['anon', 'authenticated'])
 def test_v022_checks_score_ring_coverage_and_preserves_v021(db, role):
     load(db, frames(db))
+    # CI starts with no real admin boundaries; keep coverage assertions self-contained.
+    db.execute('''insert into public.admin_dongs(adm_cd,name,geom,source,source_version)
+      values('11680999','coverage fixture',extensions.st_multi(
+      extensions.st_makeenvelope(127.06,37.49,127.07,37.50,4326)),'fixture','fixture')''')
     # All synthetic loaded-region polygons cover only a 200m square around the candidate.
     db.execute('''update public.admin_dongs set geom=extensions.st_multi(
       extensions.st_transform(extensions.st_expand(extensions.st_transform(
