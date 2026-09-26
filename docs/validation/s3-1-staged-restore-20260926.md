@@ -1,5 +1,7 @@
 # S3-1 복원 구조 변경·재시도 전 보고
 
+후속: 사용자 승인으로 8GB 확장·원격 복원을 완료했다. 현재 HTTP timeout 검증 중단 상태는 [최신 실행 보고](s3-1-remote-20260926.md)를 따른다. 아래는 재시도 전 판단 근거다.
+
 ## 연결 종료 원인
 
 브라우저 도구가 없어 Dashboard Logs Explorer와 동일한 로그 저장소를 Management API로 조회했다. 2026-09-26 10:55~11:02 UTC의 Postgres·Supavisor·PgBouncer 로그 480개를 확인했다. [발췌 원문](s3-1-connection-failure-logs.json).

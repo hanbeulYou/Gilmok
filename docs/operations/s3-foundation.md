@@ -101,3 +101,9 @@ Marketplace가 주입하는 공개 변수 이름과 `.env.example` 이름은 같
 2026-09-26 10:59:34 UTC의 실제 Postgres 로그는 `pg_wal` 쓰기 중 공간 부족이다. 승인된 VACUUM ANALYZE 1회는 38.308초에 성공했고 DB는 566.9→184.6MB로 줄었다. WAL은 별도로 956.3MB다. `/data` 전체 2.08GB·가용 745.7MB를 실측해 사용자에게 디스크 확장 여부를 확인했다. 임의 유료 전환·원본 축소는 하지 않는다. 상세는 [재시도 전 보고](../validation/s3-1-staged-restore-20260926.md)를 따른다.
 
 로컬 실제 재개 검증: `uv run --frozen python -m ingest.verify_restore_local --database gilmok_s3_replay_<새이름> --manifest docs/validation/s3-1-restore-manifest.json --resume-proof`. 이 검증은 4단계 적재 후 의도적 예외를 발생시키고, 앞의 3단계 보존·실패 단계 롤백·재개 및 18테이블 digest를 확인한다. 기본 로컬 DB나 원격에서는 실행하지 않는다.
+
+## 8GB 확장 후 원격 복원 결과
+
+8GB 확장과 18개 원천 테이블 전수 digest 대조를 완료했다. 상태 테이블 migration 포함 총 30개, 복원 완료 기록 7개다. 복원·검증 589.764초, VACUUM ANALYZE 18.320초, 유지보수 후 DB 889,810,067 byte. 원인은 기존 로그의 WAL 디스크 부족이며 keepalive는 보조 조치다. `df` 직접 실행 대신 Metrics API로 `/data` 전체 8,416,882,688 byte·가용 7,085,551,616 byte를 확인했다. Pro gp3 8GB 포함 기준은 공식 요금표로 확인했으며 조직 청구서 API는 권한 제한으로 열람하지 못했다.
+
+HTTP 검증은 200 150건 후 500 1건으로 중단됐다. PostgREST 57014 statement timeout과 anon role 3초 설정을 확인했다. 개별 DB/HTTP p95 파일은 성공 시에만 저장돼 이번에는 생성되지 않았다. Auth·Vault·webhook은 아직 적용하지 않았으며 `INGEST_REMOTE_ENABLED=false`를 유지한다. [상세 결과와 실패 로그](../validation/s3-1-remote-20260926.md)를 따른다.

@@ -122,3 +122,5 @@
 - S2-4 2026-09-26: PR #17 머지 후 고정 주소3곳+시드20260926 서울5셀 검증. [조정 전](docs/validation/s2-4-20260926.md)과 [v0.3 조정1회차](docs/validation/s2-4-v03-20260926.md)를 구분한다. 승인된 두 버그(적재 범위 밖 exposure=100, 요청 층10003 학원 미인식)를 수정하고 cluster만 p50=3.332204510175204 / p99.97=7.070653980704802 고정 선형 스케일로 변경했다. 원시 reference v0.1.2·가중치는 유지한다. preset/ScoreResult0.3, exposure scene/model0.2.2 및 v022 RPC. 실제 순위 b>a>c, 추가 조정은 사용자 판단 대기. 서울 전체 건축물 적재·원격 전환은 미실행이며 현재 적재는 강남구다.
 
 - S2 마감 2026-09-26: PR #18 머지 확인. [명세 §8](docs/planning/scoring-spec.md#8-검증-절차--대치동-실제-학원-3곳)에 결과·cluster 스케일1회 조정·과적합 유의 사항을 기록했다. ScoreResult 최초v0.1→현행v0.3, exposure scene/model0.2.2 및 v022 RPC, 주소 pending·임대료/지역 결측·신뢰도 문자열/코드는 S3 인계를 따른다. transit 라이딩 학원 이슈는 S3 이후 프리셋v0.4 검토이며 현재 식·가중치는 유지한다.
+
+- S3-1 2026-09-26 진행: 원격 gp3 8GB 확장·migration 30개·7단계 R2 복원 완료. 18테이블 digest 일치, 유지보수 후 DB 889,810,067 byte. 초기 복원 종료 원인은 WAL 공간 부족이며 keepalive는 보조 조치다. HTTP 검증은 anon role 3초 timeout(57014)으로 중단했다. Auth·Vault·webhook 미실행, `INGEST_REMOTE_ENABLED=false`, PR #20 Draft. [최신 원격 기록](docs/validation/s3-1-remote-20260926.md)을 따른다.
