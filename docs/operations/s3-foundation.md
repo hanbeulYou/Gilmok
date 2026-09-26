@@ -1,6 +1,6 @@
 # S3-1 실행 절차
 
-2026-09-26 · 로컬 구현 승인. **원격 쓰기는 최종 dry-run·복원 manifest 보고 후 별도 승인한다.** Vercel 연결과 Auth URL 등록은 프론트 골격 main 머지 후 사용자가 수행한다.
+2026-09-26 · 원격 gp3 8GB 확장·30개 migration·7단계 복원을 완료했다. HTTP RPC 검증은 anon 3초 statement timeout으로 중단했고 Auth·Vault·webhook은 미실행이다. [최신 실행 기록](../validation/s3-1-remote-20260926.md)을 따른다. Vercel 연결·Auth URL 등록은 main 머지 후 사용자가 수행한다.
 
 ## 준비·승인 대상
 
