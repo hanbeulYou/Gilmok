@@ -31,7 +31,7 @@ const lines = [
   `링 전용 visible_ratio **${result.visible_ratio.toFixed(8)} (${(100 * result.visible_ratio).toFixed(4)}%)**, exposure 점수 **${(100 * result.visible_ratio).toFixed(4)}**.`,
   `후보 도형: ${data.scene.candidate_building_id}. 건물 ${data.scene.buildings.length}개, 학교 ${data.scene.schools.length}곳.`,
   `현장 진술 ‘맞은편에서 보임’: 링 ${result.summary.ring.visible}/${result.summary.ring.generated}점 가시(${(100 * result.summary.ring.visible / result.summary.ring.generated).toFixed(2)}%, 가중치 미적용). 절반 이상 기준 **${fieldAgreement ? '일치' : '미충족'}**.`,
-  '점수와 현장 판정 모두20·40·60m를 사용했다. 요청 말미의30m는 본문20m를 기준으로 해석했다. 생성108점 중 제외점도 현장 판정 분모에 유지한다.',
+  '점수와 현장 판정 모두20·40·60m를 사용했다. 2026-09-26 사용자가30m는20m의 오타임을 확인했다. 생성108점 중 제외점도 현장 판정 분모에 유지한다.',
   '', '관찰점의 높이가 1.5m일 때 간판 목표점까지의 직선 시선 모델이다. 역·학교 대표점 사이의 직선이며 실제 보도/출입구 경로가 아니다. 5186 격자 북쪽=0°, 동쪽=90°, 남쪽=180°, 서쪽=270°다. 지형은 반영하지 않는다.',
   '', '건물 출처: 국토교통부 GIS건물통합정보(Vworld), SHP 2026-09-06(CC BY) 및 WFS 보조 2026-09-20. 길목에서 좌표 변환·도형 수리·높이 추정. [출처와 이용 조건](../data-attribution.md).',
   '', '가시=시선 교차 없음, 차폐=다른 건물과 교차, 제외=관찰점이 바깥으로 30m 안에 나올 수 없어 계산 분모에서도 제거됨. 차폐 건물 ID는 시선을 가리는 건물 중 ID 순 첫 건이며 가장 가까운 건물이라는 뜻은 아니다.',
