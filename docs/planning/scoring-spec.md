@@ -7,7 +7,7 @@
 
 > 입력 보완: S1 v1.2 실제 JSON 대조와 사용자 결정을 [대조표와 계획](s2-1-2-plan.md)에 반영했다. S2-2에서 `building.gross_area`를 RPC v1.3에 추가했고, 코드와 기준 분포도 같은 계약으로 갱신했다.
 
-S2-1·S2-2·S2-3(PR #16)는 main에 머지됐다. 이 문서는 PR #16 후속 노출 조건 v0.2.1을 반영한다. 실제 학원 검증·임대료 보정(S2-4)은 별도 태스크다.
+S2-1·S2-2·S2-3(PR #17)는 main에 머지됐다. S2-4 조정 전 검증 후 사용자 승인으로 두 버그를 수정하고 cluster 정규화만 1회 조정한다. 다른 축·가중치는 유지한다.
 
 ---
 
@@ -86,7 +86,7 @@ cluster 점수는 §4.4의 고정 상수로 계산한다. 아래 실시간 백�
 pct(axis, raw) = percentile_rank(score_reference[axis], raw)   // 0~100
 ```
 
-축마다 단조 방향(↑ 높을수록 좋음 / ↓ 낮을수록 좋음)을 정한다. cluster(§4.4)는 raw를 log 변환한 뒤 백분위를 구한다.
+축마다 단조 방향(↑ 높을수록 좋음 / ↓ 낮을수록 좋음)을 정한다. cluster(§4.4)는 raw를 log 변환한 뒤 고정 선형 스케일을 적용한다.
 
 ---
 
@@ -99,7 +99,7 @@ pct(axis, raw) = percentile_rank(score_reference[axis], raw)   // 0~100
 | 1   | demand          | 30     | ↑       | demand.pop_5_9·pop_10_14·pop_15_18, demand.schools(1km)                 | 백분위       |
 | 2   | flow            | 15     | ↑       | flow.weekday.golden_avg_pop, flow.weekend.golden_avg_pop                | 백분위       |
 | 3   | transit         | 15     | ↑       | transit.nearest_subway_m, subway_boardings_golden, bus_stops            | 백분위(합성) |
-| 4   | cluster         | 15     | ↑ (log) | compete.academies_by_field["입시.검정 및 보습"], academies_total        | 백분위(log)  |
+| 4 | cluster | 15 | ↑ (log) | compete.academies_by_field["입시.검정 및 보습"], academies_total | 고정 선형(log, §4.4) |
 | 5   | exposure      | 5     | ↑       | 근거리 링 visible_ratio (클라이언트)                                   | 절대         |
 | 6   | building        | 10     | 규칙    | building.floor_use, all_floors, elevators, floors_above, location_basis | 절대         |
 | 7   | environment     | 5      | 규칙    | market.stores_total, stores_by_lcls                                     | 백분위+감점  |
@@ -168,9 +168,9 @@ saturation = n_field / (students / 1000)                    // 학생 1,000명�
 level      = saturation ≥ 60 ? "high" : saturation ≥ 25 ? "mid" : "low"
 ```
 
-**고정 정규화 상수(v0.3):** `score_reference`의 academy_v0/reference v0.1.2, snapshot `20260923T111436Z`, 반경 800m `cluster`의 비NULL 9,694개 raw에 PostgreSQL `percentile_cont`를 적용했다. p50 = **3.332204510175204**, upper = **p99.97 = 7.070653980704802**. DB binary float8로 읽은 값을 프리셋 `cluster_scale`에 고정한다. 조회 시 다시 분위수를 구하지 않는다. 지원 반경 800/1000m 모두 이 고정 스케일을 사용하며 상수의 보정 분포는 800m다.
+**고정 정규화 상수(v0.3):** `score_reference`의 academy_v0/reference v0.1.2, snapshot `20260923T111436Z`, 반경 800m `cluster`의 비NULL 9,694개 raw에 PostgreSQL scalar `percentile_cont`를 적용했다. p50 = **3.332204510175204**, upper = **p99.97 = 7.070653980704802**. DB binary float8로 읽은 값을 프리셋 `cluster_scale`에 고정한다. 조회 시 다시 분위수를 구하지 않는다. 지원 반경 800/1000m 모두 이 고정 스케일을 사용하며 상수의 보정 분포는 800m다.
 
-p99부터 p100까지 **0.01%p 간격**으로 탐색하여 a·b·c의 최대 raw(도곡로409: 7.011213987350367)보다 큰 상한 중 가장 낮은 분위수를 선택했다. p99=5.92232509339011, p99.5=6.16917945666582, p99.96=6.98865173585314는 적어도 한 곳이 100에 붙는다. p99.97은 세 곳 모두 100 미만이다. 연속 분위수 전체의 최솟값을 뜻하지 않는다. 하한 이하 0, 상한 이상 100이며 NULL raw는 NULL이다.
+p99부터 p100까지 **0.01%p 간격**으로 탐색하여 a·b·c의 최대 raw(도곡로409: 7.011213987350367)보다 큰 상한 중 가장 낮은 분위수를 선택했다. p99=5.92232509339011, p99.5=6.16917945666582, p99.96=6.988651735853244는 적어도 한 곳이 100에 붙는다. p99.97은 세 곳 모두 100 미만이다. 연속 분위수 전체의 최솟값을 뜻하지 않는다. 하한 이하 0, 상한 이상 100이며 NULL raw는 NULL이다.
 
 서울 상위 구간의 구분력이 부족하다는 사용자 검증에 따라 백분위 점수를 고정 선형 스케일로 교체했다. ln(1+n), 포화 지표, 다른 축과 가중치는 유지한다. 근거에 raw·상수·상한 분위수·분포 snapshot·클램프 전 값을 기록한다. cluster 점수는 실행 시 분포 조회에 의존하지 않으며, 포화 백분위는 기존처럼 근거 전용이다. 원시 기준 분포 v0.1.2를 재생성하지 않는다.
 
@@ -184,7 +184,7 @@ p99부터 p100까지 **0.01%p 간격**으로 탐색하여 a·b·c의 최대 raw(
 
 ## 5. 축별 계산 — 규칙 축 (절대 점수)
 
-### 5.5 exposure (건물 앞 도로·맞은편에서의 간판 노출) — v0.2.1
+### 5.5 exposure (건물 앞 도로·맞은편에서의 간판 노출) — v0.2.2
 
 **입력:** buildings_in_radius(1,230m)의 footprint와 차폐 높이(unknown=4m), 후보 좌표·층, **1.2km 내 모든 역** 좌표, 1km 내 학교 좌표. exposure_inputs_v022가 전부 EPSG:5186 미터 좌표로 제공한다. 건물 범위는 1.2km 동선과 최대30m 밀어내기를 포함한다. transit_stops의 역 ID 기준이며 노선별 환승역 대표점을 임의로 합치지 않는다. 역이 없으면 역 근거 집합은 빈 배열이다. 역삼로460에서 대치역 대표점이1,033m로 잘리는 것을 반경 확대 이유로 기록한다.
 
