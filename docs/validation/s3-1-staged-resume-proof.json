@@ -1,0 +1,7 @@
+{
+  "injected_failure_rolled_back": true,
+  "completed_stages_preserved": 3,
+  "resumed_stages": 4,
+  "tables_verified": 18,
+  "all_completed_retry_skipped": true
+}

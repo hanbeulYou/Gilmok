@@ -3,6 +3,8 @@
 import pandas as pd
 from psycopg.types.json import Jsonb
 
+from ingest.copy_batches import chunked_copy
+
 
 def seoul_stops(connection, stops: pd.DataFrame) -> pd.DataFrame:
     with connection.transaction(), connection.cursor() as cursor:
@@ -10,7 +12,7 @@ def seoul_stops(connection, stops: pd.DataFrame) -> pd.DataFrame:
             raise ValueError("Expected the validated 427 Seoul administrative boundaries")
         cursor.execute("create temporary table transit_location_stage "
                        "(id text, lng float8, lat float8) on commit drop")
-        with cursor.copy("copy transit_location_stage from stdin") as copy:
+        with chunked_copy(cursor, "copy transit_location_stage from stdin") as copy:
             for row in stops.itertuples():
                 copy.write_row((row.stop_id, row.lng, row.lat))
         ids = {row[0] for row in cursor.execute(
@@ -38,13 +40,13 @@ def load_snapshot(connection, stops, boardings, reports, *, start, end, coordina
         cursor.execute("select pg_advisory_xact_lock(7412303)")
         cursor.execute("delete from public.transit_boardings")
         cursor.execute("delete from public.transit_stops")
-        with cursor.copy("copy public.transit_stops "
+        with chunked_copy(cursor, "copy public.transit_stops "
                          "(id,type,name,line,geom,source,source_version) from stdin") as copy:
             for row in stops.itertuples():
                 copy.write_row((row.stop_id, row.type, row.name, row.line,
                                 f"SRID=4326;POINT({row.lng} {row.lat})",
                                 f"seoul_{row.type}_stops", coordinate_version))
-        with cursor.copy("copy public.transit_boardings "
+        with chunked_copy(cursor, "copy public.transit_boardings "
                          "(stop_id,hour,boarding,alighting,sample_months,period_start,period_end,"
                          "source,source_version) from stdin") as copy:
             for row in boardings.itertuples():

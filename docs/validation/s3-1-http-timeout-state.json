@@ -1,0 +1,20 @@
+{
+  "role_settings": {
+    "postgres": [
+      "search_path=\"\\$user\", public, extensions"
+    ],
+    "anon": [
+      "statement_timeout=3s"
+    ],
+    "authenticated": [
+      "statement_timeout=8s"
+    ],
+    "authenticator": [
+      "session_preload_libraries=supautils, safeupdate",
+      "statement_timeout=8s",
+      "lock_timeout=8s"
+    ]
+  },
+  "checkpoint_count": 7,
+  "db_bytes": 889810067
+}

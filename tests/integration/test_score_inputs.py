@@ -1,6 +1,7 @@
 """Independent, rollback-only data proves the S2 input contract, not live statistics."""
 
 import copy
+import json
 
 import psycopg
 import pytest
@@ -361,11 +362,15 @@ def cached_address(data, status="ready"):
     )
 
 
-@pytest.mark.parametrize("role", ["anon", "authenticated"])
-def test_address_miss_enqueues_once_with_public_role(data, role):
+@pytest.mark.parametrize("anonymous", [True, False])
+def test_address_miss_enqueues_once_with_signed_in_uid(data, anonymous):
     clear_address(data)
     data.execute("delete from public.buildings where id='pr7'")
-    data.execute(f"set local role {role}")
+    uid = data.execute("insert into auth.users(id,is_anonymous) values(gen_random_uuid(),%s) "
+                       "returning id", (anonymous,)).fetchone()[0]
+    data.execute("set local role authenticated")
+    data.execute("select set_config('request.jwt.claims',%s,true)",
+                 (json.dumps(dict(sub=str(uid), role="authenticated", is_anonymous=anonymous)),))
     for address in ("역삼로460", ADDRESS, "서울 강남구 역삼로460"):
         r = query(data, address=address)
         assert r["meta"]["building_lookup"]["status"] == "pending"

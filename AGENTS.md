@@ -48,6 +48,7 @@
 ### 데이터
 
 - 외부 데이터 API는 `/ingest` 안에서만 호출한다. 프론트·Edge Function은 Supabase만 본다. PR 8 사용자 승인 예외: DB의 pg_net webhook이 고정 GitHub repository_dispatch 엔드포인트를 호출하여 Python 주소 워커를 깨울 수 있다. 주소·PNU 전송 및 DB/Edge의 데이터 API 호출은 허용하지 않는다. 원격 전환 후 수동 활성화한다.
+- S3 사용자 승인 예외: 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 호출할 수 있다. 키는 서버 환경변수에만 두고 결과를 `geocode_cache`에 캐시하며 uid당 일일 제한을 둔다. 배치·건축물 대장 조회는 여전히 `/ingest`에서만 호출한다. 구현은 S3-2다.
 - 좌표는 DB에 EPSG:4326으로 저장. 거리 계산은 `geography` 또는 5186 변환 후.
 - 추정값에는 반드시 `estimated` 플래그. 추정 로직은 `data-sources.md`에 적힌 것만 쓴다. 새 추정이 필요하면 문서에 먼저 추가.
 - 로컬 인증키·비밀은 `.env`에만. GitHub Actions에서는 Secrets를 실행 환경에 주입한다. 키 값은 코드·문서·로그에 기록하지 않는다. `.env.example`을 항상 최신으로 유지하고, `.gitignore`에 `.env*`와 예외 `!.env.example`을 둔다.
@@ -121,3 +122,5 @@
 - S2-4 2026-09-26: PR #17 머지 후 고정 주소3곳+시드20260926 서울5셀 검증. [조정 전](docs/validation/s2-4-20260926.md)과 [v0.3 조정1회차](docs/validation/s2-4-v03-20260926.md)를 구분한다. 승인된 두 버그(적재 범위 밖 exposure=100, 요청 층10003 학원 미인식)를 수정하고 cluster만 p50=3.332204510175204 / p99.97=7.070653980704802 고정 선형 스케일로 변경했다. 원시 reference v0.1.2·가중치는 유지한다. preset/ScoreResult0.3, exposure scene/model0.2.2 및 v022 RPC. 실제 순위 b>a>c, 추가 조정은 사용자 판단 대기. 서울 전체 건축물 적재·원격 전환은 미실행이며 현재 적재는 강남구다.
 
 - S2 마감 2026-09-26: PR #18 머지 확인. [명세 §8](docs/planning/scoring-spec.md#8-검증-절차--대치동-실제-학원-3곳)에 결과·cluster 스케일1회 조정·과적합 유의 사항을 기록했다. ScoreResult 최초v0.1→현행v0.3, exposure scene/model0.2.2 및 v022 RPC, 주소 pending·임대료/지역 결측·신뢰도 문자열/코드는 S3 인계를 따른다. transit 라이딩 학원 이슈는 S3 이후 프리셋v0.4 검토이며 현재 식·가중치는 유지한다.
+
+- S3-1 2026-09-26: Pro gp3 8GB 확장·31개 migration·7단계 복원 완료(고정 manifest f5b48dd9…, 18테이블 digest 일치). 첫 실패 원인은 pg_wal 디스크 부족. 직접 SQL 새 세션 첫 실행과 웜 30회 분리: 웜 p95 52.203~220.983ms 통과. authenticated statement_timeout=15s 및 월간 갱신 후 6조합 예열 적용. 익명 로그인 세션 HTTP 186회·고정 응답 기준 일치, Auth·Vault·비활성 웹훅과 원격 RLS 확인 완료. DB 최종 890,186,899 byte. `INGEST_REMOTE_ENABLED=false`; 웹훅 활성화·pending 1건 Actions 실증과 Vercel 연결은 main 머지 후. [최신 검산](docs/validation/s3-1-product-rpc-20260926.md), [복원 기록](docs/validation/s3-1-remote-20260926.md)을 따른다.

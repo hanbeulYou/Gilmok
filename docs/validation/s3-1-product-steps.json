@@ -1,0 +1,158 @@
+{
+  "manifest_sha256": "f5b48dd9d6a79bc91b91bfddb2b9a086f900edbb703924754990132c3a1a32ba",
+  "steps": [
+    {
+      "step": "dry_run",
+      "status": "success",
+      "seconds": 0.99,
+      "recorded_at": "2026-09-26T12:42:46.269725+00:00",
+      "privileged_role": "supabase_privileged_role",
+      "before_config": [
+        "statement_timeout=8s"
+      ]
+    },
+    {
+      "step": "push",
+      "status": "success",
+      "seconds": 1.471,
+      "recorded_at": "2026-09-26T12:43:46.415667+00:00",
+      "privileged_role": "supabase_privileged_role",
+      "before_config": [
+        "statement_timeout=8s"
+      ],
+      "migration_count": 31,
+      "after_config": [
+        "statement_timeout=15s"
+      ]
+    },
+    {
+      "step": "auth",
+      "status": "success",
+      "seconds": 1.776,
+      "recorded_at": "2026-09-26T12:44:07.274337+00:00",
+      "external_anonymous_users_enabled": true,
+      "security_manual_linking_enabled": true,
+      "mailer_autoconfirm": false
+    },
+    {
+      "step": "http",
+      "status": "success",
+      "seconds": 49.719,
+      "recorded_at": "2026-09-26T12:45:29.063013+00:00",
+      "requests": 186,
+      "role": "authenticated",
+      "is_anonymous": true,
+      "baseline_matches": true,
+      "test_user_deleted": true
+    },
+    {
+      "step": "warmup",
+      "status": "success",
+      "seconds": 2.788,
+      "recorded_at": "2026-09-26T12:45:42.581129+00:00",
+      "cases": [
+        {
+          "name": "대치",
+          "radius_m": 500,
+          "roundtrip_ms": 800.268,
+          "bundle_ms": {
+            "flow": 23.468,
+            "rent": 15.055,
+            "demand": 68.097,
+            "market": 16.887,
+            "compete": 12.793,
+            "transit": 2.914,
+            "building": 46.385
+          }
+        },
+        {
+          "name": "대치",
+          "radius_m": 1000,
+          "roundtrip_ms": 376.231,
+          "bundle_ms": {
+            "flow": 45.662,
+            "rent": 3.4,
+            "demand": 4.113,
+            "market": 46.462,
+            "compete": 14.956,
+            "transit": 1.679,
+            "building": 148.012
+          }
+        },
+        {
+          "name": "학여울",
+          "radius_m": 500,
+          "roundtrip_ms": 103.687,
+          "bundle_ms": {
+            "flow": 9.408,
+            "rent": 1.553,
+            "demand": 1.221,
+            "market": 2.863,
+            "compete": 0.63,
+            "transit": 0.637,
+            "building": 18.567
+          }
+        },
+        {
+          "name": "학여울",
+          "radius_m": 1000,
+          "roundtrip_ms": 224.495,
+          "bundle_ms": {
+            "flow": 39.104,
+            "rent": 1.574,
+            "demand": 3.055,
+            "market": 23.806,
+            "compete": 3.752,
+            "transit": 0.844,
+            "building": 53.82
+          }
+        },
+        {
+          "name": "한티",
+          "radius_m": 500,
+          "roundtrip_ms": 144.635,
+          "bundle_ms": {
+            "flow": 11.6,
+            "rent": 1.848,
+            "demand": 1.472,
+            "market": 10.413,
+            "compete": 6.757,
+            "transit": 0.625,
+            "building": 51.258
+          }
+        },
+        {
+          "name": "한티",
+          "radius_m": 1000,
+          "roundtrip_ms": 608.635,
+          "bundle_ms": {
+            "flow": 48.426,
+            "rent": 4.584,
+            "demand": 2.795,
+            "market": 141.693,
+            "compete": 7.021,
+            "transit": 3.101,
+            "building": 250.029
+          }
+        }
+      ]
+    },
+    {
+      "step": "vault",
+      "status": "success",
+      "seconds": 0.628,
+      "recorded_at": "2026-09-26T12:46:01.728173+00:00",
+      "secret_name": "gilmok_github_dispatch_token",
+      "value_verified": true
+    },
+    {
+      "step": "webhook_prepare",
+      "status": "success",
+      "seconds": 1.316,
+      "recorded_at": "2026-09-26T12:46:09.627296+00:00",
+      "created": true,
+      "enabled": false,
+      "live_dispatch_test": "after merge"
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "target": "local",
+  "manifest_sha256": "f5b48dd9d6a79bc91b91bfddb2b9a086f900edbb703924754990132c3a1a32ba",
+  "cases": [
+    {
+      "name": "\ub300\uce58",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 500,
+      "floor": 2,
+      "db_ms": [
+        12.73,
+        12.813,
+        13.412,
+        12.057,
+        12.178,
+        11.57,
+        12.262,
+        12.708,
+        12.081,
+        11.643,
+        10.925,
+        11.998,
+        11.41,
+        11.686,
+        11.716,
+        10.966,
+        11.758,
+        12.07,
+        11.114,
+        11.449,
+        11.633,
+        10.951,
+        11.674,
+        11.593,
+        11.665,
+        12.024,
+        11.401,
+        11.377,
+        11.893,
+        11.127
+      ],
+      "db_p95_ms": 12.813,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    },
+    {
+      "name": "\ub300\uce58",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_ms": [
+        40.262,
+        40.777,
+        40.011,
+        40.272,
+        39.897,
+        39.823,
+        40.098,
+        39.757,
+        39.673,
+        40.003,
+        40.357,
+        41.651,
+        39.645,
+        39.712,
+        40.163,
+        40.06,
+        39.943,
+        39.645,
+        39.649,
+        40.075,
+        39.808,
+        40.235,
+        40.042,
+        40.379,
+        39.889,
+        59.272,
+        39.82,
+        40.536,
+        39.777,
+        39.645
+      ],
+      "db_p95_ms": 41.651,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    },
+    {
+      "name": "\ud559\uc5ec\uc6b8",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 500,
+      "floor": 2,
+      "db_ms": [
+        9.22,
+        8.832,
+        9.048,
+        9.732,
+        9.05,
+        9.601,
+        9.486,
+        9.058,
+        9.159,
+        8.941,
+        9.47,
+        9.079,
+        9.103,
+        9.818,
+        9.629,
+        9.542,
+        9.749,
+        9.477,
+        8.99,
+        9.367,
+        9.407,
+        9.284,
+        9.084,
+        9.359,
+        9.443,
+        9.104,
+        9.849,
+        9.663,
+        9.028,
+        9.239
+      ],
+      "db_p95_ms": 9.818,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    },
+    {
+      "name": "\ud559\uc5ec\uc6b8",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_ms": [
+        28.478,
+        28.218,
+        28.763,
+        28.496,
+        28.177,
+        28.792,
+        28.477,
+        28.442,
+        28.311,
+        28.411,
+        28.173,
+        28.586,
+        28.476,
+        28.46,
+        28.437,
+        28.8,
+        28.088,
+        28.299,
+        28.728,
+        28.247,
+        28.508,
+        28.093,
+        28.87,
+        30.451,
+        28.751,
+        28.499,
+        29.775,
+        29.857,
+        30.006,
+        28.616
+      ],
+      "db_p95_ms": 30.006,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    },
+    {
+      "name": "\ud55c\ud2f0",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 500,
+      "floor": 2,
+      "db_ms": [
+        18.949,
+        19.102,
+        18.352,
+        19.179,
+        18.873,
+        19.336,
+        18.598,
+        19.113,
+        18.913,
+        18.656,
+        19.132,
+        18.485,
+        19.342,
+        18.589,
+        18.242,
+        19.322,
+        18.184,
+        19.134,
+        18.602,
+        19.167,
+        18.282,
+        19.033,
+        18.326,
+        18.903,
+        19.36,
+        18.531,
+        19.048,
+        18.404,
+        19.037,
+        19.154
+      ],
+      "db_p95_ms": 19.342,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    },
+    {
+      "name": "\ud55c\ud2f0",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 1000,
+      "floor": 2,
+      "db_ms": [
+        59.361,
+        59.504,
+        60.431,
+        79.566,
+        59.644,
+        59.658,
+        60.991,
+        59.728,
+        61.027,
+        60.678,
+        61.044,
+        59.629,
+        59.566,
+        59.458,
+        59.858,
+        59.431,
+        61.859,
+        60.456,
+        60.256,
+        60.626,
+        59.679,
+        59.715,
+        60.129,
+        60.339,
+        61.148,
+        60.048,
+        60.867,
+        61.084,
+        60.202,
+        59.351
+      ],
+      "db_p95_ms": 61.859,
+      "baseline_matches": true,
+      "transit_metadata_source": "seoul_bus_boardings"
+    }
+  ],
+  "comparison_note": "Normalize only meta.sources.transit_counts.source: existing LIMIT 1 may select either verified bus or subway source",
+  "tables": {
+    "admin_dongs": {
+      "rows": 427,
+      "row_digest": "356419a5ded532f0b78933e0202bda31"
+    },
+    "population_age": {
+      "rows": 1281,
+      "row_digest": "b5ff9df0e22cc6bfa81cda51883b9dc6"
+    },
+    "population_cells": {
+      "rows": 10127,
+      "row_digest": "a51236f4fca715c2520616b037ede51d"
+    },
+    "living_pop": {
+      "rows": 411512,
+      "row_digest": "2f39d5bcc17f1747ac4f6793bb01a104"
+    },
+    "transit_stops": {
+      "rows": 11620,
+      "row_digest": "90a2b67b8683a7829a59d5f79a246d36"
+    },
+    "transit_boardings": {
+      "rows": 264696,
+      "row_digest": "4ade329083e45ea4925311a07f1dff2b"
+    },
+    "stores": {
+      "rows": 554092,
+      "row_digest": "cc8045f81ad8c2f95446037d1de578f4"
+    },
+    "academies": {
+      "rows": 25508,
+      "row_digest": "ab85845b987ac6b616a108650e4926f6"
+    },
+    "schools": {
+      "rows": 1319,
+      "row_digest": "15cd5035953a2ed0a6447030545a45df"
+    },
+    "buildings": {
+      "rows": 30112,
+      "row_digest": "6d311b7a1dae797181fdeb8e6ed4ec2d"
+    },
+    "building_registers": {
+      "rows": 24324,
+      "row_digest": "f5029388e18ddc424eb90a8c0e4e2170"
+    },
+    "building_floors": {
+      "rows": 198637,
+      "row_digest": "26f2cf9d7249960d03a4e93f255f9621"
+    },
+    "legal_dongs": {
+      "rows": 14,
+      "row_digest": "798a213d1f0e6de442d6205378a22538"
+    },
+    "commercial_trade_stats": {
+      "rows": 180,
+      "row_digest": "2865cb27b45faf994a6bc47f3b7e93e3"
+    },
+    "rent_areas": {
+      "rows": 12,
+      "row_digest": "736a643184a59b8618a3083e160b813c"
+    },
+    "rent_survey": {
+      "rows": 34,
+      "row_digest": "fc0b3e7464e13f754c79244b4d177ae5"
+    },
+    "score_reference": {
+      "rows": 162032,
+      "row_digest": "98773ae0563d3953451aed3472b5a639"
+    },
+    "score_reference_sets": {
+      "rows": 1,
+      "row_digest": "b526cdaf24f727f48a4fad58b0c96eb4"
+    }
+  },
+  "http_measured": false
+}

@@ -1,0 +1,32 @@
+{
+  "result": [
+    {
+      "event_message": "POST | 500 | https://[project].supabase.co/rest/v1/rpc/score_inputs | Python-urllib/3.12",
+      "http_status": "500",
+      "path": "/rest/v1/rpc/score_inputs",
+      "source": "edge_logs",
+      "timestamp": "2026-09-26T12:21:15.698000"
+    },
+    {
+      "event_message": "canceling statement due to statement timeout",
+      "http_status": "",
+      "path": "",
+      "source": "postgres_logs",
+      "timestamp": "2026-09-26T12:21:18.733000"
+    },
+    {
+      "event_message": "{\"code\":\"57014\",\"details\":null,\"hint\":null,\"message\":\"canceling statement due to statement timeout\"}",
+      "http_status": "",
+      "path": "",
+      "source": "postgrest_logs",
+      "timestamp": "2026-09-26T12:21:18.809815"
+    },
+    {
+      "event_message": "127.0.0.1 - anon [26/Sep/2026:12:21:18 +0000] \"POST /rpc/score_inputs HTTP/1.1\" 500 100 \"\" \"Python-urllib/3.12\"",
+      "http_status": "",
+      "path": "",
+      "source": "postgrest_logs",
+      "timestamp": "2026-09-26T12:21:18.839522"
+    }
+  ]
+}

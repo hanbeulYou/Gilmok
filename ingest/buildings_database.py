@@ -5,6 +5,7 @@ from psycopg import sql
 from psycopg.types.json import Jsonb
 
 from ingest.building_footprints import SHP_SOURCE, WFS_SOURCE
+from ingest.copy_batches import chunked_copy
 
 FOOTPRINT_COLUMNS = [
     "id",
@@ -60,7 +61,7 @@ FLOOR_COLUMNS = [
 
 def copy_frame(cursor, table, columns, frame):
     identifiers = sql.SQL(",").join(map(sql.Identifier, columns))
-    with cursor.copy(
+    with chunked_copy(cursor,
         sql.SQL("copy {} ({}) from stdin").format(sql.Identifier(table), identifiers)
     ) as copy:
         integral = {

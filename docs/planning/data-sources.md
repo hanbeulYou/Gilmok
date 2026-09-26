@@ -559,3 +559,12 @@ preset/ScoreResult/model_version은0.2.1이며 기존0.2 점수는 재계산한�
 `exposure_inputs_v022(lng,lat)`은 v021 응답을 보존하고 schema_version=0.2.2 및 `coverage.score_ring_within_loaded_region`을 추가한다. EPSG:5186 후보 중심90m(60m 링+30m 이동)를 강남구 행정동 합집합이 덮는지 확인한다. 전체1230m 포함 여부와 구분한다. Worker는 이 플래그가 true가 아니면 `building_coverage_insufficient`로 결측을 반환한다. 원천 적재 여부 검사도 유지하며 빈 배열만으로 100점을 만들지 않는다. v021/이전 RPC와 원본 데이터는 변경하지 않는다. 롤백은 소비자를 기존 RPC/model/preset으로 되돌리는 방식이며 신규 RPC 제거는 의존 소비자 제거 후 별도 마이그레이션으로 한다.
 
 도곡로409 2층 실제 floor_use의 `use_code=10003`, `use_name=학원`, `other_use=학원`을 확인했다. 사용자 승인에 따라 R1/R2 교육연구시설군 학원으로 인식한다. 문자열 "학원"만으로 모든 미상 코드를 확장 분류하지 않는다.
+
+
+### S3-2 주소·백분위 클라이언트 계약 예약 (2026-09-26 승인)
+
+S3-1에서는 아래 결정을 문서에만 반영한다. 구현은 S3-2다.
+
+- 백분위는 raw 값을 받는 RPC가 계산하여 반환한다. 분포 전체 다운로드는 클라이언트 경로에 쓰지 않는다. 기존 배치/검증용 분포 조회 계약은 보존한다.
+- pending 상태는 요청자 uid로 RLS가 적용된 상태 뷰로 조회·구독한다. 공개 필드는 요청 id·status·updated_at뿐이며 비공개 주소 캐시 직접 구독은 금지한다. 일반 SQL VIEW의 직접 Postgres Changes 구독 제약을 고려한 상태 투영 저장/구독 방식은 S3-2에서 검증하되 이 공개 계약을 유지한다.
+- 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 외부 API를 호출할 수 있다. 서버 환경변수 키·geocode_cache 캐시·uid당 일일 제한을 필수로 둔다. 브라우저의 직접 API 호출은 허용하지 않는다. 배치 및 대장 API 호출은 계속 /ingest에서만 수행한다.

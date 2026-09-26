@@ -1,0 +1,10 @@
+{
+  "migration_count": 31,
+  "db_bytes": 890186899,
+  "authenticated_config": [
+    "statement_timeout=15s"
+  ],
+  "webhook_trigger_enabled": "D",
+  "queue_status_counts": [],
+  "vault_secret_count": 1
+}
