@@ -4,10 +4,10 @@
 
 ## 준비·승인 대상
 
-- CLI 2.72.7, PostgreSQL 17.6, PostGIS 3.3.7. 기존 28개 + `20260926093918_s3_foundation_auth.sql`을 적용한다. 기존 마이그레이션 파일은 수정하지 않는다.
+- CLI 2.72.7, PostgreSQL 17.6, PostGIS 3.3.7. 기존 28개 + `20260926093918_s3_foundation_auth.sql`의 원격 적용은 완료했다. 재개 상태 테이블 `20260926112125_restore_stage_manifest.sql` 1개를 추가 적용한다. 기존 마이그레이션 파일은 수정하지 않는다.
 - 새 마이그레이션: comparisons와 소유자 RLS, 같은 소유자의 후보 최대 5개 참조 검증, private 익명 uid별 한국 날짜 기준 10건 카운터·트리거, 큐 요청자 uid. 무세션 큐 생성은 거절하고 조회 전용 RPC는 유지한다.
 - S3-2의 raw→백분위 RPC, uid별 상태 뷰/구독, 주소 Route Handler는 이번에 구현하지 않는다. [확정 결정](../planning/s3-1-plan.md#9-예상-리스크와-후속-경계)을 따른다.
-- [복원 manifest](../validation/s3-1-restore-manifest.json)의 SHA256과 29개 dry-run 적용 목록이 원격 실행 승인 대상이다. 승인 이후 코드/원본/manifest가 바뀌면 변경 내용을 보고하고 해당 대상을 다시 대조한다.
+- [복원 manifest](../validation/s3-1-restore-manifest.json)의 SHA256은 최초 승인 값을 유지한다. 기존 29개 원격 이력과 신규 상태 테이블 1개 dry-run을 대조한다. 승인 이후 코드/원본/manifest가 바뀌면 변경 내용을 보고하고 해당 대상을 다시 대조한다.
 
 ## R2 복원 준비
 
@@ -40,7 +40,7 @@ uv run --frozen python -m ingest.configure_remote --step auth \
   --approved-manifest-sha256 <SHA256>
 ```
 
-순서는 경계→인구→교통→상가·학원·학교→건물→실거래·임대→기준 분포다. 복원은 원본 API를 호출하지 않는다. 커밋 후 별도 연결의 VACUUM ANALYZE를 수행한다. VACUUM FULL은 하지 않는다. 단계별 시간과 전후 DB·테이블·인덱스 bytes를 `.local/restore/s3-1/remote-restore-report.json`에 기록한다. R2 원본 bytes와 임시 디스크 사용량을 DB 용량과 구분해 운영 검증 문서에 옮긴다.
+순서는 경계→인구→교통→상가·학원·학교→건물→실거래·임대→기준 분포다. 각 단계는 새 연결의 독립 트랜잭션이며 데이터와 `ingest_private.restore_stages`(단계·manifest SHA256·테이블별 행수/digest·소요 시간)를 함께 커밋한다. 같은 manifest 재실행은 완료 단계의 digest를 확인하고 건너뛴다. 다른 해시·변조된 완료 기록·미기록 기존 데이터는 거절한다. COPY는 5만 행마다 나누되 단계 내 커밋은 하지 않는다. 연결은 TCP keepalive idle 30초·interval 10초·count 5를 사용한다. 실패하면 후속 단계로 진행하지 않는다. 복원은 원본 API를 호출하지 않는다. 커밋 후 별도 연결의 VACUUM ANALYZE를 수행한다. VACUUM FULL은 하지 않는다. 단계별 시간과 전후 DB·테이블·인덱스 bytes를 `.local/restore/s3-1/remote-restore-report.json`에 기록한다. R2 원본 bytes와 임시 디스크 사용량을 DB 용량과 구분해 운영 검증 문서에 옮긴다.
 
 `verify_remote`는 읽기 전용 트랜잭션에서 원본 테이블과 3좌표×500/1,000m·2층을 대조한다. 각 조합 3회 예열·30회 DB 측정, p95 <1,000ms가 통과 기준이다. HTTP 30회는 별도 기록한다. 원격 Auth는 익명 로그인·수동 identity linking·이메일 확인을 활성화하고 Site URL/Redirect URLs는 사용자의 Vercel 연결 후 설정을 따른다.
 
@@ -95,3 +95,9 @@ R2 복원 테스트는 기존 `postgres` 데이터베이스에 실행할 수 없
 | Domain | 사용자 선택·연결. `gilmok.kr` 확보 여부 확인 |
 
 Marketplace가 주입하는 공개 변수 이름과 `.env.example` 이름은 같다. 서버 전용 `SUPABASE_SECRET_KEY`, JWT secret, POSTGRES 비밀번호는 브라우저 코드에 사용하지 않는다. POSTGRES 자동 변수는 배치의 Session pooler URL로 임의 대체하지 않는다. [Supabase Vercel Marketplace 문서](https://supabase.com/docs/guides/integrations/vercel-marketplace)
+
+## 원격 연결 종료 후 재시도
+
+2026-09-26 10:59:34 UTC의 실제 Postgres 로그는 `pg_wal` 쓰기 중 공간 부족이다. 승인된 VACUUM ANALYZE 1회는 38.308초에 성공했고 DB는 566.9→184.6MB로 줄었다. WAL은 별도로 956.3MB다. `/data` 전체 2.08GB·가용 745.7MB를 실측해 사용자에게 디스크 확장 여부를 확인했다. 임의 유료 전환·원본 축소는 하지 않는다. 상세는 [재시도 전 보고](../validation/s3-1-staged-restore-20260926.md)를 따른다.
+
+로컬 실제 재개 검증: `uv run --frozen python -m ingest.verify_restore_local --database gilmok_s3_replay_<새이름> --manifest docs/validation/s3-1-restore-manifest.json --resume-proof`. 이 검증은 4단계 적재 후 의도적 예외를 발생시키고, 앞의 3단계 보존·실패 단계 롤백·재개 및 18테이블 digest를 확인한다. 기본 로컬 DB나 원격에서는 실행하지 않는다.

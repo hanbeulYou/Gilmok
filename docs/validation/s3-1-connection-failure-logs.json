@@ -1,0 +1,65 @@
+{
+  "query_window_utc": [
+    "2026-09-26T10:55:00Z",
+    "2026-09-26T11:02:00Z"
+  ],
+  "endpoint": "GET /v1/projects/{ref}/analytics/endpoints/logs",
+  "source_filter": [
+    "postgres_logs",
+    "supavisor_logs",
+    "pgbouncer_logs"
+  ],
+  "rows_examined": 480,
+  "events": [
+    {
+      "timestamp": "2026-09-26T10:59:34.730000",
+      "source": "postgres_logs",
+      "event_message": "could not write to file \"pg_wal/xlogtemp.5666\": No space left on device"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.734000",
+      "source": "postgres_logs",
+      "event_message": "WAL writer process (PID 5666) was terminated by signal 6: Aborted"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.734000",
+      "source": "postgres_logs",
+      "event_message": "terminating any other active server processes"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.747126",
+      "source": "supavisor_logs",
+      "event_message": "DbHandler: Terminating with reason {:shutdown, :db_termination} when state was :busy"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.747196",
+      "source": "supavisor_logs",
+      "event_message": "ClientHandler: DbHandler #PID<0.24457608.4> exited {:shutdown, :db_termination}"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.747434",
+      "source": "supavisor_logs",
+      "event_message": "DbHandler: Terminating with reason {:shutdown, :db_termination} when state was :busy"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.747526",
+      "source": "supavisor_logs",
+      "event_message": "ClientHandler: DbHandler #PID<0.29576174.4> exited {:shutdown, :db_termination}"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.753655",
+      "source": "supavisor_logs",
+      "event_message": "DbHandler: Auth error %{\"C\" => \"57P03\", \"F\" => \"backend_startup.c\", \"L\" => \"297\", \"M\" => \"the database system is in recovery mode\", \"R\" => \"BackendInitialize\", \"S\" => \"FATAL\", \"V\" => \"FATAL\"}"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.762000",
+      "source": "postgres_logs",
+      "event_message": "the database system is in recovery mode"
+    },
+    {
+      "timestamp": "2026-09-26T10:59:34.765000",
+      "source": "postgres_logs",
+      "event_message": "the database system is in recovery mode"
+    }
+  ]
+}

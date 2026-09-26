@@ -1,0 +1,8 @@
+{
+  "operation": "one VACUUM (ANALYZE), no FULL",
+  "before_bytes": 566889619,
+  "after_bytes": 184618131,
+  "wal_bytes": 956301712,
+  "status": "success",
+  "seconds": 38.308
+}
