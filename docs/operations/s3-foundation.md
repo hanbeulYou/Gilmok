@@ -1,6 +1,6 @@
 # S3-1 실행 절차
 
-2026-09-26 · 원격 gp3 8GB·31개 migration·7단계 복원 완료. 직접 SQL 웜 p95 52.203~220.983ms, authenticated 익명 세션 HTTP 186회·고정 기준 대조 통과. Auth·Vault·비활성 webhook 준비 완료. [최신 검산](../validation/s3-1-product-rpc-20260926.md), [복원·디스크 기록](../validation/s3-1-remote-20260926.md)을 따른다. 웹훅 실증과 Vercel 연결·Auth URL 등록은 main 머지 후 진행한다.
+2026-09-27 · PR #20 main 머지 후 실제 주소 1건으로 웹훅을 실증했다. pending 생성은 성공했지만 GitHub가 PAT Contents:write 부족으로 HTTP 403을 반환했다. variable=false·DB 트리거 disabled로 복귀하고 pending을 보존했다. **S3-1 마감은 보류**하며 [최신 결과·재개 조건](../validation/s3-1-webhook-20260927.md)을 따른다. 기존 원격 6조합 검증은 [제품 경로 실측](../validation/s3-1-product-rpc-20260926.md)에 보존한다.
 
 ## 준비·승인 대상
 
@@ -116,4 +116,8 @@ HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급�
 
 월간 workflow는 소스 갱신→기준 분포 갱신이 모두 성공하면 마지막에 `uv run --frozen python -m ingest.warm_score_inputs`로 6조합을 예열한다. 원격 환경은 위와 같이 프로세스에만 주입한다. 명령의 실제 원격 실행은 2.788초로 통과했다. 모든 PostgREST 세션 캐시를 보장하는 것은 아니다.
 
-현재 Vault 저장과 Database Webhook 생성은 완료했지만 트리거는 **disabled**다. main 머지 후 위 활성화 절차와 실제 pending 1건 실증을 진행한다. Repository variable은 false로 유지한다.
+현재 Vault와 Database Webhook은 준비돼 있다. main 머지 후 2026-09-27 실증은 dispatch 403으로 중단해 트리거를 **disabled**, Repository variable을 false로 복귀했다. pending 1건은 보존한다. PAT 권한 수정 후 실제 경로 검증을 재개하며, 완료 전 상시 운영을 켜지 않는다.
+
+## Vercel 환경변수 실제 조회 — 2026-09-27
+
+`vineyard/gilmok` 프로젝트 API를 decrypt=false로 조회해 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`가 Production/Preview에 설정돼 있음을 이름으로 확인했다. `.env.example`과 이름이 같으며 값은 복호화·보관하지 않았다. 전체 25개 이름은 [검증 문서](../validation/s3-1-webhook-20260927.md)에 기록했다. integration configurationId가 없어 Marketplace 자동 주입 여부는 확인되지 않았다. 배포 목록 없음·`/compare` 404와 현재 Auth Site URL localhost 응답이 사용자 완료 진술과 달라 실제 배포 URL 확인 전 완료로 표시하지 않는다.

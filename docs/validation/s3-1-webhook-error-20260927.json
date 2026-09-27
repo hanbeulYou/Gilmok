@@ -1,0 +1,16 @@
+{
+  "status_code": 403,
+  "message": "Resource not accessible by personal access token",
+  "documentation_url": "https://docs.github.com/rest/repos/repos#create-a-repository-dispatch-event",
+  "accepted_permissions": {
+    "x-accepted-github-permissions": "contents=write"
+  },
+  "vault_matches_env": true,
+  "queue": [
+    [
+      "pending",
+      null
+    ]
+  ],
+  "cache_count": 0
+}

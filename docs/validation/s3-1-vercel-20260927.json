@@ -1,0 +1,240 @@
+{
+  "team": "vineyard",
+  "project": "gilmok",
+  "project_id": "prj_AziIfIzwhnKFcG7EbrauTrE9K281",
+  "env": [
+    {
+      "key": "SUPABASE_DB_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SUPABASE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SUPABASE_SECRET_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "INGEST_LOCAL_ROOT",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "R2_ACCOUNT_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "R2_ACCESS_KEY_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "R2_SECRET_ACCESS_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "R2_BUCKET",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "DATA_GO_KR_SERVICE_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "RONE_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "RONE_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "COMMERCIAL_TRADES_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "VWORLD_WFS_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SEOUL_OPEN_DATA_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SEOUL_TRANSIT_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "KAKAO_REST_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "VWORLD_SERVICE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "VWORLD_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "NEIS_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SUPABASE_PROJECT_REF",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SUPABASE_ACCESS_TOKEN",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "SUPABASE_DB_PASSWORD",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    },
+    {
+      "key": "INGEST_REMOTE_ENABLED",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "integration_managed": false
+    }
+  ],
+  "deployments": [],
+  "domains": [
+    "gilmok-hazel.vercel.app"
+  ],
+  "observed_at": "2026-09-27T09:03:55.389637+00:00",
+  "compare_http_status": 404,
+  "automatic_injection_proven": false,
+  "note": "Project environment names/targets verified without decrypting values. No configurationId metadata; automatic Marketplace provenance is not established. No deployment was returned by the deployment API."
+}

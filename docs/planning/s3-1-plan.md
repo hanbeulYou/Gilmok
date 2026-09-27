@@ -150,3 +150,7 @@ Vercel 연결·도메인·Auth URL 등록은 프론트 골격의 main 머지 후
 사용자 승인으로 gp3 8GB 확장·7단계 복원·31개 migration을 완료했다. 18테이블 digest 일치, 복원 직후 DB 889,810,067 byte. 처음 anon 3초 제한에 막힌 뒤 직접 SQL로 새 세션 첫 실행/웜 30회를 분리했다. 6조합 웜 p95 52.203~220.983ms로 통과해 authenticated 제한을 15초로 조정하고 월간 갱신 후 예열을 추가했다. 익명 로그인 세션 HTTP 186회도 성공·고정 기준 일치했다.
 
 Auth anonymous 활성화, Vault 토큰 저장, 비활성 Database Webhook 생성, 원격 후보·비교 RLS 검증을 완료했다. 최종 DB 890,186,899 byte. 웹훅 실제 Actions 실증과 사용자 Vercel 연결·Auth URL 등록은 main 머지 후다. [원격 전체 실측](../validation/s3-1-product-rpc-20260926.md)을 따른다.
+
+### PR #20 머지 후 마감 검증 — 2026-09-27
+
+실제 익명 주소 1건의 pending 생성은 성공했다. GitHub dispatch가 PAT Contents:write 부족으로 403을 반환해 Actions run·cache ready·RPC 재조회는 미완료다. 검증 종료 시 variable=false·트리거 disabled 복귀와 테스트 Auth 사용자 삭제를 확인했다. pending은 보존한다. Vercel 프로젝트 변수 25개 이름은 확인했지만 조회된 배포·Auth URL 상태가 사용자 완료 진술과 달라 확인 대기다. S3-1 완료 상태는 아직 갱신하지 않는다. [실증 결과·재개 조건](../validation/s3-1-webhook-20260927.md).
