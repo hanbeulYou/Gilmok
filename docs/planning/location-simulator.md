@@ -394,4 +394,4 @@ v0.1은 최초 계약 이력이다. S3는 현행 `preset={id:'academy_v0',versio
 
 ## S3-1 마감 검증 상태 — 2026-09-27
 
-PR #20 main 머지. 원격 6조합 DB/익명 HTTP·uid RLS·프론트 골격은 검증됐으며, 이번 실제 주소 웹훅은 pending까지 생성 후 GitHub 403(Contents:write 부족)으로 중단했다. variable=false·트리거 disabled 복귀, pending 보존. Vercel 환경변수 이름은 확인했으나 조회된 배포·Auth URL이 사용자 완료 진술과 달라 확인이 필요하다. **S3-1 완료 처리는 보류**하며 [재개 조건과 증거](../validation/s3-1-webhook-20260927.md)를 따른다.
+PR #20 main 머지. 원격 6조합 DB/익명 HTTP·uid RLS·프론트 골격은 검증됐으며, 이번 실제 주소 웹훅은 pending까지 생성 후 GitHub 403(Contents:write 부족)으로 중단했다. variable=false·트리거 disabled 복귀, pending 보존. 정확한 gilmok-weld.vercel.app 배포 READY·Auth URL 등록·실제 변수 이름을 확인했으나, 새 브라우저에서 연결 설정 오류가 표시돼 JSON 검증이 남았다. **S3-1 완료 처리는 보류**하며 [재개 조건과 증거](../validation/s3-1-webhook-20260927.md)를 따른다.

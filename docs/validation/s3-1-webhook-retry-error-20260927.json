@@ -1,0 +1,7 @@
+{
+  "status_code": 403,
+  "message": "Resource not accessible by personal access token",
+  "accepted_permissions": "contents=write",
+  "pending_count": 1,
+  "trigger": "D"
+}

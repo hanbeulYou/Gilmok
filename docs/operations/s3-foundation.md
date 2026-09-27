@@ -120,4 +120,6 @@ HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급�
 
 ## Vercel 환경변수 실제 조회 — 2026-09-27
 
-`vineyard/gilmok` 프로젝트 API를 decrypt=false로 조회해 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`가 Production/Preview에 설정돼 있음을 이름으로 확인했다. `.env.example`과 이름이 같으며 값은 복호화·보관하지 않았다. 전체 25개 이름은 [검증 문서](../validation/s3-1-webhook-20260927.md)에 기록했다. integration configurationId가 없어 Marketplace 자동 주입 여부는 확인되지 않았다. 배포 목록 없음·`/compare` 404와 현재 Auth Site URL localhost 응답이 사용자 완료 진술과 달라 실제 배포 URL 확인 전 완료로 표시하지 않는다.
+사용자 확인 URL은 `https://gilmok-weld.vercel.app/compare`, 실제 프로젝트는 `hanbeulyous-projects/gilmok`이다. Production 배포 READY·PR #20 main SHA, HTTP 200, Auth Site URL의 동일 배포 alias 등록을 확인했다. `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`는 프로젝트와 배포 메타데이터 양쪽에서 실제 이름을 확인했고 `.env.example`과 일치한다. 값은 기록하지 않았다. integration configurationId가 없어 Marketplace 자동 생성 출처는 미확인이다.
+
+새 브라우저에서는 JSON 대신 “Supabase 연결 설정이 필요합니다.”가 표시되고 signup/RPC는 0회였다. 배포 bundle의 클라이언트 생성 경로도 해당 오류를 직접 throw한다. Production의 두 공개 변수 값·빌드 반영을 확인하고 재배포 후 JSON을 검증한다. 앞서 다른 프로젝트 vineyard/gilmok을 조회한 404 결과는 실제 서비스 상태에서 제외한다. [최신 증거](../validation/s3-1-webhook-20260927.md).

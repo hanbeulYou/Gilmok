@@ -1,0 +1,258 @@
+{
+  "observed_at": "2026-09-27T12:36:28.131039+00:00",
+  "team": "hanbeulyous-projects",
+  "project": "gilmok",
+  "domain": "gilmok-weld.vercel.app",
+  "compare_http_status": 200,
+  "env": [
+    {
+      "key": "SUPABASE_DB_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SUPABASE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SUPABASE_SECRET_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "INGEST_LOCAL_ROOT",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "R2_ACCOUNT_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "R2_ACCESS_KEY_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "R2_SECRET_ACCESS_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "R2_BUCKET",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "DATA_GO_KR_SERVICE_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "RONE_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "RONE_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "COMMERCIAL_TRADES_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "VWORLD_WFS_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SEOUL_OPEN_DATA_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SEOUL_TRANSIT_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "KAKAO_REST_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "VWORLD_SERVICE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "VWORLD_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "NEIS_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SUPABASE_PROJECT_REF",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SUPABASE_ACCESS_TOKEN",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "SUPABASE_DB_PASSWORD",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    },
+    {
+      "key": "INGEST_REMOTE_ENABLED",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "type": "sensitive",
+      "has_configuration_id": false
+    }
+  ],
+  "deployments": [
+    {
+      "uid": "dpl_K9zpPtdmMtFFoN8uUgiazWTxXJy2",
+      "url": "gilmok-726mvqeq9-hanbeulyous-projects.vercel.app",
+      "state": "READY",
+      "target": "production",
+      "created": 1790508624945,
+      "meta": {
+        "githubCommitSha": "c0091ae0463e182dad7192403cc28ee2b77003b1",
+        "githubCommitRef": "main",
+        "githubCommitRepo": "Gilmok"
+      }
+    }
+  ],
+  "deployment_public_env_names": [
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"
+  ],
+  "deployment_public_env_names_source": "GET /v13/deployments/{id}: env keys only, no values recorded",
+  "compare_browser_status": "Supabase 연결 설정이 필요합니다.",
+  "anonymous_signup_requests": 0,
+  "rpc_requests": 0,
+  "automatic_marketplace_provenance": "unverified: no configurationId metadata",
+  "public_bundle_observation": "Compiled client creation path throws configuration error; no usable public Supabase URL/key are inlined in that path."
+}
