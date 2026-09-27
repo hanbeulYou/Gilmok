@@ -29,7 +29,7 @@ jobs:
       - name: Drain pending queue (bounded; no address logs)
         env:
           INGEST_REMOTE_ENABLED: 'true'
-          SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}

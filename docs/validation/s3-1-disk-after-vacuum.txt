@@ -1,0 +1,3 @@
+node_filesystem_size_bytes{supabase_project_ref="[project]",supabase_identifier="[project]",service_type="db",device="/dev/nvme1n1",device_error="",fstype="ext4",mountpoint="/data"} 2.077073408e+09
+node_filesystem_avail_bytes{supabase_project_ref="[project]",supabase_identifier="[project]",service_type="db",device="/dev/nvme1n1",device_error="",fstype="ext4",mountpoint="/data"} 7.45742336e+08
+node_filesystem_free_bytes{supabase_project_ref="[project]",supabase_identifier="[project]",service_type="db",device="/dev/nvme1n1",device_error="",fstype="ext4",mountpoint="/data"} 8.67377152e+08

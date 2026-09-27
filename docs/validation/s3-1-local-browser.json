@@ -1,0 +1,7 @@
+{
+  "first_render_rpc_calls": 1,
+  "anonymous_signups": 1,
+  "reload_reuses_uid": true,
+  "schema_version": "1.3",
+  "scope": "local development browser"
+}

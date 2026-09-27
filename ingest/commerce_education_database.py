@@ -4,6 +4,8 @@ import pandas as pd
 from psycopg import sql
 from psycopg.types.json import Jsonb
 
+from ingest.copy_batches import chunked_copy
+
 TABLE_COLUMNS = {
     "stores": ["store_id", "inds_lcls", "inds_mcls", "inds_scls", "floor", "geom"],
     "academies": [
@@ -106,7 +108,8 @@ def load_snapshot(connection, table, frame, *, source, version, raw_key, report)
         cursor.execute(
             sql.SQL("alter table {} add primary key ({})").format(stage, sql.Identifier(identity))
         )
-        with cursor.copy(sql.SQL("copy {} ({}) from stdin").format(stage, identifiers)) as copy:
+        with chunked_copy(
+                cursor, sql.SQL("copy {} ({}) from stdin").format(stage, identifiers)) as copy:
             for row in frame[columns].itertuples(index=False, name=None):
                 copy.write_row(tuple(None if pd.isna(value) else value for value in row))
         cursor.execute(

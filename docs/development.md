@@ -67,7 +67,7 @@ Supabase 데이터 API와 CLI의 프로젝트 관리 API는 서로 다른 인증
 | `SUPABASE_DB_PASSWORD` | 원격 DB 연결·마이그레이션에 필요한 프로젝트 DB 비밀번호. 프로젝트 생성 시 정한 값이며 API 키가 아니다 |
 | `SUPABASE_DB_URL` | Python 배치의 psycopg 직접 연결 문자열. 원격에서는 프로젝트 Connect의 Postgres 연결 문자열에 DB 비밀번호를 URL 인코딩해 넣는다 |
 
-현재 `ingest/database.py`는 `.env`와 프로세스 환경에서 `SUPABASE_DB_URL`만 읽는다(프로세스 환경 우선). API 클라이언트는 아직 없으므로 Publishable/Secret key는 후속 구현을 위한 선택 항목이며 배치·로컬 테스트에 필요하지 않다. Secret key를 DB URL이나 DB 비밀번호 대신 넣지 않는다.
+현재 `ingest/database.py`는 `.env`와 프로세스 환경에서 `SUPABASE_DB_URL`만 읽는다(프로세스 환경 우선). S3-1의 브라우저 클라이언트는 NEXT_PUBLIC_SUPABASE_URL과 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY를 사용한다. 서버 Secret key는 브라우저에서 사용하지 않으며 배치·로컬 DB 테스트에도 필요하지 않다. Secret key를 DB URL이나 DB 비밀번호 대신 넣지 않는다.
 
 기존 `.env`를 쓰고 있다면 `SUPABASE_ANON_KEY`를 제거하고 새 Publishable key를 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`에 넣는다. 기존 프로젝트 URL은 `NEXT_PUBLIC_SUPABASE_URL`에도 설정한다. 레거시 JWT 값을 이름만 바꿔 재사용하지 않는다. 로컬 키가 필요하면 `supabase start` 또는 `supabase status`의 로컬 값을 사용한다.
 
@@ -322,3 +322,10 @@ select public.score_inputs(
 기존 rent_inputs는 score_internal.rent_inputs와 공통 구현을 사용한다. buildings_in_radius는 지도·차폐용 별도 RPC로 유지한다. score_internal은 PostgREST 공개 스키마에 추가하지 않는다. 기존 공개 테이블 RLS와 비공개 ingest_private 권한을 그대로 둔다.
 
 복구가 필요하면 `supabase migration new rollback_score_inputs`로 새 마이그레이션을 만든다. 의존성 역순으로 public.score_inputs와 새 public.rent_inputs wrapper를 제거하고, score_internal.rent_inputs를 public으로 옮겨 PR 6 경로를 복원한 뒤 남은 내부 helper/schema를 제거한다. 기존 buildings_in_radius·적재 테이블·R2 원본은 보존한다. 이미 적용한 두 마이그레이션을 편집하거나 DB reset으로 복구하지 않는다.
+
+
+## S3-1 프론트 골격
+
+`pnpm dev` → `/compare`에서 기존 세션 재사용 또는 익명 로그인 후 score_inputs JSON을 확인한다. Next.js 15·Node 22·pnpm 10.7.1을 유지한다. `pnpm build`로 배포 빌드를 검증한다. 로컬 Supabase 설정은 익명 로그인·이메일 확인·Mailpit을 활성화하며, 설정 변경은 실행 중인 DB 작업 종료 후 `supabase stop`/`supabase start`로 반영한다. 데이터 삭제/reset은 하지 않는다.
+
+[Auth/브라우저/복원 검증과 원격 실행 승인 순서](operations/s3-foundation.md)를 따른다. 원격 DB 쓰기는 사용자 승인 전 실행하지 않는다.

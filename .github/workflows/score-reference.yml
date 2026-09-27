@@ -33,7 +33,7 @@ jobs:
       - name: Compute, verify and promote reference then VACUUM
         env:
           INGEST_REMOTE_ENABLED: 'true'
-          SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}

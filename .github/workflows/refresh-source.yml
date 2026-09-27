@@ -42,7 +42,7 @@ jobs:
           QUARTER: ${{ inputs.quarter }}
           ASSET_MANIFEST_KEY: ${{ inputs.asset_manifest_key }}
           INGEST_REMOTE_ENABLED: 'true'
-          SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SEOUL_OPEN_DATA_API_KEY: ${{ secrets.SEOUL_OPEN_DATA_API_KEY }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}

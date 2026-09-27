@@ -1,0 +1,28 @@
+{
+  "project_status": "ACTIVE_HEALTHY",
+  "migration_count": 29,
+  "source_rows": {
+    "admin_dongs": 0,
+    "population_age": 0,
+    "population_cells": 0,
+    "living_pop": 0,
+    "transit_stops": 0,
+    "transit_boardings": 0,
+    "stores": 0,
+    "academies": 0,
+    "schools": 0,
+    "buildings": 0,
+    "building_registers": 0,
+    "building_floors": 0,
+    "legal_dongs": 0,
+    "commercial_trade_stats": 0,
+    "rent_areas": 0,
+    "rent_survey": 0,
+    "score_reference": 0,
+    "score_reference_sets": 0
+  },
+  "db_bytes": 566889619,
+  "postmaster_started_at": "2026-09-26T08:54:10.488023+00:00",
+  "observed_at": "2026-09-26T11:01:33.089030+00:00",
+  "seconds": 26.563
+}

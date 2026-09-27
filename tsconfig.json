@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": [
-      "ES2022"
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
     ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -13,14 +15,31 @@
     "types": [
       "node"
     ],
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": true
   },
   "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "app/**/*.tsx",
+    "next.config.ts",
     "vitest.config.ts",
     "tests/**/*.ts",
     "lib/**/*.ts",
     "ingest/score_reference_raw.ts",
     "ingest/score_candidates.ts",
     "ingest/visibility_report.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "request": {
+    "attributes": {
+      "iops": 3000,
+      "size_gb": 8,
+      "throughput_mibps": 125,
+      "type": "gp3"
+    }
+  },
+  "billing_basis": "User-confirmed Marketplace Pro; official primary gp3 8GB included; IOPS/throughput unchanged",
+  "organization_billing_api": "403; invoice not independently accessible",
+  "started_at": "2026-09-26T12:04:16.937099+00:00",
+  "http_status": 201,
+  "response": "",
+  "status": "accepted",
+  "request_seconds": 3.314
+}

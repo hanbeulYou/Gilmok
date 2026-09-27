@@ -10,6 +10,7 @@ from psycopg import sql
 from psycopg.conninfo import conninfo_to_dict
 
 from ingest.common import ROOT
+from ingest.copy_batches import chunked_copy
 
 LOCAL_DB_URL = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 BOUNDARIES = {"admin_dongs": "adm_cd", "census_blocks": "tot_reg_cd"}
@@ -28,7 +29,9 @@ def connect_database(*, local_only: bool = False):
                 or parameters.get("hostaddr") not in {None, "127.0.0.1", "::1"}):
             raise ValueError("This command requires local Supabase")
     try:
-        connection = psycopg.connect(url, connect_timeout=5)
+        connection = psycopg.connect(url, connect_timeout=5, keepalives=1,
+                                     keepalives_idle=30, keepalives_interval=10,
+                                     keepalives_count=5)
     except psycopg.Error:
         message = "Cannot connect to Supabase; check service and SUPABASE_DB_URL"
         raise RuntimeError(message) from None
@@ -64,7 +67,8 @@ def load_boundaries(
             "(code text, name text, wkt text) on commit drop"
         )
         count = 0
-        with cursor.copy("copy pg_temp.gilmok_boundary_stage (code, name, wkt) from stdin") as copy:
+        with chunked_copy(
+                cursor, "copy pg_temp.gilmok_boundary_stage (code, name, wkt) from stdin") as copy:
             for row in rows:
                 copy.write_row((row["code"], row["name"], row["wkt"]))
                 count += 1

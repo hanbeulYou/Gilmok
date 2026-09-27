@@ -5,6 +5,7 @@ from collections.abc import Iterable, Mapping
 import psycopg
 from psycopg import sql
 
+from ingest.copy_batches import chunked_copy
 from ingest.database import load_boundaries
 from ingest.living_population import POPULATION_COLUMNS
 
@@ -27,7 +28,8 @@ def load_resident_snapshot(connection: psycopg.Connection, boundaries: Iterable[
         count = load_boundaries(connection, "admin_dongs", boundaries,
                                 source=boundary_source, source_version=boundary_version, srid=4326)
         cursor.execute("delete from public.population_age where source=%s", (source,))
-        with cursor.copy(
+        with chunked_copy(
+                cursor,
             "copy public.population_age "
             "(adm_cd,age_band,population,ref_month,source,source_version) from stdin"
         ) as copy:
@@ -67,7 +69,8 @@ def load_population_cells(
             "(cell_id text, wkt text, boundary_generated boolean) on commit drop"
         )
         count = 0
-        with cursor.copy("copy pg_temp.gilmok_cell_stage from stdin") as copy:
+        with chunked_copy(
+                cursor, "copy pg_temp.gilmok_cell_stage from stdin") as copy:
             for row in rows:
                 if not isinstance(row["boundary_generated"], bool):
                     raise ValueError("boundary_generated must be boolean")
@@ -117,7 +120,8 @@ def load_living_population(
         )
         columns = ["resolution_m", *fields, "source", "source_version"]
         count = 0
-        with cursor.copy(sql.SQL("copy pg_temp.gilmok_living_stage ({}) from stdin").format(
+        with chunked_copy(
+                cursor, sql.SQL("copy pg_temp.gilmok_living_stage ({}) from stdin").format(
             sql.SQL(",").join(map(sql.Identifier, columns))
         )) as copy:
             for row in rows:

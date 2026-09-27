@@ -1,0 +1,332 @@
+{
+  "manifest_sha256": "f5b48dd9d6a79bc91b91bfddb2b9a086f900edbb703924754990132c3a1a32ba",
+  "target": "local",
+  "stages": [
+    {
+      "name": "boundaries",
+      "status": "skipped",
+      "seconds": 0.05,
+      "load_seconds": 0.168,
+      "tables": {
+        "admin_dongs": {
+          "rows": 427,
+          "row_digest": "356419a5ded532f0b78933e0202bda31"
+        },
+        "legal_dongs": {
+          "rows": 14,
+          "row_digest": "798a213d1f0e6de442d6205378a22538"
+        }
+      }
+    },
+    {
+      "name": "population",
+      "status": "skipped",
+      "seconds": 4.041,
+      "load_seconds": 34.303,
+      "tables": {
+        "population_age": {
+          "rows": 1281,
+          "row_digest": "b5ff9df0e22cc6bfa81cda51883b9dc6"
+        },
+        "population_cells": {
+          "rows": 10127,
+          "row_digest": "a51236f4fca715c2520616b037ede51d"
+        },
+        "living_pop": {
+          "rows": 411512,
+          "row_digest": "2f39d5bcc17f1747ac4f6793bb01a104"
+        }
+      }
+    },
+    {
+      "name": "transit",
+      "status": "skipped",
+      "seconds": 1.592,
+      "load_seconds": 5.599,
+      "tables": {
+        "transit_stops": {
+          "rows": 11620,
+          "row_digest": "90a2b67b8683a7829a59d5f79a246d36"
+        },
+        "transit_boardings": {
+          "rows": 264696,
+          "row_digest": "4ade329083e45ea4925311a07f1dff2b"
+        }
+      }
+    },
+    {
+      "name": "places",
+      "status": "committed",
+      "seconds": 20.068,
+      "load_seconds": 20.054,
+      "tables": {
+        "stores": {
+          "rows": 554092,
+          "row_digest": "cc8045f81ad8c2f95446037d1de578f4"
+        },
+        "academies": {
+          "rows": 25508,
+          "row_digest": "ab85845b987ac6b616a108650e4926f6"
+        },
+        "schools": {
+          "rows": 1319,
+          "row_digest": "15cd5035953a2ed0a6447030545a45df"
+        }
+      }
+    },
+    {
+      "name": "buildings",
+      "status": "committed",
+      "seconds": 25.354,
+      "load_seconds": 25.339,
+      "tables": {
+        "buildings": {
+          "rows": 30112,
+          "row_digest": "6d311b7a1dae797181fdeb8e6ed4ec2d"
+        },
+        "building_registers": {
+          "rows": 24324,
+          "row_digest": "f5029388e18ddc424eb90a8c0e4e2170"
+        },
+        "building_floors": {
+          "rows": 198637,
+          "row_digest": "26f2cf9d7249960d03a4e93f255f9621"
+        }
+      }
+    },
+    {
+      "name": "rent",
+      "status": "committed",
+      "seconds": 0.317,
+      "load_seconds": 0.31,
+      "tables": {
+        "commercial_trade_stats": {
+          "rows": 180,
+          "row_digest": "2865cb27b45faf994a6bc47f3b7e93e3"
+        },
+        "rent_areas": {
+          "rows": 12,
+          "row_digest": "736a643184a59b8618a3083e160b813c"
+        },
+        "rent_survey": {
+          "rows": 34,
+          "row_digest": "fc0b3e7464e13f754c79244b4d177ae5"
+        }
+      }
+    },
+    {
+      "name": "reference",
+      "status": "committed",
+      "seconds": 2.517,
+      "load_seconds": 2.512,
+      "tables": {
+        "score_reference": {
+          "rows": 162032,
+          "row_digest": "98773ae0563d3953451aed3472b5a639"
+        },
+        "score_reference_sets": {
+          "rows": 1,
+          "row_digest": "b526cdaf24f727f48a4fad58b0c96eb4"
+        }
+      }
+    }
+  ],
+  "before_bytes": 457886867,
+  "seconds": 75.989,
+  "geometry_proof": {
+    "max_vertex_distance_m": 0.0,
+    "tolerance_m": 1e-06,
+    "changed_float_vertices": 1112,
+    "restored_exact_baseline": true
+  },
+  "tables": {
+    "admin_dongs": {
+      "rows": 427,
+      "row_digest": "356419a5ded532f0b78933e0202bda31"
+    },
+    "population_age": {
+      "rows": 1281,
+      "row_digest": "b5ff9df0e22cc6bfa81cda51883b9dc6"
+    },
+    "population_cells": {
+      "rows": 10127,
+      "row_digest": "a51236f4fca715c2520616b037ede51d"
+    },
+    "living_pop": {
+      "rows": 411512,
+      "row_digest": "2f39d5bcc17f1747ac4f6793bb01a104"
+    },
+    "transit_stops": {
+      "rows": 11620,
+      "row_digest": "90a2b67b8683a7829a59d5f79a246d36"
+    },
+    "transit_boardings": {
+      "rows": 264696,
+      "row_digest": "4ade329083e45ea4925311a07f1dff2b"
+    },
+    "stores": {
+      "rows": 554092,
+      "row_digest": "cc8045f81ad8c2f95446037d1de578f4"
+    },
+    "academies": {
+      "rows": 25508,
+      "row_digest": "ab85845b987ac6b616a108650e4926f6"
+    },
+    "schools": {
+      "rows": 1319,
+      "row_digest": "15cd5035953a2ed0a6447030545a45df"
+    },
+    "buildings": {
+      "rows": 30112,
+      "row_digest": "6d311b7a1dae797181fdeb8e6ed4ec2d"
+    },
+    "building_registers": {
+      "rows": 24324,
+      "row_digest": "f5029388e18ddc424eb90a8c0e4e2170"
+    },
+    "building_floors": {
+      "rows": 198637,
+      "row_digest": "26f2cf9d7249960d03a4e93f255f9621"
+    },
+    "legal_dongs": {
+      "rows": 14,
+      "row_digest": "798a213d1f0e6de442d6205378a22538"
+    },
+    "commercial_trade_stats": {
+      "rows": 180,
+      "row_digest": "2865cb27b45faf994a6bc47f3b7e93e3"
+    },
+    "rent_areas": {
+      "rows": 12,
+      "row_digest": "736a643184a59b8618a3083e160b813c"
+    },
+    "rent_survey": {
+      "rows": 34,
+      "row_digest": "fc0b3e7464e13f754c79244b4d177ae5"
+    },
+    "score_reference": {
+      "rows": 162032,
+      "row_digest": "98773ae0563d3953451aed3472b5a639"
+    },
+    "score_reference_sets": {
+      "rows": 1,
+      "row_digest": "b526cdaf24f727f48a4fad58b0c96eb4"
+    }
+  },
+  "already_restored": false,
+  "maintenance_seconds": 1.425,
+  "after_bytes": 823037075,
+  "relations": [
+    {
+      "table": "score_reference",
+      "index_bytes": 31088640,
+      "table_bytes": 20946944
+    },
+    {
+      "table": "transit_stops",
+      "index_bytes": 2260992,
+      "table_bytes": 3489792
+    },
+    {
+      "table": "schools",
+      "index_bytes": 344064,
+      "table_bytes": 876544
+    },
+    {
+      "table": "population_cells",
+      "index_bytes": 1867776,
+      "table_bytes": 5070848
+    },
+    {
+      "table": "score_reference_sets",
+      "index_bytes": 32768,
+      "table_bytes": 98304
+    },
+    {
+      "table": "stores",
+      "index_bytes": 104931328,
+      "table_bytes": 112148480
+    },
+    {
+      "table": "population_age",
+      "index_bytes": 172032,
+      "table_bytes": 327680
+    },
+    {
+      "table": "commercial_trade_stats",
+      "index_bytes": 40960,
+      "table_bytes": 106496
+    },
+    {
+      "table": "buildings",
+      "index_bytes": 8757248,
+      "table_bytes": 28459008
+    },
+    {
+      "table": "living_pop",
+      "index_bytes": 37117952,
+      "table_bytes": 156499968
+    },
+    {
+      "table": "building_registers",
+      "index_bytes": 3342336,
+      "table_bytes": 10780672
+    },
+    {
+      "table": "transit_boardings",
+      "index_bytes": 16531456,
+      "table_bytes": 79069184
+    },
+    {
+      "table": "admin_dongs",
+      "index_bytes": 131072,
+      "table_bytes": 1245184
+    },
+    {
+      "table": "comparisons",
+      "index_bytes": 16384,
+      "table_bytes": 8192
+    },
+    {
+      "table": "candidates",
+      "index_bytes": 16384,
+      "table_bytes": 8192
+    },
+    {
+      "table": "academies",
+      "index_bytes": 6742016,
+      "table_bytes": 21282816
+    },
+    {
+      "table": "rent_survey",
+      "index_bytes": 16384,
+      "table_bytes": 57344
+    },
+    {
+      "table": "legal_dongs",
+      "index_bytes": 40960,
+      "table_bytes": 303104
+    },
+    {
+      "table": "census_blocks",
+      "index_bytes": 24576,
+      "table_bytes": 8192
+    },
+    {
+      "table": "building_floors",
+      "index_bytes": 34373632,
+      "table_bytes": 109699072
+    },
+    {
+      "table": "geocode_cache",
+      "index_bytes": 1024000,
+      "table_bytes": 4841472
+    },
+    {
+      "table": "rent_areas",
+      "index_bytes": 24576,
+      "table_bytes": 65536
+    }
+  ],
+  "status": "success"
+}

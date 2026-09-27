@@ -14,6 +14,7 @@ from psycopg import sql
 from psycopg.types.json import Jsonb
 
 from ingest.common import ROOT, RawStore, Settings
+from ingest.copy_batches import chunked_copy
 from ingest.refresh import execute_refresh, target_database
 from ingest.refresh_sources import restore_object
 from ingest.verify_rent import publish_verified
@@ -288,7 +289,7 @@ def load_snapshot(db, path, manifest, *, verify_sources=True):
         values = c.execute(
             "select cell_id,radius_m,axis_key,raw_value from read_parquet(?)", [str(path)]
         )
-        with cursor.copy("""copy public.score_reference(preset_id,preset_version,snapshot,
+        with chunked_copy(cursor, """copy public.score_reference(preset_id,preset_version,snapshot,
             radius_m,cell_id,axis_key,raw_value,computed_at,inputs_schema_version)
             from stdin""") as copy:
             while rows := values.fetchmany(4096):

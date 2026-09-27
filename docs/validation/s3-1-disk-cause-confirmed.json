@@ -1,0 +1,17 @@
+[
+  {
+    "event_message": "could not write to file \"pg_wal/xlogtemp.5666\": No space left on device",
+    "source": "postgres_logs",
+    "timestamp": "2026-09-26T10:59:34.730000"
+  },
+  {
+    "event_message": "WAL writer process (PID 5666) was terminated by signal 6: Aborted",
+    "source": "postgres_logs",
+    "timestamp": "2026-09-26T10:59:34.734000"
+  },
+  {
+    "event_message": "terminating any other active server processes",
+    "source": "postgres_logs",
+    "timestamp": "2026-09-26T10:59:34.734000"
+  }
+]

@@ -80,7 +80,7 @@ flowchart TB
     RAW --> AGG --> PG
 ```
 
-외부 API 호출은 `/ingest` 배치에서만 수행한다. 프론트·Edge Function은 Supabase만 조회하며, 지오코딩 결과도 DB 캐시로 제공한다. 주소·건물 캐시 미스의 사용자 흐름은 S3 화면 정의에서 정하고, S1은 배치·캐시 구축까지 진행한다.
+외부 API 호출은 `/ingest` 배치에서만 수행한다. 프론트·Edge Function은 Supabase만 조회하며, 지오코딩 결과도 DB 캐시로 제공한다. 2026-09-26 S3 사용자 승인 예외: 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 호출할 수 있다. 서버 환경변수 키·geocode_cache 캐시·uid당 일일 제한을 필수로 두며 구현은 S3-2다. 배치·대장 조회는 계속 `/ingest` 전용이다. 주소·건물 캐시 미스의 사용자 흐름은 S3 화면 정의에서 정하고, S1은 배치·캐시 구축까지 진행한다.
 
 ### 6. Concept
 

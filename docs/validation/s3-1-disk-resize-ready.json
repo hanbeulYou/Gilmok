@@ -1,0 +1,20 @@
+{
+  "status": "ready",
+  "wait_seconds": 82.387,
+  "observed_at": "2026-09-26T12:06:27.608344+00:00",
+  "project_status": "ACTIVE_HEALTHY",
+  "disk": {
+    "attributes": {
+      "iops": 3000,
+      "size_gb": 8,
+      "throughput_mibps": 125,
+      "type": "gp3"
+    },
+    "last_modified_at": "2026-09-26T12:04:19.017Z"
+  },
+  "node_filesystem_size_bytes": 8416882688,
+  "node_filesystem_avail_bytes": 7085551616,
+  "node_filesystem_free_bytes": 7207186432,
+  "postmaster_started_at": "2026-09-26T08:54:10.488023+00:00",
+  "migration_count": 29
+}
