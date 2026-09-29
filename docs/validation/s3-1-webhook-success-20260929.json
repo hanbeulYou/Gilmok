@@ -1,0 +1,159 @@
+{
+  "retry_method": "Redeliver the failed pg_net webhook event with the same Vault token and payload; reuse the existing pending row",
+  "started_at": "2026-09-29T08:57:35.564721+00:00",
+  "address": "서울특별시 강남구 역삼로 452",
+  "params": {
+    "lat": 37.5022026747964,
+    "lng": 127.056660127756,
+    "radius_m": 800,
+    "floor": 3,
+    "address": "서울특별시 강남구 역삼로 452"
+  },
+  "status": "success",
+  "steps": [
+    {
+      "step": "preflight",
+      "seconds": 4.788,
+      "at": "2026-09-29T08:57:40.346275+00:00",
+      "merge_sha": "c0091ae0463e182dad7192403cc28ee2b77003b1",
+      "existing_pending_count": 1,
+      "cache_miss": true,
+      "environment": "ingest-production"
+    },
+    {
+      "step": "anonymous_session",
+      "seconds": 0.924,
+      "at": "2026-09-29T08:57:41.269838+00:00",
+      "role": "authenticated",
+      "is_anonymous": true
+    },
+    {
+      "step": "verification_window",
+      "seconds": 1.799,
+      "at": "2026-09-29T08:57:43.067684+00:00",
+      "variable": "true",
+      "webhook_enabled": true
+    },
+    {
+      "step": "redeliver_failed_webhook",
+      "seconds": 0.765,
+      "at": "2026-09-29T08:57:43.832156+00:00",
+      "request_id": 3,
+      "reused_pending": true,
+      "vault_updated": false
+    },
+    {
+      "step": "actions_and_cache_ready",
+      "seconds": 38.189,
+      "at": "2026-09-29T08:58:22.008289+00:00",
+      "run_url": "https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704",
+      "run_id": 36546048704,
+      "cache_status": "ready"
+    },
+    {
+      "step": "rpc_requery",
+      "seconds": 7.771,
+      "at": "2026-09-29T08:58:29.779539+00:00",
+      "status": "ready",
+      "pnu": "1168010600109110013",
+      "register_pk": "1024116500",
+      "location_basis": "address",
+      "daily_usage": 0
+    },
+    {
+      "step": "restore_disabled_state",
+      "seconds": 2.156,
+      "at": "2026-09-29T08:58:31.936159+00:00",
+      "variable": "false",
+      "trigger": "D",
+      "test_user_deleted": true
+    }
+  ],
+  "polls": [
+    {
+      "at": "2026-09-29T08:57:45.821825+00:00",
+      "request": {
+        "status": "pending",
+        "requested_at": "2026-09-27 09:00:05.988387+00:00",
+        "started_at": null,
+        "finished_at": null,
+        "error_code": null
+      },
+      "cache": null,
+      "run_status": null
+    },
+    {
+      "at": "2026-09-29T08:57:57.986262+00:00",
+      "request": {
+        "status": "processing",
+        "requested_at": "2026-09-27 09:00:05.988387+00:00",
+        "started_at": "2026-09-29 08:57:57.252540+00:00",
+        "finished_at": null,
+        "error_code": null
+      },
+      "cache": null,
+      "run_status": "in_progress"
+    },
+    {
+      "at": "2026-09-29T08:58:10.059875+00:00",
+      "request": {
+        "status": "done",
+        "requested_at": "2026-09-27 09:00:05.988387+00:00",
+        "started_at": "2026-09-29 08:57:57.252540+00:00",
+        "finished_at": "2026-09-29 08:58:06.761326+00:00",
+        "error_code": null
+      },
+      "cache": {
+        "status": "ready",
+        "pnu": "1168010600109110013",
+        "fetched_at": "2026-09-29 08:57:57.497789+00:00",
+        "expires_at": "2026-10-29 08:57:57.497789+00:00",
+        "raw_key": "raw/address_building_1168010600109110013/revisions/20260929T085757Z/2026-09.parquet"
+      },
+      "run_status": "in_progress"
+    },
+    {
+      "at": "2026-09-29T08:58:22.007252+00:00",
+      "request": {
+        "status": "done",
+        "requested_at": "2026-09-27 09:00:05.988387+00:00",
+        "started_at": "2026-09-29 08:57:57.252540+00:00",
+        "finished_at": "2026-09-29 08:58:06.761326+00:00",
+        "error_code": null
+      },
+      "cache": {
+        "status": "ready",
+        "pnu": "1168010600109110013",
+        "fetched_at": "2026-09-29 08:57:57.497789+00:00",
+        "expires_at": "2026-10-29 08:57:57.497789+00:00",
+        "raw_key": "raw/address_building_1168010600109110013/revisions/20260929T085757Z/2026-09.parquet"
+      },
+      "run_status": "completed"
+    }
+  ],
+  "dispatch_responses": [
+    {
+      "id": 3,
+      "status_code": 204,
+      "timed_out": false,
+      "error_present": false
+    }
+  ],
+  "run": {
+    "conclusion": "success",
+    "createdAt": "2026-09-29T08:57:46Z",
+    "databaseId": 36546048704,
+    "event": "repository_dispatch",
+    "headSha": "c0091ae0463e182dad7192403cc28ee2b77003b1",
+    "status": "completed",
+    "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704"
+  },
+  "final_cache": {
+    "status": "ready",
+    "pnu": "1168010600109110013",
+    "fetched_at": "2026-09-29 08:57:57.497789+00:00",
+    "expires_at": "2026-10-29 08:57:57.497789+00:00",
+    "raw_key": "raw/address_building_1168010600109110013/revisions/20260929T085757Z/2026-09.parquet"
+  },
+  "seconds": 56.397
+}

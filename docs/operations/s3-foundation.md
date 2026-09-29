@@ -1,6 +1,6 @@
 # S3-1 실행 절차
 
-2026-09-26 · 원격 gp3 8GB·31개 migration·7단계 복원 완료. 직접 SQL 웜 p95 52.203~220.983ms, authenticated 익명 세션 HTTP 186회·고정 기준 대조 통과. Auth·Vault·비활성 webhook 준비 완료. [최신 검산](../validation/s3-1-product-rpc-20260926.md), [복원·디스크 기록](../validation/s3-1-remote-20260926.md)을 따른다. 웹훅 실증과 Vercel 연결·Auth URL 등록은 main 머지 후 진행한다.
+2026-09-29 · **S3-1 기능 검증 완료**. 원격6조합·uid RLS·실제 웹훅 Actions→cache ready→익명 RPC ready와 Production `/compare` JSON·uid 재사용을 통과했다. 종료 후 variable=false·DB 트리거 disabled. [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다. 사용자 승인 후 Vercel 앱 변수23개를 Production·Preview에서 삭제해 공개2개만 남겼고, 재배포 없이 `/compare` 재검증을 통과했다.
 
 ## 준비·승인 대상
 
@@ -56,7 +56,7 @@ uv run --frozen python -m ingest.configure_remote --step webhook \
 
 동일한 승인된 원격 프로세스 환경이 필요하다. `.env`의 `GITHUB_DISPATCH_TOKEN`을 Vault에 파라미터 바인딩으로 저장/갱신하고 pg_net과 [검토한 트리거 SQL](sql/enable-address-dispatch.sql)을 활성화한다. 주소/PNU/uid 없이 고정 이벤트만 보내며 Dashboard 전체 행 웹훅을 추가하지 않는다. Vault에 저장한 토큰은 GitHub Actions Secret으로 등록하지 않는다.
 
-1. 기존 큐가 비어 있는지와 자동 실행 일정을 확인한다. 빈 큐 확인 없이 워커를 켜지 않는다.
+1. 최초 실증은 큐가 비어 있는지와 자동 실행 일정을 확인한다. 실패 후 재개는 사용자가 승인한 보존 pending의 주소·건수·미처리 상태만 확인하고 추가 요청을 만들지 않는다. 다른 미처리 요청이 있으면 검토 전 워커를 켜지 않는다.
 2. 검증 창에서 Repository Variable을 일시적으로 true로 설정한다.
 3. 캐시에 없는 공개 검증 주소 하나를 익명 JWT로 score_inputs에 요청한다. uid별 쿼터를 통과한 실제 pending 행을 확인한다.
 4. pg_net HTTP 접수, 해당 repository_dispatch Actions run URL/성공, 요청 상태와 cache 준비, RPC 재조회 결과까지 기록한다. HTTP 204만으로 완료 처리하지 않는다.
@@ -94,7 +94,7 @@ R2 복원 테스트는 기존 `postgres` 데이터베이스에 실행할 수 없
 | Auth Redirect URLs | 실제 운영/검증 Preview URL 및 개발 `http://127.0.0.1:3000` |
 | Domain | 사용자 선택·연결. `gilmok.kr` 확보 여부 확인 |
 
-Marketplace가 주입하는 공개 변수 이름과 `.env.example` 이름은 같다. 서버 전용 `SUPABASE_SECRET_KEY`, JWT secret, POSTGRES 비밀번호는 브라우저 코드에 사용하지 않는다. POSTGRES 자동 변수는 배치의 Session pooler URL로 임의 대체하지 않는다. [Supabase Vercel Marketplace 문서](https://supabase.com/docs/guides/integrations/vercel-marketplace)
+두 공개 변수 이름은 `.env.example`과 같다. 프로젝트·배포 메타데이터에서 실제 이름을 확인하고 Marketplace 자동 생성 출처는 별도 확인한다. `.env` 전체를 Vercel로 가져오지 않는다. 아래 환경변수 등록 규칙을 따른다.
 
 ## 원격 연결 종료 후 재시도
 
@@ -116,4 +116,27 @@ HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급�
 
 월간 workflow는 소스 갱신→기준 분포 갱신이 모두 성공하면 마지막에 `uv run --frozen python -m ingest.warm_score_inputs`로 6조합을 예열한다. 원격 환경은 위와 같이 프로세스에만 주입한다. 명령의 실제 원격 실행은 2.788초로 통과했다. 모든 PostgREST 세션 캐시를 보장하는 것은 아니다.
 
-현재 Vault 저장과 Database Webhook 생성은 완료했지만 트리거는 **disabled**다. main 머지 후 위 활성화 절차와 실제 pending 1건 실증을 진행한다. Repository variable은 false로 유지한다.
+2026-09-29 PAT 권한 수정 후 보존 pending 1건을 재전송해 실제 Actions 성공·ready·RPC 재조회를 확인했다. 최종 큐는 done 1건이며 트리거 **disabled**, Repository variable=false다. [성공 run](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704). 상시 자동 적재는 별도 운영 결정 전까지 켜지 않는다.
+
+## Vercel 환경변수 실제 조회 — 2026-09-27
+
+사용자 확인 URL은 `https://gilmok-weld.vercel.app/compare`, 실제 프로젝트는 `hanbeulyous-projects/gilmok`이다. Production 배포 READY·PR #20 main SHA, HTTP 200, Auth Site URL의 동일 배포 alias 등록을 확인했다. `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`는 프로젝트와 배포 메타데이터 양쪽에서 실제 이름을 확인했고 `.env.example`과 일치한다. 값은 기록하지 않았다. integration configurationId가 없어 Marketplace 자동 생성 출처는 미확인이다.
+
+새 브라우저에서는 JSON 대신 “Supabase 연결 설정이 필요합니다.”가 표시되고 signup/RPC는 0회였다. 배포 bundle의 클라이언트 생성 경로도 해당 오류를 직접 throw한다. Production의 두 공개 변수 값·빌드 반영을 확인하고 재배포 후 JSON을 검증한다. 앞서 다른 프로젝트 vineyard/gilmok을 조회한 404 결과는 실제 서비스 상태에서 제외한다. [최신 증거](../validation/s3-1-webhook-20260927.md).
+
+## Vercel 환경변수 등록 규칙 — 2026-09-29 사용자 확정
+
+**Vercel env는 공개 변수 2개(+S3-2부터 KAKAO_REST_API_KEY)만.** S3-1에서 등록할 변수는 아래 두 개다.
+
+- `NEXT_PUBLIC_SUPABASE_URL`: 원격 Supabase 프로젝트 URL.
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: 해당 프로젝트의 공개 publishable key.
+
+S3-2부터 `KAKAO_REST_API_KEY`를 서버 전용 변수로 추가할 수 있다. `NEXT_PUBLIC_` 접두사를 붙이지 않고 Next.js Route Handler에서만 사용한다. 사용자 요청 주소 자동완성·지오코딩은 `geocode_cache` 캐시와 uid당 일일 제한을 적용한다. 배치·대장 조회는 계속 `/ingest`에서만 호출한다. 이번 정리에서는 기존 `KAKAO_REST_API_KEY`도 삭제했으며, S3-2 구현 시 다시 등록한다.
+
+Production·사용할 Preview에 두 공개 변수를 등록한다. `.env`나 `.env.example` 전체를 업로드하지 않는다. `SUPABASE_SECRET_KEY`, service-role/JWT secret, DB URL·비밀번호, Management access token, `GITHUB_DISPATCH_TOKEN`, R2 키, 공공데이터 API 키 등 서버 비밀은 위 S3-2의 `KAKAO_REST_API_KEY` 예외 외에는 Vercel에 등록하지 않는다. 기존 로컬 `.env`, 용도에 맞는 GitHub Actions Secrets·Supabase Vault에서만 관리한다.
+
+값을 문서·PR·로그에 복사하지 않는다. 검증은 프로젝트·배포의 변수 **이름**, 브라우저의 익명 로그인·RPC·JSON 표시로 한다. 두 공개 변수는 Next.js 빌드 시 반영되므로 변경 후 재배포하고 브라우저 검증을 수행한다. 등록된 이름만으로 배포에서 유효한 값이 사용됐다고 판정하지 않는다.
+
+## 2026-09-29 최종 배포 확인
+
+`https://gilmok-weld.vercel.app/compare`에서 익명 로그인1회·최초 RPC1회·JSON schema1.3·새로고침 uid 재사용을 확인했다. 앞선 연결 설정 오류는 해결됐다. 테스트 사용자는 삭제했다. 이후 삭제 목록 사전 제시·사용자 승인을 거쳐 23개를 Production·Preview 양쪽에서 삭제했다. 공개2개만 남았고 Production 배포 ID는 삭제 전후 동일하다. 재배포 없이 `/compare`에서 익명 signup1·최초 RPC1·JSON1.3·새로고침 uid 재사용을 다시 확인하고 테스트 사용자를 삭제했다. 삭제·검증 증거는 [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다.

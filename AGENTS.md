@@ -80,7 +80,7 @@
 
 ## 7. 현재 스프린트
 
-- **S2 완료 — v0.3, 대치동3곳 검증 통과(b>a>c)**. PR #18 머지 및 2026-09-26 사용자 마감 승인. 다음 작업은 S3이며 [S3 인계](docs/planning/location-simulator.md#s3-인계--s2-마감)의 계약·결측 처리·신뢰도 사유와 보류 목록을 따른다. 서울 전체 건물 적재·Pro 전환 검토, 임대료 lo/hi 보정·임대동향 공간 연결은 이월했다. 원격 전환·webhook 활성화는 아직 미실행이다.
+- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. Vercel 앱 변수23개를 승인 후 Production·Preview에서 삭제해 공개2개만 유지하며, 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -124,3 +124,11 @@
 - S2 마감 2026-09-26: PR #18 머지 확인. [명세 §8](docs/planning/scoring-spec.md#8-검증-절차--대치동-실제-학원-3곳)에 결과·cluster 스케일1회 조정·과적합 유의 사항을 기록했다. ScoreResult 최초v0.1→현행v0.3, exposure scene/model0.2.2 및 v022 RPC, 주소 pending·임대료/지역 결측·신뢰도 문자열/코드는 S3 인계를 따른다. transit 라이딩 학원 이슈는 S3 이후 프리셋v0.4 검토이며 현재 식·가중치는 유지한다.
 
 - S3-1 2026-09-26: Pro gp3 8GB 확장·31개 migration·7단계 복원 완료(고정 manifest f5b48dd9…, 18테이블 digest 일치). 첫 실패 원인은 pg_wal 디스크 부족. 직접 SQL 새 세션 첫 실행과 웜 30회 분리: 웜 p95 52.203~220.983ms 통과. authenticated statement_timeout=15s 및 월간 갱신 후 6조합 예열 적용. 익명 로그인 세션 HTTP 186회·고정 응답 기준 일치, Auth·Vault·비활성 웹훅과 원격 RLS 확인 완료. DB 최종 890,186,899 byte. `INGEST_REMOTE_ENABLED=false`; 웹훅 활성화·pending 1건 Actions 실증과 Vercel 연결은 main 머지 후. [최신 검산](docs/validation/s3-1-product-rpc-20260926.md), [복원 기록](docs/validation/s3-1-remote-20260926.md)을 따른다.
+
+- S3-1 2026-09-27 마감 시도: 역삼로452 공개 주소의 익명 요청 pending·uid 일일 사용량1 확인. pg_net dispatch는 403 `Resource not accessible by personal access token`, 요구 권한 contents=write. Actions run/ready 미실행. 자동 재요청 없이 pending 보존, 테스트 Auth 사용자 삭제, `INGEST_REMOTE_ENABLED=false`·트리거 D 복귀. 사용자 URL 정정 후 `hanbeulyous-projects/gilmok`·gilmok-weld.vercel.app의 READY 배포, Auth URL 등록, 프로젝트/배포의 공개 변수 이름을 확인했다. 새 브라우저는 연결 설정 오류·signup/RPC 0회라 JSON 검증 보류. Marketplace 자동 생성 출처는 미확인. 12:38 UTC 동일 pending 웹훅 재전송도 403으로 비활성 복귀했다. [증거](docs/validation/s3-1-webhook-20260927.md).
+
+- S3-1 2026-09-29 09:03 UTC 중간 기록: PAT 권한 보완 후 같은 값의 토큰으로 pg_net 204, [Actions #36546048704](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704) 성공(processed1/pending0/needs_review0), cache ready·주소 기반 RPC ready 통과. 전체56.397초, variable=false·트리거 D·테스트 사용자 삭제 확인. 사용자 확정: Vercel 앱 env는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` 두 개만, 서버 비밀 등록 금지. URL은 gilmok-weld.vercel.app으로 확정했다. 변수16개·브라우저 연결 설정 오류가 남아 배포 설정을 대조 중이다. [검증](docs/validation/s3-1-closeout-20260929.md).
+
+- S3-1 2026-09-29 최종: gilmok-weld.vercel.app/compare의 새 Production 배포에서 익명 signup1·최초RPC1·JSON schema1.3·새로고침 uid 재사용 확인. 검증 사용자 정리 완료. screens.md §8 기능 완료 기준 충족으로 S3-1 완료. Vercel 앱 변수25개는 관측 사실이며 공개2개 외23개 정리가 잔여 운영 항목이다. 값은 기록하지 않는다.
+
+- S3-1 2026-09-29 환경 정리 완료: 목록 제시·승인 후 Production·Preview의23개 변수를 삭제하고 공개2개만 유지했다. Production 배포 동일·재배포 없이 익명 signup1/RPC1/JSON1.3/uid 재사용 검증 통과. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [운영](docs/operations/s3-foundation.md).

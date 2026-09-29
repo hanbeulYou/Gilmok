@@ -1,0 +1,17 @@
+{
+  "queue_status_counts": [
+    [
+      "done",
+      1
+    ]
+  ],
+  "cache_status_counts": [
+    [
+      "ready",
+      1
+    ]
+  ],
+  "trigger": "D",
+  "db_bytes": 890260627,
+  "repository_variable": "false"
+}

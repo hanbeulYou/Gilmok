@@ -1,0 +1,241 @@
+{
+  "started_at": "2026-09-29T10:42:25.904499+00:00",
+  "project_id": "prj_ybdO613tWXdVEAf6ob31Hf6cWf8E",
+  "url": "https://gilmok-weld.vercel.app/compare",
+  "deleted": [
+    {
+      "key": "SUPABASE_DB_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.539
+    },
+    {
+      "key": "SUPABASE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.561
+    },
+    {
+      "key": "SUPABASE_SECRET_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.573
+    },
+    {
+      "key": "INGEST_LOCAL_ROOT",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.566
+    },
+    {
+      "key": "R2_ACCOUNT_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.611
+    },
+    {
+      "key": "R2_ACCESS_KEY_ID",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.536
+    },
+    {
+      "key": "R2_SECRET_ACCESS_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.545
+    },
+    {
+      "key": "R2_BUCKET",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.552
+    },
+    {
+      "key": "DATA_GO_KR_SERVICE_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.528
+    },
+    {
+      "key": "RONE_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.544
+    },
+    {
+      "key": "RONE_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.523
+    },
+    {
+      "key": "COMMERCIAL_TRADES_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.529
+    },
+    {
+      "key": "VWORLD_WFS_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.535
+    },
+    {
+      "key": "SEOUL_OPEN_DATA_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.531
+    },
+    {
+      "key": "SEOUL_TRANSIT_API_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.535
+    },
+    {
+      "key": "KAKAO_REST_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.61
+    },
+    {
+      "key": "VWORLD_SERVICE_URL",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.555
+    },
+    {
+      "key": "VWORLD_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.664
+    },
+    {
+      "key": "NEIS_API_KEY",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.547
+    },
+    {
+      "key": "SUPABASE_PROJECT_REF",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.528
+    },
+    {
+      "key": "SUPABASE_ACCESS_TOKEN",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.541
+    },
+    {
+      "key": "SUPABASE_DB_PASSWORD",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.508
+    },
+    {
+      "key": "INGEST_REMOTE_ENABLED",
+      "target": [
+        "production",
+        "preview"
+      ],
+      "http_status": 200,
+      "elapsed_s": 0.54
+    }
+  ],
+  "redeployed": false,
+  "deployment_before": {
+    "alias": "gilmok-weld.vercel.app",
+    "deployment_id": "dpl_DVcDkCrT4tdNr75fcSqYU1YjfnTE"
+  },
+  "remaining": [
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "target": [
+        "preview",
+        "production"
+      ]
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "target": [
+        "preview",
+        "production"
+      ]
+    }
+  ],
+  "deployment_after": {
+    "alias": "gilmok-weld.vercel.app",
+    "deployment_id": "dpl_DVcDkCrT4tdNr75fcSqYU1YjfnTE"
+  },
+  "finished_at": "2026-09-29T10:42:40.782451+00:00",
+  "status": "passed"
+}

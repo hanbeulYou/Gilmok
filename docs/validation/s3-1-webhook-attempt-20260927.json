@@ -1,0 +1,65 @@
+{
+  "started_at": "2026-09-27T08:59:47.717305+00:00",
+  "address": "서울특별시 강남구 역삼로 452",
+  "params": {
+    "lat": 37.5022026747964,
+    "lng": 127.056660127756,
+    "radius_m": 800,
+    "floor": 3,
+    "address": "서울특별시 강남구 역삼로 452"
+  },
+  "status": "failed",
+  "steps": [
+    {
+      "step": "preflight",
+      "seconds": 3.389,
+      "at": "2026-09-27T08:59:51.106494+00:00",
+      "merge_sha": "c0091ae0463e182dad7192403cc28ee2b77003b1",
+      "queue_empty": true,
+      "cache_miss": true,
+      "environment": "ingest-production"
+    },
+    {
+      "step": "anonymous_session",
+      "seconds": 1.168,
+      "at": "2026-09-27T08:59:52.275539+00:00",
+      "role": "authenticated",
+      "is_anonymous": true
+    },
+    {
+      "step": "verification_window",
+      "seconds": 1.477,
+      "at": "2026-09-27T08:59:53.753092+00:00",
+      "variable": "true",
+      "webhook_enabled": true
+    },
+    {
+      "step": "pending_rpc",
+      "seconds": 10.907,
+      "at": "2026-09-27T09:00:04.660476+00:00",
+      "status": "pending",
+      "requester_matches": true,
+      "daily_usage": 1
+    },
+    {
+      "step": "restore_disabled_state",
+      "seconds": 2.64,
+      "at": "2026-09-27T09:00:07.696638+00:00",
+      "variable": "false",
+      "trigger": "D",
+      "test_user_deleted": true
+    }
+  ],
+  "polls": [],
+  "dispatch_responses": [
+    {
+      "id": 1,
+      "status_code": 403,
+      "timed_out": false,
+      "error_present": false
+    }
+  ],
+  "error_type": "AssertionError",
+  "http_status": null,
+  "seconds": 19.981
+}
