@@ -157,4 +157,4 @@ Auth anonymous 활성화, Vault 토큰 저장, 비활성 Database Webhook 생성
 
 ### 2026-09-29 웹훅 실증 통과
 
-PAT Contents:write 추가 후 보존 pending 1건으로 [Actions 성공](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704)·cache ready·익명 RPC ready까지 확인했다. 전체56.397초, variable=false·트리거 D 복귀. Vercel 앱 env는 공개 두 변수만 등록하고 서버 비밀은 금지하는 운영 규칙을 확정했다. 사용자가 새 프로젝트 JSON 확인을 알려줬으나 새 URL이 생략돼 정확한 대상 대조는 대기다. [마감 검증](../validation/s3-1-closeout-20260929.md).
+PAT Contents:write 추가 후 보존 pending 1건으로 [Actions 성공](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704)·cache ready·익명 RPC ready까지 확인했다. 전체56.397초, variable=false·트리거 D 복귀. Vercel 앱 env는 공개 두 변수만 등록하고 서버 비밀은 금지하는 운영 규칙을 확정했다. 사용자가 실제 URL을 gilmok-weld.vercel.app으로 재확인했다. 현재 변수16개·연결 설정 오류가 남아 배포 설정 정리와 JSON 검증이 필요하다. [마감 검증](../validation/s3-1-closeout-20260929.md).

@@ -1,6 +1,6 @@
 # S3-1 실행 절차
 
-2026-09-29 · 보존 pending 1건의 웹훅 재전송→repository_dispatch Actions 성공→cache ready→익명 RPC ready를 실증했다. 종료 후 variable=false·DB 트리거 disabled. [최신 마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다. 새 Vercel 프로젝트의 정확한 URL 확인은 대기 중이다.
+2026-09-29 · 보존 pending 1건의 웹훅 재전송→repository_dispatch Actions 성공→cache ready→익명 RPC ready를 실증했다. 종료 후 variable=false·DB 트리거 disabled. [최신 마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다. 실제 URL은 gilmok-weld.vercel.app으로 확정했다. 현재 변수16개·브라우저 연결 설정 오류가 남아 배포 설정·JSON 검증이 필요하다.
 
 ## 준비·승인 대상
 

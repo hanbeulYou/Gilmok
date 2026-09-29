@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-09-29T09:03:40.720306+00:00",
+  "env_names": [
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "SUPABASE_DB_URL",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+    "SUPABASE_URL",
+    "SUPABASE_SECRET_KEY",
+    "INGEST_LOCAL_ROOT",
+    "R2_ACCOUNT_ID",
+    "R2_ACCESS_KEY_ID",
+    "R2_SECRET_ACCESS_KEY",
+    "R2_BUCKET",
+    "DATA_GO_KR_SERVICE_KEY",
+    "RONE_API_KEY",
+    "RONE_API_URL",
+    "COMMERCIAL_TRADES_API_URL",
+    "VWORLD_WFS_URL",
+    "SEOUL_OPEN_DATA_API_KEY",
+    "SEOUL_TRANSIT_API_URL",
+    "KAKAO_REST_API_KEY",
+    "VWORLD_SERVICE_URL",
+    "VWORLD_API_KEY",
+    "NEIS_API_KEY",
+    "SUPABASE_PROJECT_REF",
+    "SUPABASE_ACCESS_TOKEN",
+    "SUPABASE_DB_PASSWORD",
+    "INGEST_REMOTE_ENABLED"
+  ],
+  "deployments": [
+    {
+      "uid": "dpl_HTefrpFPS4828z52shFCs1QEYJ4j",
+      "state": "READY",
+      "created": 1790672032796
+    },
+    {
+      "uid": "dpl_K9zpPtdmMtFFoN8uUgiazWTxXJy2",
+      "state": "READY",
+      "created": 1790508624945
+    }
+  ]
+}
