@@ -1,7 +1,7 @@
 # 길목(GILMOK) 기획서 — 입지 시뮬레이터
 
 > 작성일: 2026-09-16
-> 상태: **S2 채점 엔진 완료 — v0.3, 대치동3곳 검증 통과(b>a>c)** (2026-09-26 사용자 마감 승인, PR #18 머지). S3 인계는 아래 절을 따른다. 서울 전체 건물 적재는 보류다. 원격 전환·S3-1 기반 구현은 PR #20으로 머지됐고, 실제 webhook 마감 검증은 PAT 권한 오류로 보류 중이다. [S3-1 최신 검증](../validation/s3-1-webhook-20260927.md)을 따른다.
+> 상태: **S2 채점 엔진 완료 — v0.3, 대치동3곳 검증 통과(b>a>c)** (2026-09-26 사용자 마감 승인, PR #18 머지). S3 인계는 아래 절을 따른다. 서울 전체 건물 적재는 보류다. 원격 전환·S3-1 기반 구현은 PR #20으로 머지됐고, 실제 webhook 실증은 통과했다. 새 배포 URL 대조는 확인 대기이며 [S3-1 최신 검증](../validation/s3-1-closeout-20260929.md)을 따른다.
 > Concept: 서비스업 창업자가 후보 점포 여러 곳을 3D 지도 위에서 데이터 기반 점수와 함께 나란히 비교하고, 조건을 바꿔가며 "목"을 시뮬레이션하는 웹 서비스. 첫 업종은 학원.
 
 ---
@@ -392,6 +392,8 @@ v0.1은 최초 계약 이력이다. S3는 현행 `preset={id:'academy_v0',versio
 
 원격 전환·webhook 활성화와 채점 Edge Function 배포는 별도 운영/S3 작업이다. S2 완료는 위 보류 항목의 완료나 서울 전체 건물 커버리지를 뜻하지 않는다.
 
-## S3-1 마감 검증 상태 — 2026-09-27
+## S3-1 마감 검증 상태 — 2026-09-29
 
-PR #20 main 머지. 원격 6조합 DB/익명 HTTP·uid RLS·프론트 골격은 검증됐으며, 이번 실제 주소 웹훅은 pending까지 생성 후 GitHub 403(Contents:write 부족)으로 중단했다. variable=false·트리거 disabled 복귀, pending 보존. 정확한 gilmok-weld.vercel.app 배포 READY·Auth URL 등록·실제 변수 이름을 확인했으나, 새 브라우저에서 연결 설정 오류가 표시돼 JSON 검증이 남았다. **S3-1 완료 처리는 보류**하며 [재개 조건과 증거](../validation/s3-1-webhook-20260927.md)를 따른다.
+PR #20 main 머지. 원격 6조합·익명 uid RLS에 더해 보존한 실제 pending 1건의 웹훅 실증을 통과했다. [Actions run](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704) 성공→cache ready→익명 RPC ready, 종료 후 variable=false·트리거 D를 확인했다. 운영 규칙은 **Vercel 앱 env 공개 2개만, 서버 비밀 금지**다.
+
+사용자는 새 Vercel 프로젝트의 공개 변수 2개·배포 JSON·Auth URL 완료를 알려줬다. 새 URL이 생략돼 대상 대조가 남았으며, 정확한 URL 확인 후 S3-1 완료 상태를 확정한다. [최신 증거](../validation/s3-1-closeout-20260929.md).

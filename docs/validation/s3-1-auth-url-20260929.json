@@ -1,0 +1,5 @@
+{
+  "site_url": "https://gilmok-hanbeulyous-projects.vercel.app/",
+  "uri_allow_list": "https://gilmok-hanbeulyous-projects.vercel.app/,https://gilmok-hanbeulyous-projects.vercel.app/**,https://gilmok-*-hanbeulyous-projects.vercel.app,https://gilmok-*-hanbeulyous-projects.vercel.app/**",
+  "external_anonymous_users_enabled": true
+}
