@@ -1,0 +1,4 @@
+{
+  "initial_probe_user_deleted": true,
+  "identity_check": "Exact creation timestamp in probe window and HeadlessChrome session; unique match"
+}

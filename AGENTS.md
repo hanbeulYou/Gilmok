@@ -80,7 +80,7 @@
 
 ## 7. 현재 스프린트
 
-- **S3-1 기반 구현·원격 웹훅 실증 완료, 배포 설정·JSON 검증 보류** (2026-09-29). PR #20 main 머지. 보존한 pending 1건이 repository_dispatch Actions 성공→cache ready→익명 RPC ready로 완료됐다. variable=false·트리거 D 복귀. 실제 URL은 사용자가 재확인한 gilmok-weld.vercel.app이다. 09:03 UTC 브라우저는 연결 설정 오류·RPC0회, 프로젝트 앱 변수16개로 배포 설정·JSON 검증이 남았다. [마감 검증](docs/validation/s3-1-closeout-20260929.md)을 따른다.
+- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. 잔여 운영 정리: Vercel 앱 변수25개 중 공개2개 외23개 제거가 필요하며, 제거 완료로 표시하지 않는다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -127,4 +127,6 @@
 
 - S3-1 2026-09-27 마감 시도: 역삼로452 공개 주소의 익명 요청 pending·uid 일일 사용량1 확인. pg_net dispatch는 403 `Resource not accessible by personal access token`, 요구 권한 contents=write. Actions run/ready 미실행. 자동 재요청 없이 pending 보존, 테스트 Auth 사용자 삭제, `INGEST_REMOTE_ENABLED=false`·트리거 D 복귀. 사용자 URL 정정 후 `hanbeulyous-projects/gilmok`·gilmok-weld.vercel.app의 READY 배포, Auth URL 등록, 프로젝트/배포의 공개 변수 이름을 확인했다. 새 브라우저는 연결 설정 오류·signup/RPC 0회라 JSON 검증 보류. Marketplace 자동 생성 출처는 미확인. 12:38 UTC 동일 pending 웹훅 재전송도 403으로 비활성 복귀했다. [증거](docs/validation/s3-1-webhook-20260927.md).
 
-- S3-1 2026-09-29: PAT 권한 보완 후 같은 값의 토큰으로 pg_net 204, [Actions #36546048704](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704) 성공(processed1/pending0/needs_review0), cache ready·주소 기반 RPC ready 통과. 전체56.397초, variable=false·트리거 D·테스트 사용자 삭제 확인. 사용자 확정: Vercel 앱 env는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` 두 개만, 서버 비밀 등록 금지. URL은 gilmok-weld.vercel.app으로 확정했다. 변수16개·브라우저 연결 설정 오류가 남아 배포 설정을 대조 중이다. [검증](docs/validation/s3-1-closeout-20260929.md).
+- S3-1 2026-09-29 09:03 UTC 중간 기록: PAT 권한 보완 후 같은 값의 토큰으로 pg_net 204, [Actions #36546048704](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704) 성공(processed1/pending0/needs_review0), cache ready·주소 기반 RPC ready 통과. 전체56.397초, variable=false·트리거 D·테스트 사용자 삭제 확인. 사용자 확정: Vercel 앱 env는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` 두 개만, 서버 비밀 등록 금지. URL은 gilmok-weld.vercel.app으로 확정했다. 변수16개·브라우저 연결 설정 오류가 남아 배포 설정을 대조 중이다. [검증](docs/validation/s3-1-closeout-20260929.md).
+
+- S3-1 2026-09-29 최종: gilmok-weld.vercel.app/compare의 새 Production 배포에서 익명 signup1·최초RPC1·JSON schema1.3·새로고침 uid 재사용 확인. 검증 사용자 정리 완료. screens.md §8 기능 완료 기준 충족으로 S3-1 완료. Vercel 앱 변수25개는 관측 사실이며 공개2개 외23개 정리가 잔여 운영 항목이다. 값은 기록하지 않는다.

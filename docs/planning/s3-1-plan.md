@@ -155,6 +155,10 @@ Auth anonymous 활성화, Vault 토큰 저장, 비활성 Database Webhook 생성
 
 실제 익명 주소 1건의 pending 생성은 성공했다. GitHub dispatch가 PAT Contents:write 부족으로 403을 반환해 Actions run·cache ready·RPC 재조회는 미완료다. 검증 종료 시 variable=false·트리거 disabled 복귀와 테스트 Auth 사용자 삭제를 확인했다. pending은 보존한다. 정확한 gilmok-weld.vercel.app 배포 READY·Auth URL 등록·프로젝트/배포 변수 이름을 확인했다. 새 브라우저에서는 연결 설정 오류가 표시돼 두 공개 변수의 Production 값·빌드 반영과 JSON 재검증이 필요하다. 동일 pending 웹훅 재전송도 403으로 종료·비활성 복귀했다. S3-1 완료 상태는 아직 갱신하지 않는다. [실증 결과·재개 조건](../validation/s3-1-webhook-20260927.md).
 
-### 2026-09-29 웹훅 실증 통과
+### 2026-09-29 09:03 UTC 중간 기록 — 웹훅 실증 통과
 
 PAT Contents:write 추가 후 보존 pending 1건으로 [Actions 성공](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704)·cache ready·익명 RPC ready까지 확인했다. 전체56.397초, variable=false·트리거 D 복귀. Vercel 앱 env는 공개 두 변수만 등록하고 서버 비밀은 금지하는 운영 규칙을 확정했다. 사용자가 실제 URL을 gilmok-weld.vercel.app으로 재확인했다. 현재 변수16개·연결 설정 오류가 남아 배포 설정 정리와 JSON 검증이 필요하다. [마감 검증](../validation/s3-1-closeout-20260929.md).
+
+### 최종 기능 완료 — 2026-09-29
+
+Production gilmok-weld.vercel.app/compare에서 익명 signup1·RPC1·JSON1.3·새로고침 uid 재사용을 확인했다. 기존 원격 성능·RLS·웹훅 실증을 포함해 screens.md §8의 S3-1 기능 완료 기준을 충족한다. 테스트 사용자 정리 완료. Vercel 변수25개 중 공개2개 외23개 제거는 별도 잔여 운영 정리로 남긴다. [마감 증거](../validation/s3-1-closeout-20260929.md).

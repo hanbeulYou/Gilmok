@@ -1,0 +1,10 @@
+{
+  "first_render_rpc_calls": 1,
+  "anonymous_signups": 1,
+  "reload_reuses_uid": true,
+  "schema_version": "1.3",
+  "scope": "production deployment browser",
+  "url": "https://gilmok-weld.vercel.app/compare",
+  "test_user_deleted": true,
+  "recorded_at": "2026-09-29T09:51:25.301784+00:00"
+}
