@@ -80,7 +80,7 @@
 
 ## 7. 현재 스프린트
 
-- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. 잔여 운영 정리: Vercel 앱 변수25개 중 공개2개 외23개 제거가 필요하며, 제거 완료로 표시하지 않는다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
+- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. Vercel 앱 변수23개를 승인 후 Production·Preview에서 삭제해 공개2개만 유지하며, 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -130,3 +130,5 @@
 - S3-1 2026-09-29 09:03 UTC 중간 기록: PAT 권한 보완 후 같은 값의 토큰으로 pg_net 204, [Actions #36546048704](https://github.com/hanbeulYou/Gilmok/actions/runs/36546048704) 성공(processed1/pending0/needs_review0), cache ready·주소 기반 RPC ready 통과. 전체56.397초, variable=false·트리거 D·테스트 사용자 삭제 확인. 사용자 확정: Vercel 앱 env는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` 두 개만, 서버 비밀 등록 금지. URL은 gilmok-weld.vercel.app으로 확정했다. 변수16개·브라우저 연결 설정 오류가 남아 배포 설정을 대조 중이다. [검증](docs/validation/s3-1-closeout-20260929.md).
 
 - S3-1 2026-09-29 최종: gilmok-weld.vercel.app/compare의 새 Production 배포에서 익명 signup1·최초RPC1·JSON schema1.3·새로고침 uid 재사용 확인. 검증 사용자 정리 완료. screens.md §8 기능 완료 기준 충족으로 S3-1 완료. Vercel 앱 변수25개는 관측 사실이며 공개2개 외23개 정리가 잔여 운영 항목이다. 값은 기록하지 않는다.
+
+- S3-1 2026-09-29 환경 정리 완료: 목록 제시·승인 후 Production·Preview의23개 변수를 삭제하고 공개2개만 유지했다. Production 배포 동일·재배포 없이 익명 signup1/RPC1/JSON1.3/uid 재사용 검증 통과. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [운영](docs/operations/s3-foundation.md).

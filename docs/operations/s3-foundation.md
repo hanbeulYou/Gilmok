@@ -1,6 +1,6 @@
 # S3-1 실행 절차
 
-2026-09-29 · **S3-1 기능 검증 완료**. 원격6조합·uid RLS·실제 웹훅 Actions→cache ready→익명 RPC ready와 Production `/compare` JSON·uid 재사용을 통과했다. 종료 후 variable=false·DB 트리거 disabled. [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다. Vercel 앱 변수25개 중 공개2개 외23개 제거는 잔여 운영 정리로 남아 있다.
+2026-09-29 · **S3-1 기능 검증 완료**. 원격6조합·uid RLS·실제 웹훅 Actions→cache ready→익명 RPC ready와 Production `/compare` JSON·uid 재사용을 통과했다. 종료 후 variable=false·DB 트리거 disabled. [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다. 사용자 승인 후 Vercel 앱 변수23개를 Production·Preview에서 삭제해 공개2개만 남겼고, 재배포 없이 `/compare` 재검증을 통과했다.
 
 ## 준비·승인 대상
 
@@ -126,15 +126,17 @@ HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급�
 
 ## Vercel 환경변수 등록 규칙 — 2026-09-29 사용자 확정
 
-**Vercel env는 NEXT_PUBLIC_ 2개만, 서버 비밀 금지.** 앱 설정으로 등록할 변수는 다음 두 개뿐이다.
+**Vercel env는 공개 변수 2개(+S3-2부터 KAKAO_REST_API_KEY)만.** S3-1에서 등록할 변수는 아래 두 개다.
 
 - `NEXT_PUBLIC_SUPABASE_URL`: 원격 Supabase 프로젝트 URL.
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: 해당 프로젝트의 공개 publishable key.
 
-Production·사용할 Preview에 두 변수를 등록한다. `.env`나 `.env.example` 전체를 업로드하지 않는다. `SUPABASE_SECRET_KEY`, service-role/JWT secret, DB URL·비밀번호, Management access token, `GITHUB_DISPATCH_TOKEN`, R2 키, 공공데이터 API 키 등 서버 비밀을 Vercel에 등록하지 않는다. 기존 로컬 `.env`, 용도에 맞는 GitHub Actions Secrets·Supabase Vault에서만 관리한다.
+S3-2부터 `KAKAO_REST_API_KEY`를 서버 전용 변수로 추가할 수 있다. `NEXT_PUBLIC_` 접두사를 붙이지 않고 Next.js Route Handler에서만 사용한다. 사용자 요청 주소 자동완성·지오코딩은 `geocode_cache` 캐시와 uid당 일일 제한을 적용한다. 배치·대장 조회는 계속 `/ingest`에서만 호출한다. 이번 정리에서는 기존 `KAKAO_REST_API_KEY`도 삭제했으며, S3-2 구현 시 다시 등록한다.
+
+Production·사용할 Preview에 두 공개 변수를 등록한다. `.env`나 `.env.example` 전체를 업로드하지 않는다. `SUPABASE_SECRET_KEY`, service-role/JWT secret, DB URL·비밀번호, Management access token, `GITHUB_DISPATCH_TOKEN`, R2 키, 공공데이터 API 키 등 서버 비밀은 위 S3-2의 `KAKAO_REST_API_KEY` 예외 외에는 Vercel에 등록하지 않는다. 기존 로컬 `.env`, 용도에 맞는 GitHub Actions Secrets·Supabase Vault에서만 관리한다.
 
 값을 문서·PR·로그에 복사하지 않는다. 검증은 프로젝트·배포의 변수 **이름**, 브라우저의 익명 로그인·RPC·JSON 표시로 한다. 두 공개 변수는 Next.js 빌드 시 반영되므로 변경 후 재배포하고 브라우저 검증을 수행한다. 등록된 이름만으로 배포에서 유효한 값이 사용됐다고 판정하지 않는다.
 
 ## 2026-09-29 최종 배포 확인
 
-`https://gilmok-weld.vercel.app/compare`에서 익명 로그인1회·최초 RPC1회·JSON schema1.3·새로고침 uid 재사용을 확인했다. 앞선 연결 설정 오류는 해결됐다. 테스트 사용자는 삭제했다. 현재 앱 변수는25개로, 위 공개2개 규칙에 맞추려면 나머지23개를 정리해야 한다. 기능 검증 완료와 환경변수 정리 완료를 혼동하지 않는다. 목록·증거는 [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다.
+`https://gilmok-weld.vercel.app/compare`에서 익명 로그인1회·최초 RPC1회·JSON schema1.3·새로고침 uid 재사용을 확인했다. 앞선 연결 설정 오류는 해결됐다. 테스트 사용자는 삭제했다. 이후 삭제 목록 사전 제시·사용자 승인을 거쳐 23개를 Production·Preview 양쪽에서 삭제했다. 공개2개만 남았고 Production 배포 ID는 삭제 전후 동일하다. 재배포 없이 `/compare`에서 익명 signup1·최초 RPC1·JSON1.3·새로고침 uid 재사용을 다시 확인하고 테스트 사용자를 삭제했다. 삭제·검증 증거는 [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다.

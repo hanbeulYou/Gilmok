@@ -161,4 +161,4 @@ PAT Contents:write 추가 후 보존 pending 1건으로 [Actions 성공](https:/
 
 ### 최종 기능 완료 — 2026-09-29
 
-Production gilmok-weld.vercel.app/compare에서 익명 signup1·RPC1·JSON1.3·새로고침 uid 재사용을 확인했다. 기존 원격 성능·RLS·웹훅 실증을 포함해 screens.md §8의 S3-1 기능 완료 기준을 충족한다. 테스트 사용자 정리 완료. Vercel 변수25개 중 공개2개 외23개 제거는 별도 잔여 운영 정리로 남긴다. [마감 증거](../validation/s3-1-closeout-20260929.md).
+Production gilmok-weld.vercel.app/compare에서 익명 signup1·RPC1·JSON1.3·새로고침 uid 재사용을 확인했다. 기존 원격 성능·RLS·웹훅 실증을 포함해 screens.md §8의 S3-1 기능 완료 기준을 충족한다. 테스트 사용자 정리 완료. 후속 사용자 승인으로 Vercel Production·Preview의23개 변수를 삭제해 공개2개만 남겼다. 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [마감 증거](../validation/s3-1-closeout-20260929.md).
