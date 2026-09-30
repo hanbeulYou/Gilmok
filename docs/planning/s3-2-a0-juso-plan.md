@@ -2,7 +2,7 @@
 
 base: main
 
-2026-09-30 **구현·로컬 T1 검증 완료, 원격 적용 대기**. PR [#23](https://github.com/hanbeulYou/Gilmok/pull/23), 브랜치 `s3/juso-transition`. #22는 주소 공급자 인터페이스만 맞춰 병행하고, 데이터/fixture는 A0 머지 후 동기화한다. A의 백분위/context RPC WIP를 이 PR에 섞지 않는다.
+2026-09-30 **구현·로컬 T1 검증·승인된 원격 migration1개 적용 완료**. PR [#23](https://github.com/hanbeulYou/Gilmok/pull/23), 브랜치 `s3/juso-transition`. #22는 주소 공급자 인터페이스만 맞춰 병행하고, 데이터/fixture는 A0 머지 후 동기화한다. A의 백분위/context RPC WIP를 이 PR에 섞지 않는다.
 
 ## 1. 이번 승인 범위와 중단 조건
 
@@ -103,7 +103,7 @@ T1을 Juso 좌표·전량 교체 완료로 부르지 않는다. PNU/도형 불�
 
 - [x] 실제 Juso 검색+Vworld 3곳 PNU/도형 검증 및8축 T1 보고. [결과](../validation/s3-2-a0-juso-20260930.md).
 - [x] `pnpm lint/typecheck/test/test:db`, 기존 T0 재현, 공용 cache 쓰기 차단 검증.
-- [x] 원격 dry-run 통과: 신규 migration1개. push는 별도 승인 후.
+- [x] 원격 최종 dry-run1개 확인 후 사용자 승인으로 push 성공(1.000초). schema/권한·기존13,570행 해시 보존 검증. [적용 기록](../validation/s3-2-a0-juso-20260930.md#원격-migration-적용--2026-09-30).
 - [x] D2·공급자 계약·기존 의존성 목록과 해외 제한 원문 확인 내용 문서화.
 - [ ] 공개 API 좌표의 해외 저장 적용 범위 공식 답변 확보. 미확정 상태에서 해외 데이터 전환하지 않음.
 
