@@ -135,3 +135,12 @@ Production·Preview 모두 .env 전체 업로드 금지. SUPABASE_SECRET_KEY, se
 ## 2026-09-29 최종 배포 확인
 
 `https://gilmok-weld.vercel.app/compare`에서 익명 로그인1회·최초 RPC1회·JSON schema1.3·새로고침 uid 재사용을 확인했다. 앞선 연결 설정 오류는 해결됐다. 테스트 사용자는 삭제했다. 이후 삭제 목록 사전 제시·사용자 승인을 거쳐 23개를 Production·Preview 양쪽에서 삭제했다. 공개2개만 남았고 Production 배포 ID는 삭제 전후 동일하다. 재배포 없이 `/compare`에서 익명 signup1·최초 RPC1·JSON1.3·새로고침 uid 재사용을 다시 확인하고 테스트 사용자를 삭제했다. 삭제·검증 증거는 [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다.
+
+
+## PR A 주소 Route Handler 배포 설정 (2026-09-30)
+
+공개 변수는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`만 유지한다. #22 배포에는 서버 전용 `JUSO_API_KEY`와 Juso 좌표 승인 전의 `VWORLD_API_KEY`가 추가로 필요하다. 사용자가 Vercel에 등록한 뒤 재배포한다. Kakao 키·Supabase 관리자키·DB 비밀번호·DB URL·R2·dispatch 토큰은 등록하지 않는다. `.env` 전체 업로드는 금지한다. 이 PR에서 Vercel 변수는 직접 변경하지 않았다.
+
+주소 Route Handler는 Next.js15 `runtime=nodejs`, `preferredRegion=icn1`, 외부 fetch `cache=no-store`로 실행한다. 국내 사용자·주소 API와의 왕복을 줄이기 위한 선택이며 Supabase 프로젝트는 계속 Tokyo다. [Next.js15 지역 설정](https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config#preferredregion). 브라우저 bearer 토큰을 서버의 [auth.getUser](https://supabase.com/docs/reference/javascript/auth-getuser)로 검증하고 사용자 권한 RPC로 쿼터를 예약한다. public key 이외의 Supabase 서버 비밀은 사용하지 않는다.
+
+A는 `/new` 등록→`/compare` 미저장 점수 목록까지다. 최초 데이터 조회 동안 후보명·층을 유지하고 스켈레톤을 표시한다. 주소 확인55초·채점 RPC 단계55초, 개별 외부 데이터 API10초, Worker15초를 상한으로 재시도 가능 오류/결측으로 전환한다. 일반적인 콜드2~4초는 보장 상한이 아니다. 저장·새로고침 복원은 C, Realtime 구독은 B에서 완성한다. [검증·원격 승인 목록](../validation/s3-2-a-registration-20260930.md)을 따른다.
