@@ -97,7 +97,7 @@ Kakao의 주소 검색 엔드포인트·좌표 x/y·법정동/산/본번/부번 
 
 백분위 계약은 다음을 만족한다.
 
-- 요청에 preset id/reference_version0.1.2·radius800·schema1.3·원천 메타데이터/요청 지표/원시값을 담는다. 서버는 유한수·허용 키·최대7개를 검증하고 동일 문장 스냅샷의 기준분포만 읽는다.
+- 요청에는 preset id·radius800·최대7개 지표/원시값을 담는다. 서버는 유한수·허용 키를 검증하고 동일 문장 스냅샷의 기준분포만 읽는다. 응답의 reference_version0.1.2·schema1.3·원천 메타데이터는 기존 순수 함수의 공통 검증에서 입력과 대조한다.
 - 기존 `lib/scoring/percentile.ts` 그대로: 동일값 수 E>0이면 `100×(L+(E+1)/2)/N`, E=0이면 `100×L/N`. L은 엄격히 작은 값 수, N은 비NULL 모집단이다. NULL·빈 모집단·소스/버전 불일치는 기존 reason을 유지한다. Postgres의 percent_rank/cume_dist로 대체하지 않는다.
 - raw를 반올림하지 않고 float8로 대조한다. 역거리의 100−p 방향은 기존 순수 함수에서 적용한다. 응답을 요청 raw/key/radius/snapshot과 묶어 오래된 결과를 다른 후보에 쓰지 않는다.
 - `ScoreReference` 전체 분포 경로는 기존 검산용으로 보존하고, 사전 계산된 백분위 입력 타입을 추가한다. `referencePercentile()`의 메타데이터 검증·출력 계약을 공유한다. 가짜 분포 배열을 만들어 점수를 맞추지 않는다.

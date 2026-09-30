@@ -1,0 +1,6 @@
+{
+  "command": "supabase db push --linked --dry-run",
+  "exit_code": 0,
+  "output": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20260930072813_registration_reference_percentiles.sql\n • 20260930073201_registration_candidate_context.sql\nA new version of Supabase CLI is available: v2.118.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n",
+  "remote_write": false
+}
