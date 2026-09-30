@@ -26,7 +26,7 @@
 | 공공데이터포털 data.go.kr                | 회원가입 후 활용신청 | 건축HUB 건축물대장정보, 소상공인 상가(상권)정보 API, 상업업무용 부동산 매매 실거래가 | ☐    |
 | 서울 열린데이터광장 data.seoul.go.kr     | 인증키 발급          | 생활인구, 지하철·버스 승하차, 학원 교습소정보, 학교 기본정보                         | ☐    |
 | 나이스 교육정보 개방포털 open.neis.go.kr | 인증키 발급          | 학교기본정보, 학원·교습소 (서울 외 확장 대비)                                        | ☐    |
-| Kakao Developers                         | 앱 생성              | Local API(주소→좌표, 좌표→주소)                                                      | ☐    |
+| 행안부 주소기반산업지원서비스 business.juso.go.kr | 서비스별 승인키 신청 | 도로명주소 검색 API + 검색API(좌표), A0 전환 대상 | 발급 대기 |
 | Vworld vworld.gov.kr                     | 인증키 발급          | 지오코더, 건물 데이터 (확인 필요)                                                    | ☐    |
 
 서비스별 활용승인·일 쿼터·페이지 제한은 실제 계정과 응답으로 확인해야 한다. 일괄적인 "일 10,000 트래픽이면 충분" 가정을 구현에 사용하지 않는다.
@@ -39,7 +39,9 @@ PR 1에서 `.env.example`을 추가했다. 2026-09-19 이름 대조 결과 누�
 | --- | --- | --- |
 | 건축HUB·상가 검증·실거래 | `DATA_GO_KR_SERVICE_KEY` | 각 서비스 활용승인 필요 |
 | 서울 데이터 | `SEOUL_OPEN_DATA_API_KEY` | 인증 API 사용 시 필요 |
-| 주소 지오코딩 | `KAKAO_REST_API_KEY` | 1순위 제공자 |
+| 주소 검색 | `JUSO_API_KEY` | A0 이후 서버 전용 검색 API 키, 사용자 발급 대기 |
+| 출입구 좌표 조회 | `JUSO_COORD_API_KEY` | A0 이후 서버 전용 좌표 API 키. 검색용 키와 구분 |
+| 폐기할 주소 지오코딩 키 | `KAKAO_REST_API_KEY` | `.env`·Actions 제거 대상. Vercel 등록 금지. A0 검증/전환 후 제거하며 현재 구현은 아직 기존 키 사용 |
 | Vworld 대체 경로 | `VWORLD_API_KEY` | 대체 지오코더·건물 소스를 채택할 때 |
 | 나이스 직접 조회 | `NEIS_API_KEY` | 서울 제공 자료 대신 직접 조회할 때 |
 | Supabase 배치 DB 직접 연결 | `SUPABASE_DB_URL` | 현재 Python 적재 코드에서 사용. 원격 준비 전 로컬 DB 기본값 사용 |
@@ -161,18 +163,60 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 - 전체 건물 30,112개 중 SHP 대장 연결은 19,016/28,227(67.37%)이다. 원천 PK 없음 5,957개·현행 표제부에 변환 PK 없음 3,254개를 유지하며 PNU만으로 임의 연결하지 않는다. 층별개요는 198,571행 연결, 부모 표제부 없는 66행(4개 PK)은 원천 PK·미연결 상태로 보존한다.
 - 높이는 원천 16,652개·층수 추정 7,308개·unknown 6,152개다. `buildings_in_radius`는 SHP와 WFS 전체를 차폐 입력에 포함하고 `meta.confidence`에 unknown_count/occluder_count/unknown_ratio를 반환한다. `meta.estimated_buildings`는 층수 추정 수, 개체 `estimated`는 unknown 표시 기본값도 포함한다. 대장 집계는 연결된 SHP의 고유 표제부 PK만 센다. 대치동 3좌표×2반경에서 p95 16.084~157.651ms이며 전체 score_inputs 검증은 아니다.
 
-### 2.8 지오코딩
+### 2.8 지오코딩 — Juso 전환 계약
 
-- 배치에서만 Kakao 주소 검색 `https://dapi.kakao.com/v2/local/search/address.json`을 호출한다. `analyze_type=exact`, 1페이지 최대 30개로 요청하고 유일한 상세 주소만 허용한다. REGION/ROAD 중심점이나 다중 후보를 첫 번째 좌표로 임의 선택하지 않는다.
-- 본주소를 NFKC와 공백 정리만으로 정규화한다. 건물번호·도로명·괄호 내용을 추측 변경하지 않는다. 학원 본주소 12,377개 + 학교 1,166개 − 공통 1개 = **13,542개**. 원천 좌표가 있는 상가는 지오코딩하지 않는다.
-- 캐시는 기존 `geocode_cache`의 `(address, provider)` PK를 사용한다. 성공과 확정 실패 모두 영속 보관하며 같은 provider에 같은 주소를 재호출하지 않는다. 실패는 `geocode_failed=true`, `geom=NULL`, `failure_reason`으로 보존한다. 다른 기관이 같은 본주소를 사용해도 결과를 공유한다.
-- 외부 호출 전 `ingest_private.geocode_requests`에 claim을 커밋한다. 동시 실행은 advisory lock/PK로 중복을 막는다. 타임아웃·중단 후 pending/unknown/blocked 요청은 자동 재시도하지 않는다. 저장된 응답 journal이 있으면 검토 후 API 호출 없이 복구할 수 있다. 401/403/429는 배치 중단 사유이며 주소 실패로 기록하지 않는다.
-- 2순위 Vworld `https://api.vworld.kr/req/address`(getcoord, road, EPSG:4326)는 **Kakao NOT_FOUND 주소에만** 각 1회 조회한다. 다중 후보·불완전 주소를 보조 소스로 무리하게 확정하지 않는다. 실제 HTTP 200의 OK/NOT_FOUND 스키마를 확인했다.
-- **실응답으로 확인한 주소 보정 위험:** Vworld가 `신반포로 50`을 `신반포로33길 50`으로, `월드컵로7길 27`을 `27-10`으로 반환하는 사례가 있었다. 두 provider 모두 반환 도로명·건물번호·구가 원문과 일치하는지 대조한다. Kakao는 정확한 법정동·지번도 대조하며, 숫자 뒤 `번지` 단위와 공백 차이만 허용한다. 불일치는 실패이며 추정 좌표로 채우지 않는다. 저장 응답 전수 대조에서 Vworld의 잘못 보정된 5개를 제외했다. Kakao의 `145번지`와 `성수동1가 72-64` 2개는 공식 주소 구성요소가 원문과 정확히 일치하여 저장 응답으로 복원했다. 원문과 캐시 키를 변경하거나 API를 재호출하지 않았다.
-- 결과: **13,491개 주소 좌표 확보, 51개 실패**. Vworld 보조 경로에서 추가 확보한 주소는 10개다. 기관별로 학원 86행·학교 7행의 위치가 없다. 검증 SQL의 `meta`에 원천 행 수·위치 확보·미확보 개수를 동봉하며 반경 개수는 위치 확보 대상만 센다.
-- [Kakao 공식 기본 쿼터](https://developers.kakao.com/docs/ko/getting-started/quota)는 주소 검색 100,000건/일. 예상 최초 대상은 13.542%다. 사용자 활성화 후 실제 1건 HTTP 200을 확인하고 캐시한 뒤 시작했다. 실제 일괄 Kakao 요청 13,541건 + 기존 성공 캐시 1건; Vworld는 보조 27건 + 별도 정상 스키마 점검 1건이다. 앱의 무료 적용·다른 사용처의 잔량과 Vworld 계정 상한은 미확인이다. 실행에서는 로컬 일일 한도 14,000/1,000과 오류 중단을 적용했으며 이를 계정 쿼터 확인 결과로 표현하지 않는다.
-- 같은 주소 목록 재실행은 Kakao 캐시 13,542개·Vworld 캐시 27개를 사용하고 **외부 호출 0건**이었다. 상세 응답·실패 목록은 `.local/validation/pr4/`에 있으며 비밀 키/키 포함 URL은 기록하지 않는다. 캐시 최신성 운영 정책의 구체적 TTL은 확인되지 않아 자동 만료·재호출을 임의 구현하지 않는다.
-- S1은 배치·캐시 구축까지다. 등록 화면의 캐시 미스 흐름은 S3 `screens.md`에서 정한다. 프론트·Edge Function은 외부 API를 직접 호출하지 않는다.
+2026-09-30 사용자 결정: 사용자 검색과 배치 모두 Kakao를 제거한다. **아래는 A0/A에서 구현할 승인 방향이며 현재 운영 코드·기존 데이터가 이미 교체됐다는 뜻은 아니다.** 실행은 [A0 계획](s3-2-a0-juso-plan.md) 승인 후, 원격 변경/삭제는 최종 dry-run·manifest 승인 후다. 과거 S1 실측은 [PR4 검증](../validation/pr4-places-20260920.md)에 남기며 현행 공급자 계약과 구분한다.
+
+#### 2.8.1 검색·좌표·PNU
+
+| 단계 | 엔드포인트/키 | 입력·출력 계약 |
+| --- | --- | --- |
+| 도로명·지번·건물명 검색 | `https://business.juso.go.kr/addrlink/addrLinkApi.do`, `JUSO_API_KEY` | `confmKey,currentPage,countPerPage,keyword,resultType=json`. 후보의 `roadAddrPart1,jibunAddr,bdNm,bdMgtSn,admCd,rnMgtSn,udrtYn,buldMnnm,buldSlno,mtYn,lnbrMnnm,lnbrSlno`를 검증 |
+| 선택 주소의 출입구 좌표 | `https://business.juso.go.kr/addrlink/addrCoordApi.do`, `JUSO_COORD_API_KEY` | `confmKey,admCd,rnMgtSn,udrtYn,buldMnnm,buldSlno,resultType=json`. `entX,entY`와 반환 건물관리번호 등을 선택 항목과 대조 |
+| 폴백 | `https://api.vworld.kr/req/address`, `VWORLD_API_KEY` | `getcoord`, 주소의 road/parcel 유형, `EPSG:4326`. Juso 확정0건/공개 좌표 미제공에 한해 검토; 제공자와 사유 별도 기록 |
+
+검색 목록에서 사용자가 선택한 주소만 좌표 조회한다. 배치는 원문과 유일하게 일치한 결과만 사용한다. 건물명 검색은 주소자료의 건물명 검색이며 일반 상호 POI 전체 검색이 아니다. Kakao 장소 검색 폴백은 폐기한다. NFKC·공백 정리 외에 도로명/번지/구를 바꾸거나 다중 결과 첫 항목을 선택하지 않는다.
+
+PNU는 `admCd(10자리) + (mtYn=0→1, mtYn=1→2) + lnbrMnnm(4자리 zero-pad) + lnbrSlno(4자리 zero-pad)`의19자리다. 산여부·지번 본번/부번을 사용하며, 좌표 API 요청용 건물번호 `buldMnnm/buldSlno` 및 지하여부 `udrtYn`와 혼용하지 않는다. 공식 검색 API 필드 계약은 [공공데이터포털 15057017](https://www.data.go.kr/data/15057017/openapi.do), 좌표 API는 [15056663](https://www.data.go.kr/data/15056663/openapi.do)을 따른다. 키 종류 혼용 불가는 [공식 승인키 답변](https://m1.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=141831&currentPage=5&keyword=&noticeMgtSn=141831&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=)에서 확인했다.
+
+원천 좌표는 **GRS80 UTM-K / EPSG:5179**, DB geom은 **EPSG:4326**, 거리/레이캐스트 계산은 geography 또는 **EPSG:5186**이다. `entX/entY`의 축 순서를 유지해 `pyproj(always_xy=True)`와 PostGIS 변환을 독립 검산한다. 원좌표·원CRS·변환 버전·조회일·출처를 보존한다. [공식 좌표계 안내](https://eng.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=130332&currentPage=146&keyword=&noticeMgtSn=130332&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=).
+
+출입구와 건물 중심점은 같지 않다. 선택 주소/PNU/`bdMgtSn` 일치→해당 PNU의 유일 도형→`ST_Covers`를 검사한다. 도형 밖 출입구·다동·PNU 불일치는 사유/거리와 함께 보류하고 중심점/최근접 건물로 자동 보정하지 않는다. 도형이 없는 지역의 기존 결측 처리도 유지한다. 실제 Juso 미포함 사례가 생기면 처리 기준을 별도 결정한다.
+
+#### 2.8.2 캐시·호출 제한·신뢰 경계 (A0 승인)
+
+- 사용자 Route Handler 검색은 무캐시 실시간. 좌표는 등록 시1회 조회해 uid 소유 후보 행에만 저장한다. 공용 캐시 읽기/쓰기 경로와 uid별 별도 응답 캐시를 만들지 않는다.
+- 공용 `public.geocode_cache(address,provider)`의 신규 `provider='juso'` 행은 **Actions/직접 DB URL 배치만 기록**한다. 브라우저·Route Handler의 JWT로 쓰는 RPC/서명키는 없다. `provenance`에 Juso 선택 식별자/PNU와 실제 `coordinate_provider`, 원좌표/CRS, 조회일을 보존한다. 과거 Kakao 행은 승인 전 보존한다.
+- A0의 임시 좌표 공급자는 Vworld EPSG:4326이다. Juso 좌표 승인 후 EPSG:5179 출입구로 교체하며 데이터 출처를 혼동하지 않는다. 13,542건 전량 재산출은 JUSO_COORD_API_KEY 발급 후 별도 실행·보고한다.
+- uid당 KST 일100회는 앱의 남용 방지 제한이다. 검색/좌표/Vworld 호출량을 별도 기록한다. 공급자 키별 실제 한도를 대신하는 숫자가 아니다. Juso 저장 TTL 제약은 확인되지 않았으며 기존 건축대장 캐시 30일은 별도 규칙이다.
+- `/ingest`는 영속 claim/journal로 중복 외부 요청을 방지한다. 인증·제한·서버 오류는 not_found로 저장하지 않는다. 키 포함 URL·응답 echo·개인 입력은 로그에서 제외한다.
+
+#### 2.8.3 약관·저장 허용·출처 — 2026-09-30 확인
+
+| 구분 | 1차 자료와 확인 결과 |
+| --- | --- |
+| 적용 약관 | [주소정보누리집 이용약관](https://www.juso.go.kr/Terms)은 주소기반산업지원서비스를 포함하며 약관 외 사항에 도로명주소법·주소정보 제공에 관한 규정 등을 적용. 자료별 이용허락과 별도 보안 조건을 구분 |
+| 저장/재사용 | [공식 좌표 저장 답변(2022-11-26 질의)](https://m1.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=108637&currentPage=341&keyword=&noticeMgtSn=108637&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=): x/y 저장·별도 협의 없는 이용 가능 안내. [검색 API 라이선스](https://www.data.go.kr/catalog/15057017/openapi.json)와 [좌표 API 라이선스](https://www.data.go.kr/catalog/15056663/openapi.json)는 모두 `이용허락범위 제한 없음`. 카카오와 같은 저장/캐시 TTL 제한을 찾지 못했으며 무근거24시간 TTL은 도입하지 않음 |
+| 저작권/출처 | [주소정보 제공에 관한 규정 제15조](https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000242090)는 제공정보 저작권의 관리기관 귀속 및 이용자의 저작권·출처 표시를 규정. `주소정보: 행정안전부 주소정보누리집(도로명주소·출입구 좌표), 조회일 YYYY-MM-DD`와 원문 링크를 제품 데이터 출처/근거 및 산출물 metadata에 표시. 공개 포털의 제한 없음 표기를 출처 표시 면제로 해석하지 않음 |
+| 저장 위치 조건 | [공식 API 상업 이용 답변(2023-05-09 질의)](https://eng.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=114474&currentPage=184&keyword=&noticeMgtSn=114474&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=)은 상업적 이용 허용과 함께 공간정보(지도·좌표)의 해외 서버 업로드 제한을 안내. 이 과거 안내의 현행 API 응답 적용 범위·예외는 아직 확인하지 못함. Supabase Tokyo, R2 원본/백업, CI artifact 위치에 관해 **원격 저장 전 공급자 확인**. icn1만으로 해결된다고 가정하지 않으며 리전 변경은 별도 승인 |
+
+공공데이터라는 이유만으로 모든 이용 조건이 없다고 단정하지 않는다. 저장/재사용 허용은 위 자료로 확인했으며, 저장 위치 적용 범위는 별도의 미확인 조건이다. Vworld 폴백에는 Vworld 약관을 따로 적용한다.
+
+2026-09-30 승인 후 원문 추가 확인: 현행 이용약관의 공식 JS와 2021 운영규정 HWP를 읽었으며 해외/국외 문구가 없었다. 「주소정보 제공에 관한 규정」2024-45호 제5조제3항의 국외 반출 관련 제한은 제한제공 정보의 보안심사 문맥이다. 공개 API 출입구 좌표/Tokyo DB의 적용 범위는 미확정이며 금지 또는 허용으로 일반화하지 않는다. 조회 원문·hash·추가 문의 문안과 조건부 서울 이전안은 [A0 §2·§9](s3-2-a0-juso-plan.md)를 따른다.
+
+#### 2.8.4 쿼터·오류·실응답 확인 항목
+
+- [공식 검색 호출 제한 답변(2024-08-05)](https://eng.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=129004&currentPage=168&noticeMgtSn=129004&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=): 검색 호출 건수 제한 없음, DDoS로 보일 정도의 과도한 호출은 IP 차단 가능. 일 무제한을 무제한 TPS 보장으로 해석하지 않는다.
+- [공식 검색/좌표 제한 답변(2024-05-10)](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=126550&currentPage=49&keyword=&noticeMgtSn=126550&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=): **좌표 API 5초10건**, 검색은 호출 건수 제한 없음. 좌표의 별도 일 누적 숫자 한도/계정 조건은 발급 후 확인. 사용자/배치 전체 공통 제한기는600ms 간격 허가를 제안하며 각 실제 호출/재시도를 계수한다.
+- D3 **uid당 KST 일100회**는 서비스의 남용 방지용이다. 검색/선택 좌표 요청은 한도를 공유하고 실제 공급자 search/coordinate/vworld 호출·cache hit·오류·재시도는 구분 기록. 주소 건축물 큐 일10건은 별도 유지.
+- Juso 검색0건/좌표 미제공만 Vworld 폴백 대상이다. HTTP/업무 에러를0건으로 바꾸지 않으며 인증·쿼터/과도호출·장애는 중단/지연/재시도 사유다. [좌표 미제공 공식 안내](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=101585&currentPage=425&keyword=&noticeMgtSn=101585&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=)처럼 비공개 시설의 좌표가 없을 수 있다. 비공개를 우회해 채우는 폴백은 하지 않는다.
+- **실응답 미확인:** 사용자 키 발급 후 두 endpoint의 요청/응답·인코딩·업무 에러·최대 page 수·건물명 검색·다동/다출입구·3주소 변환·API별 키·계정 제한을 소량 확인해 갱신한다. 현재 문서 확인을 실제3곳 재산출 완료로 표현하지 않는다.
+
+#### 2.8.5 기존 데이터 교체 경계
+
+로컬/원격 읽기 전용 실측: kakao cache 각각13,542행(성공13,481/실패61), 학원 kakao 성공25,412/실패86, 학교 성공1,312/실패7. 기관 좌표와 R2 geocoded Parquet, 주소 대장 캐시, S2-4/파생 문서 및 기준분포까지 의존한다. 전체 목록·hash·교체/승인 순서는 [A0 계획](s3-2-a0-juso-plan.md)과 [inventory](../validation/s3-2-a0-inventory-20260930.json)를 따른다.
+
+이전 Vworld 실측에서 도로명/건물번호를 바꿔 반환한5건을 제외한 교훈은 새 경로에서도 유지한다. 새 원본 주소·기관 ID·분류·실패 행을 보존하고, 채점 v0.3 고정 상수는 재보정하지 않는다. 새 좌표·새 기관 입력/source에 맞춰 reference snapshot을 재생성하는 작업과 프리셋 조정은 구분한다. 원격 삭제·키 제거·R2 게시/정리는 승인된 실행 manifest 전까지 하지 않는다.
 
 ### 2.9 상업용 부동산 매매 실거래 (임대료 효율 축)
 
@@ -366,7 +410,7 @@ Source.limitations의 현행 코드: `not_loaded`, `unlocated_records_not_in_spa
 
 캐시 미스·만료는 비공개 `ingest_private.building_address_requests`에 1건을 넣고 `pending`과 기존 도형의 가용 값/NULL을 즉시 반환한다. `/ingest` 워커가 정확한 도로명·건물번호 대조 후 Kakao의 법정동/지번으로 PNU를 구성하고 BuildingHub 표제부·층별개요를 조회한다. PNU 불일치, 같은 주소 주건물 다수는 임의 선택하지 않는다. 원본 Parquet을 R2 raw/에 게시·DuckDB 재읽기 대조한 뒤 최소 대장 사실을 캐시한다. 다음 RPC에서 값을 받는다. 프론트·Edge는 계속 Supabase만 호출한다.
 
-실행: `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10` (로컬 DB만, 30초 큐 폴링, 처리 주소 10건 후 종료; 상한 100). 일회 처리는 `--watch` 없이 실행한다. **배포된 상시 워커는 아직 없다.** 운영자가 이 프로세스를 실행해야 pending이 처리되며, 이번 검증은 일회 실행으로 처리했다. 기존 `.env`의 `KAKAO_REST_API_KEY`, `DATA_GO_KR_SERVICE_KEY`, R2 키를 재사용하며 새 키는 필요 없다. R2 미설정은 기존 로컬 원본 저장 정책을 따른다.
+실행: `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10` (로컬 DB만, 30초 큐 폴링, 처리 주소 10건 후 종료; 상한 100). 일회 처리는 `--watch` 없이 실행한다. **배포된 상시 워커는 아직 없다.** 운영자가 이 프로세스를 실행해야 pending이 처리되며, 이번 검증은 일회 실행으로 처리했다. 기존 `.env`의 `JUSO_API_KEY`, `VWORLD_API_KEY`, `DATA_GO_KR_SERVICE_KEY`, R2 키를 재사용하며 새 키는 필요 없다. R2 미설정은 기존 로컬 원본 저장 정책을 따른다.
 
 `fetched_at+30일`까지만 캐시가 유효하며 만료된 값은 재사용하지 않는다. not_found/ambiguous도 30일 음성 캐시다. claim을 HTTP 전에 커밋하므로 동시 워커·반복 RPC가 중복 작업을 가져가지 않는다. failed/중단된 processing은 자동 재시도하지 않는다. 원본·오류를 점검한 운영자만 해당 private 요청을 pending으로 재설정해 재호출하며 키/주소 원문 오류를 로그로 노출하지 않는다. anon/authenticated는 private 테이블을 읽거나 수정할 수 없고 좁은 SECURITY DEFINER 캐시/큐 함수만 실행한다. RPC는 VOLATILE이며 기존 4개 필수 인자 호출도 기본 address=NULL로 계속 동작한다.
 

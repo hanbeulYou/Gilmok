@@ -1,0 +1,410 @@
+{
+  "observed_at": "2026-09-30T08:01:00.535204+00:00",
+  "mode": "read_only",
+  "databases": {
+    "local": {
+      "geocode_cache": [
+        [
+          "kakao",
+          false,
+          13481
+        ],
+        [
+          "kakao",
+          true,
+          61
+        ],
+        [
+          "vworld",
+          false,
+          11
+        ],
+        [
+          "vworld",
+          true,
+          17
+        ]
+      ],
+      "academies": [
+        [
+          "kakao",
+          false,
+          25412
+        ],
+        [
+          "kakao",
+          true,
+          86
+        ],
+        [
+          "vworld",
+          false,
+          10
+        ]
+      ],
+      "schools": [
+        [
+          "kakao",
+          false,
+          1312
+        ],
+        [
+          "kakao",
+          true,
+          7
+        ]
+      ],
+      "requests": [
+        [
+          "kakao",
+          "ambiguous",
+          26
+        ],
+        [
+          "kakao",
+          "invalid",
+          8
+        ],
+        [
+          "kakao",
+          "not_found",
+          27
+        ],
+        [
+          "kakao",
+          "success",
+          13480
+        ],
+        [
+          "vworld",
+          "invalid",
+          5
+        ],
+        [
+          "vworld",
+          "not_found",
+          12
+        ],
+        [
+          "vworld",
+          "success",
+          11
+        ]
+      ],
+      "related_tables": [
+        [
+          "ingest_private",
+          "building_address_cache"
+        ]
+      ],
+      "candidate_count": [
+        [
+          0
+        ]
+      ],
+      "kakao_rows_sha256": "90c26f4a3b1c7be5f5163102e16c3d2825f83dce659bacc989b4959e84131d7a",
+      "kakao_distinct_addresses": 13542,
+      "building_address_cache": {
+        "count": 1,
+        "columns": [
+          "address",
+          "pnu",
+          "geom",
+          "status",
+          "payload",
+          "fetched_at",
+          "expires_at",
+          "source",
+          "raw_key"
+        ]
+      }
+    },
+    "remote": {
+      "geocode_cache": [
+        [
+          "kakao",
+          false,
+          13481
+        ],
+        [
+          "kakao",
+          true,
+          61
+        ],
+        [
+          "vworld",
+          false,
+          11
+        ],
+        [
+          "vworld",
+          true,
+          17
+        ]
+      ],
+      "academies": [
+        [
+          "kakao",
+          false,
+          25412
+        ],
+        [
+          "kakao",
+          true,
+          86
+        ],
+        [
+          "vworld",
+          false,
+          10
+        ]
+      ],
+      "schools": [
+        [
+          "kakao",
+          false,
+          1312
+        ],
+        [
+          "kakao",
+          true,
+          7
+        ]
+      ],
+      "requests": [],
+      "related_tables": [
+        [
+          "ingest_private",
+          "building_address_cache"
+        ]
+      ],
+      "candidate_count": [
+        [
+          0
+        ]
+      ],
+      "kakao_rows_sha256": "90c26f4a3b1c7be5f5163102e16c3d2825f83dce659bacc989b4959e84131d7a",
+      "kakao_distinct_addresses": 13542,
+      "building_address_cache": {
+        "count": 1,
+        "columns": [
+          "address",
+          "pnu",
+          "geom",
+          "status",
+          "payload",
+          "fetched_at",
+          "expires_at",
+          "source",
+          "raw_key"
+        ]
+      }
+    }
+  },
+  "tracked_kakao_files": [
+    ".env.example",
+    ".github/workflows/address-queue.yml",
+    ".github/workflows/refresh-source.yml",
+    "AGENTS.md",
+    "docs/data-attribution.md",
+    "docs/development.md",
+    "docs/operations/s3-foundation.md",
+    "docs/planning/data-sources.md",
+    "docs/planning/location-simulator.md",
+    "docs/planning/s3-1-plan.md",
+    "docs/planning/s3-2-plan.md",
+    "docs/planning/screens.md",
+    "docs/validation/pr2-population-20260919.md",
+    "docs/validation/pr3-transit-20260919.md",
+    "docs/validation/pr4-places-20260920.md",
+    "docs/validation/pr7-score-inputs-v11-20260921.md",
+    "docs/validation/s2-4-20260926.md",
+    "docs/validation/s3-1-closeout-20260929.md",
+    "docs/validation/s3-1-confirmed-url-state-20260929.json",
+    "docs/validation/s3-1-env-deletion-20260929.json",
+    "docs/validation/s3-1-preflight-20260926.md",
+    "docs/validation/s3-1-production-env-20260929.json",
+    "docs/validation/s3-1-vercel-20260927.json",
+    "docs/validation/s3-1-vercel-correct-20260927.json",
+    "docs/validation/s3-1-vercel-observed-20260929.json",
+    "docs/validation/s3-2-a-kakao-policy-20260930.md",
+    "docs/validation/s3-2-a-wip-20260930.md",
+    "ingest/building_on_demand.py",
+    "ingest/commerce_education_database.py",
+    "ingest/geocode.py",
+    "ingest/refresh_sources.py",
+    "ingest/verify_registration_reference.py",
+    "supabase/migrations/20260920073554_stores_education.sql",
+    "tests/ingest/test_geocode.py",
+    "tests/integration/test_places_database.py"
+  ],
+  "s2_4_fixtures": [
+    {
+      "key": "a",
+      "candidate": {
+        "lat": 37.5025724504279,
+        "lng": 127.057585738094,
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 460",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "pnu": "1168010600109120013",
+      "building_id": "shp:1980205023774444864800000000",
+      "covered": true,
+      "response_path": ".local/validation/pr4/geocode-responses/f51700f86e7efbed3733ab13e8b927a0723ea15e2a82102b34d8a76b17f6f2b5.json",
+      "tracked_coordinate_uses": {
+        "docs/planning/data-sources.md": [
+          375,
+          389
+        ],
+        "docs/planning/s3-2-plan.md": [
+          200
+        ],
+        "docs/validation/exposure-v02-20260924.md": [
+          14
+        ],
+        "docs/validation/exposure-v02-field-report.md": [
+          3
+        ],
+        "docs/validation/exposure-v021-20260925.md": [
+          7
+        ],
+        "docs/validation/exposure-v021-field-report.md": [
+          4
+        ],
+        "docs/validation/pr7-building-all-floors-20260922.json": [
+          4,
+          5,
+          874,
+          875
+        ],
+        "docs/validation/pr7-building-all-floors-20260922.md": [
+          7
+        ],
+        "docs/validation/pr7-score-inputs-v11-20260921.md": [
+          27
+        ],
+        "docs/validation/pr7-v11-revision-evidence.json": [
+          4,
+          5
+        ],
+        "docs/validation/s2-2-score-results.json": [
+          2951,
+          2952,
+          3484,
+          3485
+        ],
+        "docs/validation/s2-3-visibility-20260923.md": [
+          7
+        ],
+        "docs/validation/s2-3-visibility-field-report.md": [
+          3
+        ],
+        "docs/validation/s2-3-visibility-results.json": [
+          13,
+          14,
+          5513,
+          5514
+        ],
+        "docs/validation/s2-3-visibility-summary.json": [
+          6,
+          7
+        ],
+        "docs/validation/s2-4-20260926.json": [
+          6
+        ],
+        "docs/validation/s2-4-20260926.md": [
+          21,
+          22
+        ],
+        "docs/validation/s2-4-v03-20260926.json": [
+          6
+        ],
+        "ingest/verify_anonymous_auth.py": [
+          44,
+          53
+        ],
+        "ingest/verify_visibility.py": [
+          15
+        ],
+        "tests/ingest/test_building_on_demand.py": [
+          16,
+          17
+        ],
+        "tests/supabase/preview.test.ts": [
+          24
+        ]
+      }
+    },
+    {
+      "key": "b",
+      "candidate": {
+        "lat": 37.4973692137569,
+        "lng": 127.055167024731,
+        "floor": 2,
+        "address": "서울특별시 강남구 도곡로 409",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "pnu": "1168010600109380022",
+      "building_id": "shp:2005204809734439100900000000",
+      "covered": true,
+      "response_path": ".local/validation/pr4/geocode-responses/c07fad53cb6bab24b23f756425889ce20984b3f15dde6d0bdeb7ea2e9efddd43.json",
+      "tracked_coordinate_uses": {
+        "docs/planning/s3-2-plan.md": [
+          201
+        ],
+        "docs/validation/s2-4-20260926.json": [
+          7
+        ],
+        "docs/validation/s2-4-20260926.md": [
+          21,
+          22
+        ],
+        "docs/validation/s2-4-v03-20260926.json": [
+          7
+        ]
+      }
+    },
+    {
+      "key": "c",
+      "candidate": {
+        "lat": 37.5042868910393,
+        "lng": 127.062872712855,
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 546",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "pnu": "1168010600109670000",
+      "building_id": "shp:2001205490614446761800000000",
+      "covered": true,
+      "response_path": ".local/validation/pr4/geocode-responses/0d38d5f2f25358f08a53df537c7d9cd0fbe0f6f21581072f5935b61a14abbebd.json",
+      "tracked_coordinate_uses": {
+        "docs/planning/s3-2-plan.md": [
+          202
+        ],
+        "docs/validation/s2-4-20260926.json": [
+          8
+        ],
+        "docs/validation/s2-4-20260926.md": [
+          21,
+          22
+        ],
+        "docs/validation/s2-4-v03-20260926.json": [
+          8
+        ]
+      }
+    }
+  ],
+  "code_revision": "e90f004 (s3/registration-data, PR #22 WIP)",
+  "planning_base": "e937407 (origin/main, PR #21 merged)",
+  "scope_note": "Provider counts and sorted cache digest from read-only local/remote SQL; exact S2-4 coordinate uses from tracked PR #22 files. R2 object/version content inventory remains an A0 implementation step."
+}

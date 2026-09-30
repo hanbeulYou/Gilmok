@@ -47,11 +47,11 @@ def test_success_and_negative_results_survive_rerun(durable_cache, tmp_path, fou
             else [],
         }
 
-    kwargs = dict(key="test", budget=100000, journal=tmp_path, requester=request)
+    kwargs = dict(provider="kakao", key="test", budget=100000, journal=tmp_path, requester=request)
     resolve_one(connection, address, **kwargs)
     assert resolve_one(connection, "  " + address + " ", **kwargs) == "cached"
     assert len(calls) == 1
-    assert cached(connection, address)[0] is not found
+    assert cached(connection, address, "kakao")[0] is not found
 
 
 @pytest.mark.parametrize(
@@ -73,10 +73,11 @@ def test_operational_failure_stops_without_negative_cache(durable_cache, tmp_pat
     for _ in range(2):
         with pytest.raises(GeocodeStopped):
             resolve_one(
-                connection, address, key="test", budget=100000, journal=tmp_path, requester=request
+                connection, address, key="test", provider="kakao", budget=100000,
+                journal=tmp_path, requester=request
             )
     assert len(calls) == 1
-    assert cached(connection, address) is None
+    assert cached(connection, address, "kakao") is None
     assert (
         connection.execute(
             "select status from ingest_private.geocode_requests where address=%s", (address,)
@@ -92,8 +93,9 @@ def test_budget_stops_before_request(durable_cache):
             connection,
             address,
             key="test",
+            provider="kakao",
             budget=0,
             journal=Path("unused"),
             requester=lambda *_: pytest.fail("Must not call provider"),
         )
-    assert cached(connection, address) is None
+    assert cached(connection, address, "kakao") is None

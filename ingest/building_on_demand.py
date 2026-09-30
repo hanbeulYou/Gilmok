@@ -15,11 +15,28 @@ from psycopg.types.json import Jsonb
 from ingest.building_register import RegisterClient, pnu_parts, record_pnu, text_id
 from ingest.common import ROOT, RawStore, Settings
 from ingest.database import connect_database
-from ingest.geocode import parse_kakao, request_kakao, same_road_address
+from ingest.geocode import parse_kakao, same_road_address
 from ingest.seoul_transit import write_frame
 
 
 def address_parcel(response, address):
+    if "contract_version" in response:
+        from ingest.juso import parse_geocode
+
+        status, lng, lat = parse_geocode(response, address)
+        if status in {"not_found", "ambiguous"}:
+            return dict(status=status)
+        if status != "success":
+            raise ValueError("Juso address identity not exact")
+        selected = response["selection"]
+        if not selected["pnu"].startswith("11680"):
+            raise ValueError("Unverified Gangnam parcel components")
+        number = str(int(selected["buldMnnm"]))
+        if int(selected["buldSlno"]):
+            number += "-" + str(int(selected["buldSlno"]))
+        return dict(status="ready", pnu=selected["pnu"], lng=lng, lat=lat,
+                    road=selected["rn"], number=number)
+    # Historical S2 fixture replay only; no Kakao request implementation remains.
     status, lng, lat = parse_kakao(response, address)
     if status != "success":
         if status in {"not_found", "ambiguous"}:
@@ -192,10 +209,12 @@ def process_one(db, directory, *, geocoder=None, client_factory=None, store=None
     try:
         if geocoder is None:
             env = {**dotenv_values(ROOT / ".env"), **os.environ}
-            key = env.get("KAKAO_REST_API_KEY")
+            key = env.get("JUSO_API_KEY")
             if not key:
-                raise ValueError("KAKAO_REST_API_KEY required")
-            response = request_kakao(address, key)
+                raise ValueError("JUSO_API_KEY required")
+            from ingest.juso import request_address
+
+            response = request_address(address, key, coordinate_key=env.get("VWORLD_API_KEY"))
         else:
             response = geocoder(address)
         (directory / "geocode.json").write_text(json.dumps(response, ensure_ascii=False))

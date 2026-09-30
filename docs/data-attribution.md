@@ -34,7 +34,7 @@
 - 상가: 소상공인시장진흥공단, [공공데이터포털 15083033](https://www.data.go.kr/data/15083033/fileData.do), 2026-06-30 기준 서울 CSV. 원본 전체 컬럼을 R2에 보존하고 DB에는 업소번호·업종 코드·층·위치만 투영했다. 최신 분류와 표준산업분류를 합치지 않는다.
 - 학원·교습소: NEIS 원천, [서울 열린데이터광장 OA-20528](https://data.seoul.go.kr/dataList/OA-20528/S/1/datasetView.do), 2026-09-19 조회. 분야·계열·과정명과 원천 갱신일 원문을 보존한다.
 - 학교: [나이스 교육정보 개방포털](https://open.neis.go.kr/), schoolInfo/B10, 2026-09-19 조회. 초·중·고 원천 학교급만 대응하며 그 외 학교급도 R2 원본에 보존한다.
-- 주소 좌표: [Kakao 주소 검색](https://developers.kakao.com/docs/ko/kakaomap/rest-api), [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do). provider와 조회일을 캐시에 기록한다. 반환 도로명·건물번호가 원문과 다른 결과는 수용하지 않으며 좌표를 추정 보정하지 않는다. 캐시·journal은 배치용이고 프론트·Edge Function은 외부 서비스를 직접 호출하지 않는다.
+- 기존 S1/S2 주소 좌표(교체 승인 전 보존): [Kakao 주소 검색](https://developers.kakao.com/docs/ko/kakaomap/rest-api), [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do). provider와 조회일을 캐시에 기록한다. 반환 도로명·건물번호가 원문과 다른 결과는 수용하지 않으며 좌표를 추정 보정하지 않는다. 캐시·journal은 배치용이고 프론트·Edge Function은 외부 서비스를 직접 호출하지 않는다.
 - 이후 화면·내보내기에서도 데이터 제공자·기준일·지오코딩 provider와 위치 미확보를 표시해야 한다. 캠퍼스 대표 좌표를 개별 교문 위치로 표시하지 않는다. 상세 품질·제약은 [검증 기록](validation/pr4-places-20260920.md)을 따른다.
 
 ## 건물 도형·건축물대장 (PR 5)
@@ -53,3 +53,7 @@
 - 상권 도형·분류 연결은 [공식 통계지도](https://www.reb.or.kr/r-one/portal/gis/rcsGisViewerPage.do)와 공식 분류 메타데이터다. 원천 도형의 기준연도는 2024이며 2026Q2 적용 및 강남 권역 공간 정의를 확정하지 못했으므로 후보 값으로 활성화하지 않았다. 상권 구획도의 별도 배포 이용조건 확인도 남아 있다. 검증용 원응답을 보존한 것과 공개 서비스에 공간 자료를 제공할 수 있다는 판단을 구분한다.
 
 실제 응답·변환·결측과 보존 증거는 [PR 6 검증](validation/pr6-rent-20260920.md)을 따른다.
+
+## A0 신규 주소 공급자 (2026-09-30)
+
+주소 검색·식별자는 행정안전부 [주소정보누리집](https://www.juso.go.kr/) Juso 검색API다. 임시 좌표는 [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do)이며 Juso 출입구 좌표로 표시하지 않는다. 좌표 키 승인 후 제공 API로 전환한다. 공급자·조회일·원CRS·PNU를 provenance에 보존하며, 화면에는 실제 출처와 기준일을 표시한다. 기존 Kakao 결과는 역사 기록이며 전량 재산출/manifest 승인 전 삭제하지 않는다. 상세 정책은 [data-sources §2.8](planning/data-sources.md#28-지오코딩--juso-전환-계약).

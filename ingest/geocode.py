@@ -13,7 +13,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from urllib.request import urlopen
 
 from dotenv import dotenv_values
 
@@ -76,18 +76,6 @@ def parse_kakao(data, address=None):
     return "success", x, y
 
 
-def request_kakao(address, key):
-    query = urlencode({"query": address, "size": 30, "analyze_type": "exact"})
-    request = Request(
-        "https://dapi.kakao.com/v2/local/search/address.json?" + query,
-        headers={"Authorization": "KakaoAK " + key},
-    )
-    with urlopen(request, timeout=30) as response:
-        if response.status != 200:
-            raise GeocodeStopped("Unexpected geocoder HTTP status")
-        return json.load(response)
-
-
 def parse_vworld(data, address=None):
     response = data["response"]
     if response["status"] == "NOT_FOUND":
@@ -104,12 +92,13 @@ def parse_vworld(data, address=None):
     ):
         return "invalid", None, None
     point = result["point"]
-    return parse_kakao(
-        {
-            "meta": {"total_count": 1},
-            "documents": [{"address_type": "ROAD_ADDR", "x": point["x"], "y": point["y"]}],
-        }
-    )
+    from ingest.juso import point as checked_point
+
+    try:
+        x, y = checked_point(point["x"], point["y"])
+    except (ValueError, TypeError):
+        return "invalid", None, None
+    return "success", x, y
 
 
 def request_vworld(address, key):
@@ -131,9 +120,16 @@ def request_vworld(address, key):
         return json.load(response)
 
 
+def parser_for(provider):
+    from ingest.juso import parse_geocode
+
+    return {"juso": parse_geocode, "vworld": parse_vworld,
+            "kakao": parse_kakao}[provider]  # legacy saved-response replay only
+
+
 def save_result(connection, address, provider, data):
     """Also permits explicit recovery from a saved response without calling either API."""
-    status, x, y = (parse_kakao if provider == "kakao" else parse_vworld)(data, address)
+    status, x, y = parser_for(provider)(data, address)
     with connection.transaction():
         connection.execute(
             "insert into public.geocode_cache(address,provider,geom,geocode_failed,"
@@ -152,6 +148,14 @@ def save_result(connection, address, provider, data):
                 datetime.now(UTC).date().isoformat(),
             ),
         )
+        if provider == "juso":
+            from psycopg.types.json import Jsonb
+
+            connection.execute(
+                "update public.geocode_cache set provenance=%s where address=%s and provider=%s",
+                (Jsonb({k: data.get(k) for k in ("contract_version", "search_provider",
+                        "selection", "location", "fetched_at", "call_counts")}), address, provider),
+            )
         connection.execute(
             "update ingest_private.geocode_requests set status=%s where address=%s and provider=%s",
             (status, address, provider),
@@ -159,7 +163,7 @@ def save_result(connection, address, provider, data):
     return status
 
 
-def cached(connection, address, provider="kakao"):
+def cached(connection, address, provider="juso"):
     return connection.execute(
         "select geocode_failed, extensions.st_x(geom), extensions.st_y(geom), "
         "failure_reason from public.geocode_cache where address=%s and provider=%s",
@@ -167,13 +171,25 @@ def cached(connection, address, provider="kakao"):
     ).fetchone()
 
 
-def resolve_one(connection, address, *, key, budget, journal, requester=None, provider="kakao"):
+def resolve_one(connection, address, *, key, budget, journal, requester=None,
+                provider="juso", coordinate_key=None):
     """Connection must be autocommit: claim commits BEFORE the HTTP request."""
     if not connection.autocommit:
         raise ValueError("Geocoding requires durable autocommit claims")
-    if provider not in {"kakao", "vworld"}:
+    if provider not in {"kakao", "vworld", "juso"}:
         raise ValueError("Unsupported geocoder")
-    requester = requester or (request_kakao if provider == "kakao" else request_vworld)
+    if requester is None:
+        if provider == "kakao":
+            raise GeocodeStopped("Kakao network access retired")
+        if provider == "juso":
+            from ingest.juso import request_address
+
+            if not key or not coordinate_key:
+                raise GeocodeStopped("JUSO_API_KEY and VWORLD_API_KEY required")
+            def requester(address, key):
+                return request_address(address, key, coordinate_key=coordinate_key)
+        else:
+            requester = request_vworld
     address = normalize_address(address)
     if not address:
         raise ValueError("Empty address")
@@ -205,7 +221,7 @@ def resolve_one(connection, address, *, key, budget, journal, requester=None, pr
         (journal / provider).mkdir(parents=True, exist_ok=True)
         path = journal / provider / (hashlib.sha256(address.encode()).hexdigest() + ".json")
         path.write_text(json.dumps({"address": address, "response": data}, ensure_ascii=False))
-        (parse_kakao if provider == "kakao" else parse_vworld)(data, address)
+        parser_for(provider)(data, address)
     except Exception as error:
         blocked = isinstance(error, HTTPError) and error.code in {401, 403, 429}
         connection.execute(
@@ -226,9 +242,9 @@ def resolve_one(connection, address, *, key, budget, journal, requester=None, pr
 
 def run(addresses, *, budget, journal, workers=4):
     env = {**dotenv_values(ROOT / ".env"), **os.environ}
-    key = env.get("KAKAO_REST_API_KEY")
+    key = env.get("JUSO_API_KEY")
     if not key:
-        raise ValueError("KAKAO_REST_API_KEY required")
+        raise ValueError("JUSO_API_KEY required")
     addresses = sorted({normalize_address(a) for a in addresses} - {""})
     stop = threading.Event()
     lock = threading.Lock()
@@ -242,7 +258,8 @@ def run(addresses, *, budget, journal, workers=4):
                     return
                 try:
                     status = resolve_one(
-                        connection, address, key=key, budget=budget, journal=journal
+                        connection, address, key=key, budget=budget, journal=journal,
+                        coordinate_key=env.get("VWORLD_API_KEY")
                     )
                 except Exception:
                     stop.set()
@@ -264,42 +281,15 @@ def main():
         "--budget", type=int, required=True, help="Local daily cap; not account quota"
     )
     parser.add_argument("--journal", type=Path, required=True)
-    parser.add_argument(
-        "--vworld-budget", type=int, help="Explicit local daily cap for NOT_FOUND-only fallback"
-    )
     args = parser.parse_args()
     if not 1 <= args.budget <= 100000:
         parser.error("budget must be between 1 and 100000")
-    if args.vworld_budget is not None and not 1 <= args.vworld_budget <= 1000:
-        parser.error("vworld-budget must be between 1 and 1000")
     input_addresses = json.loads(args.addresses.read_text())
     print(
         json.dumps(run(input_addresses, budget=args.budget, journal=args.journal)),
         flush=True,
     )
-    if args.vworld_budget is not None:
-        env = {**dotenv_values(ROOT / ".env"), **os.environ}
-        if not env.get("VWORLD_API_KEY"):
-            raise ValueError("VWORLD_API_KEY required for fallback")
-        with connect_database(local_only=True) as connection:
-            connection.autocommit = True
-            addresses = connection.execute(
-                "select address from public.geocode_cache where provider='kakao' "
-                "and failure_reason='not_found' and address=any(%s) order by address",
-                (sorted({normalize_address(a) for a in input_addresses} - {""}),),
-            ).fetchall()
-            counts = {}
-            for (address,) in addresses:
-                status = resolve_one(
-                    connection,
-                    address,
-                    key=env["VWORLD_API_KEY"],
-                    budget=args.vworld_budget,
-                    journal=args.journal,
-                    provider="vworld",
-                )
-                counts[status] = counts.get(status, 0) + 1
-            print("vworld", json.dumps(counts), flush=True)
+
 
 
 if __name__ == "__main__":
