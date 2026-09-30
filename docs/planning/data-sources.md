@@ -183,14 +183,13 @@ PNU는 `admCd(10자리) + (mtYn=0→1, mtYn=1→2) + lnbrMnnm(4자리 zero-pad) 
 
 출입구와 건물 중심점은 같지 않다. 선택 주소/PNU/`bdMgtSn` 일치→해당 PNU의 유일 도형→`ST_Covers`를 검사한다. 도형 밖 출입구·다동·PNU 불일치는 사유/거리와 함께 보류하고 중심점/최근접 건물로 자동 보정하지 않는다. 도형이 없는 지역의 기존 결측 처리도 유지한다. 실제 Juso 미포함 사례가 생기면 처리 기준을 별도 결정한다.
 
-#### 2.8.2 저장·캐시·신뢰 경계
+#### 2.8.2 캐시·호출 제한·신뢰 경계 (A0 승인)
 
-- D2 변경: 기존 **`public.geocode_cache(address,provider)`**에 `provider='juso'`로 canonical 주소의 확정 결과를 통합한다. uid별 별도 응답 캐시는 폐기. Vworld 결과는 `provider='vworld'`로 유지한다. 카카오 좌표에 provider 이름만 바꿔 붙이지 않는다.
-- 검색 결과 목록을 단일 Point 캐시에 덮어쓰지 않는다. 검색은 라이브 목록, 선택 주소 좌표는 공용 캐시 읽기/서버 검증 후 쓰기. 사용자 별칭·임대료·uid별 검색 이력은 이 공용 테이블에 넣지 않는다. public 스키마라는 이유로 전체 목록/쓰기 권한을 공개하지 않는다.
-- 공급자 TTL 제약 없음으로 정하고 `fetched_at`·원천 식별자·변환 버전으로 최신성을 관리한다. 성공/확정 실패와 장애를 구분하며 원천 갱신/명시적 재확인 때 갱신한다. 인증 오류·일시 장애·제한 응답을 영구 NOT_FOUND로 캐시하지 않는다.
-- `/ingest`는 영속 claim/journal로 중복 호출·중단 복구를 관리한다. 공급자가 바뀐 주소는 새 claim이며 Kakao 실패를 Juso 실패로 승계하지 않는다. 일괄/worker의 provider 선택과 파서를 공유한다. 원천 좌표가 있는 상가는 재지오코딩하지 않는다.
-- A0는 배치 역할만 cache writer다. 이후 Route Handler writer는 서버에서 받은 결과만 쓸 수 있는 별도 신뢰 경계를 확정해야 한다. 일반 authenticated가 RPC에 임의 좌표를 넣어 공용 캐시를 오염시키지 못하게 한다. 서명 한정 쓰기 또는 배치 전용 쓰기의 제안/추가 환경변수 승인 범위는 A0 §5에 명시했다.
-- 프론트/Worker는 Juso/Vworld를 직접 호출하지 않는다. 사용자 검색/지오코딩은 AGENTS 예외에 따라 Next.js Route Handler(icn1), 배치·대장 조회는 계속 `/ingest`다. 비밀은 서버 환경변수만 사용하고 API 키 포함 URL·응답 헤더·사용자 검색 원문을 로그에 남기지 않는다.
+- 사용자 Route Handler 검색은 무캐시 실시간. 좌표는 등록 시1회 조회해 uid 소유 후보 행에만 저장한다. 공용 캐시 읽기/쓰기 경로와 uid별 별도 응답 캐시를 만들지 않는다.
+- 공용 `public.geocode_cache(address,provider)`의 신규 `provider='juso'` 행은 **Actions/직접 DB URL 배치만 기록**한다. 브라우저·Route Handler의 JWT로 쓰는 RPC/서명키는 없다. `provenance`에 Juso 선택 식별자/PNU와 실제 `coordinate_provider`, 원좌표/CRS, 조회일을 보존한다. 과거 Kakao 행은 승인 전 보존한다.
+- A0의 임시 좌표 공급자는 Vworld EPSG:4326이다. Juso 좌표 승인 후 EPSG:5179 출입구로 교체하며 데이터 출처를 혼동하지 않는다. 13,542건 전량 재산출은 JUSO_COORD_API_KEY 발급 후 별도 실행·보고한다.
+- uid당 KST 일100회는 앱의 남용 방지 제한이다. 검색/좌표/Vworld 호출량을 별도 기록한다. 공급자 키별 실제 한도를 대신하는 숫자가 아니다. Juso 저장 TTL 제약은 확인되지 않았으며 기존 건축대장 캐시 30일은 별도 규칙이다.
+- `/ingest`는 영속 claim/journal로 중복 외부 요청을 방지한다. 인증·제한·서버 오류는 not_found로 저장하지 않는다. 키 포함 URL·응답 echo·개인 입력은 로그에서 제외한다.
 
 #### 2.8.3 약관·저장 허용·출처 — 2026-09-30 확인
 
@@ -202,6 +201,8 @@ PNU는 `admCd(10자리) + (mtYn=0→1, mtYn=1→2) + lnbrMnnm(4자리 zero-pad) 
 | 저장 위치 조건 | [공식 API 상업 이용 답변(2023-05-09 질의)](https://eng.juso.go.kr/addrlink/qna/qnaDetail.do?bulletinRefSn=114474&currentPage=184&keyword=&noticeMgtSn=114474&noticeType=QNA&noticeTypeTmp=QNA&page=&searchType=)은 상업적 이용 허용과 함께 공간정보(지도·좌표)의 해외 서버 업로드 제한을 안내. 이 과거 안내의 현행 API 응답 적용 범위·예외는 아직 확인하지 못함. Supabase Tokyo, R2 원본/백업, CI artifact 위치에 관해 **원격 저장 전 공급자 확인**. icn1만으로 해결된다고 가정하지 않으며 리전 변경은 별도 승인 |
 
 공공데이터라는 이유만으로 모든 이용 조건이 없다고 단정하지 않는다. 저장/재사용 허용은 위 자료로 확인했으며, 저장 위치 적용 범위는 별도의 미확인 조건이다. Vworld 폴백에는 Vworld 약관을 따로 적용한다.
+
+2026-09-30 승인 후 원문 추가 확인: 현행 이용약관의 공식 JS와 2021 운영규정 HWP를 읽었으며 해외/국외 문구가 없었다. 「주소정보 제공에 관한 규정」2024-45호 제5조제3항의 국외 반출 관련 제한은 제한제공 정보의 보안심사 문맥이다. 공개 API 출입구 좌표/Tokyo DB의 적용 범위는 미확정이며 금지 또는 허용으로 일반화하지 않는다. 조회 원문·hash·추가 문의 문안과 조건부 서울 이전안은 [A0 §2·§9](s3-2-a0-juso-plan.md)를 따른다.
 
 #### 2.8.4 쿼터·오류·실응답 확인 항목
 
@@ -409,7 +410,7 @@ Source.limitations의 현행 코드: `not_loaded`, `unlocated_records_not_in_spa
 
 캐시 미스·만료는 비공개 `ingest_private.building_address_requests`에 1건을 넣고 `pending`과 기존 도형의 가용 값/NULL을 즉시 반환한다. `/ingest` 워커가 정확한 도로명·건물번호 대조 후 Kakao의 법정동/지번으로 PNU를 구성하고 BuildingHub 표제부·층별개요를 조회한다. PNU 불일치, 같은 주소 주건물 다수는 임의 선택하지 않는다. 원본 Parquet을 R2 raw/에 게시·DuckDB 재읽기 대조한 뒤 최소 대장 사실을 캐시한다. 다음 RPC에서 값을 받는다. 프론트·Edge는 계속 Supabase만 호출한다.
 
-실행: `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10` (로컬 DB만, 30초 큐 폴링, 처리 주소 10건 후 종료; 상한 100). 일회 처리는 `--watch` 없이 실행한다. **배포된 상시 워커는 아직 없다.** 운영자가 이 프로세스를 실행해야 pending이 처리되며, 이번 검증은 일회 실행으로 처리했다. 기존 `.env`의 `KAKAO_REST_API_KEY`, `DATA_GO_KR_SERVICE_KEY`, R2 키를 재사용하며 새 키는 필요 없다. R2 미설정은 기존 로컬 원본 저장 정책을 따른다.
+실행: `uv run --frozen python -m ingest.building_on_demand --watch --max-requests 10` (로컬 DB만, 30초 큐 폴링, 처리 주소 10건 후 종료; 상한 100). 일회 처리는 `--watch` 없이 실행한다. **배포된 상시 워커는 아직 없다.** 운영자가 이 프로세스를 실행해야 pending이 처리되며, 이번 검증은 일회 실행으로 처리했다. 기존 `.env`의 `JUSO_API_KEY`, `VWORLD_API_KEY`, `DATA_GO_KR_SERVICE_KEY`, R2 키를 재사용하며 새 키는 필요 없다. R2 미설정은 기존 로컬 원본 저장 정책을 따른다.
 
 `fetched_at+30일`까지만 캐시가 유효하며 만료된 값은 재사용하지 않는다. not_found/ambiguous도 30일 음성 캐시다. claim을 HTTP 전에 커밋하므로 동시 워커·반복 RPC가 중복 작업을 가져가지 않는다. failed/중단된 processing은 자동 재시도하지 않는다. 원본·오류를 점검한 운영자만 해당 private 요청을 pending으로 재설정해 재호출하며 키/주소 원문 오류를 로그로 노출하지 않는다. anon/authenticated는 private 테이블을 읽거나 수정할 수 없고 좁은 SECURITY DEFINER 캐시/큐 함수만 실행한다. RPC는 VOLATILE이며 기존 4개 필수 인자 호출도 기본 address=NULL로 계속 동작한다.
 

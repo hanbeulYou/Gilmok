@@ -48,7 +48,7 @@
 ### 데이터
 
 - 외부 데이터 API는 `/ingest` 안에서만 호출한다. 프론트·Edge Function은 Supabase만 본다. PR 8 사용자 승인 예외: DB의 pg_net webhook이 고정 GitHub repository_dispatch 엔드포인트를 호출하여 Python 주소 워커를 깨울 수 있다. 주소·PNU 전송 및 DB/Edge의 데이터 API 호출은 허용하지 않는다. 원격 전환 후 수동 활성화한다.
-- S3 사용자 승인 예외: 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 호출할 수 있다. 키는 서버 환경변수에만 두고 결과를 `geocode_cache`에 캐시하며 uid당 일일 제한을 둔다. 배치·건축물 대장 조회는 여전히 `/ingest`에서만 호출한다. 구현은 S3-2다.
+- S3 사용자 승인 예외: 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 호출할 수 있다. 키는 서버 환경변수에만 두고 검색은 무캐시 실시간으로 호출하고 등록 시 1회 조회한 좌표는 후보 행에만 저장하며 uid당 일일 제한을 둔다. 공용 `geocode_cache` 쓰기는 Actions/직접 DB URL을 쓰는 `/ingest` 배치만 허용한다 (2026-09-30 A0 승인). 배치·건축물 대장 조회는 여전히 `/ingest`에서만 호출한다. 구현은 S3-2다.
 - 좌표는 DB에 EPSG:4326으로 저장. 거리 계산은 `geography` 또는 5186 변환 후.
 - 추정값에는 반드시 `estimated` 플래그. 추정 로직은 `data-sources.md`에 적힌 것만 쓴다. 새 추정이 필요하면 문서에 먼저 추가.
 - 로컬 인증키·비밀은 `.env`에만. GitHub Actions에서는 Secrets를 실행 환경에 주입한다. 키 값은 코드·문서·로그에 기록하지 않는다. `.env.example`을 항상 최신으로 유지하고, `.gitignore`에 `.env*`와 예외 `!.env.example`을 둔다.
@@ -80,7 +80,7 @@
 
 ## 7. 현재 스프린트
 
-- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. Vercel 앱 변수23개를 승인 후 Production·Preview에서 삭제해 공개2개만 유지하며, 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
+- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. Vercel 앱 변수23개를 승인 후 Production·Preview에서 삭제해 공개2개만 유지하며, 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 Juso 서버 키는 후속 배포 시 별도 등록 허용한다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.
@@ -131,4 +131,4 @@
 
 - S3-1 2026-09-29 최종: gilmok-weld.vercel.app/compare의 새 Production 배포에서 익명 signup1·최초RPC1·JSON schema1.3·새로고침 uid 재사용 확인. 검증 사용자 정리 완료. screens.md §8 기능 완료 기준 충족으로 S3-1 완료. Vercel 앱 변수25개는 관측 사실이며 공개2개 외23개 정리가 잔여 운영 항목이다. 값은 기록하지 않는다.
 
-- S3-1 2026-09-29 환경 정리 완료: 목록 제시·승인 후 Production·Preview의23개 변수를 삭제하고 공개2개만 유지했다. Production 배포 동일·재배포 없이 익명 signup1/RPC1/JSON1.3/uid 재사용 검증 통과. S3-2부터 서버 전용 `KAKAO_REST_API_KEY`만 추가 허용한다. [운영](docs/operations/s3-foundation.md).
+- S3-1 2026-09-29 환경 정리 완료: 목록 제시·승인 후 Production·Preview의23개 변수를 삭제하고 공개2개만 유지했다. Production 배포 동일·재배포 없이 익명 signup1/RPC1/JSON1.3/uid 재사용 검증 통과. S3-2부터 서버 전용 Juso 서버 키는 후속 배포 시 별도 등록 허용한다. [운영](docs/operations/s3-foundation.md).

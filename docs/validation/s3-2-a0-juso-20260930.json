@@ -1,0 +1,386 @@
+{
+  "date": "2026-09-30",
+  "stage": "T1",
+  "search_provider": "juso",
+  "coordinate_provider": "vworld",
+  "coordinate_crs": "EPSG:4326",
+  "preset_version": "0.3",
+  "radius_m": 800,
+  "school_radius_m": 1000,
+  "exposure_model": "0.2.2",
+  "rent": null,
+  "background_replaced": false,
+  "baseline_reproduced": true,
+  "order": [
+    "b",
+    "a",
+    "c"
+  ],
+  "manifest": {
+    "stage": "T1",
+    "baseline_sha256": "bb8c68f7d83bb1b322c71b732d423a72056ff8415a7f630020633517964ac258",
+    "source_fingerprint": "bd9603fd3a7aab0ec79b4c9a8590f10d2a1ffcd22a7f0ce1e5565ae702262b17",
+    "responses": [
+      {
+        "key": "a",
+        "path": "a-response.json",
+        "sha256": "297ad867af15a16e38f8c13a561ec6c67e6ace31741c1d47b6bf85c49781e993"
+      },
+      {
+        "key": "b",
+        "path": "b-response.json",
+        "sha256": "c03e397447748ed0440425f96959c82904a347bb392e690805acdd043f6c4baf"
+      },
+      {
+        "key": "c",
+        "path": "c-response.json",
+        "sha256": "c59218eb8e14d656273855b5c18ed75c244be456307e3ccf68c95224692721ad"
+      }
+    ],
+    "spatial": [
+      {
+        "key": "a",
+        "old_lat": 37.5025724504279,
+        "old_lng": 127.057585738094,
+        "lat": 37.5025721944737,
+        "lng": 127.05758573871447,
+        "old_pnu": "1168010600109120013",
+        "pnu": "1168010600109120013",
+        "passed": true,
+        "shapes": [
+          {
+            "id": "shp:1980205023774444864800000000",
+            "covers": true,
+            "distance_m": 0.0,
+            "centroid_lat": 37.5025782084662,
+            "centroid_lng": 127.057603646591,
+            "movement_m": 0.02840766
+          }
+        ],
+        "coordinate_provider": "vworld"
+      },
+      {
+        "key": "b",
+        "old_lat": 37.4973692137569,
+        "old_lng": 127.055167024731,
+        "lat": 37.497368428505624,
+        "lng": 127.05516718391107,
+        "old_pnu": "1168010600109380022",
+        "pnu": "1168010600109380022",
+        "passed": true,
+        "shapes": [
+          {
+            "id": "shp:2005204809734439100900000000",
+            "covers": true,
+            "distance_m": 0.0,
+            "centroid_lat": 37.497386102712,
+            "centroid_lng": 127.055179360471,
+            "movement_m": 0.08828207
+          }
+        ],
+        "coordinate_provider": "vworld"
+      },
+      {
+        "key": "c",
+        "old_lat": 37.5042868910393,
+        "old_lng": 127.062872712855,
+        "lat": 37.50428792732002,
+        "lng": 127.06287290714192,
+        "old_pnu": "1168010600109670000",
+        "pnu": "1168010600109670000",
+        "passed": true,
+        "shapes": [
+          {
+            "id": "shp:2001205490614446761800000000",
+            "covers": true,
+            "distance_m": 0.0,
+            "centroid_lat": 37.5042848134521,
+            "centroid_lng": 127.062884679649,
+            "movement_m": 0.11628969
+          }
+        ],
+        "coordinate_provider": "vworld"
+      }
+    ],
+    "full_recompute": false,
+    "database_writes": false,
+    "preset_version": "0.3"
+  },
+  "search_probes": [
+    {
+      "kind": "parcel",
+      "query": "서울특별시 강남구 대치동 912-13",
+      "total": 1,
+      "choices": [
+        {
+          "pnu": "1168010600109120013",
+          "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+          "bdNm": ""
+        }
+      ],
+      "sha256": "3ea93f8029c47ffd3b030a83b6b75bc40a8fe9ae3285854af36a18066e1963ce"
+    },
+    {
+      "kind": "building_name",
+      "query": "서울특별시 강남구 덕일빌딩",
+      "total": 2,
+      "choices": [
+        {
+          "pnu": "1168010600109670000",
+          "roadAddrPart1": "서울특별시 강남구 역삼로 546",
+          "bdNm": "덕일빌딩"
+        },
+        {
+          "pnu": "1168010600109300020",
+          "roadAddrPart1": "서울특별시 강남구 삼성로67길 7",
+          "bdNm": "덕일빌딩"
+        }
+      ],
+      "sha256": "e287ae2b36c1bb2d74e82c304a8c735326f0d39d2fe66c748a1d702437ca591e"
+    }
+  ],
+  "results": [
+    {
+      "key": "a",
+      "candidate": {
+        "lat": 37.5025721944737,
+        "lng": 127.05758573871447,
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 460",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "before_total": 85.08500496915157,
+      "after_total": 85.08500496915157,
+      "total_delta": 0,
+      "before_confidence": {
+        "value": 90,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "after_confidence": {
+        "value": 90,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "before": 96.56364174977782,
+          "after": 96.56364174977782,
+          "delta": 0
+        },
+        {
+          "key": "flow",
+          "before": 99.33406222045522,
+          "after": 99.33406222045522,
+          "delta": 0
+        },
+        {
+          "key": "transit",
+          "before": 38.336803260049486,
+          "after": 38.336803260049486,
+          "delta": 0
+        },
+        {
+          "key": "cluster",
+          "before": 97.47740578011093,
+          "after": 97.47740578011093,
+          "delta": 0
+        },
+        {
+          "key": "exposure",
+          "before": 38.38383838383838,
+          "after": 38.38383838383838,
+          "delta": 0
+        },
+        {
+          "key": "building",
+          "before": 100,
+          "after": 100,
+          "delta": 0
+        },
+        {
+          "key": "environment",
+          "before": 93.40459174952771,
+          "after": 93.40459174952771,
+          "delta": 0
+        },
+        {
+          "key": "rent_efficiency",
+          "before": null,
+          "after": null,
+          "delta": null
+        }
+      ]
+    },
+    {
+      "key": "b",
+      "candidate": {
+        "lat": 37.497368428505624,
+        "lng": 127.05516718391107,
+        "floor": 2,
+        "address": "서울특별시 강남구 도곡로 409",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "before_total": 93.37294822089991,
+      "after_total": 93.3997327394482,
+      "total_delta": 0.026784518548282676,
+      "before_confidence": {
+        "value": 90,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "after_confidence": {
+        "value": 90,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "before": 99.76300977584674,
+          "after": 99.76300977584674,
+          "delta": 0
+        },
+        {
+          "key": "flow",
+          "before": 98.87685120763344,
+          "after": 98.87685120763344,
+          "delta": 0
+        },
+        {
+          "key": "transit",
+          "before": 81.70108973489597,
+          "after": 81.70108973489597,
+          "delta": 0
+        },
+        {
+          "key": "cluster",
+          "before": 98.41003619754652,
+          "after": 98.41003619754652,
+          "delta": 0
+        },
+        {
+          "key": "exposure",
+          "before": 50.89058524173028,
+          "after": 51.399491094147585,
+          "delta": 0.5089058524173069
+        },
+        {
+          "key": "building",
+          "before": 100,
+          "after": 100,
+          "delta": 0
+        },
+        {
+          "key": "environment",
+          "before": 87.65344088005983,
+          "after": 87.65344088005983,
+          "delta": 0
+        },
+        {
+          "key": "rent_efficiency",
+          "before": null,
+          "after": null,
+          "delta": null
+        }
+      ]
+    },
+    {
+      "key": "c",
+      "candidate": {
+        "lat": 37.50428792732002,
+        "lng": 127.06287290714192,
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 546",
+        "exclusive_area_m2": null,
+        "deposit_krw": null,
+        "monthly_rent_krw": null,
+        "maintenance_krw": null
+      },
+      "before_total": 83.86398262933545,
+      "after_total": 83.86448162784299,
+      "total_delta": 0.0004989985075383174,
+      "before_confidence": {
+        "value": 85,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "지하철 일부 시간대 데이터 없음 (-5)"
+        ]
+      },
+      "after_confidence": {
+        "value": 85,
+        "reasons": [
+          "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+          "인구는 행정동·격자 면적 비례 추정 (-5)",
+          "지하철 일부 시간대 데이터 없음 (-5)"
+        ]
+      },
+      "axes": [
+        {
+          "key": "demand",
+          "before": 84.41789276192357,
+          "after": 84.41789276192357,
+          "delta": 0
+        },
+        {
+          "key": "flow",
+          "before": 97.18715833416161,
+          "after": 97.18715833416161,
+          "delta": 0
+        },
+        {
+          "key": "transit",
+          "before": 60.78723216127797,
+          "after": 60.78723216127797,
+          "delta": 0
+        },
+        {
+          "key": "cluster",
+          "before": 85.91014431805627,
+          "after": 85.91014431805627,
+          "delta": 0
+        },
+        {
+          "key": "exposure",
+          "before": 63.28124999999998,
+          "after": 63.28124999999998,
+          "delta": 0
+        },
+        {
+          "key": "building",
+          "before": 100,
+          "after": 100,
+          "delta": 0
+        },
+        {
+          "key": "environment",
+          "before": 91.97345894534489,
+          "after": 91.98293991698833,
+          "delta": 0.009480971643441194
+        },
+        {
+          "key": "rent_efficiency",
+          "before": null,
+          "after": null,
+          "delta": null
+        }
+      ]
+    }
+  ]
+}

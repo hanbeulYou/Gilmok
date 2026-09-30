@@ -2,9 +2,9 @@
 
 base: main
 
-- 작성일: 2026-09-29 · 승인 반영: 2026-09-30. **S3-2 계획 승인. 사용자 결정으로 카카오를 전면 제거하고 Juso로 전환한다. A 앞의 데이터 교체 PR A0는 별도 계획 승인 대기다.**
+- 작성일: 2026-09-29 · 승인 반영: 2026-09-30. **S3-2 계획 승인. 사용자 결정으로 카카오를 전면 제거하고 Juso로 전환한다. A0 계획은 승인되었다. A0 구현과 #22는 공급자 인터페이스를 맞춰 병행하고 데이터는 A0 머지 후 동기화한다.**
 - A0 계획/구현 브랜치: `s3/juso-transition`, PR A WIP: `s3/registration-data`([#22](https://github.com/hanbeulYou/Gilmok/pull/22)). 기준 커밋: `e93740798da8e61560e707bb1315a4dd0194f7b1`(#21 머지). 각 구현 PR도 앞 PR 머지 후 최신 `main`에서 `s3/…`로 분기한다.
-- A0 문서/키/정책 확인→독립 shadow 재산출·검증→승인된 데이터 교체 후 A의 DB/RPC/어댑터 WIP→UI 순서로 진행한다. 원격 migration은 dry-run 보고 후 별도 승인하며, scoring v0.3 수식·프리셋은 유지한다.
+- A0는 Juso 검색+Vworld 좌표로 3곳 검증을 진행한다. 13,542건 재산출은 JUSO_COORD_API_KEY 발급 후 별도 실행·보고한다. #22 DB/RPC/어댑터→UI는 인터페이스 계약을 맞춰 병행한다. 원격 migration은 dry-run 보고 후 별도 승인하며, scoring v0.3 수식·프리셋은 유지한다.
 - 기준: [AGENTS.md](../../AGENTS.md), [screens.md §0·§3·§4·§8](screens.md), [scoring-spec v0.3](scoring-spec.md), [S3 운영](../operations/s3-foundation.md), [S3-1 마감 검증](../validation/s3-1-closeout-20260929.md), [S2-4 v0.3](../validation/s2-4-v03-20260926.md), [S3-1의 확정된 S3-2 결정](s3-1-plan.md#9-예상-리스크와-후속-경계).
 
 ## 1. 목표와 범위
@@ -56,21 +56,17 @@ S3-3의 2D 지도, S3-4의 3D·노출 샘플 시각화, S3-5의 랜딩·이메�
 
 ## 4. 등록·주소·RPC 계약
 
-### 4.1 주소 자동완성과 공용 Juso 캐시
+### 4.1 주소 자동완성·등록 좌표와 배치 캐시
 
-사용자 결정(2026-09-30): Kakao 주소/장소 API와 uid별 `app_private.geocode_cache` 제안을 폐기한다. [data-sources §2.8](data-sources.md#28-지오코딩--juso-전환-계약) 및 [A0 계획](s3-2-a0-juso-plan.md)이 새 공급자 계약이다. API 키는 검색용 `JUSO_API_KEY`, 좌표용 `JUSO_COORD_API_KEY`를 구분하는 서버 변수다. `KAKAO_REST_API_KEY`는 Vercel에 등록하지 않는다.
+2026-09-30 A0 승인(D2): **사용자 Route Handler는 공용 캐시에 쓰지 않는다. 검색은 무캐시 실시간(`no-store`), 좌표는 등록 시 1회 조회하여 해당 uid의 후보 행에만 저장한다.** 공용 `public.geocode_cache`는 Actions/직접 DB URL 배치만 쓴다. uid별 응답 캐시·서명 RPC·캐시 서명키는 만들지 않는다. A0에서 Vercel 변수를 추가하지 않는다.
 
-Route Handler는 `runtime='nodejs'`, `preferredRegion='icn1'`로 고정한다. 한국 사용자·국내 주소 API 왕복을 줄이려는 선택이다. 원격 Supabase는 현재 Tokyo(`ap-northeast-1`)이며 동일 리전이라고 쓰지 않는다. [Vercel 리전 설정](https://vercel.com/docs/functions/configuring-functions/region)을 따라 배포 후 실제 리전·왕복을 확인한다.
-
-1. 익명 세션 없으면 먼저 인증하고 실패하면 재시도한다. Route Handler는 쿠키/Authorization의 사용자 토큰을 Supabase에서 검증한다. uid별 제한을 클라이언트 주장만 믿고 적용하지 않는다.
-2. debounce300ms·2자 이상, 이전 검색 취소/응답 순서 역전 방지. 검색은 Juso 도로명·지번·건물명 목록이며 출처 `juso`를 표시한다. 건물명과 일반 상호 POI 검색을 혼동하지 않는다. 검색 결과0건이면 재입력/검증된 Vworld 폴백을 사용하며 Kakao 키워드 폴백은 없다.
-3. 사용자 선택 후 좌표제공 API→5179 출입구 좌표→4326 변환→PNU 조합→기존 도형 검증. 브라우저 임의 좌표를 서버의 검증된 응답으로 취급하지 않는다. 오류/다중/미포함/PNU 불일치는 구분한다. Vworld는 공급자/폴백 사유를 별도 표시한다.
-4. D3는 KST uid당 일100회. 검색·선택 좌표 요청/캐시 hit에도 적용하고, 실제 Juso 검색/좌표/Vworld 호출 수·오류·재시도를 따로 기록한다. 공급자 좌표 API의5초10건은 모든 배치/서버가 공통 제한기로 지키며 로컬 프로세스별 limiter만 두지 않는다. 건축물 큐 일10건은 별도다.
-5. D2는 기존 `public.geocode_cache(address,provider)`에 canonical 주소의 확정 결과를 통합한다. `provider='juso'`, 실제 Vworld 결과는 `'vworld'`. 자동완성 다중 목록을 단일 geom에 덮어쓰지 않으며 개인 별칭·임대료·검색 이력을 공유하지 않는다. TTL 제약은 두지 않고 조회일·원천/변환 버전·명시적 갱신을 관리한다.
-6. 공유 캐시의 authenticated 직접 쓰기는 금지한다. A0에서는 배치가 writer다. A의 서버 쓰기는 A0 §5의 한정 서명키(추가 변수 허용 제안) 또는 배치 전용 쓰기 중 확정한 경로로 연결한다. Supabase 관리자 키를 Vercel에 추가하지 않는다. 전체 주소 캐시를 읽는 API도 노출하지 않는다.
-7. 401/403·과도호출·업무 오류·timeout을0건/영구 실패로 바꾸지 않는다. 원문을 바꾼 응답·다중 출입구·다른 PNU를 자동 확정하지 않는다. 배치/대장 API 호출은 계속 `/ingest`; 사용자 검색/좌표만 AGENTS 예외 Route Handler다.
-
-공식 안내에서 좌표 저장 허용을 확인했으나, 과거 공간정보 해외 서버 업로드 제한 안내의 현행 적용 범위는 원격 교체 전 확인한다. API 키가 아직 없어 실제 응답/재산출/계정 한도 검증은 A0의 선행 단계다. 키·주소 원문·인증 URL은 로그에 넣지 않는다.
+- Route Handler `runtime='nodejs'`, `preferredRegion='icn1'`: 국내 사용자와 국내 주소 API의 왕복을 줄이는 선택. 현재 Supabase Tokyo와 같은 리전이라는 뜻은 아니다.
+- 인증 실패 시 재시도 후 검색. uid별 KST 하루100회는 공급자 쿼터와 별개 남용 제한이다. 검색/좌표/Vworld 호출량을 각각 기록하고 키·응답 echo·개인 검색어를 운영 로그에 남기지 않는다.
+- Juso 검색은 도로명·지번·건물명 목록을 반환한다. 사용자가 선택한 `admCd/mtYn/lnbrMnnm/lnbrSlno`로 PNU를 구성한다. 주소0건·다중·인증/쿼터 오류를 구분하며 인증 실패를 폴백으로 숨기지 않는다.
+- A0에서는 `JUSO_API_KEY` 검색 + **Vworld 좌표**로 3곳만 검증. `lib/geo/address-provider.ts` 계약 v1과 `/ingest/juso.py`의 검색/좌표 공급자 분리 구조를 #22와 맞춘다. 좌표의 실제 provider와 원CRS를 보존하며 Vworld 좌표를 Juso 출입구 좌표로 표시하지 않는다.
+- JUSO_COORD_API_KEY 발급·좌표 적용 승인 후 좌표제공 API(5179→4326 저장/5186 계산)로 교체한다. 기존 키가 생겼다는 이유만으로 전량 실행하지 않는다. 좌표 API 5초10건 제한은 모든 실행 인스턴스 합계로 지킨다.
+- 선택 식별자/PNU→도형 포함 검증. 미포함/다동/다른 PNU는 그대로 사유를 표시한다. 중심점·최근접 도형으로 자동 교체하지 않는다.
+- `KAKAO_REST_API_KEY`는 Vercel에 등록하지 않는다. #22는 서버 공급자 구현과 필요한 배포 키를 후속 검토하며 DB 관리자키/서명키는 추가하지 않는다. 배치·대장 조회는 `/ingest`만 호출한다.
 
 ### 4.2 폼과 위치 확인
 
@@ -222,7 +218,7 @@ CI는 로컬 Supabase와 고정 원천 snapshot을 사용하며 Juso/Vworld 외�
 
 ## 9. 사용자가 처리해야 할 단계
 
-1. [A0 계획](s3-2-a0-juso-plan.md)을 먼저 검토·승인한다. #22는 WIP로 보존하고 A0 뒤 재개한다.
+1. A0 계획 승인·로컬 T1 검증 완료. #22는 주소 공급자 계약을 맞춰 병행하며 A0 머지 후 데이터 기준만 동기화한다. [결과](../validation/s3-2-a0-juso-20260930.md)를 검토한다.
 2. **Juso 검색 API와 검색API(좌표)를 각각 발급**해 `.env`의 `JUSO_API_KEY`, `JUSO_COORD_API_KEY`에 넣고 완료만 알린다. A 코드 배포 때 Vercel Production/사용할 Preview에 서버 전용으로 등록한다. 기존 공개 Supabase 변수2개는 유지하며 `NEXT_PUBLIC_`를 주소 키에 붙이지 않는다. Kakao 키는 등록하지 않는다.
 3. 현 Tokyo DB/R2/백업/CI 저장 경로에 대한 공급자 조건 적용 범위를 확인한다. 리전 변경은 이번에 자동 실행하지 않는다. 캐시 서버 writer 추가 변수/권한 선택은 A0 §5·§9를 따른다.
 4. 기존 `.env`·Actions Secrets의 `KAKAO_REST_API_KEY`는 제거 대상으로 표시한다. A0의 Juso workflow/데이터 검증 후 제거 목록을 실행한다. 이번 계획 작성에서는 키/Secrets를 수정하지 않는다.
@@ -233,14 +229,14 @@ CI는 로컬 Supabase와 고정 원천 snapshot을 사용하며 Juso/Vworld 외�
 
 | ID | 현재 결정 |
 | --- | --- |
-| D1 | A/B/C 3개 기능 PR은 유지, 공급자·데이터 교체 A0를 앞에 별도 제안 |
-| D2 | 기존 `public.geocode_cache`에 `provider='juso'` 통합. uid별 응답 캐시 폐기. 공유 쓰기 신뢰 경계는 A0 §5 |
+| D1 | A/B/C 3개 기능 PR은 유지, 공급자·데이터 교체 A0 별도 승인, #22와 계약만 맞춰 병행 |
+| D2 | 사용자 검색 무캐시·등록 좌표 후보 행만 저장. 공용 geocode_cache는 배치/DB URL만 쓰며 서명키·Vercel 추가 변수 없음 |
 | D3 | uid 일100회 유지, 공급자 캐시 TTL 제약 없음. Juso 검색/좌표/Vworld 호출량 별도. 좌표5초10건 공통 제한 |
 | D4 | 미저장 uid30일·저장 후보 있는 uid90일 미활동 정리 |
 | D5 | B 실증 통과 후 상시 webhook 운영 승인. sweep 매시간→6시간. A/A0에서는 비활성 유지 |
 | D6 | 인증 실패 시 재시도 후 검색. screens §2.3 정정은 #22의 별도 문서 커밋(e90f004)에 있으며 A0와 섞지 않음 |
 
-유지: Route Handler icn1, 슬라이더 p95≤100ms/max 기록, A의 DB/RPC/어댑터 WIP 후 UI. 대체: 카카오 정책 확인/키워드 폴백/uid별 응답 캐시 → Juso 검색·출입구 좌표/공용 캐시/Vworld 폴백. A0에서 약관·출처·한도·키 종류를 확인했고 실제 응답은 발급 후 검증한다. 새로운 원격 저장 위치 확인과 서버 writer 제안은 A0에 근거·선택지를 기록했다.
+유지: Route Handler icn1, 슬라이더 p95≤100ms/max 기록, A의 DB/RPC/어댑터 WIP 후 UI. 대체: 카카오 정책 확인/키워드 폴백/uid별 응답 캐시 → Juso 무캐시 검색·후보 전용 좌표/배치 전용 공용 캐시. A0에서 약관·출처·한도·키 종류를 확인했고 실제 응답은 발급 후 검증한다. 새로운 원격 저장 위치 확인과 서버 writer 제안은 A0에 근거·선택지를 기록했다.
 
 ## 11. 주요 위험과 중단 조건
 
@@ -252,3 +248,7 @@ CI는 로컬 Supabase와 고정 원천 snapshot을 사용하며 Juso/Vworld 외�
 - **범위 확대:** 지도·공유·이메일 UI·서울 전체 건물 적재·프리셋v0.4·임대료 보정은 별도 스프린트다. S3-2는 본문의 네 사용자 완료 기준과 E2E를 충족하면 마감한다.
 
 A0 계획 단계 확인: #21 main·#22 WIP와 공식 문서, 로컬/원격 SELECT inventory를 대조했다. 이번에는 새 주소 API 조회·DB 쓰기·migration dry-run·삭제·Secrets/Vercel 변경을 하지 않았다. #22에서 이전에 실행한 두 RPC dry-run은 A0 새 실행안의 승인 근거를 대신하지 않는다.
+
+### A0 승인 반영 — 2026-09-30
+
+#22는 A0와 병행한다. 공유 계약은 `lib/geo/address-provider.ts`이며 데이터/fixture 교체는 A0 머지 후 동기화한다. 기존 A0 §5의 서명 캐시 쓰기 제안과 Vercel 추가 서명키는 폐기했다. 카카오 키/cache 삭제는 재산출·8축 차이 보고·manifest 승인 후에만 실행한다. 해외 저장 제한 확인 및 조건부 서울 이전안은 [A0 계획](s3-2-a0-juso-plan.md)을 따른다.
