@@ -1,3 +1,24 @@
 @import "tailwindcss";
 
 body { background: #f8fafc; color: #172033; font-family: Arial, sans-serif; }
+
+.page { max-width: 42rem; margin: auto; padding: 2rem 1.25rem; }
+.page.wide { max-width: 72rem; }
+.page h1 { font-size: 1.8rem; font-weight: 700; margin: 1rem 0; }
+.page h2 { font-size: 1.25rem; font-weight: 650; margin-bottom: .75rem; }
+.page p { margin: .6rem 0; color: #475569; }
+.page label { display: block; margin-top: 1rem; font-weight: 600; }
+.page input { display: block; width: 100%; border: 1px solid #94a3b8; border-radius: .4rem; padding: .7rem; }
+.page button, .page a.primary { display: inline-block; border: 1px solid #94a3b8; border-radius: .4rem; padding: .7rem 1rem; margin: .5rem 0; cursor: pointer; }
+.page .primary { background: #134e4a; color: white; }
+.page :disabled { opacity: .5; cursor: not-allowed; }
+.page :focus-visible { outline: 3px solid #0f766e; outline-offset: 3px; }
+.page fieldset { margin-top: 1.5rem; }
+.address-options { max-height: 20rem; overflow-y: auto; }
+.address-options button { text-align: left; width: 100%; }
+.candidate-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.candidate-list article { padding: 1.2rem; border: 1px solid #cbd5e1; border-radius: .7rem; }
+.axis { display: flex; justify-content: space-between; padding: .4rem 0; border-bottom: 1px solid #e2e8f0; }
+.badge { background: #fef3c7; color: #78350f; border-radius: .3rem; padding: .15rem .4rem; }
+.page .total { font-size: 2rem; color: #134e4a; }
+.skeleton { min-height: 15rem; background: #f1f5f9; padding: 1rem; border-radius: .5rem; }

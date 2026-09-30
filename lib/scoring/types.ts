@@ -81,7 +81,7 @@ export type ScoreInputs = ReferenceInputs & {
   building: BuildingInput | null; rent: RentInput;
   meta: {
     computed_at: string; legal_dong_code: string | null;
-    building_lookup: { status: string };
+    building_lookup: { status: string; request_id?: string | null };
     height_quality: { unknown_ratio: number | null };
     flow_coverage: { weekday: { coverage_ratio: readonly (number | null)[] };
       weekend: { coverage_ratio: readonly (number | null)[] } };
