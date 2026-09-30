@@ -26,7 +26,8 @@ def test_shared_work_has_distinct_owner_ids_and_ready_projection(db):
     db.execute("""insert into ingest_private.building_address_cache
         (address,pnu,geom,status,payload,fetched_at,expires_at)
         values(%s,'1168010600109120013',extensions.st_setsrid(
-          extensions.st_makepoint(127.05,37.5),4326),'ready','{}',now(),now()+interval '30 days')""",
+          extensions.st_makepoint(127.05,37.5),4326),'ready','{}',
+          now(),now()+interval '30 days')""",
                (address,))
     as_user(db, a)
     assert db.execute('select request_id,status from candidate_lookup_status').fetchall() == [
