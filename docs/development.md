@@ -163,7 +163,7 @@ colima stop --profile gilmok
 
 ## PR 4 상가·학원·학교 실데이터 재현
 
-Python 3.12, Node 22.x, pnpm 10.7.1, 로컬 Supabase와 기존 인구·교통 데이터가 전제다. 외부 수집은 `/ingest` 모듈만 수행한다. 새 의존성은 없다. `.env.example`의 기존 `SEOUL_OPEN_DATA_API_KEY`, `NEIS_API_KEY`, `KAKAO_REST_API_KEY`, `VWORLD_API_KEY`, R2 설정을 사용한다. 지오코딩 실행 전에 Kakao 제품 활성화와 주소 1건의 HTTP 200/유일한 좌표를 확인한다. 이번 검증에서는 그 1건도 캐시하여 일괄 단계에서 재호출하지 않았다.
+Python 3.12, Node 22.x, pnpm 10.7.1, 로컬 Supabase와 기존 인구·교통 데이터가 전제다. 외부 수집은 `/ingest` 모듈만 수행한다. 새 의존성은 없다. `.env.example`의 기존 `SEOUL_OPEN_DATA_API_KEY`, `NEIS_API_KEY`, `JUSO_API_KEY`, `VWORLD_API_KEY`, R2 설정을 사용한다. 지오코딩 실행 전에 Kakao 제품 활성화와 주소 1건의 HTTP 200/유일한 좌표를 확인한다. 이번 검증에서는 그 1건도 캐시하여 일괄 단계에서 재호출하지 않았다.
 
 ```sh
 supabase migration up --local
@@ -329,3 +329,7 @@ select public.score_inputs(
 `pnpm dev` → `/compare`에서 기존 세션 재사용 또는 익명 로그인 후 score_inputs JSON을 확인한다. Next.js 15·Node 22·pnpm 10.7.1을 유지한다. `pnpm build`로 배포 빌드를 검증한다. 로컬 Supabase 설정은 익명 로그인·이메일 확인·Mailpit을 활성화하며, 설정 변경은 실행 중인 DB 작업 종료 후 `supabase stop`/`supabase start`로 반영한다. 데이터 삭제/reset은 하지 않는다.
 
 [Auth/브라우저/복원 검증과 원격 실행 승인 순서](operations/s3-foundation.md)를 따른다. 원격 DB 쓰기는 사용자 승인 전 실행하지 않는다.
+
+### A0 3곳 좌표 전환 검증
+
+`uv run python -m ingest.verify_juso_transition` → `pnpm score:reference:build` → `node ingest/verify_juso_transition.mjs`. 검색 키 없이는 수집을 시작하지 않는다. `node ingest/verify_juso_transition.mjs --baseline-only`는 기존3곳 T0만 완전 재현하며 신규 조회 성공을 뜻하지 않는다. 임시 Vworld→Juso 좌표 교체와13542건 실행은 좌표 키 발급 후 별도 승인 범위다.

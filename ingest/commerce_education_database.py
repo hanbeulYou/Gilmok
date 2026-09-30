@@ -47,7 +47,8 @@ def attach_geocodes(connection, frame):
     rows = connection.execute(
         "select address,provider,extensions.st_x(geom),extensions.st_y(geom),"
         "geocode_failed,failure_reason from public.geocode_cache "
-        "order by address,geocode_failed,case provider when 'kakao' then 0 else 1 end"
+        "order by address,geocode_failed,"
+        "case provider when 'juso' then 0 when 'kakao' then 1 else 2 end"
     ).fetchall()
     cache = {}
     for address, provider, x, y, failed, reason in rows:

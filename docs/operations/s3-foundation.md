@@ -124,18 +124,13 @@ HTTP는 `ingest.measure_product_rpc.http_measure`에 익명 signup으로 발급�
 
 새 브라우저에서는 JSON 대신 “Supabase 연결 설정이 필요합니다.”가 표시되고 signup/RPC는 0회였다. 배포 bundle의 클라이언트 생성 경로도 해당 오류를 직접 throw한다. Production의 두 공개 변수 값·빌드 반영을 확인하고 재배포 후 JSON을 검증한다. 앞서 다른 프로젝트 vineyard/gilmok을 조회한 404 결과는 실제 서비스 상태에서 제외한다. [최신 증거](../validation/s3-1-webhook-20260927.md).
 
-## Vercel 환경변수 등록 규칙 — 2026-09-29 사용자 확정
+## Vercel 환경변수 등록 규칙 — A0 승인 반영
 
-**Vercel env는 공개 변수 2개(+S3-2부터 KAKAO_REST_API_KEY)만.** S3-1에서 등록할 변수는 아래 두 개다.
+현재 공개 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` 2개를 유지한다. **A0에서는 Vercel 환경변수를 추가/변경하지 않는다.** 이전의 S3-2 KAKAO_REST_API_KEY 예외는 폐기했다.
 
-- `NEXT_PUBLIC_SUPABASE_URL`: 원격 Supabase 프로젝트 URL.
-- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: 해당 프로젝트의 공개 publishable key.
+S3-2 검색은 Juso로 전환한다. 사용자 검색은 무캐시 실시간, 등록 좌표는 후보 행에만 저장한다. 공용 cache는 배치 DB URL만 쓰므로 cache 서명키·관리자키가 필요하지 않다. Route Handler 실제 배포에 필요한 Juso 공급자 서버 키는 #22 배포 시 명시하며 `NEXT_PUBLIC_` 이름을 붙이지 않는다.
 
-S3-2부터 `KAKAO_REST_API_KEY`를 서버 전용 변수로 추가할 수 있다. `NEXT_PUBLIC_` 접두사를 붙이지 않고 Next.js Route Handler에서만 사용한다. 사용자 요청 주소 자동완성·지오코딩은 `geocode_cache` 캐시와 uid당 일일 제한을 적용한다. 배치·대장 조회는 계속 `/ingest`에서만 호출한다. 이번 정리에서는 기존 `KAKAO_REST_API_KEY`도 삭제했으며, S3-2 구현 시 다시 등록한다.
-
-Production·사용할 Preview에 두 공개 변수를 등록한다. `.env`나 `.env.example` 전체를 업로드하지 않는다. `SUPABASE_SECRET_KEY`, service-role/JWT secret, DB URL·비밀번호, Management access token, `GITHUB_DISPATCH_TOKEN`, R2 키, 공공데이터 API 키 등 서버 비밀은 위 S3-2의 `KAKAO_REST_API_KEY` 예외 외에는 Vercel에 등록하지 않는다. 기존 로컬 `.env`, 용도에 맞는 GitHub Actions Secrets·Supabase Vault에서만 관리한다.
-
-값을 문서·PR·로그에 복사하지 않는다. 검증은 프로젝트·배포의 변수 **이름**, 브라우저의 익명 로그인·RPC·JSON 표시로 한다. 두 공개 변수는 Next.js 빌드 시 반영되므로 변경 후 재배포하고 브라우저 검증을 수행한다. 등록된 이름만으로 배포에서 유효한 값이 사용됐다고 판정하지 않는다.
+Production·Preview 모두 .env 전체 업로드 금지. SUPABASE_SECRET_KEY, service-role/JWT 관리자키, DB URL·비밀번호, GITHUB_DISPATCH_TOKEN, R2 및 배치 API 키는 Vercel에 등록하지 않는다. 실제 .env·Actions Kakao 키 삭제는 재산출·8축 차이 보고·manifest 승인 뒤 수행한다.
 
 ## 2026-09-29 최종 배포 확인
 

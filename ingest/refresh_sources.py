@@ -223,7 +223,8 @@ def _places(args, pub, db, files):
             resolve_one(
                 db,
                 address,
-                key=env.get("KAKAO_REST_API_KEY", ""),
+                key=env.get("JUSO_API_KEY", ""),
+                coordinate_key=env.get("VWORLD_API_KEY", ""),
                 budget=10000,
                 journal=args.directory / "geocode",
             )
