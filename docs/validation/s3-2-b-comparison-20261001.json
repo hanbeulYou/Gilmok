@@ -1,0 +1,586 @@
+{
+  "implementation_commits": [
+    "6d686d3",
+    "e0c1419",
+    "5cea9db"
+  ],
+  "scoring_version": "0.3",
+  "migration_count": 0,
+  "completion": "held_for_remote_combined_timeouts",
+  "local_delay": {
+    "observed_status": "passed",
+    "environment": "local real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true,
+      "v03_fixture_totals": true,
+      "mobile_same_evidence": true,
+      "mobile_same_totals": true,
+      "mobile_same_axes": true,
+      "slider_p95_100ms": true,
+      "slider_no_rpc_or_worker": true,
+      "real_180s_delay_badge": true,
+      "ready_after_delay_still_subscribed": true,
+      "no_browser_errors": true
+    },
+    "pending_before_after": {
+      "total": [
+        58.891881857688006,
+        62.57609238400379
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "scores": [
+      {
+        "alias": "a",
+        "total": 85.08500496915157,
+        "confidence": 90,
+        "axes": {
+          "demand": 96.56364174977782,
+          "flow": 99.33406222045522,
+          "transit": 38.336803260049486,
+          "cluster": 97.47740578011093,
+          "exposure": 38.38383838383838,
+          "building": 100,
+          "environment": 93.40459174952771,
+          "rent_efficiency": null
+        }
+      },
+      {
+        "alias": "b",
+        "total": 93.3997327394482,
+        "confidence": 90,
+        "axes": {
+          "demand": 99.76300977584674,
+          "flow": 98.87685120763344,
+          "transit": 81.70108973489597,
+          "cluster": 98.41003619754652,
+          "exposure": 51.399491094147585,
+          "building": 100,
+          "environment": 87.65344088005983,
+          "rent_efficiency": null
+        }
+      },
+      {
+        "alias": "c",
+        "total": 83.86448162784299,
+        "confidence": 85,
+        "axes": {
+          "demand": 84.41789276192357,
+          "flow": 97.18715833416161,
+          "transit": 60.78723216127797,
+          "cluster": 85.91014431805627,
+          "exposure": 63.28124999999998,
+          "building": 100,
+          "environment": 91.98293991698833,
+          "rent_efficiency": null
+        }
+      }
+    ],
+    "slider": {
+      "samples": 100,
+      "p50": 33.30000019073486,
+      "p95": 33.80000019073486,
+      "max": 33.90000009536743,
+      "heap": 49017671,
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "weight": 17
+    },
+    "browser_errors": []
+  },
+  "local_payload": {
+    "observed_status": "passed",
+    "environment": "local real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "raw_ws_payload_and_rls": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true,
+      "v03_fixture_totals": true,
+      "mobile_same_evidence": true,
+      "mobile_same_totals": true,
+      "mobile_same_axes": true,
+      "slider_p95_100ms": true,
+      "slider_no_rpc_or_worker": true,
+      "ready_after_delay_still_subscribed": true,
+      "no_browser_errors": true
+    },
+    "pending_before_after": {
+      "total": [
+        58.891881857688006,
+        62.57609238400379
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "scores": [
+      {
+        "alias": "a",
+        "total": 85.08500496915157,
+        "confidence": 90,
+        "axes": {
+          "demand": 96.56364174977782,
+          "flow": 99.33406222045522,
+          "transit": 38.336803260049486,
+          "cluster": 97.47740578011093,
+          "exposure": 38.38383838383838,
+          "building": 100,
+          "environment": 93.40459174952771,
+          "rent_efficiency": null
+        }
+      },
+      {
+        "alias": "b",
+        "total": 93.3997327394482,
+        "confidence": 90,
+        "axes": {
+          "demand": 99.76300977584674,
+          "flow": 98.87685120763344,
+          "transit": 81.70108973489597,
+          "cluster": 98.41003619754652,
+          "exposure": 51.399491094147585,
+          "building": 100,
+          "environment": 87.65344088005983,
+          "rent_efficiency": null
+        }
+      },
+      {
+        "alias": "c",
+        "total": 83.86448162784299,
+        "confidence": 85,
+        "axes": {
+          "demand": 84.41789276192357,
+          "flow": 97.18715833416161,
+          "transit": 60.78723216127797,
+          "cluster": 85.91014431805627,
+          "exposure": 63.28124999999998,
+          "building": 100,
+          "environment": 91.98293991698833,
+          "rent_efficiency": null
+        }
+      }
+    ],
+    "slider": {
+      "samples": 100,
+      "p50": 33.30000019073486,
+      "p95": 33.59999990463257,
+      "max": 33.80000019073486,
+      "heap": 28767082,
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "weight": 17
+    },
+    "browser_errors": []
+  },
+  "remote_realtime": {
+    "observed_status": "passed",
+    "scope": "realtime",
+    "environment": "remote real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "raw_ws_payload_and_rls": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true,
+      "real_180s_delay_badge": true,
+      "ready_after_delay_still_subscribed": true,
+      "no_browser_errors": true
+    },
+    "rpc_failures": [],
+    "pending_before_after": {
+      "total": [
+        58.891881857688006,
+        62.57609238400379
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "browser_errors": []
+  },
+  "vercel_preview": {
+    "observed_status": "passed",
+    "deployment": "https://gilmok-6wxhw6kdn-vineyard.vercel.app",
+    "sha": "2266eed7c0afaf8cfc677427a41558636d1930d5",
+    "checks": {
+      "registration_1": true,
+      "registration_2": true,
+      "registration_3": true,
+      "registration_4": true,
+      "registration_5": true,
+      "five_complete_and_v03": true,
+      "next_mobile_same_evidence": true,
+      "next_mobile_same_scores": true,
+      "mobile_no_horizontal_overflow": true,
+      "mobile_weight_sheet_keyboard": true,
+      "next_slider_p95_100ms": true,
+      "next_slider_no_rpc_or_worker": true,
+      "reset_restores_totals": true,
+      "route_server_region": true,
+      "no_browser_errors": true
+    },
+    "routes": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "slider": {
+      "samples": 100,
+      "p50": 33.299999713897705,
+      "p95": 33.90000009536743,
+      "max": 34,
+      "heap": 32108543,
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "weight": "17"
+    },
+    "errors": [],
+    "test_users_cleaned": 1
+  },
+  "remote_combined": {
+    "observed_status": "failed",
+    "environment": "remote real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "raw_ws_payload_and_rls": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true
+    },
+    "rpc_failures": [
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "exposure_inputs_v022",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      }
+    ],
+    "pending_before_after": {
+      "total": [
+        58.891881857688006,
+        62.57609238400379
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "loading": [
+      {
+        "alias": "a-0",
+        "stage": "scored",
+        "error": null,
+        "total": 85.08500496915157
+      },
+      {
+        "alias": "b-1",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "c-2",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "a-3",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "b-4",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      }
+    ]
+  },
+  "remote_earlier_timeout": {
+    "observed_status": "failed",
+    "environment": "remote real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "raw_ws_payload_and_rls": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true
+    },
+    "rpc_failures": [
+      {
+        "rpc": "exposure_inputs_v022",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      {
+        "rpc": "score_inputs",
+        "status": 500,
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      }
+    ],
+    "pending_before_after": {
+      "total": [
+        58.891881857688006,
+        62.57609238400379
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "loading": [
+      {
+        "alias": "a-0",
+        "stage": "scored",
+        "error": null,
+        "total": 85.08500496915157
+      },
+      {
+        "alias": "b-1",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "c-2",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "a-3",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      },
+      {
+        "alias": "b-4",
+        "stage": "error",
+        "error": "주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+        "total": null
+      }
+    ]
+  },
+  "diagnostic_http": [
+    {
+      "run": 0,
+      "rpc": "exposure_inputs_v022",
+      "status": 200,
+      "bytes": 2707710,
+      "seconds": 3.468
+    },
+    {
+      "run": 0,
+      "rpc": "score_inputs",
+      "status": 200,
+      "bytes": 18274,
+      "seconds": 7.717
+    },
+    {
+      "run": 1,
+      "rpc": "exposure_inputs_v022",
+      "status": 200,
+      "bytes": 2707710,
+      "seconds": 8.112
+    },
+    {
+      "run": 1,
+      "rpc": "score_inputs",
+      "status": 200,
+      "bytes": 18274,
+      "seconds": 4.656
+    },
+    {
+      "run": 2,
+      "rpc": "exposure_inputs_v022",
+      "status": 200,
+      "bytes": 2707710,
+      "seconds": 7.44
+    },
+    {
+      "run": 2,
+      "rpc": "score_inputs",
+      "status": 200,
+      "bytes": 18275,
+      "seconds": 5.087
+    }
+  ],
+  "diagnostic_exposure_sql": [
+    {
+      "case": "a",
+      "run": 0,
+      "sql_ms": 5618.158,
+      "wall_s": 5.732
+    },
+    {
+      "case": "a",
+      "run": 1,
+      "sql_ms": 957.723,
+      "wall_s": 1.012
+    },
+    {
+      "case": "b",
+      "run": 0,
+      "sql_ms": 1065.277,
+      "wall_s": 1.123
+    },
+    {
+      "case": "b",
+      "run": 1,
+      "sql_ms": 787.209,
+      "wall_s": 0.833
+    },
+    {
+      "case": "c",
+      "run": 0,
+      "sql_ms": 563.403,
+      "wall_s": 0.604
+    },
+    {
+      "case": "c",
+      "run": 1,
+      "sql_ms": 509.291,
+      "wall_s": 0.594
+    }
+  ]
+}

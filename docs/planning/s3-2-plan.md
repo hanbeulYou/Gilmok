@@ -279,3 +279,16 @@ A0 계획 단계 확인: #21 main·#22 WIP와 공식 문서, 로컬/원격 SELEC
 승인된 기존5개와 투영 오류 분리/보정1개, 총6개 migration을 원격 적용했다. 강제 P0001 복구·원본6조합 diff0·직접 SQL 웜p95·월간 예열을 통과했다. 사용자 팀 이전 후 `vineyard/gilmok`으로 CLI를 재연결하고 Preview를 재배포해 주소 Route Handler 실제 icn1 및 Juso/Vworld200을 확인했다.
 
 원격3곳의 총점·8축·신뢰도는 A0 T1 로컬 기준과 일치하고, uid 격리·일일100회 제한·익명 로그인 세션의 HTTP6조합도 통과했다. [최종 원격 검증](../validation/s3-2-a-region-retry-20261001.md). PR A는 Ready 전환 대상이며 머지는 사용자 담당이다. B/C 범위와 승인 조건은 그대로 유지한다.
+
+## 10. B 구현·검증 현황 (2026-10-01)
+
+[#22](https://github.com/hanbeulYou/Gilmok/pull/22) 머지 후 `main`의 `337c7ea`에서
+`s3/comparison-matrix`를 분기해 [Draft #24](https://github.com/hanbeulYou/Gilmok/pull/24)를 작성했다.
+ComparisonMatrix·모바일 카드·근거·축 행 슬라이더와 owner 상태 투영 Realtime을 구현했다.
+채점/가중치/병렬 RPC 계획은 유지하며 새 마이그레이션이나 기존 DB 객체 변경은 없다.
+
+로컬 실제 Realtime·3분 지연·재접속·역순 이벤트와 실제 Vercel 등록/슬라이더 검증은
+[검증 기록](../validation/s3-2-b-comparison-20261001.md)을 따른다.
+원격 복합 시험에서 `score_inputs`/`exposure_inputs_v022`의 15초 timeout이 재현되어
+B의 운영 완료 선언은 보류한다. 분리 시험의 통과를 복합 시험 통과로 간주하지 않는다.
+D5 상시 webhook·6시간 sweep의 실행/복귀 계획을 PR에 포함했으며 현재 운영값은 유지한다.

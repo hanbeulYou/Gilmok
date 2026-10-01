@@ -1,7 +1,7 @@
 # S3-2 B — 비교 매트릭스·실시간 상태 검증
 
 - base: `main` (`337c7ea`, #22 머지 확인), 브랜치 `s3/comparison-matrix`.
-- 구현: `6d686d3`. 명세/프리셋 v0.3 변경 없음. 계획 §3 B·§5·§6 범위.
+- 구현: `6d686d3`, 실패 표시 보완 `e0c1419`, 검증 경로 분리 `5cea9db`. 명세/프리셋 v0.3 변경 없음. 계획 §3 B·§5·§6 범위.
 - **마이그레이션 없음. 기존 DB 객체 변경 없음.** A의 owner RLS·상태 투영·publication을 재사용한다. 로컬 `supabase/config.toml`의 Realtime만 켰다.
 - 저장·프리셋 저장·익명 정리는 C, 지도는 S3-3. 현재 화면은 새로고침 시 초기화 안내를 표시한다.
 
@@ -48,7 +48,27 @@ uv run --frozen --with playwright python tests/compare/verify_browser.py
 
 - lint/typecheck 통과, Vitest115·Python259 통과, Next production build 통과.
 - 단위 검증: Worker 실패 재시도·실패한 RPC만 재시도·원천 snapshot 변경 시 무효화·abort 늦은 응답·삭제/층 변경 세대·microsecond 역순/중복 무시·수동 순서·전 가중치0.
-- 최종 로컬 payload 직접 확인·원격 Realtime·Next 배포 화면: 진행 중. 완료 실측은 이 문서에 추가한다.
+- 최종 로컬 실제 WebSocket frame의 record 키는 request_id/status/updated_at만 있었다. 같은 주소의 uid별 다른 request_id와 다른 주소 이벤트의 소유자 격리를 확인했다.
+- Next Vercel Preview 실제 등록 5회(a,b,c,a,b), 점수/모바일 근거 동일, 모바일 시트 키보드 조작·초기화·가로 넘침0·pageerror0 확인. 주소 search/locate 10회 모두 HTTP200·icn1. [검증 배포](https://gilmok-6wxhw6kdn-vineyard.vercel.app/compare), SHA `2266eed`(검증 당시 구현 `6d686d3`). 마지막 실패 셀 표시는 이후 `e0c1419`에서 보완했으며 정상 채점 경로는 같다.
+- 실제 Next production 5후보×100회: p50 **33.3ms**, p95 **33.9ms**, max **34.0ms**, JS heap32,108,543 byte. 입력 이벤트→두 rAF까지, 드래그 중 열 순서 유지, RPC/Worker 추가0. 실제 브라우저 CPU·네트워크 환경을 고정한 보편 성능 보장은 아니다.
+- 로컬 최종 합본: p95 33.8ms/max33.9ms. raw WebSocket payload 추가 확인 실행: p95 33.6ms/max33.8ms(3분 대기만 이전 합본에서 이미 수행). 최초 max121.6ms도 위에 보존했다.
+
+## 원격 Realtime 분리 실증
+
+원격 publishable key + 실제 익명 authenticated uid 2개에서 소유자 격리(같은 주소/다른 주소), wire record3필드, pending→ready 무새로고침, 이전 timestamp 이벤트 무시, 연결 단절 중 ready 복구, 구독 전 ready, **실제180초 지연 안내→이후 ready 반영**을 통과했다. HTTP500 없이 분리 실증을 완료했고 시험 uid/큐/캐시/관찰자는 finally에서 정리했다. 합성 캐시의 총점 58.891881857688006→62.57609238400379, 신뢰도 60→75 갱신을 관측했다. 이 건물 수치는 통제 fixture이며 실제 건물 평가로 해석하지 않는다.
+
+[원시 실측 요약 JSON](s3-2-b-comparison-20261001.json)에 분리 통과와 합본 실패를 함께 보존했다. 원격 webhook `gilmok_address_dispatch`는 D, `INGEST_REMOTE_ENABLED=false`, sweep cron은 기존 매시간으로 유지한다.
+
+## 원격 실패와 남은 범위
+
+**원격 합본 시나리오는 실패했다. B의 운영 완료 선언은 보류한다.** 두 uid Realtime 검증을 유지한 채 b 컨텍스트에서 대치동 5후보를 연속 채점하면 `score_inputs`와 `exposure_inputs_v022`가 HTTP500, SQLSTATE`57014`, `canceling statement due to statement timeout`을 반환했다. 실패 실행과 재실행 모두 기록했다. 별도의 Vercel 한 브라우저 5등록은 같은 코드/서버 설정으로 통과했다. 이 통과를 합본 시험의 통과로 바꾸지 않는다.
+
+- 원격 분리 검증은 `PROOF_REALTIME_ONLY=1`로 Realtime 경로만 시험한다. 실제 3분 대기는 유지한다. 브라우저를 mock으로 바꾸거나 ready 이벤트를 직접 주입하지 않는다. 점수/슬라이더는 위 Vercel 실측으로 검증 범위를 구분한다.
+- 진단 중 연결 대기 잠금·JIT를 주 원인으로 확인하지 못했다. `authenticated.statement_timeout=15s`, 관련 pg_stat_statements JIT 집계0, 조회 당시 active 쿼리의 lock 대기 없음. 역할·timeout·함수·컴퓨트 변경 없음.
+- `exposure_inputs_v022` 직접 SQL(EXPLAIN ANALYZE), 새로운 연결의 첫/둘째 실행: a5618.158/957.723ms, b1065.277/787.209ms, c563.403/509.291ms. 이는 각2회이며 p95나 물리적 디스크 cold라고 부르지 않는다.
+- 별도 순차 authenticated HTTP 진단 b3회: exposure3.468/8.112/7.440초(각2,707,710byte), score_inputs800m7.717/4.656/5.087초, 모두200. SQL 실행 시간과 HTTP 왕복을 혼동하지 않는다. 처리량·실행 계획/리소스의 원인 확정은 아직 하지 않았다.
+- 현재는 승인된 병렬 RPC 구조와 프리셋을 유지했다. 서버 성능 원인 확인 및 조정 방안은 B 머지 전 검토 대상으로 남긴다. 병렬 구조/마이그레이션/컴퓨트 변경이 필요하면 계획 차이를 먼저 보고하고, 원격 migration은 dry-run 후 승인을 받는다.
+- 실패 시 UI는 후보별 재시도와 조회 실패를 표시한다. 성공한 입력은 보존하고 실패한 RPC/Worker만 재시도하는 동작은 단위 검증했다. 자동 무한 재시도는 없다.
 
 ## D5 전환 계획 — 실행 전 사용자 승인 필요
 
