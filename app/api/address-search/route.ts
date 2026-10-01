@@ -8,7 +8,8 @@ export const maxDuration = 60;
 
 export async function POST(request: Request): Promise<Response> {
   const reply = (body: unknown, status = 200) => Response.json(body, {
-    status, headers: { 'Cache-Control': 'private, no-store' },
+    status, headers: { 'Cache-Control': 'private, no-store',
+      'X-Gilmok-Function-Region': process.env.VERCEL_REGION ?? 'local' },
   });
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL, key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;

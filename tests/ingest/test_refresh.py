@@ -40,6 +40,21 @@ def test_dispatch_accepts_only_named_event_and_ignores_untrusted_payload():
     validate_event("schedule", {})
 
 
+def test_drain_dry_run_never_claims_or_calls_provider(tmp_path):
+    db = Mock()
+    db.execute.return_value.fetchone.return_value = (3,)
+
+    @contextmanager
+    def factory():
+        yield db
+
+    processor = Mock(side_effect=AssertionError("dry-run must not process"))
+    result = drain(factory, tmp_path, 10, processor, dry_run=True)
+    assert result == dict(processed=0, pending=3, needs_review=3, dry_run=True)
+    processor.assert_not_called()
+    assert "default_transaction_read_only=on" in db.execute.call_args_list[0].args[0]
+
+
 def test_drain_is_bounded_and_does_not_log_addresses(tmp_path):
     db = Mock()
     db.execute.return_value.fetchone.return_value = (3,)
