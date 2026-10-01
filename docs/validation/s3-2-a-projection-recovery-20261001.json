@@ -1,0 +1,209 @@
+{
+  "checked_at": "2026-10-01T08:44:45.202223+00:00",
+  "base_head": "f9041b5",
+  "working_tree_code_changes": true,
+  "remote_writes": false,
+  "remote_original": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "cc65789a8c3fca6e15b3ff8cadaf31bfa7786d771a5299b05181c1d2b551efa0"
+  },
+  "initial_activity_insert_rows": 1,
+  "remote_inspected_at": "2026-10-01T08:44:45.617623+00:00",
+  "remote_applied_versions": [],
+  "local_original": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "cc65789a8c3fca6e15b3ff8cadaf31bfa7786d771a5299b05181c1d2b551efa0"
+  },
+  "local_wrapper": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "16dedae9ca9afddc42710405e7633cf55992845014e75ab24b4db6d8d3289c02"
+  },
+  "contract_diff": {},
+  "original_body_matches_remote": true,
+  "rollback_rehearsal": {
+    "original_catalog_equal": true,
+    "projection_triggers_remaining": 0,
+    "committed": false
+  },
+  "same_invocation_capture": "Original function body unchanged; temporary forwarding/capture shim, same authenticated call. No time fields ignored. All instrumentation rolled back.",
+  "comparisons": [
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    }
+  ],
+  "projection_forced_failure": {
+    "attempt": "queue pending -> processing; state projection BEFORE UPDATE raises P0001",
+    "queue_write_succeeded": true,
+    "queue_status_after_savepoint": "processing",
+    "projection_status_after_savepoint": "pending",
+    "error": null,
+    "fixture_committed": false,
+    "journal_rows": 1
+  },
+  "reconcile_dry_run": {
+    "dry_run": true,
+    "scanned": 1,
+    "repaired": 0,
+    "mismatched": 1,
+    "errors_resolved": 0,
+    "failed_addresses": 0,
+    "unresolved_before": 1,
+    "unresolved_errors": 1
+  },
+  "reconcile_apply": {
+    "dry_run": false,
+    "scanned": 1,
+    "repaired": 1,
+    "mismatched": 1,
+    "errors_resolved": 1,
+    "failed_addresses": 0,
+    "unresolved_before": 1,
+    "unresolved_errors": 0
+  },
+  "projection_recovered_status": "processing",
+  "blocked_by": null,
+  "remote_dry_run": {
+    "started_at": "2026-10-01T08:45:26.650290+00:00",
+    "elapsed_s": 1.050455,
+    "exit_code": 0,
+    "output": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20260930072813_registration_reference_percentiles.sql\n • 20260930073201_registration_candidate_context.sql\n • 20260930110600_registration_usage_and_candidate_fields.sql\n • 20260930112203_registration_lookup_projection.sql\n • 20260930112543_registration_lookup_conflict_target.sql\n • 20261001083920_projection_failure_isolation_and_reconcile.sql\nA new version of Supabase CLI is available: v2.119.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+  },
+  "migrations": [
+    {
+      "file": "20260930072813_registration_reference_percentiles.sql",
+      "sha256": "5ac5e84e0f45e8ce05d65d4829afad6663477459a7fc8a93a962e643da5df9d7"
+    },
+    {
+      "file": "20260930073201_registration_candidate_context.sql",
+      "sha256": "bf18dafd1a2e368e877ce5310525662cedd6e36fa210d1d86f3a1c0462f01718"
+    },
+    {
+      "file": "20260930110600_registration_usage_and_candidate_fields.sql",
+      "sha256": "7df31b4645104715a6d20b64c256891d86e55ee88a54f8172f9673c3739a0d2b"
+    },
+    {
+      "file": "20260930112203_registration_lookup_projection.sql",
+      "sha256": "d3d96e6b5be4d5fcd432f4cd6ab8d2465e4e64dea8105e222e207d1f31e514ca"
+    },
+    {
+      "file": "20260930112543_registration_lookup_conflict_target.sql",
+      "sha256": "a6a010af91425ffe5f523effe5420c678693eb7c43d9b6eeb12510322028dcde"
+    },
+    {
+      "file": "20261001083920_projection_failure_isolation_and_reconcile.sql",
+      "sha256": "ba11ea015bf44da0d0c2423d5810eace6595718c44526d7fca1bce4a3113cb00"
+    }
+  ],
+  "worker_dry_run": {
+    "processed": 0,
+    "pending": 0,
+    "needs_review": 0,
+    "dry_run": true
+  },
+  "reconcile_empty_dry_run": {
+    "dry_run": true,
+    "scanned": 0,
+    "repaired": 0,
+    "mismatched": 0,
+    "errors_resolved": 0,
+    "failed_addresses": 0,
+    "unresolved_before": 0,
+    "unresolved_errors": 0
+  }
+}

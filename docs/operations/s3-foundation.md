@@ -144,3 +144,14 @@ Production·Preview 모두 .env 전체 업로드 금지. SUPABASE_SECRET_KEY, se
 주소 Route Handler는 Next.js15 `runtime=nodejs`, `preferredRegion=icn1`, 외부 fetch `cache=no-store`로 실행한다. 국내 사용자·주소 API와의 왕복을 줄이기 위한 선택이며 Supabase 프로젝트는 계속 Tokyo다. [Next.js15 지역 설정](https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config#preferredregion). 브라우저 bearer 토큰을 서버의 [auth.getUser](https://supabase.com/docs/reference/javascript/auth-getuser)로 검증하고 사용자 권한 RPC로 쿼터를 예약한다. public key 이외의 Supabase 서버 비밀은 사용하지 않는다.
 
 A는 `/new` 등록→`/compare` 미저장 점수 목록까지다. 최초 데이터 조회 동안 후보명·층을 유지하고 스켈레톤을 표시한다. 주소 확인55초·채점 RPC 단계55초, 개별 외부 데이터 API10초, Worker15초를 상한으로 재시도 가능 오류/결측으로 전환한다. 일반적인 콜드2~4초는 보장 상한이 아니다. 저장·새로고침 복원은 C, Realtime 구독은 B에서 완성한다. [검증·원격 승인 목록](../validation/s3-2-a-registration-20260930.md)을 따른다.
+
+
+## 주소 상태 투영 복구 (2026-10-01)
+
+원천 큐·캐시 AFTER 트리거는 상태 투영 오류를 private projection_errors에 남기고 원천 쓰기를 계속한다. 오류 기록도 실패하면 식별자/메시지 없이 SQLSTATE warning만 남긴다. 주소 sweep의 drain 뒤 보정은 현재 캐시/큐와 모든 관찰자를 대조하므로 오류 기록 누락도 복구한다. 보고 항목은 repaired/errors_resolved/unresolved_errors이며 보정 실패/미해결 오류가 남으면 실패 종료한다.
+
+- 조회만: `uv run --frozen python -m ingest.address_dispatch --target local --dry-run`
+- 보정 대상 확인: `uv run --frozen python -m ingest.reconcile_projection --target local --dry-run`
+- 보정 실행: `uv run --frozen python -m ingest.reconcile_projection --target local`
+
+원격은 기존 DB URL/INGEST_REMOTE_ENABLED 가드와 작업 승인을 따른다. Actions는 main을 체크아웃하므로 PR 머지 후에 새 보정 단계가 실행된다. 현재 상시 운영과6시간 주기 전환은 B 실증 이후이며 이번 PR에서 variable이나 cron을 바꾸지 않는다. 롤백은 프론트/보정 실행을 중단한 뒤 신규 두 트리거 제거와 원본 score_inputs 복귀를 시행하고 로그 데이터는 보존한다. [검증·롤백 SQL](../validation/s3-2-a-projection-recovery-20261001.md).
