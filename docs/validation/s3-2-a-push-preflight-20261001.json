@@ -1,0 +1,149 @@
+{
+  "checked_at": "2026-10-01T08:30:28.722848+00:00",
+  "head": "52a726bdae8491316dbd39ca9c0330865b2c18f2",
+  "remote_writes": false,
+  "local_harness_note": "The first rollback rehearsal committed local schema rollback due to a test harness comment-parsing error. The exact migration-defined wrapper and two triggers were restored, source hashes matched, and the corrected rehearsal below uses transaction rollback. No original data rows were changed.",
+  "remote_original": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "cc65789a8c3fca6e15b3ff8cadaf31bfa7786d771a5299b05181c1d2b551efa0"
+  },
+  "initial_activity_insert_rows": 1,
+  "remote_inspected_at": "2026-10-01T08:30:29.490310+00:00",
+  "remote_applied_versions": [],
+  "local_original": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "cc65789a8c3fca6e15b3ff8cadaf31bfa7786d771a5299b05181c1d2b551efa0"
+  },
+  "local_wrapper": {
+    "arguments": "lat double precision, lng double precision, radius_m integer, floor integer, address text DEFAULT NULL::text",
+    "result": "jsonb",
+    "security_definer": false,
+    "settings": [
+      "search_path=\"\"",
+      "extra_float_digits=3"
+    ],
+    "volatility": "v",
+    "strict": false,
+    "parallel": "u",
+    "leakproof": false,
+    "authenticated_execute": true,
+    "body_sha256": "16dedae9ca9afddc42710405e7633cf55992845014e75ab24b4db6d8d3289c02"
+  },
+  "contract_diff": {},
+  "original_body_matches_remote": true,
+  "rollback_rehearsal": {
+    "original_catalog_equal": true,
+    "projection_triggers_remaining": 0,
+    "committed": false
+  },
+  "same_invocation_capture": "Original function body unchanged; temporary forwarding/capture shim, same authenticated call. No time fields ignored. All instrumentation rolled back.",
+  "comparisons": [
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "대치",
+      "lat": 37.494612,
+      "lng": 127.063642,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "학여울",
+      "lat": 37.496663,
+      "lng": 127.070594,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 500,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    },
+    {
+      "name": "한티",
+      "lat": 37.496237,
+      "lng": 127.052873,
+      "radius_m": 1000,
+      "floor": 2,
+      "schema_version": "1.3",
+      "building_lookup_status": "not_requested",
+      "request_id_added": false,
+      "new_field_excluded_diff_count": 0
+    }
+  ],
+  "projection_forced_failure": {
+    "attempt": "queue pending -> processing; state projection BEFORE UPDATE raises P0001",
+    "queue_write_succeeded": false,
+    "queue_status_after_savepoint": "pending",
+    "projection_status_after_savepoint": "pending",
+    "error": {
+      "sqlstate": "P0001",
+      "message": "preflight_forced_projection_failure"
+    },
+    "fixture_committed": false
+  },
+  "blocked_by": "condition_2_projection_failure_aborts_queue_write",
+  "address_worker_dry_run": "not_run: stopped at first failing condition; address_dispatch currently has no dry-run CLI option",
+  "local_restoration_verified": {
+    "local_wrapper": true,
+    "local_original": true,
+    "projection_trigger_count": 2,
+    "test_queue_rows_remaining": 0
+  }
+}
