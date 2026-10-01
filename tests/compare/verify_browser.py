@@ -43,6 +43,9 @@ inputs = [
     },
 ]
 report = {
+    "status": "running",
+    "delay_enabled": not bool(os.environ.get("PROOF_SKIP_DELAY")),
+    "scope": "realtime" if os.environ.get("PROOF_REALTIME_ONLY") else "all",
     "environment": os.environ.get("PROOF_TARGET", "local")
     + " real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
     "checks": {},
@@ -348,89 +351,94 @@ try:
             "(v)=>comparisonProof.add(v)", make({**pending, "address": delay}, "three-minute")
         )
         start = time.monotonic()
-        print("WAIT real 180s; matrix tests alongside", flush=True)
-        for r in b.evaluate("comparisonProof.state().candidates"):
-            b.evaluate("(id)=>comparisonProof.remove(id)", r["id"])
-        for index, item in enumerate(inputs + inputs[:2]):
-            b.evaluate(
-                "(v)=>comparisonProof.add(v)",
-                make(
-                    item["candidate"], f"{item['key']}-{index}", item["address_resolution"]["pnu"]
-                ),
+        print("WAIT real 180s; optional matrix checks alongside", flush=True)
+        if not os.environ.get("PROOF_REALTIME_ONLY"):
+            for r in b.evaluate("comparisonProof.state().candidates"):
+                b.evaluate("(id)=>comparisonProof.remove(id)", r["id"])
+            for index, item in enumerate(inputs + inputs[:2]):
+                b.evaluate(
+                    "(v)=>comparisonProof.add(v)",
+                    make(
+                        item["candidate"],
+                        f"{item['key']}-{index}",
+                        item["address_resolution"]["pnu"],
+                    ),
+                )
+            loading = b.evaluate(
+                "comparisonProof.state().candidates.map(c=>({alias:c.alias,stage:c.stage,error:c.error,total:c.result?.total}))"
             )
-        loading = b.evaluate(
-            "comparisonProof.state().candidates.map(c=>({alias:c.alias,stage:c.stage,error:c.error,total:c.result?.total}))"
-        )
-        report["loading"] = loading
-        print("loading", json.dumps(loading, ensure_ascii=False), flush=True)
-        results = b.evaluate("comparisonProof.state().candidates.map(c=>c.result)")
-        expected = [85.08500496915157, 93.3997327394482, 83.86448162784299]
-        check(
-            "v03_fixture_totals",
-            all(abs(results[i]["total"] - expected[i]) < 1e-10 for i in range(3)),
-        )
-        report["scores"] = [
-            {
-                "alias": inputs[i]["key"],
-                "total": results[i]["total"],
-                "confidence": results[i]["confidence"]["value"],
-                "axes": {x["key"]: x["normalized"] for x in results[i]["axes"]},
-            }
-            for i in range(3)
-        ]
-        b.locator(".desktop-matrix .candidate-name").first.click()
-        desktop = b.locator(".evidence-panel").inner_text()
-        totals = b.locator(".desktop-matrix [data-total]").evaluate_all(
-            "(els)=>els.map(e=>e.dataset.total)"
-        )
-        axes = b.locator(".desktop-matrix [data-score]").evaluate_all(
-            "(els)=>els.map(e=>e.dataset.score)"
-        )
-        b.screenshot(path=str(OUT / "desktop.png"))
-        b.set_viewport_size({"width": 390, "height": 844})
-        check("mobile_same_evidence", b.locator(".evidence-panel").inner_text() == desktop)
-        b.get_by_role("tab", name="비교", exact=True).click()
-        check(
-            "mobile_same_totals",
-            b.locator(".mobile-cards [data-total]").evaluate_all(
+            report["loading"] = loading
+            print("loading", json.dumps(loading, ensure_ascii=False), flush=True)
+            results = b.evaluate("comparisonProof.state().candidates.map(c=>c.result)")
+            check("all_five_candidates_scored", all(result is not None for result in results))
+            expected = [85.08500496915157, 93.3997327394482, 83.86448162784299]
+            check(
+                "v03_fixture_totals",
+                all(abs(results[i]["total"] - expected[i]) < 1e-10 for i in range(3)),
+            )
+            report["scores"] = [
+                {
+                    "alias": inputs[i]["key"],
+                    "total": results[i]["total"],
+                    "confidence": results[i]["confidence"]["value"],
+                    "axes": {x["key"]: x["normalized"] for x in results[i]["axes"]},
+                }
+                for i in range(3)
+            ]
+            b.locator(".desktop-matrix .candidate-name").first.click()
+            desktop = b.locator(".evidence-panel").inner_text()
+            totals = b.locator(".desktop-matrix [data-total]").evaluate_all(
                 "(els)=>els.map(e=>e.dataset.total)"
             )
-            == totals,
-        )
-        mobileaxes = b.locator(".mobile-cards [data-score]").evaluate_all(
-            "(els)=>els.map(e=>e.dataset.score)"
-        )
-        check(
-            "mobile_same_axes", mobileaxes == [axes[j * 5 + i] for i in range(5) for j in range(8)]
-        )
-        b.screenshot(path=str(OUT / "mobile.png"))
-        b.set_viewport_size({"width": 1440, "height": 1050})
-        before = len(requests)
-        workers = b.evaluate("workerCalls")
-        perf = b.evaluate("""async()=>{
- const slider=document.querySelector('#desktop-demand'),times=[];
- const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;
- slider.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
- const order=comparisonProof.state().order.join();
- for(let i=0;i<100;i++){
-  const t=performance.now();set.call(slider,String(i%41));
-  slider.dispatchEvent(new Event('input',{bubbles:true}));
-  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-  times.push(performance.now()-t);
-  if(comparisonProof.state().order.join()!==order)throw Error('sort during drag');
- }
- slider.dispatchEvent(new PointerEvent('pointerup',{bubbles:true}));
- times.sort((a,b)=>a-b);
- return {samples:100,p50:times[49],p95:times[94],max:times[99],
-  heap:performance.memory?.usedJSHeapSize,userAgent:navigator.userAgent,
-  weight:comparisonProof.state().weights.demand};
-}""")
-        report["slider"] = perf
-        check("slider_p95_100ms", perf["p95"] <= 100 and perf["weight"] == 17)
-        check(
-            "slider_no_rpc_or_worker",
-            len(requests) == before and workers == b.evaluate("workerCalls"),
-        )
+            axes = b.locator(".desktop-matrix [data-score]").evaluate_all(
+                "(els)=>els.map(e=>e.dataset.score)"
+            )
+            b.screenshot(path=str(OUT / "desktop.png"))
+            b.set_viewport_size({"width": 390, "height": 844})
+            check("mobile_same_evidence", b.locator(".evidence-panel").inner_text() == desktop)
+            b.get_by_role("tab", name="비교", exact=True).click()
+            check(
+                "mobile_same_totals",
+                b.locator(".mobile-cards [data-total]").evaluate_all(
+                    "(els)=>els.map(e=>e.dataset.total)"
+                )
+                == totals,
+            )
+            mobileaxes = b.locator(".mobile-cards [data-score]").evaluate_all(
+                "(els)=>els.map(e=>e.dataset.score)"
+            )
+            check(
+                "mobile_same_axes",
+                mobileaxes == [axes[j * 5 + i] for i in range(5) for j in range(8)],
+            )
+            b.screenshot(path=str(OUT / "mobile.png"))
+            b.set_viewport_size({"width": 1440, "height": 1050})
+            before = len(requests)
+            workers = b.evaluate("workerCalls")
+            perf = b.evaluate("""async()=>{
+     const slider=document.querySelector('#desktop-demand'),times=[];
+     const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;
+     slider.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
+     const order=comparisonProof.state().order.join();
+     for(let i=0;i<100;i++){
+      const t=performance.now();set.call(slider,String(i%41));
+      slider.dispatchEvent(new Event('input',{bubbles:true}));
+      await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+      times.push(performance.now()-t);
+      if(comparisonProof.state().order.join()!==order)throw Error('sort during drag');
+     }
+     slider.dispatchEvent(new PointerEvent('pointerup',{bubbles:true}));
+     times.sort((a,b)=>a-b);
+     return {samples:100,p50:times[49],p95:times[94],max:times[99],
+      heap:performance.memory?.usedJSHeapSize,userAgent:navigator.userAgent,
+      weight:comparisonProof.state().weights.demand};
+    }""")
+            report["slider"] = perf
+            check("slider_p95_100ms", perf["p95"] <= 100 and perf["weight"] == 17)
+            check(
+                "slider_no_rpc_or_worker",
+                len(requests) == before and workers == b.evaluate("workerCalls"),
+            )
         delay_seconds = 181 if not os.environ.get("PROOF_SKIP_DELAY") else 0
         while time.monotonic() - start < delay_seconds:
             a.wait_for_timeout(min(20000, (delay_seconds - (time.monotonic() - start)) * 1000))
@@ -447,8 +455,11 @@ try:
         check("ready_after_delay_still_subscribed", True)
         check("no_browser_errors", not errors)
         report["browser_errors"] = errors
+        report["status"] = "passed"
         browser.close()
 finally:
+    if report["status"] == "running":
+        report["status"] = "failed"
     for address in addresses:
         db.execute("delete from app_private.candidate_lookup_watchers where address=%s", (address,))
         db.execute("delete from ingest_private.building_address_cache where address=%s", (address,))
