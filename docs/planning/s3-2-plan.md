@@ -252,3 +252,30 @@ A0 계획 단계 확인: #21 main·#22 WIP와 공식 문서, 로컬/원격 SELEC
 ### A0 승인 반영 — 2026-09-30
 
 #22는 A0와 병행한다. 공유 계약은 `lib/geo/address-provider.ts`이며 데이터/fixture 교체는 A0 머지 후 동기화한다. 기존 A0 §5의 서명 캐시 쓰기 제안과 Vercel 추가 서명키는 폐기했다. 카카오 키/cache 삭제는 재산출·8축 차이 보고·manifest 승인 후에만 실행한다. 해외 저장 제한 확인 및 조건부 서울 이전안은 [A0 계획](s3-2-a0-juso-plan.md)을 따른다.
+
+
+## 2026-09-30 PR A 구현·A0 동기화
+
+#23 머지 `7eec24c03ff7d221ad2a251c6079b82f3cd1ba32`를 #22에 merge했다. A0 T1의 Juso/Vworld 좌표를 최신 검증 기준으로 사용한다. v0.3 프리셋·분포·공공 기관 데이터는 바꾸지 않았다.
+
+- `/new` 주소 자동완성은 Juso 실시간 검색이며 500ms debounce와 이전 응답 취소를 적용한다. 다중 결과는 사용자가 고른다. 서버에서 같은 도로명주소·건물관리번호·PNU와 전체 선택 필드를 다시 확인하고 Vworld 좌표를 1회 조회한다. `no-store`; 공유/uid별 캐시 쓰기 없음.
+- uid당 KST 100회는 외부 호출 예약 합계다. 검색, 등록 재검증 검색, Vworld 좌표를 각각 1회로 센다. 실패도 차감하며 공급자별 카운터를 별도로 둔다. 현재 경로에서 등록 1회는 Juso 재검증+Vworld로 2회다. Juso 좌표 키는 아직 사용하지 않는다.
+- 좌표·PNU·provider 원CRS·원좌표는 브라우저 후보 객체에 결합한다. A는 미저장 비교만 지원하고 새로고침 시 초기화된다. C의 owner 후보 행 저장에 사용할 DB 필드는 추가했다. 공유 캐시에는 전달하지 않는다.
+- `score_inputs` 800/1000m + `exposure_inputs_v022` 병렬, raw 백분위 RPC와 재사용 Worker를 연결했다. exposure RPC에는 floor 인자가 없으므로 응답 scene에 사용자의 층을 넣는다. 후보 작업은 최대2개, Worker는1개다. RPC/Worker 재시도에 좌표를 다시 조회하지 않는다.
+- A의 상태 투영·관찰자 연결을 구현했다. 공용 작업 하나에 uid별 불투명 ID를 부여하고 `meta.building_lookup.request_id`로 전달한다. 공개 테이블/뷰는 3필드와 owner RLS만 노출한다. Realtime publication에 투영 테이블만 추가하며 화면 구독·재조회·상시 웹훅 실증은 B다.
+- `app_private.user_activity`는 실제 등록 화면 진입/주소 호출에 서버 시각을 기록한다. C에서 전경 복귀·1시간 활동 기록과 30/90일 선정·삭제 배치를 완성한다. 기존 계정은 migration 실행 시각으로 보수적으로 초기화한다.
+- 기존 JSON 미리보기는 후보 점수 목록으로 교체했다. 임시 목록은 A의 연결 검증용이며 B의 매트릭스·슬라이더·근거 패널을 대신하지 않는다.
+
+### 사용자 단계 — A 배포
+
+1. 최종 migration 5개의 dry-run 보고를 검토하고 원격 push를 승인한다. 적용 전에는 #22를 Draft로 유지한다.
+2. Vercel에 **서버 전용** `JUSO_API_KEY`, 임시 좌표 공급자용 `VWORLD_API_KEY`를 등록한다. 기존 공개2개 외의 DB 관리자키·서명키는 필요하지 않다. `JUSO_COORD_API_KEY` 전환·전량 재산출은 별도 승인 단계다. A0의 Vercel 추가 변수 없음은 A0 실행 범위였으며 이 두 키는 A의 Route Handler 배포 요구사항이다.
+3. 원격 적용·키 등록 후 Preview에서 주소 등록을 확인하고 사용자가 머지한다. 이 세션은 Vercel 설정·공유 캐시·Kakao 키 삭제·상시 웹훅 활성화를 실행하지 않는다.
+
+자세한 결과와 남은 단계는 [PR A 검증](../validation/s3-2-a-registration-20260930.md)을 따른다.
+
+## 2026-10-01 PR A 원격 검증 완료
+
+승인된 기존5개와 투영 오류 분리/보정1개, 총6개 migration을 원격 적용했다. 강제 P0001 복구·원본6조합 diff0·직접 SQL 웜p95·월간 예열을 통과했다. 사용자 팀 이전 후 `vineyard/gilmok`으로 CLI를 재연결하고 Preview를 재배포해 주소 Route Handler 실제 icn1 및 Juso/Vworld200을 확인했다.
+
+원격3곳의 총점·8축·신뢰도는 A0 T1 로컬 기준과 일치하고, uid 격리·일일100회 제한·익명 로그인 세션의 HTTP6조합도 통과했다. [최종 원격 검증](../validation/s3-2-a-region-retry-20261001.md). PR A는 Ready 전환 대상이며 머지는 사용자 담당이다. B/C 범위와 승인 조건은 그대로 유지한다.

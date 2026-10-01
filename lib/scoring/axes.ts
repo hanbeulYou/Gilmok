@@ -2,7 +2,7 @@ import { referencePercentile } from './percentile.ts';
 import { EXPOSURE_LIMITATION } from '../visibility/types.ts';
 import type { ReferenceKey, ReferenceRaw } from './raw.ts';
 import type { AxisKey, AxisResult, Candidate, Evidence, ScoreContext, ScoreInputs,
-  ScoreReference, ScoringPreset, ExposureInput } from './types.ts';
+  ScoringReference, ScoringPreset, ExposureInput } from './types.ts';
 
 export const labels: Readonly<Record<AxisKey, string>> = Object.freeze({
   demand: '수요', flow: '유동', transit: '교통', cluster: '학원 집적',
@@ -19,7 +19,7 @@ export function axis(key: AxisKey, raw: number | null, normalized: number | null
     raw, normalized, contribution: null, evidence: e, missing_reason: reason };
 }
 export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: ReferenceRaw,
-  preset: ScoringPreset, reference: ScoreReference | null, context: ScoreContext): AxisResult[] {
+  preset: ScoringPreset, reference: ScoringReference | null, context: ScoreContext): AxisResult[] {
   const p = (key: ReferenceKey, direction: 1 | -1 = 1) =>
     referencePercentile(key, raw[key].value, primary, school, preset, reference, direction);
   const single = (key: 'demand' | 'flow', values: Record<string, unknown>) => {

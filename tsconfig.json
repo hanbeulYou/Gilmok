@@ -37,7 +37,9 @@
     "lib/**/*.ts",
     "ingest/score_reference_raw.ts",
     "ingest/score_candidates.ts",
-    "ingest/visibility_report.ts"
+    "ingest/visibility_report.ts",
+    "app/**/*.ts",
+    "components/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

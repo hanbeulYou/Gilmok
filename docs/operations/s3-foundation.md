@@ -135,3 +135,31 @@ Production·Preview 모두 .env 전체 업로드 금지. SUPABASE_SECRET_KEY, se
 ## 2026-09-29 최종 배포 확인
 
 `https://gilmok-weld.vercel.app/compare`에서 익명 로그인1회·최초 RPC1회·JSON schema1.3·새로고침 uid 재사용을 확인했다. 앞선 연결 설정 오류는 해결됐다. 테스트 사용자는 삭제했다. 이후 삭제 목록 사전 제시·사용자 승인을 거쳐 23개를 Production·Preview 양쪽에서 삭제했다. 공개2개만 남았고 Production 배포 ID는 삭제 전후 동일하다. 재배포 없이 `/compare`에서 익명 signup1·최초 RPC1·JSON1.3·새로고침 uid 재사용을 다시 확인하고 테스트 사용자를 삭제했다. 삭제·검증 증거는 [마감 검증](../validation/s3-1-closeout-20260929.md)을 따른다.
+
+
+## PR A 주소 Route Handler 배포 설정 (2026-09-30)
+
+공개 변수는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`만 유지한다. #22 배포에는 서버 전용 `JUSO_API_KEY`와 Juso 좌표 승인 전의 `VWORLD_API_KEY`가 추가로 필요하다. 사용자가 Vercel에 등록한 뒤 재배포한다. Kakao 키·Supabase 관리자키·DB 비밀번호·DB URL·R2·dispatch 토큰은 등록하지 않는다. `.env` 전체 업로드는 금지한다. 이 PR에서 Vercel 변수는 직접 변경하지 않았다.
+
+주소 Route Handler는 Next.js15 `runtime=nodejs`, `preferredRegion=icn1`, 외부 fetch `cache=no-store`로 실행한다. 국내 사용자·주소 API와의 왕복을 줄이기 위한 선택이며 Supabase 프로젝트는 계속 Tokyo다. [Next.js15 지역 설정](https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config#preferredregion). 브라우저 bearer 토큰을 서버의 [auth.getUser](https://supabase.com/docs/reference/javascript/auth-getuser)로 검증하고 사용자 권한 RPC로 쿼터를 예약한다. public key 이외의 Supabase 서버 비밀은 사용하지 않는다.
+
+A는 `/new` 등록→`/compare` 미저장 점수 목록까지다. 최초 데이터 조회 동안 후보명·층을 유지하고 스켈레톤을 표시한다. 주소 확인55초·채점 RPC 단계55초, 개별 외부 데이터 API10초, Worker15초를 상한으로 재시도 가능 오류/결측으로 전환한다. 일반적인 콜드2~4초는 보장 상한이 아니다. 저장·새로고침 복원은 C, Realtime 구독은 B에서 완성한다. [검증·원격 승인 목록](../validation/s3-2-a-registration-20260930.md)을 따른다.
+
+
+## 주소 상태 투영 복구 (2026-10-01)
+
+원천 큐·캐시 AFTER 트리거는 상태 투영 오류를 private projection_errors에 남기고 원천 쓰기를 계속한다. 오류 기록도 실패하면 식별자/메시지 없이 SQLSTATE warning만 남긴다. 주소 sweep의 drain 뒤 보정은 현재 캐시/큐와 모든 관찰자를 대조하므로 오류 기록 누락도 복구한다. 보고 항목은 repaired/errors_resolved/unresolved_errors이며 보정 실패/미해결 오류가 남으면 실패 종료한다.
+
+- 조회만: `uv run --frozen python -m ingest.address_dispatch --target local --dry-run`
+- 보정 대상 확인: `uv run --frozen python -m ingest.reconcile_projection --target local --dry-run`
+- 보정 실행: `uv run --frozen python -m ingest.reconcile_projection --target local`
+
+원격은 기존 DB URL/INGEST_REMOTE_ENABLED 가드와 작업 승인을 따른다. Actions는 main을 체크아웃하므로 PR 머지 후에 새 보정 단계가 실행된다. 현재 상시 운영과6시간 주기 전환은 B 실증 이후이며 이번 PR에서 variable이나 cron을 바꾸지 않는다. 롤백은 프론트/보정 실행을 중단한 뒤 신규 두 트리거 제거와 원본 score_inputs 복귀를 시행하고 로그 데이터는 보존한다. [검증·롤백 SQL](../validation/s3-2-a-projection-recovery-20261001.md).
+
+## Vineyard 팀 연결·원격 A 검증 (2026-10-01)
+
+Vercel 프로젝트는 동일 ID로 `vineyard`(Vineyard) 팀에 이전됐다. CLI는 `vercel switch vineyard` 후 작업 폴더에서 `vercel link --yes --project gilmok --scope vineyard`로 기존 프로젝트에 연결한다. 다른 팀의 동명 프로젝트를 새로 만들지 않는다. 환경변수 자동 다운로드가 있는 CLI에서는 서버 비밀이 파일/로그에 남지 않도록 확인한다.
+
+팀/Function Region 설정 변경 전의 Preview는 기존 리전으로 실행될 수 있다. 승인된 Preview를 새 팀에서 재배포하고 `/api/address-search` 응답의 `X-Gilmok-Function-Region`을 확인한다. `x-vercel-id`의 엣지 위치와 혼동하지 않는다. 이번 프로젝트 전체 regions는 `[iad1,icn1]`, 검증한 주소 Route Handler의 실제 요청6건은 모두 icn1이었다.
+
+주소 API 실패 로그 `address_provider_failure`에는 공급자, 단계, HTTP 상태, 제한된 기계 오류 코드만 남긴다. 키·주소·요청 URL·원문 응답을 추가하지 않는다. HTTP 응답 전 실패하면 상태/공급자 응답 코드가 NULL일 수 있다. 이번 재시험에서는 Juso 검색과 Vworld 좌표가 모두200이었다. [3곳·uid·한도·HTTP 최종 검증](../validation/s3-2-a-region-retry-20261001.md).

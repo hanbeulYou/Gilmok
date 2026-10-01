@@ -1,0 +1,5242 @@
+{
+  "date": "2026-10-01",
+  "status": "blocked_vercel_registration",
+  "code_commit": "ebb31a2",
+  "validated_head": "6a62bdda83c1db8bad7729db4571915258a0cf7c",
+  "remote_steps": [
+    {
+      "step": "push",
+      "started_at": "2026-10-01T08:51:17.609006+00:00",
+      "status": "success",
+      "auth_users_before": 1,
+      "exit_code": 0,
+      "applied_versions": [
+        "20260930072813",
+        "20260930073201",
+        "20260930110600",
+        "20260930112203",
+        "20260930112543",
+        "20261001083920"
+      ],
+      "activity_rows": 1,
+      "projection_errors": 0,
+      "public_fields": [
+        "request_id",
+        "status",
+        "updated_at"
+      ],
+      "authenticated_execute": true,
+      "elapsed_s": 2.559
+    },
+    {
+      "step": "sql",
+      "started_at": "2026-10-01T08:54:22.817411+00:00",
+      "status": "success",
+      "warm_p95_ms": [
+        50.685,
+        155.886,
+        42.063,
+        123.217,
+        335.558,
+        368.835
+      ],
+      "first_ms": [
+        4039.893,
+        3775.637,
+        89.143,
+        622.442,
+        347.045,
+        3195.687
+      ],
+      "elapsed_s": 57.118
+    },
+    {
+      "step": "warm",
+      "started_at": "2026-10-01T08:55:35.822486+00:00",
+      "status": "success",
+      "results": [
+        {
+          "name": "대치",
+          "radius_m": 500,
+          "roundtrip_ms": 153.811,
+          "bundle_ms": {
+            "flow": 9.849,
+            "rent": 3.146,
+            "demand": 1.989,
+            "market": 10.286,
+            "compete": 6.831,
+            "transit": 1.868,
+            "building": 21.025
+          }
+        },
+        {
+          "name": "대치",
+          "radius_m": 1000,
+          "roundtrip_ms": 203.619,
+          "bundle_ms": {
+            "flow": 27.811,
+            "rent": 0.624,
+            "demand": 2.419,
+            "market": 24.992,
+            "compete": 5.384,
+            "transit": 0.842,
+            "building": 81.241
+          }
+        },
+        {
+          "name": "학여울",
+          "radius_m": 500,
+          "roundtrip_ms": 76.809,
+          "bundle_ms": {
+            "flow": 8.479,
+            "rent": 0.528,
+            "demand": 1.104,
+            "market": 2.215,
+            "compete": 0.592,
+            "transit": 0.58,
+            "building": 10.11
+          }
+        },
+        {
+          "name": "학여울",
+          "radius_m": 1000,
+          "roundtrip_ms": 142.652,
+          "bundle_ms": {
+            "flow": 23.938,
+            "rent": 0.566,
+            "demand": 1.848,
+            "market": 12.393,
+            "compete": 2.626,
+            "transit": 0.685,
+            "building": 46.046
+          }
+        },
+        {
+          "name": "한티",
+          "radius_m": 500,
+          "roundtrip_ms": 108.487,
+          "bundle_ms": {
+            "flow": 8.121,
+            "rent": 0.598,
+            "demand": 1.152,
+            "market": 7.914,
+            "compete": 2.263,
+            "transit": 0.704,
+            "building": 34.875
+          }
+        },
+        {
+          "name": "한티",
+          "radius_m": 1000,
+          "roundtrip_ms": 301.967,
+          "bundle_ms": {
+            "flow": 24.344,
+            "rent": 0.654,
+            "demand": 1.752,
+            "market": 44.971,
+            "compete": 4.699,
+            "transit": 0.849,
+            "building": 115.422
+          }
+        }
+      ],
+      "elapsed_s": 1.693
+    }
+  ],
+  "direct_sql": {
+    "target": "remote",
+    "started_at": "2026-10-01T08:54:23.306930+00:00",
+    "role": "authenticated",
+    "method": "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON); one new connection per case",
+    "first_run_note": "Shared PostgreSQL/OS caches are not evicted; first-in-session is not a physical cold-cache test.",
+    "measurement_timeout": "60s transaction-local only; persistent role settings unchanged",
+    "capture_note": "set_config stores this same RPC invocation's payload in a transaction-local GUC; EXPLAIN includes this small capture overhead.",
+    "warm_samples_per_case": 30,
+    "cases": [
+      {
+        "name": "대치",
+        "lat": 37.494612,
+        "lng": 127.063642,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 57.875,
+            "planning_ms": 0.032,
+            "bundle_ms": {
+              "flow": 8.587,
+              "rent": 1.465,
+              "demand": 0.915,
+              "market": 5.501,
+              "compete": 1.646,
+              "transit": 0.553,
+              "building": 15.584
+            },
+            "total_ms": 57.558,
+            "buffers": {
+              "Shared Hit Blocks": 9828,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 44.82,
+            "planning_ms": 0.03,
+            "bundle_ms": {
+              "flow": 8.041,
+              "rent": 1.46,
+              "demand": 0.908,
+              "market": 5.573,
+              "compete": 1.656,
+              "transit": 0.579,
+              "building": 13.565
+            },
+            "total_ms": 44.553,
+            "buffers": {
+              "Shared Hit Blocks": 9828,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.021,
+            "planning_ms": 0.033,
+            "bundle_ms": {
+              "flow": 8.101,
+              "rent": 1.523,
+              "demand": 0.909,
+              "market": 6.152,
+              "compete": 1.749,
+              "transit": 0.604,
+              "building": 14.177
+            },
+            "total_ms": 44.784,
+            "buffers": {
+              "Shared Hit Blocks": 9828,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 47.533,
+            "planning_ms": 0.033,
+            "bundle_ms": {
+              "flow": 8.842,
+              "rent": 1.41,
+              "demand": 0.951,
+              "market": 5.48,
+              "compete": 1.651,
+              "transit": 0.773,
+              "building": 15.673
+            },
+            "total_ms": 47.294,
+            "buffers": {
+              "Shared Hit Blocks": 9828,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 43.765,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.147,
+              "rent": 1.483,
+              "demand": 0.933,
+              "market": 5.313,
+              "compete": 1.674,
+              "transit": 0.549,
+              "building": 13.329
+            },
+            "total_ms": 43.527,
+            "buffers": {
+              "Shared Hit Blocks": 9835,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.94,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.233,
+              "rent": 0.522,
+              "demand": 0.923,
+              "market": 5.355,
+              "compete": 1.698,
+              "transit": 0.552,
+              "building": 13.824
+            },
+            "total_ms": 42.695,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.758,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.235,
+              "rent": 0.631,
+              "demand": 0.876,
+              "market": 5.57,
+              "compete": 1.671,
+              "transit": 0.526,
+              "building": 13.507
+            },
+            "total_ms": 42.466,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 46.145,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.57,
+              "rent": 0.6,
+              "demand": 1.053,
+              "market": 5.509,
+              "compete": 1.691,
+              "transit": 0.592,
+              "building": 15.8
+            },
+            "total_ms": 45.909,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.125,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.108,
+              "rent": 0.513,
+              "demand": 0.896,
+              "market": 5.382,
+              "compete": 1.649,
+              "transit": 0.545,
+              "building": 13.228
+            },
+            "total_ms": 41.886,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 44.949,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.033,
+              "rent": 0.564,
+              "demand": 0.893,
+              "market": 5.855,
+              "compete": 1.764,
+              "transit": 0.607,
+              "building": 15.11
+            },
+            "total_ms": 44.717,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.078,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.119,
+              "rent": 0.513,
+              "demand": 0.906,
+              "market": 6.401,
+              "compete": 2.028,
+              "transit": 0.551,
+              "building": 14.776
+            },
+            "total_ms": 44.803,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.371,
+            "planning_ms": 0.043,
+            "bundle_ms": {
+              "flow": 8.674,
+              "rent": 0.546,
+              "demand": 0.953,
+              "market": 6.623,
+              "compete": 1.953,
+              "transit": 0.587,
+              "building": 13.836
+            },
+            "total_ms": 45.109,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.871,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.6,
+              "rent": 0.518,
+              "demand": 0.888,
+              "market": 6.714,
+              "compete": 2.313,
+              "transit": 0.554,
+              "building": 14.587
+            },
+            "total_ms": 45.641,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.466,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.137,
+              "rent": 0.523,
+              "demand": 0.891,
+              "market": 5.476,
+              "compete": 1.707,
+              "transit": 0.56,
+              "building": 13.327
+            },
+            "total_ms": 42.201,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 50.685,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 9.779,
+              "rent": 0.615,
+              "demand": 1.016,
+              "market": 6.404,
+              "compete": 1.857,
+              "transit": 0.642,
+              "building": 15.073
+            },
+            "total_ms": 50.36,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 44.966,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.606,
+              "rent": 0.506,
+              "demand": 1.115,
+              "market": 6.817,
+              "compete": 1.751,
+              "transit": 0.558,
+              "building": 13.694
+            },
+            "total_ms": 44.736,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.596,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.069,
+              "rent": 0.559,
+              "demand": 0.88,
+              "market": 6.268,
+              "compete": 1.731,
+              "transit": 0.593,
+              "building": 15.432
+            },
+            "total_ms": 45.329,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 44.681,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.796,
+              "rent": 0.544,
+              "demand": 1.091,
+              "market": 5.931,
+              "compete": 1.795,
+              "transit": 0.61,
+              "building": 13.875
+            },
+            "total_ms": 44.445,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 48.74,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 10.055,
+              "rent": 0.611,
+              "demand": 0.93,
+              "market": 6.228,
+              "compete": 1.868,
+              "transit": 0.624,
+              "building": 15.582
+            },
+            "total_ms": 48.482,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.875,
+            "planning_ms": 0.078,
+            "bundle_ms": {
+              "flow": 8.081,
+              "rent": 0.501,
+              "demand": 0.906,
+              "market": 5.53,
+              "compete": 1.72,
+              "transit": 0.535,
+              "building": 13.077
+            },
+            "total_ms": 42.641,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.538,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 7.999,
+              "rent": 0.525,
+              "demand": 0.873,
+              "market": 5.6,
+              "compete": 1.882,
+              "transit": 0.532,
+              "building": 13.184
+            },
+            "total_ms": 42.303,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 45.165,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 9.321,
+              "rent": 0.543,
+              "demand": 0.886,
+              "market": 5.462,
+              "compete": 1.655,
+              "transit": 0.568,
+              "building": 13.984
+            },
+            "total_ms": 44.858,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 43.612,
+            "planning_ms": 0.045,
+            "bundle_ms": {
+              "flow": 8.411,
+              "rent": 0.582,
+              "demand": 0.877,
+              "market": 5.626,
+              "compete": 1.726,
+              "transit": 0.567,
+              "building": 13.521
+            },
+            "total_ms": 43.376,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.726,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.811,
+              "rent": 0.504,
+              "demand": 0.835,
+              "market": 5.744,
+              "compete": 1.704,
+              "transit": 0.534,
+              "building": 12.85
+            },
+            "total_ms": 42.452,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 41.643,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.092,
+              "rent": 0.508,
+              "demand": 0.925,
+              "market": 5.42,
+              "compete": 1.649,
+              "transit": 0.531,
+              "building": 12.926
+            },
+            "total_ms": 41.412,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 41.948,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.164,
+              "rent": 0.532,
+              "demand": 0.89,
+              "market": 5.375,
+              "compete": 1.684,
+              "transit": 0.511,
+              "building": 13.155
+            },
+            "total_ms": 41.714,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.212,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.253,
+              "rent": 0.509,
+              "demand": 0.864,
+              "market": 5.386,
+              "compete": 1.64,
+              "transit": 0.636,
+              "building": 13.246
+            },
+            "total_ms": 41.98,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.649,
+            "planning_ms": 0.087,
+            "bundle_ms": {
+              "flow": 8.026,
+              "rent": 0.515,
+              "demand": 0.895,
+              "market": 5.383,
+              "compete": 1.707,
+              "transit": 0.6,
+              "building": 13.158
+            },
+            "total_ms": 42.414,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.396,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 8.155,
+              "rent": 0.595,
+              "demand": 0.895,
+              "market": 5.432,
+              "compete": 1.643,
+              "transit": 0.567,
+              "building": 13.109
+            },
+            "total_ms": 42.152,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 43.992,
+            "planning_ms": 0.045,
+            "bundle_ms": {
+              "flow": 8.081,
+              "rent": 0.62,
+              "demand": 0.927,
+              "market": 5.597,
+              "compete": 1.662,
+              "transit": 0.514,
+              "building": 14.714
+            },
+            "total_ms": 43.731,
+            "buffers": {
+              "Shared Hit Blocks": 9824,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 4039.893,
+          "planning_ms": 0.082,
+          "bundle_ms": {
+            "flow": 248.564,
+            "rent": 14.143,
+            "demand": 32.41,
+            "market": 1477.742,
+            "compete": 429.724,
+            "transit": 45.157,
+            "building": 560.294
+          },
+          "total_ms": 4037.825,
+          "buffers": {
+            "Shared Hit Blocks": 13899,
+            "Shared Read Blocks": 86,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 50.685,
+        "warm_max_ms": 57.875,
+        "bundle_warm_p95_ms": {
+          "flow": 9.779,
+          "rent": 1.483,
+          "demand": 1.091,
+          "market": 6.714,
+          "compete": 2.028,
+          "transit": 0.642,
+          "building": 15.673
+        }
+      },
+      {
+        "name": "대치",
+        "lat": 37.494612,
+        "lng": 127.063642,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 139.746,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 24.397,
+              "rent": 0.584,
+              "demand": 4.896,
+              "market": 17.65,
+              "compete": 4.097,
+              "transit": 0.8,
+              "building": 74.084
+            },
+            "total_ms": 139.489,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 143.377,
+            "planning_ms": 0.032,
+            "bundle_ms": {
+              "flow": 24.698,
+              "rent": 0.515,
+              "demand": 1.891,
+              "market": 21.135,
+              "compete": 4.96,
+              "transit": 0.795,
+              "building": 76.725
+            },
+            "total_ms": 143.141,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 146.945,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 25.976,
+              "rent": 0.567,
+              "demand": 1.95,
+              "market": 21.878,
+              "compete": 5.565,
+              "transit": 0.851,
+              "building": 78.286
+            },
+            "total_ms": 146.702,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 144.172,
+            "planning_ms": 0.067,
+            "bundle_ms": {
+              "flow": 24.727,
+              "rent": 0.577,
+              "demand": 1.876,
+              "market": 21.145,
+              "compete": 5.085,
+              "transit": 0.798,
+              "building": 78.13
+            },
+            "total_ms": 143.935,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 139.052,
+            "planning_ms": 0.049,
+            "bundle_ms": {
+              "flow": 26.92,
+              "rent": 0.544,
+              "demand": 1.796,
+              "market": 18.651,
+              "compete": 4.198,
+              "transit": 0.744,
+              "building": 74.219
+            },
+            "total_ms": 138.814,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 144.801,
+            "planning_ms": 0.053,
+            "bundle_ms": {
+              "flow": 24.15,
+              "rent": 0.631,
+              "demand": 1.814,
+              "market": 19.179,
+              "compete": 4.278,
+              "transit": 0.823,
+              "building": 81.685
+            },
+            "total_ms": 144.555,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 142.012,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 25.92,
+              "rent": 0.593,
+              "demand": 1.785,
+              "market": 20.216,
+              "compete": 4.203,
+              "transit": 0.765,
+              "building": 76.642
+            },
+            "total_ms": 141.765,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 155.886,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 28.187,
+              "rent": 0.751,
+              "demand": 1.967,
+              "market": 18.118,
+              "compete": 4.148,
+              "transit": 0.818,
+              "building": 89.088
+            },
+            "total_ms": 155.606,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 174.047,
+            "planning_ms": 0.069,
+            "bundle_ms": {
+              "flow": 39.318,
+              "rent": 0.546,
+              "demand": 2.78,
+              "market": 30.836,
+              "compete": 6.253,
+              "transit": 0.922,
+              "building": 78.123
+            },
+            "total_ms": 173.767,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 140.705,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.668,
+              "rent": 0.576,
+              "demand": 1.867,
+              "market": 18.481,
+              "compete": 4.313,
+              "transit": 0.837,
+              "building": 77.555
+            },
+            "total_ms": 140.459,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 140.656,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 25.794,
+              "rent": 0.542,
+              "demand": 2.201,
+              "market": 17.948,
+              "compete": 4.348,
+              "transit": 0.812,
+              "building": 75.405
+            },
+            "total_ms": 140.412,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 136.268,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 23.994,
+              "rent": 0.542,
+              "demand": 1.915,
+              "market": 17.686,
+              "compete": 4.257,
+              "transit": 0.786,
+              "building": 74.787
+            },
+            "total_ms": 136.039,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 137.559,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.293,
+              "rent": 0.555,
+              "demand": 2.657,
+              "market": 18.871,
+              "compete": 4.82,
+              "transit": 0.799,
+              "building": 73.894
+            },
+            "total_ms": 137.223,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 135.371,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.542,
+              "rent": 0.509,
+              "demand": 1.809,
+              "market": 18.045,
+              "compete": 4.164,
+              "transit": 0.739,
+              "building": 74.063
+            },
+            "total_ms": 135.137,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 139.289,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.448,
+              "rent": 0.561,
+              "demand": 1.789,
+              "market": 18.561,
+              "compete": 4.386,
+              "transit": 0.78,
+              "building": 77.118
+            },
+            "total_ms": 139.052,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 137.138,
+            "planning_ms": 0.073,
+            "bundle_ms": {
+              "flow": 24.453,
+              "rent": 0.553,
+              "demand": 1.809,
+              "market": 17.799,
+              "compete": 4.386,
+              "transit": 0.817,
+              "building": 75.194
+            },
+            "total_ms": 136.862,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 134.625,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.157,
+              "rent": 0.535,
+              "demand": 1.784,
+              "market": 18.161,
+              "compete": 4.216,
+              "transit": 0.737,
+              "building": 73.184
+            },
+            "total_ms": 134.383,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 137.412,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.722,
+              "rent": 0.611,
+              "demand": 1.753,
+              "market": 18.528,
+              "compete": 4.181,
+              "transit": 0.752,
+              "building": 74.621
+            },
+            "total_ms": 137.149,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 144.77,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 25.014,
+              "rent": 0.545,
+              "demand": 1.873,
+              "market": 20.826,
+              "compete": 4.983,
+              "transit": 0.793,
+              "building": 78.509
+            },
+            "total_ms": 144.512,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 144.397,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 25.392,
+              "rent": 0.526,
+              "demand": 1.808,
+              "market": 17.77,
+              "compete": 4.318,
+              "transit": 0.89,
+              "building": 81.98
+            },
+            "total_ms": 144.152,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 146.455,
+            "planning_ms": 0.044,
+            "bundle_ms": {
+              "flow": 25.172,
+              "rent": 0.607,
+              "demand": 1.746,
+              "market": 19.16,
+              "compete": 4.385,
+              "transit": 0.869,
+              "building": 82.186
+            },
+            "total_ms": 146.106,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 139.114,
+            "planning_ms": 0.049,
+            "bundle_ms": {
+              "flow": 24.932,
+              "rent": 0.582,
+              "demand": 1.913,
+              "market": 19.97,
+              "compete": 4.318,
+              "transit": 0.842,
+              "building": 74.476
+            },
+            "total_ms": 138.872,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 138.815,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 27.59,
+              "rent": 0.541,
+              "demand": 1.913,
+              "market": 17.648,
+              "compete": 4.117,
+              "transit": 0.738,
+              "building": 73.634
+            },
+            "total_ms": 138.565,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 139.906,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 24.367,
+              "rent": 0.554,
+              "demand": 1.739,
+              "market": 18.127,
+              "compete": 4.369,
+              "transit": 0.84,
+              "building": 77.838
+            },
+            "total_ms": 139.672,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 136.294,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.707,
+              "rent": 0.516,
+              "demand": 1.807,
+              "market": 17.785,
+              "compete": 4.235,
+              "transit": 0.735,
+              "building": 74.484
+            },
+            "total_ms": 136.058,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 135.04,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 23.918,
+              "rent": 0.561,
+              "demand": 1.814,
+              "market": 17.842,
+              "compete": 4.177,
+              "transit": 0.806,
+              "building": 74.027
+            },
+            "total_ms": 134.805,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 136.705,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.39,
+              "rent": 0.539,
+              "demand": 1.82,
+              "market": 17.834,
+              "compete": 4.119,
+              "transit": 0.732,
+              "building": 75.196
+            },
+            "total_ms": 136.457,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 138.426,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 24.165,
+              "rent": 0.544,
+              "demand": 1.755,
+              "market": 18.028,
+              "compete": 5.04,
+              "transit": 0.75,
+              "building": 76.341
+            },
+            "total_ms": 138.192,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 138.419,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.276,
+              "rent": 0.545,
+              "demand": 1.85,
+              "market": 18.524,
+              "compete": 4.249,
+              "transit": 0.749,
+              "building": 76.533
+            },
+            "total_ms": 138.184,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 138.922,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 25.732,
+              "rent": 0.54,
+              "demand": 1.844,
+              "market": 18.864,
+              "compete": 4.4,
+              "transit": 0.8,
+              "building": 74.899
+            },
+            "total_ms": 138.686,
+            "buffers": {
+              "Shared Hit Blocks": 30233,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 3775.637,
+          "planning_ms": 0.03,
+          "bundle_ms": {
+            "flow": 202.206,
+            "rent": 2.177,
+            "demand": 11.654,
+            "market": 2350.801,
+            "compete": 279.578,
+            "transit": 6.7,
+            "building": 906.641
+          },
+          "total_ms": 3775.268,
+          "buffers": {
+            "Shared Hit Blocks": 29866,
+            "Shared Read Blocks": 401,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 155.886,
+        "warm_max_ms": 174.047,
+        "bundle_warm_p95_ms": {
+          "flow": 28.187,
+          "rent": 0.631,
+          "demand": 2.78,
+          "market": 21.878,
+          "compete": 5.565,
+          "transit": 0.89,
+          "building": 82.186
+        }
+      },
+      {
+        "name": "학여울",
+        "lat": 37.496663,
+        "lng": 127.070594,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 58.018,
+            "planning_ms": 0.034,
+            "bundle_ms": {
+              "flow": 12.146,
+              "rent": 1.513,
+              "demand": 1.092,
+              "market": 3.967,
+              "compete": 1.188,
+              "transit": 0.944,
+              "building": 17.267
+            },
+            "total_ms": 57.541,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.692,
+            "planning_ms": 0.045,
+            "bundle_ms": {
+              "flow": 7.881,
+              "rent": 0.545,
+              "demand": 1.106,
+              "market": 2.124,
+              "compete": 0.529,
+              "transit": 0.487,
+              "building": 10.267
+            },
+            "total_ms": 34.446,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.436,
+            "planning_ms": 0.034,
+            "bundle_ms": {
+              "flow": 8.019,
+              "rent": 0.564,
+              "demand": 1.058,
+              "market": 2.394,
+              "compete": 0.616,
+              "transit": 0.536,
+              "building": 10.996
+            },
+            "total_ms": 36.188,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.489,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 8.393,
+              "rent": 0.604,
+              "demand": 1.09,
+              "market": 2.456,
+              "compete": 0.633,
+              "transit": 0.569,
+              "building": 10.853
+            },
+            "total_ms": 36.252,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.177,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 7.983,
+              "rent": 0.571,
+              "demand": 1.052,
+              "market": 2.216,
+              "compete": 0.557,
+              "transit": 0.561,
+              "building": 10.308
+            },
+            "total_ms": 34.937,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.667,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 8.141,
+              "rent": 0.517,
+              "demand": 1.107,
+              "market": 2.13,
+              "compete": 0.542,
+              "transit": 0.54,
+              "building": 10.634
+            },
+            "total_ms": 35.416,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 42.063,
+            "planning_ms": 0.051,
+            "bundle_ms": {
+              "flow": 9.422,
+              "rent": 0.768,
+              "demand": 1.241,
+              "market": 2.667,
+              "compete": 0.811,
+              "transit": 0.618,
+              "building": 12.779
+            },
+            "total_ms": 41.798,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.519,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.039,
+              "rent": 0.541,
+              "demand": 1.034,
+              "market": 2.368,
+              "compete": 0.614,
+              "transit": 0.587,
+              "building": 11.174
+            },
+            "total_ms": 36.259,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.032,
+            "planning_ms": 0.075,
+            "bundle_ms": {
+              "flow": 7.943,
+              "rent": 0.529,
+              "demand": 1.08,
+              "market": 2.18,
+              "compete": 0.545,
+              "transit": 0.501,
+              "building": 10.881
+            },
+            "total_ms": 35.752,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.699,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 7.933,
+              "rent": 0.547,
+              "demand": 1.086,
+              "market": 2.235,
+              "compete": 0.554,
+              "transit": 0.488,
+              "building": 10.088
+            },
+            "total_ms": 34.449,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.946,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.945,
+              "rent": 0.56,
+              "demand": 1.016,
+              "market": 2.357,
+              "compete": 0.637,
+              "transit": 0.603,
+              "building": 10.83
+            },
+            "total_ms": 36.706,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.638,
+            "planning_ms": 0.049,
+            "bundle_ms": {
+              "flow": 7.982,
+              "rent": 0.524,
+              "demand": 1.013,
+              "market": 2.146,
+              "compete": 0.54,
+              "transit": 0.537,
+              "building": 10.25
+            },
+            "total_ms": 35.344,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.046,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 8.134,
+              "rent": 0.539,
+              "demand": 1.051,
+              "market": 2.179,
+              "compete": 0.53,
+              "transit": 0.484,
+              "building": 10.137
+            },
+            "total_ms": 34.701,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.261,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.01,
+              "rent": 0.562,
+              "demand": 1.008,
+              "market": 2.251,
+              "compete": 0.556,
+              "transit": 0.534,
+              "building": 10.479
+            },
+            "total_ms": 34.964,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.437,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 8.104,
+              "rent": 0.549,
+              "demand": 1.129,
+              "market": 2.296,
+              "compete": 0.557,
+              "transit": 0.504,
+              "building": 10.364
+            },
+            "total_ms": 35.198,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.669,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.062,
+              "rent": 0.566,
+              "demand": 1.347,
+              "market": 2.248,
+              "compete": 0.576,
+              "transit": 0.486,
+              "building": 10.517
+            },
+            "total_ms": 35.435,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.528,
+            "planning_ms": 0.053,
+            "bundle_ms": {
+              "flow": 8.143,
+              "rent": 0.689,
+              "demand": 1.032,
+              "market": 2.135,
+              "compete": 0.564,
+              "transit": 0.526,
+              "building": 11.572
+            },
+            "total_ms": 36.288,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.107,
+            "planning_ms": 0.049,
+            "bundle_ms": {
+              "flow": 7.848,
+              "rent": 0.53,
+              "demand": 1.005,
+              "market": 2.144,
+              "compete": 0.533,
+              "transit": 0.499,
+              "building": 10.548
+            },
+            "total_ms": 34.873,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.473,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 7.679,
+              "rent": 0.521,
+              "demand": 1.025,
+              "market": 2.124,
+              "compete": 0.58,
+              "transit": 0.49,
+              "building": 10.256
+            },
+            "total_ms": 34.191,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.679,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 7.732,
+              "rent": 0.54,
+              "demand": 1.061,
+              "market": 2.191,
+              "compete": 0.54,
+              "transit": 0.513,
+              "building": 10.321
+            },
+            "total_ms": 34.43,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.199,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 7.85,
+              "rent": 0.559,
+              "demand": 1.039,
+              "market": 2.165,
+              "compete": 0.56,
+              "transit": 0.491,
+              "building": 11.543
+            },
+            "total_ms": 35.953,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.244,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.221,
+              "rent": 0.546,
+              "demand": 1.02,
+              "market": 2.266,
+              "compete": 0.537,
+              "transit": 0.528,
+              "building": 10.664
+            },
+            "total_ms": 36.01,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.529,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 8.479,
+              "rent": 0.598,
+              "demand": 1.376,
+              "market": 2.167,
+              "compete": 0.565,
+              "transit": 0.491,
+              "building": 10.38
+            },
+            "total_ms": 36.286,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 40.536,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.304,
+              "rent": 0.577,
+              "demand": 1.103,
+              "market": 3.467,
+              "compete": 0.586,
+              "transit": 0.534,
+              "building": 12.877
+            },
+            "total_ms": 40.283,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.758,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.769,
+              "rent": 0.532,
+              "demand": 1.086,
+              "market": 2.234,
+              "compete": 0.547,
+              "transit": 0.507,
+              "building": 10.418
+            },
+            "total_ms": 34.511,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.305,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.797,
+              "rent": 0.525,
+              "demand": 1.029,
+              "market": 2.153,
+              "compete": 0.648,
+              "transit": 0.492,
+              "building": 10.681
+            },
+            "total_ms": 35.058,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.366,
+            "planning_ms": 0.044,
+            "bundle_ms": {
+              "flow": 8.161,
+              "rent": 0.6,
+              "demand": 1.066,
+              "market": 2.449,
+              "compete": 0.604,
+              "transit": 0.526,
+              "building": 10.85
+            },
+            "total_ms": 36.053,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 35.307,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.964,
+              "rent": 0.577,
+              "demand": 1.048,
+              "market": 2.215,
+              "compete": 0.552,
+              "transit": 0.531,
+              "building": 10.533
+            },
+            "total_ms": 35.002,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 34.582,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 7.783,
+              "rent": 0.512,
+              "demand": 0.994,
+              "market": 2.163,
+              "compete": 0.527,
+              "transit": 0.517,
+              "building": 10.506
+            },
+            "total_ms": 34.347,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 36.66,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.802,
+              "rent": 0.589,
+              "demand": 1.09,
+              "market": 2.156,
+              "compete": 0.541,
+              "transit": 0.51,
+              "building": 10.899
+            },
+            "total_ms": 36.412,
+            "buffers": {
+              "Shared Hit Blocks": 7722,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 89.143,
+          "planning_ms": 0.032,
+          "bundle_ms": {
+            "flow": 22.564,
+            "rent": 3.042,
+            "demand": 1.919,
+            "market": 4.141,
+            "compete": 1.341,
+            "transit": 10.062,
+            "building": 28.72
+          },
+          "total_ms": 88.767,
+          "buffers": {
+            "Shared Hit Blocks": 7744,
+            "Shared Read Blocks": 12,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 42.063,
+        "warm_max_ms": 58.018,
+        "bundle_warm_p95_ms": {
+          "flow": 9.422,
+          "rent": 0.768,
+          "demand": 1.347,
+          "market": 3.467,
+          "compete": 0.811,
+          "transit": 0.618,
+          "building": 12.877
+        }
+      },
+      {
+        "name": "학여울",
+        "lat": 37.496663,
+        "lng": 127.070594,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 98.02,
+            "planning_ms": 0.03,
+            "bundle_ms": {
+              "flow": 23.903,
+              "rent": 0.548,
+              "demand": 1.73,
+              "market": 11.03,
+              "compete": 2.585,
+              "transit": 0.656,
+              "building": 44.552
+            },
+            "total_ms": 97.718,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.689,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.222,
+              "rent": 0.529,
+              "demand": 1.904,
+              "market": 10.554,
+              "compete": 2.628,
+              "transit": 0.735,
+              "building": 45.003
+            },
+            "total_ms": 97.453,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.912,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 23.937,
+              "rent": 0.56,
+              "demand": 1.731,
+              "market": 10.74,
+              "compete": 2.625,
+              "transit": 0.702,
+              "building": 45.877
+            },
+            "total_ms": 97.664,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 101.949,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 23.812,
+              "rent": 0.572,
+              "demand": 1.749,
+              "market": 13.56,
+              "compete": 2.965,
+              "transit": 0.789,
+              "building": 46.471
+            },
+            "total_ms": 101.686,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 100.895,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.47,
+              "rent": 0.603,
+              "demand": 1.869,
+              "market": 11.61,
+              "compete": 2.726,
+              "transit": 1.24,
+              "building": 46.417
+            },
+            "total_ms": 100.65,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 103.444,
+            "planning_ms": 0.043,
+            "bundle_ms": {
+              "flow": 26.961,
+              "rent": 0.536,
+              "demand": 1.925,
+              "market": 10.795,
+              "compete": 2.558,
+              "transit": 0.863,
+              "building": 46.486
+            },
+            "total_ms": 103.206,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 108.797,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 26.326,
+              "rent": 0.66,
+              "demand": 2.308,
+              "market": 10.827,
+              "compete": 2.63,
+              "transit": 0.686,
+              "building": 51.227
+            },
+            "total_ms": 108.557,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 102.244,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 25.215,
+              "rent": 0.596,
+              "demand": 1.789,
+              "market": 11.644,
+              "compete": 2.694,
+              "transit": 0.746,
+              "building": 47.614
+            },
+            "total_ms": 102.007,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 101.081,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 26.736,
+              "rent": 0.525,
+              "demand": 1.7,
+              "market": 10.933,
+              "compete": 2.661,
+              "transit": 0.736,
+              "building": 45.586
+            },
+            "total_ms": 100.824,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 108.961,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 30.889,
+              "rent": 0.55,
+              "demand": 2.268,
+              "market": 12.191,
+              "compete": 2.665,
+              "transit": 0.714,
+              "building": 45.24
+            },
+            "total_ms": 108.708,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 99.827,
+            "planning_ms": 0.043,
+            "bundle_ms": {
+              "flow": 25.272,
+              "rent": 0.554,
+              "demand": 1.887,
+              "market": 10.667,
+              "compete": 3.374,
+              "transit": 0.663,
+              "building": 45.247
+            },
+            "total_ms": 99.586,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.941,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.163,
+              "rent": 0.529,
+              "demand": 1.82,
+              "market": 10.566,
+              "compete": 2.552,
+              "transit": 0.689,
+              "building": 45.581
+            },
+            "total_ms": 97.69,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.405,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.269,
+              "rent": 0.533,
+              "demand": 1.712,
+              "market": 10.762,
+              "compete": 2.605,
+              "transit": 0.705,
+              "building": 45.011
+            },
+            "total_ms": 97.17,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.477,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 23.921,
+              "rent": 0.552,
+              "demand": 1.709,
+              "market": 10.947,
+              "compete": 2.609,
+              "transit": 0.646,
+              "building": 45.333
+            },
+            "total_ms": 97.24,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 101.832,
+            "planning_ms": 0.085,
+            "bundle_ms": {
+              "flow": 23.977,
+              "rent": 0.662,
+              "demand": 1.782,
+              "market": 10.683,
+              "compete": 2.855,
+              "transit": 0.672,
+              "building": 49.265
+            },
+            "total_ms": 101.589,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 98.453,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 24.696,
+              "rent": 0.521,
+              "demand": 1.749,
+              "market": 10.687,
+              "compete": 2.575,
+              "transit": 0.686,
+              "building": 45.501
+            },
+            "total_ms": 98.216,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.103,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 24.113,
+              "rent": 0.552,
+              "demand": 1.755,
+              "market": 10.785,
+              "compete": 2.55,
+              "transit": 0.745,
+              "building": 44.814
+            },
+            "total_ms": 96.853,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.279,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 24.171,
+              "rent": 0.519,
+              "demand": 1.747,
+              "market": 10.781,
+              "compete": 2.619,
+              "transit": 0.674,
+              "building": 44.875
+            },
+            "total_ms": 97.03,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 126.788,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 27.852,
+              "rent": 0.566,
+              "demand": 1.889,
+              "market": 14.392,
+              "compete": 7.483,
+              "transit": 1.328,
+              "building": 60.819
+            },
+            "total_ms": 126.539,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 123.217,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 34.95,
+              "rent": 0.63,
+              "demand": 4.368,
+              "market": 10.697,
+              "compete": 2.598,
+              "transit": 0.993,
+              "building": 45.253
+            },
+            "total_ms": 122.673,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 98.452,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.718,
+              "rent": 0.545,
+              "demand": 1.722,
+              "market": 10.705,
+              "compete": 2.64,
+              "transit": 0.763,
+              "building": 44.927
+            },
+            "total_ms": 98.208,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 97.261,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 24.144,
+              "rent": 0.54,
+              "demand": 1.729,
+              "market": 10.66,
+              "compete": 2.795,
+              "transit": 0.742,
+              "building": 44.67
+            },
+            "total_ms": 97.023,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 100.878,
+            "planning_ms": 0.054,
+            "bundle_ms": {
+              "flow": 24.839,
+              "rent": 0.55,
+              "demand": 1.948,
+              "market": 10.85,
+              "compete": 3.257,
+              "transit": 0.693,
+              "building": 46.65
+            },
+            "total_ms": 100.615,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 101.366,
+            "planning_ms": 0.043,
+            "bundle_ms": {
+              "flow": 23.924,
+              "rent": 0.655,
+              "demand": 1.837,
+              "market": 11.279,
+              "compete": 2.77,
+              "transit": 0.669,
+              "building": 47.92
+            },
+            "total_ms": 101.127,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 109.302,
+            "planning_ms": 0.167,
+            "bundle_ms": {
+              "flow": 25.046,
+              "rent": 0.558,
+              "demand": 2.691,
+              "market": 10.885,
+              "compete": 2.639,
+              "transit": 0.687,
+              "building": 49.548
+            },
+            "total_ms": 109.056,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 99.136,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 23.884,
+              "rent": 0.538,
+              "demand": 1.746,
+              "market": 11.002,
+              "compete": 2.691,
+              "transit": 0.672,
+              "building": 46.416
+            },
+            "total_ms": 98.899,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 100.357,
+            "planning_ms": 0.05,
+            "bundle_ms": {
+              "flow": 24.403,
+              "rent": 0.596,
+              "demand": 1.779,
+              "market": 10.784,
+              "compete": 2.589,
+              "transit": 0.673,
+              "building": 45.482
+            },
+            "total_ms": 100.108,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 98.32,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 23.983,
+              "rent": 0.531,
+              "demand": 1.782,
+              "market": 10.724,
+              "compete": 2.653,
+              "transit": 0.665,
+              "building": 45.852
+            },
+            "total_ms": 98.083,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 103.21,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.827,
+              "rent": 0.586,
+              "demand": 1.747,
+              "market": 12.404,
+              "compete": 3.076,
+              "transit": 0.719,
+              "building": 47.598
+            },
+            "total_ms": 102.97,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 101.273,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 26.077,
+              "rent": 0.591,
+              "demand": 1.981,
+              "market": 10.836,
+              "compete": 2.589,
+              "transit": 0.66,
+              "building": 46.112
+            },
+            "total_ms": 101.019,
+            "buffers": {
+              "Shared Hit Blocks": 23424,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 622.442,
+          "planning_ms": 0.033,
+          "bundle_ms": {
+            "flow": 217.281,
+            "rent": 2.296,
+            "demand": 7.499,
+            "market": 248.656,
+            "compete": 9.489,
+            "transit": 2.74,
+            "building": 118.687
+          },
+          "total_ms": 622.071,
+          "buffers": {
+            "Shared Hit Blocks": 23101,
+            "Shared Read Blocks": 357,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 123.217,
+        "warm_max_ms": 126.788,
+        "bundle_warm_p95_ms": {
+          "flow": 30.889,
+          "rent": 0.66,
+          "demand": 2.691,
+          "market": 13.56,
+          "compete": 3.374,
+          "transit": 1.24,
+          "building": 51.227
+        }
+      },
+      {
+        "name": "한티",
+        "lat": 37.496237,
+        "lng": 127.052873,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 65.406,
+            "planning_ms": 0.032,
+            "bundle_ms": {
+              "flow": 8.104,
+              "rent": 0.575,
+              "demand": 1.221,
+              "market": 7.12,
+              "compete": 2.166,
+              "transit": 0.562,
+              "building": 33.349
+            },
+            "total_ms": 65.173,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 65.242,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 8.336,
+              "rent": 0.537,
+              "demand": 1.224,
+              "market": 7.226,
+              "compete": 2.134,
+              "transit": 0.628,
+              "building": 33.311
+            },
+            "total_ms": 65.007,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 66.63,
+            "planning_ms": 0.029,
+            "bundle_ms": {
+              "flow": 8.462,
+              "rent": 0.602,
+              "demand": 1.232,
+              "market": 8.297,
+              "compete": 2.405,
+              "transit": 0.561,
+              "building": 33.344
+            },
+            "total_ms": 66.398,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 66.473,
+            "planning_ms": 0.031,
+            "bundle_ms": {
+              "flow": 8.016,
+              "rent": 0.537,
+              "demand": 1.243,
+              "market": 7.174,
+              "compete": 2.176,
+              "transit": 0.58,
+              "building": 34.346
+            },
+            "total_ms": 66.234,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 65.178,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.018,
+              "rent": 0.581,
+              "demand": 1.257,
+              "market": 7.099,
+              "compete": 2.197,
+              "transit": 0.582,
+              "building": 33.573
+            },
+            "total_ms": 64.917,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 70.371,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 7.947,
+              "rent": 0.525,
+              "demand": 1.199,
+              "market": 8.49,
+              "compete": 2.856,
+              "transit": 0.589,
+              "building": 36.765
+            },
+            "total_ms": 70.135,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 66.408,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 7.947,
+              "rent": 0.598,
+              "demand": 1.244,
+              "market": 7.205,
+              "compete": 2.212,
+              "transit": 0.564,
+              "building": 34.771
+            },
+            "total_ms": 66.176,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 66.518,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.948,
+              "rent": 0.557,
+              "demand": 1.248,
+              "market": 7.36,
+              "compete": 2.284,
+              "transit": 0.639,
+              "building": 33.376
+            },
+            "total_ms": 66.284,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 64.918,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 7.928,
+              "rent": 0.535,
+              "demand": 1.2,
+              "market": 7.078,
+              "compete": 2.285,
+              "transit": 0.577,
+              "building": 33.481
+            },
+            "total_ms": 64.682,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 66.497,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.44,
+              "rent": 0.592,
+              "demand": 1.26,
+              "market": 7.415,
+              "compete": 2.155,
+              "transit": 0.708,
+              "building": 33.525
+            },
+            "total_ms": 66.264,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 65.849,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.078,
+              "rent": 0.516,
+              "demand": 1.202,
+              "market": 7.062,
+              "compete": 2.114,
+              "transit": 0.564,
+              "building": 33.587
+            },
+            "total_ms": 65.601,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 78.993,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 9.964,
+              "rent": 0.659,
+              "demand": 2.589,
+              "market": 8.808,
+              "compete": 3.226,
+              "transit": 1.546,
+              "building": 39.036
+            },
+            "total_ms": 78.678,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 79.539,
+            "planning_ms": 0.052,
+            "bundle_ms": {
+              "flow": 9.594,
+              "rent": 0.558,
+              "demand": 2.178,
+              "market": 8.089,
+              "compete": 2.303,
+              "transit": 0.844,
+              "building": 41.472
+            },
+            "total_ms": 79.289,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 73.683,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.016,
+              "rent": 0.587,
+              "demand": 1.215,
+              "market": 8.521,
+              "compete": 2.182,
+              "transit": 0.626,
+              "building": 40.207
+            },
+            "total_ms": 73.425,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 130.428,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 12.92,
+              "rent": 1.538,
+              "demand": 1.238,
+              "market": 17.49,
+              "compete": 2.298,
+              "transit": 3.035,
+              "building": 74.473
+            },
+            "total_ms": 130.163,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 86.368,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 14.171,
+              "rent": 0.529,
+              "demand": 1.43,
+              "market": 11.201,
+              "compete": 2.276,
+              "transit": 2.971,
+              "building": 38.829
+            },
+            "total_ms": 86.125,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 64.37,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 8.078,
+              "rent": 0.521,
+              "demand": 1.262,
+              "market": 7.069,
+              "compete": 2.104,
+              "transit": 0.588,
+              "building": 32.967
+            },
+            "total_ms": 64.139,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 231.282,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 8.278,
+              "rent": 1.396,
+              "demand": 1.251,
+              "market": 28.105,
+              "compete": 13.918,
+              "transit": 0.567,
+              "building": 152.365
+            },
+            "total_ms": 230.909,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 157.319,
+            "planning_ms": 0.056,
+            "bundle_ms": {
+              "flow": 19.414,
+              "rent": 1.861,
+              "demand": 2.064,
+              "market": 14.497,
+              "compete": 4.148,
+              "transit": 2.495,
+              "building": 74.876
+            },
+            "total_ms": 156.372,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 161.275,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 26.957,
+              "rent": 0.549,
+              "demand": 6.532,
+              "market": 14.412,
+              "compete": 5.8,
+              "transit": 1.223,
+              "building": 81.392
+            },
+            "total_ms": 161.017,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 137.908,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 12.167,
+              "rent": 0.636,
+              "demand": 2.385,
+              "market": 15.471,
+              "compete": 6.644,
+              "transit": 1.275,
+              "building": 75.184
+            },
+            "total_ms": 137.647,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 134.865,
+            "planning_ms": 0.052,
+            "bundle_ms": {
+              "flow": 20.159,
+              "rent": 1.736,
+              "demand": 2.24,
+              "market": 12.365,
+              "compete": 3.644,
+              "transit": 1.06,
+              "building": 63.77
+            },
+            "total_ms": 134.502,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 127.506,
+            "planning_ms": 0.311,
+            "bundle_ms": {
+              "flow": 8.307,
+              "rent": 0.598,
+              "demand": 1.259,
+              "market": 10.057,
+              "compete": 10.77,
+              "transit": 4.934,
+              "building": 61.428
+            },
+            "total_ms": 127.075,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 208.937,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 20.744,
+              "rent": 0.696,
+              "demand": 1.188,
+              "market": 11.752,
+              "compete": 2.547,
+              "transit": 1.07,
+              "building": 101.099
+            },
+            "total_ms": 208.532,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 149.127,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 16.15,
+              "rent": 2.493,
+              "demand": 1.787,
+              "market": 19.104,
+              "compete": 5.036,
+              "transit": 0.67,
+              "building": 72.687
+            },
+            "total_ms": 148.871,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 335.558,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 73.134,
+              "rent": 0.957,
+              "demand": 3.438,
+              "market": 46.555,
+              "compete": 9.54,
+              "transit": 0.592,
+              "building": 160.026
+            },
+            "total_ms": 335.321,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 156.556,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 13.067,
+              "rent": 0.543,
+              "demand": 1.182,
+              "market": 17.837,
+              "compete": 2.198,
+              "transit": 0.604,
+              "building": 99.803
+            },
+            "total_ms": 156.305,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 399.847,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 11.135,
+              "rent": 3.554,
+              "demand": 1.287,
+              "market": 11.742,
+              "compete": 2.87,
+              "transit": 0.579,
+              "building": 353.539
+            },
+            "total_ms": 399.587,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 138.931,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 22.249,
+              "rent": 0.844,
+              "demand": 1.302,
+              "market": 15.981,
+              "compete": 6.39,
+              "transit": 0.743,
+              "building": 62.625
+            },
+            "total_ms": 138.499,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 140.086,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 16.793,
+              "rent": 2.349,
+              "demand": 4.323,
+              "market": 10.27,
+              "compete": 2.786,
+              "transit": 0.591,
+              "building": 74.114
+            },
+            "total_ms": 139.841,
+            "buffers": {
+              "Shared Hit Blocks": 12599,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 347.045,
+          "planning_ms": 0.03,
+          "bundle_ms": {
+            "flow": 23.137,
+            "rent": 4.954,
+            "demand": 3.336,
+            "market": 172.911,
+            "compete": 16.217,
+            "transit": 5.983,
+            "building": 105.967
+          },
+          "total_ms": 346.672,
+          "buffers": {
+            "Shared Hit Blocks": 12605,
+            "Shared Read Blocks": 28,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 335.558,
+        "warm_max_ms": 399.847,
+        "bundle_warm_p95_ms": {
+          "flow": 26.957,
+          "rent": 2.493,
+          "demand": 4.323,
+          "market": 28.105,
+          "compete": 10.77,
+          "transit": 3.035,
+          "building": 160.026
+        }
+      },
+      {
+        "name": "한티",
+        "lat": 37.496237,
+        "lng": 127.052873,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "execution_ms": 368.835,
+            "planning_ms": 0.032,
+            "bundle_ms": {
+              "flow": 34.149,
+              "rent": 1.281,
+              "demand": 2.368,
+              "market": 70.702,
+              "compete": 9.196,
+              "transit": 2.964,
+              "building": 229.759
+            },
+            "total_ms": 368.095,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 366.209,
+            "planning_ms": 0.034,
+            "bundle_ms": {
+              "flow": 45.213,
+              "rent": 0.599,
+              "demand": 2.65,
+              "market": 79.689,
+              "compete": 13.344,
+              "transit": 0.999,
+              "building": 204.474
+            },
+            "total_ms": 365.947,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 329.312,
+            "planning_ms": 0.035,
+            "bundle_ms": {
+              "flow": 33.349,
+              "rent": 1.362,
+              "demand": 2.814,
+              "market": 74.154,
+              "compete": 9.874,
+              "transit": 1.282,
+              "building": 187.992
+            },
+            "total_ms": 329.025,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 318.81,
+            "planning_ms": 0.03,
+            "bundle_ms": {
+              "flow": 50.878,
+              "rent": 1.221,
+              "demand": 2.008,
+              "market": 46.189,
+              "compete": 5.04,
+              "transit": 0.848,
+              "building": 196.023
+            },
+            "total_ms": 318.299,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 264.194,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 37.323,
+              "rent": 0.614,
+              "demand": 4.111,
+              "market": 58.64,
+              "compete": 5.101,
+              "transit": 1.322,
+              "building": 143.447
+            },
+            "total_ms": 263.932,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 406.87,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 77.213,
+              "rent": 0.933,
+              "demand": 6.537,
+              "market": 76.774,
+              "compete": 9.542,
+              "transit": 0.914,
+              "building": 214.206
+            },
+            "total_ms": 406.368,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 306.137,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 50.553,
+              "rent": 0.591,
+              "demand": 1.991,
+              "market": 69.774,
+              "compete": 6.041,
+              "transit": 1.37,
+              "building": 156.794
+            },
+            "total_ms": 305.836,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 309.61,
+            "planning_ms": 0.038,
+            "bundle_ms": {
+              "flow": 31.561,
+              "rent": 3.99,
+              "demand": 2.593,
+              "market": 65.327,
+              "compete": 8.9,
+              "transit": 1.568,
+              "building": 181.015
+            },
+            "total_ms": 309.362,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 304.376,
+            "planning_ms": 0.042,
+            "bundle_ms": {
+              "flow": 35.089,
+              "rent": 1.359,
+              "demand": 2.752,
+              "market": 59.596,
+              "compete": 9.411,
+              "transit": 1.805,
+              "building": 176.198
+            },
+            "total_ms": 304.083,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 291.129,
+            "planning_ms": 0.155,
+            "bundle_ms": {
+              "flow": 25.707,
+              "rent": 0.565,
+              "demand": 2.075,
+              "market": 54.567,
+              "compete": 5.291,
+              "transit": 0.841,
+              "building": 190.587
+            },
+            "total_ms": 290.574,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 288.288,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 43.789,
+              "rent": 1.513,
+              "demand": 2.248,
+              "market": 66.101,
+              "compete": 11.084,
+              "transit": 1.131,
+              "building": 146.161
+            },
+            "total_ms": 288.034,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 287.919,
+            "planning_ms": 0.045,
+            "bundle_ms": {
+              "flow": 34.658,
+              "rent": 0.61,
+              "demand": 2.71,
+              "market": 67.567,
+              "compete": 6.294,
+              "transit": 0.816,
+              "building": 157.874
+            },
+            "total_ms": 287.646,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 290.949,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 34.935,
+              "rent": 0.564,
+              "demand": 2.29,
+              "market": 50.294,
+              "compete": 5.782,
+              "transit": 0.821,
+              "building": 181.955
+            },
+            "total_ms": 290.696,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 298.862,
+            "planning_ms": 0.07,
+            "bundle_ms": {
+              "flow": 35.746,
+              "rent": 0.537,
+              "demand": 2.306,
+              "market": 57.136,
+              "compete": 7.622,
+              "transit": 1.14,
+              "building": 181.181
+            },
+            "total_ms": 298.625,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 279.467,
+            "planning_ms": 0.044,
+            "bundle_ms": {
+              "flow": 42.28,
+              "rent": 0.562,
+              "demand": 1.763,
+              "market": 43.73,
+              "compete": 4.679,
+              "transit": 1.576,
+              "building": 169.622
+            },
+            "total_ms": 279.112,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 221.588,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 24.847,
+              "rent": 0.559,
+              "demand": 1.878,
+              "market": 42.877,
+              "compete": 7.865,
+              "transit": 0.791,
+              "building": 129.271
+            },
+            "total_ms": 221.351,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 224.509,
+            "planning_ms": 0.088,
+            "bundle_ms": {
+              "flow": 25.436,
+              "rent": 0.548,
+              "demand": 1.748,
+              "market": 43.075,
+              "compete": 5.124,
+              "transit": 0.799,
+              "building": 136.827
+            },
+            "total_ms": 224.266,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 352.926,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 56.574,
+              "rent": 0.61,
+              "demand": 2.316,
+              "market": 74.923,
+              "compete": 7.108,
+              "transit": 1.549,
+              "building": 192.896
+            },
+            "total_ms": 352.685,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 247.138,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 29.231,
+              "rent": 0.612,
+              "demand": 1.762,
+              "market": 60.79,
+              "compete": 6.955,
+              "transit": 1.014,
+              "building": 133.685
+            },
+            "total_ms": 246.885,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 253.485,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 25.602,
+              "rent": 0.582,
+              "demand": 1.755,
+              "market": 50.55,
+              "compete": 4.659,
+              "transit": 0.996,
+              "building": 158.067
+            },
+            "total_ms": 253.055,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 280.401,
+            "planning_ms": 0.044,
+            "bundle_ms": {
+              "flow": 44.02,
+              "rent": 0.725,
+              "demand": 3.368,
+              "market": 59.64,
+              "compete": 8.206,
+              "transit": 1.143,
+              "building": 151.098
+            },
+            "total_ms": 280.12,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 221.298,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 26.134,
+              "rent": 0.561,
+              "demand": 2.169,
+              "market": 47.942,
+              "compete": 6.378,
+              "transit": 0.92,
+              "building": 126.526
+            },
+            "total_ms": 221.025,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 220.959,
+            "planning_ms": 0.048,
+            "bundle_ms": {
+              "flow": 29.207,
+              "rent": 0.54,
+              "demand": 1.943,
+              "market": 42.95,
+              "compete": 5.262,
+              "transit": 0.782,
+              "building": 128.398
+            },
+            "total_ms": 220.71,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 221.347,
+            "planning_ms": 0.046,
+            "bundle_ms": {
+              "flow": 29.432,
+              "rent": 0.551,
+              "demand": 1.803,
+              "market": 44.869,
+              "compete": 5.541,
+              "transit": 1.064,
+              "building": 127.021
+            },
+            "total_ms": 221.091,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 237.036,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 36.66,
+              "rent": 0.563,
+              "demand": 2.195,
+              "market": 48.036,
+              "compete": 5.646,
+              "transit": 1.278,
+              "building": 126.903
+            },
+            "total_ms": 236.783,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 223.392,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 29.01,
+              "rent": 0.578,
+              "demand": 2.415,
+              "market": 48.826,
+              "compete": 5.212,
+              "transit": 0.931,
+              "building": 124.28
+            },
+            "total_ms": 223.151,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 243.761,
+            "planning_ms": 0.039,
+            "bundle_ms": {
+              "flow": 29.524,
+              "rent": 0.542,
+              "demand": 2.017,
+              "market": 43.931,
+              "compete": 4.475,
+              "transit": 1.278,
+              "building": 151.035
+            },
+            "total_ms": 243.47,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 248.512,
+            "planning_ms": 0.04,
+            "bundle_ms": {
+              "flow": 36.391,
+              "rent": 0.544,
+              "demand": 3.581,
+              "market": 45.18,
+              "compete": 7.179,
+              "transit": 0.819,
+              "building": 142.022
+            },
+            "total_ms": 248.239,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 260.59,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 24.14,
+              "rent": 0.574,
+              "demand": 1.792,
+              "market": 58.789,
+              "compete": 5.387,
+              "transit": 0.796,
+              "building": 158.116
+            },
+            "total_ms": 260.352,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          },
+          {
+            "execution_ms": 201.159,
+            "planning_ms": 0.041,
+            "bundle_ms": {
+              "flow": 23.863,
+              "rent": 0.592,
+              "demand": 1.769,
+              "market": 44.209,
+              "compete": 4.803,
+              "transit": 0.826,
+              "building": 114.628
+            },
+            "total_ms": 200.886,
+            "buffers": {
+              "Shared Hit Blocks": 43458,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          }
+        ],
+        "role_config": [
+          "statement_timeout=15s"
+        ],
+        "first": {
+          "execution_ms": 3195.687,
+          "planning_ms": 0.04,
+          "bundle_ms": {
+            "flow": 98.002,
+            "rent": 4.55,
+            "demand": 5.402,
+            "market": 2241.039,
+            "compete": 43.434,
+            "transit": 4.054,
+            "building": 769.352
+          },
+          "total_ms": 3194.567,
+          "buffers": {
+            "Shared Hit Blocks": 43046,
+            "Shared Read Blocks": 446,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          }
+        },
+        "warm_p95_ms": 368.835,
+        "warm_max_ms": 406.87,
+        "bundle_warm_p95_ms": {
+          "flow": 56.574,
+          "rent": 1.513,
+          "demand": 4.111,
+          "market": 76.774,
+          "compete": 11.084,
+          "transit": 1.805,
+          "building": 214.206
+        }
+      }
+    ],
+    "status": "success",
+    "warm_gate_passed": true,
+    "seconds": 56.625
+  },
+  "preview": {
+    "url": "https://gilmok-hgxl2lgp9-hanbeulyous-projects.vercel.app",
+    "stages": [
+      {
+        "name": "preview_authentication",
+        "status": "success",
+        "started_at": "2026-10-01T09:00:27.342018+00:00",
+        "elapsed_s": 2.591,
+        "method": "same-project development OIDC; existing access policy unchanged"
+      },
+      {
+        "name": "anonymous_sessions",
+        "status": "success",
+        "started_at": "2026-10-01T09:00:29.934543+00:00",
+        "elapsed_s": 1.449,
+        "count": 2
+      },
+      {
+        "name": "three_registrations_browser",
+        "status": "failed",
+        "started_at": "2026-10-01T09:00:31.384690+00:00",
+        "elapsed_s": 68.666
+      }
+    ],
+    "status": "failed",
+    "error_type": "TimeoutError",
+    "api_requests": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "iad1",
+        "cache_control": "private, no-store",
+        "error": null,
+        "result_count": 2
+      },
+      {
+        "action": "locate",
+        "status": 502,
+        "region": "iad1",
+        "cache_control": "private, no-store",
+        "error": "address_provider_unavailable",
+        "result_count": null
+      }
+    ],
+    "cleanup": {
+      "created_users": 2,
+      "deleted_users": 2,
+      "scope": "only users created by this run; dependent candidates/comparisons/usage/watchers cascade"
+    }
+  },
+  "vercel": {
+    "project_regions": [
+      "iad1"
+    ],
+    "fluid": true,
+    "deployment_regions": [
+      "iad1"
+    ],
+    "request_logs": {
+      "exit_code": 0,
+      "requests": [
+        {
+          "id": "45n6j-1790845245003-694a9dbb1fdd",
+          "timestamp": 1790845245003,
+          "requestPath": "/api/address-search",
+          "requestMethod": "POST",
+          "responseStatusCode": 502,
+          "environment": "preview",
+          "function_log_entries": 0,
+          "message_empty": true
+        },
+        {
+          "id": "45n6j-1790845241138-f065b6bacf9e",
+          "timestamp": 1790845241138,
+          "requestPath": "/api/address-search",
+          "requestMethod": "POST",
+          "responseStatusCode": 200,
+          "environment": "preview",
+          "function_log_entries": 0,
+          "message_empty": true
+        }
+      ]
+    }
+  },
+  "after_cleanup": {
+    "auth.users": 1,
+    "public.candidates": 0,
+    "public.comparisons": 0,
+    "app_private.user_activity": 1,
+    "app_private.address_daily_usage": 0,
+    "app_private.candidate_lookup_watchers": 0,
+    "public.candidate_lookup_status": 0,
+    "app_private.projection_errors": 0,
+    "public.geocode_cache": 13570
+  },
+  "not_run": [
+    "remaining_three_registrations",
+    "remote_uid_isolation",
+    "remote_daily_limit",
+    "authenticated_http_six_combinations",
+    "ready_transition"
+  ],
+  "ci": "https://github.com/hanbeulYou/Gilmok/actions/runs/36838852108",
+  "notes": [
+    "Unexpected unused KAKAO_REST_API_KEY remains in Vercel Production/Preview; not deleted.",
+    "No production promotion, region/configuration change, public-cache replacement or always-on webhook activation."
+  ]
+}

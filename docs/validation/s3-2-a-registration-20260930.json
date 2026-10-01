@@ -1,0 +1,207 @@
+{
+  "scope": "local S2 frozen-input replay; direct SQL, not HTTP/browser",
+  "results": [
+    {
+      "key": "a",
+      "total": 85.08500496915157,
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 96.56364174977782
+        },
+        {
+          "key": "flow",
+          "normalized": 99.33406222045522
+        },
+        {
+          "key": "transit",
+          "normalized": 38.336803260049486
+        },
+        {
+          "key": "cluster",
+          "normalized": 97.47740578011093
+        },
+        {
+          "key": "exposure",
+          "normalized": 38.38383838383838
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 93.40459174952771
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 45.76270887628198,
+      "percentile_sql_ms": 158.46695890650153,
+      "response_bytes": 5947,
+      "full_score_equal": true
+    },
+    {
+      "key": "b",
+      "total": 93.3997327394482,
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 99.76300977584674
+        },
+        {
+          "key": "flow",
+          "normalized": 98.87685120763344
+        },
+        {
+          "key": "transit",
+          "normalized": 81.70108973489597
+        },
+        {
+          "key": "cluster",
+          "normalized": 98.41003619754652
+        },
+        {
+          "key": "exposure",
+          "normalized": 51.399491094147585
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 87.65344088005983
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 26.528832968324423,
+      "percentile_sql_ms": 49.8350840061903,
+      "response_bytes": 5962,
+      "full_score_equal": true
+    },
+    {
+      "key": "c",
+      "total": 83.86448162784299,
+      "confidence": 85,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 84.41789276192357
+        },
+        {
+          "key": "flow",
+          "normalized": 97.18715833416161
+        },
+        {
+          "key": "transit",
+          "normalized": 60.78723216127797
+        },
+        {
+          "key": "cluster",
+          "normalized": 85.91014431805627
+        },
+        {
+          "key": "exposure",
+          "normalized": 63.28124999999998
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 91.98293991698833
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 26.653457898646593,
+      "percentile_sql_ms": 48.02437499165535,
+      "response_bytes": 5933,
+      "full_score_equal": true
+    }
+  ],
+  "browser": {
+    "results": [
+      {
+        "key": "a",
+        "total_text": "85.09점",
+        "text": "역삼로 460 · 3층\n\n서울특별시 강남구 역삼로 460\n\n85.09점\n\n신뢰도 90\n\n수요\n96.56\n유동\n99.33\n교통\n38.34\n학원 집적\n97.48\n건물 앞 도로·맞은편에서의 간판 노출\n38.38\n건물 적합성\n100.00\n환경\n93.40\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 1126.1754999868572
+      },
+      {
+        "key": "b",
+        "total_text": "93.40점",
+        "text": "도곡로 409 · 2층\n\n서울특별시 강남구 도곡로 409\n\n93.40점\n\n신뢰도 90\n\n수요\n99.76\n유동\n98.88\n교통\n81.70\n학원 집적\n98.41\n건물 앞 도로·맞은편에서의 간판 노출\n51.40\n건물 적합성\n100.00\n환경\n87.65\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 1013.6187090538442
+      },
+      {
+        "key": "c",
+        "total_text": "83.86점",
+        "text": "역삼로 546 · 3층\n\n서울특별시 강남구 역삼로 546\n\n83.86점\n\n신뢰도 85\n\n수요\n84.42\n유동\n97.19\n교통\n60.79\n학원 집적\n85.91\n건물 앞 도로·맞은편에서의 간판 노출\n63.28\n건물 적합성\n100.00\n환경\n91.98\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 959.3403749167919
+      }
+    ],
+    "worker_count": 1,
+    "workers": [
+      "589.2379839d9356e543.js"
+    ],
+    "rpc_calls": [
+      "rpc/touch_user_activity",
+      "rpc/score_inputs",
+      "rpc/score_inputs",
+      "rpc/exposure_inputs_v022",
+      "rpc/score_reference_percentiles",
+      "rpc/touch_user_activity",
+      "rpc/score_inputs",
+      "rpc/score_inputs",
+      "rpc/exposure_inputs_v022",
+      "rpc/score_reference_percentiles",
+      "rpc/touch_user_activity",
+      "rpc/score_inputs",
+      "rpc/score_inputs",
+      "rpc/exposure_inputs_v022",
+      "rpc/score_reference_percentiles"
+    ],
+    "page_errors": [],
+    "mobile_horizontal_overflow": false
+  },
+  "remote_dry_run": {
+    "started_at": "2026-09-30T11:27:06.434690+00:00",
+    "elapsed_s": 0.627609,
+    "exit_code": 0,
+    "output": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20260930072813_registration_reference_percentiles.sql\n • 20260930073201_registration_candidate_context.sql\n • 20260930110600_registration_usage_and_candidate_fields.sql\n • 20260930112203_registration_lookup_projection.sql\n • 20260930112543_registration_lookup_conflict_target.sql\nA new version of Supabase CLI is available: v2.118.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+  },
+  "migrations": [
+    {
+      "file": "20260930072813_registration_reference_percentiles.sql",
+      "sha256": "5ac5e84e0f45e8ce05d65d4829afad6663477459a7fc8a93a962e643da5df9d7"
+    },
+    {
+      "file": "20260930073201_registration_candidate_context.sql",
+      "sha256": "bf18dafd1a2e368e877ce5310525662cedd6e36fa210d1d86f3a1c0462f01718"
+    },
+    {
+      "file": "20260930110600_registration_usage_and_candidate_fields.sql",
+      "sha256": "7df31b4645104715a6d20b64c256891d86e55ee88a54f8172f9673c3739a0d2b"
+    },
+    {
+      "file": "20260930112203_registration_lookup_projection.sql",
+      "sha256": "d3d96e6b5be4d5fcd432f4cd6ab8d2465e4e64dea8105e222e207d1f31e514ca"
+    },
+    {
+      "file": "20260930112543_registration_lookup_conflict_target.sql",
+      "sha256": "a6a010af91425ffe5f523effe5420c678693eb7c43d9b6eeb12510322028dcde"
+    }
+  ]
+}

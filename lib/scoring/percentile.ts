@@ -1,5 +1,5 @@
 import type { ReferenceKey } from './raw.ts';
-import type { Evidence, ScoreInputs, ScoreReference, ScoringPreset } from './types.ts';
+import type { Evidence, ScoreInputs, ScoringReference, ScoringPreset } from './types.ts';
 
 /** Exact IEEE equality, 1-based average rank for ties; strict-less for unseen values. */
 export function percentile(values: readonly number[], value: number | null, direction: 1 | -1 = 1): number | null {
@@ -40,14 +40,15 @@ export interface ReferenceValue {
 }
 export function referencePercentile(key: ReferenceKey, raw: number | null,
   primary: ScoreInputs, school: ScoreInputs, preset: ScoringPreset,
-  reference: ScoreReference | null, direction: 1 | -1 = 1): ReferenceValue {
+  reference: ScoringReference | null, direction: 1 | -1 = 1): ReferenceValue {
   const fail = (reason: string): ReferenceValue => ({ value: null, reason, reference: null });
   if (reference === null) return fail('reference_missing');
   if (reference.preset.id !== preset.id || reference.preset.version !== preset.reference_version)
     return fail('reference_preset_version_mismatch');
   if (reference.inputs_schema_version !== preset.schema_version)
     return fail('reference_schema_version_mismatch');
-  const distribution = reference.distributions.filter(d => d.key === key && d.radius_m === primary.meta.radius_m);
+  const distribution = ('percentiles' in reference ? reference.percentiles : reference.distributions)
+    .filter(d => d.key === key && d.radius_m === primary.meta.radius_m);
   if (distribution.length !== 1) return fail('reference_radius_or_key_missing');
   for (const sourceKey of sources[key]) {
     const expected = reference.sources[sourceKey];
@@ -57,6 +58,18 @@ export function referencePercentile(key: ReferenceKey, raw: number | null,
       return fail('reference_source_mismatch:' + sourceKey);
   }
   const d = distribution[0];
+  if ('percentile' in d) {
+    if (d.raw !== raw) return fail('reference_raw_mismatch');
+    if (!Number.isSafeInteger(d.cell_count) || d.cell_count <= 0 ||
+      !Number.isSafeInteger(d.population_size) || d.population_size < 0 ||
+      d.population_size > d.cell_count ||
+      (d.percentile !== null && (!Number.isFinite(d.percentile) || d.percentile < 0 || d.percentile > 100)) ||
+      ((raw === null || d.population_size === 0) !== (d.percentile === null)))
+      return fail('invalid_reference_distribution');
+    return { value: d.percentile === null ? null : direction === -1 ? 100 - d.percentile : d.percentile,
+      reason: raw === null ? 'raw_missing' : d.population_size === 0 ? 'reference_empty' : null,
+      reference: { population_size: d.population_size, coverage: d.population_size / d.cell_count } };
+  }
   if (!Number.isSafeInteger(d.cell_count) || d.cell_count <= 0 || d.values.length > d.cell_count ||
     d.values.some(v => !Number.isFinite(v) || v < 0)) return fail('invalid_reference_distribution');
   const info = { population_size: d.values.length, coverage: d.values.length / d.cell_count };

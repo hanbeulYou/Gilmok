@@ -2,7 +2,7 @@ import { axis, axisKeys, clamp, evidence, percentileAxes, rentAxis, exposureAxis
 import { buildingAxis } from './building.ts';
 import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from '../visibility/types.ts';
 import { extractReferenceRaw, parseReferenceInputs } from './raw.ts';
-import type { AxisResult, Candidate, ScoreContext, ScoreInputs, ScoreReference, ScoreResult,
+import type { AxisResult, Candidate, ScoreContext, ScoreInputs, ScoringReference, ScoreResult,
   ScoringPreset, ExposureInput, Weights } from './types.ts';
 
 function validateWeights(weights: Weights): void {
@@ -71,7 +71,7 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
 /** Pure ScoreResult v0.3. The caller owns DB, context queries, and visibility work. */
 export function score(primary: ScoreInputs, school: ScoreInputs, buildings: readonly unknown[],
   visibility: ExposureInput, candidate: Candidate, preset: ScoringPreset,
-  reference: ScoreReference | null, context: ScoreContext): ScoreResult {
+  reference: ScoringReference | null, context: ScoreContext): ScoreResult {
   // Building geometries are an explicit input for the separate S2-3 worker, not a height guess.
   void buildings;
   validateCandidate(candidate); validateWeights(preset.weights);

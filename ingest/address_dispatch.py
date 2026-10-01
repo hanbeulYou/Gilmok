@@ -21,13 +21,15 @@ def validate_event(event_name, event):
     # client_payload is intentionally ignored: no addresses, refs, commands or credentials.
 
 
-def drain(factory, directory, limit=10, processor=process_one):
+def drain(factory, directory, limit=10, processor=process_one, *, dry_run=False):
     if not 1 <= limit <= 100:
         raise ValueError("Address budget must be 1..100")
     processed = 0
     with factory() as db:
         db.autocommit = True
-        for _ in range(limit):
+        if dry_run:
+            db.execute("set default_transaction_read_only=on")
+        for _ in range(0 if dry_run else limit):
             if processor(db, directory) is None:
                 break
             processed += 1
@@ -38,7 +40,10 @@ def drain(factory, directory, limit=10, processor=process_one):
             "select count(*) from ingest_private.building_address_requests "
             "where status in ('failed','processing')"
         ).fetchone()[0]
-    return dict(processed=processed, pending=remaining, needs_review=failed)
+    result = dict(processed=processed, pending=remaining, needs_review=failed)
+    if dry_run:
+        result["dry_run"] = True
+    return result
 
 
 def main():
@@ -46,14 +51,17 @@ def main():
     parser.add_argument("--target", choices=("local", "remote"), default="local")
     parser.add_argument("--directory", type=Path, default=ROOT / ".local/address-dispatch")
     parser.add_argument("--max-requests", type=int, default=10)
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Read queue counts without claims/API IO")
     parser.add_argument("--event-name", default=os.environ.get("GITHUB_EVENT_NAME", "local"))
     parser.add_argument("--event-file", type=Path, default=os.environ.get("GITHUB_EVENT_PATH"))
     args = parser.parse_args()
     event = json.loads(args.event_file.read_text()) if args.event_file else {}
     validate_event(args.event_name, event)
-    if args.target == "remote" and not Settings.from_env().uses_r2:
+    if args.target == "remote" and not args.dry_run and not Settings.from_env().uses_r2:
         raise ValueError("Remote worker requires persistent R2 storage")
-    result = drain(lambda: target_database(args.target), args.directory, args.max_requests)
+    result = drain(lambda: target_database(args.target), args.directory, args.max_requests,
+                   dry_run=args.dry_run)
     print(json.dumps(result))
 
 

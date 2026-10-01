@@ -1,0 +1,2964 @@
+{
+  "status": "passed",
+  "validated_commit": "8360b5b0a4d1801a5808e6e25df60221efae93b6",
+  "team": "vineyard",
+  "same_project_id": true,
+  "deployment": {
+    "uid": "dpl_61Be44GyGcBKXY3iWCvsGutCM7za",
+    "url": "gilmok-7hjt46puu-vineyard.vercel.app",
+    "regions": [
+      "iad1",
+      "icn1"
+    ],
+    "state": "READY"
+  },
+  "region_probe": {
+    "at": "2026-10-01T11:26:49.726856+00:00",
+    "deployment": "dpl_9SRQnzHyv65ucG887nhxAbcgAM22",
+    "url": "gilmok-peabmi0lb-vineyard.vercel.app",
+    "status": 401,
+    "region": "icn1",
+    "error": "authentication_required",
+    "purpose": "region-only; no provider call"
+  },
+  "browser": {
+    "stages": [
+      {
+        "name": "preview_authentication",
+        "status": "success",
+        "started_at": "2026-10-01T11:29:29.985120+00:00",
+        "elapsed_s": 3.171,
+        "method": "same-project development OIDC; existing access policy unchanged",
+        "function_region": "icn1"
+      },
+      {
+        "name": "anonymous_sessions",
+        "status": "success",
+        "started_at": "2026-10-01T11:29:33.157301+00:00",
+        "elapsed_s": 1.254,
+        "count": 2
+      },
+      {
+        "name": "three_registrations_browser",
+        "status": "success",
+        "started_at": "2026-10-01T11:29:34.412911+00:00",
+        "elapsed_s": 33.734,
+        "totals": [
+          "85.09점",
+          "93.40점",
+          "83.86점"
+        ],
+        "function_region": "icn1",
+        "worker_count": 1,
+        "page_errors": []
+      }
+    ],
+    "registrations": [
+      {
+        "key": "a",
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 460",
+        "total_text": "85.09점",
+        "text": "역삼로 460 · 3층\n\n서울특별시 강남구 역삼로 460\n\n85.09점\n\n신뢰도 90\n\n수요\n96.56\n유동\n99.33\n교통\n38.34\n학원 집적\n97.48\n건물 앞 도로·맞은편에서의 간판 노출\n38.38\n건물 적합성\n100.00\n환경\n93.40\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 12439.366
+      },
+      {
+        "key": "b",
+        "floor": 2,
+        "address": "서울특별시 강남구 도곡로 409",
+        "total_text": "93.40점",
+        "text": "도곡로 409 · 2층\n\n서울특별시 강남구 도곡로 409\n\n93.40점\n\n신뢰도 90\n\n수요\n99.76\n유동\n98.88\n교통\n81.70\n학원 집적\n98.41\n건물 앞 도로·맞은편에서의 간판 노출\n51.40\n건물 적합성\n100.00\n환경\n87.65\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 6039.686
+      },
+      {
+        "key": "c",
+        "floor": 3,
+        "address": "서울특별시 강남구 역삼로 546",
+        "total_text": "83.86점",
+        "text": "역삼로 546 · 3층\n\n서울특별시 강남구 역삼로 546\n\n83.86점\n\n신뢰도 85\n\n수요\n84.42\n유동\n97.19\n교통\n60.79\n학원 집적\n85.91\n건물 앞 도로·맞은편에서의 간판 노출\n63.28\n건물 적합성\n100.00\n환경\n91.98\n임대료 효율\n결측\n\n결측 축의 가중치는 계산 가능한 축으로 재배분됩니다.\n\n가로수·가로시설물·간판 크기 미반영, 현장 확인 필요\n\n후보 삭제",
+        "register_to_score_ms": 7258.542
+      }
+    ],
+    "worker_count": 1,
+    "page_errors": [],
+    "mobile_horizontal_overflow": false,
+    "routes": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::d2d69-1790854177935-22bf6eadc311",
+        "cache_control": "private, no-store"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::68w2l-1790854178837-eb1b1de3419c",
+        "cache_control": "private, no-store",
+        "coordinate_provider": "vworld",
+        "pnu": "1168010600109120013",
+        "resolved_status": "matched"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::bvwdd-1790854191765-fd4f1e2cebc2",
+        "cache_control": "private, no-store"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::xkgnh-1790854193109-f2ddaad84007",
+        "cache_control": "private, no-store",
+        "coordinate_provider": "vworld",
+        "pnu": "1168010600109380022",
+        "resolved_status": "matched"
+      },
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::5r4mp-1790854199682-71e372315a6f",
+        "cache_control": "private, no-store"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1",
+        "request_id": "icn1::icn1::df7g9-1790854200505-6639b3913705",
+        "cache_control": "private, no-store",
+        "coordinate_provider": "vworld",
+        "pnu": "1168010600109670000",
+        "resolved_status": "matched"
+      }
+    ]
+  },
+  "scores": {
+    "results": [
+      {
+        "key": "a",
+        "total": 85.08500496915157,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "normalized": 96.56364174977782
+          },
+          {
+            "key": "flow",
+            "normalized": 99.33406222045522
+          },
+          {
+            "key": "transit",
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "normalized": 97.47740578011093
+          },
+          {
+            "key": "exposure",
+            "normalized": 38.38383838383838
+          },
+          {
+            "key": "building",
+            "normalized": 100
+          },
+          {
+            "key": "environment",
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "normalized": null
+          }
+        ],
+        "scoring_fields_exactly_equal": true,
+        "evidence_difference_count": 19,
+        "evidence_within_existing_rpc_tolerance": true,
+        "max_evidence_abs_diff": 1.3154931366443634e-08,
+        "actual_computed_at": "2026-10-01T11:29:42.43536+00:00",
+        "baseline_computed_at": "2026-09-30T08:48:28.780152+00:00",
+        "pnu": "1168010600109120013"
+      },
+      {
+        "key": "b",
+        "total": 93.3997327394482,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "normalized": 99.76300977584674
+          },
+          {
+            "key": "flow",
+            "normalized": 98.87685120763344
+          },
+          {
+            "key": "transit",
+            "normalized": 81.70108973489597
+          },
+          {
+            "key": "cluster",
+            "normalized": 98.41003619754652
+          },
+          {
+            "key": "exposure",
+            "normalized": 51.399491094147585
+          },
+          {
+            "key": "building",
+            "normalized": 100
+          },
+          {
+            "key": "environment",
+            "normalized": 87.65344088005983
+          },
+          {
+            "key": "rent_efficiency",
+            "normalized": null
+          }
+        ],
+        "scoring_fields_exactly_equal": true,
+        "evidence_difference_count": 22,
+        "evidence_within_existing_rpc_tolerance": true,
+        "max_evidence_abs_diff": 3.249442670494318e-08,
+        "actual_computed_at": "2026-10-01T11:29:54.767524+00:00",
+        "baseline_computed_at": "2026-09-30T08:48:29.381031+00:00",
+        "pnu": "1168010600109380022"
+      },
+      {
+        "key": "c",
+        "total": 83.86448162784299,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "normalized": 84.41789276192357
+          },
+          {
+            "key": "flow",
+            "normalized": 97.18715833416161
+          },
+          {
+            "key": "transit",
+            "normalized": 60.78723216127797
+          },
+          {
+            "key": "cluster",
+            "normalized": 85.91014431805627
+          },
+          {
+            "key": "exposure",
+            "normalized": 63.28124999999998
+          },
+          {
+            "key": "building",
+            "normalized": 100
+          },
+          {
+            "key": "environment",
+            "normalized": 91.98293991698833
+          },
+          {
+            "key": "rent_efficiency",
+            "normalized": null
+          }
+        ],
+        "scoring_fields_exactly_equal": true,
+        "evidence_difference_count": 9,
+        "evidence_within_existing_rpc_tolerance": true,
+        "max_evidence_abs_diff": 8.614733815193176e-09,
+        "actual_computed_at": "2026-10-01T11:30:02.458394+00:00",
+        "baseline_computed_at": "2026-09-30T08:48:29.862094+00:00",
+        "pnu": "1168010600109670000"
+      }
+    ],
+    "ranking": [
+      "b",
+      "a",
+      "c"
+    ]
+  },
+  "rls_and_quota": [
+    {
+      "name": "uid_isolation",
+      "status": "success",
+      "started_at": "2026-10-01T11:32:45.498194+00:00",
+      "elapsed_s": 3.034,
+      "candidates_owned": 3,
+      "other_uid_read": 0,
+      "other_uid_updated": 0,
+      "other_uid_insert_status": 403,
+      "comparison_isolated": true,
+      "lookup_request_ids_distinct": true,
+      "lookup_rows_per_uid": 1
+    },
+    {
+      "name": "daily_limit",
+      "status": "success",
+      "started_at": "2026-10-01T11:32:48.533098+00:00",
+      "elapsed_s": 9.487,
+      "reservations_accepted": 100,
+      "reservation_101": false,
+      "route_status": 429,
+      "provider_requests_at_limit": 0,
+      "other_uid_still_allowed": true,
+      "limit_test_usage": {
+        "total": 100,
+        "juso_search": 100,
+        "vworld_coordinate": 0
+      }
+    }
+  ],
+  "authenticated_http": {
+    "role": "authenticated",
+    "anonymous_session": true,
+    "first_run_note": "First HTTP request per case; shared caches are not evicted",
+    "started_at": "2026-10-01T11:33:49.805611+00:00",
+    "cases": [
+      {
+        "name": "대치",
+        "lat": 37.494612,
+        "lng": 127.063642,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 411.1396656371653,
+            "bundle_ms": {
+              "flow": 11.64,
+              "rent": 3.771,
+              "demand": 11.573,
+              "market": 8.109,
+              "compete": 3.225,
+              "transit": 2.637,
+              "building": 22.268
+            },
+            "total_ms": 245.274
+          },
+          {
+            "roundtrip_ms": 393.2281667366624,
+            "bundle_ms": {
+              "flow": 12.978,
+              "rent": 3.862,
+              "demand": 10.127,
+              "market": 8.399,
+              "compete": 2.957,
+              "transit": 2.238,
+              "building": 18.809
+            },
+            "total_ms": 265.478
+          },
+          {
+            "roundtrip_ms": 143.54545902460814,
+            "bundle_ms": {
+              "flow": 9.2,
+              "rent": 1.776,
+              "demand": 1.758,
+              "market": 7.452,
+              "compete": 2.342,
+              "transit": 1.376,
+              "building": 15.738
+            },
+            "total_ms": 57.523
+          },
+          {
+            "roundtrip_ms": 146.42620831727982,
+            "bundle_ms": {
+              "flow": 9.497,
+              "rent": 1.817,
+              "demand": 1.906,
+              "market": 8.367,
+              "compete": 4.773,
+              "transit": 1.464,
+              "building": 15.284
+            },
+            "total_ms": 61.635
+          },
+          {
+            "roundtrip_ms": 144.75820865482092,
+            "bundle_ms": {
+              "flow": 9.219,
+              "rent": 1.526,
+              "demand": 1.754,
+              "market": 6.91,
+              "compete": 2.218,
+              "transit": 1.709,
+              "building": 15.263
+            },
+            "total_ms": 54.259
+          },
+          {
+            "roundtrip_ms": 141.39008289203048,
+            "bundle_ms": {
+              "flow": 10.035,
+              "rent": 1.502,
+              "demand": 1.818,
+              "market": 7.359,
+              "compete": 2.189,
+              "transit": 1.592,
+              "building": 15.336
+            },
+            "total_ms": 55.946
+          },
+          {
+            "roundtrip_ms": 132.75354215875268,
+            "bundle_ms": {
+              "flow": 8.964,
+              "rent": 1.483,
+              "demand": 1.563,
+              "market": 5.702,
+              "compete": 2.102,
+              "transit": 1.353,
+              "building": 14.61
+            },
+            "total_ms": 49.712
+          },
+          {
+            "roundtrip_ms": 141.0602079704404,
+            "bundle_ms": {
+              "flow": 9.041,
+              "rent": 1.478,
+              "demand": 1.617,
+              "market": 5.779,
+              "compete": 1.999,
+              "transit": 1.345,
+              "building": 14.939
+            },
+            "total_ms": 50.438
+          },
+          {
+            "roundtrip_ms": 151.54487499967217,
+            "bundle_ms": {
+              "flow": 9.421,
+              "rent": 1.611,
+              "demand": 1.688,
+              "market": 6.43,
+              "compete": 2.213,
+              "transit": 1.389,
+              "building": 15.113
+            },
+            "total_ms": 52.426
+          },
+          {
+            "roundtrip_ms": 140.55266696959734,
+            "bundle_ms": {
+              "flow": 9.661,
+              "rent": 2.549,
+              "demand": 1.714,
+              "market": 5.569,
+              "compete": 2.005,
+              "transit": 1.308,
+              "building": 15.669
+            },
+            "total_ms": 54.907
+          },
+          {
+            "roundtrip_ms": 153.39179104194045,
+            "bundle_ms": {
+              "flow": 10.902,
+              "rent": 1.597,
+              "demand": 1.705,
+              "market": 5.879,
+              "compete": 2.084,
+              "transit": 1.341,
+              "building": 16.513
+            },
+            "total_ms": 54.808
+          },
+          {
+            "roundtrip_ms": 139.27750010043383,
+            "bundle_ms": {
+              "flow": 9.628,
+              "rent": 1.589,
+              "demand": 1.631,
+              "market": 5.678,
+              "compete": 2.293,
+              "transit": 1.474,
+              "building": 15.153
+            },
+            "total_ms": 52.262
+          },
+          {
+            "roundtrip_ms": 142.1537920832634,
+            "bundle_ms": {
+              "flow": 8.836,
+              "rent": 1.548,
+              "demand": 1.635,
+              "market": 5.723,
+              "compete": 2.019,
+              "transit": 1.691,
+              "building": 15.17
+            },
+            "total_ms": 50.566
+          },
+          {
+            "roundtrip_ms": 146.79270889610052,
+            "bundle_ms": {
+              "flow": 8.967,
+              "rent": 1.459,
+              "demand": 1.72,
+              "market": 5.744,
+              "compete": 2.006,
+              "transit": 1.294,
+              "building": 15.044
+            },
+            "total_ms": 50.75
+          },
+          {
+            "roundtrip_ms": 152.3151658475399,
+            "bundle_ms": {
+              "flow": 8.94,
+              "rent": 1.893,
+              "demand": 1.588,
+              "market": 5.824,
+              "compete": 2.089,
+              "transit": 1.35,
+              "building": 15.437
+            },
+            "total_ms": 52.079
+          },
+          {
+            "roundtrip_ms": 176.58862518146634,
+            "bundle_ms": {
+              "flow": 9.067,
+              "rent": 1.752,
+              "demand": 1.602,
+              "market": 5.78,
+              "compete": 2.01,
+              "transit": 1.315,
+              "building": 15.264
+            },
+            "total_ms": 53.917
+          },
+          {
+            "roundtrip_ms": 136.63754193112254,
+            "bundle_ms": {
+              "flow": 9.207,
+              "rent": 1.672,
+              "demand": 1.632,
+              "market": 5.95,
+              "compete": 1.978,
+              "transit": 1.424,
+              "building": 15.038
+            },
+            "total_ms": 51.01
+          },
+          {
+            "roundtrip_ms": 138.88400001451373,
+            "bundle_ms": {
+              "flow": 8.905,
+              "rent": 0.597,
+              "demand": 1.647,
+              "market": 5.636,
+              "compete": 2.143,
+              "transit": 1.349,
+              "building": 16.697
+            },
+            "total_ms": 51.663
+          },
+          {
+            "roundtrip_ms": 144.60245799273252,
+            "bundle_ms": {
+              "flow": 8.922,
+              "rent": 0.631,
+              "demand": 1.63,
+              "market": 5.551,
+              "compete": 2.12,
+              "transit": 1.327,
+              "building": 14.324
+            },
+            "total_ms": 49.815
+          },
+          {
+            "roundtrip_ms": 137.47349986806512,
+            "bundle_ms": {
+              "flow": 8.993,
+              "rent": 0.721,
+              "demand": 1.624,
+              "market": 5.941,
+              "compete": 2.118,
+              "transit": 1.808,
+              "building": 15.052
+            },
+            "total_ms": 50.332
+          },
+          {
+            "roundtrip_ms": 135.92245802283287,
+            "bundle_ms": {
+              "flow": 8.852,
+              "rent": 0.566,
+              "demand": 1.63,
+              "market": 6.043,
+              "compete": 2.171,
+              "transit": 1.345,
+              "building": 14.637
+            },
+            "total_ms": 48.069
+          },
+          {
+            "roundtrip_ms": 162.78075007721782,
+            "bundle_ms": {
+              "flow": 11.884,
+              "rent": 1.121,
+              "demand": 2.605,
+              "market": 6.137,
+              "compete": 2.174,
+              "transit": 1.362,
+              "building": 15.171
+            },
+            "total_ms": 55.958
+          },
+          {
+            "roundtrip_ms": 131.72004092484713,
+            "bundle_ms": {
+              "flow": 8.902,
+              "rent": 0.564,
+              "demand": 1.696,
+              "market": 5.678,
+              "compete": 2.178,
+              "transit": 1.406,
+              "building": 15.48
+            },
+            "total_ms": 48.818
+          },
+          {
+            "roundtrip_ms": 139.18920792639256,
+            "bundle_ms": {
+              "flow": 8.937,
+              "rent": 0.563,
+              "demand": 1.676,
+              "market": 5.788,
+              "compete": 2.008,
+              "transit": 1.281,
+              "building": 15.072
+            },
+            "total_ms": 48.794
+          },
+          {
+            "roundtrip_ms": 139.6664590574801,
+            "bundle_ms": {
+              "flow": 8.939,
+              "rent": 0.539,
+              "demand": 1.634,
+              "market": 5.722,
+              "compete": 2.215,
+              "transit": 1.317,
+              "building": 14.518
+            },
+            "total_ms": 47.794
+          },
+          {
+            "roundtrip_ms": 130.69666689261794,
+            "bundle_ms": {
+              "flow": 9.084,
+              "rent": 0.706,
+              "demand": 1.692,
+              "market": 5.652,
+              "compete": 2.121,
+              "transit": 1.303,
+              "building": 14.272
+            },
+            "total_ms": 48.692
+          },
+          {
+            "roundtrip_ms": 128.31841595470905,
+            "bundle_ms": {
+              "flow": 9.291,
+              "rent": 0.588,
+              "demand": 1.759,
+              "market": 6.462,
+              "compete": 2.222,
+              "transit": 1.364,
+              "building": 15.118
+            },
+            "total_ms": 50.33
+          },
+          {
+            "roundtrip_ms": 140.07379207760096,
+            "bundle_ms": {
+              "flow": 9.194,
+              "rent": 0.59,
+              "demand": 1.686,
+              "market": 5.687,
+              "compete": 1.972,
+              "transit": 1.338,
+              "building": 14.449
+            },
+            "total_ms": 47.875
+          },
+          {
+            "roundtrip_ms": 129.06933296471834,
+            "bundle_ms": {
+              "flow": 9.046,
+              "rent": 0.617,
+              "demand": 1.643,
+              "market": 5.744,
+              "compete": 2.025,
+              "transit": 1.297,
+              "building": 14.818
+            },
+            "total_ms": 48.073
+          },
+          {
+            "roundtrip_ms": 154.04579089954495,
+            "bundle_ms": {
+              "flow": 9.024,
+              "rent": 0.536,
+              "demand": 1.625,
+              "market": 5.611,
+              "compete": 1.998,
+              "transit": 1.277,
+              "building": 14.961
+            },
+            "total_ms": 47.953
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 4438.015166204423,
+          "bundle_ms": {
+            "flow": 215.672,
+            "rent": 22.974,
+            "demand": 41.597,
+            "market": 1540.88,
+            "compete": 373.06,
+            "transit": 46.413,
+            "building": 601.457
+          },
+          "total_ms": 4076.93
+        },
+        "warm_p95_ms": 393.2281667366624,
+        "baseline_matches": true
+      },
+      {
+        "name": "대치",
+        "lat": 37.494612,
+        "lng": 127.063642,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 247.6869998499751,
+            "bundle_ms": {
+              "flow": 26.019,
+              "rent": 0.59,
+              "demand": 2.82,
+              "market": 23.097,
+              "compete": 5.294,
+              "transit": 1.651,
+              "building": 80.16
+            },
+            "total_ms": 158.444
+          },
+          {
+            "roundtrip_ms": 267.8792499937117,
+            "bundle_ms": {
+              "flow": 25.909,
+              "rent": 1.054,
+              "demand": 3.465,
+              "market": 21.551,
+              "compete": 5.336,
+              "transit": 1.9,
+              "building": 81.458
+            },
+            "total_ms": 160.163
+          },
+          {
+            "roundtrip_ms": 252.274832688272,
+            "bundle_ms": {
+              "flow": 25.84,
+              "rent": 0.665,
+              "demand": 2.591,
+              "market": 20.144,
+              "compete": 4.818,
+              "transit": 1.589,
+              "building": 81.899
+            },
+            "total_ms": 153.053
+          },
+          {
+            "roundtrip_ms": 233.47704159095883,
+            "bundle_ms": {
+              "flow": 25.611,
+              "rent": 0.676,
+              "demand": 2.681,
+              "market": 18.366,
+              "compete": 4.569,
+              "transit": 1.722,
+              "building": 79.036
+            },
+            "total_ms": 149.208
+          },
+          {
+            "roundtrip_ms": 265.9638337790966,
+            "bundle_ms": {
+              "flow": 25.181,
+              "rent": 0.591,
+              "demand": 2.469,
+              "market": 18.001,
+              "compete": 4.519,
+              "transit": 1.544,
+              "building": 80.108
+            },
+            "total_ms": 145.355
+          },
+          {
+            "roundtrip_ms": 253.95483383908868,
+            "bundle_ms": {
+              "flow": 25.321,
+              "rent": 0.641,
+              "demand": 2.6,
+              "market": 19.756,
+              "compete": 4.64,
+              "transit": 1.959,
+              "building": 77.464
+            },
+            "total_ms": 148.074
+          },
+          {
+            "roundtrip_ms": 232.41074988618493,
+            "bundle_ms": {
+              "flow": 25.496,
+              "rent": 0.599,
+              "demand": 2.663,
+              "market": 19.694,
+              "compete": 4.519,
+              "transit": 1.559,
+              "building": 82.428
+            },
+            "total_ms": 150.074
+          },
+          {
+            "roundtrip_ms": 235.38962472230196,
+            "bundle_ms": {
+              "flow": 25.97,
+              "rent": 0.576,
+              "demand": 2.723,
+              "market": 18.71,
+              "compete": 4.583,
+              "transit": 1.543,
+              "building": 79.05
+            },
+            "total_ms": 149.181
+          },
+          {
+            "roundtrip_ms": 229.20879209414124,
+            "bundle_ms": {
+              "flow": 26.001,
+              "rent": 0.692,
+              "demand": 2.588,
+              "market": 20.775,
+              "compete": 5.241,
+              "transit": 1.712,
+              "building": 79.234
+            },
+            "total_ms": 149.331
+          },
+          {
+            "roundtrip_ms": 223.00312528386712,
+            "bundle_ms": {
+              "flow": 25.388,
+              "rent": 0.543,
+              "demand": 2.523,
+              "market": 18.382,
+              "compete": 4.648,
+              "transit": 1.637,
+              "building": 76.398
+            },
+            "total_ms": 143.225
+          },
+          {
+            "roundtrip_ms": 230.00241722911596,
+            "bundle_ms": {
+              "flow": 25.223,
+              "rent": 0.547,
+              "demand": 2.583,
+              "market": 18.027,
+              "compete": 4.7,
+              "transit": 1.583,
+              "building": 78.022
+            },
+            "total_ms": 143.838
+          },
+          {
+            "roundtrip_ms": 369.32491697371006,
+            "bundle_ms": {
+              "flow": 27.031,
+              "rent": 0.552,
+              "demand": 2.798,
+              "market": 20.048,
+              "compete": 4.669,
+              "transit": 1.71,
+              "building": 80.618
+            },
+            "total_ms": 151.216
+          },
+          {
+            "roundtrip_ms": 241.45074980333447,
+            "bundle_ms": {
+              "flow": 25.156,
+              "rent": 0.564,
+              "demand": 2.486,
+              "market": 18.411,
+              "compete": 4.498,
+              "transit": 1.587,
+              "building": 78.46
+            },
+            "total_ms": 144.114
+          },
+          {
+            "roundtrip_ms": 232.92204225435853,
+            "bundle_ms": {
+              "flow": 26.702,
+              "rent": 0.554,
+              "demand": 2.641,
+              "market": 18.65,
+              "compete": 5.14,
+              "transit": 1.622,
+              "building": 81.227
+            },
+            "total_ms": 149.781
+          },
+          {
+            "roundtrip_ms": 403.3295842818916,
+            "bundle_ms": {
+              "flow": 25.751,
+              "rent": 0.614,
+              "demand": 3.446,
+              "market": 18.13,
+              "compete": 4.555,
+              "transit": 1.57,
+              "building": 84.725
+            },
+            "total_ms": 154.402
+          },
+          {
+            "roundtrip_ms": 257.3391660116613,
+            "bundle_ms": {
+              "flow": 28.323,
+              "rent": 0.69,
+              "demand": 3.435,
+              "market": 22.391,
+              "compete": 5.54,
+              "transit": 1.798,
+              "building": 85.478
+            },
+            "total_ms": 163.074
+          },
+          {
+            "roundtrip_ms": 228.3677919767797,
+            "bundle_ms": {
+              "flow": 26.187,
+              "rent": 0.636,
+              "demand": 2.766,
+              "market": 19.799,
+              "compete": 4.98,
+              "transit": 1.565,
+              "building": 77.902
+            },
+            "total_ms": 148.967
+          },
+          {
+            "roundtrip_ms": 230.04866717383265,
+            "bundle_ms": {
+              "flow": 25.93,
+              "rent": 0.669,
+              "demand": 2.654,
+              "market": 20.306,
+              "compete": 5.171,
+              "transit": 1.593,
+              "building": 79.648
+            },
+            "total_ms": 151.536
+          },
+          {
+            "roundtrip_ms": 233.76325005665421,
+            "bundle_ms": {
+              "flow": 26.696,
+              "rent": 0.576,
+              "demand": 2.597,
+              "market": 18.862,
+              "compete": 4.531,
+              "transit": 1.769,
+              "building": 79.244
+            },
+            "total_ms": 150.159
+          },
+          {
+            "roundtrip_ms": 262.55716709420085,
+            "bundle_ms": {
+              "flow": 26.36,
+              "rent": 0.729,
+              "demand": 2.769,
+              "market": 19.944,
+              "compete": 4.597,
+              "transit": 1.918,
+              "building": 90.704
+            },
+            "total_ms": 161.794
+          },
+          {
+            "roundtrip_ms": 246.8980411067605,
+            "bundle_ms": {
+              "flow": 29.258,
+              "rent": 0.695,
+              "demand": 3.069,
+              "market": 18.965,
+              "compete": 4.59,
+              "transit": 1.545,
+              "building": 90.586
+            },
+            "total_ms": 164.1
+          },
+          {
+            "roundtrip_ms": 239.95574982836843,
+            "bundle_ms": {
+              "flow": 28.317,
+              "rent": 0.558,
+              "demand": 2.756,
+              "market": 18.768,
+              "compete": 4.653,
+              "transit": 1.556,
+              "building": 80.027
+            },
+            "total_ms": 149.95
+          },
+          {
+            "roundtrip_ms": 246.63375038653612,
+            "bundle_ms": {
+              "flow": 28.213,
+              "rent": 0.601,
+              "demand": 2.464,
+              "market": 20.098,
+              "compete": 5.84,
+              "transit": 1.645,
+              "building": 89.474
+            },
+            "total_ms": 163.383
+          },
+          {
+            "roundtrip_ms": 245.9252909757197,
+            "bundle_ms": {
+              "flow": 29.169,
+              "rent": 0.555,
+              "demand": 3.242,
+              "market": 21.043,
+              "compete": 4.702,
+              "transit": 2.334,
+              "building": 83.573
+            },
+            "total_ms": 162.415
+          },
+          {
+            "roundtrip_ms": 236.74962483346462,
+            "bundle_ms": {
+              "flow": 25.124,
+              "rent": 0.644,
+              "demand": 2.746,
+              "market": 20.967,
+              "compete": 5.368,
+              "transit": 1.601,
+              "building": 78.221
+            },
+            "total_ms": 149.145
+          },
+          {
+            "roundtrip_ms": 229.39687501639128,
+            "bundle_ms": {
+              "flow": 26.043,
+              "rent": 0.575,
+              "demand": 2.92,
+              "market": 18.423,
+              "compete": 4.584,
+              "transit": 2.119,
+              "building": 79.728
+            },
+            "total_ms": 147.697
+          },
+          {
+            "roundtrip_ms": 234.3253749422729,
+            "bundle_ms": {
+              "flow": 28.134,
+              "rent": 0.569,
+              "demand": 2.818,
+              "market": 22.829,
+              "compete": 4.954,
+              "transit": 1.548,
+              "building": 79.685
+            },
+            "total_ms": 154.005
+          },
+          {
+            "roundtrip_ms": 271.5675001963973,
+            "bundle_ms": {
+              "flow": 40.79,
+              "rent": 0.701,
+              "demand": 2.994,
+              "market": 22.129,
+              "compete": 4.706,
+              "transit": 2.387,
+              "building": 80.734
+            },
+            "total_ms": 175.894
+          },
+          {
+            "roundtrip_ms": 238.7847499921918,
+            "bundle_ms": {
+              "flow": 26.075,
+              "rent": 0.572,
+              "demand": 2.52,
+              "market": 19.039,
+              "compete": 4.683,
+              "transit": 1.713,
+              "building": 79.922
+            },
+            "total_ms": 149.682
+          },
+          {
+            "roundtrip_ms": 233.02058363333344,
+            "bundle_ms": {
+              "flow": 26.276,
+              "rent": 0.619,
+              "demand": 2.587,
+              "market": 20.449,
+              "compete": 4.869,
+              "transit": 1.79,
+              "building": 80.189
+            },
+            "total_ms": 150.1
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 5093.403124716133,
+          "bundle_ms": {
+            "flow": 196.743,
+            "rent": 0.646,
+            "demand": 9.823,
+            "market": 3299.507,
+            "compete": 407.783,
+            "transit": 5.78,
+            "building": 1024.816
+          },
+          "total_ms": 4958.257
+        },
+        "warm_p95_ms": 369.32491697371006,
+        "baseline_matches": true
+      },
+      {
+        "name": "학여울",
+        "lat": 37.496663,
+        "lng": 127.070594,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 125.20625023171306,
+            "bundle_ms": {
+              "flow": 9.658,
+              "rent": 0.557,
+              "demand": 1.966,
+              "market": 2.381,
+              "compete": 0.793,
+              "transit": 1.282,
+              "building": 11.813
+            },
+            "total_ms": 42.405
+          },
+          {
+            "roundtrip_ms": 125.214624684304,
+            "bundle_ms": {
+              "flow": 8.811,
+              "rent": 0.595,
+              "demand": 1.949,
+              "market": 2.39,
+              "compete": 0.847,
+              "transit": 1.313,
+              "building": 11.847
+            },
+            "total_ms": 40.955
+          },
+          {
+            "roundtrip_ms": 120.89183321222663,
+            "bundle_ms": {
+              "flow": 9.012,
+              "rent": 0.594,
+              "demand": 1.795,
+              "market": 2.368,
+              "compete": 0.789,
+              "transit": 1.317,
+              "building": 11.609
+            },
+            "total_ms": 40.533
+          },
+          {
+            "roundtrip_ms": 141.2576250731945,
+            "bundle_ms": {
+              "flow": 8.764,
+              "rent": 0.67,
+              "demand": 1.803,
+              "market": 2.358,
+              "compete": 0.765,
+              "transit": 1.289,
+              "building": 11.832
+            },
+            "total_ms": 40.442
+          },
+          {
+            "roundtrip_ms": 165.9626248292625,
+            "bundle_ms": {
+              "flow": 9.015,
+              "rent": 0.552,
+              "demand": 1.926,
+              "market": 2.413,
+              "compete": 0.786,
+              "transit": 1.265,
+              "building": 11.316
+            },
+            "total_ms": 40.865
+          },
+          {
+            "roundtrip_ms": 115.7021252438426,
+            "bundle_ms": {
+              "flow": 8.654,
+              "rent": 0.546,
+              "demand": 1.816,
+              "market": 2.39,
+              "compete": 0.895,
+              "transit": 1.259,
+              "building": 11.925
+            },
+            "total_ms": 40.622
+          },
+          {
+            "roundtrip_ms": 125.78437523916364,
+            "bundle_ms": {
+              "flow": 10.799,
+              "rent": 0.64,
+              "demand": 1.806,
+              "market": 2.449,
+              "compete": 0.862,
+              "transit": 1.336,
+              "building": 11.888
+            },
+            "total_ms": 44.598
+          },
+          {
+            "roundtrip_ms": 127.75541609153152,
+            "bundle_ms": {
+              "flow": 8.807,
+              "rent": 0.562,
+              "demand": 1.847,
+              "market": 2.376,
+              "compete": 0.775,
+              "transit": 1.336,
+              "building": 12.136
+            },
+            "total_ms": 41.309
+          },
+          {
+            "roundtrip_ms": 126.08016701415181,
+            "bundle_ms": {
+              "flow": 8.805,
+              "rent": 0.626,
+              "demand": 1.891,
+              "market": 2.401,
+              "compete": 0.891,
+              "transit": 1.271,
+              "building": 12.001
+            },
+            "total_ms": 43.276
+          },
+          {
+            "roundtrip_ms": 129.54183295369148,
+            "bundle_ms": {
+              "flow": 8.768,
+              "rent": 0.565,
+              "demand": 1.865,
+              "market": 2.424,
+              "compete": 0.789,
+              "transit": 1.313,
+              "building": 11.791
+            },
+            "total_ms": 40.609
+          },
+          {
+            "roundtrip_ms": 132.11941625922918,
+            "bundle_ms": {
+              "flow": 8.755,
+              "rent": 0.562,
+              "demand": 1.798,
+              "market": 2.344,
+              "compete": 0.84,
+              "transit": 1.276,
+              "building": 11.81
+            },
+            "total_ms": 40.63
+          },
+          {
+            "roundtrip_ms": 121.3402091525495,
+            "bundle_ms": {
+              "flow": 8.734,
+              "rent": 0.553,
+              "demand": 1.813,
+              "market": 2.438,
+              "compete": 0.809,
+              "transit": 1.252,
+              "building": 11.393
+            },
+            "total_ms": 39.899
+          },
+          {
+            "roundtrip_ms": 132.0857503451407,
+            "bundle_ms": {
+              "flow": 8.932,
+              "rent": 0.646,
+              "demand": 1.815,
+              "market": 2.349,
+              "compete": 0.809,
+              "transit": 1.371,
+              "building": 11.387
+            },
+            "total_ms": 41.952
+          },
+          {
+            "roundtrip_ms": 234.39375031739473,
+            "bundle_ms": {
+              "flow": 8.69,
+              "rent": 0.677,
+              "demand": 1.924,
+              "market": 2.328,
+              "compete": 0.775,
+              "transit": 1.261,
+              "building": 11.323
+            },
+            "total_ms": 40.897
+          },
+          {
+            "roundtrip_ms": 122.8340002708137,
+            "bundle_ms": {
+              "flow": 8.964,
+              "rent": 0.612,
+              "demand": 1.793,
+              "market": 2.364,
+              "compete": 0.959,
+              "transit": 1.257,
+              "building": 12.392
+            },
+            "total_ms": 41.327
+          },
+          {
+            "roundtrip_ms": 119.39812498167157,
+            "bundle_ms": {
+              "flow": 8.717,
+              "rent": 0.598,
+              "demand": 1.793,
+              "market": 2.417,
+              "compete": 0.83,
+              "transit": 1.278,
+              "building": 11.771
+            },
+            "total_ms": 40.629
+          },
+          {
+            "roundtrip_ms": 138.73629085719585,
+            "bundle_ms": {
+              "flow": 8.634,
+              "rent": 0.595,
+              "demand": 1.908,
+              "market": 2.391,
+              "compete": 0.873,
+              "transit": 1.387,
+              "building": 11.792
+            },
+            "total_ms": 40.784
+          },
+          {
+            "roundtrip_ms": 140.58729214593768,
+            "bundle_ms": {
+              "flow": 8.634,
+              "rent": 0.562,
+              "demand": 1.807,
+              "market": 2.374,
+              "compete": 0.783,
+              "transit": 1.336,
+              "building": 12.089
+            },
+            "total_ms": 40.686
+          },
+          {
+            "roundtrip_ms": 208.16875016316772,
+            "bundle_ms": {
+              "flow": 8.774,
+              "rent": 0.54,
+              "demand": 1.982,
+              "market": 2.402,
+              "compete": 0.805,
+              "transit": 1.29,
+              "building": 11.43
+            },
+            "total_ms": 40.435
+          },
+          {
+            "roundtrip_ms": 157.01658325269818,
+            "bundle_ms": {
+              "flow": 9.158,
+              "rent": 0.635,
+              "demand": 1.886,
+              "market": 2.651,
+              "compete": 0.927,
+              "transit": 1.362,
+              "building": 12.25
+            },
+            "total_ms": 42.238
+          },
+          {
+            "roundtrip_ms": 170.58458272367716,
+            "bundle_ms": {
+              "flow": 17.738,
+              "rent": 0.636,
+              "demand": 2.871,
+              "market": 3.779,
+              "compete": 1.273,
+              "transit": 2.855,
+              "building": 24.215
+            },
+            "total_ms": 71.953
+          },
+          {
+            "roundtrip_ms": 135.27929224073887,
+            "bundle_ms": {
+              "flow": 9.338,
+              "rent": 0.702,
+              "demand": 1.92,
+              "market": 2.32,
+              "compete": 0.823,
+              "transit": 1.339,
+              "building": 14.782
+            },
+            "total_ms": 48.62
+          },
+          {
+            "roundtrip_ms": 130.44554088264704,
+            "bundle_ms": {
+              "flow": 8.769,
+              "rent": 0.577,
+              "demand": 1.742,
+              "market": 2.459,
+              "compete": 0.84,
+              "transit": 1.388,
+              "building": 11.618
+            },
+            "total_ms": 40.47
+          },
+          {
+            "roundtrip_ms": 124.62579179555178,
+            "bundle_ms": {
+              "flow": 8.874,
+              "rent": 0.646,
+              "demand": 1.806,
+              "market": 2.458,
+              "compete": 0.806,
+              "transit": 1.317,
+              "building": 12.024
+            },
+            "total_ms": 41.114
+          },
+          {
+            "roundtrip_ms": 129.69820899888873,
+            "bundle_ms": {
+              "flow": 9.665,
+              "rent": 0.895,
+              "demand": 1.801,
+              "market": 2.645,
+              "compete": 0.877,
+              "transit": 1.363,
+              "building": 12.068
+            },
+            "total_ms": 44.047
+          },
+          {
+            "roundtrip_ms": 129.47845924645662,
+            "bundle_ms": {
+              "flow": 9.364,
+              "rent": 0.634,
+              "demand": 2.145,
+              "market": 2.598,
+              "compete": 1.288,
+              "transit": 1.312,
+              "building": 12.327
+            },
+            "total_ms": 43.674
+          },
+          {
+            "roundtrip_ms": 115.27579091489315,
+            "bundle_ms": {
+              "flow": 8.661,
+              "rent": 0.536,
+              "demand": 1.813,
+              "market": 2.344,
+              "compete": 0.848,
+              "transit": 1.26,
+              "building": 11.916
+            },
+            "total_ms": 40.627
+          },
+          {
+            "roundtrip_ms": 117.47337505221367,
+            "bundle_ms": {
+              "flow": 8.749,
+              "rent": 0.6,
+              "demand": 1.766,
+              "market": 2.386,
+              "compete": 0.8,
+              "transit": 1.27,
+              "building": 12.102
+            },
+            "total_ms": 40.755
+          },
+          {
+            "roundtrip_ms": 135.70724986493587,
+            "bundle_ms": {
+              "flow": 10.218,
+              "rent": 0.602,
+              "demand": 2.587,
+              "market": 2.566,
+              "compete": 0.859,
+              "transit": 1.381,
+              "building": 13.029
+            },
+            "total_ms": 51.344
+          },
+          {
+            "roundtrip_ms": 122.46520910412073,
+            "bundle_ms": {
+              "flow": 8.908,
+              "rent": 0.613,
+              "demand": 1.893,
+              "market": 2.449,
+              "compete": 0.821,
+              "transit": 1.41,
+              "building": 11.753
+            },
+            "total_ms": 42.228
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 150.83850035443902,
+          "bundle_ms": {
+            "flow": 13.828,
+            "rent": 0.545,
+            "demand": 3.435,
+            "market": 2.621,
+            "compete": 0.887,
+            "transit": 4.013,
+            "building": 11.741
+          },
+          "total_ms": 51.362
+        },
+        "warm_p95_ms": 208.16875016316772,
+        "baseline_matches": true
+      },
+      {
+        "name": "학여울",
+        "lat": 37.496663,
+        "lng": 127.070594,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 194.58783324807882,
+            "bundle_ms": {
+              "flow": 24.798,
+              "rent": 0.594,
+              "demand": 2.663,
+              "market": 11.754,
+              "compete": 3.078,
+              "transit": 1.644,
+              "building": 51.302
+            },
+            "total_ms": 110.26
+          },
+          {
+            "roundtrip_ms": 208.361332770437,
+            "bundle_ms": {
+              "flow": 25.551,
+              "rent": 0.743,
+              "demand": 2.686,
+              "market": 13.303,
+              "compete": 3.08,
+              "transit": 1.516,
+              "building": 49.12
+            },
+            "total_ms": 112.111
+          },
+          {
+            "roundtrip_ms": 197.89587520062923,
+            "bundle_ms": {
+              "flow": 24.823,
+              "rent": 0.635,
+              "demand": 2.664,
+              "market": 11.006,
+              "compete": 2.965,
+              "transit": 1.448,
+              "building": 46.657
+            },
+            "total_ms": 106.263
+          },
+          {
+            "roundtrip_ms": 196.95150014013052,
+            "bundle_ms": {
+              "flow": 27.101,
+              "rent": 0.666,
+              "demand": 2.556,
+              "market": 13.349,
+              "compete": 3.12,
+              "transit": 1.585,
+              "building": 52.061
+            },
+            "total_ms": 114.25
+          },
+          {
+            "roundtrip_ms": 191.72933418303728,
+            "bundle_ms": {
+              "flow": 25.574,
+              "rent": 0.586,
+              "demand": 2.842,
+              "market": 12.823,
+              "compete": 3.383,
+              "transit": 1.513,
+              "building": 48.905
+            },
+            "total_ms": 109.103
+          },
+          {
+            "roundtrip_ms": 202.55712512880564,
+            "bundle_ms": {
+              "flow": 25.067,
+              "rent": 0.583,
+              "demand": 2.68,
+              "market": 10.98,
+              "compete": 2.916,
+              "transit": 1.51,
+              "building": 49.976
+            },
+            "total_ms": 106.84
+          },
+          {
+            "roundtrip_ms": 188.90312500298023,
+            "bundle_ms": {
+              "flow": 26.278,
+              "rent": 0.628,
+              "demand": 2.484,
+              "market": 11.038,
+              "compete": 3.458,
+              "transit": 1.565,
+              "building": 49.305
+            },
+            "total_ms": 108.379
+          },
+          {
+            "roundtrip_ms": 188.39404080063105,
+            "bundle_ms": {
+              "flow": 25.563,
+              "rent": 0.572,
+              "demand": 2.477,
+              "market": 12.487,
+              "compete": 2.997,
+              "transit": 1.571,
+              "building": 47.376
+            },
+            "total_ms": 106.224
+          },
+          {
+            "roundtrip_ms": 193.67295829579234,
+            "bundle_ms": {
+              "flow": 25.355,
+              "rent": 0.587,
+              "demand": 2.511,
+              "market": 11.294,
+              "compete": 3.077,
+              "transit": 1.517,
+              "building": 48.058
+            },
+            "total_ms": 105.622
+          },
+          {
+            "roundtrip_ms": 198.10433313250542,
+            "bundle_ms": {
+              "flow": 24.647,
+              "rent": 0.59,
+              "demand": 2.529,
+              "market": 11.047,
+              "compete": 3.0,
+              "transit": 1.496,
+              "building": 47.414
+            },
+            "total_ms": 103.938
+          },
+          {
+            "roundtrip_ms": 202.931625302881,
+            "bundle_ms": {
+              "flow": 24.792,
+              "rent": 0.569,
+              "demand": 2.467,
+              "market": 10.991,
+              "compete": 2.916,
+              "transit": 1.535,
+              "building": 48.886
+            },
+            "total_ms": 105.487
+          },
+          {
+            "roundtrip_ms": 187.68595904111862,
+            "bundle_ms": {
+              "flow": 27.25,
+              "rent": 0.644,
+              "demand": 2.564,
+              "market": 14.54,
+              "compete": 3.242,
+              "transit": 1.454,
+              "building": 48.482
+            },
+            "total_ms": 113.036
+          },
+          {
+            "roundtrip_ms": 209.62183410301805,
+            "bundle_ms": {
+              "flow": 27.147,
+              "rent": 0.615,
+              "demand": 2.512,
+              "market": 13.075,
+              "compete": 3.737,
+              "transit": 1.576,
+              "building": 50.872
+            },
+            "total_ms": 114.474
+          },
+          {
+            "roundtrip_ms": 188.62112518399954,
+            "bundle_ms": {
+              "flow": 27.331,
+              "rent": 0.556,
+              "demand": 3.813,
+              "market": 11.103,
+              "compete": 2.917,
+              "transit": 1.442,
+              "building": 47.493
+            },
+            "total_ms": 110.12
+          },
+          {
+            "roundtrip_ms": 218.43954175710678,
+            "bundle_ms": {
+              "flow": 27.647,
+              "rent": 0.718,
+              "demand": 2.638,
+              "market": 13.495,
+              "compete": 3.512,
+              "transit": 2.12,
+              "building": 71.331
+            },
+            "total_ms": 135.426
+          },
+          {
+            "roundtrip_ms": 202.8052075766027,
+            "bundle_ms": {
+              "flow": 28.539,
+              "rent": 0.649,
+              "demand": 2.562,
+              "market": 13.359,
+              "compete": 3.994,
+              "transit": 1.458,
+              "building": 51.908
+            },
+            "total_ms": 118.0
+          },
+          {
+            "roundtrip_ms": 220.4861673526466,
+            "bundle_ms": {
+              "flow": 26.321,
+              "rent": 0.631,
+              "demand": 4.056,
+              "market": 12.747,
+              "compete": 4.27,
+              "transit": 1.608,
+              "building": 49.88
+            },
+            "total_ms": 114.569
+          },
+          {
+            "roundtrip_ms": 190.50533417612314,
+            "bundle_ms": {
+              "flow": 24.74,
+              "rent": 0.544,
+              "demand": 2.509,
+              "market": 10.849,
+              "compete": 2.936,
+              "transit": 1.511,
+              "building": 47.304
+            },
+            "total_ms": 103.936
+          },
+          {
+            "roundtrip_ms": 192.91187496855855,
+            "bundle_ms": {
+              "flow": 24.515,
+              "rent": 0.58,
+              "demand": 2.534,
+              "market": 10.988,
+              "compete": 3.067,
+              "transit": 1.497,
+              "building": 48.248
+            },
+            "total_ms": 104.606
+          },
+          {
+            "roundtrip_ms": 189.3550418317318,
+            "bundle_ms": {
+              "flow": 24.878,
+              "rent": 0.596,
+              "demand": 2.57,
+              "market": 11.038,
+              "compete": 2.937,
+              "transit": 1.457,
+              "building": 47.878
+            },
+            "total_ms": 104.348
+          },
+          {
+            "roundtrip_ms": 196.21537486091256,
+            "bundle_ms": {
+              "flow": 24.813,
+              "rent": 0.794,
+              "demand": 2.632,
+              "market": 13.895,
+              "compete": 3.062,
+              "transit": 1.435,
+              "building": 50.174
+            },
+            "total_ms": 110.565
+          },
+          {
+            "roundtrip_ms": 199.98058304190636,
+            "bundle_ms": {
+              "flow": 26.19,
+              "rent": 0.625,
+              "demand": 2.662,
+              "market": 11.031,
+              "compete": 3.01,
+              "transit": 1.553,
+              "building": 47.889
+            },
+            "total_ms": 105.868
+          },
+          {
+            "roundtrip_ms": 195.418749935925,
+            "bundle_ms": {
+              "flow": 25.243,
+              "rent": 0.563,
+              "demand": 2.537,
+              "market": 10.97,
+              "compete": 2.896,
+              "transit": 1.535,
+              "building": 47.647
+            },
+            "total_ms": 104.67
+          },
+          {
+            "roundtrip_ms": 214.78370763361454,
+            "bundle_ms": {
+              "flow": 24.673,
+              "rent": 0.583,
+              "demand": 2.439,
+              "market": 10.919,
+              "compete": 2.856,
+              "transit": 1.424,
+              "building": 48.605
+            },
+            "total_ms": 104.442
+          },
+          {
+            "roundtrip_ms": 220.42745910584927,
+            "bundle_ms": {
+              "flow": 28.255,
+              "rent": 0.6,
+              "demand": 2.549,
+              "market": 12.907,
+              "compete": 3.298,
+              "transit": 1.581,
+              "building": 52.474
+            },
+            "total_ms": 116.098
+          },
+          {
+            "roundtrip_ms": 208.10883305966854,
+            "bundle_ms": {
+              "flow": 25.448,
+              "rent": 0.566,
+              "demand": 2.61,
+              "market": 13.514,
+              "compete": 3.564,
+              "transit": 1.6,
+              "building": 48.923
+            },
+            "total_ms": 109.253
+          },
+          {
+            "roundtrip_ms": 199.691666290164,
+            "bundle_ms": {
+              "flow": 24.565,
+              "rent": 0.586,
+              "demand": 2.435,
+              "market": 11.206,
+              "compete": 2.856,
+              "transit": 1.533,
+              "building": 48.642
+            },
+            "total_ms": 104.684
+          },
+          {
+            "roundtrip_ms": 186.69962510466576,
+            "bundle_ms": {
+              "flow": 24.613,
+              "rent": 0.569,
+              "demand": 2.483,
+              "market": 11.245,
+              "compete": 2.859,
+              "transit": 1.476,
+              "building": 47.451
+            },
+            "total_ms": 103.766
+          },
+          {
+            "roundtrip_ms": 188.35804192349315,
+            "bundle_ms": {
+              "flow": 24.72,
+              "rent": 0.626,
+              "demand": 2.536,
+              "market": 10.795,
+              "compete": 2.977,
+              "transit": 1.414,
+              "building": 48.389
+            },
+            "total_ms": 104.342
+          },
+          {
+            "roundtrip_ms": 187.79262527823448,
+            "bundle_ms": {
+              "flow": 24.682,
+              "rent": 0.552,
+              "demand": 2.63,
+              "market": 11.07,
+              "compete": 3.045,
+              "transit": 1.432,
+              "building": 47.722
+            },
+            "total_ms": 104.26
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 803.9566250517964,
+          "bundle_ms": {
+            "flow": 258.624,
+            "rent": 0.723,
+            "demand": 8.014,
+            "market": 294.963,
+            "compete": 15.941,
+            "transit": 3.004,
+            "building": 111.63
+          },
+          "total_ms": 706.223
+        },
+        "warm_p95_ms": 220.42745910584927,
+        "baseline_matches": true
+      },
+      {
+        "name": "한티",
+        "lat": 37.496237,
+        "lng": 127.052873,
+        "radius_m": 500,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 173.79983328282833,
+            "bundle_ms": {
+              "flow": 8.776,
+              "rent": 0.658,
+              "demand": 1.988,
+              "market": 8.304,
+              "compete": 2.59,
+              "transit": 1.34,
+              "building": 35.925
+            },
+            "total_ms": 73.009
+          },
+          {
+            "roundtrip_ms": 173.13912510871887,
+            "bundle_ms": {
+              "flow": 8.942,
+              "rent": 0.601,
+              "demand": 1.996,
+              "market": 8.101,
+              "compete": 2.55,
+              "transit": 1.37,
+              "building": 34.889
+            },
+            "total_ms": 71.925
+          },
+          {
+            "roundtrip_ms": 166.78116703405976,
+            "bundle_ms": {
+              "flow": 8.854,
+              "rent": 0.619,
+              "demand": 1.987,
+              "market": 7.666,
+              "compete": 2.706,
+              "transit": 1.461,
+              "building": 35.837
+            },
+            "total_ms": 75.154
+          },
+          {
+            "roundtrip_ms": 166.6756672784686,
+            "bundle_ms": {
+              "flow": 8.776,
+              "rent": 0.582,
+              "demand": 1.946,
+              "market": 7.684,
+              "compete": 2.542,
+              "transit": 1.325,
+              "building": 34.75
+            },
+            "total_ms": 70.71
+          },
+          {
+            "roundtrip_ms": 161.00995801389217,
+            "bundle_ms": {
+              "flow": 8.808,
+              "rent": 0.548,
+              "demand": 1.996,
+              "market": 7.475,
+              "compete": 2.487,
+              "transit": 1.469,
+              "building": 35.382
+            },
+            "total_ms": 71.024
+          },
+          {
+            "roundtrip_ms": 156.63741575554013,
+            "bundle_ms": {
+              "flow": 8.601,
+              "rent": 0.566,
+              "demand": 1.992,
+              "market": 7.43,
+              "compete": 2.531,
+              "transit": 1.483,
+              "building": 35.042
+            },
+            "total_ms": 70.441
+          },
+          {
+            "roundtrip_ms": 158.033000305295,
+            "bundle_ms": {
+              "flow": 9.28,
+              "rent": 0.609,
+              "demand": 2.871,
+              "market": 8.45,
+              "compete": 2.786,
+              "transit": 1.447,
+              "building": 36.015
+            },
+            "total_ms": 76.249
+          },
+          {
+            "roundtrip_ms": 162.000291980803,
+            "bundle_ms": {
+              "flow": 9.08,
+              "rent": 0.616,
+              "demand": 2.088,
+              "market": 8.408,
+              "compete": 2.674,
+              "transit": 1.449,
+              "building": 35.225
+            },
+            "total_ms": 74.968
+          },
+          {
+            "roundtrip_ms": 155.3312921896577,
+            "bundle_ms": {
+              "flow": 9.504,
+              "rent": 0.683,
+              "demand": 2.229,
+              "market": 9.794,
+              "compete": 3.02,
+              "transit": 1.537,
+              "building": 37.632
+            },
+            "total_ms": 79.656
+          },
+          {
+            "roundtrip_ms": 171.1533754132688,
+            "bundle_ms": {
+              "flow": 8.781,
+              "rent": 0.628,
+              "demand": 1.997,
+              "market": 7.355,
+              "compete": 2.602,
+              "transit": 1.337,
+              "building": 35.519
+            },
+            "total_ms": 71.72
+          },
+          {
+            "roundtrip_ms": 157.6590840704739,
+            "bundle_ms": {
+              "flow": 9.119,
+              "rent": 0.684,
+              "demand": 2.17,
+              "market": 8.787,
+              "compete": 2.873,
+              "transit": 1.413,
+              "building": 36.558
+            },
+            "total_ms": 74.803
+          },
+          {
+            "roundtrip_ms": 154.44558393210173,
+            "bundle_ms": {
+              "flow": 8.936,
+              "rent": 0.563,
+              "demand": 2.022,
+              "market": 7.353,
+              "compete": 2.487,
+              "transit": 1.367,
+              "building": 35.627
+            },
+            "total_ms": 71.817
+          },
+          {
+            "roundtrip_ms": 148.2645832002163,
+            "bundle_ms": {
+              "flow": 8.818,
+              "rent": 0.643,
+              "demand": 2.073,
+              "market": 7.303,
+              "compete": 2.509,
+              "transit": 1.336,
+              "building": 35.145
+            },
+            "total_ms": 70.781
+          },
+          {
+            "roundtrip_ms": 151.91458258777857,
+            "bundle_ms": {
+              "flow": 8.753,
+              "rent": 0.561,
+              "demand": 2.125,
+              "market": 7.444,
+              "compete": 2.486,
+              "transit": 1.448,
+              "building": 34.885
+            },
+            "total_ms": 70.658
+          },
+          {
+            "roundtrip_ms": 151.51491668075323,
+            "bundle_ms": {
+              "flow": 8.964,
+              "rent": 0.579,
+              "demand": 2.004,
+              "market": 7.427,
+              "compete": 2.527,
+              "transit": 1.395,
+              "building": 35.852
+            },
+            "total_ms": 73.171
+          },
+          {
+            "roundtrip_ms": 144.5839162915945,
+            "bundle_ms": {
+              "flow": 8.915,
+              "rent": 0.608,
+              "demand": 1.991,
+              "market": 7.339,
+              "compete": 2.564,
+              "transit": 1.336,
+              "building": 36.365
+            },
+            "total_ms": 71.922
+          },
+          {
+            "roundtrip_ms": 153.45341712236404,
+            "bundle_ms": {
+              "flow": 8.901,
+              "rent": 0.568,
+              "demand": 1.993,
+              "market": 7.312,
+              "compete": 2.473,
+              "transit": 1.333,
+              "building": 35.641
+            },
+            "total_ms": 71.353
+          },
+          {
+            "roundtrip_ms": 158.331791870296,
+            "bundle_ms": {
+              "flow": 8.924,
+              "rent": 0.567,
+              "demand": 1.997,
+              "market": 7.463,
+              "compete": 2.513,
+              "transit": 1.329,
+              "building": 35.453
+            },
+            "total_ms": 71.367
+          },
+          {
+            "roundtrip_ms": 410.47612484544516,
+            "bundle_ms": {
+              "flow": 9.115,
+              "rent": 0.569,
+              "demand": 2.028,
+              "market": 7.444,
+              "compete": 2.573,
+              "transit": 1.357,
+              "building": 34.58
+            },
+            "total_ms": 70.594
+          },
+          {
+            "roundtrip_ms": 181.60487478598952,
+            "bundle_ms": {
+              "flow": 12.258,
+              "rent": 0.566,
+              "demand": 2.075,
+              "market": 8.592,
+              "compete": 2.476,
+              "transit": 3.338,
+              "building": 40.095
+            },
+            "total_ms": 82.491
+          },
+          {
+            "roundtrip_ms": 156.6091668792069,
+            "bundle_ms": {
+              "flow": 8.686,
+              "rent": 0.629,
+              "demand": 1.931,
+              "market": 7.375,
+              "compete": 2.466,
+              "transit": 1.445,
+              "building": 35.28
+            },
+            "total_ms": 70.893
+          },
+          {
+            "roundtrip_ms": 156.53687482699752,
+            "bundle_ms": {
+              "flow": 8.892,
+              "rent": 0.603,
+              "demand": 2.08,
+              "market": 7.775,
+              "compete": 2.554,
+              "transit": 1.393,
+              "building": 34.682
+            },
+            "total_ms": 71.311
+          },
+          {
+            "roundtrip_ms": 158.08579185977578,
+            "bundle_ms": {
+              "flow": 8.912,
+              "rent": 0.601,
+              "demand": 1.969,
+              "market": 7.571,
+              "compete": 2.445,
+              "transit": 1.382,
+              "building": 34.856
+            },
+            "total_ms": 70.722
+          },
+          {
+            "roundtrip_ms": 167.77687473222613,
+            "bundle_ms": {
+              "flow": 8.767,
+              "rent": 0.579,
+              "demand": 2.019,
+              "market": 7.365,
+              "compete": 2.698,
+              "transit": 1.474,
+              "building": 34.691
+            },
+            "total_ms": 70.455
+          },
+          {
+            "roundtrip_ms": 159.8275830037892,
+            "bundle_ms": {
+              "flow": 8.782,
+              "rent": 0.548,
+              "demand": 2.022,
+              "market": 7.623,
+              "compete": 2.465,
+              "transit": 1.433,
+              "building": 34.642
+            },
+            "total_ms": 70.925
+          },
+          {
+            "roundtrip_ms": 155.4019581526518,
+            "bundle_ms": {
+              "flow": 8.707,
+              "rent": 0.535,
+              "demand": 1.927,
+              "market": 7.726,
+              "compete": 2.514,
+              "transit": 1.368,
+              "building": 35.084
+            },
+            "total_ms": 70.713
+          },
+          {
+            "roundtrip_ms": 161.6449998691678,
+            "bundle_ms": {
+              "flow": 9.845,
+              "rent": 0.617,
+              "demand": 2.166,
+              "market": 7.354,
+              "compete": 2.474,
+              "transit": 1.323,
+              "building": 35.838
+            },
+            "total_ms": 73.649
+          },
+          {
+            "roundtrip_ms": 153.55479065328836,
+            "bundle_ms": {
+              "flow": 9.139,
+              "rent": 0.592,
+              "demand": 1.977,
+              "market": 8.292,
+              "compete": 2.659,
+              "transit": 1.383,
+              "building": 36.743
+            },
+            "total_ms": 73.843
+          },
+          {
+            "roundtrip_ms": 152.37241704016924,
+            "bundle_ms": {
+              "flow": 8.684,
+              "rent": 0.562,
+              "demand": 2.046,
+              "market": 7.117,
+              "compete": 2.523,
+              "transit": 1.348,
+              "building": 34.718
+            },
+            "total_ms": 70.028
+          },
+          {
+            "roundtrip_ms": 159.1421659104526,
+            "bundle_ms": {
+              "flow": 8.872,
+              "rent": 0.608,
+              "demand": 1.991,
+              "market": 7.612,
+              "compete": 2.735,
+              "transit": 1.355,
+              "building": 36.352
+            },
+            "total_ms": 73.496
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 508.9452499523759,
+          "bundle_ms": {
+            "flow": 23.808,
+            "rent": 2.623,
+            "demand": 3.611,
+            "market": 233.949,
+            "compete": 23.477,
+            "transit": 10.585,
+            "building": 105.189
+          },
+          "total_ms": 416.574
+        },
+        "warm_p95_ms": 181.60487478598952,
+        "baseline_matches": true
+      },
+      {
+        "name": "한티",
+        "lat": 37.496237,
+        "lng": 127.052873,
+        "radius_m": 1000,
+        "floor": 2,
+        "warm": [
+          {
+            "roundtrip_ms": 313.06204106658697,
+            "bundle_ms": {
+              "flow": 27.99,
+              "rent": 0.614,
+              "demand": 4.118,
+              "market": 45.79,
+              "compete": 5.164,
+              "transit": 1.652,
+              "building": 122.332
+            },
+            "total_ms": 226.032
+          },
+          {
+            "roundtrip_ms": 325.9828337468207,
+            "bundle_ms": {
+              "flow": 27.286,
+              "rent": 0.63,
+              "demand": 2.591,
+              "market": 53.02,
+              "compete": 6.22,
+              "transit": 2.199,
+              "building": 121.659
+            },
+            "total_ms": 227.89
+          },
+          {
+            "roundtrip_ms": 331.7303750663996,
+            "bundle_ms": {
+              "flow": 29.465,
+              "rent": 0.591,
+              "demand": 6.641,
+              "market": 46.803,
+              "compete": 5.483,
+              "transit": 1.646,
+              "building": 122.462
+            },
+            "total_ms": 229.562
+          },
+          {
+            "roundtrip_ms": 303.8321668282151,
+            "bundle_ms": {
+              "flow": 25.391,
+              "rent": 0.642,
+              "demand": 2.847,
+              "market": 43.084,
+              "compete": 5.039,
+              "transit": 1.644,
+              "building": 119.225
+            },
+            "total_ms": 216.282
+          },
+          {
+            "roundtrip_ms": 341.83358307927847,
+            "bundle_ms": {
+              "flow": 25.586,
+              "rent": 0.666,
+              "demand": 2.633,
+              "market": 45.617,
+              "compete": 5.388,
+              "transit": 1.75,
+              "building": 122.615
+            },
+            "total_ms": 217.952
+          },
+          {
+            "roundtrip_ms": 294.90595823153853,
+            "bundle_ms": {
+              "flow": 25.148,
+              "rent": 0.611,
+              "demand": 2.547,
+              "market": 40.55,
+              "compete": 4.869,
+              "transit": 1.642,
+              "building": 117.921
+            },
+            "total_ms": 205.253
+          },
+          {
+            "roundtrip_ms": 290.75641743838787,
+            "bundle_ms": {
+              "flow": 25.091,
+              "rent": 0.586,
+              "demand": 2.517,
+              "market": 40.894,
+              "compete": 4.711,
+              "transit": 1.54,
+              "building": 116.715
+            },
+            "total_ms": 203.823
+          },
+          {
+            "roundtrip_ms": 301.44975008443,
+            "bundle_ms": {
+              "flow": 25.09,
+              "rent": 0.66,
+              "demand": 2.468,
+              "market": 40.27,
+              "compete": 4.829,
+              "transit": 1.565,
+              "building": 123.352
+            },
+            "total_ms": 209.685
+          },
+          {
+            "roundtrip_ms": 328.81662528961897,
+            "bundle_ms": {
+              "flow": 28.73,
+              "rent": 0.583,
+              "demand": 2.587,
+              "market": 41.492,
+              "compete": 6.747,
+              "transit": 1.624,
+              "building": 124.358
+            },
+            "total_ms": 218.902
+          },
+          {
+            "roundtrip_ms": 280.2603328600526,
+            "bundle_ms": {
+              "flow": 25.78,
+              "rent": 0.609,
+              "demand": 2.613,
+              "market": 40.885,
+              "compete": 4.758,
+              "transit": 1.621,
+              "building": 114.869
+            },
+            "total_ms": 202.535
+          },
+          {
+            "roundtrip_ms": 295.76512472704053,
+            "bundle_ms": {
+              "flow": 24.815,
+              "rent": 0.56,
+              "demand": 2.717,
+              "market": 42.025,
+              "compete": 4.795,
+              "transit": 1.532,
+              "building": 117.809
+            },
+            "total_ms": 205.772
+          },
+          {
+            "roundtrip_ms": 304.1523341089487,
+            "bundle_ms": {
+              "flow": 25.949,
+              "rent": 0.584,
+              "demand": 2.527,
+              "market": 44.873,
+              "compete": 4.96,
+              "transit": 1.63,
+              "building": 125.537
+            },
+            "total_ms": 217.831
+          },
+          {
+            "roundtrip_ms": 328.619624953717,
+            "bundle_ms": {
+              "flow": 40.954,
+              "rent": 0.592,
+              "demand": 3.461,
+              "market": 49.012,
+              "compete": 7.887,
+              "transit": 2.025,
+              "building": 131.299
+            },
+            "total_ms": 246.903
+          },
+          {
+            "roundtrip_ms": 285.9885832294822,
+            "bundle_ms": {
+              "flow": 25.93,
+              "rent": 0.568,
+              "demand": 2.62,
+              "market": 42.34,
+              "compete": 4.924,
+              "transit": 1.627,
+              "building": 116.918
+            },
+            "total_ms": 206.451
+          },
+          {
+            "roundtrip_ms": 290.8461666665971,
+            "bundle_ms": {
+              "flow": 30.068,
+              "rent": 0.602,
+              "demand": 2.517,
+              "market": 41.13,
+              "compete": 4.867,
+              "transit": 2.416,
+              "building": 118.895
+            },
+            "total_ms": 211.835
+          },
+          {
+            "roundtrip_ms": 312.9152082838118,
+            "bundle_ms": {
+              "flow": 25.838,
+              "rent": 0.614,
+              "demand": 2.898,
+              "market": 44.547,
+              "compete": 7.417,
+              "transit": 1.744,
+              "building": 126.101
+            },
+            "total_ms": 222.192
+          },
+          {
+            "roundtrip_ms": 299.6690832078457,
+            "bundle_ms": {
+              "flow": 25.617,
+              "rent": 0.638,
+              "demand": 2.608,
+              "market": 46.531,
+              "compete": 5.567,
+              "transit": 1.789,
+              "building": 117.873
+            },
+            "total_ms": 212.406
+          },
+          {
+            "roundtrip_ms": 293.27824991196394,
+            "bundle_ms": {
+              "flow": 26.415,
+              "rent": 0.637,
+              "demand": 2.631,
+              "market": 40.035,
+              "compete": 5.007,
+              "transit": 1.824,
+              "building": 122.37
+            },
+            "total_ms": 210.559
+          },
+          {
+            "roundtrip_ms": 320.9539162926376,
+            "bundle_ms": {
+              "flow": 27.462,
+              "rent": 0.828,
+              "demand": 3.383,
+              "market": 43.801,
+              "compete": 6.271,
+              "transit": 1.627,
+              "building": 128.753
+            },
+            "total_ms": 225.893
+          },
+          {
+            "roundtrip_ms": 293.76116674393415,
+            "bundle_ms": {
+              "flow": 26.877,
+              "rent": 0.565,
+              "demand": 2.486,
+              "market": 41.774,
+              "compete": 4.798,
+              "transit": 1.691,
+              "building": 117.579
+            },
+            "total_ms": 207.496
+          },
+          {
+            "roundtrip_ms": 298.28395834192634,
+            "bundle_ms": {
+              "flow": 25.784,
+              "rent": 0.612,
+              "demand": 2.447,
+              "market": 40.216,
+              "compete": 5.005,
+              "transit": 1.71,
+              "building": 119.396
+            },
+            "total_ms": 208.144
+          },
+          {
+            "roundtrip_ms": 299.74874993786216,
+            "bundle_ms": {
+              "flow": 25.589,
+              "rent": 0.651,
+              "demand": 2.55,
+              "market": 39.984,
+              "compete": 4.935,
+              "transit": 1.64,
+              "building": 122.934
+            },
+            "total_ms": 209.818
+          },
+          {
+            "roundtrip_ms": 302.8923338279128,
+            "bundle_ms": {
+              "flow": 24.881,
+              "rent": 0.577,
+              "demand": 2.441,
+              "market": 40.45,
+              "compete": 4.963,
+              "transit": 1.667,
+              "building": 118.485
+            },
+            "total_ms": 204.908
+          },
+          {
+            "roundtrip_ms": 301.5674171037972,
+            "bundle_ms": {
+              "flow": 26.259,
+              "rent": 0.592,
+              "demand": 2.561,
+              "market": 40.664,
+              "compete": 4.774,
+              "transit": 1.683,
+              "building": 125.234
+            },
+            "total_ms": 214.46
+          },
+          {
+            "roundtrip_ms": 301.8692908808589,
+            "bundle_ms": {
+              "flow": 25.349,
+              "rent": 0.598,
+              "demand": 2.694,
+              "market": 40.662,
+              "compete": 4.919,
+              "transit": 1.609,
+              "building": 119.256
+            },
+            "total_ms": 207.883
+          },
+          {
+            "roundtrip_ms": 356.7016660235822,
+            "bundle_ms": {
+              "flow": 28.046,
+              "rent": 0.876,
+              "demand": 2.501,
+              "market": 52.226,
+              "compete": 6.4,
+              "transit": 1.913,
+              "building": 170.477
+            },
+            "total_ms": 274.781
+          },
+          {
+            "roundtrip_ms": 438.8682092539966,
+            "bundle_ms": {
+              "flow": 40.895,
+              "rent": 6.887,
+              "demand": 2.999,
+              "market": 73.418,
+              "compete": 6.19,
+              "transit": 2.194,
+              "building": 181.217
+            },
+            "total_ms": 337.077
+          },
+          {
+            "roundtrip_ms": 362.76845913380384,
+            "bundle_ms": {
+              "flow": 29.56,
+              "rent": 0.659,
+              "demand": 17.097,
+              "market": 48.591,
+              "compete": 6.289,
+              "transit": 4.506,
+              "building": 129.241
+            },
+            "total_ms": 267.913
+          },
+          {
+            "roundtrip_ms": 321.03612506762147,
+            "bundle_ms": {
+              "flow": 26.867,
+              "rent": 0.626,
+              "demand": 2.883,
+              "market": 44.021,
+              "compete": 5.235,
+              "transit": 1.68,
+              "building": 129.232
+            },
+            "total_ms": 226.204
+          },
+          {
+            "roundtrip_ms": 346.2451668456197,
+            "bundle_ms": {
+              "flow": 27.87,
+              "rent": 1.151,
+              "demand": 3.146,
+              "market": 48.006,
+              "compete": 6.849,
+              "transit": 1.891,
+              "building": 149.855
+            },
+            "total_ms": 256.342
+          }
+        ],
+        "first": {
+          "roundtrip_ms": 2730.210958980024,
+          "bundle_ms": {
+            "flow": 60.941,
+            "rent": 0.628,
+            "demand": 3.232,
+            "market": 2055.151,
+            "compete": 42.639,
+            "transit": 2.995,
+            "building": 461.783
+          },
+          "total_ms": 2640.561
+        },
+        "warm_p95_ms": 362.76845913380384,
+        "baseline_matches": true
+      }
+    ],
+    "status": "success",
+    "seconds": 51.217
+  },
+  "cleanup": [
+    {
+      "created_users": 2,
+      "deleted_users": 2,
+      "scope": "only users created by this run; dependent candidates/comparisons/usage/watchers cascade"
+    },
+    {
+      "created_users": 2,
+      "deleted_users": 2,
+      "scope": "only users created by this run; dependent candidates/comparisons/usage/watchers cascade"
+    },
+    {
+      "created_users": 1,
+      "deleted_users": 1,
+      "scope": "only users created by this run; dependent candidates/comparisons/usage/watchers cascade"
+    }
+  ],
+  "after_cleanup": {
+    "auth.users": 1,
+    "public.candidates": 0,
+    "public.comparisons": 0,
+    "app_private.user_activity": 1,
+    "app_private.address_daily_usage": 0,
+    "app_private.candidate_lookup_watchers": 0,
+    "public.candidate_lookup_status": 0,
+    "app_private.projection_errors": 0,
+    "public.geocode_cache": 13570
+  },
+  "env_names": [
+    {
+      "name": "VWORLD_API_KEY",
+      "targets": [
+        "production"
+      ]
+    },
+    {
+      "name": "VWORLD_API_KEY",
+      "targets": [
+        "preview"
+      ]
+    },
+    {
+      "name": "JUSO_API_KEY",
+      "targets": [
+        "production",
+        "preview"
+      ]
+    },
+    {
+      "name": "KAKAO_REST_API_KEY",
+      "targets": [
+        "production",
+        "preview"
+      ]
+    },
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "targets": [
+        "preview",
+        "production"
+      ]
+    },
+    {
+      "name": "NEXT_PUBLIC_SUPABASE_URL",
+      "targets": [
+        "preview",
+        "production"
+      ]
+    }
+  ],
+  "previous_direct_sql_reused": [
+    {
+      "name": "대치",
+      "radius_m": 500,
+      "warm_p95_ms": 50.685,
+      "warm_max_ms": 57.875,
+      "first_ms": 4039.893
+    },
+    {
+      "name": "대치",
+      "radius_m": 1000,
+      "warm_p95_ms": 155.886,
+      "warm_max_ms": 174.047,
+      "first_ms": 3775.637
+    },
+    {
+      "name": "학여울",
+      "radius_m": 500,
+      "warm_p95_ms": 42.063,
+      "warm_max_ms": 58.018,
+      "first_ms": 89.143
+    },
+    {
+      "name": "학여울",
+      "radius_m": 1000,
+      "warm_p95_ms": 123.217,
+      "warm_max_ms": 126.788,
+      "first_ms": 622.442
+    },
+    {
+      "name": "한티",
+      "radius_m": 500,
+      "warm_p95_ms": 335.558,
+      "warm_max_ms": 399.847,
+      "first_ms": 347.045
+    },
+    {
+      "name": "한티",
+      "radius_m": 1000,
+      "warm_p95_ms": 368.835,
+      "warm_max_ms": 406.87,
+      "first_ms": 3195.687
+    }
+  ],
+  "local_checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "vitest": 106,
+    "python": 259,
+    "ci": "https://github.com/hanbeulYou/Gilmok/actions/runs/36855497182"
+  },
+  "comparison_method": {
+    "scoring_fields": "exact equality: total, confidence, derived, all axes scores/contributions/weights/statuses",
+    "evidence": "existing DB comparison tolerance rel_tol=1e-10, abs_tol=1e-8; computed_at excluded",
+    "initial_strict_comparator": "byte comparison of raw float evidence failed; corrected harness after checking every difference, no product data or score changes",
+    "http_harness": "initial import-path setup failure occurred before any HTTP measurement; remaining HTTP stage ran separately after fixing local sys.path"
+  },
+  "not_changed": [
+    "production promotion",
+    "migration/data/preset changes",
+    "INGEST_REMOTE_ENABLED=false",
+    "webhook always-on policy",
+    "Kakao key/cache deletion"
+  ]
+}

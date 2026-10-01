@@ -81,7 +81,7 @@ export type ScoreInputs = ReferenceInputs & {
   building: BuildingInput | null; rent: RentInput;
   meta: {
     computed_at: string; legal_dong_code: string | null;
-    building_lookup: { status: string };
+    building_lookup: { status: string; request_id?: string | null };
     height_quality: { unknown_ratio: number | null };
     flow_coverage: { weekday: { coverage_ratio: readonly (number | null)[] };
       weekend: { coverage_ratio: readonly (number | null)[] } };
@@ -105,6 +105,16 @@ export interface ScoreReference {
   sources: Readonly<Record<string, SourceMetadata | readonly SourceMetadata[]>>;
   distributions: readonly ReferenceDistribution[];
 }
+/** Compact RPC response; raw binds a result to its exact request, never another candidate. */
+export interface PercentileReference extends Omit<ScoreReference, 'distributions'> {
+  kind: 'percentiles';
+  percentiles: readonly {
+    radius_m: number; key: string; raw: number | null; percentile: number | null;
+    cell_count: number; population_size: number;
+    histogram: { min: number | null; max: number | null; bins: readonly number[] };
+  }[];
+}
+export type ScoringReference = ScoreReference | PercentileReference;
 export interface Evidence {
   values: Record<string, unknown>; percentile: number | null;
   rules_applied: string[]; reference: { population_size: number; coverage: number } | null;

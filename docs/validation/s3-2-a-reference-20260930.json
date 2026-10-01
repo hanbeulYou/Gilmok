@@ -1,0 +1,349 @@
+{
+  "scope": "local S2 frozen-input replay; direct SQL, not HTTP/browser",
+  "results": [
+    {
+      "key": "a",
+      "total": 85.08500496915157,
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 96.56364174977782
+        },
+        {
+          "key": "flow",
+          "normalized": 99.33406222045522
+        },
+        {
+          "key": "transit",
+          "normalized": 38.336803260049486
+        },
+        {
+          "key": "cluster",
+          "normalized": 97.47740578011093
+        },
+        {
+          "key": "exposure",
+          "normalized": 38.38383838383838
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 93.40459174952771
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 47.664124984294176,
+      "percentile_sql_ms": 69.36216680333018,
+      "response_bytes": 5947,
+      "full_score_equal": true
+    },
+    {
+      "key": "b",
+      "total": 93.37294822089991,
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 99.76300977584674
+        },
+        {
+          "key": "flow",
+          "normalized": 98.87685120763344
+        },
+        {
+          "key": "transit",
+          "normalized": 81.70108973489597
+        },
+        {
+          "key": "cluster",
+          "normalized": 98.41003619754652
+        },
+        {
+          "key": "exposure",
+          "normalized": 50.89058524173028
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 87.65344088005983
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 28.09366723522544,
+      "percentile_sql_ms": 50.220875069499016,
+      "response_bytes": 5962,
+      "full_score_equal": true
+    },
+    {
+      "key": "c",
+      "total": 83.86398262933545,
+      "confidence": 85,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 84.41789276192357
+        },
+        {
+          "key": "flow",
+          "normalized": 97.18715833416161
+        },
+        {
+          "key": "transit",
+          "normalized": 60.78723216127797
+        },
+        {
+          "key": "cluster",
+          "normalized": 85.91014431805627
+        },
+        {
+          "key": "exposure",
+          "normalized": 63.28124999999998
+        },
+        {
+          "key": "building",
+          "normalized": 100
+        },
+        {
+          "key": "environment",
+          "normalized": 91.97345894534489
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 28.970458079129457,
+      "percentile_sql_ms": 54.12691691890359,
+      "response_bytes": 5936,
+      "full_score_equal": true
+    },
+    {
+      "key": "다사45004275",
+      "total": 42.959551666221316,
+      "confidence": 60,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 22.178335143675323
+        },
+        {
+          "key": "flow",
+          "normalized": 68.03498658185072
+        },
+        {
+          "key": "transit",
+          "normalized": 85.42548185289967
+        },
+        {
+          "key": "cluster",
+          "normalized": 0
+        },
+        {
+          "key": "exposure",
+          "normalized": null
+        },
+        {
+          "key": "building",
+          "normalized": null
+        },
+        {
+          "key": "environment",
+          "normalized": 93.90141049323807
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 25.85720829665661,
+      "percentile_sql_ms": 49.44829223677516,
+      "response_bytes": 5965,
+      "full_score_equal": true
+    },
+    {
+      "key": "다사42254425",
+      "total": 59.426370969596356,
+      "confidence": 65,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 73.45709489483559
+        },
+        {
+          "key": "flow",
+          "normalized": 68.50213696451645
+        },
+        {
+          "key": "transit",
+          "normalized": 74.5418624862838
+        },
+        {
+          "key": "cluster",
+          "normalized": 5.193490402143997
+        },
+        {
+          "key": "exposure",
+          "normalized": null
+        },
+        {
+          "key": "building",
+          "normalized": null
+        },
+        {
+          "key": "environment",
+          "normalized": 65.36689658569529
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 25.600540917366743,
+      "percentile_sql_ms": 51.09387496486306,
+      "response_bytes": 5962,
+      "full_score_equal": true
+    },
+    {
+      "key": "다사39255150",
+      "total": 57.524146225727144,
+      "confidence": 75,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 61.94331983805668
+        },
+        {
+          "key": "flow",
+          "normalized": 56.21707583739191
+        },
+        {
+          "key": "transit",
+          "normalized": 78.47075080990548
+        },
+        {
+          "key": "cluster",
+          "normalized": 30.32550305725482
+        },
+        {
+          "key": "exposure",
+          "normalized": null
+        },
+        {
+          "key": "building",
+          "normalized": null
+        },
+        {
+          "key": "environment",
+          "normalized": 53.68643146963758
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 25.714500341564417,
+      "percentile_sql_ms": 48.119958024472,
+      "response_bytes": 5964,
+      "full_score_equal": true
+    },
+    {
+      "key": "다사70254975",
+      "total": 51.15883804296077,
+      "confidence": 60,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 91.42885355979065
+        },
+        {
+          "key": "flow",
+          "normalized": 40.73153762051486
+        },
+        {
+          "key": "transit",
+          "normalized": 28.700946028772407
+        },
+        {
+          "key": "cluster",
+          "normalized": 5.193490402143997
+        },
+        {
+          "key": "exposure",
+          "normalized": null
+        },
+        {
+          "key": "building",
+          "normalized": null
+        },
+        {
+          "key": "environment",
+          "normalized": 46.09036517433464
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 25.655583012849092,
+      "percentile_sql_ms": 49.48045779019594,
+      "response_bytes": 5946,
+      "full_score_equal": true
+    },
+    {
+      "key": "다사52753900",
+      "total": 4.716869307900608,
+      "confidence": 60,
+      "axes": [
+        {
+          "key": "demand",
+          "normalized": 3.169744248049768
+        },
+        {
+          "key": "flow",
+          "normalized": 2.693569227710963
+        },
+        {
+          "key": "transit",
+          "normalized": 8.824218155861326
+        },
+        {
+          "key": "cluster",
+          "normalized": 0
+        },
+        {
+          "key": "exposure",
+          "normalized": null
+        },
+        {
+          "key": "building",
+          "normalized": null
+        },
+        {
+          "key": "environment",
+          "normalized": 21.898081287394266
+        },
+        {
+          "key": "rent_efficiency",
+          "normalized": null
+        }
+      ],
+      "context_sql_ms": 25.006582960486412,
+      "percentile_sql_ms": 46.63950018584728,
+      "response_bytes": 5920,
+      "full_score_equal": true
+    }
+  ]
+}
