@@ -273,3 +273,9 @@ A0 계획 단계 확인: #21 main·#22 WIP와 공식 문서, 로컬/원격 SELEC
 3. 원격 적용·키 등록 후 Preview에서 주소 등록을 확인하고 사용자가 머지한다. 이 세션은 Vercel 설정·공유 캐시·Kakao 키 삭제·상시 웹훅 활성화를 실행하지 않는다.
 
 자세한 결과와 남은 단계는 [PR A 검증](../validation/s3-2-a-registration-20260930.md)을 따른다.
+
+## 2026-10-01 PR A 원격 검증 완료
+
+승인된 기존5개와 투영 오류 분리/보정1개, 총6개 migration을 원격 적용했다. 강제 P0001 복구·원본6조합 diff0·직접 SQL 웜p95·월간 예열을 통과했다. 사용자 팀 이전 후 `vineyard/gilmok`으로 CLI를 재연결하고 Preview를 재배포해 주소 Route Handler 실제 icn1 및 Juso/Vworld200을 확인했다.
+
+원격3곳의 총점·8축·신뢰도는 A0 T1 로컬 기준과 일치하고, uid 격리·일일100회 제한·익명 로그인 세션의 HTTP6조합도 통과했다. [최종 원격 검증](../validation/s3-2-a-region-retry-20261001.md). PR A는 Ready 전환 대상이며 머지는 사용자 담당이다. B/C 범위와 승인 조건은 그대로 유지한다.

@@ -1,6 +1,6 @@
 # PR A 원격 push 사전 조건 검증
 
-> 2026-10-01 최신 상태: 투영 실패 수정 및 원격6개 push·SQL 성능·예열 통과. Vercel 좌표조회502/실제 리전iad1로 중단했다. [최신 검증](s3-2-a-projection-recovery-20261001.md#원격-실행-결과--vercel-등록-단계에서-중단). 아래는 해당 날짜의 과거 기록이다.
+> 2026-10-01 후속 검증: Vineyard 팀으로 재연결·Preview 재배포 후 실제 icn1/Juso·Vworld200, 원격3곳 점수 일치·uid 격리·검색 한도·authenticated HTTP6조합을 통과했다. [최종 검증](s3-2-a-region-retry-20261001.md). 아래 내용은 당시 증거로 보존한다.
 
 2026-10-01 · 대상 #22 / `52a726bdae8491316dbd39ca9c0330865b2c18f2`. **조건2 실패로 중단, 원격 push 미실행, Draft 유지**. 제품 코드와 migration 파일을 수정하지 않았다.
 

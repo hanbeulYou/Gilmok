@@ -155,3 +155,11 @@ A는 `/new` 등록→`/compare` 미저장 점수 목록까지다. 최초 데이�
 - 보정 실행: `uv run --frozen python -m ingest.reconcile_projection --target local`
 
 원격은 기존 DB URL/INGEST_REMOTE_ENABLED 가드와 작업 승인을 따른다. Actions는 main을 체크아웃하므로 PR 머지 후에 새 보정 단계가 실행된다. 현재 상시 운영과6시간 주기 전환은 B 실증 이후이며 이번 PR에서 variable이나 cron을 바꾸지 않는다. 롤백은 프론트/보정 실행을 중단한 뒤 신규 두 트리거 제거와 원본 score_inputs 복귀를 시행하고 로그 데이터는 보존한다. [검증·롤백 SQL](../validation/s3-2-a-projection-recovery-20261001.md).
+
+## Vineyard 팀 연결·원격 A 검증 (2026-10-01)
+
+Vercel 프로젝트는 동일 ID로 `vineyard`(Vineyard) 팀에 이전됐다. CLI는 `vercel switch vineyard` 후 작업 폴더에서 `vercel link --yes --project gilmok --scope vineyard`로 기존 프로젝트에 연결한다. 다른 팀의 동명 프로젝트를 새로 만들지 않는다. 환경변수 자동 다운로드가 있는 CLI에서는 서버 비밀이 파일/로그에 남지 않도록 확인한다.
+
+팀/Function Region 설정 변경 전의 Preview는 기존 리전으로 실행될 수 있다. 승인된 Preview를 새 팀에서 재배포하고 `/api/address-search` 응답의 `X-Gilmok-Function-Region`을 확인한다. `x-vercel-id`의 엣지 위치와 혼동하지 않는다. 이번 프로젝트 전체 regions는 `[iad1,icn1]`, 검증한 주소 Route Handler의 실제 요청6건은 모두 icn1이었다.
+
+주소 API 실패 로그 `address_provider_failure`에는 공급자, 단계, HTTP 상태, 제한된 기계 오류 코드만 남긴다. 키·주소·요청 URL·원문 응답을 추가하지 않는다. HTTP 응답 전 실패하면 상태/공급자 응답 코드가 NULL일 수 있다. 이번 재시험에서는 Juso 검색과 Vworld 좌표가 모두200이었다. [3곳·uid·한도·HTTP 최종 검증](../validation/s3-2-a-region-retry-20261001.md).
