@@ -60,13 +60,37 @@ export function createAddressProvider(keys: { juso?: string; vworld?: string },
   fetcher: typeof fetch = fetch): AddressProvider {
   async function request(endpoint: string, params: Record<string, string>, provider: 'juso_search' | 'vworld_coordinate') {
     await claim(provider);
+    let httpStatus: number | null = null;
+    let logged = false;
+    const report = (stage: 'network' | 'response', code: unknown) => {
+      // Only bounded machine codes: never provider text, URLs, keys or addresses.
+      const safeCode = typeof code === 'string' && /^[A-Z][A-Z0-9_]{1,48}$/.test(code)
+        && code !== keys.juso && code !== keys.vworld ? code : null;
+      console.error('address_provider_failure', JSON.stringify({ provider, stage, http_status: httpStatus, code: safeCode }));
+      logged = true;
+    };
     try {
       const response = await fetcher(`${endpoint}?${new URLSearchParams(params)}`, {
         cache: 'no-store', signal: AbortSignal.timeout(10000), redirect: 'error',
       });
+      httpStatus = response.status;
+      const payload: unknown = await response.json();
+      const data = payload as { response?: { status?: string; error?: { code?: unknown } };
+        results?: { common?: { errorCode?: unknown } } } | null;
+      const code = provider === 'vworld_coordinate' ? data?.response?.error?.code : data?.results?.common?.errorCode;
+      const rejected = provider === 'vworld_coordinate'
+        ? data?.response?.status === 'ERROR' : code !== undefined && code !== '0';
+      if (!response.ok || rejected) report('response', code);
       if (!response.ok) throw new AddressError('address_provider_unavailable');
-      return await response.json() as unknown;
-    } catch { throw new AddressError('address_provider_unavailable'); }
+      return payload;
+    } catch (error) {
+      if (!logged) {
+        const cause = error instanceof Error ? error.cause as { code?: unknown } | undefined : undefined;
+        report(httpStatus === null ? 'network' : 'response',
+          error instanceof Error && error.name === 'TimeoutError' ? 'TIMEOUT' : cause?.code);
+      }
+      throw new AddressError('address_provider_unavailable');
+    }
   }
   const search: AddressProvider['search'] = async query => {
     if (!keys.juso) throw new AddressError('address_provider_not_configured', 503);
