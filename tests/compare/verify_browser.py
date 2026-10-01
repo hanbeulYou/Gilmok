@@ -149,6 +149,21 @@ try:
         frames_by_page = []
         errors = []
         requests = []
+        rpc_failures = []
+
+        def inspect_response(response):
+            if "/rpc/" in response.url and response.status >= 400:
+                data = response.json()
+                failure = {
+                    "rpc": response.url.split("/")[-1],
+                    "status": response.status,
+                    "code": data.get("code"),
+                    "message": data.get("message"),
+                }
+                rpc_failures.append(failure)
+                print("RPC failure", json.dumps(failure), flush=True)
+
+        report["rpc_failures"] = rpc_failures
         for _ in range(2):
             context = browser.new_context(
                 viewport={"width": 1440, "height": 1050}, reduced_motion="reduce"
@@ -172,6 +187,7 @@ try:
                     pass
 
             page.on("websocket", lambda ws, handler=receive_frame: ws.on("framereceived", handler))
+            page.on("response", inspect_response)
             page.on("pageerror", lambda e: errors.append(str(e)))
             page.on(
                 "request",
@@ -189,6 +205,7 @@ try:
         ida = a.evaluate("(v)=>comparisonProof.add(v)", make(pending, "pending-a"))
         idb = b.evaluate("(v)=>comparisonProof.add(v)", make(pending, "pending-b"))
         ra, rb = row(a, ida), row(b, idb)
+        print("initial stages", [(r["stage"], r.get("error")) for r in [ra, rb]], flush=True)
         check(
             "initial_pending_score",
             ra["lookupStatus"] == "pending" and ra["result"]["total"] is not None,
@@ -341,6 +358,11 @@ try:
                     item["candidate"], f"{item['key']}-{index}", item["address_resolution"]["pnu"]
                 ),
             )
+        loading = b.evaluate(
+            "comparisonProof.state().candidates.map(c=>({alias:c.alias,stage:c.stage,error:c.error,total:c.result?.total}))"
+        )
+        report["loading"] = loading
+        print("loading", json.dumps(loading, ensure_ascii=False), flush=True)
         results = b.evaluate("comparisonProof.state().candidates.map(c=>c.result)")
         expected = [85.08500496915157, 93.3997327394482, 83.86448162784299]
         check(

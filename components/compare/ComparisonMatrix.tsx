@@ -120,7 +120,7 @@ export function ComparisonMatrix() {
             const result = results.get(row.id), axis = result?.axes[index];
             return <td key={row.id} data-axis={key} data-candidate-id={row.id} className={axis?.normalized == null ? 'missing-cell' : `tone-${Math.min(2, distinct.indexOf(axis.normalized))}`}>
               {axis && result ? <button className="score-cell" onClick={() => select(row.id, key)} aria-label={`${row.alias} ${labels[key]} 근거`} title={axis.missing_reason ? reason(axis.missing_reason) : undefined}>
-                <span key={`${axis.normalized}:${axis.status}`} className="axis-score score-change" data-score={axis.normalized ?? 'null'}>{number(axis.normalized)}</span><small>{rawSummary(axis)}</small><AxisBadges axis={axis} result={result}/></button> : <span className="cell-skeleton" aria-label="점수 불러오는 중"/>}
+                <span key={`${axis.normalized}:${axis.status}`} className="axis-score score-change" data-score={axis.normalized ?? 'null'}>{number(axis.normalized)}</span><small>{rawSummary(axis)}</small><AxisBadges axis={axis} result={result}/></button> : row.stage === 'error' ? <span>조회 실패</span> : <span className="cell-skeleton" aria-label="점수 불러오는 중"/>}
             </td>;
           })}</tr>;
         })}</tbody></table></div>
