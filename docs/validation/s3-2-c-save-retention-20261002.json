@@ -1,0 +1,201 @@
+{
+  "status": "local_passed_remote_migration_approval_pending",
+  "date": "2026-10-02",
+  "base": "2f6b631",
+  "local": {
+    "vitest": 121,
+    "python": 259,
+    "db": 212,
+    "e2e": {
+      "environment": "local real Auth/RPC/Worker + fixed public provider responses",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+      "totals": [
+        85.08500496915157,
+        93.3997327394482,
+        83.86448162784299
+      ],
+      "confidence": [
+        85,
+        90,
+        90
+      ],
+      "slider": {
+        "samples": 100,
+        "p95": 33.60000038146973,
+        "max": 33.89999961853027
+      },
+      "rpc": [
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        },
+        {
+          "name": "save_comparison",
+          "status": 200
+        },
+        {
+          "name": "touch_user_activity",
+          "status": 204
+        },
+        {
+          "name": "load_comparison",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "score_inputs",
+          "status": 200
+        },
+        {
+          "name": "exposure_inputs_v022",
+          "status": 200
+        },
+        {
+          "name": "score_reference_percentiles",
+          "status": 200
+        }
+      ],
+      "checks": {
+        "same_uid": true,
+        "saved_reopened": true,
+        "manual_order_restored": true,
+        "named_preset_raw_weights": true
+      }
+    }
+  },
+  "remote": {
+    "migration_pushed": false,
+    "initial_activity_insert_rows": 0,
+    "migration_sha256": {
+      "20261002064719_comparison_save_presets.sql": "da102bfe39f22f4abca987e45488d5f3bb5ee912cb79593c1aa867b07c20925d",
+      "20261002064828_anonymous_retention_guards.sql": "9588c4eff857a206383ecacb8d20063ce75c6e28c705d0de2fdfa21b0de22636"
+    },
+    "cleanup_dry_run": {
+      "activity_max": null,
+      "activity_min": null,
+      "as_of": "2026-10-02T13:03:16.460281+00:00",
+      "candidate_rows": 0,
+      "comparison_rows": 0,
+      "dry_run": true,
+      "reason_counts": {
+        "recent": 6
+      },
+      "selected_users": 0,
+      "selection_sha256": "a78322a15ce4c3bae04489705bbc21ab39905474a52e985314cd30433259109e",
+      "shared_cache_rows_to_delete": 0
+    },
+    "AUTH_CLEANUP_ENABLED": "false",
+    "cleanup_schedule_enabled": false,
+    "actual_deletions": 0
+  },
+  "fixture_manifest_sha256": "d9459c025aed1ca5d4f1e7d46fa7ef7badbe30c309dddd36c1f6212d9e6c16dc",
+  "fixture_roundtrip": {
+    "tables": 23,
+    "bytes": 4580087,
+    "extra_float_digits": 3,
+    "rows_and_binary_digest_match": true
+  }
+}

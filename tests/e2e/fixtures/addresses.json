@@ -1,0 +1,355 @@
+[
+  {
+    "address": "서울특별시 강남구 역삼로 460",
+    "floor": 3,
+    "selection": {
+      "admCd": "1168010600",
+      "rnMgtSn": "116803122008",
+      "udrtYn": "0",
+      "buldMnnm": "460",
+      "buldSlno": "0",
+      "mtYn": "0",
+      "lnbrMnnm": "912",
+      "lnbrSlno": "13",
+      "bdMgtSn": "1168010600109120013012822",
+      "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+      "jibunAddr": "서울특별시 강남구 대치동 912-13",
+      "bdNm": "",
+      "rn": "역삼로",
+      "sggNm": "강남구",
+      "emdNm": "대치동",
+      "pnu": "1168010600109120013",
+      "provider": "juso"
+    },
+    "search_response": {
+      "results": {
+        "common": {
+          "countPerPage": "100",
+          "errorMessage": "정상",
+          "errorCode": "0",
+          "totalCount": "2",
+          "currentPage": "1"
+        },
+        "juso": [
+          {
+            "siNm": "서울특별시",
+            "lnbrMnnm": "912",
+            "bdKdcd": "0",
+            "jibunAddr": "서울특별시 강남구 대치동 912-13",
+            "buldSlno": "0",
+            "bdMgtSn": "1168010600109120013012822",
+            "zipNo": "06202",
+            "roadAddr": "서울특별시 강남구 역삼로 460 (대치동)",
+            "admCd": "1168010600",
+            "liNm": "",
+            "bdNm": "",
+            "mtYn": "0",
+            "rnMgtSn": "116803122008",
+            "roadAddrPart2": " (대치동)",
+            "sggNm": "강남구",
+            "buldMnnm": "460",
+            "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+            "emdNm": "대치동",
+            "lnbrSlno": "13",
+            "engAddr": "460 Yeoksam-ro, Gangnam-gu, Seoul",
+            "udrtYn": "0",
+            "rn": "역삼로",
+            "detBdNmList": "",
+            "emdNo": "02"
+          },
+          {
+            "siNm": "서울특별시",
+            "lnbrMnnm": "912",
+            "bdKdcd": "0",
+            "jibunAddr": "서울특별시 강남구 대치동 912-12 뉴원빌딩",
+            "buldSlno": "2",
+            "bdMgtSn": "1168010600109120012012881",
+            "zipNo": "06202",
+            "roadAddr": "서울특별시 강남구 역삼로 460-2 (대치동)",
+            "admCd": "1168010600",
+            "liNm": "",
+            "bdNm": "뉴원빌딩",
+            "mtYn": "0",
+            "rnMgtSn": "116803122008",
+            "roadAddrPart2": " (대치동)",
+            "sggNm": "강남구",
+            "buldMnnm": "460",
+            "roadAddrPart1": "서울특별시 강남구 역삼로 460-2",
+            "emdNm": "대치동",
+            "lnbrSlno": "12",
+            "engAddr": "460-2 Yeoksam-ro, Gangnam-gu, Seoul",
+            "udrtYn": "0",
+            "rn": "역삼로",
+            "detBdNmList": "",
+            "emdNo": "02"
+          }
+        ]
+      }
+    },
+    "coordinate_response": {
+      "response": {
+        "service": {
+          "name": "address",
+          "version": "2.0",
+          "operation": "getcoord",
+          "time": "62(ms)"
+        },
+        "status": "OK",
+        "input": {
+          "type": "road",
+          "address": "서울특별시 강남구 역삼로 460"
+        },
+        "refined": {
+          "text": "서울특별시 강남구 역삼로 460 (대치동)",
+          "structure": {
+            "level0": "대한민국",
+            "level1": "서울특별시",
+            "level2": "강남구",
+            "level3": "대치동",
+            "level4L": "역삼로",
+            "level4LC": "",
+            "level4A": "대치4동",
+            "level4AC": "1168063000",
+            "level5": "460",
+            "detail": ""
+          }
+        },
+        "result": {
+          "crs": "EPSG:4326",
+          "point": {
+            "x": "127.05758573871447",
+            "y": "37.5025721944737"
+          }
+        }
+      }
+    },
+    "location": {
+      "status": "ready",
+      "lng": 127.05758573871447,
+      "lat": 37.5025721944737,
+      "coordinate_provider": "vworld",
+      "source_crs": "EPSG:4326",
+      "source_x": 127.05758573871447,
+      "source_y": 37.5025721944737,
+      "reason": "juso_coordinate_key_pending"
+    }
+  },
+  {
+    "address": "서울특별시 강남구 도곡로 409",
+    "floor": 2,
+    "selection": {
+      "admCd": "1168010600",
+      "rnMgtSn": "116803122012",
+      "udrtYn": "0",
+      "buldMnnm": "409",
+      "buldSlno": "0",
+      "mtYn": "0",
+      "lnbrMnnm": "938",
+      "lnbrSlno": "22",
+      "bdMgtSn": "1168010600109380022014201",
+      "roadAddrPart1": "서울특별시 강남구 도곡로 409",
+      "jibunAddr": "서울특별시 강남구 대치동 938-22 타워엠프리스",
+      "bdNm": "타워엠프리스",
+      "rn": "도곡로",
+      "sggNm": "강남구",
+      "emdNm": "대치동",
+      "pnu": "1168010600109380022",
+      "provider": "juso"
+    },
+    "search_response": {
+      "results": {
+        "common": {
+          "countPerPage": "100",
+          "errorMessage": "정상",
+          "errorCode": "0",
+          "totalCount": "1",
+          "currentPage": "1"
+        },
+        "juso": [
+          {
+            "siNm": "서울특별시",
+            "lnbrMnnm": "938",
+            "bdKdcd": "0",
+            "jibunAddr": "서울특별시 강남구 대치동 938-22 타워엠프리스",
+            "buldSlno": "0",
+            "bdMgtSn": "1168010600109380022014201",
+            "zipNo": "06207",
+            "roadAddr": "서울특별시 강남구 도곡로 409 (대치동)",
+            "admCd": "1168010600",
+            "liNm": "",
+            "bdNm": "타워엠프리스",
+            "mtYn": "0",
+            "rnMgtSn": "116803122012",
+            "roadAddrPart2": " (대치동)",
+            "sggNm": "강남구",
+            "buldMnnm": "409",
+            "roadAddrPart1": "서울특별시 강남구 도곡로 409",
+            "emdNm": "대치동",
+            "lnbrSlno": "22",
+            "engAddr": "409 Dogok-ro, Gangnam-gu, Seoul",
+            "udrtYn": "0",
+            "rn": "도곡로",
+            "detBdNmList": "",
+            "emdNo": "02"
+          }
+        ]
+      }
+    },
+    "coordinate_response": {
+      "response": {
+        "service": {
+          "name": "address",
+          "version": "2.0",
+          "operation": "getcoord",
+          "time": "28(ms)"
+        },
+        "status": "OK",
+        "input": {
+          "type": "road",
+          "address": "서울특별시 강남구 도곡로 409"
+        },
+        "refined": {
+          "text": "서울특별시 강남구 도곡로 409 (대치동)",
+          "structure": {
+            "level0": "대한민국",
+            "level1": "서울특별시",
+            "level2": "강남구",
+            "level3": "대치동",
+            "level4L": "도곡로",
+            "level4LC": "",
+            "level4A": "대치4동",
+            "level4AC": "1168063000",
+            "level5": "409",
+            "detail": "타워엠프리스"
+          }
+        },
+        "result": {
+          "crs": "EPSG:4326",
+          "point": {
+            "x": "127.05516718391107",
+            "y": "37.497368428505624"
+          }
+        }
+      }
+    },
+    "location": {
+      "status": "ready",
+      "lng": 127.05516718391107,
+      "lat": 37.497368428505624,
+      "coordinate_provider": "vworld",
+      "source_crs": "EPSG:4326",
+      "source_x": 127.05516718391107,
+      "source_y": 37.497368428505624,
+      "reason": "juso_coordinate_key_pending"
+    }
+  },
+  {
+    "address": "서울특별시 강남구 역삼로 546",
+    "floor": 3,
+    "selection": {
+      "admCd": "1168010600",
+      "rnMgtSn": "116803122008",
+      "udrtYn": "0",
+      "buldMnnm": "546",
+      "buldSlno": "0",
+      "mtYn": "0",
+      "lnbrMnnm": "967",
+      "lnbrSlno": "0",
+      "bdMgtSn": "1168010600109670000026622",
+      "roadAddrPart1": "서울특별시 강남구 역삼로 546",
+      "jibunAddr": "서울특별시 강남구 대치동 967 덕일빌딩",
+      "bdNm": "덕일빌딩",
+      "rn": "역삼로",
+      "sggNm": "강남구",
+      "emdNm": "대치동",
+      "pnu": "1168010600109670000",
+      "provider": "juso"
+    },
+    "search_response": {
+      "results": {
+        "common": {
+          "countPerPage": "100",
+          "errorMessage": "정상",
+          "errorCode": "0",
+          "totalCount": "1",
+          "currentPage": "1"
+        },
+        "juso": [
+          {
+            "siNm": "서울특별시",
+            "lnbrMnnm": "967",
+            "bdKdcd": "0",
+            "jibunAddr": "서울특별시 강남구 대치동 967 덕일빌딩",
+            "buldSlno": "0",
+            "bdMgtSn": "1168010600109670000026622",
+            "zipNo": "06187",
+            "roadAddr": "서울특별시 강남구 역삼로 546 (대치동)",
+            "admCd": "1168010600",
+            "liNm": "",
+            "bdNm": "덕일빌딩",
+            "mtYn": "0",
+            "rnMgtSn": "116803122008",
+            "roadAddrPart2": " (대치동)",
+            "sggNm": "강남구",
+            "buldMnnm": "546",
+            "roadAddrPart1": "서울특별시 강남구 역삼로 546",
+            "emdNm": "대치동",
+            "lnbrSlno": "0",
+            "engAddr": "546 Yeoksam-ro, Gangnam-gu, Seoul",
+            "udrtYn": "0",
+            "rn": "역삼로",
+            "detBdNmList": "",
+            "emdNo": "02"
+          }
+        ]
+      }
+    },
+    "coordinate_response": {
+      "response": {
+        "service": {
+          "name": "address",
+          "version": "2.0",
+          "operation": "getcoord",
+          "time": "16(ms)"
+        },
+        "status": "OK",
+        "input": {
+          "type": "road",
+          "address": "서울특별시 강남구 역삼로 546"
+        },
+        "refined": {
+          "text": "서울특별시 강남구 역삼로 546 (대치동)",
+          "structure": {
+            "level0": "대한민국",
+            "level1": "서울특별시",
+            "level2": "강남구",
+            "level3": "대치동",
+            "level4L": "역삼로",
+            "level4LC": "",
+            "level4A": "대치2동",
+            "level4AC": "1168061000",
+            "level5": "546",
+            "detail": ""
+          }
+        },
+        "result": {
+          "crs": "EPSG:4326",
+          "point": {
+            "x": "127.06287290714192",
+            "y": "37.50428792732002"
+          }
+        }
+      }
+    },
+    "location": {
+      "status": "ready",
+      "lng": 127.06287290714192,
+      "lat": 37.50428792732002,
+      "coordinate_provider": "vworld",
+      "source_crs": "EPSG:4326",
+      "source_x": 127.06287290714192,
+      "source_y": 37.50428792732002,
+      "reason": "juso_coordinate_key_pending"
+    }
+  }
+]
