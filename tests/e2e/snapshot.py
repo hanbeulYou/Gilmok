@@ -56,8 +56,23 @@ TABLES = [
 ]
 
 
+def binary_digest(db, select):
+    ordered = sql.SQL(
+        'select * from ({}) fixed_source order by to_jsonb(fixed_source)::text collate "C"'
+    ).format(select)
+    digest = hashlib.sha256()
+    with db.cursor().copy(
+        sql.SQL("copy ({}) to stdout with (format binary)").format(ordered)
+    ) as copy:
+        for block in copy:
+            digest.update(block)
+    return digest.hexdigest()
+
+
 def export(db):
     db.execute("set transaction read only")
+    # Cluster default is 0; CSV would otherwise truncate float8 and break percentile ties.
+    db.execute("set local extra_float_digits=3")
     DIRECTORY.mkdir(parents=True, exist_ok=True)
     manifest = {
         "source": (
@@ -98,6 +113,7 @@ def export(db):
                 "rows": count,
                 "file": path.name,
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "binary_sha256": binary_digest(db, select),
                 "bytes": path.stat().st_size,
             }
         )
@@ -113,6 +129,7 @@ def export(db):
 
 
 def load(db):
+    db.execute("set local extra_float_digits=3")
     manifest = json.loads((DIRECTORY / "manifest.json").read_text())
     for t in manifest["tables"]:
         table = sql.Identifier(*t["table"].split("."))
@@ -131,6 +148,13 @@ def load(db):
         with gzip.open(path, "rb") as f, db.cursor().copy(statement) as copy:
             while block := f.read(1024 * 1024):
                 copy.write(block)
+        table = sql.Identifier(*t["table"].split("."))
+        count = db.execute(sql.SQL("select count(*) from {}").format(table)).fetchone()[0]
+        select = sql.SQL("select {} from {}").format(
+            sql.SQL(",").join(map(sql.Identifier, t["columns"])), table
+        )
+        if count != t["rows"] or binary_digest(db, select) != t["binary_sha256"]:
+            raise ValueError(f"Snapshot binary round-trip mismatch: {t['table']}")
     db.execute("analyze")
     print("Fixed public snapshot loaded; Auth/owner rows untouched")
 

@@ -15,6 +15,7 @@
       "rows": 427,
       "file": "public.admin_dongs.csv.gz",
       "sha256": "97b2a34e0f251c8a2da3a2020803a79a3a6154d2fbf38194906ac6ce9715e6b2",
+      "binary_sha256": "2760de841606f6ff69b27743278a6ff12dfa27a7a1ef4bb378dd83f38ed70418",
       "bytes": 192550
     },
     {
@@ -32,6 +33,7 @@
       "rows": 1281,
       "file": "public.population_age.csv.gz",
       "sha256": "f11fae89010fcc5e838ad62c018e30757e43f787e3afb72075536b1ac584dfa2",
+      "binary_sha256": "6d7e10e310169512a631f4a4295e2de280685a1c35eb4ea6fb2dacf13bc85ca2",
       "bytes": 6891
     },
     {
@@ -49,6 +51,7 @@
       "rows": 198,
       "file": "public.population_cells.csv.gz",
       "sha256": "2f8cd821a8a47e3f8deef85091b64cfff0641bc9219d41098c92ab7934e2a9d3",
+      "binary_sha256": "69cf3665949cd289cd2d2be126172d03b70da49e5b0fb0d371c78a9938ceea78",
       "bytes": 5925
     },
     {
@@ -78,8 +81,9 @@
       ],
       "rows": 9456,
       "file": "public.living_pop.csv.gz",
-      "sha256": "be89c0ed08e7523500d36f8cdd1afa14ebdd19138bf3e10de772f7ba8155e9ce",
-      "bytes": 365590
+      "sha256": "b2358037b3113103a2bdcae2717335b7265b9cf605c4533232f0185f2c31122c",
+      "binary_sha256": "1c8fc294bcd37e6847a479258d681b6f0a7da8db5d3bcf624a8478215669560a",
+      "bytes": 399241
     },
     {
       "table": "public.transit_stops",
@@ -97,6 +101,7 @@
       "rows": 207,
       "file": "public.transit_stops.csv.gz",
       "sha256": "fd87869113623f56f33f20f9a801f1d0322061284fd6eacfb30e94d6ae2a0a64",
+      "binary_sha256": "66ab7dc0a3ea245c7a2d274110914032cf34515aeff52b6486a7b02f8faf43d9",
       "bytes": 6202
     },
     {
@@ -117,8 +122,9 @@
       ],
       "rows": 4560,
       "file": "public.transit_boardings.csv.gz",
-      "sha256": "4711c29d5f390b4477e6aa425880b8302af977cbe2419bfbb9f1cf3e5a375691",
-      "bytes": 44816
+      "sha256": "1d329455b1b0e95535947029ded0e86379ffedf7430731fa22efc64315193a22",
+      "binary_sha256": "d72f991df4f51e6765ee8316a60d813976702e213be0dd5280661fcd2e9ed266",
+      "bytes": 46149
     },
     {
       "table": "public.stores",
@@ -132,8 +138,9 @@
       ],
       "rows": 23508,
       "file": "public.stores.csv.gz",
-      "sha256": "b48b7f231e151518a340d2b12d2858611f2aa1873ba70633b9e4464dac9e5d9b",
-      "bytes": 440864
+      "sha256": "c19606694da471e869f81c477a3303b8348510145a3da4369792c32476ba2b99",
+      "binary_sha256": "3a4b31e4166a6386c97a64c207c8ab0179658db1d1a8f1656fbb3154d70391db",
+      "bytes": 440342
     },
     {
       "table": "public.academies",
@@ -159,6 +166,7 @@
       "rows": 2010,
       "file": "public.academies.csv.gz",
       "sha256": "0d9bf48b1c8bd2f5891fb2509d4ebf759e71221750121e516d72988accbe0439",
+      "binary_sha256": "d4804e890397719fd87cea11747e757ae86cf6172662446fafec7d4540dc7fc6",
       "bytes": 58898
     },
     {
@@ -181,6 +189,7 @@
       "rows": 33,
       "file": "public.schools.csv.gz",
       "sha256": "cc6e2daf1adccbdb37a16db6202efdb1fa4c6b0a50550915eb1b4b45af87e4b7",
+      "binary_sha256": "47517d1413de343ecb82ceffcf4f3e5995ac8192a6c4b586b60235b986037322",
       "bytes": 1298
     },
     {
@@ -208,6 +217,7 @@
       "rows": 6050,
       "file": "public.building_registers.csv.gz",
       "sha256": "99cc412d475cc945e8cf4f7fa94b8471bc0280e14dce68a7124581e8e66a907a",
+      "binary_sha256": "e24f0f30338270242bf8a64900700e8e74a95e091d4779a556ac32ee6975a97f",
       "bytes": 152552
     },
     {
@@ -236,8 +246,9 @@
       ],
       "rows": 9178,
       "file": "public.buildings.csv.gz",
-      "sha256": "12718ce3eef0947267437781276483b11187303808257aec41b4208b3d6816ac",
-      "bytes": 1571807
+      "sha256": "5f6aed5d3771d90ac14c1f7389b1cfb2585f7b90931ac9faf9c889265f1e2fac",
+      "binary_sha256": "49d1abb865455eea74d2ae5bcbbf43b79161020f83a06a456f8325d54dd0ad93",
+      "bytes": 1572654
     },
     {
       "table": "public.building_floors",
@@ -264,6 +275,7 @@
       "rows": 40,
       "file": "public.building_floors.csv.gz",
       "sha256": "451062eae235a6a001f9d78feea8d71308506661a49176253491a60c6e65c9e3",
+      "binary_sha256": "af8063b060c505baf9812ea11df38795958d2b5051e0b36e693c4970a19a538a",
       "bytes": 2519
     },
     {
@@ -280,6 +292,7 @@
       "rows": 14,
       "file": "public.legal_dongs.csv.gz",
       "sha256": "a8bc5efc0a944a0d5adc4f15f44151049669d2de8576dcf67c09f64ae5fca3bf",
+      "binary_sha256": "351e3fb8fde10b853276cf8c45531330314e840f386d0cb5d2fc33d7228fb4b3",
       "bytes": 51066
     },
     {
@@ -303,6 +316,7 @@
       "rows": 180,
       "file": "public.commercial_trade_stats.csv.gz",
       "sha256": "493d9fce732133cb34241ed6c3927fd1cedf7788ca61e2019effc7619cc7844a",
+      "binary_sha256": "48a89f12f120914b389c76c9c133300d72ce8a1b3d9785d31d2b31ddee989972",
       "bytes": 2690
     },
     {
@@ -324,6 +338,7 @@
       "rows": 12,
       "file": "public.rent_areas.csv.gz",
       "sha256": "3a26f9af5086c2c582bee6506607c51b312895e82c76efb2b6d06e1de254fdc1",
+      "binary_sha256": "a249cf8b2f6cfe3d3f071289e701d2cb8fc1dc1cb81e56f570eea0f81200ed11",
       "bytes": 1164
     },
     {
@@ -346,6 +361,7 @@
       "rows": 34,
       "file": "public.rent_survey.csv.gz",
       "sha256": "ea3f9b190bd15896237477f529789649c7355a835fcba793ecfa9f8df5a9a123",
+      "binary_sha256": "97888a813adafbf0b47df594372c959fbabd6480fd24a18095de6267b3294def",
       "bytes": 1198
     },
     {
@@ -364,6 +380,7 @@
       "rows": 1,
       "file": "public.score_reference_sets.csv.gz",
       "sha256": "1f89e5cbcfd8e93bb9e96172eb71161fdd958d3d8cd55434e2da224ab0be0f0b",
+      "binary_sha256": "094a159a4775575802a5cea83861ef211a2265cc0e1d7fcd04c80672e61cef20",
       "bytes": 1567
     },
     {
@@ -381,8 +398,9 @@
       ],
       "rows": 162032,
       "file": "public.score_reference.csv.gz",
-      "sha256": "dbcb96acec0239bf9963bda3e6ac4701df4cd2f10a56d7e1578254bf10518a64",
-      "bytes": 1428948
+      "sha256": "887980d1ba2dfcfc27c8ac7c404b0e4be66fd6b2cecbf8384f4881012d1c3308",
+      "binary_sha256": "fea06a1f4aa03bc6bee765abdd9bfea2d691d89fcc14413b2b7e848999025b73",
+      "bytes": 1490842
     },
     {
       "table": "ingest_private.building_snapshots",
@@ -396,6 +414,7 @@
       "rows": 1,
       "file": "ingest_private.building_snapshots.csv.gz",
       "sha256": "bd109ff8ce40409911b89c599a68c3b7941b049232702a15445be8145e7615b4",
+      "binary_sha256": "d2d24b64e228d18422f3d18414f5378a7c3fc573fbac70dea93dc31e2956535b",
       "bytes": 14720
     },
     {
@@ -414,6 +433,7 @@
       "rows": 3,
       "file": "ingest_private.place_snapshots.csv.gz",
       "sha256": "abf17379a47f1f876645f5d3bf9763bb87a1dcfabde2be40566eddf4d2c09cc9",
+      "binary_sha256": "17eb6256db02d453984cfcb91acfaabe49af62eaed9b647e61786512036e9142",
       "bytes": 1790
     },
     {
@@ -427,6 +447,7 @@
       "rows": 2,
       "file": "ingest_private.rent_snapshots.csv.gz",
       "sha256": "341198d28b8a881925ec3f8bcf3d66c7eb1273ca4671f103120271595a642046",
+      "binary_sha256": "bfc95196e34a4e6dede180ad5631d1ed363d866db23f007cefcdd71048c5fc95",
       "bytes": 2398
     },
     {
@@ -441,6 +462,7 @@
       "rows": 1,
       "file": "ingest_private.refresh_snapshots.csv.gz",
       "sha256": "6c863867ab329185cbdad382b88af430935fb6a14fa69f81612595663e06f8e0",
+      "binary_sha256": "56361370d25fc47d556a349ccde61077c61fb87ceaadd3228ed05d051f8f525b",
       "bytes": 2377
     },
     {
@@ -453,6 +475,7 @@
       "rows": 2,
       "file": "ingest_private.transit_coverage.csv.gz",
       "sha256": "77c1bd3ed6c3dd675b1cad4c9ee464274dff3b5bf0ba8664141c837066c99990",
+      "binary_sha256": "96b27ca341a0b3a3fbf40c52af7ac78cc066c3a7bb442294fb44683641ca3c70",
       "bytes": 125054
     }
   ]
