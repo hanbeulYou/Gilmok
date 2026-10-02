@@ -191,5 +191,11 @@
     "cleanup_schedule_enabled": false,
     "actual_deletions": 0
   },
-  "fixture_manifest_sha256": "b15a859607cff1074289aad9682ef3ce4d687471af5c7a718c6b46d882cecd14"
+  "fixture_manifest_sha256": "d9459c025aed1ca5d4f1e7d46fa7ef7badbe30c309dddd36c1f6212d9e6c16dc",
+  "fixture_roundtrip": {
+    "tables": 23,
+    "bytes": 4580087,
+    "extra_float_digits": 3,
+    "rows_and_binary_digest_match": true
+  }
 }

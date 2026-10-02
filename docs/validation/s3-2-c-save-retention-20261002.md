@@ -27,7 +27,7 @@ Playwright는 한 시나리오로 **등록→3곳 실제 SQL RPC/Worker 채점�
 
 A0 승인 Juso/Vworld 입력의 v0.3 결과와 동일하다. 등록·재열기 모두 익명 signup은 1회였다. 슬라이더 100회 p95 **33.60ms**, max **33.90ms**(로컬 Chromium; 원시 JSON에 userAgent)이며 조작 중 RPC 추가 호출 0이다. 수동 후보 순서와 demand=17을 복원했고, 명명 프리셋 선택 시 17이 정규화된 백분율로 바뀌지 않았다.
 
-CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변 1850m, 후보 3곳 층별개요, 서울 전체 경계/기준 분포를 보존한 고정 부분집합이다. 23개 테이블, gzip 합계 **4,482,884 byte**. Auth·소유 후보/비교·주소 캐시는 포함하지 않는다. 빈 로컬 소스 테이블에만 load하고 SHA256을 확인한다. 실제 DB를 삭제/교체하거나 RPC 결과를 예상 총점으로 대체하지 않는다. fixture의 .env 키 값 포함 검사에서 일치 0이었다.
+CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변 1850m, 후보 3곳 층별개요, 서울 전체 경계/기준 분포를 보존한 고정 부분집합이다. 23개 테이블, gzip 합계 **4,580,087 byte**. Auth·소유 후보/비교·주소 캐시는 포함하지 않는다. 빈 로컬 소스 테이블에만 load하고 gzip SHA256·행 수·정렬된 COPY binary SHA256을 확인한다. 실제 DB를 삭제/교체하거나 RPC 결과를 예상 총점으로 대체하지 않는다. fixture의 .env 키 값 포함 검사에서 일치 0이었다.
 
 최종 실시간 요구 사항은 B의 [로컬·원격 실제 Realtime 증거](s3-2-b-comparison-20261001.md)를 유지한다. Micro 합본 시험은 B/C 완료 기준에 재도입하지 않으며, Small 전환 후 공개 전 재시험 조건을 유지한다. D5 실제 워커 전환은 [별도 PR #25](https://github.com/hanbeulYou/Gilmok/pull/25)에서 실패 원인 확인 중이다.
 
@@ -55,3 +55,7 @@ CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변
 - [ ] 원격 마이그레이션 push 승인·적용 후 원격 저장 검증
 
 원격 단계는 사용자 승인 후 진행한다. C PR은 Draft이며 사용자가 머지한다.
+
+## CI fixture 정밀도 회귀 검증
+
+최초 CI에서는 b=93.39795311864867로 기준보다 0.00177962 낮았다. 로컬 DB 기본 `extra_float_digits=0`으로 CSV를 내보내 지하철 승하차 raw가 25642.30434782609에서 25642.304347826084로 달라졌고, 기준 분포의 동점 백분위가 바뀌었다. 채점식·허용 오차·기대 총점은 변경하지 않았다. fixture export/load에 `extra_float_digits=3`을 적용하고, 새 격리 DB에 재적재한 23개 테이블의 행 수와 정렬된 COPY binary 해시가 모두 원본과 일치함을 확인했다. CI에서도 적재 후 같은 검증을 수행한다.
