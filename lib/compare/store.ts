@@ -19,6 +19,10 @@ export type NewCandidate = Pick<ComparisonCandidate, 'alias' | 'candidate' | 'se
 interface ComparisonState {
   candidates: ComparisonCandidate[]; weights: Weights; order: string[]; manualOrder: boolean; adjusting: boolean;
   selectedId: string | null; selectedAxis: AxisKey | null; evidenceOpen: boolean;
+  comparisonId: string | null; snapshotReadOnly: boolean;
+  clear: () => void;
+  restore: (candidates: ComparisonCandidate[], weights: Weights, order: string[], manualOrder: boolean,
+    comparisonId: string, snapshotReadOnly?: boolean) => void;
   add: (value: NewCandidate) => string;
   update: (id: string, value: Partial<ComparisonCandidate>, generation?: number) => void;
   remove: (id: string) => void;
@@ -36,7 +40,21 @@ export function scoreOrder(rows: readonly ComparisonCandidate[], weights: Weight
 export const useComparisonStore = create<ComparisonState>((set, get) => ({
   candidates: [], weights: { ...academyV0.weights }, order: [], manualOrder: false, adjusting: false,
   selectedId: null, selectedAxis: null, evidenceOpen: false,
+  comparisonId: null, snapshotReadOnly: false,
+  clear() {
+    for (const job of jobs.values()) job.controller.abort();
+    jobs.clear(); refreshes.clear();
+    set({ candidates: [], order: [], weights: { ...academyV0.weights }, comparisonId: null, snapshotReadOnly: false,
+      adjusting: false, manualOrder: false, selectedId: null, selectedAxis: null, evidenceOpen: false });
+  },
+  restore(candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly = false) {
+    for (const job of jobs.values()) job.controller.abort();
+    jobs.clear(); refreshes.clear();
+    set({ candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly,
+      adjusting: false, selectedId: order[0] ?? null, selectedAxis: null, evidenceOpen: false });
+  },
   add(value) {
+    if (get().snapshotReadOnly) throw new Error('마지막 저장 결과는 읽기 전용입니다. 다시 불러온 뒤 등록해 주세요.');
     if (get().candidates.length >= 5) throw new Error('후보는 최대 5곳까지 비교할 수 있습니다.');
     const id = crypto.randomUUID();
     set(state => ({ candidates: [...state.candidates, { ...value, id, generation: 0, startedAt: Date.now(), stage: 'fetching' }],
@@ -53,6 +71,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
     });
   },
   remove(id) {
+    if (get().snapshotReadOnly) return;
     jobs.get(id)?.controller.abort(); jobs.delete(id); refreshes.delete(id);
     set(state => { const candidates = state.candidates.filter(c => c.id !== id);
       return { candidates, order: state.order.filter(v => v !== id),
@@ -60,6 +79,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
         evidenceOpen: candidates.length > 0 && state.evidenceOpen }; });
   },
   edit(id, alias, floor) {
+    if (get().snapshotReadOnly) return;
     if (!alias.trim() || alias.trim().length > 20 || !Number.isInteger(floor) || floor === 0 || floor < -5 || floor > 30)
       throw new Error('별칭은 1~20자, 층은 −5~−1 또는 1~30으로 입력해 주세요.');
     const row = get().candidates.find(c => c.id === id); if (!row) return;
@@ -71,6 +91,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
     void scoreCandidate(id);
   },
   setWeight(key, value) {
+    if (get().snapshotReadOnly) return;
     if (!Number.isFinite(value) || value < 0 || value > 40) return;
     set(state => { const weights = { ...state.weights, [key]: value };
       return { weights, order: state.adjusting || state.manualOrder ? state.order : scoreOrder(state.candidates, weights, state.order) }; });
@@ -78,9 +99,9 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
   beginAdjustment() { set({ adjusting: true }); },
   endAdjustment() { set(state => ({ adjusting: false,
     order: state.manualOrder ? state.order : scoreOrder(state.candidates, state.weights, state.order) })); },
-  resetWeights() { set(state => ({ weights: { ...academyV0.weights }, adjusting: false,
+  resetWeights() { if (get().snapshotReadOnly) return; set(state => ({ weights: { ...academyV0.weights }, adjusting: false,
     order: state.manualOrder ? state.order : scoreOrder(state.candidates, academyV0.weights, state.order) })); },
-  move(id, before) { set(state => { if (id === before || !state.order.includes(id) || !state.order.includes(before)) return state;
+  move(id, before) { if (get().snapshotReadOnly) return; set(state => { if (id === before || !state.order.includes(id) || !state.order.includes(before)) return state;
     const order = state.order.filter(v => v !== id); order.splice(order.indexOf(before), 0, id); return { order, manualOrder: true }; }); },
   sortByScore() { set(state => ({ manualOrder: false, order: scoreOrder(state.candidates, state.weights, state.order) })); },
   select(id, axis) { set({ selectedId: id, selectedAxis: axis ?? null, evidenceOpen: true }); },

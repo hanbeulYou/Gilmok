@@ -15,6 +15,8 @@ import { AxisBadges, Confidence } from './Badges';
 import { EvidencePanel } from './EvidencePanel';
 import { number, rawSummary, reason } from './format';
 import { WeightSlider } from './WeightSlider';
+import { SaveControls } from './SaveControls';
+import { deleteCandidate } from '../../lib/compare/persistence';
 function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
   const [uid, setUid] = useState<string | null>(null), [connection, setConnection] = useState<ConnectionState>('connecting');
   const subscription = useRef<ReturnType<typeof subscribeLookups> | null>(null), previousUid = useRef<string | null>(null);
@@ -27,7 +29,7 @@ function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
   }, []);
   useEffect(() => {
     if (previousUid.current && previousUid.current !== uid) {
-      const store = useComparisonStore.getState(); for (const row of store.candidates) store.remove(row.id);
+      useComparisonStore.getState().clear();
     }
     previousUid.current = uid;
     if (!uid || !ids) return;
@@ -44,6 +46,8 @@ function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
 }
 function CandidateMenu({ row, order }: { row: ComparisonCandidate; order: readonly string[] }) {
   const [error, setError] = useState('');
+  const readOnly = useComparisonStore(s => s.snapshotReadOnly);
+  if (readOnly) return null;
   const index = order.indexOf(row.id);
   return <details className="candidate-menu"><summary aria-label={`${row.alias} 후보 설정`}>···</summary>
     <form onSubmit={event => { event.preventDefault(); const data = new FormData(event.currentTarget);
@@ -53,7 +57,8 @@ function CandidateMenu({ row, order }: { row: ComparisonCandidate; order: readon
       <label>층<input name="floor" type="number" min={-5} max={30} step={1} defaultValue={row.candidate.floor} required/></label>
       {error && <p role="alert">{error}</p>}<button type="submit">변경 적용</button>
     </form>
-    <button onClick={() => useComparisonStore.getState().remove(row.id)}>후보 삭제</button>
+    <button onClick={() => { void deleteCandidate(row.id).catch(e => setError(e instanceof Error ? e.message : '후보 삭제에 실패했습니다.')); }}>후보 삭제</button>
+    {error && <p role="alert">{error}</p>}
     {index > 0 && <button onClick={() => useComparisonStore.getState().move(row.id, order[index - 1])}>앞으로 이동</button>}
     {index < order.length - 1 && <button onClick={() => useComparisonStore.getState().move(order[index + 1], row.id)}>뒤로 이동</button>}
   </details>;
@@ -81,7 +86,7 @@ function Total({ row, result, select }: { row: ComparisonCandidate; result?: Sco
 export function ComparisonMatrix() {
   const state = useComparisonStore(), [tab, setTab] = useState<'compare' | 'evidence'>('compare'), [sheet, setSheet] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null), [clockTick, tick] = useState(0), swipe = useRef<{x: number; y: number} | null>(null);
-  const realtime = useLookupUpdates(state.candidates);
+  const realtime = useLookupUpdates(state.snapshotReadOnly ? [] : state.candidates);
   const rows = state.order.map(id => state.candidates.find(row => row.id === id)).filter((r): r is ComparisonCandidate => Boolean(r));
   const results = useMemo(() => new Map(state.candidates.map(row => [row.id, row.result ? reweight(row.result, state.weights) : undefined])), [state.candidates, state.weights]);
   const selected = state.candidates.find(r => r.id === state.selectedId);
@@ -100,11 +105,12 @@ export function ComparisonMatrix() {
   return <main className={`page comparison ${state.evidenceOpen ? 'has-evidence' : ''}`}>
     <header className="comparison-header"><div><Link href="/">길목</Link><h1>후보 비교</h1><p>서울 · 학원업 · 반경 800m</p></div>
       <div><span className="preset">학원 v0.3{modified ? ' · 수정됨' : ' (기본)'}</span><nav>{rows.length < 5 && <Link href="/new" className="primary">후보 추가</Link>}</nav></div></header>
-    <p className="memory-notice">현재 비교는 이 화면에서 유지됩니다. 새로고침하면 초기화됩니다.</p>
+    <SaveControls/>
+    <p className="memory-notice">저장한 비교는 같은 브라우저에서 다시 열 수 있습니다. 저장하지 않은 변경은 새로고침하면 초기화됩니다.</p>
     {state.candidates.length > 0 && state.candidates.every(r => r.stage === 'error' && !r.result) && <p role="alert">데이터 서버에 연결할 수 없습니다. 후보별로 다시 시도해 주세요.</p>}
     {realtime.waiting && realtime.connection !== 'connected' && <p role="status">건물 확인 상태 {realtime.connection === 'connecting' ? '연결 중' : '재연결 중'} <button onClick={realtime.reconcile}>상태 다시 확인</button></p>}
     {!rows.length ? <section className="empty-state"><h2>주소를 입력해 첫 후보를 등록하세요</h2><Link className="primary" href="/new">후보 추가</Link></section> : <>
-      <div className="comparison-toolbar"><button onClick={state.resetWeights}>가중치 초기화</button><button onClick={state.sortByScore}>{state.manualOrder ? '총점순 자동 정렬로 복귀' : '총점순 정렬'}</button>
+      <div className="comparison-toolbar"><button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button><button disabled={state.snapshotReadOnly} onClick={state.sortByScore}>{state.manualOrder ? '총점순 자동 정렬로 복귀' : '총점순 정렬'}</button>
         <span>{state.manualOrder ? '열 순서 고정' : '총점 내림차순'} · {rows.length}/5곳</span><button className="mobile-only" onClick={() => setSheet(true)}>가중치</button></div>
       {rows.length === 1 && <p>비교하려면 후보를 더 추가하세요.</p>}
       <div className="mobile-tabs" role="tablist" aria-label="비교 화면"><button role="tab" aria-selected={tab === 'compare'} onClick={() => setTab('compare')}>비교</button>
@@ -141,7 +147,7 @@ export function ComparisonMatrix() {
       {selected && state.evidenceOpen && <div className={tab !== 'evidence' ? 'mobile-hidden' : ''}><EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={() => { state.closeEvidence(); setTab('compare'); }}/></div>}
       {tab === 'evidence' && !state.evidenceOpen && <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
       <dialog className="weight-sheet" ref={dialog} onClose={() => setSheet(false)}><header><h2>축별 가중치</h2><button onClick={() => setSheet(false)}>닫기</button></header>
-        {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button onClick={state.resetWeights}>가중치 초기화</button></dialog>
+        {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button></dialog>
     </>}
   </main>;
 }
