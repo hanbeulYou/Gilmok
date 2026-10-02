@@ -6,10 +6,13 @@ import fixtures from './fixtures/addresses.json';
 test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page }, info) => {
   const users: string[] = [], rpc: { name:string; status:number }[] = [];
   const errors: string[] = [];
+  const percentileResponses: unknown[] = [];
   page.on('pageerror', e => errors.push(e.message));
   page.on('response', async response => {
     if (response.url().includes('/auth/v1/signup') && response.status() === 200) users.push((await response.json()).user.id);
     if (response.url().includes('/rpc/')) rpc.push({ name:response.url().split('/').at(-1)!, status:response.status() });
+    if (response.url().endsWith('/rpc/score_reference_percentiles') && response.status() === 200)
+      percentileResponses.push(await response.json());
   });
   try {
     const expected = [85.08500496915157,93.3997327394482,83.86448162784299];
@@ -25,6 +28,15 @@ test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid �
       await expect(page.locator('.desktop-matrix [data-total]')).toHaveCount(i+1);
     }
     const totals = () => page.locator('.desktop-matrix [data-total]').evaluateAll(nodes => nodes.map(n => Number((n as HTMLElement).dataset.total)));
+    const axes = await page.locator('.desktop-matrix').evaluate(matrix => {
+      const names = Object.fromEntries([...matrix.querySelectorAll<HTMLElement>('th[data-candidate-id]')]
+        .map(n => [n.dataset.candidateId,n.querySelector('.candidate-name')?.textContent]));
+      return [...matrix.querySelectorAll<HTMLElement>('td[data-axis]')].map(n => ({
+        candidate:names[n.dataset.candidateId!],axis:n.dataset.axis,
+        score:n.querySelector<HTMLElement>('[data-score]')?.dataset.score,
+      }));
+    });
+    console.log('public-score-diagnostic',JSON.stringify({ totals:await totals(),axes,percentileResponses }));
     expect((await totals()).sort((a,b)=>a-b)).toEqual([...expected].sort((a,b)=>a-b));
     const confidence = await page.locator('.desktop-matrix .confidence').evaluateAll(nodes =>
       nodes.map(n => Number(n.querySelector('text')?.textContent)).sort((a,b)=>a-b));
