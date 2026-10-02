@@ -47,7 +47,7 @@ S3-3의 2D 지도, S3-4의 3D·노출 샘플 시각화, S3-5의 랜딩·이메�
 | --- | --- | --- | --- |
 | **A0 공급자·단계별 전환** / `s3/juso-transition` | Juso 검색+Vworld 임시 좌표·배치·workflow·provenance·3곳 검증 | provider CHECK/provenance 확장, 기존 cache 보존. 13,542건 기관/분포 전환은 좌표 키 발급 후 별도 실행 | 이번: 3곳 PNU/도형/8축 T1·migration dry-run. 후속: 전량/T2·고정5셀·승인 manifest |
 | **A 데이터·등록 기반** / `s3/registration-data` | `app/api/address-search/route.ts`, `app/new/page.tsx`, `components/candidate/{AddressSearch,CandidateForm}.tsx`, `lib/geo/`, `lib/supabase/`, `lib/scoring/{types,percentile,score,axes}.ts`의 호환 어댑터, `lib/compare/load-candidate.ts`, 기존 Worker 연결 | 위치/context·raw 백분위 RPC, 공용 Juso 캐시 접근/uid별 일일 제한, 후보 저장 필드, 최소 상태 투영·관찰자 연결 | 주소 선택·검증→3종 채점 RPC→Worker→ScoreResult. 고정3곳 8축/총점/신뢰도 일치. 두 uid 권한·검색 제한·배치 캐시 보존. 기존 전체 분포 경로와 새 경로 동등성. 완성 매트릭스는 B |
-| **B 비교·근거·실시간** / `s3/comparison-matrix` | `app/compare/page.tsx`, `components/compare/`의 매트릭스·슬라이더·배지·근거·모바일 카드, `lib/compare/{store,status,subscriptions}.ts` | A 상태 투영의 Realtime publication/권한 등 필요한 추가 변경만 | 데스크톱/모바일 동일 점수·근거·결측, 슬라이더 p95≤100ms(max 기록), 두 uid Realtime 격리, pending→ready 무새로고침, 3분 지연·재접속·순서 역전 검증 |
+| **B 비교·근거·실시간** / `s3/comparison-matrix` | `app/compare/page.tsx`, `components/compare/`의 매트릭스·슬라이더·배지·근거·모바일 카드, `lib/compare/{store,status,subscriptions}.ts` | A 상태 투영의 Realtime publication/권한 등 필요한 추가 변경만 | 데스크톱/모바일 동일 점수·근거·결측, 슬라이더 p95≤100ms(max 기록), 두 uid Realtime 격리, pending→ready 무새로고침, 3분 지연·재접속·순서 역전 검증. **2026-10-02 기준 모두 통과** |
 | **C 저장·익명 정리·종합 검증** / `s3/comparison-save-retention` | `lib/compare/persistence.ts`, 저장/프리셋 UI, `ingest/cleanup_anonymous.py`, `.github/workflows/cleanup-anonymous.yml`, `playwright.config.ts`, `tests/e2e/compare.spec.ts`, 검증·운영 문서 | 비교 저장 확장/명명 가중치 프리셋, activity·정리 함수/인덱스 | 익명 저장·재열기·owner RLS, E2E1개 통과, 정리 dry-run의 대상/제외 검증·로컬 실제 삭제 및 승격 보존, 최종 실제3곳/성능/실시간 증거 기록 |
 
 **A 내부 체크포인트:** DB/RPC/채점 어댑터의 로컬 단위·DB 검증 후 WIP 커밋을 먼저 남긴다. 그 뒤 Route Handler·등록 폼·브라우저 Worker UI를 연결한다. 카카오 저장 경로는 폐기한다. A0의 새 기준 fixture/캐시 신뢰 경계를 받아 UI를 연결하며, #22의 독립 WIP 코드는 보존한다.
@@ -96,7 +96,7 @@ S3-3의 2D 지도, S3-4의 3D·노출 샘플 시각화, S3-5의 랜딩·이메�
 - `ScoreReference` 전체 분포 경로는 기존 검산용으로 보존하고, 사전 계산된 백분위 입력 타입을 추가한다. `referencePercentile()`의 메타데이터 검증·출력 계약을 공유한다. 가짜 분포 배열을 만들어 점수를 맞추지 않는다.
 - 근거 패널용 히스토그램은 snapshot별 소규모 집계 bin20개·경계값·모집단 크기만 반환/캐시한다. 원시 분포 전체는 내려받지 않는다. 클라이언트가 이미 가진 백분위 표시와 분포 모양을 구분하고 cluster 고정 스케일을 백분위 점수처럼 그리지 않는다.
 
-후보별 입력 세대 번호·좌표·층·reference snapshot으로 조회와 Worker 결과를 묶는다. 삭제/층 변경 후 도착한 예전 응답은 버린다. Strict Mode 중복 등록·RPC·signup을 공유 Promise로 막는다. 후보 내3회 초기 조회는 병렬, 동시에 처리하는 후보는 우선2개로 제한하고5곳 실측으로 확인한다. Worker는 재사용하고 슬라이더에서는 호출하지 않는다.
+후보별 입력 세대 번호·좌표·층·reference snapshot으로 조회와 Worker 결과를 묶는다. 삭제/층 변경 후 도착한 예전 응답은 버린다. Strict Mode 중복 등록·RPC·signup을 공유 Promise로 막는다. 후보 내3회 초기 조회는 병렬, 브라우저의 비교 store에서 동시에 채점하는 후보는 최대2개로 제한한다. 5개 동시 요청의 대기·성공·실패 후 슬롯 반환을 회귀 테스트로 확인했다. Worker는 재사용하고 슬라이더에서는 호출하지 않는다.
 
 ## 5. 화면·로딩·잠정 상태
 
@@ -280,15 +280,37 @@ A0 계획 단계 확인: #21 main·#22 WIP와 공식 문서, 로컬/원격 SELEC
 
 원격3곳의 총점·8축·신뢰도는 A0 T1 로컬 기준과 일치하고, uid 격리·일일100회 제한·익명 로그인 세션의 HTTP6조합도 통과했다. [최종 원격 검증](../validation/s3-2-a-region-retry-20261001.md). PR A는 Ready 전환 대상이며 머지는 사용자 담당이다. B/C 범위와 승인 조건은 그대로 유지한다.
 
-## 10. B 구현·검증 현황 (2026-10-01)
+## 10. B 구현·검증 현황 (2026-10-02)
 
 [#22](https://github.com/hanbeulYou/Gilmok/pull/22) 머지 후 `main`의 `337c7ea`에서
-`s3/comparison-matrix`를 분기해 [Draft #24](https://github.com/hanbeulYou/Gilmok/pull/24)를 작성했다.
+`s3/comparison-matrix`를 분기해 [PR #24](https://github.com/hanbeulYou/Gilmok/pull/24)를 작성했다.
 ComparisonMatrix·모바일 카드·근거·축 행 슬라이더와 owner 상태 투영 Realtime을 구현했다.
-채점/가중치/병렬 RPC 계획은 유지하며 새 마이그레이션이나 기존 DB 객체 변경은 없다.
+채점/가중치/후보 내 병렬 RPC 계획은 유지하며 새 마이그레이션이나 기존 DB 객체 변경은 없다.
 
-로컬 실제 Realtime·3분 지연·재접속·역순 이벤트와 실제 Vercel 등록/슬라이더 검증은
+**B의 §3 완료 기준은 모두 통과했다.** 데스크톱/모바일 동일 점수·근거,
+실제 배포 슬라이더 p95 33.9ms/max34.0ms, 로컬 통과 후 원격의 두 uid Realtime 격리,
+pending→ready 무새로고침·실제3분 지연·재접속·순서 역전 검증은
 [검증 기록](../validation/s3-2-b-comparison-20261001.md)을 따른다.
-원격 복합 시험에서 `score_inputs`/`exposure_inputs_v022`의 15초 timeout이 재현되어
-B의 운영 완료 선언은 보류한다. 분리 시험의 통과를 복합 시험 통과로 간주하지 않는다.
-D5 상시 webhook·6시간 sweep의 실행/복귀 계획을 PR에 포함했으며 현재 운영값은 유지한다.
+사용자는 2026-10-02 #24 Ready 전환을 승인했으며 머지는 사용자가 한다.
+
+`lib/compare/store.ts`의 `acquire()`/`release()`는 이미 후보 동시 채점을 **브라우저별 최대2개**로
+제한한다. `tests/compare/concurrency.test.ts`로 5개 동시 요청 중 첫2개만 시작하고,
+성공/실패 후 대기 후보가 순서대로 진행하며 최대 실행 수2를 유지함을 확인했다.
+후보 안의 RPC는 계획대로 병렬이므로 DB 전체 동시 쿼리 수를2로 제한한다는 의미는 아니다.
+
+D5 상시 webhook·6시간 sweep의 실행/복귀 계획은 PR에 포함했다. 이번 결정은 Ready 전환이며
+webhook/variable/cron 실행은 기존 승인 경계를 유지한다.
+
+## 11. 공개 전 체크리스트 (2026-10-02 사용자 결정)
+
+현재 컴퓨트는 **Micro 유지**다. 사용자가 대시보드에서 확정한 결정이며 이번 세션의
+관리 API 재측정 결과로 표현하지 않는다.
+
+원격 합본(2uid Realtime + 연속5채점) 시험은 **B 완료 기준에서 제외하고 공개 전 체크리스트**로
+분류한다. 기존 15초 timeout 실패 기록은 보존한다. **Small 전환 후 재시험 통과가 공개 조건**이다.
+현재 Micro에서 B 승인/머지는 진행할 수 있으며, 합본 시험 통과나 Small 전환을 완료했다고 간주하지 않는다.
+
+- [ ] 공개 전 Small 전환 후 실제 컴퓨트·DB 정상 상태 확인.
+- [ ] 동일 원격 합본(2uid + 연속5채점)을 다시 실행해 통과하고 결과 기록.
+
+실행 조건·기록 항목은 [운영 문서의 공개 전 체크리스트](../operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)를 따른다.

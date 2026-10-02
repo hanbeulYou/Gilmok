@@ -59,16 +59,28 @@ uv run --frozen --with playwright python tests/compare/verify_browser.py
 
 [원시 실측 요약 JSON](s3-2-b-comparison-20261001.json)에 분리 통과와 합본 실패를 함께 보존했다. 원격 webhook `gilmok_address_dispatch`는 D, `INGEST_REMOTE_ENABLED=false`, sweep cron은 기존 매시간으로 유지한다.
 
-## 원격 실패와 남은 범위
+## 공개 전 합본 시험 — 기존 실패 기록
 
-**원격 합본 시나리오는 실패했다. B의 운영 완료 선언은 보류한다.** 두 uid Realtime 검증을 유지한 채 b 컨텍스트에서 대치동 5후보를 연속 채점하면 `score_inputs`와 `exposure_inputs_v022`가 HTTP500, SQLSTATE`57014`, `canceling statement due to statement timeout`을 반환했다. 실패 실행과 재실행 모두 기록했다. 별도의 Vercel 한 브라우저 5등록은 같은 코드/서버 설정으로 통과했다. 이 통과를 합본 시험의 통과로 바꾸지 않는다.
+**원격 합본 시나리오의 기존 실패 기록이다. 2026-10-02 사용자 결정으로 B 완료 기준에서 제외하고 공개 전 체크리스트로 분류했다.** 두 uid Realtime 검증을 유지한 채 b 컨텍스트에서 대치동 5후보를 연속 채점하면 `score_inputs`와 `exposure_inputs_v022`가 HTTP500, SQLSTATE`57014`, `canceling statement due to statement timeout`을 반환했다. 실패 실행과 재실행 모두 기록했다. 별도의 Vercel 한 브라우저 5등록은 같은 코드/서버 설정으로 통과했다. 이 통과를 합본 시험의 통과로 바꾸지 않는다.
 
 - 원격 분리 검증은 `PROOF_REALTIME_ONLY=1`로 Realtime 경로만 시험한다. 실제 3분 대기는 유지한다. 브라우저를 mock으로 바꾸거나 ready 이벤트를 직접 주입하지 않는다. 점수/슬라이더는 위 Vercel 실측으로 검증 범위를 구분한다.
 - 진단 중 연결 대기 잠금·JIT를 주 원인으로 확인하지 못했다. `authenticated.statement_timeout=15s`, 관련 pg_stat_statements JIT 집계0, 조회 당시 active 쿼리의 lock 대기 없음. 역할·timeout·함수·컴퓨트 변경 없음.
 - `exposure_inputs_v022` 직접 SQL(EXPLAIN ANALYZE), 새로운 연결의 첫/둘째 실행: a5618.158/957.723ms, b1065.277/787.209ms, c563.403/509.291ms. 이는 각2회이며 p95나 물리적 디스크 cold라고 부르지 않는다.
 - 별도 순차 authenticated HTTP 진단 b3회: exposure3.468/8.112/7.440초(각2,707,710byte), score_inputs800m7.717/4.656/5.087초, 모두200. SQL 실행 시간과 HTTP 왕복을 혼동하지 않는다. 처리량·실행 계획/리소스의 원인 확정은 아직 하지 않았다.
-- 현재는 승인된 병렬 RPC 구조와 프리셋을 유지했다. 서버 성능 원인 확인 및 조정 방안은 B 머지 전 검토 대상으로 남긴다. 병렬 구조/마이그레이션/컴퓨트 변경이 필요하면 계획 차이를 먼저 보고하고, 원격 migration은 dry-run 후 승인을 받는다.
+- 현재는 승인된 병렬 RPC 구조와 프리셋을 유지했다. 현재 컴퓨트는 사용자 대시보드 확정대로 Micro를 유지한다. **Small 전환 후 원격 합본 재시험 통과가 공개 조건**이며, B 머지 차단 조건으로 두지 않는다. [공개 전 운영 체크리스트](../operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)에서 관리한다. 병렬 구조/마이그레이션/컴퓨트 변경이 필요하면 계획 차이를 먼저 보고하고, 원격 migration은 dry-run 후 승인을 받는다.
 - 실패 시 UI는 후보별 재시도와 조회 실패를 표시한다. 성공한 입력은 보존하고 실패한 RPC/Worker만 재시도하는 동작은 단위 검증했다. 자동 무한 재시도는 없다.
+
+## B 완료 판정과 동시 채점 제한 확인 (2026-10-02)
+
+사용자 결정에 따라 B의 계획 완료 기준은 모두 통과로 판정하고 #24를 Ready로 전환한다.
+기존 합본 실패 측정값·진단은 그대로 보존하며 Small 전환이나 재시험 통과로 바꾸지 않는다.
+현재 Micro 유지 확인의 출처는 사용자 대시보드 확인이며 관리 API 실측이 아니다.
+
+`lib/compare/store.ts`에 이미 브라우저별 후보 채점 최대2개 제한이 있다.
+새 `tests/compare/concurrency.test.ts`는 5후보를 동시에 요청해 첫2개만 시작하고,
+성공/실패 후 각각 다음 대기 후보가 진행되며 최대 실행 수2·종료 시0임을 확인했다.
+대기 순서/실패 후보 상태도 확인했다. 운영 코드를 수정할 필요는 없었고,
+이 테스트는 로컬 제어 약속을 검증한다(원격 처리 용량 실측으로 해석하지 않는다).
 
 ## D5 전환 계획 — 실행 전 사용자 승인 필요
 

@@ -6,7 +6,7 @@
   ],
   "scoring_version": "0.3",
   "migration_count": 0,
-  "completion": "held_for_remote_combined_timeouts",
+  "completion": "b_plan_criteria_passed",
   "local_delay": {
     "observed_status": "passed",
     "environment": "local real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
@@ -582,5 +582,15 @@
       "sql_ms": 509.291,
       "wall_s": 0.594
     }
-  ]
+  ],
+  "release_gate": {
+    "decision_date": "2026-10-02",
+    "current_compute": "Micro",
+    "compute_confirmation_source": "user_dashboard_confirmation",
+    "classification": "pre_public_release_checklist",
+    "required_compute": "Small",
+    "required_retest": "remote_combined_2uids_5_scores",
+    "status": "pending_small_transition_and_passing_retest",
+    "remote_compute_changed_in_this_session": false
+  }
 }
