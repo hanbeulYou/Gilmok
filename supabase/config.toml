@@ -34,7 +34,7 @@ enable_manual_linking = true
 enable_confirmations = true
 
 [realtime]
-enabled = false
+enabled = true
 
 [studio]
 enabled = false

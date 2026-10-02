@@ -163,3 +163,33 @@ Vercel 프로젝트는 동일 ID로 `vineyard`(Vineyard) 팀에 이전됐다. CL
 팀/Function Region 설정 변경 전의 Preview는 기존 리전으로 실행될 수 있다. 승인된 Preview를 새 팀에서 재배포하고 `/api/address-search` 응답의 `X-Gilmok-Function-Region`을 확인한다. `x-vercel-id`의 엣지 위치와 혼동하지 않는다. 이번 프로젝트 전체 regions는 `[iad1,icn1]`, 검증한 주소 Route Handler의 실제 요청6건은 모두 icn1이었다.
 
 주소 API 실패 로그 `address_provider_failure`에는 공급자, 단계, HTTP 상태, 제한된 기계 오류 코드만 남긴다. 키·주소·요청 URL·원문 응답을 추가하지 않는다. HTTP 응답 전 실패하면 상태/공급자 응답 코드가 NULL일 수 있다. 이번 재시험에서는 Juso 검색과 Vworld 좌표가 모두200이었다. [3곳·uid·한도·HTTP 최종 검증](../validation/s3-2-a-region-retry-20261001.md).
+
+
+## 공개 전 체크리스트 (2026-10-02)
+
+**현재 컴퓨트는 Micro 유지.** 사용자가 대시보드에서 확정했으며 이번 문서 갱신에서
+컴퓨트 변경이나 관리 API 확인은 하지 않았다. 이 결정과 향후 공개 조건을 구분한다.
+
+S3-2 B의 계획 완료 기준은 통과했다. 원격 합본 **2uid Realtime + 연속5채점**은
+B 완료/PR #24 Ready의 차단 조건에서 제외하고 **공개 전 체크리스트**로 관리한다.
+**Small 전환 후 재시험 통과가 공개 조건**이다. 두 조건을 충족하기 전에는 공개하지 않는다.
+기존 Micro 시험에서 `score_inputs`/`exposure_inputs_v022`의 HTTP500·SQLSTATE57014
+(15초 statement timeout)이 발생한 [실패·진단 기록](../validation/s3-2-b-comparison-20261001.md#공개-전-합본-시험--기존-실패-기록)은 보존한다.
+
+- [ ] 공개 전 컴퓨트를 Small로 전환하고, 재시작/복구 완료 후 실제 컴퓨트와 DB 정상 상태를 기록한다.
+- [ ] 같은 브라우저별 후보 동시 채점 최대2개, v0.3 프리셋·원천 snapshot·3곳 좌표를 유지한 채
+  원격 합본(서로 다른 익명 authenticated uid2개, Realtime 유지, 연속5채점)을 다시 실행한다.
+  `tests/compare/verify_browser.py`의 전체 경로를 사용하며 `PROOF_REALTIME_ONLY`와
+  `PROOF_SKIP_DELAY`를 설정하지 않는다. 익명 세션의 실제 RPC/Worker/Realtime과 실제3분 대기를 사용한다.
+- [ ] 전체 검증 통과(exit0, `scope=all`, `status=passed`)와 HTTP/SQL timeout 없는 5후보 채점,
+  v0.3 점수 일치 및 Realtime 검증을 확인한다. 분리 시험 통과로 합본 통과를 대신하지 않는다.
+- [ ] 실제 컴퓨트·커밋·snapshot·시험 시각·RPC 오류/소요 시간·슬라이더 p95/max·시험 데이터 정리를
+  새 `docs/validation/` 기록으로 남기고, 위 Small 전환과 합본 통과가 모두 확인된 뒤 공개한다.
+
+`lib/compare/store.ts`는 브라우저의 비교 store마다 후보 작업2개까지 실행하고 나머지는 대기시킨다.
+성공뿐 아니라 실패 후에도 슬롯을 반환한다. 5개 동시 요청 회귀 테스트는 최대 실행 수2를 확인한다.
+후보 내3개 RPC 병렬 및 여러 사용자의 요청은 별개이므로 서버 전체 동시 쿼리 상한2로 해석하지 않는다.
+
+현재 Micro 설정, `INGEST_REMOTE_ENABLED=false`, webhook disabled, 기존 sweep cron은 유지한다.
+Small 전환/합본 재시험과 D5 webhook 상시 운영·6시간 sweep 전환은 이번 Ready 처리에서 실행하지 않는다.
+D5는 [기존 승인 후 실행 절차](../validation/s3-2-b-comparison-20261001.md#d5-전환-계획--실행-전-사용자-승인-필요)를 따른다.
