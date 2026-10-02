@@ -8,7 +8,7 @@ PR 8은 로컬 S1을 마감하고 실행 경로를 준비한다. 원격 전환·
 |---|---|---|
 | refresh-monthly | 매월 10일 03:17 KST / 수동 재시도 | living, transit, academies, schools, population, trades |
 | refresh-manual | 수동, 분기 운영 | stores, buildings, rent |
-| address-queue | pending 이벤트 / 매시 23분 sweep / 수동 | 주소 캐시 큐 최대 10건 |
+| address-queue | pending 이벤트 / 6시간 간격(UTC 00/06/12/18시 23분) sweep / 수동 | 주소 캐시 큐 최대 10건 |
 
 월간 생활인구·교통은 직전 완료 월까지 3개월, 실거래는 24개월을 교체한다. 인구는 직전 완료 월, 학원·학교는 조회 시점 자료다. 월간 재시도에서는 source를 하나 선택할 수 있다. 미공개 월·스키마 변경·90% 미만 교통 연결률·신규 미검증 생활인구 셀은 실패로 처리하고 이전 집계를 유지한다. 생활인구 경계가 추가되면 기존 검증 절차로 경계를 먼저 보완한다. 누락 월을 오래된 월로 몰래 대체하지 않는다.
 
@@ -52,7 +52,7 @@ uv run --frozen python -m ingest.refresh --source stores --end-month 2026-06 \
 
 Repository variable `INGEST_REMOTE_ENABLED` 기본 미설정/false: 모든 원격 적재 job을 건너뛴다. 준비 후에만 true. `SUPABASE_PROJECT_REF`, 필요 시 `VWORLD_SERVICE_URL`도 variable로 지정한다. Environment `ingest-production`에는 `.env.example`의 사용 소스별 API 키, `SUPABASE_DB_URL`, R2 네 항목을 Secrets로 등록한다. 로컬 `.env`를 로그나 artifact에 복사하지 않는다. GitHub dispatch token은 Actions 수집 키와 별개이며 Supabase Vault에 저장한다.
 
-시간당 sweep은 최대 월 744회(31일), 이벤트 워커와 월간 적재가 추가된다. GitHub 호스팅 실행 시간 과금 때문에 **월 2,000분 이내를 보장하지 않는다**. 10분 폴링의 월 4,464회를 피하는 설계다. 비활성 job에는 runner가 배정되지 않는다. 활성화 이후 실제 월간 사용량을 확인하고 예산 초과 시 수동 운영으로 전환한다. 자동 유료 전환은 하지 않는다. 대량 생활인구 처리에는 runner 디스크·메모리·330분 job 제한도 실제 확인해야 한다. PR 8에서 원격 월간 전체 실행 시간을 측정한 것은 아니다.
+6시간 sweep은 최대 월 124회(31일), 이벤트 워커와 월간 적재가 추가된다. GitHub 호스팅 실행 시간 과금 때문에 **월 2,000분 이내를 보장하지 않는다**. 10분 폴링의 월 4,464회를 피하는 설계다. 비활성 job에는 runner가 배정되지 않는다. 활성화 이후 실제 월간 사용량을 확인하고 예산 초과 시 수동 운영으로 전환한다. 자동 유료 전환은 하지 않는다. 대량 생활인구 처리에는 runner 디스크·메모리·330분 job 제한도 실제 확인해야 한다. PR 8에서 원격 월간 전체 실행 시간을 측정한 것은 아니다.
 
 ## 시즌 비교를 위한 R2 정책
 
@@ -61,3 +61,25 @@ Repository variable `INGEST_REMOTE_ENABLED` 기본 미설정/false: 모든 원�
 계절 비교는 해당 시점의 기준일·연령대·집계 범위·소스 버전을 맞춘 후 S2 명세로 정의한다. 과거에 저장하지 않은 기간은 복원 가능하다고 간주하지 않는다. 최소 한 해 비교 자료가 쌓이기 전에도 자동 삭제하지 않으며 보존 기간 변경은 별도 결정으로 한다.
 
 S2-1: 월간 갱신 성공 뒤 [score_reference 배치](score-reference.md)를 후속 job으로 실행한다. 원본 갱신 실패 시 reference job도 실행하지 않는다. 각 reference에 소스 버전이 기록되므로 채점 시 현재 입력과 일치하는지 확인해야 한다.
+
+
+## D5 상시 운영 전환 (2026-10-02)
+
+사용자가 이벤트 즉시 처리와 `23 */6 * * *` sweep을 승인했다. 이 PR의 cron은 main 머지 후 적용된다. KST 실행 시각은 03:23·09:23·15:23·21:23이다.
+
+**상시 운영 시작일: 아직 없음.** 실제 공개 주소 실증에서 Actions 지오코딩이 실패해 `INGEST_REMOTE_ENABLED=false`, `gilmok_address_dispatch` disabled로 롤백했다. [실증·실패 run](../validation/s3-2-d5-20261002.md)을 따른다. 실패를 ready로 간주하거나 상시 활성화 상태로 남기지 않는다.
+
+재개 절차:
+
+1. main에 이 PR이 머지됐는지, Secrets에 `JUSO_API_KEY`·`VWORLD_API_KEY`·대장/R2/DB 키가 있는지 확인한다. `JUSO_API_KEY`는 이번 승인 범위에서 등록했다. 값은 출력하지 않는다.
+2. 보존된 공개 주소 `서울특별시 강남구 강남대로92길 33`의 실패 코드와 공급자 호출 실패 원인을 확인한다. 고정 코드 `juso_transport_failed`·`juso_business_error`·`vworld_coordinate_failed`는 비공개 큐에서 확인한다. 오류 원문·URL·키는 로그에 넣지 않는다.
+3. 원인 해결 후 `gh variable set INGEST_REMOTE_ENABLED --body true`, DB `ALTER TABLE ingest_private.building_address_requests ENABLE TRIGGER gilmok_address_dispatch` 순서로 활성화한다. 보존한 실패 요청 한 건만 pending으로 재개한다.
+4. 새 익명 세션에서 같은 공개 주소를 등록해 webhook repository_dispatch → Actions 성공 → cache ready → RPC ready → 무새로고침 화면 갱신을 확인한다. 모든 단계를 통과한 시각을 이 문서의 상시 운영 시작일로 기록하고 true를 유지한다.
+
+롤백 절차:
+
+1. `gh variable set INGEST_REMOTE_ENABLED --body false`로 다음 이벤트·스케줄 job을 차단한다. 이미 실행 중인 run은 자동 중단되지 않으므로 상태를 확인하고 새 작업을 막는다.
+2. DB에서 `ALTER TABLE ingest_private.building_address_requests DISABLE TRIGGER gilmok_address_dispatch`를 실행한다. Vault 토큰·큐·캐시를 삭제하지 않는다.
+3. 필요하면 cron을 이전 `23 * * * *`로 되돌리는 PR을 만든다. variable=false인 동안 어떤 cron도 워커를 실행하지 않는다. 실패/processing 요청을 보존하고 원인·run URL·최종 두 스위치를 기록한다.
+
+`INGEST_REMOTE_ENABLED`는 월간 적재에도 쓰는 기존 공통 스위치다. 익명 정리는 별도 `AUTH_CLEANUP_ENABLED=false`이며 이 전환으로 삭제나 정리 스케줄을 활성화하지 않는다.

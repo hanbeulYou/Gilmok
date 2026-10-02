@@ -193,3 +193,8 @@ B 완료/PR #24 Ready의 차단 조건에서 제외하고 **공개 전 체크리
 현재 Micro 설정, `INGEST_REMOTE_ENABLED=false`, webhook disabled, 기존 sweep cron은 유지한다.
 Small 전환/합본 재시험과 D5 webhook 상시 운영·6시간 sweep 전환은 이번 Ready 처리에서 실행하지 않는다.
 D5는 [기존 승인 후 실행 절차](../validation/s3-2-b-comparison-20261001.md#d5-전환-계획--실행-전-사용자-승인-필요)를 따른다.
+
+
+## D5 승인 후 실증 상태 (2026-10-02)
+
+#24 머지 후 상시 웹훅·6시간 sweep 실행을 승인받았다. **상시 운영 시작일은 미정**이다. 실제 공개 주소의 webhook→Actions는 도달했으나 지오코딩 실패로 ready/화면 갱신까지 완료하지 못해 variable=false·트리거 disabled로 복귀했다. [운영 시작·재개·롤백 절차](data-refresh.md#d5-상시-운영-전환-2026-10-02), [실측](../validation/s3-2-d5-20261002.md)을 따른다. 이 상태는 B 완료와 공개 전 Small 합본 시험 조건을 바꾸지 않는다.
