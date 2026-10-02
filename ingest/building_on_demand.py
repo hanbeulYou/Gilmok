@@ -19,6 +19,20 @@ from ingest.geocode import parse_kakao, same_road_address
 from ingest.seoul_transit import write_frame
 
 
+def operational_error_code(error):
+    """Only allowlisted fixed labels; never provider response text, URL or credentials."""
+    from ingest.geocode import GeocodeStopped
+    if isinstance(error, GeocodeStopped):
+        return {
+            "Juso key missing": "juso_key_missing",
+            "Juso transport failed; no automatic retry": "juso_transport_failed",
+            "Juso business error; not an address miss": "juso_business_error",
+            "VWORLD_API_KEY required": "vworld_key_missing",
+            "Vworld coordinate request failed": "vworld_coordinate_failed",
+        }.get(str(error), "geocode_stopped")
+    return type(error).__name__
+
+
 def address_parcel(response, address):
     if "contract_version" in response:
         from ingest.juso import parse_geocode
@@ -281,7 +295,7 @@ def process_one(db, directory, *, geocoder=None, client_factory=None, store=None
         db.execute(
             """update ingest_private.building_address_requests set status='failed',
             finished_at=clock_timestamp(),error_code=%s where address=%s""",
-            (type(error).__name__, address),
+            (operational_error_code(error), address),
         )
         raise RuntimeError("Address worker failed; inspect private request status") from None
 
