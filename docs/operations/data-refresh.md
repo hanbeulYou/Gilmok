@@ -83,3 +83,13 @@ S2-1: 월간 갱신 성공 뒤 [score_reference 배치](score-reference.md)를 �
 3. 필요하면 cron을 이전 `23 * * * *`로 되돌리는 PR을 만든다. variable=false인 동안 어떤 cron도 워커를 실행하지 않는다. 실패/processing 요청을 보존하고 원인·run URL·최종 두 스위치를 기록한다.
 
 `INGEST_REMOTE_ENABLED`는 월간 적재에도 쓰는 기존 공통 스위치다. 익명 정리는 별도 `AUTH_CLEANUP_ENABLED=false`이며 이 전환으로 삭제나 정리 스케줄을 활성화하지 않는다.
+
+### 2026-10-04 D5 재개 조건
+
+상시 운영은 시작하지 않았다. 사용자 결정에 따라 C(#26) 머지 후 D5를 재실증한다. 현재 `INGEST_REMOTE_ENABLED=false`·주소 트리거 비활성을 유지한다. 읽기 전용 공급자 진단은 아래처럼 큐 실행과 분리할 수 있다. 진단 job은 DB/큐/R2에 접근하지 않으며 운영 variable과 무관하게 Juso/Vworld만 각 1회 조회한다.
+
+```sh
+gh workflow run address-queue.yml --ref s3/address-always-on -f diagnose_only=true
+```
+
+#25 머지 후에는 `--ref main`을 사용한다. [10월 4일 진단](../validation/s3-2-d5-20261002.md#2026-10-04-공급자-진단--vworld-http-502-재현)은 Juso 성공·Vworld HTTP 502였다. Juso 검색키/Vworld 키는 Actions에 있고 Juso 좌표키는 현재 임시 경로의 필수 변수가 아니다. 공급자 성공을 확인한 뒤 기존 pending/failed 요청을 재개하는 운영 실증을 수행한다. 502가 지속되면 전환하지 않고 오류를 보고한다.
