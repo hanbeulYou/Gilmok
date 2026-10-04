@@ -30,7 +30,10 @@ with activity as (
      or nullif(u.email_change_token_current,'') is not null
      or exists(select 1 from auth.identities i where i.user_id=u.id and i.provider<>'anonymous')
      or exists(select 1 from auth.flow_state f where f.user_id=u.id) linked_or_linking,
-   a.user_id is null untracked
+   a.user_id is null untracked,
+   exists(select 1 from app_private.projection_errors e
+     where e.source_table='app_private.user_activity' and e.row_id=u.id::text
+       and e.resolved_at is null) activity_record_failed
  from auth.users u left join app_private.user_activity a on a.user_id=u.id
  left join lateral (select count(*) n,max(greatest(created_at,updated_at)) latest
    from public.candidates where user_id=u.id) c on true
@@ -41,6 +44,7 @@ with activity as (
  select *,case when is_anonymous is distinct from true then 'permanent'
    when linked_or_linking then 'linked_or_linking'
    when untracked then 'untracked_conservative_hold'
+   when activity_record_failed then 'activity_record_failed'
    when last_active_at is null then 'unknown_activity'
    when last_active_at >= %(as_of)s::timestamptz-make_interval(days=>keep_days) then 'recent'
    else 'eligible' end reason from activity
