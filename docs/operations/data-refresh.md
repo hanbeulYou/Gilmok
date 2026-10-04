@@ -93,3 +93,13 @@ gh workflow run address-queue.yml --ref s3/address-always-on -f diagnose_only=tr
 ```
 
 #25 머지 후에는 `--ref main`을 사용한다. [10월 4일 진단](../validation/s3-2-d5-20261002.md#2026-10-04-공급자-진단--vworld-http-502-재현)은 Juso 성공·Vworld HTTP 502였다. Juso 검색키/Vworld 키는 Actions에 있고 Juso 좌표키는 현재 임시 경로의 필수 변수가 아니다. 공급자 성공을 확인한 뒤 기존 pending/failed 요청을 재개하는 운영 실증을 수행한다. 502가 지속되면 전환하지 않고 오류를 보고한다.
+
+### D5 등록 좌표 재사용 (2026-10-04 사용자 결정)
+
+운영상 원인은 **Vworld 국내 IP 제한(동일 키·도메인 icn1 200 / iad1·Actions 502)**으로 기록한다. 주소 워커는 등록 PNU·좌표를 비공개 큐에서 읽고 대장만 조회한다. Actions의 Vworld 지오코더 성공을 운영 재개의 조건으로 삼던 앞 절의 절차를 이 방식으로 대체한다. 수동 공급자 진단은 과거 장애 증거용이며 정상 워커 처리에는 필요 없다.
+
+`address-queue` 실제 처리 job에는 VWORLD_API_KEY를 주입하지 않는다. `refresh-source`의 Vworld 키는 건물/법정동 WFS용으로 유지하지만 좌표 조회 경로에서는 사용하지 않는다. `JUSO_COORD_ENABLED` 미등록/false 또는 좌표키 부재이면 좌표 없는 작업은 needs_coord로 보류하고 건수를 출력한다. `INGEST_REMOTE_ENABLED=true`만으로 Juso 좌표 API를 활성화하지 않는다. 월간 신규 주소의 보류는 해당 소스 promotion을 중단하여 기존 스냅샷을 보존한다.
+
+재개 순서: C(#26) 머지 → #25 최신 main 동기화 → D5 migration 1개의 최종 dry-run·승인·push → #25 main 반영 → 공개 주소 등록으로 입력 저장 확인 → webhook/Actions(좌표 API 0회)/ready/화면 자동 갱신 검증 → 상시 운영 시작일 기록. 기존 실패 1건은 삭제하지 않고 같은 주소의 새 등록 PNU·좌표로 재개한다. 좌표 API 활성화/키 등록과 실제 원격 삭제는 이 순서에 포함되지 않는다.
+
+롤백: `INGEST_REMOTE_ENABLED=false`, 주소 dispatch 트리거 DISABLE. 추가 열·needs_coord 행·공유 캐시는 보존한다. 이전 프론트의 score_inputs 5인자 호출은 그대로 동작하지만 좌표 없는 워커 작업은 보류된다. 타임스탬프·투영·쿼터·RLS는 기존 정책을 유지한다.
