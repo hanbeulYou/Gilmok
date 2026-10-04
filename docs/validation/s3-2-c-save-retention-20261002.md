@@ -79,3 +79,21 @@ CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변
 | 후보 DELETE → 비교 정리 | false | P0001 | 0 | true |
 
 추천 조정안(아직 구현하지 않음): 활동 기록의 부가 쓰기는 AFTER·예외 격리·오류 기록으로 바꾸되, 인증/사용자 존재 확인과 비교 배열의 정합성은 실패 시 롤백을 유지한다. 삭제 정리까지 오류를 무시하면 없는 후보를 가리키는 비교가 남아 C의 원자적 삭제 계약을 깨뜨린다. updated_at 직접 대입은 BEFORE를 유지해야 한다. 이 구분을 사용자에게 확인하고, 기존 migration을 수정하지 않는 추가 migration으로 보완한 뒤 새 dry-run/해시를 보고해야 한다.
+
+## 2026-10-04 승인된 트리거 분류 보완
+
+앞 절의 중단 사유를 새 migration `20261004114404_owner_activity_failure_isolation.sql`로 보완했다. 기존 migration 2개는 수정하지 않았다. **기존 객체 변경 있음:** 활동 트리거 3개를 DROP 후 AFTER로 재생성하고 활동 기록 함수 2개를 교체한다. 데이터 행·테이블·열 삭제는 없다. `updated_at` BEFORE와 후보 삭제→비교 정리 AFTER는 strict 유지한다. AGENTS.md에 두 부류의 규칙을 추가했다.
+
+인증/사용자 존재 확인은 strict로 유지한다. `touch_user_activity`의 활동 시각 쓰기는 오류 기록 후 통과하므로 save_comparison의 선행 호출도 활동 기록 장애 때문에 저장을 막지 않는다. 오류 로그 자체의 실패도 본 쓰기를 막지 않는다. 미해결 활동 오류가 있는 uid는 정리에서 보수적으로 제외하고 다음 정상 활동 기록이 오류를 해결 처리한다.
+
+강제 P0001 검증: 후보 UPDATE·비교 UPDATE·프리셋 INSERT 각각 본 쓰기 성공 + `projection_errors` 정확히 1행. 후보 DELETE→비교 정리 실패는 삭제 롤백·후보/비교 보존. 오류 로그까지 실패하는 경우에도 저장은 통과. 기존 인증/삭제 후 JWT 차단·승격 보존 시험도 통과했다. lint/typecheck, Vitest121·Python259·DB218 통과.
+
+원격 `supabase db push --dry-run` exit 0, 대상은 기존 2개 + 보완 1개 총 **3개**. 아직 push하지 않았다.
+
+| 파일 | SHA256 |
+| --- | --- |
+| 20261002064719_comparison_save_presets.sql | da102bfe39f22f4abca987e45488d5f3bb5ee912cb79593c1aa867b07c20925d |
+| 20261002064828_anonymous_retention_guards.sql | 9588c4eff857a206383ecacb8d20063ce75c6e28c705d0de2fdfa21b0de22636 |
+| 20261004114404_owner_activity_failure_isolation.sql | db36bf63b0b092a9169d7de5ca60950f3cc1609b651ac27d4f99bbe779b353b2 |
+
+롤백은 애플리케이션을 이전 배포로 복귀하고 확장 스키마·저장 데이터를 보존한다. 승인된 부수 기록 격리를 되돌려 BEFORE 실패 전파를 복원하지 않는다. 원격 3개 push 승인을 받은 뒤 원격 E2E·3곳 점수·정리 dry-run을 재확인하고 Ready로 바꾼다.

@@ -323,3 +323,7 @@ C는 `s3/comparison-save-retention`, base main(#24)에서 진행했다. [저장/
 [익명 정리 운영](../operations/anonymous-retention.md): AUTH_CLEANUP_ENABLED=false, workflow_dispatch dry-run만 제공한다. 제안 04:00 KST cron은 주석이며 실제 삭제·스케줄은 활성화하지 않았다. 원격 DB 쓰기나 Vercel 비밀 추가 없이 가능한 범위를 검증했다.
 
 D5 운영 전환은 [별도 #25](https://github.com/hanbeulYou/Gilmok/pull/25)다. 공개 주소 pending→webhook→Actions는 확인했으나 공급자 호출 실패로 variable=false·주소 트리거 disabled로 복귀했다. 성공한 상시 운영 시작일은 아직 없으며 재개/롤백은 D5 운영 기록을 따른다. 이 상태를 C 저장/정리 구현과 섞어 완료 처리하지 않는다.
+
+### C 트리거 보완 결정 (2026-10-04)
+
+사용자 승인: 부수 기록은 AFTER·예외 격리·projection_errors, 정합성은 strict, updated_at 유지. 새 migration 1개로 보완하여 C의 원격 적용 대상은 총 3개다. 강제 실패 시험/새 dry-run은 [C 검증](../validation/s3-2-c-save-retention-20261002.md)의 마지막 절을 따른다. 원격 push는 새 승인을 받은 뒤 수행한다. D5는 C 머지 후 재실증한다.
