@@ -59,3 +59,23 @@ CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변
 ## CI fixture 정밀도 회귀 검증
 
 최초 CI에서는 b=93.39795311864867로 기준보다 0.00177962 낮았다. 로컬 DB 기본 `extra_float_digits=0`으로 CSV를 내보내 지하철 승하차 raw가 25642.30434782609에서 25642.304347826084로 달라졌고, 기준 분포의 동점 백분위가 바뀌었다. 채점식·허용 오차·기대 총점은 변경하지 않았다. fixture export/load에 `extra_float_digits=3`을 적용하고, 새 격리 DB에 재적재한 23개 테이블의 행 수와 정렬된 COPY binary 해시가 모두 원본과 일치함을 확인했다. CI에서도 적재 후 같은 검증을 수행한다.
+
+## 2026-10-04 push 직전 트리거 조건 확인 — 중단
+
+사용자 승인에 붙은 “B처럼 예외 시 projection_errors 기록·본 쓰기 통과” 조건과 현재 C migration을 대조했다. **조건 미충족으로 2개 모두 push하지 않았다.** 기존 migration 파일·SHA256은 그대로이며 #26은 Draft를 유지한다.
+
+| 새 트리거 | 시점·역할 | 예외 격리 / projection_errors | 결과 |
+| --- | --- | --- | --- |
+| candidate/comparison/weight_preset_updated_at | BEFORE UPDATE, NEW.updated_at 직접 대입 | 없음 | B의 상태 투영과 다른 본 행 타임스탬프 처리 |
+| candidate/comparison/weight_preset_owner_activity | BEFORE INSERT/UPDATE, touch_user_activity 호출 | 없음 | 활동 기록 실패가 본 쓰기를 롤백 |
+| remove_comparison_candidate | AFTER DELETE, 비교 배열·빈 비교 정리 | 없음 | 정리 실패가 후보 삭제를 롤백 |
+
+로컬 트랜잭션에서 활동 테이블/비교 테이블에 합성 P0001을 발생시킨 뒤 각각 SAVEPOINT로 대조했다. 각 시험의 사용자·행·합성 트리거는 외부 트랜잭션 rollback으로 모두 제거했다. 원격 DB에는 쓰지 않았다.
+
+| 강제 실패 경로 | 본 쓰기 통과 | SQLSTATE | projection_errors 추가 | 후보 보존 |
+| --- | --- | --- | --- | --- |
+| 후보 UPDATE → 활동 기록 | false | P0001 | 0 | true |
+| 비교 UPDATE → 활동 기록 | false | P0001 | 0 | true |
+| 후보 DELETE → 비교 정리 | false | P0001 | 0 | true |
+
+추천 조정안(아직 구현하지 않음): 활동 기록의 부가 쓰기는 AFTER·예외 격리·오류 기록으로 바꾸되, 인증/사용자 존재 확인과 비교 배열의 정합성은 실패 시 롤백을 유지한다. 삭제 정리까지 오류를 무시하면 없는 후보를 가리키는 비교가 남아 C의 원자적 삭제 계약을 깨뜨린다. updated_at 직접 대입은 BEFORE를 유지해야 한다. 이 구분을 사용자에게 확인하고, 기존 migration을 수정하지 않는 추가 migration으로 보완한 뒤 새 dry-run/해시를 보고해야 한다.
