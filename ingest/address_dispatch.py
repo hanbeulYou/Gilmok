@@ -40,7 +40,13 @@ def drain(factory, directory, limit=10, processor=process_one, *, dry_run=False)
             "select count(*) from ingest_private.building_address_requests "
             "where status in ('failed','processing')"
         ).fetchone()[0]
-    result = dict(processed=processed, pending=remaining, needs_review=failed)
+        needs_coord = db.execute(
+            "select count(*) from ingest_private.building_address_requests "
+            "where status='needs_coord'"
+        ).fetchone()[0]
+    result = dict(
+        processed=processed, pending=remaining, needs_review=failed, needs_coord=needs_coord
+    )
     if dry_run:
         result["dry_run"] = True
     return result
@@ -51,8 +57,9 @@ def main():
     parser.add_argument("--target", choices=("local", "remote"), default="local")
     parser.add_argument("--directory", type=Path, default=ROOT / ".local/address-dispatch")
     parser.add_argument("--max-requests", type=int, default=10)
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Read queue counts without claims/API IO")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Read queue counts without claims/API IO"
+    )
     parser.add_argument("--event-name", default=os.environ.get("GITHUB_EVENT_NAME", "local"))
     parser.add_argument("--event-file", type=Path, default=os.environ.get("GITHUB_EVENT_PATH"))
     args = parser.parse_args()
@@ -60,8 +67,12 @@ def main():
     validate_event(args.event_name, event)
     if args.target == "remote" and not args.dry_run and not Settings.from_env().uses_r2:
         raise ValueError("Remote worker requires persistent R2 storage")
-    result = drain(lambda: target_database(args.target), args.directory, args.max_requests,
-                   dry_run=args.dry_run)
+    result = drain(
+        lambda: target_database(args.target),
+        args.directory,
+        args.max_requests,
+        dry_run=args.dry_run,
+    )
     print(json.dumps(result))
 
 

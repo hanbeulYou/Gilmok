@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -22,6 +23,7 @@ from ingest.seoul_transit import write_frame
 def operational_error_code(error):
     """Only allowlisted fixed labels; never provider response text, URL or credentials."""
     from ingest.geocode import GeocodeStopped
+
     if isinstance(error, GeocodeStopped):
         return {
             "Juso key missing": "juso_key_missing",
@@ -48,8 +50,14 @@ def address_parcel(response, address):
         number = str(int(selected["buldMnnm"]))
         if int(selected["buldSlno"]):
             number += "-" + str(int(selected["buldSlno"]))
-        return dict(status="ready", pnu=selected["pnu"], lng=lng, lat=lat,
-                    road=selected["rn"], number=number)
+        return dict(
+            status="ready",
+            pnu=selected["pnu"],
+            lng=lng,
+            lat=lat,
+            road=selected["rn"],
+            number=number,
+        )
     # Historical S2 fixture replay only; no Kakao request implementation remains.
     status, lng, lat = parse_kakao(response, address)
     if status != "success":
@@ -164,8 +172,9 @@ def claim(db):
             set status='processing',started_at=clock_timestamp(),error_code=null
             where r.address=(select address from ingest_private.building_address_requests
               where status='pending' order by requested_at for update skip locked limit 1)
-            returning address""").fetchone()
-    return row[0] if row else None
+            returning address,pnu,
+            extensions.st_x(geom),extensions.st_y(geom),coordinate_source""").fetchone()
+    return dict(zip(("address", "pnu", "lng", "lat", "coordinate_source"), row)) if row else None
 
 
 def publish_raw(store, directory, address, response, titles, floors, snapshot, pnu):
@@ -210,29 +219,61 @@ def publish_raw(store, directory, address, response, titles, floors, snapshot, p
     return manifest["key"]
 
 
+def registered_parcel(job):
+    from ingest.juso import point
+
+    if not re.fullmatch(r"11680[0-9]{14}", job["pnu"] or ""):
+        raise ValueError("Invalid registered PNU")
+    road = re.fullmatch(
+        r"(?:서울특별시|서울) 강남구 (.+(?:로|길)) ([0-9]+(?:-[0-9]+)?)", job["address"]
+    )
+    if not road:
+        raise ValueError("Invalid registered road address")
+    lng, lat = point(job["lng"], job["lat"])
+    return dict(status="ready", pnu=job["pnu"], lng=lng, lat=lat, road=road[1], number=road[2])
+
+
 def process_one(db, directory, *, geocoder=None, client_factory=None, store=None):
     if not db.autocommit:
         raise ValueError("Worker requires autocommit for durable claims")
-    address = claim(db)
-    if address is None:
+    job = claim(db)
+    if job is None:
         return None
+    address = job["address"]
     now = datetime.now(UTC)
     snapshot = now.strftime("%Y%m%dT%H%M%SZ")
     directory = Path(directory) / snapshot
     directory.mkdir(parents=True, exist_ok=True)
     try:
-        if geocoder is None:
+        if job["pnu"] and job["lng"] is not None and job["lat"] is not None:
+            parcel = registered_parcel(job)
+            response = {
+                "source": "registered_queue_input",
+                "parcel": parcel,
+                "coordinate_source": job["coordinate_source"],
+                "coordinate_api_calls": 0,
+            }
+        elif geocoder is None:
             env = {**dotenv_values(ROOT / ".env"), **os.environ}
-            key = env.get("JUSO_API_KEY")
-            if not key:
-                raise ValueError("JUSO_API_KEY required")
-            from ingest.juso import request_address
+            if env.get("JUSO_COORD_ENABLED") != "true" or not env.get("JUSO_COORD_API_KEY"):
+                db.execute(
+                    """update ingest_private.building_address_requests
+                    set status='needs_coord',finished_at=clock_timestamp(),
+                    error_code='juso_coordinates_not_approved' where address=%s
+                    and (pnu is null or geom is null)""",
+                    (address,),
+                )
+                return dict(status="needs_coord", register_calls=0, coordinate_calls=0)
+            from ingest.juso import batch_request_address
 
-            response = request_address(address, key, coordinate_key=env.get("VWORLD_API_KEY"))
+            response = batch_request_address(
+                db, address, env.get("JUSO_API_KEY"), env["JUSO_COORD_API_KEY"]
+            )
+            parcel = address_parcel(response, address)
         else:
             response = geocoder(address)
+            parcel = address_parcel(response, address)
         (directory / "geocode.json").write_text(json.dumps(response, ensure_ascii=False))
-        parcel = address_parcel(response, address)
         result, calls = dict(status=parcel["status"], payload={}), 0
         titles, floors = [], []
         if parcel["status"] == "ready":
@@ -242,6 +283,13 @@ def process_one(db, directory, *, geocoder=None, client_factory=None, store=None
                 else RegisterClient(directory, now.date().isoformat(), request_limit=30)
             )
             titles = client.group("getBrTitleInfo", pnu_parts(parcel["pnu"]))
+            if job["coordinate_source"] == "registration" and not any(
+                same_road_address(
+                    r.get("newPlatPlc", ""), parcel["road"], parcel["number"], "강남구"
+                )
+                for r in titles
+            ):
+                raise ValueError("Registered PNU and register road address differ")
             floors = client.group("getBrFlrOulnInfo", pnu_parts(parcel["pnu"]))
             calls = client.request_count
             result = normalize_register(parcel, titles, floors)

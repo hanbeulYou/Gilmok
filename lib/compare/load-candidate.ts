@@ -30,8 +30,8 @@ function sharedSources(input: ScoreInputs) {
 /** Partial successes survive retry; a ready event refreshes only primary when sources/raw are unchanged. */
 export async function loadCandidate(client: SupabaseClient, candidate: Candidate, resolved: ResolvedLocation,
   exposure: (scene: VisibilityScene) => Promise<ExposureInput>, progress: (value: LoadProgress) => void,
-  signal: AbortSignal, previous?: CandidateInputs, refresh = false) {
-  const key = canonical(candidate), cache: CandidateInputs = previous?.key === key ? { ...previous } : { key };
+  signal: AbortSignal, previous?: CandidateInputs, refresh = false, registeredPnu?: string) {
+  const key = canonical({candidate, registeredPnu}), cache: CandidateInputs = previous?.key === key ? { ...previous } : { key };
   const priorPrimary = cache.primary;
   const publish = () => { signal.throwIfAborted(); progress({ inputs: { ...cache } }); };
   async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T> {
@@ -40,7 +40,8 @@ export async function loadCandidate(client: SupabaseClient, candidate: Candidate
     if (error || data === null) throw new Error('주변 데이터를 불러오지 못했습니다. 다시 시도해 주세요.');
     return data as T;
   }
-  const input = { lat: candidate.lat, lng: candidate.lng, floor: candidate.floor, address: candidate.address };
+  const input = { lat: candidate.lat, lng: candidate.lng, floor: candidate.floor, address: candidate.address,
+    ...(registeredPnu?.startsWith('11680') ? { registered_pnu: registeredPnu } : {}) };
   async function primary() {
     if (refresh || !cache.primary) {
       cache.primary = await rpc<ScoreInputs>('score_inputs', { ...input, radius_m: 800 });

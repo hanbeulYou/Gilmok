@@ -23,6 +23,15 @@ function backend() {
   return {client:{rpc} as unknown as SupabaseClient,rpc,primary:(value:typeof primary)=>{primary=value;},fail:(name:string)=>{fail=name;}};
 }
 describe('incremental comparison loading',()=>{
+ it('sends registration PNU and coordinates with both scoring RPCs',async()=>{
+  const b=backend();
+  await loadCandidate(b.client,candidate,resolved,async()=>ready,()=>{},new AbortController().signal,
+    undefined,false,'1168010600109120013');
+  const calls=b.rpc.mock.calls.filter(([name])=>name==='score_inputs');
+  expect(calls).toHaveLength(2);
+  for(const [,args] of calls) expect(args).toMatchObject({registered_pnu:'1168010600109120013',
+    lat:candidate.lat,lng:candidate.lng,address:candidate.address});
+ });
  it('publishes provisional score, then refreshes only 800m after a building event',async()=>{
   const b=backend(),worker=vi.fn(async()=>ready),progress:LoadProgress[]=[];
   const first=await loadCandidate(b.client,candidate,resolved,worker,p=>progress.push(p),new AbortController().signal);

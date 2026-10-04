@@ -50,7 +50,7 @@ def test_drain_dry_run_never_claims_or_calls_provider(tmp_path):
 
     processor = Mock(side_effect=AssertionError("dry-run must not process"))
     result = drain(factory, tmp_path, 10, processor, dry_run=True)
-    assert result == dict(processed=0, pending=3, needs_review=3, dry_run=True)
+    assert result == dict(processed=0, pending=3, needs_review=3, needs_coord=3, dry_run=True)
     processor.assert_not_called()
     assert "default_transaction_read_only=on" in db.execute.call_args_list[0].args[0]
 
@@ -66,7 +66,7 @@ def test_drain_is_bounded_and_does_not_log_addresses(tmp_path):
     processor = Mock(return_value={"address": "private address"})
     result = drain(factory, tmp_path, 2, processor)
     assert processor.call_count == 2
-    assert result == dict(processed=2, pending=3, needs_review=3)
+    assert result == dict(processed=2, pending=3, needs_review=3, needs_coord=3)
     assert "address" not in json.dumps(result)
     processor = Mock(return_value=None)
     assert drain(factory, tmp_path, 2, processor)["processed"] == 0

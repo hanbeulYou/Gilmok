@@ -115,7 +115,7 @@ export async function scoreCandidate(id: string, refresh = false): Promise<void>
     patch({ error: undefined, refreshing: refresh, ...(refresh && row.result ? {} : { stage: 'fetching', startedAt: Date.now() }) });
     await ensureSession(); controller.signal.throwIfAborted();
     const loaded = await loadCandidate(getSupabaseClient(), row.candidate, row.resolved, browserExposure,
-      patch, controller.signal, row.inputs, refresh);
+      patch, controller.signal, row.inputs, refresh, row.selection.pnu);
     patch({ ...loaded, refreshing: false });
   } catch (error) {
     useComparisonStore.getState().update(id, { stage: 'error', refreshing: false,
