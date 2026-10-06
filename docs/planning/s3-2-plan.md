@@ -314,3 +314,16 @@ webhook/variable/cron 실행은 기존 승인 경계를 유지한다.
 - [ ] 동일 원격 합본(2uid + 연속5채점)을 다시 실행해 통과하고 결과 기록.
 
 실행 조건·기록 항목은 [운영 문서의 공개 전 체크리스트](../operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)를 따른다.
+
+
+## 12. C 구현·운영 경계 (2026-10-02)
+
+C는 `s3/comparison-save-retention`, base main(#24)에서 진행했다. [저장/정리 검증](../validation/s3-2-c-save-retention-20261002.md)의 로컬 원자 저장·owner RLS·프리셋·30/90일 정리·실제 Auth/E2E를 통과했고 원격 정리 dry-run 대상은 0명이다. 새 마이그레이션 2개는 dry-run만 수행했고 push 승인을 기다린다. 기존 객체 변경: 후보/비교 열·트리거 추가와 touch_user_activity 교체; 기존 행 삭제/DROP 없음.
+
+[익명 정리 운영](../operations/anonymous-retention.md): AUTH_CLEANUP_ENABLED=false, workflow_dispatch dry-run만 제공한다. 제안 04:00 KST cron은 주석이며 실제 삭제·스케줄은 활성화하지 않았다. 원격 DB 쓰기나 Vercel 비밀 추가 없이 가능한 범위를 검증했다.
+
+D5 운영 전환은 [별도 #25](https://github.com/hanbeulYou/Gilmok/pull/25)다. 공개 주소 pending→webhook→Actions는 확인했으나 공급자 호출 실패로 variable=false·주소 트리거 disabled로 복귀했다. 성공한 상시 운영 시작일은 아직 없으며 재개/롤백은 D5 운영 기록을 따른다. 이 상태를 C 저장/정리 구현과 섞어 완료 처리하지 않는다.
+
+### C 트리거 보완 결정 (2026-10-04)
+
+사용자 승인: 부수 기록은 AFTER·예외 격리·projection_errors, 정합성은 strict, updated_at 유지. 새 migration 1개로 보완하여 C의 원격 적용 대상은 총 3개다. 강제 실패 시험/새 dry-run은 [C 검증](../validation/s3-2-c-save-retention-20261002.md)의 마지막 절을 따른다. 원격 push는 새 승인을 받은 뒤 수행한다. D5는 C 머지 후 재실증한다.
