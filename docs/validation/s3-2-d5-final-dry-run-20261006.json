@@ -1,0 +1,67 @@
+{
+  "checked_at": "2026-10-06T09:51:42.140790+00:00",
+  "main_commit": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+  "merge_commit": "1d6e890a2eae1f077b30a4c95e268e295e242d29",
+  "migration": "20261004114603_registered_address_queue_inputs.sql",
+  "sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+  "pending": [
+    "20261004114603_registered_address_queue_inputs.sql"
+  ],
+  "C_applied": true,
+  "initial_queue_status_counts": {
+    "done": 1,
+    "failed": 1
+  },
+  "initial_geocode_status_counts": {},
+  "dispatch_trigger": "D",
+  "existing_score_inputs": [
+    {
+      "signature": "score_inputs(double precision,double precision,integer,integer,text)",
+      "security_definer": false,
+      "settings": [
+        "search_path=\"\"",
+        "extra_float_digits=3"
+      ],
+      "authenticated_execute": true
+    }
+  ],
+  "public_probe_ready_cache_rows": 0,
+  "dry_run_exit": 0,
+  "dry_run_seconds": 0.58,
+  "pushed": false,
+  "worker_pr": {
+    "number": 27,
+    "merged_at": "2026-10-06T09:46:22Z",
+    "main_commit": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1"
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "vitest": 123,
+    "python": 269,
+    "database_integration": 226,
+    "ci": "pending"
+  },
+  "operational_state": {
+    "INGEST_REMOTE_ENABLED": "false",
+    "AUTH_CLEANUP_ENABLED": "false",
+    "JUSO_COORD_ENABLED": "unset (false)",
+    "dispatch_trigger": "D",
+    "main_sweep": "23 * * * *",
+    "proposed_sweep": "23 */6 * * *",
+    "JUSO_COORD_API_KEY_repository_secret": true,
+    "always_on_started_at": null
+  },
+  "coordinate_probe": {
+    "evidence": "address-worker-input-reuse-20261006.json",
+    "execution": "local monthly batch_request_address helper + read-only DB",
+    "juso_search": 1,
+    "juso_coordinate": 1,
+    "vworld_coordinate": 0,
+    "http_status": 200,
+    "pnu_footprint_contains": true,
+    "writes": 0,
+    "repeat_this_step": false
+  },
+  "next_gate": "User approval before remote push; no batch replacement authorized."
+}

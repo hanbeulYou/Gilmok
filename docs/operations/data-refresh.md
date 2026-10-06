@@ -115,3 +115,12 @@ C #26은 main 머지됐고 #25는 최신 main에 동기화했다. D5 migration 1
 
 
 선행 워커 [#27](https://github.com/hanbeulYou/Gilmok/pull/27)은 DB 객체·운영값을 바꾸지 않는다. #27 머지 직후에도 운영 gate는 열지 않는다. D5 migration 승인·적용 및 #25에서 공개 주소 전체 경로 실증 후 상시 운영으로 전환한다. Juso 좌표 API는 로컬1건만 확인했으며 JUSO_COORD_ENABLED를 상시 true로 바꾸지는 않았다. Actions는 Vercel 환경변수를 읽지 않으므로 좌표 키는 GitHub Actions Secret에 별도로 있어야 한다.
+
+
+### 2026-10-06 #27 머지 후 최종 승인 경계
+
+#27 main 머지·#25 동기화 완료. [최종 dry-run](../validation/s3-2-d5-20261002.md)은 D5 migration 1개만 대상으로 exit0/0.580초, 해시 동일이며 원격 push 승인을 기다린다. GitHub repository secret JUSO_COORD_API_KEY 이름을 확인했으며 이전 미등록 상태는 해소됐다. Juso 월간 helper 실제1건(HTTP200·PNU 포함)의 증거는 선행 검증을 따른다. 사용자가 확인 후 JUSO_COORD_ENABLED 활성화를 승인했지만 현재 미등록(false)을 유지한다. 13,542건 교체는 별도 승인이다.
+
+INGEST_REMOTE_ENABLED=false·주소 dispatch D·AUTH_CLEANUP_ENABLED=false를 유지하며 상시 운영 시작일은 없다. 원격 push 승인 후 실제 webhook 경로를 검증한다. 실패하면 위 롤백을 적용하고 데이터를 보존한다.
+
+6시간 cron `23 */6 * * *`와 월간 job의 좌표 키/flag 주입은 #25 main 머지 후 효력이 생긴다. 머지 전 main은 hourly이므로 검증 창과 상시 운영을 구분한다. 실제 6시간 운영 확인 전에는 완료/시작일을 기록하지 않는다. GitHub 변수만 true로 바꿔도 workflow가 주입하지 않은 환경변수는 Python 배치에 전달되지 않는다.
