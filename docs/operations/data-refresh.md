@@ -103,3 +103,15 @@ gh workflow run address-queue.yml --ref s3/address-always-on -f diagnose_only=tr
 재개 순서: C(#26) 머지 → #25 최신 main 동기화 → D5 migration 1개의 최종 dry-run·승인·push → #25 main 반영 → 공개 주소 등록으로 입력 저장 확인 → webhook/Actions(좌표 API 0회)/ready/화면 자동 갱신 검증 → 상시 운영 시작일 기록. 기존 실패 1건은 삭제하지 않고 같은 주소의 새 등록 PNU·좌표로 재개한다. 좌표 API 활성화/키 등록과 실제 원격 삭제는 이 순서에 포함되지 않는다.
 
 롤백: `INGEST_REMOTE_ENABLED=false`, 주소 dispatch 트리거 DISABLE. 추가 열·needs_coord 행·공유 캐시는 보존한다. 이전 프론트의 score_inputs 5인자 호출은 그대로 동작하지만 좌표 없는 워커 작업은 보류된다. 타임스탬프·투영·쿼터·RLS는 기존 정책을 유지한다.
+
+
+### 2026-10-06 동기화 후 실행 경계
+
+C #26은 main 머지됐고 #25는 최신 main에 동기화했다. D5 migration 1개는 [최종 dry-run](../validation/s3-2-d5-20261002.md)을 통과했으며 push 승인 대기다. INGEST_REMOTE_ENABLED=false·주소 dispatch D·JUSO_COORD_ENABLED 비활성을 유지한다. **상시 운영 시작일은 아직 없다.**
+
+실제 repository_dispatch는 기본 브랜치 workflow + `ref: main` checkout을 사용하므로 새 PNU 전용 워커가 main에 있어야 한다. 사용자 결정에 따라 선행 워커 #27을 먼저 머지하고 #25에서 최종 migration dry-run·push 승인을 받은 뒤 검증 창을 연다. branch workflow 수동 실행은 webhook 전체 경로 성공의 대체 증거로 삼지 않는다. `23 */6 * * *`는 #25 코드에 준비됐으며 main에서 실제 스케줄로 적용된 상태는 아니다.
+
+기존 롤백 절차를 유지한다: GitHub variable INGEST_REMOTE_ENABLED=false → 진행 중 주소 run 확인/필요 시 취소 → DB `ALTER TABLE ingest_private.building_address_requests DISABLE TRIGGER gilmok_address_dispatch;`. 6시간 schedule은 gate가 false이면 drain하지 않는다. PNU·좌표 추가 열, needs_coord 작업, 기존 캐시·R2 원본을 삭제하지 않는다. 프론트 롤백은 기존 5인자 RPC와 호환된다. AUTH_CLEANUP_ENABLED는 별개이며 false를 유지한다.
+
+
+선행 워커 [#27](https://github.com/hanbeulYou/Gilmok/pull/27)은 DB 객체·운영값을 바꾸지 않는다. #27 머지 직후에도 운영 gate는 열지 않는다. D5 migration 승인·적용 및 #25에서 공개 주소 전체 경로 실증 후 상시 운영으로 전환한다. Juso 좌표 API는 로컬1건만 확인했으며 JUSO_COORD_ENABLED를 상시 true로 바꾸지는 않았다. Actions는 Vercel 환경변수를 읽지 않으므로 좌표 키는 GitHub Actions Secret에 별도로 있어야 한다.
