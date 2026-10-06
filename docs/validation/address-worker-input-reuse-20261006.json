@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-06T09:25:05.979721+00:00",
+  "execution": "local approved one-address batch_request_address, read-only DB projection",
+  "address": "서울특별시 강남구 역삼로 460",
+  "live_calls": [
+    {
+      "path": "/addrlink/addrLinkApi.do",
+      "http_status": 200,
+      "elapsed_seconds": 0.117,
+      "error_code": "0",
+      "total_count": "2",
+      "item_fields": [
+        "admCd",
+        "bdKdcd",
+        "bdMgtSn",
+        "bdNm",
+        "buldMnnm",
+        "buldSlno",
+        "detBdNmList",
+        "emdNm",
+        "emdNo",
+        "engAddr",
+        "jibunAddr",
+        "liNm",
+        "lnbrMnnm",
+        "lnbrSlno",
+        "mtYn",
+        "rn",
+        "rnMgtSn",
+        "roadAddr",
+        "roadAddrPart1",
+        "roadAddrPart2",
+        "sggNm",
+        "siNm",
+        "udrtYn",
+        "zipNo"
+      ]
+    },
+    {
+      "path": "/addrlink/addrCoordApi.do",
+      "http_status": 200,
+      "elapsed_seconds": 0.056,
+      "error_code": "0",
+      "total_count": "1",
+      "item_fields": [
+        "admCd",
+        "bdMgtSn",
+        "bdNm",
+        "buldMnnm",
+        "buldSlno",
+        "entX",
+        "entY",
+        "rnMgtSn",
+        "udrtYn"
+      ]
+    }
+  ],
+  "cache_writes": 0,
+  "remote_writes": 0,
+  "batch_enabled": false,
+  "location": {
+    "status": "ready",
+    "lng": 127.057585444512,
+    "lat": 37.5025724246771,
+    "coordinate_provider": "juso",
+    "source_crs": "EPSG:5179",
+    "source_x": 960896.1846965668,
+    "source_y": 1944903.6257312004,
+    "reason": null
+  },
+  "pnu": "1168010600109120013",
+  "call_counts": {
+    "juso_search": 1,
+    "juso_coordinate": 1,
+    "vworld_coordinate": 0
+  },
+  "pnu_footprint": {
+    "count": 1,
+    "covering_count": 1,
+    "nearest_distance_m": 0.0
+  },
+  "status": "success",
+  "github_secret_observation": {
+    "repository": "hanbeulYou/Gilmok",
+    "repository_JUSO_COORD_API_KEY": false,
+    "ingest_production_JUSO_COORD_API_KEY": false,
+    "local_env_JUSO_COORD_API_KEY": true,
+    "user_clarification": "key was placed in Vercel; GitHub registration approval pending"
+  }
+}
