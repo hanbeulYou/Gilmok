@@ -28,8 +28,13 @@ uv run --frozen python -m ingest.cleanup_anonymous --target remote --dry-run
 
 [검증 문서](../validation/s3-2-c-save-retention-20261002.md)에 원격 dry-run 수치와 로컬 실제 삭제·승격 보존·GoTrue refresh/stale JWT 거부를 기록했다. 원격 dry-run 결과는 마이그레이션 전에도 기존 스키마에서 조회 가능하다.
 
-문제가 있으면 `AUTH_CLEANUP_ENABLED=false`를 유지하고 workflow_dispatch dry-run만 사용한다. 애플리케이션 롤백은 C 이전 배포로 복귀하고 확장된 DB 열·저장 데이터를 보존한다. C의 새 테이블/열을 DROP하는 자동 역마이그레이션이나 사용자 행 삭제는 하지 않는다. 현재 원격에는 C 마이그레이션을 적용하지 않았다.
+문제가 있으면 `AUTH_CLEANUP_ENABLED=false`를 유지하고 workflow_dispatch dry-run만 사용한다. 애플리케이션 롤백은 C 이전 배포로 복귀하고 확장된 DB 열·저장 데이터를 보존한다. C의 새 테이블/열을 DROP하는 자동 역마이그레이션이나 사용자 행 삭제는 하지 않는다. 2026-10-06 사용자 승인으로 C 마이그레이션 3개를 원격 적용했다. 실제 정리·스케줄은 계속 비활성이다.
 
 ## 활동 기록 장애 처리
 
 활동 기록은 AFTER·예외 격리이며 `projection_errors`의 source_table=`app_private.user_activity`, row_id=uid로 실패를 기록한다. 미해결 기록이 있으면 dry-run은 `activity_record_failed`로 제외한다. 다음 정상 활동 기록이 해당 오류를 해결 처리한다. 인증/사용자 존재 확인과 후보 삭제→비교 정리는 strict이고 `updated_at` BEFORE는 유지한다. 오류 로그가 불능이어도 본 쓰기는 통과하며 DB에는 키/주소를 포함하지 않는 경고 코드만 남긴다. 실제 정리·스케줄은 계속 비활성이다.
+
+
+## 2026-10-06 원격 재확인
+
+C migration 3개 적용과 실제 Preview 등록→저장→같은 uid 재열기를 통과했다. 이후 read-only dry-run(1.267초)은 선정 0명, 최근 활동 제외 7명, 후보/비교/공용 캐시 삭제 대상 0/0/0이었다. `AUTH_CLEANUP_ENABLED=false` 유지, 실제 삭제·스케줄 활성화 없음. 시험이 만든 익명 uid와 후보·비교는 보존했다. [수치·해시·검증](../validation/s3-2-c-save-retention-20261002.md)을 따른다.

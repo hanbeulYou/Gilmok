@@ -52,9 +52,9 @@ CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변
 - [x] 정리 dry-run 선정/제외·로컬 실제 삭제·승격 보존
 - [x] 정리 원격 dry-run, 실제 삭제·스케줄 비활성
 - [x] 실제 3곳 점수·성능·기존 Realtime 증거 연결
-- [ ] 원격 마이그레이션 push 승인·적용 후 원격 저장 검증
+- [x] 원격 마이그레이션 push 승인·적용 후 원격 저장 검증 (2026-10-06)
 
-원격 단계는 사용자 승인 후 진행한다. C PR은 Draft이며 사용자가 머지한다.
+원격 단계는 2026-10-06 사용자 승인으로 완료했다. 아래 최종 실측을 기준으로 #26을 Ready로 전환하며, 사용자가 머지한다.
 
 ## CI fixture 정밀도 회귀 검증
 
@@ -97,3 +97,33 @@ CI용 `tests/e2e/fixtures/snapshot/`은 기존 공개 원천의 대치동 주변
 | 20261004114404_owner_activity_failure_isolation.sql | db36bf63b0b092a9169d7de5ca60950f3cc1609b651ac27d4f99bbe779b353b2 |
 
 롤백은 애플리케이션을 이전 배포로 복귀하고 확장 스키마·저장 데이터를 보존한다. 승인된 부수 기록 격리를 되돌려 BEFORE 실패 전파를 복원하지 않는다. 원격 3개 push 승인을 받은 뒤 원격 E2E·3곳 점수·정리 dry-run을 재확인하고 Ready로 바꾼다.
+
+
+## 2026-10-06 원격 push·C 최종 검증
+
+사용자가 승인한 위 3개 migration의 SHA256을 push 직전 다시 대조했다. 변경 0, 초기 활동 INSERT 대상 0행, 최종 dry-run exit 0(0.586초). `supabase db push --yes` exit 0(0.717초), 원격 이력에 3개 모두 적용됐고 C의 미적용 migration은 0개다. D5 migration은 적용하지 않았다.
+
+기존 객체 변경은 승인 내용과 같다: 활동 트리거 3개를 AFTER로 재생성하고 함수 2개를 교체했다. 원격 catalog에서 AFTER·예외 격리·`projection_errors` 기록 함수, `updated_at` BEFORE, strict 후보 삭제→비교 정리 트리거를 확인했다. 원격에서 강제 실패를 주입하지 않았으며 P0001 증거는 앞 절의 로컬 시험을 따른다. E2E 이후 미해결 projection error는 0건이다.
+
+[원격 원시 수치](s3-2-c-remote-20261006.json). 검증 코드 `02b01e93ec226cd0d3d47781744af10c5e8f10a9`, [C Preview](https://gilmok-ootfhd33b-vineyard.vercel.app), 배포 `dpl_ADuqrczQ2sxntmspaWddhYdFAG9s`. Vercel 보호는 같은 프로젝트 OIDC로 통과했고, 토큰은 해당 origin 요청 헤더에만 전달했다. 토큰·uid·세션 값은 증거에 포함하지 않았다.
+
+| 단계 | 결과 | 소요 시간 |
+|---|---|---:|
+| 최종 remote dry-run | 승인된 3개만, exit 0 | 0.586초 |
+| remote push | 3개 적용, exit 0 | 0.717초 |
+| 실제 Preview Playwright E2E | 1 passed / 실패·재시도 0 | 29.410초 |
+| 익명 정리 remote dry-run | 선정 0명, 최근 활동 제외 7명 | 1.267초 |
+
+E2E는 실제 Juso 검색 3회→Vworld 좌표 3회→원격 익명 Auth/RPC→브라우저 exposure Worker→슬라이더→명명 프리셋→익명 비교 저장→같은 uid 재열기를 실행했다. 공개 주소 fixture는 입력 주소·층과 기대값에만 사용했으며 응답 mock은 없다. `/api/address-search`의 search/locate 요청 6회 모두 HTTP 200, 실행 리전 `icn1`이다. 첫 도구 실행은 Node 18 선택으로 브라우저 시작 전에 중단됐고 Node 22.22.0을 명시한 실행이 통과했다.
+
+| 후보(800m·임대료 미입력) | 원격 기본 v0.3 총점 | 기존 v0.3와 차이 |
+|---|---:|---:|
+| a 역삼로 460 3층 | 85.08500496915157 | 0 |
+| b 도곡로 409 2층 | 93.3997327394482 | 0 |
+| c 역삼로 546 3층 | 83.86448162784299 | 0 |
+
+순위 b>a>c. 신뢰도 집합 85/90/90, 24개 축 점수는 원시 수치에 기록했다. 슬라이더 100회 p95 **34.20ms**, max **34.40ms**, 조작 중 추가 RPC 0회. signup은 1회이며 demand=17 원시 가중치, 수동 순서, 저장 후 점수·URL·같은 uid를 재열기에서 검증했다. 기본 프리셋으로 되돌려 위 세 총점이 다시 일치함도 확인했다.
+
+검증이 생성한 익명 uid 1개·후보 3개·비교 1개·명명 프리셋 1개는 보존한다. 원격 DB 읽기 재확인으로 행 수와 활동 기록 1행을 확인했다. 실제 삭제는 0건이다. 정리 dry-run 기준시각 `2026-10-06T08:31:36.722865+00:00`, 선정 SHA256 `c6d70dc39247ab88db6d15d2a7710a0c859379026222634c2d0c1c5972601332`. 대상 후보/비교/공용 캐시 0/0/0, 삭제·스케줄 실행 없음.
+
+`AUTH_CLEANUP_ENABLED=false`, `INGEST_REMOTE_ENABLED=false`, 주소 dispatch 트리거 `D`를 유지한다. D5 #25는 C 머지 후 재실증한다. Micro 유지 및 Small 전환 후 합본 시험은 기존 공개 전 체크리스트를 따른다. C의 채점 명세·프리셋·공개 조건을 변경하지 않았다.
