@@ -1,5 +1,7 @@
 # 데이터 갱신 운영
 
+> 최신 상태(2026-10-07): **D5 종결**. main 6시간 cron·월간 좌표 env·Production 등록을 확인했고, 실제 [scheduled sweep](https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422)이 성공했다. 날짜별 이전 대기 기록과 최신 종결 결과를 구분한다.
+
 PR 8은 로컬 S1을 마감하고 실행 경로를 준비한다. 원격 전환·Secrets 등록·웹훅 활성화는 수행하지 않는다. 입력 계약은 [data-sources.md 3절](../planning/data-sources.md#3-score_inputs-s2-채점-입력-계약-v12)의 v1.2이며 RPC는 변경하지 않는다.
 
 ## 실행 일정과 범위
@@ -149,7 +151,7 @@ INGEST_REMOTE_ENABLED=false·주소 dispatch D·AUTH_CLEANUP_ENABLED=false를 �
 5. 원인·run URL·중지 시각·마지막 상태를 기록한 뒤 같은 승인 범위의 공개 주소 실증을 다시 통과해야 운영을 재개한다. `AUTH_CLEANUP_ENABLED=false`는 유지한다.
 
 
-### 2026-10-06 main 반영 확인·scheduled sweep 대기
+### 2026-10-06 main 반영 확인·scheduled sweep 대기 이력
 
 #25가 **11:54:39 UTC / 20:54:39 KST**에 main `c8ce254`로 머지됐다. main의 주소 큐 cron은 **`23 */6 * * *`**이며, 이전 hourly 설정은 교체됐다. 월간 `refresh-monthly.yml`의 `secrets: inherit` → `refresh-source.yml` 수집 step에 `JUSO_COORD_API_KEY`·`JUSO_COORD_ENABLED` 전달이 반영됐다. repository secret 이름 존재와 flag=true를 확인했다. 주소 워커도 동일하게 전달한다.
 
@@ -158,4 +160,15 @@ Production `gilmok-weld.vercel.app`은 같은 머지 커밋의 배포 `dpl_Eoe2Y
 **D5 종결은 첫 6시간 scheduled sweep 성공 확인까지 대기**한다. 다음 슬롯은 2026-10-06 **21:23 KST(12:23 UTC)**이며 수동 실행으로 대체하지 않는다. [배포·설정·실제 등록·sweep 기록](../validation/s3-2-d5-closeout-20261006.md)을 따른다. 13,542건 교체 및 실제 삭제는 별도 승인 조건을 유지한다.
 
 
-21:53 KST 추가 확인: 예정 슬롯(21:23) 이후 30분 동안 새 scheduled run이 생성되지 않았다. workflow active·기본 브랜치 main·원격 파일 일치는 확인됐지만 실제 실행 증거가 없어 **D5 종결 보류**다. 머지 전 hourly run이나 수동 run을 종결 증거로 대체하지 않는다. 생성 지연 원인은 미확인이고, 웹훅/좌표 gate는 기존 true·dispatch O를 유지한다. [미충족 조건과 관측 시각](../validation/s3-2-d5-closeout-20261006.md#2153-kst-관측-종료-시점의-미충족-조건)을 따른다.
+21:53 KST 추가 확인: 예정 슬롯(21:23) 이후 30분 동안 새 scheduled run이 생성되지 않았다. workflow active·기본 브랜치 main·원격 파일 일치는 확인됐지만 실제 실행 증거가 없어 **D5 종결 보류**다. 머지 전 hourly run이나 수동 run을 종결 증거로 대체하지 않는다. 생성 지연 원인은 미확인이고, 웹훅/좌표 gate는 기존 true·dispatch O를 유지한다. [중간 관측 이력](../validation/s3-2-d5-closeout-20261006.md#중간-관측-이력--2153-kst-시점의-미충족-조건)을 따른다.
+
+
+### 2026-10-07 D5 종결 — main 6시간 cron 실제 실행 확인
+
+**D5 종결.** #25 main(`c8ce254`)의 **`23 */6 * * *`**를 사용하는 실제 [schedule run 37511542422](https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422)가 **03:28:10 KST 생성, drain 03:28:15~03:28:29, attempt1 success**로 끝났다. 처리 대상0·pending0·needs_coord0·투영 불일치0·미해결 오류0이었다. 실제 로그의 좌표 키 마스킹 존재와 flag=true를 확인했다. 수동 실행/재실행으로 대체하지 않았다.
+
+main의 월간 env 전달, Production 등록 UI 배포/실제 PNU 전달·채점, 6시간 cron의 실제 scheduled sweep 1회가 모두 확인됐다. 최종 재조회는 **INGEST_REMOTE_ENABLED=true / JUSO_COORD_ENABLED=true / 주소 trigger O / AUTH_CLEANUP_ENABLED=false**. 웹훅 상시 시작일은 10-06 19:22:36 KST로 유지하고, 6시간 cron의 첫 실제 실행 관측일은 **10-07 03:28 KST**로 구분한다.
+
+03:23 예정 시각보다 생성이 5분10초 늦었고, 앞선 10-06 21:23 슬롯은 미관측이었다. **cron의 간격은 6시간이지만 실제 연속 실행의 정확한 6시간 간격을 보장하거나 실측했다고 기록하지 않는다.** [GitHub schedule 지연·누락 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)와 [전체 실증·중간 이력](../validation/s3-2-d5-closeout-20261006.md)을 함께 따른다.
+
+롤백은 위 [상시 웹훅 운영 롤백](#2026-10-06-상시-웹훅-시작과-최종-롤백) 그대로다. 이번 종결 확인에서 운영값·제품 코드·스키마를 바꾸지 않았으며, 전체 월간 갱신·13,542건 교체·실제 삭제를 실행하지 않았다.

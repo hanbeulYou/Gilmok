@@ -97,6 +97,173 @@
     "elapsed_seconds": 7.389
   },
   "scheduled_sweep": {
+    "checked_at": "2026-10-06T18:29:03.437663+00:00",
+    "watch_started_at": "2026-10-06T12:01:00.199697+00:00",
+    "expected_slot_utc": "2026-10-06T12:23:00Z",
+    "expected_main_sha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+    "status": "passed",
+    "latest_run": {
+      "conclusion": "success",
+      "createdAt": "2026-10-06T18:28:10Z",
+      "databaseId": 37511542422,
+      "event": "schedule",
+      "headSha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+      "status": "completed",
+      "updatedAt": "2026-10-06T18:28:30Z",
+      "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422"
+    },
+    "run": {
+      "conclusion": "success",
+      "createdAt": "2026-10-06T18:28:10Z",
+      "databaseId": 37511542422,
+      "event": "schedule",
+      "headSha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+      "status": "completed",
+      "updatedAt": "2026-10-06T18:28:30Z",
+      "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422"
+    },
+    "details": {
+      "attempt": 1,
+      "conclusion": "success",
+      "createdAt": "2026-10-06T18:28:10Z",
+      "event": "schedule",
+      "headSha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+      "jobs": [
+        {
+          "completedAt": "2026-10-06T18:28:29Z",
+          "conclusion": "success",
+          "databaseId": 112433664872,
+          "name": "drain",
+          "startedAt": "2026-10-06T18:28:15Z",
+          "status": "completed",
+          "steps": [
+            {
+              "completedAt": "2026-10-06T18:28:17Z",
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "startedAt": "2026-10-06T18:28:16Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:18Z",
+              "conclusion": "success",
+              "name": "Run actions/checkout@v4",
+              "number": 2,
+              "startedAt": "2026-10-06T18:28:17Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:20Z",
+              "conclusion": "success",
+              "name": "Run astral-sh/setup-uv@v6",
+              "number": 3,
+              "startedAt": "2026-10-06T18:28:18Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:21Z",
+              "conclusion": "success",
+              "name": "Run uv sync --frozen",
+              "number": 4,
+              "startedAt": "2026-10-06T18:28:20Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:24Z",
+              "conclusion": "success",
+              "name": "Drain pending queue (bounded; no address logs)",
+              "number": 5,
+              "startedAt": "2026-10-06T18:28:21Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:26Z",
+              "conclusion": "success",
+              "name": "Reconcile status projections and report unresolved errors",
+              "number": 6,
+              "startedAt": "2026-10-06T18:28:24Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:26Z",
+              "conclusion": "success",
+              "name": "Post Run astral-sh/setup-uv@v6",
+              "number": 11,
+              "startedAt": "2026-10-06T18:28:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:26Z",
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@v4",
+              "number": 12,
+              "startedAt": "2026-10-06T18:28:26Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-06T18:28:26Z",
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 13,
+              "startedAt": "2026-10-06T18:28:26Z",
+              "status": "completed"
+            }
+          ],
+          "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422/job/112433664872"
+        },
+        {
+          "completedAt": "2026-10-06T18:28:11Z",
+          "conclusion": "skipped",
+          "databaseId": 112433666275,
+          "name": "diagnose",
+          "startedAt": "2026-10-06T18:28:11Z",
+          "status": "completed",
+          "steps": [],
+          "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422/job/112433666275"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-10-06T18:28:30Z",
+      "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422"
+    },
+    "reports": [
+      {
+        "processed": 0,
+        "pending": 0,
+        "needs_review": 0,
+        "needs_coord": 0
+      },
+      {
+        "dry_run": false,
+        "scanned": 4,
+        "repaired": 0,
+        "mismatched": 0,
+        "errors_resolved": 0,
+        "failed_addresses": 0,
+        "unresolved_before": 0,
+        "unresolved_errors": 0
+      }
+    ],
+    "coordinate_env_observed": {
+      "key_masked_present": true,
+      "flag_true": true
+    },
+    "manual_run_used": false,
+    "cron_at_run_head": "23 */6 * * *",
+    "nearest_preceding_nominal_slot_utc": "2026-10-06T18:23:00Z",
+    "created_after_nearest_nominal_slot_seconds": 310,
+    "drain_job_seconds": 14,
+    "precision_note": "One actual run of the six-hour cron verified; consecutive actual run spacing of exactly six hours was not measured."
+  },
+  "github_status_check": {
+    "checked_at_utc": "2026-10-06T12:50:00Z",
+    "url": "https://www.githubstatus.com/api/v2/summary.json",
+    "actions": "operational",
+    "active_incidents": 0,
+    "cause_for_this_repository": "unconfirmed"
+  },
+  "pre_success_observation": {
     "checked_at": "2026-10-06T12:54:43.804710+00:00",
     "watch_started_at": "2026-10-06T12:01:00.199697+00:00",
     "expected_slot_utc": "2026-10-06T12:23:00Z",
@@ -119,11 +286,20 @@
     "github_workflow_blob_sha": "c33da62b66cb971a4ee289defbc64e9de5356e27",
     "blocker": "new schedule run has not been created; no run URL or execution result to verify"
   },
-  "github_status_check": {
-    "checked_at_utc": "2026-10-06T12:50:00Z",
-    "url": "https://www.githubstatus.com/api/v2/summary.json",
-    "actions": "operational",
-    "active_incidents": 0,
-    "cause_for_this_repository": "unconfirmed"
-  }
+  "final_state": {
+    "checked_at": "2026-10-06T18:31:11.274619+00:00",
+    "variables": {
+      "AUTH_CLEANUP_ENABLED": "false",
+      "INGEST_REMOTE_ENABLED": "true",
+      "JUSO_COORD_ENABLED": "true"
+    },
+    "dispatch_trigger": "O",
+    "run_id": 37511542422,
+    "event": "schedule",
+    "run_head_sha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+    "cron_at_run_head": "23 */6 * * *",
+    "workflow_operational_mutations": 0
+  },
+  "d5_status": "closed",
+  "closed_at_kst": "2026-10-07T03:31:11.274619+09:00"
 }
