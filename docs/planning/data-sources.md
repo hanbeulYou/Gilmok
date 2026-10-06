@@ -622,3 +622,8 @@ S3-1에서는 아래 결정을 문서에만 반영한다. 구현은 S3-2다.
 - 좌표 없는 작업은 `needs_coord`로 보류한다. monthly의 기존 승인 캐시(기존 공급자 포함)는 유지·재사용하고, 신규 주소만 보류한다. 보류 작업은 API 호출·실패 캐시를 만들지 않는다. 신규 미해결 주소가 남으면 해당 소스 promotion을 보류하여 이전 스냅샷을 유지한다.
 - 배치 좌표는 **Juso 좌표 API만** 사용하도록 준비했다. `JUSO_COORD_API_KEY`와 `JUSO_COORD_ENABLED=true`를 별도 승인한 뒤에만 호출한다. 현재 기본 false이며 승인/키가 없으면 needs_coord 유지다. 원좌표 EPSG:5179를 PostGIS로 4326 변환하고 원CRS/좌표를 provenance에 보존한다. 계산은 기존 5186이다. Vworld 지오코더로 재시도하지 않는다.
 - 사용자 icn1 좌표 조회의 Vworld 임시 경로와 건물·법정동 WFS는 유지한다. 기존 Kakao/cache 삭제나 13,542건 재산출은 별도 manifest 승인 범위이며 실행하지 않는다. Vercel 추가 환경변수는 없다.
+
+
+### 2026-10-06 Juso 배치 좌표 실제 1건 검증
+
+D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 역삼로 460으로 각 1회 호출했다. HTTP 200/errorCode 0, 좌표 응답의 bdMgtSn을 검색 결과와 대조했다. entX/entY는 EPSG:5179 원본을 보존하고 PostGIS로 4326 변환했으며 PNU 1168010600109120013 도형 안임을 확인했다. Vworld 호출·DB/캐시 쓰기 0건. [수치와 호출 범위](../validation/address-worker-input-reuse-20261006.md)를 따른다. 기존 캐시 전량 교체/전체 월간 좌표 활성화 승인을 의미하지 않으며 JUSO_COORD_ENABLED는 계속 비활성이다.

@@ -245,7 +245,8 @@ def resolve_one(
             return "needs_coord"
         today = connection.execute(
             "select count(*) from ingest_private.geocode_requests where provider=%s "
-            "and status<>'needs_coord' and attempted_at::date=current_date",
+            "and status<>'needs_coord' and attempted_at >= "
+            "(date_trunc('day',now() at time zone 'Asia/Seoul') at time zone 'Asia/Seoul')",
             (provider,),
         ).fetchone()[0]
         if today >= budget:
@@ -261,7 +262,8 @@ def resolve_one(
         data = requester(address, key)
         journal = Path(journal)
         journal.mkdir(parents=True, exist_ok=True)
-        path = journal / (hashlib.sha256(address.encode()).hexdigest() + ".json")
+        (journal / provider).mkdir(parents=True, exist_ok=True)
+        path = journal / provider / (hashlib.sha256(address.encode()).hexdigest() + ".json")
         path.write_text(json.dumps({"address": address, "response": data}, ensure_ascii=False))
         parser_for(provider)(data, address)
     except Exception as error:

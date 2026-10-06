@@ -172,8 +172,10 @@ def claim(db):
             set status='processing',started_at=clock_timestamp(),error_code=null
             where r.address=(select address from ingest_private.building_address_requests
               where status='pending' order by requested_at for update skip locked limit 1)
-            returning address,pnu,
-            extensions.st_x(geom),extensions.st_y(geom),coordinate_source""").fetchone()
+            returning address,to_jsonb(r)->>'pnu',
+            (to_jsonb(r)->'geom'->'coordinates'->>0)::float8,
+            (to_jsonb(r)->'geom'->'coordinates'->>1)::float8,
+            to_jsonb(r)->>'coordinate_source'""").fetchone()
     return dict(zip(("address", "pnu", "lng", "lat", "coordinate_source"), row)) if row else None
 
 
