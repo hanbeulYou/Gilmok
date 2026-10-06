@@ -147,3 +147,12 @@ INGEST_REMOTE_ENABLED=false·주소 dispatch D·AUTH_CLEANUP_ENABLED=false를 �
 3. 좌표 경로도 중단할 때 `gh variable set JUSO_COORD_ENABLED --repo hanbeulYou/Gilmok --body false`를 실행한다. 키 값은 출력하거나 삭제하지 않는다.
 4. variable과 `pg_trigger.tgenabled='D'`를 재조회한다. 큐·캐시·추가 열·needs_coord 행·R2 원본은 보존한다. 정합성 트리거/스키마 제거 및 기존 행 삭제는 이 운영 롤백에 포함하지 않는다.
 5. 원인·run URL·중지 시각·마지막 상태를 기록한 뒤 같은 승인 범위의 공개 주소 실증을 다시 통과해야 운영을 재개한다. `AUTH_CLEANUP_ENABLED=false`는 유지한다.
+
+
+### 2026-10-06 main 반영 확인·scheduled sweep 대기
+
+#25가 **11:54:39 UTC / 20:54:39 KST**에 main `c8ce254`로 머지됐다. main의 주소 큐 cron은 **`23 */6 * * *`**이며, 이전 hourly 설정은 교체됐다. 월간 `refresh-monthly.yml`의 `secrets: inherit` → `refresh-source.yml` 수집 step에 `JUSO_COORD_API_KEY`·`JUSO_COORD_ENABLED` 전달이 반영됐다. repository secret 이름 존재와 flag=true를 확인했다. 주소 워커도 동일하게 전달한다.
+
+Production `gilmok-weld.vercel.app`은 같은 머지 커밋의 배포 `dpl_Eoe2YgzVBFdLk6sGRhzhAjgmK9gH`가 READY다. 실제 공개 주소 등록에서 search/locate HTTP200·icn1, 800/1000m RPC registered_pnu 전달·ready, 총점67.78766968581377을 확인했다. `INGEST_REMOTE_ENABLED=true`, 주소 trigger O, `JUSO_COORD_ENABLED=true`, `AUTH_CLEANUP_ENABLED=false`를 유지한다.
+
+**D5 종결은 첫 6시간 scheduled sweep 성공 확인까지 대기**한다. 다음 슬롯은 2026-10-06 **21:23 KST(12:23 UTC)**이며 수동 실행으로 대체하지 않는다. [배포·설정·실제 등록·sweep 기록](../validation/s3-2-d5-closeout-20261006.md)을 따른다. 13,542건 교체 및 실제 삭제는 별도 승인 조건을 유지한다.
