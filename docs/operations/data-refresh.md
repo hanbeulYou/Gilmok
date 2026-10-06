@@ -156,3 +156,6 @@ INGEST_REMOTE_ENABLED=false·주소 dispatch D·AUTH_CLEANUP_ENABLED=false를 �
 Production `gilmok-weld.vercel.app`은 같은 머지 커밋의 배포 `dpl_Eoe2YgzVBFdLk6sGRhzhAjgmK9gH`가 READY다. 실제 공개 주소 등록에서 search/locate HTTP200·icn1, 800/1000m RPC registered_pnu 전달·ready, 총점67.78766968581377을 확인했다. `INGEST_REMOTE_ENABLED=true`, 주소 trigger O, `JUSO_COORD_ENABLED=true`, `AUTH_CLEANUP_ENABLED=false`를 유지한다.
 
 **D5 종결은 첫 6시간 scheduled sweep 성공 확인까지 대기**한다. 다음 슬롯은 2026-10-06 **21:23 KST(12:23 UTC)**이며 수동 실행으로 대체하지 않는다. [배포·설정·실제 등록·sweep 기록](../validation/s3-2-d5-closeout-20261006.md)을 따른다. 13,542건 교체 및 실제 삭제는 별도 승인 조건을 유지한다.
+
+
+21:53 KST 추가 확인: 예정 슬롯(21:23) 이후 30분 동안 새 scheduled run이 생성되지 않았다. workflow active·기본 브랜치 main·원격 파일 일치는 확인됐지만 실제 실행 증거가 없어 **D5 종결 보류**다. 머지 전 hourly run이나 수동 run을 종결 증거로 대체하지 않는다. 생성 지연 원인은 미확인이고, 웹훅/좌표 gate는 기존 true·dispatch O를 유지한다. [미충족 조건과 관측 시각](../validation/s3-2-d5-closeout-20261006.md#2153-kst-관측-종료-시점의-미충족-조건)을 따른다.

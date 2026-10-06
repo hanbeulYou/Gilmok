@@ -97,9 +97,33 @@
     "elapsed_seconds": 7.389
   },
   "scheduled_sweep": {
-    "status": "pending",
-    "next_slot_utc": "2026-10-06T12:23:00Z",
-    "next_slot_kst": "2026-10-06 21:23 KST",
-    "manual_run_used": false
+    "checked_at": "2026-10-06T12:54:43.804710+00:00",
+    "watch_started_at": "2026-10-06T12:01:00.199697+00:00",
+    "expected_slot_utc": "2026-10-06T12:23:00Z",
+    "expected_main_sha": "c8ce2541c998dae44db9f96e03f5378601c3e43c",
+    "status": "waiting",
+    "latest_run": {
+      "conclusion": "success",
+      "createdAt": "2026-10-06T10:30:22Z",
+      "databaseId": 37450218004,
+      "event": "schedule",
+      "headSha": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+      "status": "completed",
+      "updatedAt": "2026-10-06T10:30:39Z",
+      "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37450218004"
+    },
+    "manual_run_used": false,
+    "workflow_active": true,
+    "workflow_id": 363977669,
+    "default_branch": "main",
+    "github_workflow_blob_sha": "c33da62b66cb971a4ee289defbc64e9de5356e27",
+    "blocker": "new schedule run has not been created; no run URL or execution result to verify"
+  },
+  "github_status_check": {
+    "checked_at_utc": "2026-10-06T12:50:00Z",
+    "url": "https://www.githubstatus.com/api/v2/summary.json",
+    "actions": "operational",
+    "active_incidents": 0,
+    "cause_for_this_repository": "unconfirmed"
   }
 }
