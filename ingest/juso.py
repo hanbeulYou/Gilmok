@@ -211,3 +211,16 @@ def parse_geocode(envelope, address):
 
 def request_address(address, key, *, coordinate_key):
     return resolve_address(address, key, VworldCoordinates(coordinate_key))
+
+def batch_request_address(connection, address, key, coordinate_key):
+    """Approved batch coordinates: Juso only, without a Vworld fallback."""
+
+    def project(x, y):
+        return connection.execute(
+            """select extensions.st_x(p),extensions.st_y(p)
+          from (select extensions.st_transform(extensions.st_setsrid(
+          extensions.st_makepoint(%s,%s),5179),4326) p) s""",
+            (x, y),
+        ).fetchone()
+
+    return resolve_address(address, key, JusoCoordinates(coordinate_key, project))

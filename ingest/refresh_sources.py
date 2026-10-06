@@ -219,15 +219,21 @@ def _places(args, pub, db, files):
     frame = module.normalize(restored if args.source == "stores" else raw)
     if args.source != "stores":
         env = {**dotenv_values(ROOT / ".env"), **os.environ}
+        coordinate_counts = {}
         for address in sorted(set(frame.address) - {""}):
-            resolve_one(
+            outcome = resolve_one(
                 db,
                 address,
                 key=env.get("JUSO_API_KEY", ""),
-                coordinate_key=env.get("VWORLD_API_KEY", ""),
+                coordinate_key=env.get("JUSO_COORD_API_KEY", ""),
+                coordinates_enabled=env.get("JUSO_COORD_ENABLED") == "true",
                 budget=10000,
                 journal=args.directory / "geocode",
             )
+            coordinate_counts[outcome] = coordinate_counts.get(outcome, 0) + 1
+        print(json.dumps({"geocoding": coordinate_counts}))
+        if coordinate_counts.get("needs_coord", 0):
+            raise ValueError("Snapshot deferred: new addresses need Juso coordinate approval")
         frame = attach_geocodes(db, frame)
     version = args.end_month if args.source == "stores" else date.today().isoformat()
     pub.frame(args.source + "_profile", month, frame)

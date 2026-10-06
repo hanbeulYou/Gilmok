@@ -123,8 +123,9 @@ def request_vworld(address, key):
 def parser_for(provider):
     from ingest.juso import parse_geocode
 
-    return {"juso": parse_geocode, "vworld": parse_vworld,
-            "kakao": parse_kakao}[provider]  # legacy saved-response replay only
+    return {"juso": parse_geocode, "vworld": parse_vworld, "kakao": parse_kakao}[
+        provider
+    ]  # legacy saved-response replay only
 
 
 def save_result(connection, address, provider, data):
@@ -153,8 +154,23 @@ def save_result(connection, address, provider, data):
 
             connection.execute(
                 "update public.geocode_cache set provenance=%s where address=%s and provider=%s",
-                (Jsonb({k: data.get(k) for k in ("contract_version", "search_provider",
-                        "selection", "location", "fetched_at", "call_counts")}), address, provider),
+                (
+                    Jsonb(
+                        {
+                            k: data.get(k)
+                            for k in (
+                                "contract_version",
+                                "search_provider",
+                                "selection",
+                                "location",
+                                "fetched_at",
+                                "call_counts",
+                            )
+                        }
+                    ),
+                    address,
+                    provider,
+                ),
             )
         connection.execute(
             "update ingest_private.geocode_requests set status=%s where address=%s and provider=%s",
@@ -171,23 +187,32 @@ def cached(connection, address, provider="juso"):
     ).fetchone()
 
 
-def resolve_one(connection, address, *, key, budget, journal, requester=None,
-                provider="juso", coordinate_key=None):
-    """Connection must be autocommit: claim commits BEFORE the HTTP request."""
+def resolve_one(
+    connection,
+    address,
+    *,
+    key,
+    budget,
+    journal,
+    requester=None,
+    provider="juso",
+    coordinate_key=None,
+    coordinates_enabled=False,
+):
+    """Durable claims; new batch coordinates need explicit Juso approval."""
     if not connection.autocommit:
         raise ValueError("Geocoding requires durable autocommit claims")
     if provider not in {"kakao", "vworld", "juso"}:
         raise ValueError("Unsupported geocoder")
+    batch_juso = requester is None and provider == "juso"
     if requester is None:
         if provider == "kakao":
             raise GeocodeStopped("Kakao network access retired")
         if provider == "juso":
-            from ingest.juso import request_address
+            from ingest.juso import batch_request_address
 
-            if not key or not coordinate_key:
-                raise GeocodeStopped("JUSO_API_KEY and VWORLD_API_KEY required")
             def requester(address, key):
-                return request_address(address, key, coordinate_key=coordinate_key)
+                return batch_request_address(connection, address, key, coordinate_key)
         else:
             requester = request_vworld
     address = normalize_address(address)
@@ -197,27 +222,46 @@ def resolve_one(connection, address, *, key, budget, journal, requester=None,
         connection.execute("select pg_advisory_xact_lock(7412401)")
         if cached(connection, address, provider) is not None:
             return "cached"
-        if connection.execute(
-            "select 1 from ingest_private.geocode_requests where address=%s and provider=%s",
-            (address, provider),
+        # Existing approved cache rows stay usable until the separate provider
+        # replacement manifest is approved; only missing coordinates need new API calls.
+        if batch_juso and connection.execute(
+            "select 1 from public.geocode_cache where address=%s "
+            "and not geocode_failed and geom is not null limit 1", (address,),
         ).fetchone():
+            return "cached"
+        prior = connection.execute(
+            "select status from ingest_private.geocode_requests where address=%s and provider=%s",
+            (address, provider),
+        ).fetchone()
+        if prior and prior[0] != "needs_coord":
             raise GeocodeStopped("Existing unresolved claim; inspect journal, never auto-retry")
-        used = connection.execute(
+        if batch_juso and (not coordinates_enabled or not key or not coordinate_key):
+            connection.execute(
+                """insert into ingest_private.geocode_requests
+                (address,provider,status,error_code) values(%s,%s,'needs_coord',
+                'juso_coordinates_not_approved') on conflict(address,provider) do nothing""",
+                (address, provider),
+            )
+            return "needs_coord"
+        today = connection.execute(
             "select count(*) from ingest_private.geocode_requests where provider=%s "
-            "and attempted_at >= (date_trunc('day',now() at time zone 'Asia/Seoul') "
-            "at time zone 'Asia/Seoul')",
+            "and status<>'needs_coord' and attempted_at >= "
+            "(date_trunc('day',now() at time zone 'Asia/Seoul') at time zone 'Asia/Seoul')",
             (provider,),
         ).fetchone()[0]
-        if used >= budget:
+        if today >= budget:
             raise GeocodeStopped("Daily request budget reached")
         connection.execute(
             "insert into ingest_private.geocode_requests(address,provider,status) "
-            "values (%s,%s,'pending')",
+            "values(%s,%s,'pending') on conflict(address,provider) do update "
+            "set status='pending',error_code=null,attempted_at=now() "
+            "where geocode_requests.status='needs_coord'",
             (address, provider),
         )
     try:
         data = requester(address, key)
-        # Save successful HTTP responses before parsing/DB completion for manual crash recovery.
+        journal = Path(journal)
+        journal.mkdir(parents=True, exist_ok=True)
         (journal / provider).mkdir(parents=True, exist_ok=True)
         path = journal / provider / (hashlib.sha256(address.encode()).hexdigest() + ".json")
         path.write_text(json.dumps({"address": address, "response": data}, ensure_ascii=False))
@@ -258,8 +302,13 @@ def run(addresses, *, budget, journal, workers=4):
                     return
                 try:
                     status = resolve_one(
-                        connection, address, key=key, budget=budget, journal=journal,
-                        coordinate_key=env.get("VWORLD_API_KEY")
+                        connection,
+                        address,
+                        key=key,
+                        budget=budget,
+                        journal=journal,
+                        coordinate_key=env.get("JUSO_COORD_API_KEY"),
+                        coordinates_enabled=env.get("JUSO_COORD_ENABLED") == "true",
                     )
                 except Exception:
                     stop.set()
@@ -289,7 +338,6 @@ def main():
         json.dumps(run(input_addresses, budget=args.budget, journal=args.journal)),
         flush=True,
     )
-
 
 
 if __name__ == "__main__":
