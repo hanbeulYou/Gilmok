@@ -38,6 +38,10 @@ jobs:
       - name: Start local Supabase without printing generated credentials
         run: supabase start > /dev/null
       - run: pnpm test:db
+      - name: Load fixed public source subset for real RPC E2E
+        run: uv run --frozen python tests/e2e/snapshot.py
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
       - name: Stop local services
         if: always()
         run: supabase stop

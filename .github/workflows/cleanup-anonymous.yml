@@ -1,0 +1,29 @@
+name: Anonymous retention dry-run
+on:
+  workflow_dispatch:
+  # Proposed after separate approval: cron '0 19 * * *' (04:00 KST).
+  # No schedule or deletion entry point is enabled in S3-2 C.
+permissions:
+  contents: read
+concurrency:
+  group: anonymous-retention
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: ingest-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: 0.12.15
+          python-version: '3.12'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Report counts only (no user IDs, addresses, or rent)
+        env:
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          AUTH_CLEANUP_ENABLED: 'false'
+        run: uv run --frozen python -m ingest.cleanup_anonymous --target remote --dry-run

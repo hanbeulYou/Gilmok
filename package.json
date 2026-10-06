@@ -16,10 +16,12 @@
     "visibility:build": "tsc -p tsconfig.scoring-batch.json && tsc -p tsconfig.visibility-worker.json",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "22.20.3",
     "@types/react": "19.3.0",

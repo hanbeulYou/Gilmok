@@ -1,0 +1,467 @@
+{
+  "date": "2026-10-06",
+  "code_commit": "02b01e93ec226cd0d3d47781744af10c5e8f10a9",
+  "deployment": "https://gilmok-ootfhd33b-vineyard.vercel.app",
+  "deployment_id": "dpl_ADuqrczQ2sxntmspaWddhYdFAG9s",
+  "dry_run": {
+    "migration_sha256": {
+      "20261002064719_comparison_save_presets.sql": "da102bfe39f22f4abca987e45488d5f3bb5ee912cb79593c1aa867b07c20925d",
+      "20261002064828_anonymous_retention_guards.sql": "9588c4eff857a206383ecacb8d20063ce75c6e28c705d0de2fdfa21b0de22636",
+      "20261004114404_owner_activity_failure_isolation.sql": "db36bf63b0b092a9169d7de5ca60950f3cc1609b651ac27d4f99bbe779b353b2"
+    },
+    "pending": [
+      "20261002064719_comparison_save_presets.sql",
+      "20261002064828_anonymous_retention_guards.sql",
+      "20261004114404_owner_activity_failure_isolation.sql"
+    ],
+    "initial_activity_insert_rows": 0,
+    "dispatch": [
+      [
+        "gilmok_address_dispatch",
+        "D"
+      ]
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.586
+  },
+  "push": {
+    "migration_sha256": {
+      "20261002064719_comparison_save_presets.sql": "da102bfe39f22f4abca987e45488d5f3bb5ee912cb79593c1aa867b07c20925d",
+      "20261002064828_anonymous_retention_guards.sql": "9588c4eff857a206383ecacb8d20063ce75c6e28c705d0de2fdfa21b0de22636",
+      "20261004114404_owner_activity_failure_isolation.sql": "db36bf63b0b092a9169d7de5ca60950f3cc1609b651ac27d4f99bbe779b353b2"
+    },
+    "pending": [
+      "20261002064719_comparison_save_presets.sql",
+      "20261002064828_anonymous_retention_guards.sql",
+      "20261004114404_owner_activity_failure_isolation.sql"
+    ],
+    "initial_activity_insert_rows": 0,
+    "dispatch": [
+      [
+        "gilmok_address_dispatch",
+        "D"
+      ]
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.717
+  },
+  "after": {
+    "migration_sha256": {
+      "20261002064719_comparison_save_presets.sql": "da102bfe39f22f4abca987e45488d5f3bb5ee912cb79593c1aa867b07c20925d",
+      "20261002064828_anonymous_retention_guards.sql": "9588c4eff857a206383ecacb8d20063ce75c6e28c705d0de2fdfa21b0de22636",
+      "20261004114404_owner_activity_failure_isolation.sql": "db36bf63b0b092a9169d7de5ca60950f3cc1609b651ac27d4f99bbe779b353b2"
+    },
+    "pending": [],
+    "initial_activity_insert_rows": 0,
+    "dispatch": [
+      [
+        "gilmok_address_dispatch",
+        "D"
+      ]
+    ]
+  },
+  "contract": {
+    "triggers": [
+      {
+        "table": "candidates",
+        "name": "candidate_owner_activity",
+        "definition": "CREATE TRIGGER candidate_owner_activity AFTER INSERT OR UPDATE ON public.candidates FOR EACH ROW EXECUTE FUNCTION app_private.track_owner_activity()"
+      },
+      {
+        "table": "candidates",
+        "name": "candidate_updated_at",
+        "definition": "CREATE TRIGGER candidate_updated_at BEFORE UPDATE ON public.candidates FOR EACH ROW EXECUTE FUNCTION app_private.stamp_updated_at()"
+      },
+      {
+        "table": "candidates",
+        "name": "remove_comparison_candidate",
+        "definition": "CREATE TRIGGER remove_comparison_candidate AFTER DELETE ON public.candidates FOR EACH ROW EXECUTE FUNCTION app_private.remove_comparison_candidate()"
+      },
+      {
+        "table": "comparisons",
+        "name": "check_comparison_candidates",
+        "definition": "CREATE TRIGGER check_comparison_candidates BEFORE INSERT OR UPDATE ON public.comparisons FOR EACH ROW EXECUTE FUNCTION ingest_private.check_comparison_candidates()"
+      },
+      {
+        "table": "comparisons",
+        "name": "comparison_owner_activity",
+        "definition": "CREATE TRIGGER comparison_owner_activity AFTER INSERT OR UPDATE ON public.comparisons FOR EACH ROW EXECUTE FUNCTION app_private.track_owner_activity()"
+      },
+      {
+        "table": "comparisons",
+        "name": "comparison_updated_at",
+        "definition": "CREATE TRIGGER comparison_updated_at BEFORE UPDATE ON public.comparisons FOR EACH ROW EXECUTE FUNCTION app_private.stamp_updated_at()"
+      },
+      {
+        "table": "user_weight_presets",
+        "name": "weight_preset_owner_activity",
+        "definition": "CREATE TRIGGER weight_preset_owner_activity AFTER INSERT OR UPDATE ON public.user_weight_presets FOR EACH ROW EXECUTE FUNCTION app_private.track_owner_activity()"
+      },
+      {
+        "table": "user_weight_presets",
+        "name": "weight_preset_updated_at",
+        "definition": "CREATE TRIGGER weight_preset_updated_at BEFORE UPDATE ON public.user_weight_presets FOR EACH ROW EXECUTE FUNCTION app_private.stamp_updated_at()"
+      }
+    ],
+    "unresolved_projection_errors": 0,
+    "activity_after_count": 3,
+    "exception_logger_present": true
+  },
+  "e2e": {
+    "environment": "Vercel Preview + remote real Auth/RPC/Worker + live Juso/Vworld",
+    "providerCalls": [
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "totals": [
+      85.08500496915157,
+      93.3997327394482,
+      83.86448162784299
+    ],
+    "confidence": [
+      85,
+      90,
+      90
+    ],
+    "slider": {
+      "samples": 100,
+      "p95": 34.200000286102295,
+      "max": 34.40000009536743
+    },
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "save_comparison",
+        "status": 200
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      }
+    ],
+    "checks": {
+      "same_uid": true,
+      "saved_reopened": true,
+      "manual_order_restored": true,
+      "named_preset_raw_weights": true
+    },
+    "test_stats": {
+      "startTime": "2026-10-06T08:30:47.996Z",
+      "duration": 29409.827,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "observed_totals_in_matrix_order": [
+      93.3997327394482,
+      85.08500496915157,
+      83.86448162784299
+    ],
+    "axes": [
+      {
+        "candidate": "b · 2층",
+        "axis": "demand",
+        "score": "99.76300977584674"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "demand",
+        "score": "96.56364174977782"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "demand",
+        "score": "84.41789276192357"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "flow",
+        "score": "98.87685120763344"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "flow",
+        "score": "99.33406222045522"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "flow",
+        "score": "97.18715833416161"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "transit",
+        "score": "81.70108973489597"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "transit",
+        "score": "38.336803260049486"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "transit",
+        "score": "60.78723216127797"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "cluster",
+        "score": "98.41003619754652"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "cluster",
+        "score": "97.47740578011093"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "cluster",
+        "score": "85.91014431805627"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "exposure",
+        "score": "51.399491094147585"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "exposure",
+        "score": "38.38383838383838"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "exposure",
+        "score": "63.28124999999998"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "building",
+        "score": "100"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "building",
+        "score": "100"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "building",
+        "score": "100"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "environment",
+        "score": "87.65344088005983"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "environment",
+        "score": "93.40459174952771"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "environment",
+        "score": "91.98293991698833"
+      },
+      {
+        "candidate": "b · 2층",
+        "axis": "rent_efficiency",
+        "score": "null"
+      },
+      {
+        "candidate": "a · 3층",
+        "axis": "rent_efficiency",
+        "score": "null"
+      },
+      {
+        "candidate": "c · 3층",
+        "axis": "rent_efficiency",
+        "score": "null"
+      }
+    ],
+    "provider_note": "One endpoint receives search and locate actions: 3 live Juso searches and 3 live Vworld coordinate resolutions. No external-provider fixtures or RPC mocks in this run.",
+    "test_data_retained": {
+      "new_anonymous_users": 1,
+      "candidates": 3,
+      "comparisons": 1,
+      "named_presets": 1,
+      "deleted": 0
+    },
+    "database_readback": {
+      "candidates": 3,
+      "comparisons": 1,
+      "user_weight_presets": 1,
+      "new_anonymous_users": 1,
+      "activity_rows": 1,
+      "unresolved_projection_errors": 0
+    }
+  },
+  "cleanup": {
+    "activity_max": null,
+    "activity_min": null,
+    "as_of": "2026-10-06T08:31:36.722865+00:00",
+    "candidate_rows": 0,
+    "comparison_rows": 0,
+    "dry_run": true,
+    "reason_counts": {
+      "recent": 7
+    },
+    "selected_users": 0,
+    "selection_sha256": "c6d70dc39247ab88db6d15d2a7710a0c859379026222634c2d0c1c5972601332",
+    "shared_cache_rows_to_delete": 0,
+    "elapsed_seconds": 1.267
+  },
+  "operational_state": {
+    "AUTH_CLEANUP_ENABLED": "false",
+    "INGEST_REMOTE_ENABLED": "false",
+    "dispatch_trigger": "D",
+    "D5_migration_applied": false,
+    "cleanup_apply_executed": false,
+    "cleanup_schedule_enabled": false
+  }
+}
