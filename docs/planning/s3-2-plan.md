@@ -315,6 +315,10 @@ webhook/variable/cron 실행은 기존 승인 경계를 유지한다.
 
 실행 조건·기록 항목은 [운영 문서의 공개 전 체크리스트](../operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)를 따른다.
 
+### D5 큐 좌표 전달 결정 (2026-10-04)
+
+사용자 승인: 등록에서 확보한 PNU·좌표를 비공개 큐와 같은 트랜잭션으로 전달하여 Actions 워커의 좌표 재조회를 제거한다. 좌표 없는 월간 신규 주소는 Juso 좌표 API 승인 전 needs_coord로 보류·보고한다. 구현/검증은 #25, 원격 재실증은 C 머지 후다. [데이터 경로](data-sources.md#2026-10-04-d5-좌표-공급-경로-변경), [운영](../operations/data-refresh.md#d5-등록-좌표-재사용-2026-10-04-사용자-결정)을 따른다.
+
 
 ## 12. C 구현·운영 경계 (2026-10-02)
 
@@ -322,7 +326,7 @@ C는 `s3/comparison-save-retention`, base main(#24)에서 진행했다. [저장/
 
 [익명 정리 운영](../operations/anonymous-retention.md): AUTH_CLEANUP_ENABLED=false, workflow_dispatch dry-run만 제공한다. 제안 04:00 KST cron은 주석이며 실제 삭제·스케줄은 활성화하지 않았다. 원격 DB 쓰기나 Vercel 비밀 추가 없이 가능한 범위를 검증했다.
 
-D5 운영 전환은 [별도 #25](https://github.com/hanbeulYou/Gilmok/pull/25)다. 공개 주소 pending→webhook→Actions는 확인했으나 공급자 호출 실패로 variable=false·주소 트리거 disabled로 복귀했다. 성공한 상시 운영 시작일은 아직 없으며 재개/롤백은 D5 운영 기록을 따른다. 이 상태를 C 저장/정리 구현과 섞어 완료 처리하지 않는다.
+D5 운영 전환은 [별도 #25](https://github.com/hanbeulYou/Gilmok/pull/25)다. 2026-10-06 원격 migration·등록 PNU/좌표 재사용·실제 webhook→Actions→ready→Realtime 화면 갱신을 통과했고, **19:22:36 KST 웹훅 상시 운영을 시작**했다. variable=true·주소 트리거 활성·JUSO_COORD_ENABLED=true이며, 6시간 cron과 좌표 키/flag 전달은 #25 사용자 머지 시 적용된다(머지 전 main은 hourly). 13,542건 교체와 익명 실제 삭제는 실행하지 않았다. [실증·운영 기록](../validation/s3-2-d5-20261002.md)을 따른다.
 
 ### C 트리거 보완 결정 (2026-10-04)
 

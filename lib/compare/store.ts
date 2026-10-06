@@ -116,7 +116,9 @@ export function acceptLookup(id: string, generation: number, lookup: LookupState
   const row = useComparisonStore.getState().candidates.find(c => c.id === id);
   if (!row || row.generation !== generation || row.lookupRequestId !== lookup.request_id || !newer(lookup, row.lookupState)) return;
   useComparisonStore.getState().update(id, { lookupState: lookup, lookupStatus: lookup.status }, generation);
-  if (isTerminal(lookup.status)) void scoreCandidate(id, true);
+  // Failed score_inputs calls re-observe the request and advance projection time.
+  // A timestamp-only failed event must not create a self-sustaining RPC loop.
+  if (isTerminal(lookup.status) && !(lookup.status === 'failed' && row.lookupStatus === 'failed')) void scoreCandidate(id, true);
 }
 /** Generations reject late RPC/Worker replies after removal/floor edits; at most two jobs load. */
 export async function scoreCandidate(id: string, refresh = false): Promise<void> {
@@ -134,7 +136,7 @@ export async function scoreCandidate(id: string, refresh = false): Promise<void>
     patch({ error: undefined, refreshing: refresh, ...(refresh && row.result ? {} : { stage: 'fetching', startedAt: Date.now() }) });
     await ensureSession(); controller.signal.throwIfAborted();
     const loaded = await loadCandidate(getSupabaseClient(), row.candidate, row.resolved, browserExposure,
-      patch, controller.signal, row.inputs, refresh);
+      patch, controller.signal, row.inputs, refresh, row.selection.pnu);
     patch({ ...loaded, refreshing: false });
   } catch (error) {
     useComparisonStore.getState().update(id, { stage: 'error', refreshing: false,

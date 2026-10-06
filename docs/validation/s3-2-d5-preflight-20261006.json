@@ -1,0 +1,69 @@
+{
+  "migration": "20261004114603_registered_address_queue_inputs.sql",
+  "sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+  "pending": [
+    "20261004114603_registered_address_queue_inputs.sql"
+  ],
+  "C_applied": true,
+  "initial_queue_status_counts": {
+    "done": 1,
+    "failed": 1
+  },
+  "initial_geocode_status_counts": {},
+  "dispatch_trigger": "D",
+  "existing_score_inputs": [
+    {
+      "signature": "score_inputs(double precision,double precision,integer,integer,text)",
+      "security_definer": false,
+      "settings": [
+        "search_path=\"\"",
+        "extra_float_digits=3"
+      ],
+      "authenticated_execute": true
+    }
+  ],
+  "public_probe_ready_cache_rows": 0,
+  "dry_run_exit": 0,
+  "dry_run_seconds": 0.594,
+  "pushed": false,
+  "date": "2026-10-06",
+  "main_commit": "1efad8454d45efd423632a22099bfbbad85aed3b",
+  "merge_commit": "7893a58",
+  "local_checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "vitest": 123,
+    "python": 264,
+    "database_integration": 226,
+    "build": "passed",
+    "e2e": 1,
+    "e2e_seconds": 20.5,
+    "slider_samples": 100,
+    "slider_p95_ms": 33.799999713897705,
+    "slider_max_ms": 34.19999980926514,
+    "totals": [
+      85.08500496915157,
+      93.3997327394482,
+      83.86448162784299
+    ]
+  },
+  "operational_state": {
+    "INGEST_REMOTE_ENABLED": "false",
+    "AUTH_CLEANUP_ENABLED": "false",
+    "dispatch_trigger": "D",
+    "JUSO_API_KEY_present": true,
+    "JUSO_COORD_API_KEY_present": false,
+    "JUSO_COORD_ENABLED": false,
+    "main_sweep": "23 * * * *",
+    "proposed_sweep": "23 */6 * * *",
+    "always_on_started_at": null
+  },
+  "deployment_dependency": {
+    "repository_dispatch_ref": "main",
+    "workflow_checkout_ref": "main",
+    "new_worker_in_main": false,
+    "decision": "approved: preceding worker PR #27; rerun dry-run after merge before requesting push",
+    "preceding_pr": 27
+  },
+  "final_dry_run_required_after_preceding_merge": true
+}

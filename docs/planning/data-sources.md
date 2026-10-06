@@ -613,6 +613,16 @@ S3-1에서는 아래 결정을 문서에만 반영한다. 구현은 S3-2다.
 - pending 상태는 요청자 uid로 RLS가 적용된 상태 뷰로 조회·구독한다. 공개 필드는 요청 id·status·updated_at뿐이며 비공개 주소 캐시 직접 구독은 금지한다. 일반 SQL VIEW의 직접 Postgres Changes 구독 제약을 고려한 상태 투영 저장/구독 방식은 S3-2에서 검증하되 이 공개 계약을 유지한다.
 - 사용자 요청으로 시작되는 주소 자동완성·지오코딩은 Next.js Route Handler에서 외부 API를 호출할 수 있다. 서버 환경변수 키·geocode_cache 캐시·uid당 일일 제한을 필수로 둔다. 브라우저의 직접 API 호출은 허용하지 않는다. 배치 및 대장 API 호출은 계속 /ingest에서만 수행한다.
 
+### 2026-10-04 D5 좌표 공급 경로 변경
+
+원인(사용자 확정): **Vworld 국내 IP 제한 — 동일 키·도메인에서 icn1 200 / iad1·Actions 502**. icn1/iad1은 [S3-2 A 리전 재시험](../validation/s3-2-a-region-retry-20261001.md), Actions는 [D5 진단](../validation/s3-2-d5-20261002.md)의 응답 증거다. 이는 운영상 확정한 원인 분류이며 공급자가 제공한 약관/오류 코드 확인으로 표현하지 않는다.
+
+- 사용자 등록은 icn1 Route Handler에서 확보한 Juso PNU·좌표를 `score_inputs`의 등록용 overload(`registered_pnu` 추가)로 전달한다. 기존 5인자 계약은 유지한다. 채점 중 큐가 생기면 같은 DB 트랜잭션의 strict BEFORE 입력 트리거가 `pnu,geom(EPSG:4326),coordinate_source=registration`을 함께 저장한다. 해당 위치의 기존 보류 작업도 입력을 채워 재개한다. 공개 geocode_cache에는 쓰지 않는다. Gangnam 주소 큐 범위는 이번 변경으로 확장하지 않는다.
+- 주소 워커는 큐 입력으로 PNU별 대장만 조회한다. 지오코딩 API 호출은 0회다. 반환 대장의 PNU·도로명주소를 입력과 대조하고 불일치/미확인 등록 입력으로 공유 캐시를 만들지 않는다. 사용자 요청의 월세 등은 큐에 넣지 않는다.
+- 좌표 없는 작업은 `needs_coord`로 보류한다. monthly의 기존 승인 캐시(기존 공급자 포함)는 유지·재사용하고, 신규 주소만 보류한다. 보류 작업은 API 호출·실패 캐시를 만들지 않는다. 신규 미해결 주소가 남으면 해당 소스 promotion을 보류하여 이전 스냅샷을 유지한다.
+- 배치 좌표는 **Juso 좌표 API만** 사용하도록 준비했다. `JUSO_COORD_API_KEY`와 `JUSO_COORD_ENABLED=true`를 별도 승인한 뒤에만 호출한다. 현재 기본 false이며 승인/키가 없으면 needs_coord 유지다. 원좌표 EPSG:5179를 PostGIS로 4326 변환하고 원CRS/좌표를 provenance에 보존한다. 계산은 기존 5186이다. Vworld 지오코더로 재시도하지 않는다.
+- 사용자 icn1 좌표 조회의 Vworld 임시 경로와 건물·법정동 WFS는 유지한다. 기존 Kakao/cache 삭제나 13,542건 재산출은 별도 manifest 승인 범위이며 실행하지 않는다. Vercel 추가 환경변수는 없다.
+
 
 ### 2026-10-06 Juso 배치 좌표 실제 1건 검증
 

@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-04",
+  "root_cause_user_confirmed": "Vworld 국내 IP 제한: 동일 키·도메인 icn1 200 / iad1·Actions 502",
+  "migration": "20261004114603_registered_address_queue_inputs.sql",
+  "migration_sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+  "remote_applied": false,
+  "tests": {
+    "vitest": 118,
+    "python": 264,
+    "database": 206,
+    "lint": true,
+    "typecheck": true
+  },
+  "registered_worker": {
+    "fixture": true,
+    "coordinate_api_calls": 0,
+    "register_calls": 2,
+    "cache_status": "ready"
+  },
+  "missing_coordinates": {
+    "status": "needs_coord",
+    "api_calls": 0,
+    "negative_cache_rows": 0
+  },
+  "http": [
+    {
+      "address": "서울특별시 강남구 역삼로 460",
+      "status": 200,
+      "schema_version": "1.3"
+    },
+    {
+      "address": "서울특별시 강남구 도곡로 409",
+      "status": 200,
+      "schema_version": "1.3"
+    },
+    {
+      "address": "서울특별시 강남구 역삼로 546",
+      "status": 200,
+      "schema_version": "1.3"
+    }
+  ],
+  "rpc_comparison": [
+    {
+      "address": "서울특별시 강남구 역삼로 460",
+      "radius": 800,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete",
+        ".meta.bundle_ms.transit"
+      ],
+      "data_diff_paths": []
+    },
+    {
+      "address": "서울특별시 강남구 역삼로 460",
+      "radius": 1000,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete",
+        ".meta.bundle_ms.transit"
+      ],
+      "data_diff_paths": []
+    },
+    {
+      "address": "서울특별시 강남구 도곡로 409",
+      "radius": 800,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete",
+        ".meta.bundle_ms.transit"
+      ],
+      "data_diff_paths": []
+    },
+    {
+      "address": "서울특별시 강남구 도곡로 409",
+      "radius": 1000,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete",
+        ".meta.bundle_ms.transit"
+      ],
+      "data_diff_paths": []
+    },
+    {
+      "address": "서울특별시 강남구 역삼로 546",
+      "radius": 800,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete",
+        ".meta.bundle_ms.transit"
+      ],
+      "data_diff_paths": []
+    },
+    {
+      "address": "서울특별시 강남구 역삼로 546",
+      "radius": 1000,
+      "diff_paths": [
+        ".meta.sources_ms",
+        ".meta.computed_at",
+        ".meta.total_ms",
+        ".meta.bundle_ms.demand",
+        ".meta.bundle_ms.building",
+        ".meta.bundle_ms.rent",
+        ".meta.bundle_ms.flow",
+        ".meta.bundle_ms.market",
+        ".meta.bundle_ms.compete"
+      ],
+      "data_diff_paths": []
+    }
+  ]
+}

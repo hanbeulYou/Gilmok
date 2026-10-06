@@ -47,6 +47,9 @@ jobs:
           SEOUL_OPEN_DATA_API_KEY: ${{ secrets.SEOUL_OPEN_DATA_API_KEY }}
           NEIS_API_KEY: ${{ secrets.NEIS_API_KEY }}
           JUSO_API_KEY: ${{ secrets.JUSO_API_KEY }}
+          JUSO_COORD_API_KEY: ${{ secrets.JUSO_COORD_API_KEY }}
+          JUSO_COORD_ENABLED: ${{ vars.JUSO_COORD_ENABLED == 'true' }}
+          # Footprint/legal-boundary WFS only; batch coordinate lookup uses Juso.
           VWORLD_API_KEY: ${{ secrets.VWORLD_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           VWORLD_SERVICE_URL: ${{ vars.VWORLD_SERVICE_URL }}
