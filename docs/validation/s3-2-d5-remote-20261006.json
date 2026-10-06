@@ -1,0 +1,387 @@
+{
+  "prepush": {
+    "at": "2026-10-06T10:08:54.101895+00:00",
+    "migration": "20261004114603_registered_address_queue_inputs.sql",
+    "sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+    "checks": {
+      "building_address_requests_status_check": {
+        "rows": 2,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "processing",
+          "done",
+          "failed",
+          "needs_coord"
+        ]
+      },
+      "geocode_requests_status_check": {
+        "rows": 0,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "success",
+          "not_found",
+          "ambiguous",
+          "invalid",
+          "blocked",
+          "unknown",
+          "needs_coord"
+        ]
+      }
+    },
+    "pending": [
+      "20261004114603_registered_address_queue_inputs.sql"
+    ],
+    "dispatch_trigger": "D",
+    "trigger_classification": {
+      "kind": "integrity",
+      "timing": "BEFORE INSERT OR UPDATE",
+      "exception_isolation": false,
+      "on_failure": "abort statement and roll back queued input",
+      "reason": "PNU/coordinate binding is required for queue job correctness, not ancillary logging"
+    }
+  },
+  "push": {
+    "at": "2026-10-06T10:09:22.784226+00:00",
+    "migration": "20261004114603_registered_address_queue_inputs.sql",
+    "sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+    "checks": {
+      "building_address_requests_status_check": {
+        "rows": 2,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "processing",
+          "done",
+          "failed",
+          "needs_coord"
+        ]
+      },
+      "geocode_requests_status_check": {
+        "rows": 0,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "success",
+          "not_found",
+          "ambiguous",
+          "invalid",
+          "blocked",
+          "unknown",
+          "needs_coord"
+        ]
+      }
+    },
+    "pending": [
+      "20261004114603_registered_address_queue_inputs.sql"
+    ],
+    "dispatch_trigger": "D",
+    "trigger_classification": {
+      "kind": "integrity",
+      "timing": "BEFORE INSERT OR UPDATE",
+      "exception_isolation": false,
+      "on_failure": "abort statement and roll back queued input",
+      "reason": "PNU/coordinate binding is required for queue job correctness, not ancillary logging"
+    },
+    "push_seconds": 0.976,
+    "exit_code": 0
+  },
+  "postpush": {
+    "at": "2026-10-06T10:10:02.118215+00:00",
+    "migration": "20261004114603_registered_address_queue_inputs.sql",
+    "sha256": "58125a5dfd6ba997533868f7e847e8d826ec1de22ba704940cab9d46daacf09a",
+    "checks": {
+      "building_address_requests_status_check": {
+        "rows": 2,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "processing",
+          "done",
+          "failed",
+          "needs_coord"
+        ]
+      },
+      "geocode_requests_status_check": {
+        "rows": 0,
+        "violations": 0,
+        "allowed": [
+          "pending",
+          "success",
+          "not_found",
+          "ambiguous",
+          "invalid",
+          "blocked",
+          "unknown",
+          "needs_coord"
+        ]
+      }
+    },
+    "pending": [],
+    "dispatch_trigger": "D",
+    "new_trigger": "CREATE TRIGGER a_bind_registered_location BEFORE INSERT OR UPDATE ON ingest_private.building_address_requests FOR EACH ROW EXECUTE FUNCTION ingest_private.bind_registered_location()",
+    "rpc_permissions": [
+      true,
+      false
+    ],
+    "trigger_classification": {
+      "kind": "integrity",
+      "timing": "BEFORE INSERT OR UPDATE",
+      "exception_isolation": false,
+      "on_failure": "abort statement and roll back queued input",
+      "reason": "PNU/coordinate binding is required for queue job correctness, not ancillary logging"
+    }
+  },
+  "initial_observer_failure": {
+    "started_at": "2026-10-06T10:14:26.407897+00:00",
+    "preview": "https://gilmok-a0f3veg2k-vineyard.vercel.app",
+    "code_commit": "0da0436fce3decb960c9e526de0a41d4eccab8dc",
+    "address": "서울특별시 강남구 강남대로92길 33",
+    "rpc": [],
+    "routes": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "realtime": [],
+    "stages": [
+      {
+        "stage": "preview_search_ready",
+        "elapsed_seconds": 14.243
+      },
+      {
+        "stage": "validation_window_open",
+        "elapsed_seconds": 15.377
+      },
+      {
+        "stage": "registration_submitted",
+        "elapsed_seconds": 16.837
+      }
+    ],
+    "cache_rows_before": 0,
+    "main_commit": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+    "validation_window_started_at": "2026-10-06T10:14:41.785341+00:00",
+    "status": "failed",
+    "error_type": "KeyError",
+    "failure_stage": "see_private_diagnostics",
+    "final_gate": {
+      "INGEST_REMOTE_ENABLED": "false",
+      "trigger": "D"
+    }
+  },
+  "browser_proof": {
+    "started_at": "2026-10-06T10:19:44.276070+00:00",
+    "preview": "https://gilmok-a0f3veg2k-vineyard.vercel.app",
+    "code_commit": "0da0436fce3decb960c9e526de0a41d4eccab8dc",
+    "address": "서울특별시 강남구 강남대로92길 33",
+    "rpc": [
+      {
+        "seconds": 17.873,
+        "http_status": 200,
+        "radius_m": 800,
+        "registered_pnu_present": true,
+        "schema": "1.3",
+        "status": "pending"
+      },
+      {
+        "seconds": 18.265,
+        "http_status": 200,
+        "radius_m": 1000,
+        "registered_pnu_present": true,
+        "schema": "1.3",
+        "status": "pending"
+      },
+      {
+        "seconds": 38.009,
+        "http_status": 200,
+        "radius_m": 800,
+        "registered_pnu_present": true,
+        "schema": "1.3",
+        "status": "ready"
+      },
+      {
+        "seconds": 38.236,
+        "http_status": 200,
+        "radius_m": 800,
+        "registered_pnu_present": true,
+        "schema": "1.3",
+        "status": "ready"
+      }
+    ],
+    "routes": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "realtime": [
+      {
+        "seconds": 30.155,
+        "table": "candidate_lookup_status",
+        "event": "UPDATE",
+        "status": "processing"
+      },
+      {
+        "seconds": 37.722,
+        "table": "candidate_lookup_status",
+        "event": "UPDATE",
+        "status": "ready"
+      },
+      {
+        "seconds": 37.725,
+        "table": "candidate_lookup_status",
+        "event": "UPDATE",
+        "status": "ready"
+      }
+    ],
+    "stages": [
+      {
+        "stage": "preview_search_ready",
+        "elapsed_seconds": 14.482
+      },
+      {
+        "stage": "validation_window_open",
+        "elapsed_seconds": 15.645
+      },
+      {
+        "stage": "registration_submitted",
+        "elapsed_seconds": 16.551
+      },
+      {
+        "stage": "original_webhook_run_retried",
+        "elapsed_seconds": 17.866,
+        "run_id": 37448498312
+      },
+      {
+        "stage": "queue_observation",
+        "elapsed_seconds": 19.222,
+        "status": "pending",
+        "coordinate_source": "registration"
+      },
+      {
+        "stage": "queue_observation",
+        "elapsed_seconds": 39.748,
+        "status": "done",
+        "coordinate_source": "registration"
+      },
+      {
+        "stage": "queue_observation",
+        "elapsed_seconds": 60.417,
+        "status": "done",
+        "coordinate_source": "registration"
+      },
+      {
+        "stage": "webhook_ready_ui_passed",
+        "elapsed_seconds": 72.127,
+        "total": 67.78766968581377
+      }
+    ],
+    "cache_rows_before": 0,
+    "main_commit": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+    "validation_window_started_at": "2026-10-06T10:19:59.923384+00:00",
+    "queue_input": {
+      "status": "done",
+      "pnu": "1168010100106490007",
+      "lng": 127.030113058573,
+      "lat": 37.4995267573044,
+      "coordinate_source": "registration",
+      "error_code": null
+    },
+    "runs": [
+      {
+        "conclusion": "success",
+        "createdAt": "2026-10-06T10:14:51Z",
+        "databaseId": 37448498312,
+        "event": "repository_dispatch",
+        "headSha": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+        "status": "completed",
+        "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37448498312"
+      }
+    ],
+    "ui": {
+      "total": 67.78766968581377,
+      "pending_badge_count": 0,
+      "compare_navigation_count": 1,
+      "signup_count": 1,
+      "page_errors": []
+    },
+    "cache": {
+      "status": "ready",
+      "pnu": "1168010100106490007",
+      "raw_key": "raw/address_building_1168010100106490007/revisions/20261006T102014Z/2026-10.parquet"
+    },
+    "final_gate": {
+      "INGEST_REMOTE_ENABLED": "false",
+      "trigger": "D"
+    },
+    "status": "passed",
+    "elapsed_seconds": 73.295
+  },
+  "actions": {
+    "attempt": 2,
+    "conclusion": "success",
+    "createdAt": "2026-10-06T10:14:51Z",
+    "event": "repository_dispatch",
+    "headSha": "14ecc7064b8ccd51eb4cf6915ec65ed8c76f88f1",
+    "status": "completed",
+    "updatedAt": "2026-10-06T10:20:30Z",
+    "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37448498312"
+  },
+  "actions_reports": [
+    {
+      "processed": 1,
+      "pending": 0,
+      "needs_review": 0,
+      "needs_coord": 0
+    },
+    {
+      "dry_run": false,
+      "scanned": 4,
+      "repaired": 0,
+      "mismatched": 0,
+      "errors_resolved": 0,
+      "failed_addresses": 0,
+      "unresolved_before": 0,
+      "unresolved_errors": 0
+    }
+  ],
+  "r2_provenance": {
+    "raw_key": "raw/address_building_1168010100106490007/revisions/20261006T102014Z/2026-10.parquet",
+    "source": "registered_queue_input",
+    "coordinate_source": "registration",
+    "coordinate_api_calls": 0,
+    "operations": {
+      "geocode": 1,
+      "getBrTitleInfo": 1,
+      "getBrFlrOulnInfo": 10
+    }
+  },
+  "always_on_activation": {
+    "checked_at": "2026-10-06T10:22:36.591330+00:00",
+    "INGEST_REMOTE_ENABLED": "true",
+    "JUSO_COORD_ENABLED": "true",
+    "AUTH_CLEANUP_ENABLED": "false",
+    "dispatch_trigger": "O",
+    "main_cron": "23 * * * *",
+    "pr_25_cron": "23 */6 * * *",
+    "six_hour_schedule": "effective_after_user_merges_25",
+    "juso_coordinate_workflow_env": "effective_after_user_merges_25",
+    "bulk_13542_replacement": "not_executed"
+  },
+  "juso_monthly_path_evidence": "address-worker-input-reuse-20261006.json",
+  "bulk_replacement_executed": false
+}

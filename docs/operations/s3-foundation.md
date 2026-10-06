@@ -198,3 +198,8 @@ D5는 [기존 승인 후 실행 절차](../validation/s3-2-b-comparison-20261001
 ## D5 승인 후 실증 상태 (2026-10-02)
 
 #24 머지 후 상시 웹훅·6시간 sweep 실행을 승인받았다. **상시 운영 시작일은 미정**이다. 실제 공개 주소의 webhook→Actions는 도달했으나 지오코딩 실패로 ready/화면 갱신까지 완료하지 못해 variable=false·트리거 disabled로 복귀했다. [운영 시작·재개·롤백 절차](data-refresh.md#d5-상시-운영-전환-2026-10-02), [실측](../validation/s3-2-d5-20261002.md)을 따른다. 이 상태는 B 완료와 공개 전 Small 합본 시험 조건을 바꾸지 않는다.
+
+
+### D5 최종 상태 갱신 (2026-10-06)
+
+위 2026-10-02 실패 상태는 해소했다. 원격 migration 1개 적용·등록 PNU/좌표 재사용·실제 Actions/ready/Realtime 화면 갱신을 통과했고 **2026-10-06 19:22:36 KST** 웹훅 상시 운영을 시작했다. `INGEST_REMOTE_ENABLED=true`, 주소 dispatch 활성, `JUSO_COORD_ENABLED=true`, `AUTH_CLEANUP_ENABLED=false`. #25 사용자 머지 전 sweep은 기존 hourly이며, 머지 시 6시간 cron과 좌표 키/flag 전달이 적용된다. [실증](../validation/s3-2-d5-20261002.md), [시작일·설정·롤백](data-refresh.md#2026-10-06-상시-웹훅-시작과-최종-롤백)을 따른다. Micro/공개 전 Small 재시험 조건은 그대로다.

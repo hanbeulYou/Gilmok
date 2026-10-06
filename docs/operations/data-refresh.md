@@ -67,7 +67,7 @@ S2-1: 월간 갱신 성공 뒤 [score_reference 배치](score-reference.md)를 �
 
 사용자가 이벤트 즉시 처리와 `23 */6 * * *` sweep을 승인했다. 이 PR의 cron은 main 머지 후 적용된다. KST 실행 시각은 03:23·09:23·15:23·21:23이다.
 
-**상시 운영 시작일: 아직 없음.** 실제 공개 주소 실증에서 Actions 지오코딩이 실패해 `INGEST_REMOTE_ENABLED=false`, `gilmok_address_dispatch` disabled로 롤백했다. [실증·실패 run](../validation/s3-2-d5-20261002.md)을 따른다. 실패를 ready로 간주하거나 상시 활성화 상태로 남기지 않는다.
+**최신 상시 웹훅 운영 시작: 2026-10-06 19:22:36 KST.** 원격 실증을 통과했고 variable=true·dispatch 활성이다. 6시간 cron과 Juso 좌표 키/flag 전달은 #25 사용자 머지 시 적용한다. 아래 초기 재개 절차와 후속 날짜별 기록은 이력이며 [최종 상태·롤백](#2026-10-06-상시-웹훅-시작과-최종-롤백)을 우선한다.
 
 재개 절차:
 
@@ -124,3 +124,26 @@ C #26은 main 머지됐고 #25는 최신 main에 동기화했다. D5 migration 1
 INGEST_REMOTE_ENABLED=false·주소 dispatch D·AUTH_CLEANUP_ENABLED=false를 유지하며 상시 운영 시작일은 없다. 원격 push 승인 후 실제 webhook 경로를 검증한다. 실패하면 위 롤백을 적용하고 데이터를 보존한다.
 
 6시간 cron `23 */6 * * *`와 월간 job의 좌표 키/flag 주입은 #25 main 머지 후 효력이 생긴다. 머지 전 main은 hourly이므로 검증 창과 상시 운영을 구분한다. 실제 6시간 운영 확인 전에는 완료/시작일을 기록하지 않는다. GitHub 변수만 true로 바꿔도 workflow가 주입하지 않은 환경변수는 Python 배치에 전달되지 않는다.
+
+
+### 2026-10-06 상시 웹훅 시작과 최종 롤백
+
+**웹훅 상시 운영 시작일: 2026-10-06 19:22:36 KST (10:22:36 UTC).** [실제 run 37448498312, attempt 2](https://github.com/hanbeulYou/Gilmok/actions/runs/37448498312)은 registered PNU·좌표 재사용, 좌표 API 0회, processed 1, pending/needs_coord 0, 상태 투영 오류 0으로 성공했다. #25 Preview에서 실제 Realtime ready와 새로고침 없는 점수/배지 갱신을 확인했다. 최초 관측 스크립트 오류에 따른 skipped/retry 이력도 [검증 문서](../validation/s3-2-d5-20261002.md)에 남겼다.
+
+| 설정 | 2026-10-06 확인 상태 | 적용 시점 |
+| --- | --- | --- |
+| `INGEST_REMOTE_ENABLED` | `true` | 상시 웹훅·기존 배치 gate 활성 |
+| `gilmok_address_dispatch` | enabled (`O`) | DB 즉시 적용 |
+| `JUSO_COORD_ENABLED` | `true` | 실제 월간 helper 1건 통과 후 설정. 키/flag 전달은 #25 머지 후 |
+| sweep | main `23 * * * *`; #25 `23 */6 * * *` | 사용자 머지 전 hourly 유지, 머지 후 6시간 |
+| `AUTH_CLEANUP_ENABLED` | `false` | 실제 삭제·스케줄 비활성 유지 |
+
+사용자가 #25를 main에 머지하면 workflow의 cron과 주소/월간 작업의 좌표 키·flag 전달을 다시 확인한다. 6시간 sweep의 KST 시각은 03:23·09:23·15:23·21:23이다. Production의 등록 입력 전달도 머지 배포 후 반영된다. 기존 5인자 클라이언트와 공개 RPC 계약은 유지한다. Juso 키가 등록됐다는 사실을 대량 교체 승인으로 해석하지 않으며, **13,542건 교체는 별도 승인**이다.
+
+롤백은 데이터 삭제 없이 다음 순서로 실행한다.
+
+1. `gh variable set INGEST_REMOTE_ENABLED --repo hanbeulYou/Gilmok --body false`로 새 job 실행 gate를 닫는다. 이미 진행 중인 run은 자동 취소되지 않으므로 run 상태를 확인·기록한다.
+2. 승인된 원격 DB 연결에서 `ALTER TABLE ingest_private.building_address_requests DISABLE TRIGGER gilmok_address_dispatch;`를 실행한다.
+3. 좌표 경로도 중단할 때 `gh variable set JUSO_COORD_ENABLED --repo hanbeulYou/Gilmok --body false`를 실행한다. 키 값은 출력하거나 삭제하지 않는다.
+4. variable과 `pg_trigger.tgenabled='D'`를 재조회한다. 큐·캐시·추가 열·needs_coord 행·R2 원본은 보존한다. 정합성 트리거/스키마 제거 및 기존 행 삭제는 이 운영 롤백에 포함하지 않는다.
+5. 원인·run URL·중지 시각·마지막 상태를 기록한 뒤 같은 승인 범위의 공개 주소 실증을 다시 통과해야 운영을 재개한다. `AUTH_CLEANUP_ENABLED=false`는 유지한다.
