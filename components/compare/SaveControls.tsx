@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { academyV0 } from '../../lib/scoring/presets';
-import { useComparisonStore } from '../../lib/compare/store';
+import { scoreCandidate, useComparisonStore } from '../../lib/compare/store';
+import { modelVersionNotice } from '../../lib/compare/model-version';
 import { listWeightPresets, reopenComparison, saveComparison, saveWeightPreset, type WeightPreset } from '../../lib/compare/persistence';
 import { ensureSession } from '../../lib/supabase/session';
 import { getSupabaseClient } from '../../lib/supabase/client';
@@ -12,6 +13,7 @@ export function SaveControls() {
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState('');
   const [presets, setPresets] = useState<WeightPreset[]>([]), [naming, setNaming] = useState(false), [name, setName] = useState('');
   const [notice, setNotice] = useState(false), [uid, setUid] = useState('');
+  const modelNotice = modelVersionNotice(state.savedModelVersion, state.candidates, state.snapshotReadOnly);
   const modified = Object.keys(academyV0.weights).some(k => state.weights[k as keyof typeof state.weights] !== academyV0.weights[k as keyof typeof state.weights]);
   const selected = presets.find(p => Object.keys(p.weights).every(k => p.weights[k as keyof typeof p.weights] === state.weights[k as keyof typeof state.weights]));
   useEffect(() => {
@@ -60,6 +62,14 @@ export function SaveControls() {
     catch (e) { setError(e instanceof Error ? e.message : '다시 열지 못했습니다.'); }
     finally { setBusy(false); }
   }
+  async function retryModel() {
+    setBusy(true); setError('');
+    try {
+      if (state.snapshotReadOnly) await reopenComparison(state.comparisonId);
+      else await Promise.all(state.candidates.filter(row => row.stage === 'error').map(row => scoreCandidate(row.id)));
+    } catch (e) { setError(e instanceof Error ? e.message : '재계산에 실패했습니다.'); }
+    finally { setBusy(false); }
+  }
   return <section className="save-controls" aria-label="비교 저장과 프리셋" aria-busy={busy}>
     <div className="comparison-toolbar">
       <label>가중치 프리셋<select aria-label="가중치 프리셋" value={selected?.id ?? (modified ? 'modified' : 'default')}
@@ -74,6 +84,10 @@ export function SaveControls() {
       <button disabled={!state.candidates.length || busy || state.snapshotReadOnly} onClick={requestSave}>비교 저장</button>
       <button disabled={busy} onClick={() => void reopen()}>저장한 비교 다시 열기</button>
     </div>
+    {modelNotice && <div className="save-notice" role="status" data-testid="model-version-notice" data-phase={modelNotice.phase}>
+      <span className="badge">모델 재계산</span> {modelNotice.message}
+      {modelNotice.phase === 'failed' && <button disabled={busy} onClick={() => void retryModel()}>모델 재계산 다시 시도</button>}
+    </div>}
     {naming && <form onSubmit={async e => {
       e.preventDefault(); setBusy(true); setError('');
       try { await saveWeightPreset(name, state.weights); setPresets(await listWeightPresets()); setNaming(false); setName(''); setMessage('가중치 프리셋을 저장했습니다.'); }

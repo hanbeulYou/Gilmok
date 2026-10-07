@@ -20,7 +20,7 @@ beforeEach(() => {
   const data = new Map<string,string>();
   vi.stubGlobal('localStorage',{ getItem:(key:string)=>data.get(key) ?? null, setItem:(key:string,value:string)=>data.set(key,value) });
   useComparisonStore.getState().restore(rows,{ ...academyV0.weights },rows.map(r=>r.id),true,'comparison');
-  mocks.rpc.mockImplementation(async (name:string) => ({ error:null, data:name === 'save_comparison' ? 'comparison' : {
+  mocks.rpc.mockImplementation(async (name:string) => ({ error:null, data:name === 'save_comparison_v2' ? 'comparison' : {
     comparison:{ id:'comparison',candidate_ids:rows.map(r=>r.id),weights:academyV0.weights,preset_version:'0.3',manual_order:true },
     candidates:rows.map(serializeCandidate),
   } }));
@@ -68,4 +68,21 @@ it('does not restore v0.3 scores after failed v0.4.0 scoring', async () => {
   await reopenComparison();
   expect(useComparisonStore.getState().snapshotReadOnly).toBe(false);
   expect(useComparisonStore.getState().candidates.every(r=>!r.result)).toBe(true);
+});
+
+it('writes actual model metadata only after a successful save', async () => {
+  useComparisonStore.setState({ savedModelVersion:'0.3' });
+  await saveComparison();
+  expect(mocks.rpc).toHaveBeenCalledWith('save_comparison_v2', expect.objectContaining({ model_version:'0.4.0' }));
+  expect(useComparisonStore.getState().savedModelVersion).toBe('0.4.0');
+  mocks.rpc.mockResolvedValueOnce({ error:{ message:'failed' }, data:null });
+  useComparisonStore.setState({ savedModelVersion:'0.3' });
+  await expect(saveComparison()).rejects.toThrow();
+  expect(useComparisonStore.getState().savedModelVersion).toBe('0.3');
+});
+it('saves incomplete results as unrecorded and preserves loaded metadata until saving', async () => {
+  useComparisonStore.setState({ candidates:[{ ...rows[0], stage:'error' }], savedModelVersion:'0.3' });
+  await saveComparison();
+  expect(mocks.rpc).toHaveBeenCalledWith('save_comparison_v2', expect.objectContaining({ model_version:null }));
+  expect(useComparisonStore.getState().savedModelVersion).toBeNull();
 });
