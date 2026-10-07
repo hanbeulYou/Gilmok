@@ -35,6 +35,11 @@ export async function checkMap(page: Page, scoringCoordinates: number[][]) {
   await expect(page.locator('.map-candidate-list').getByRole('button', { name: /d · 4층/ })).toHaveAttribute('aria-pressed', 'true');
   const single = markers.filter({ hasText: /^1$/ });
   await single.click(); await expect(header('b')).toHaveAttribute('aria-pressed', 'true');
+  await expect.poll(() => page.locator('.matrix-scroll').evaluate(scroll => {
+    const selected = scroll.querySelector('th[data-selected=true] .candidate-name')!.getBoundingClientRect();
+    const sticky = scroll.querySelector('th')!.getBoundingClientRect();
+    return selected.left >= sticky.right && selected.right <= scroll.getBoundingClientRect().right;
+  })).toBe(true);
   await page.getByRole('button', { name: 'a 총점으로 후보 선택', exact: true }).first().click();
   await expect(header('a')).toHaveAttribute('aria-pressed', 'true'); await expect(grouped).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('.maplibregl-ctrl-attrib')).toContainText('OpenFreeMap');
@@ -76,6 +81,10 @@ export async function checkMobileTabs(page: Page) {
     await page.setViewportSize({ width, height: 844 });
     if (width < 1024) await tab('지도').click();
     await expect(page.locator('.maplibregl-canvas')).toHaveAttribute('data-preserved', 'yes');
+    if (width < 1024) expect(await page.evaluate(() => {
+      const credits = document.querySelector('.maplibregl-ctrl-attrib')!.getBoundingClientRect();
+      return document.querySelector('.map-candidate-list')!.getBoundingClientRect().top >= credits.bottom;
+    })).toBe(true);
     expect(await page.evaluate(() => Math.max(0, document.documentElement.scrollWidth - innerWidth))).toBe(0);
     await expect.poll(() => page.evaluate(() => Boolean((document.activeElement as HTMLElement)?.getClientRects().length))).toBe(true);
   }
