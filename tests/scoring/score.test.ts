@@ -6,7 +6,7 @@ import { academyV0, loadPreset } from '../../lib/scoring/presets.ts';
 import { inputs, reference, context, candidate } from './fixtures.ts';
 const run = (p = inputs(), s = inputs(1000)) => score(p, s, [], null, candidate, academyV0, reference(p), context);
 
-describe('pure ScoreResult v0.3', () => {
+describe('pure ScoreResult v0.4.0', () => {
   it('is deterministic, does not mutate inputs, and does not read the clock', () => {
     const p = inputs(), s = inputs(1000), r = reference(p), before = JSON.stringify([p, s, r, candidate, academyV0]);
     const clock = vi.spyOn(Date, 'now').mockImplementation(() => { throw new Error('clock forbidden'); });

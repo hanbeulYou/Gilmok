@@ -104,7 +104,7 @@ export function ComparisonMatrix() {
   }, [state.candidates, clockTick]);
   return <main className={`page comparison ${state.evidenceOpen ? 'has-evidence' : ''}`}>
     <header className="comparison-header"><div><Link href="/">길목</Link><h1>후보 비교</h1><p>서울 · 학원업 · 반경 800m</p></div>
-      <div><span className="preset">학원 v0.3{modified ? ' · 수정됨' : ' (기본)'}</span><nav>{rows.length < 5 && <Link href="/new" className="primary">후보 추가</Link>}</nav></div></header>
+      <div><span className="preset">학원 v{academyV0.version}{modified ? ' · 수정됨' : ' (기본)'}</span><nav>{rows.length < 5 && <Link href="/new" className="primary">후보 추가</Link>}</nav></div></header>
     <SaveControls/>
     <p className="memory-notice">저장한 비교는 같은 브라우저에서 다시 열 수 있습니다. 저장하지 않은 변경은 새로고침하면 초기화됩니다.</p>
     {state.candidates.length > 0 && state.candidates.every(r => r.stage === 'error' && !r.result) && <p role="alert">데이터 서버에 연결할 수 없습니다. 후보별로 다시 시도해 주세요.</p>}

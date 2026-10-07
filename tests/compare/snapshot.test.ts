@@ -13,7 +13,7 @@ import { reopenComparison, saveComparison, serializeCandidate } from '../../lib/
 const rows = [1,2].map(floor => ({ id:`candidate-${floor}`,alias:`층${floor}`,
   candidate:{ lat:37.5,lng:127.05,floor,address:'공개 주소' }, selection:{ pnu:'1168010600109120013' },
   location:{ status:'ready' },resolved:{ status:'footprint_missing' },stage:'scored',generation:0,
-  startedAt:0,result:{ preset:{ id:'academy_v0',version:'0.3' },total:80+floor },
+  startedAt:0,result:{ preset:{ id:'academy_v0',version:academyV0.version },total:80+floor },
 } as ComparisonCandidate));
 beforeEach(() => {
   mocks.uid='owner-a'; mocks.load.mockReset(); mocks.rpc.mockReset(); useComparisonStore.getState().clear();
@@ -46,6 +46,25 @@ it('never fills a partial live result with old data', async () => {
 });
 it('does not read another uid snapshot even for the same comparison ID', async () => {
   await saveComparison(); mocks.uid='owner-b'; mocks.load.mockRejectedValue(new Error('offline'));
+  await reopenComparison();
+  expect(useComparisonStore.getState().snapshotReadOnly).toBe(false);
+  expect(useComparisonStore.getState().candidates.every(r=>!r.result)).toBe(true);
+});
+
+it('re-scores legacy 0.3 saved inputs with the current model', async () => {
+  mocks.load.mockImplementation(async (_client, candidate, _resolved, _exposure, progress) => {
+    progress({ stage:'scored', result:{ ...rows[0].result, total:70+candidate.floor } });
+    return { result:{ ...rows[0].result, total:70+candidate.floor }, inputs:{} };
+  });
+  await reopenComparison();
+  expect(mocks.load).toHaveBeenCalledTimes(2);
+  expect(useComparisonStore.getState().candidates.every(r=>r.result?.preset.version==='0.4.0')).toBe(true);
+});
+
+it('does not restore v0.3 scores after failed v0.4.0 scoring', async () => {
+  useComparisonStore.setState({ candidates:rows.map(r=>({ ...r, result:{ ...r.result!, preset:{ id:'academy_v0',version:'0.3' } } })) });
+  await saveComparison();
+  mocks.load.mockRejectedValue(new Error('offline'));
   await reopenComparison();
   expect(useComparisonStore.getState().snapshotReadOnly).toBe(false);
   expect(useComparisonStore.getState().candidates.every(r=>!r.result)).toBe(true);

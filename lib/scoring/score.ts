@@ -1,5 +1,6 @@
 import { axis, axisKeys, clamp, evidence, percentileAxes, rentAxis, exposureAxis } from './axes.ts';
-import { buildingAxis } from './building.ts';
+import { buildingAxis, ELEVATOR_UNKNOWN } from './building.ts';
+import { academyV0 } from './presets.ts';
 import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from '../visibility/types.ts';
 import { extractReferenceRaw, parseReferenceInputs } from './raw.ts';
 import type { AxisResult, Candidate, ScoreContext, ScoreInputs, ScoringReference, ScoreResult,
@@ -24,8 +25,8 @@ function validateCandidate(candidate: Candidate): void {
 export function reweight(result: ScoreResult, weights: Weights): ScoreResult {
   validateWeights(weights);
   if (result.axes.length !== axisKeys.length || axisKeys.some(k => result.axes.filter(a => a.key === k).length !== 1))
-    throw new Error('ScoreResult axis contract mismatch: recompute with preset v0.3');
-  if (result.preset.version !== '0.3') throw new Error('ScoreResult model version mismatch: recompute with preset v0.3');
+    throw new Error(`ScoreResult axis contract mismatch: recompute with preset v${academyV0.version}`);
+  if (result.preset.version !== academyV0.version) throw new Error(`ScoreResult model version mismatch: recompute with preset v${academyV0.version}`);
   const copy = structuredClone(result);
   const dataKeys = ['demand', 'flow', 'transit', 'cluster', 'environment'];
   const missing = copy.axes.filter(a => a.normalized === null && dataKeys.includes(a.key)).length;
@@ -63,12 +64,14 @@ function confidence(primary: ScoreInputs, axes: readonly AxisResult[], preset: S
   if (pending) deduct(15, '건축물대장 조회 대기 중');
   else if (primary.building?.location_basis === 'footprint' && primary.building.register_pk === null)
     deduct(10, '건물 대장 미연결, 용도·승강기 미확인');
+  if (!pending && axes.find(a => a.key === 'building')?.evidence.values.elevator_unknown_confidence_penalty === 5)
+    deduct(5, ELEVATOR_UNKNOWN);
   if ((primary.transit.subway_units_missing_golden ?? 0) > 0) deduct(5, '지하철 일부 시간대 데이터 없음');
   if (context.seoul_boundary_distance_m != null && context.seoul_boundary_distance_m <= 1000)
     deduct(5, '경기 정류장 데이터 없음');
   return { value: clamp(value), reasons };
 }
-/** Pure ScoreResult v0.3. The caller owns DB, context queries, and visibility work. */
+/** Pure ScoreResult v0.4.0. The caller owns DB, context queries, and visibility work. */
 export function score(primary: ScoreInputs, school: ScoreInputs, buildings: readonly unknown[],
   visibility: ExposureInput, candidate: Candidate, preset: ScoringPreset,
   reference: ScoringReference | null, context: ScoreContext): ScoreResult {
@@ -100,7 +103,7 @@ export function score(primary: ScoreInputs, school: ScoreInputs, buildings: read
     if (!schoolValid) axes.find(a => a.key === 'demand')!.missing_reason = 'school_input_contract_mismatch';
     const building = buildingAxis(primary, candidate);
     derived = { academy_eligible: building.eligible, academy_eligible_reasons: building.reasons };
-    axes.push(exposureAxis(visibility), building.axis);
+    axes.push(exposureAxis(visibility, candidate), building.axis);
     const orient = (a: AxisResult) => {
       if (a.normalized !== null && preset.signs[a.key] === -1) {
         a.normalized = 100 - a.normalized; a.evidence.rules_applied.push('preset_sign_negative');

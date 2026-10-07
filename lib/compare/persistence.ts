@@ -27,6 +27,9 @@ type SavedCandidate = ReturnType<typeof serializeCandidate>;
 interface SavedComparison { comparison: { id: string; candidate_ids: string[]; weights: Weights; preset_version: string;
   reference_snapshot: string | null; manual_order: boolean; updated_at: string }; candidates: SavedCandidate[] }
 interface Snapshot { id: string; signature: string; rows: ComparisonCandidate[]; savedAt: string }
+// The unchanged DB stores candidate inputs and eight weights, never ScoreResult.
+// Its fixed 0.3 metadata is accepted for fresh scoring with the current model.
+const storedInputVersion = '0.3';
 const cacheKey = (uid: string, id: string) => `gilmok:comparison:${uid}:${id}`;
 function signature(rows: ComparisonCandidate[], weights: Weights, order: string[]) {
   // JSONB object key order differs from browser insertion order.
@@ -64,7 +67,7 @@ export async function reopenComparison(id: string | null = null, client: Supabas
   if (error) throw new Error('저장한 비교를 불러오지 못했습니다. 다시 시도해 주세요.');
   if (!data) return false;
   const saved = data as SavedComparison, c = saved.comparison;
-  if (c.preset_version !== academyV0.version || !validWeights(c.weights) || !saved.candidates?.length
+  if (c.preset_version !== storedInputVersion || !validWeights(c.weights) || !saved.candidates?.length
     || saved.candidates.some(r => !r.address_provenance?.selection || !r.registration_context))
     throw new Error('저장 형식을 확인할 수 없습니다. 후보를 다시 등록해 주세요.');
   const rows = saved.candidates.map(deserializeCandidate);

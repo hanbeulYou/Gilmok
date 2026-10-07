@@ -67,7 +67,7 @@ export function SaveControls() {
           const weights = e.target.value === 'default' ? academyV0.weights : presets.find(p => p.id === e.target.value)?.weights;
           if (weights) { state.beginAdjustment(); for (const [key, value] of Object.entries(weights)) state.setWeight(key as keyof typeof weights, value); state.endAdjustment(); }
         }}>
-        <option value="default">학원 v0.3(기본)</option><option value="modified" disabled>학원 v0.3 · 수정됨</option>
+        <option value="default">학원 v{academyV0.version}(기본)</option><option value="modified" disabled>학원 v{academyV0.version} · 수정됨</option>
         {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
       </select></label>
       <button disabled={!modified || busy || state.snapshotReadOnly} onClick={() => setNaming(true)}>프리셋으로 저장</button>

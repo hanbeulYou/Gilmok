@@ -1,5 +1,5 @@
 import { referencePercentile } from './percentile.ts';
-import { EXPOSURE_LIMITATION } from '../visibility/types.ts';
+import { EXPOSURE_LIMITATION, BASEMENT_ENTRANCE } from '../visibility/types.ts';
 import type { ReferenceKey, ReferenceRaw } from './raw.ts';
 import type { AxisKey, AxisResult, Candidate, Evidence, ScoreContext, ScoreInputs,
   ScoringReference, ScoringPreset, ExposureInput } from './types.ts';
@@ -91,17 +91,29 @@ export function percentileAxes(primary: ScoreInputs, school: ScoreInputs, raw: R
   const environment = axis('environment', stores, env, ee, vitality.reason ?? (categories === null ? 'store_categories_missing' : null));
   return [demand, flow, transit, cluster, environment];
 }
-export function exposureAxis(visibility: ExposureInput): AxisResult {
+export function exposureAxis(visibility: ExposureInput, candidate: Candidate): AxisResult {
   const e = evidence(visibility?.evidence ? structuredClone(visibility.evidence.values) : {});
+  const f = candidate.floor;
+  const coefficient = f < 0 || f === 3 ? .8 : f === 1 ? 1 : f === 2 ? .9 : .7;
+  e.values.requested_floor = f;
+  e.values.floor_attention_model = 'Y';
+  e.values.floor_attention_coefficient = coefficient;
+  e.notes.push('층 주목도 계수 Y는 모델 가정이며 실측 주목도가 아님');
   e.notes.push(...(visibility?.evidence?.notes ?? []));
+  if (f < 0) {
+    if (!e.notes.includes(BASEMENT_ENTRANCE)) e.notes.push(BASEMENT_ENTRANCE);
+    e.notes.push('지하 주목도 0.8은 내려다봐야 보인다는 모델 가정');
+  }
   if (!e.notes.includes(EXPOSURE_LIMITATION)) e.notes.push(EXPOSURE_LIMITATION);
   if (visibility?.status === 'ready') {
     if (visibility.model_version !== '0.2.2') return axis('exposure', null, null, e, 'exposure_model_version_mismatch');
     if (!Number.isFinite(visibility.visible_ratio) || visibility.visible_ratio < 0 || visibility.visible_ratio > 1)
       throw new Error('Invalid visible_ratio');
     e.values.visible_ratio = visibility.visible_ratio;
-    e.rules_applied.push('ring_visible_ratio_times100');
-    return axis('exposure', visibility.visible_ratio, visibility.visible_ratio * 100, e);
+    const adjusted = visibility.visible_ratio * coefficient;
+    e.values.attention_adjusted_visible_ratio = adjusted;
+    e.rules_applied.push('ring_visible_ratio_times_floor_attention_Y_times100');
+    return axis('exposure', adjusted, adjusted * 100, e);
   }
   const reason = visibility?.reason ?? 'exposure_worker_pending';
   return axis('exposure', null, null, e, reason, visibility?.status ?? 'pending');

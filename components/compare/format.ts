@@ -4,7 +4,7 @@ export const number = (value: number | null | undefined, digits = 2) => value ==
 const reasons: Record<string, string> = {
   raw_missing: '원천 데이터가 없습니다', percentile_data_unavailable: '기준 분포를 확인할 수 없습니다',
   outside_seoul: '서울 밖 지역입니다', inside_seoul_unknown: '서울 경계를 확인할 수 없습니다',
-  rent_input_missing: '임대료가 입력되지 않았습니다', rent_range_unconfigured: '임대료 채점 범위는 v0.3에서 미확정입니다',
+  rent_input_missing: '임대료가 입력되지 않았습니다', rent_range_unconfigured: '임대료 채점 범위는 현재 프리셋에서 미확정입니다',
   exposure_worker_failed: '노출 계산에 실패했습니다', exposure_worker_pending: '노출 계산 중입니다',
   visibility_worker_not_provided: '노출 계산 입력이 없습니다', buildings_not_loaded: '이 지역은 건물 데이터가 아직 없습니다',
   building_data_unavailable: '건물 데이터가 없습니다', building_lookup_pending: '건축물대장을 확인 중입니다',

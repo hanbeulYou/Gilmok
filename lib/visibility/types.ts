@@ -43,6 +43,7 @@ export type VisibilityResult = {
 } | { status: 'missing'; reason: string; evidence: VisibilityEvidence;
   samples: SampleResult[]; summary: Record<'all' | 'ring' | 'station' | 'school', SampleSummary> };
 export const FOOTPRINT_MISSING = 'candidate_footprint_missing_self_occlusion_unaccounted';
+export const BASEMENT_ENTRANCE = '지하: 입구 간판 기준 노출';
 export interface VisibilityRequest { requestId: string; scene: VisibilityScene }
 export type VisibilityResponse = { requestId: string; result: VisibilityResult; computeMs: number } |
   { requestId: string; error: string };
