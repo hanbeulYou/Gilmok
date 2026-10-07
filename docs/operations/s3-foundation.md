@@ -139,7 +139,7 @@ Production·Preview 모두 .env 전체 업로드 금지. SUPABASE_SECRET_KEY, se
 
 ## PR A 주소 Route Handler 배포 설정 (2026-09-30)
 
-공개 변수는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`만 유지한다. #22 배포에는 서버 전용 `JUSO_API_KEY`와 Juso 좌표 승인 전의 `VWORLD_API_KEY`가 추가로 필요하다. 사용자가 Vercel에 등록한 뒤 재배포한다. Kakao 키·Supabase 관리자키·DB 비밀번호·DB URL·R2·dispatch 토큰은 등록하지 않는다. `.env` 전체 업로드는 금지한다. 이 PR에서 Vercel 변수는 직접 변경하지 않았다.
+S3-2의 공개 변수는 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`다. S3-3 A 승인 범위에서 공개 `NEXT_PUBLIC_MAP_STYLE_URL=https://tiles.openfreemap.org/styles/liberty` 1개를 추가한다. 지도 URL은 비밀이 아니며 [배포 절차](compare-map.md)에 따라 사용자가 Production·Preview에 등록 후 재배포한다. #22 배포에는 서버 전용 `JUSO_API_KEY`와 Juso 좌표 승인 전의 `VWORLD_API_KEY`가 추가로 필요하다. 사용자가 Vercel에 등록한 뒤 재배포한다. Kakao 키·Supabase 관리자키·DB 비밀번호·DB URL·R2·dispatch 토큰은 등록하지 않는다. `.env` 전체 업로드는 금지한다. 이 PR에서 Vercel 변수는 직접 변경하지 않았다.
 
 주소 Route Handler는 Next.js15 `runtime=nodejs`, `preferredRegion=icn1`, 외부 fetch `cache=no-store`로 실행한다. 국내 사용자·주소 API와의 왕복을 줄이기 위한 선택이며 Supabase 프로젝트는 계속 Tokyo다. [Next.js15 지역 설정](https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config#preferredregion). 브라우저 bearer 토큰을 서버의 [auth.getUser](https://supabase.com/docs/reference/javascript/auth-getuser)로 검증하고 사용자 권한 RPC로 쿼터를 예약한다. public key 이외의 Supabase 서버 비밀은 사용하지 않는다.
 
