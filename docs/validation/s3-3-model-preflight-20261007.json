@@ -1,0 +1,29 @@
+{
+  "migration": "20261007085130_comparison_scoring_model.sql",
+  "sha256": "cf686d6b451ae22f65a5219a03af678d4f04c1830fd4a0a66b8eef63f2dda778",
+  "remote_migrations": {
+    "count": 42,
+    "last": "20261004114603"
+  },
+  "remote_comparisons": 2,
+  "remote_model_column_exists": false,
+  "existing_save": {
+    "definition_sha256": "4a4e5cee62c3c3c278736f47beb7dd4a74963cb812c9c17a8265f31a73bf2873",
+    "security_definer": true,
+    "settings": [
+      "search_path=\"\""
+    ],
+    "authenticated_execute": true,
+    "anon_execute": false
+  },
+  "legacy_save_body_only_null_reset": true,
+  "read_seconds": 0.593,
+  "dry_run": {
+    "exit_code": 0,
+    "seconds": 0.526,
+    "output": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261007085130_comparison_scoring_model.sql\nA new version of Supabase CLI is available: v2.120.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+  },
+  "remote_writes": false,
+  "pending_migration_count": 1,
+  "existing_objects_changed": "comparisons nullable column/check addition; save_comparison definition replaced to clear model metadata for legacy writers; no new triggers or data backfill"
+}

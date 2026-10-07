@@ -1,0 +1,555 @@
+{
+  "environment": "local real Auth/RPC/Worker + fixed public provider responses",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+  "totals": [
+    83.10201719669011,
+    92.60289331263688,
+    82.67204741731668,
+    81.84736541572254,
+    85.08500496915157
+  ],
+  "confidence": [
+    85,
+    90,
+    90,
+    90,
+    90
+  ],
+  "slider": {
+    "samples": 100,
+    "p95": 33.700000286102295,
+    "max": 33.80000019073486
+  },
+  "rpc": [
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "save_comparison_v2",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 503
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "save_comparison_v2",
+      "status": 200
+    },
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "save_comparison_v2",
+      "status": 200
+    },
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    }
+  ],
+  "checks": {
+    "same_uid": true,
+    "saved_reopened": true,
+    "manual_order_restored": true,
+    "named_preset_raw_weights": true,
+    "model_version": "0.4.0",
+    "model_notice_legacy_unknown_same": true,
+    "model_failure_retry": true,
+    "model_tag_requires_save": true,
+    "five_candidates": true,
+    "mobile_totals": true,
+    "floor_elevator_evidence": true,
+    "attention_evidence": true
+  }
+}
