@@ -97,3 +97,12 @@ body { background: #f8fafc; color: #172033; font-family: Arial, sans-serif; }
 .map-heading{display:flex;gap:.6rem;align-items:center;margin-bottom:.5rem}.map-heading h2{font-size:1rem;margin:0}.map-heading span{font-size:.75rem;color:#52616d}.map-heading button{margin-left:auto}
 .map-placeholder{min-height:28rem;display:grid;place-items:center;color:#52616d;background:#eef2ef;border-radius:.6rem}
 @media(max-width:1023px){.compare-workspace{display:block}.map-panel:not(.map-activated) .map-placeholder{display:none}}
+
+/* Shared candidate selection and mobile panels; map implementation remains lazy. */
+.compare-workspace>section{min-width:0}.comparison [hidden]{display:none!important}
+.comparison-matrix [data-selected=true]{box-shadow:inset 2px 0 #0f766e,inset -2px 0 #0f766e;background-color:#e9f4ef}
+.comparison button.total{border:0;background:transparent;padding:0;color:inherit;font-weight:700}
+.comparison button[aria-pressed=true].candidate-name{color:#0f766e;text-decoration:underline;text-underline-offset:4px}
+.comparison :focus-visible{outline:3px solid #b45309;outline-offset:3px}
+.mobile-tabs button{flex:1}.comparison-matrix .candidate-name{min-height:40px}
+@media(max-width:1023px){.comparison{overflow-wrap:anywhere}.mobile-tabs{position:sticky;top:0;z-index:4;background:#fff}.mobile-tabs button{min-height:44px}#compare-panel-map .map-panel{margin-top:0}#compare-panel-map .map-canvas{height:min(60dvh,550px);min-height:300px}.weight-sheet{max-width:calc(100vw - 2rem)}}

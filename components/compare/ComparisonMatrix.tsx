@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { axisKeys, labels } from '../../lib/scoring/axes';
 import { academyV0 } from '../../lib/scoring/presets';
@@ -16,6 +16,7 @@ import { EvidencePanel } from './EvidencePanel';
 import { number, rawSummary, reason } from './format';
 import { WeightSlider } from './WeightSlider';
 import { SaveControls } from './SaveControls';
+import { navigationIndex } from '../../lib/compare/navigation';
 import { MapGate } from '../map/MapGate';
 import { deleteCandidate } from '../../lib/compare/persistence';
 function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
@@ -74,25 +75,74 @@ function Notice({ row }: { row: ComparisonCandidate }) {
     {row.stage === 'error' && <div role="alert"><p>{row.error}</p><button onClick={() => void scoreCandidate(row.id, Boolean(row.inputs?.primary && row.lookupState))}>채점 다시 시도</button></div>}
   </div>;
 }
-function Total({ row, result, select }: { row: ComparisonCandidate; result?: ScoreResult; select: () => void }) {
+function Total({ row, result, select, evidence }: { row: ComparisonCandidate; result?: ScoreResult; select: () => void; evidence: () => void }) {
   const missing = result?.axes.filter(a => a.normalized === null && a.weight > 0).length ?? 0;
   return <><Notice row={row}/>{result && <>
-    <div className="total-line"><span className="total score-change" key={result.total} data-total={result.total ?? 'null'}>{result.total === null ? '평가 불가' : `${result.total.toFixed(2)}점`}</span>
-      <Confidence key={result.confidence.value} value={result.confidence.value} onClick={select}/></div>
+    <div className="total-line"><button type="button" onClick={select} aria-label={`${row.alias} 총점으로 후보 선택`} className="total score-change" key={result.total} data-total={result.total ?? 'null'}>{result.total === null ? '평가 불가' : `${result.total.toFixed(2)}점`}</button>
+      <Confidence key={result.confidence.value} value={result.confidence.value} onClick={evidence}/></div>
     {missing > 0 && <span className="badge missing">{missing}축 재배분</span>}
     {result.total === null && <small>{result.axes.filter(a => ['demand','flow','transit','cluster','environment'].includes(a.key) && a.normalized === null).length >= 2
       ? '수요·유동·교통·집적·환경 중 2축 이상 결측' : '점수가 있는 축의 가중치 합이 0입니다'}</small>}
   </>}</>;
 }
 export function ComparisonMatrix() {
-  const state = useComparisonStore(), [tab, setTab] = useState<'compare' | 'evidence'>('compare'), [sheet, setSheet] = useState(false);
+  const state = useComparisonStore(), [tab, setTab] = useState<'matrix' | 'map' | 'evidence'>('matrix'), [desktop, setDesktop] = useState(false), [sheet, setSheet] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null), [clockTick, tick] = useState(0), swipe = useRef<{x: number; y: number} | null>(null);
   const realtime = useLookupUpdates(state.snapshotReadOnly ? [] : state.candidates);
   const rows = state.order.map(id => state.candidates.find(row => row.id === id)).filter((r): r is ComparisonCandidate => Boolean(r));
   const results = useMemo(() => new Map(state.candidates.map(row => [row.id, row.result ? reweight(row.result, state.weights) : undefined])), [state.candidates, state.weights]);
   const selected = state.candidates.find(r => r.id === state.selectedId);
   const modified = axisKeys.some(key => state.weights[key] !== academyV0.weights[key]);
-  const select = (id: string, axis?: AxisKey) => { state.select(id, axis); setTab('evidence'); };
+  const lastTab = useRef<'matrix' | 'map'>('matrix'), returnFocus = useRef<HTMLElement | null>(null);
+  const tabs = ['matrix', 'map', 'evidence'] as const;
+  const select = (id: string, axis?: AxisKey) => {
+    if (tab !== 'evidence') lastTab.current = tab;
+    returnFocus.current = document.activeElement as HTMLElement;
+    state.openEvidence(id, axis); setTab('evidence');
+    requestAnimationFrame(() => document.getElementById('evidence-heading')?.focus());
+  };
+  const changeTab = (next: typeof tab) => {
+    if (next === 'evidence') {
+      if (tab !== 'evidence') lastTab.current = tab;
+      returnFocus.current = document.getElementById(`compare-tab-${lastTab.current}`);
+      if (selected) state.openEvidence(selected.id);
+    }
+    setTab(next);
+  };
+  const closeEvidence = () => {
+    state.closeEvidence(); setTab(lastTab.current);
+    requestAnimationFrame(() => {
+      if (returnFocus.current?.isConnected && returnFocus.current.getClientRects().length) returnFocus.current.focus();
+      else document.getElementById(`compare-tab-${lastTab.current}`)?.focus();
+    });
+  };
+  const columnKeys = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const next = navigationIndex(event.key, index, rows.length); if (next === null) return;
+    event.preventDefault(); state.selectCandidate(rows[next].id);
+    document.getElementById(`candidate-column-${rows[next].id}`)?.focus({ preventScroll: true });
+  };
+  useEffect(() => {
+    const media = matchMedia('(min-width: 1024px)');
+    let frame = 0;
+    const update = () => {
+      const focused = document.activeElement; setDesktop(media.matches);
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (!(focused instanceof HTMLElement) || focused === document.body || focused.getClientRects().length) return;
+        const target = media.matches
+          ? document.getElementById(`candidate-column-${useComparisonStore.getState().selectedId}`)
+          : document.querySelector<HTMLElement>('.mobile-tabs [aria-selected="true"]');
+        target?.focus({ preventScroll: true });
+      });
+    };
+    update(); media.addEventListener('change', update);
+    return () => { media.removeEventListener('change', update); cancelAnimationFrame(frame); };
+  }, []);
+  useEffect(() => {
+    if (!state.selectedId) return;
+    if (desktop) document.getElementById(`candidate-column-${state.selectedId}`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    else if (tab === 'matrix') document.getElementById(`candidate-card-${state.selectedId}`)?.scrollIntoView({ block: 'nearest' });
+  }, [state.selectedId, desktop, tab]);
   useEffect(() => { if (sheet) dialog.current?.showModal(); else dialog.current?.close(); }, [sheet]);
   useEffect(() => {
     const now = Date.now(), deadlines = state.candidates.flatMap(row => [
@@ -114,39 +164,48 @@ export function ComparisonMatrix() {
       <div className="comparison-toolbar"><button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button><button disabled={state.snapshotReadOnly} onClick={state.sortByScore}>{state.manualOrder ? '총점순 자동 정렬로 복귀' : '총점순 정렬'}</button>
         <span>{state.manualOrder ? '열 순서 고정' : '총점 내림차순'} · {rows.length}/5곳</span><button className="mobile-only" onClick={() => setSheet(true)}>가중치</button></div>
       {rows.length === 1 && <p>비교하려면 후보를 더 추가하세요.</p>}
-      <div className="mobile-tabs" role="tablist" aria-label="비교 화면"><button role="tab" aria-selected={tab === 'compare'} onClick={() => setTab('compare')}>비교</button>
-        <button role="tab" aria-selected={tab === 'evidence'} onClick={() => { setTab('evidence'); if (selected) state.select(selected.id); }}>근거</button></div>
-      <div className="compare-workspace"><div className="desktop-matrix matrix-scroll" data-testid="matrix-shell"><table className="comparison-matrix" aria-label="후보별 8축 비교"><thead><tr><th scope="col">평가 항목</th>
-        {rows.map(row => <th scope="col" key={row.id} draggable onDragStart={e => e.dataTransfer.setData('text/plain', row.id)} onDragOver={e => e.preventDefault()}
-          onDrop={e => { e.preventDefault(); state.move(e.dataTransfer.getData('text/plain'), row.id); }} data-candidate-id={row.id}>
-          <button className="candidate-name" onClick={() => select(row.id)}>{row.alias} · {row.candidate.floor}층</button><small>{row.candidate.address}</small><CandidateMenu row={row} order={state.order}/></th>)}</tr>
-        <tr className="total-row"><th scope="row">총점</th>{rows.map(row => <td key={row.id} aria-busy={row.refreshing || !row.result && row.stage !== 'error'}><Total row={row} result={results.get(row.id)} select={() => select(row.id)}/></td>)}</tr></thead>
+      <div className="mobile-tabs" role="tablist" aria-label="비교 화면">{tabs.map((value, index) => <button key={value}
+        id={`compare-tab-${value}`} role="tab" aria-selected={tab === value} aria-controls={`compare-panel-${value}`} tabIndex={tab === value ? 0 : -1}
+        onClick={() => changeTab(value)} onKeyDown={event => {
+          const next = navigationIndex(event.key, index, tabs.length); if (next === null) return;
+          event.preventDefault(); changeTab(tabs[next]); document.getElementById(`compare-tab-${tabs[next]}`)?.focus();
+        }}>{['매트릭스', '지도', '근거'][index]}</button>)}</div>
+      <div className="compare-workspace"><section id="compare-panel-matrix" role={desktop ? undefined : 'tabpanel'}
+        aria-labelledby="compare-tab-matrix" hidden={!desktop && tab !== 'matrix'} tabIndex={-1}>
+      <div className="desktop-matrix matrix-scroll" data-testid="matrix-shell"><table className="comparison-matrix" aria-label="후보별 8축 비교"><thead><tr><th scope="col">평가 항목</th>
+        {rows.map((row, index) => <th scope="col" key={row.id} draggable onDragStart={e => e.dataTransfer.setData('text/plain', row.id)} onDragOver={e => e.preventDefault()}
+          onDrop={e => { e.preventDefault(); state.move(e.dataTransfer.getData('text/plain'), row.id); }} data-candidate-id={row.id} data-selected={state.selectedId === row.id}>
+          <button id={`candidate-column-${row.id}`} className="candidate-name" aria-pressed={state.selectedId === row.id} tabIndex={state.selectedId === row.id ? 0 : -1} onKeyDown={event => columnKeys(event, index)} onClick={() => state.selectCandidate(row.id)}>{row.alias} · {row.candidate.floor}층</button><small>{row.candidate.address}</small><CandidateMenu row={row} order={state.order}/></th>)}</tr>
+        <tr className="total-row"><th scope="row">총점</th>{rows.map(row => <td key={row.id} data-selected={state.selectedId === row.id} aria-busy={row.refreshing || !row.result && row.stage !== 'error'}><Total row={row} result={results.get(row.id)} select={() => state.selectCandidate(row.id)} evidence={() => select(row.id)}/></td>)}</tr></thead>
         <tbody>{axisKeys.map((key, index) => {
           const distinct = [...new Set(rows.flatMap(row => { const value = results.get(row.id)?.axes[index].normalized; return value == null ? [] : [value]; }))].sort((a,b) => b-a);
           return <tr key={key}><th scope="row"><WeightSlider axis={key} value={state.weights[key]} prefix="desktop"/></th>{rows.map(row => {
             const result = results.get(row.id), axis = result?.axes[index];
-            return <td key={row.id} data-axis={key} data-candidate-id={row.id} className={axis?.normalized == null ? 'missing-cell' : `tone-${Math.min(2, distinct.indexOf(axis.normalized))}`}>
+            return <td key={row.id} data-axis={key} data-candidate-id={row.id} data-selected={state.selectedId === row.id} className={axis?.normalized == null ? 'missing-cell' : `tone-${Math.min(2, distinct.indexOf(axis.normalized))}`}>
               {axis && result ? <button className="score-cell" onClick={() => select(row.id, key)} aria-label={`${row.alias} ${labels[key]} 근거`} title={axis.missing_reason ? reason(axis.missing_reason) : undefined}>
                 <span key={`${axis.normalized}:${axis.status}`} className="axis-score score-change" data-score={axis.normalized ?? 'null'}>{number(axis.normalized)}</span><small>{rawSummary(axis)}</small><AxisBadges axis={axis} result={result}/></button> : row.stage === 'error' ? <span>조회 실패</span> : <span className="cell-skeleton" aria-label="점수 불러오는 중"/>}
             </td>;
           })}</tr>;
-        })}</tbody></table></div><MapGate/></div>
-      <div className={`mobile-cards ${tab !== 'compare' ? 'mobile-hidden' : ''}`}>{rows.map((row, index) => {
+        })}</tbody></table></div>
+      <div className="mobile-cards">{rows.map((row, index) => {
         const result = results.get(row.id);
-        return <article key={row.id} className={row.id === state.selectedId ? 'selected-card' : ''} aria-label={row.alias} data-candidate-id={row.id}>
+        return <article id={`candidate-card-${row.id}`} key={row.id} className={row.id === state.selectedId ? 'selected-card' : ''} aria-label={row.alias} data-candidate-id={row.id}>
           <header onTouchStart={e => { swipe.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }} onTouchEnd={e => {
             const from = swipe.current; swipe.current = null; if (!from) return; const to = e.changedTouches[0];
             if (Math.abs(to.clientY - from.y) > 40 || Math.abs(to.clientX - from.x) < 60) return;
-            const next = rows[index + (to.clientX < from.x ? 1 : -1)]; if (next) { state.select(next.id); document.querySelector(`.mobile-cards [data-candidate-id="${next.id}"]`)?.scrollIntoView({block:'nearest'}); }
-          }}><h2><button className="candidate-name" onClick={() => select(row.id)}>{row.alias} · {row.candidate.floor}층</button></h2><CandidateMenu row={row} order={state.order}/></header>
-          <p>{row.candidate.address}</p><Total row={row} result={result} select={() => select(row.id)}/>
+            const next = rows[index + (to.clientX < from.x ? 1 : -1)]; if (next) { state.selectCandidate(next.id); document.querySelector(`.mobile-cards [data-candidate-id="${next.id}"]`)?.scrollIntoView({block:'nearest'}); }
+          }}><h2><button className="candidate-name" aria-pressed={state.selectedId === row.id} onClick={() => state.selectCandidate(row.id)}>{row.alias} · {row.candidate.floor}층</button></h2><CandidateMenu row={row} order={state.order}/></header>
+          <p>{row.candidate.address}</p><Total row={row} result={result} select={() => state.selectCandidate(row.id)} evidence={() => select(row.id)}/>
           <div className="mobile-axes">{result?.axes.map(axis => <button key={axis.key} className="mobile-axis" onClick={() => select(row.id, axis.key)} aria-label={`${row.alias} ${axis.label} 근거`}>
             <span>{axis.label}</span><strong key={`${axis.normalized}:${axis.status}`} className="score-change" data-score={axis.normalized ?? 'null'}>{number(axis.normalized)}</strong><span className="bar-track"><span style={{width:`${axis.normalized ?? 0}%`}}/></span><small>{rawSummary(axis)}</small><AxisBadges axis={axis} result={result}/></button>)}</div>
         </article>;
-      })}</div>
+      })}</div></section>
+      <section id="compare-panel-map" role={desktop ? undefined : 'tabpanel'} aria-labelledby="compare-tab-map" hidden={!desktop && tab !== 'map'} tabIndex={-1}>
+        <MapGate active={desktop || tab === 'map'}/></section></div>
       <p className="exposure-limit">{EXPOSURE_LIMITATION}</p>
-      {selected && state.evidenceOpen && <div className={tab !== 'evidence' ? 'mobile-hidden' : ''}><EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={() => { state.closeEvidence(); setTab('compare'); }}/></div>}
-      {tab === 'evidence' && !state.evidenceOpen && <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
+      <section id="compare-panel-evidence" role={desktop ? undefined : 'tabpanel'} aria-labelledby="compare-tab-evidence" hidden={!desktop && tab !== 'evidence'} tabIndex={-1}>
+        {selected && state.evidenceOpen ? <EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={closeEvidence}/> : <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
+      </section>
       <dialog className="weight-sheet" ref={dialog} onClose={() => setSheet(false)}><header><h2>축별 가중치</h2><button onClick={() => setSheet(false)}>닫기</button></header>
         {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button></dialog>
     </>}
