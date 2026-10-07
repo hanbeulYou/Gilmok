@@ -90,6 +90,7 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
       input.dispatchEvent(new PointerEvent('pointerup',{ bubbles:true })); times.sort((a,b)=>a-b);
       return { samples:times.length, p95:times[94], max:times[99] };
     });
+    console.log('slider-performance', JSON.stringify(performance));
     expect(performance.p95).toBeLessThanOrEqual(100);
     expect(rpc.length).toBe(before);
     expect(exposureBefore).toBeGreaterThan(0);

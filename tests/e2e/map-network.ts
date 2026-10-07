@@ -30,5 +30,6 @@ export async function checkMap(page: Page, scoringCoordinates: number[][]) {
   await page.unroute('**/rest/v1/rpc/compare_map_context');
   await page.getByRole('button', { name: '주변 자료 다시 시도', exact: true }).click();
   await expect(page.locator('.map-context-status')).toContainText(/학교 \d+곳/);
+  await expect(page.getByTestId('compare-map')).toHaveAttribute('data-map-idle', 'true');
   return { groups: groups.length, candidates: groups.flatMap(group => group.ids).length, exactScoringCoordinates: true, groupedFloors: [1, 3, 4], mapFailureIsolated: true };
 }

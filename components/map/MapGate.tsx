@@ -1,5 +1,5 @@
 'use client';
-import { Component, lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Component, lazy, memo, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 class MapBoundary extends Component<{ children: ReactNode; retry: () => void }, { failed: boolean }> {
   state = { failed: false };
@@ -8,7 +8,7 @@ class MapBoundary extends Component<{ children: ReactNode; retry: () => void }, 
 }
 
 /** No MapLibre or map CSS import until after desktop shell paint / an explicit mobile action. */
-export function MapGate() {
+export const MapGate = memo(function MapGate() {
   const [opened, setOpened] = useState(false), [desktop, setDesktop] = useState(false), [attempt, setAttempt] = useState(0);
   const MapView = useMemo(() => lazy(() => import('./CompareMap')), [attempt]);
   useEffect(() => {
@@ -29,4 +29,4 @@ export function MapGate() {
     <div id="compare-map-content">{opened ? <MapBoundary key={attempt} retry={retry}><Suspense fallback={<div className="map-placeholder" role="status">지도를 불러오는 중입니다.</div>}>
       <MapView retry={retry}/></Suspense></MapBoundary> : <div className="map-placeholder" aria-hidden="true">선택 후보의 반경·역·학교</div>}</div>
   </section>;
-}
+});

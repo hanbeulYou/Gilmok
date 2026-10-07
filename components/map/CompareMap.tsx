@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import maplibregl, { type GeoJSONSource, type Map as LibreMap, type StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './map.css';
@@ -27,7 +28,9 @@ function openStyle(_previous: StyleSpecification | undefined, style: StyleSpecif
 }
 
 export default function CompareMap({ retry }: { retry: () => void }) {
-  const state = useComparisonStore(), host = useRef<HTMLDivElement>(null), map = useRef<LibreMap | null>(null);
+  // Weights and evidence panels do not change the map; subscribe only to map inputs.
+  const state = useComparisonStore(useShallow(({ candidates, order, selectedId, selectCandidate }) => ({ candidates, order, selectedId, selectCandidate })));
+  const host = useRef<HTMLDivElement>(null), map = useRef<LibreMap | null>(null);
   const [ready, setReady] = useState(false), [mapError, setMapError] = useState(''), [contextError, setContextError] = useState('');
   const [context, setContext] = useState<MapContext | null>(null), [loading, setLoading] = useState(false), [attempt, setAttempt] = useState(0);
   const [groupKey, setGroupKey] = useState<string | null>(null);
@@ -69,6 +72,7 @@ export default function CompareMap({ retry }: { retry: () => void }) {
     instance.addControl(new maplibregl.AttributionControl({ compact: false, customAttribution: credits }), 'bottom-right');
     const timeout = setTimeout(() => { if (!instance.loaded()) setMapError('지도 타일을 불러오지 못했습니다.'); }, 15000);
     instance.on('error', () => setMapError('일부 지도 타일을 불러오지 못했습니다.'));
+    for (const event of ['movestart', 'dataloading', 'resize']) instance.on(event, () => { if (host.current) host.current.dataset.mapIdle = 'false'; });
     instance.on('idle', () => { clearTimeout(timeout); if (host.current) host.current.dataset.mapIdle = 'true'; });
     instance.on('load', () => {
       clearTimeout(timeout);
