@@ -1,0 +1,347 @@
+{
+  "date": "2026-10-07",
+  "code_commit": "7712ce93c54a830f59fc780443509f122957d612",
+  "migration": {
+    "migration": "20261007085130_comparison_scoring_model.sql",
+    "sha256": "cf686d6b451ae22f65a5219a03af678d4f04c1830fd4a0a66b8eef63f2dda778",
+    "authorized_remote_writes": "one approved migration only",
+    "before": {
+      "comparison_count": 2,
+      "candidate_count": 5,
+      "comparisons_digest": "9575a13ea9a44ca86a503052ede4c692cdfad50f55c818ec2e44313669287278",
+      "candidates_digest": "50e908e24e0a8425812f7ba6adc1b17ea9a0b71868e25708102ff54e33b27de0"
+    },
+    "pending": [
+      "20261007085130_comparison_scoring_model.sql"
+    ],
+    "final_dry_run": {
+      "exit_code": 0,
+      "seconds": 0.461,
+      "output": "Finished supabase db push.\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261007085130_comparison_scoring_model.sql\nA new version of Supabase CLI is available: v2.120.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+    },
+    "push": {
+      "exit_code": 0,
+      "seconds": 0.476,
+      "output": "Finished supabase db push.\nConnecting to remote database...\nDo you want to push these migrations to the remote database?\n • 20261007085130_comparison_scoring_model.sql\n\n [Y/n] y\nApplying migration 20261007085130_comparison_scoring_model.sql...\nA new version of Supabase CLI is available: v2.120.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+    },
+    "after": {
+      "comparison_count": 2,
+      "candidate_count": 5,
+      "comparisons_digest": "9575a13ea9a44ca86a503052ede4c692cdfad50f55c818ec2e44313669287278",
+      "candidates_digest": "50e908e24e0a8425812f7ba6adc1b17ea9a0b71868e25708102ff54e33b27de0"
+    },
+    "existing_null_models": 2,
+    "migration_applied": true,
+    "functions": [
+      {
+        "name": "save_comparison",
+        "security_definer": true,
+        "settings": [
+          "search_path=\"\""
+        ],
+        "authenticated_execute": true,
+        "anon_execute": false
+      },
+      {
+        "name": "save_comparison_v2",
+        "security_definer": true,
+        "settings": [
+          "search_path=\"\""
+        ],
+        "authenticated_execute": true,
+        "anon_execute": false
+      }
+    ],
+    "existing_data_preserved": true
+  },
+  "browser": {
+    "environment": "PR Preview + remote Supabase real anonymous Auth/RPC/Worker",
+    "deployment": "https://gilmok-m2vm91qbh-vineyard.vercel.app",
+    "provider_calls": [
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "save_comparison_v2",
+        "status": 200
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "save_comparison_v2",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      }
+    ],
+    "checks": {
+      "new_client_saved_model": true,
+      "old_client_invalidates_model": true,
+      "real_remote_unrecorded_badge": true,
+      "recalculation_does_not_save_tag": true,
+      "save_comparison_other_uid_denied": true,
+      "save_comparison_v2_other_uid_denied": true,
+      "uid_isolation_read_write": true,
+      "denied_save_changed_nothing": true,
+      "same_uid_reopen_current_no_badge": true,
+      "existing_two_readonly_badges": true,
+      "existing_comparisons_no_save": true
+    },
+    "legacy_badges": [
+      {
+        "ordinal": 1,
+        "source": "remote owner-RLS load_comparison SQL export, unchanged response replayed read-only in Preview",
+        "model": null,
+        "phase": "complete",
+        "text": "모델 재계산 저장 당시 모델 미기록 · 현재 v0.4.0로 다시 계산했습니다. 저장하면 모델 버전도 갱신됩니다.",
+        "remote_scoring": true
+      },
+      {
+        "ordinal": 2,
+        "source": "remote owner-RLS load_comparison SQL export, unchanged response replayed read-only in Preview",
+        "model": null,
+        "phase": "complete",
+        "text": "모델 재계산 저장 당시 모델 미기록 · 현재 v0.4.0로 다시 계산했습니다. 저장하면 모델 버전도 갱신됩니다.",
+        "remote_scoring": true
+      }
+    ],
+    "started_at": "2026-10-07T10:54:04.629Z",
+    "stage": "existing_badges",
+    "total": 83.10201719669011,
+    "test_data_retained": {
+      "anonymous_users": 2,
+      "candidates": 1,
+      "comparisons": 1,
+      "deleted": 0
+    },
+    "seconds": 19.811,
+    "result": "passed"
+  },
+  "readback": {
+    "checked_at": "2026-10-07T10:55:22.625629+00:00",
+    "existing_comparison_count": 2,
+    "existing_candidate_count": 5,
+    "existing_comparison_data_unchanged": true,
+    "existing_candidate_data_unchanged": true,
+    "existing_unrecorded_count": 2,
+    "new_test_comparisons": 1,
+    "new_test_model": "0.4.0",
+    "new_test_candidate_count": 1,
+    "unresolved_projection_errors": 0,
+    "dispatch_trigger": [
+      [
+        "gilmok_address_dispatch",
+        "O"
+      ]
+    ],
+    "migration_count": 43,
+    "last_migration": "20261007085130"
+  },
+  "verification_harness_correction": {
+    "issue": "Test waited for a button absent from the current registration screen; interrupted before candidate/comparison writes, corrected selectors to current UI. Product code unchanged.",
+    "interrupted_seconds": 236.406,
+    "anonymous_users_retained": 2,
+    "candidates_created": 0,
+    "comparisons_created": 0
+  },
+  "retained_test_data_total": {
+    "anonymous_users": 4,
+    "candidates": 1,
+    "comparisons": 1,
+    "deleted": 0
+  },
+  "limitations": [
+    "Existing owners had no available browser session. Their actual load_comparison responses were read with owner RLS in read-only SQL and replayed unchanged in Preview for badge rendering. No owner JWTs were generated. Existing comparison saves were blocked in that rendering phase.",
+    "Legacy client compatibility was exercised via its original save_comparison RPC payload. New client and own-uid unrecorded/current badges used the actual Preview with live remote HTTP.",
+    "Production main was not merged or redeployed by this task."
+  ]
+}

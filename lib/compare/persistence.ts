@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { academyV0 } from '../scoring/presets';
+import { savableModelVersion } from './model-version';
 import type { Weights } from '../scoring/types';
 import { getSupabaseClient } from '../supabase/client';
 import { ensureSession } from '../supabase/session';
@@ -24,10 +25,10 @@ export function serializeCandidate(row: ComparisonCandidate) {
     registration_context: row.resolved, lookup_request_id: row.lookupRequestId ?? null, lookup_status: row.lookupStatus ?? null };
 }
 type SavedCandidate = ReturnType<typeof serializeCandidate>;
-interface SavedComparison { comparison: { id: string; candidate_ids: string[]; weights: Weights; preset_version: string;
+interface SavedComparison { comparison: { id: string; candidate_ids: string[]; weights: Weights; preset_version: string; scoring_model_version?: string | null;
   reference_snapshot: string | null; manual_order: boolean; updated_at: string }; candidates: SavedCandidate[] }
 interface Snapshot { id: string; signature: string; rows: ComparisonCandidate[]; savedAt: string }
-// The unchanged DB stores candidate inputs and eight weights, never ScoreResult.
+// DB rows store candidate inputs and eight weights, never ScoreResult.
 // Its fixed 0.3 metadata is accepted for fresh scoring with the current model.
 const storedInputVersion = '0.3';
 const cacheKey = (uid: string, id: string) => `gilmok:comparison:${uid}:${id}`;
@@ -43,11 +44,13 @@ export async function saveComparison(client: SupabaseClient = getSupabaseClient(
     throw new Error('저장할 비교를 확인해 주세요.');
   const id = state.comparisonId ?? crypto.randomUUID();
   useComparisonStore.setState({ comparisonId: id }); // Retry after a lost HTTP reply keeps the same ID.
-  const { data, error } = await client.rpc('save_comparison', { comparison_id: id,
+  const modelVersion = savableModelVersion(state.candidates);
+  const { data, error } = await client.rpc('save_comparison_v2', { comparison_id: id, model_version: modelVersion,
     candidate_rows: state.candidates.map(serializeCandidate), raw_weights: state.weights, ordered_ids: state.order,
     fixed_order: state.manualOrder, source_snapshot: academyV0.cluster_scale.snapshot });
   if (error || data !== id) throw new Error('비교를 저장하지 못했습니다. 다시 시도해 주세요.');
-  if (state.candidates.every(row => row.result)) {
+  if (useComparisonStore.getState().comparisonId === id) useComparisonStore.setState({ savedModelVersion: modelVersion });
+  if (modelVersion !== null) {
     const snapshot: Snapshot = { id, rows: state.candidates, savedAt: new Date().toISOString(),
       signature: signature(state.candidates, state.weights, state.order) };
     try { localStorage.setItem(cacheKey(session.user.id, id), JSON.stringify(snapshot)); } catch { /* DB save is authoritative. */ }
@@ -71,7 +74,7 @@ export async function reopenComparison(id: string | null = null, client: Supabas
     || saved.candidates.some(r => !r.address_provenance?.selection || !r.registration_context))
     throw new Error('저장 형식을 확인할 수 없습니다. 후보를 다시 등록해 주세요.');
   const rows = saved.candidates.map(deserializeCandidate);
-  useComparisonStore.getState().restore(rows, c.weights, c.candidate_ids, c.manual_order, c.id);
+  useComparisonStore.getState().restore(rows, c.weights, c.candidate_ids, c.manual_order, c.id, false, c.scoring_model_version ?? null);
   await Promise.all(rows.map(row => scoreCandidate(row.id)));
   const current = useComparisonStore.getState();
   if (current.comparisonId === c.id && current.candidates.every(row => row.stage === 'error' && !row.result)) {
@@ -79,7 +82,7 @@ export async function reopenComparison(id: string | null = null, client: Supabas
       const cached = JSON.parse(localStorage.getItem(cacheKey(session.user.id, c.id)) ?? 'null') as Snapshot | null;
       if (cached?.id === c.id && cached.signature === signature(rows, c.weights, c.candidate_ids)
         && cached.rows.every(row => row.result?.preset.version === academyV0.version))
-        current.restore(cached.rows, c.weights, c.candidate_ids, c.manual_order, c.id, true);
+        current.restore(cached.rows, c.weights, c.candidate_ids, c.manual_order, c.id, true, c.scoring_model_version ?? null);
     } catch { /* Never mix a missing/invalid owner snapshot with fresh inputs. */ }
   }
   return true;
@@ -96,7 +99,7 @@ export async function deleteCandidate(id: string, client: SupabaseClient = getSu
     if (error) throw new Error('후보를 삭제하지 못했습니다. 다시 시도해 주세요.');
   }
   state.remove(id);
-  if (!useComparisonStore.getState().candidates.length) useComparisonStore.setState({ comparisonId:null });
+  if (!useComparisonStore.getState().candidates.length) useComparisonStore.setState({ comparisonId:null, savedModelVersion:undefined });
 }
 export async function listWeightPresets(client: SupabaseClient = getSupabaseClient()): Promise<WeightPreset[]> {
   await ensureSession();

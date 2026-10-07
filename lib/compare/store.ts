@@ -19,10 +19,10 @@ export type NewCandidate = Pick<ComparisonCandidate, 'alias' | 'candidate' | 'se
 interface ComparisonState {
   candidates: ComparisonCandidate[]; weights: Weights; order: string[]; manualOrder: boolean; adjusting: boolean;
   selectedId: string | null; selectedAxis: AxisKey | null; evidenceOpen: boolean;
-  comparisonId: string | null; snapshotReadOnly: boolean;
+  comparisonId: string | null; snapshotReadOnly: boolean; savedModelVersion: string | null | undefined;
   clear: () => void;
   restore: (candidates: ComparisonCandidate[], weights: Weights, order: string[], manualOrder: boolean,
-    comparisonId: string, snapshotReadOnly?: boolean) => void;
+    comparisonId: string, snapshotReadOnly?: boolean, savedModelVersion?: string | null) => void;
   add: (value: NewCandidate) => string;
   update: (id: string, value: Partial<ComparisonCandidate>, generation?: number) => void;
   remove: (id: string) => void;
@@ -40,17 +40,17 @@ export function scoreOrder(rows: readonly ComparisonCandidate[], weights: Weight
 export const useComparisonStore = create<ComparisonState>((set, get) => ({
   candidates: [], weights: { ...academyV0.weights }, order: [], manualOrder: false, adjusting: false,
   selectedId: null, selectedAxis: null, evidenceOpen: false,
-  comparisonId: null, snapshotReadOnly: false,
+  comparisonId: null, snapshotReadOnly: false, savedModelVersion: undefined,
   clear() {
     for (const job of jobs.values()) job.controller.abort();
     jobs.clear(); refreshes.clear();
-    set({ candidates: [], order: [], weights: { ...academyV0.weights }, comparisonId: null, snapshotReadOnly: false,
+    set({ candidates: [], order: [], weights: { ...academyV0.weights }, comparisonId: null, snapshotReadOnly: false, savedModelVersion: undefined,
       adjusting: false, manualOrder: false, selectedId: null, selectedAxis: null, evidenceOpen: false });
   },
-  restore(candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly = false) {
+  restore(candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly = false, savedModelVersion = null) {
     for (const job of jobs.values()) job.controller.abort();
     jobs.clear(); refreshes.clear();
-    set({ candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly,
+    set({ candidates, weights, order, manualOrder, comparisonId, snapshotReadOnly, savedModelVersion,
       adjusting: false, selectedId: order[0] ?? null, selectedAxis: null, evidenceOpen: false });
   },
   add(value) {

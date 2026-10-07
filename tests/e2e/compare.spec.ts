@@ -7,6 +7,10 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
   const users: string[] = [], rpc: { name:string; status:number }[] = [];
   const errors: string[] = [];
   const percentileResponses: unknown[] = [];
+  const local = JSON.parse(execFileSync('supabase',['status','-o','json'],{ encoding:'utf8',stdio:['ignore','pipe','ignore'] }));
+  if (!['localhost','127.0.0.1'].includes(new URL(local.API_URL).hostname)) throw new Error('Model fixture requires local Supabase');
+  const admin = createClient(local.API_URL,local.SERVICE_ROLE_KEY,{ auth:{ persistSession:false } });
+
   page.on('pageerror', e => errors.push(e.message));
   page.on('response', async response => {
     if (response.url().includes('/auth/v1/signup') && response.status() === 200) users.push((await response.json()).user.id);
@@ -95,17 +99,47 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     expect((await totals()).sort((a,b)=>a-b)).toEqual([...expected].sort((a,b)=>a-b));
     await page.getByLabel('가중치 프리셋',{ exact:true }).selectOption({ label:'수요 17' });
     await expect(page.locator('#desktop-demand')).toHaveValue('17');
+    const comparisonId = new URL(savedUrl).searchParams.get('comparison')!;
+    const persistedModel = async () => {
+      const { data, error } = await admin.from('comparisons').select('scoring_model_version').eq('id',comparisonId).single();
+      expect(error).toBeNull(); return data!.scoring_model_version;
+    };
+    expect(await persistedModel()).toBe('0.4.0');
+    await expect(page.getByTestId('model-version-notice')).toHaveCount(0);
+    for (const version of ['0.3', null]) {
+      const { error } = await admin.from('comparisons').update({ scoring_model_version:version }).eq('id',comparisonId).eq('user_id',users[0]);
+      expect(error).toBeNull();
+      if (version === '0.3') await page.route('**/rest/v1/rpc/score_inputs', route => route.fulfill({
+        status:503, contentType:'application/json', body:JSON.stringify({ message:'local test: scoring temporarily unavailable' }),
+      }));
+      await page.reload();
+      const notice = page.getByTestId('model-version-notice');
+      if (version === '0.3') {
+        await expect(notice).toHaveAttribute('data-phase','failed');
+        await page.unroute('**/rest/v1/rpc/score_inputs');
+        await page.getByRole('button',{ name:'모델 재계산 다시 시도', exact:true }).click();
+      }
+      await expect(notice).toHaveAttribute('data-phase','complete');
+      await expect(notice).toContainText(version === null ? '저장 당시 모델 미기록' : '저장 모델 v0.3');
+      expect(await totals()).toEqual(changed);
+      expect(await persistedModel()).toBe(version); // Calculation never silently saves the model tag.
+      await page.getByRole('button',{ name:'비교 저장', exact:true }).click();
+      await expect(notice).toHaveCount(0);
+      expect(await persistedModel()).toBe('0.4.0');
+    }
+    await page.reload();
+    await expect(page.locator('.desktop-matrix [data-total]')).toHaveCount(5);
+    await expect(page.getByTestId('model-version-notice')).toHaveCount(0);
+    expect(await totals()).toEqual(changed); expect(users).toHaveLength(1);
     expect(errors).toEqual([]);
     const evidence = { environment:'local real Auth/RPC/Worker + fixed public provider responses',
       userAgent:await page.evaluate(() => navigator.userAgent), totals:expected, confidence,
       slider:performance, rpc, checks:{ same_uid:true, saved_reopened:true, manual_order_restored:true, named_preset_raw_weights:true,
-        model_version:'0.4.0', five_candidates:true, mobile_totals:true, floor_elevator_evidence:true, attention_evidence:true } };
+        model_version:'0.4.0', model_notice_legacy_unknown_same:true, model_failure_retry:true, model_tag_requires_save:true, five_candidates:true, mobile_totals:true, floor_elevator_evidence:true, attention_evidence:true } };
     await info.attach('comparison-proof', { body:JSON.stringify(evidence,null,2), contentType:'application/json' });
     console.log(JSON.stringify(evidence));
   } finally {
     // Delete only this test's new local Auth users; no service key reaches the browser.
-    const local = JSON.parse(execFileSync('supabase',['status','-o','json'],{ encoding:'utf8', stdio:['ignore','pipe','ignore'] }));
-    const admin = createClient(local.API_URL,local.SERVICE_ROLE_KEY,{ auth:{ persistSession:false,autoRefreshToken:false } });
     for (const uid of users) await admin.auth.admin.deleteUser(uid);
   }
 });
