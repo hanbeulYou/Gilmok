@@ -10,7 +10,7 @@
 4. **사용자: Vercel Production·Preview에 공개 변수 `NEXT_PUBLIC_MAP_STYLE_URL=https://tiles.openfreemap.org/styles/liberty`를 추가하고 재배포한다.** Next.js의 공개 값은 빌드 때 고정된다. Supabase 공개 2개·주소 서버 키 설정은 [S3 기반 문서](s3-foundation.md)를 유지한다. style URL에는 비밀·토큰을 넣지 않는다. 새 지도 API 키/서버 비밀은 필요 없다.
 5. Preview에서 등록/재열기→한글 지도·출처·반경·겹친 층 목록, 모바일 열기 전 지도 요청 0회, 타일 실패 시 점수/근거 유지 여부를 확인한다. 이후 사용자가 머지한다. B의 열 선택·모바일 3탭 마감은 별도 PR이다.
 
-현재 A는 로컬/실제 공개 CDN 검증과 원격 dry-run까지다. 원격 DB push·Vercel 지도 배포 확인으로 표현하지 않는다.
+2026-10-07 A는 사용자 승인 후 원격 migration 적용과 실제 Preview 실증을 완료했다. 사용자가 공개 style URL을 Production·Preview에 등록했고 agent는 PR Preview만 재배포했다. [원격 수치·화면](../validation/s3-3-a-20261007.md#7-사용자-승인-후-원격-적용preview-실증)을 따른다. Production 지도 배포는 사용자 머지 이후이며 이 기록과 구분한다.
 
 ## 조회·원천 정책
 
@@ -34,3 +34,9 @@
 2. 같은 공개 환경변수로 #29/#30/A를 각각 production build하고 `/compare` HTML의 초기 script/link와 지도 비동기 파일을 나눈다. 파일별 `gzip(...,level=9,mtime=0)` 길이를 합산해 [기록 JSON](../validation/s3-3-a-20261007.json)의 목록과 대조한다. 소스맵·CDN 응답·API JSON을 앱 JS 예산에 섞지 않는다.
 3. live 점검은 실제 Liberty URL로 production build/start, 새 BrowserContext에서 a 등록→첫 map idle을 측정한다. BrowserContext의 response/request.sizes로 Worker 타일까지 수집한다. page 단위 CDP Network만으로 합산하면 Worker 전송량이 누락될 수 있다. 공개 URL·상태·바이트만 기록하고 인증 헤더·토큰은 출력하지 않는다.
 4. 모바일은 새 BrowserContext에서 열어 지도 진입 전 지도 chunk/style/tile/glyph/sprite/RPC 0회를 확인한다. desktop 지도 열린 a~e 5후보에서 슬라이더 100회 p95≤100ms, max 기록, RPC/노출 Worker scene 요청 증가 0회를 확인한다.
+
+## 원격 검증 대상 고정
+
+로컬 `.env`의 NEXT_PUBLIC_SUPABASE_URL/공개 키는 개발 DB일 수 있다. 원격 검증은 승인된 SUPABASE_PROJECT_REF·linked Session pooler와 원격 API origin의 일치를 먼저 확인한다. Preview의 실제 Supabase 요청 origin도 같은 프로젝트인지 검증한다. 로컬 HTTP 결과를 원격 실측에 넣지 않는다.
+
+콜드 관측을 위해 migration 직후 새 함수의 직접 SQL을 HTTP보다 먼저 실행한다. 첫 호출과 이후30회를 분리하고 EXPLAIN BUFFERS의 shared hit/read를 함께 남긴다. DB 재시작·캐시 강제 초기화 없이 측정했으면 완전한 I/O 콜드라고 표시하지 않는다.

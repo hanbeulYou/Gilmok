@@ -630,7 +630,7 @@ D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 �
 
 ## S3-3 A 지도 전용 입력 계약 (2026-10-07)
 
-`public.compare_map_context(lat double precision, lng double precision)` → JSONB schema `1.0`. 기존 score_inputs/exposure/채점 모델과 독립이며 read-only다. 새 함수·해당 권한만 추가하고 기존 객체/행은 바꾸지 않는다. 원격은 dry-run 완료·push 승인 대기. [실측](../validation/s3-3-a-20261007.md), [운영](../operations/compare-map.md).
+`public.compare_map_context(lat double precision, lng double precision)` → JSONB schema `1.0`. 기존 score_inputs/exposure/채점 모델과 독립이며 read-only다. 새 함수·해당 권한만 추가하고 기존 객체/행은 바꾸지 않는다. 사용자 승인 후 원격 적용·익명 RPC·직접 SQL·Preview 검증 완료. [실측](../validation/s3-3-a-20261007.md), [운영](../operations/compare-map.md).
 
 | 경로 | 계약 |
 |---|---|
