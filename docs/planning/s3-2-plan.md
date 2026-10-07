@@ -326,7 +326,7 @@ C는 `s3/comparison-save-retention`, base main(#24)에서 진행했다. [저장/
 
 [익명 정리 운영](../operations/anonymous-retention.md): AUTH_CLEANUP_ENABLED=false, workflow_dispatch dry-run만 제공한다. 제안 04:00 KST cron은 주석이며 실제 삭제·스케줄은 활성화하지 않았다. 원격 DB 쓰기나 Vercel 비밀 추가 없이 가능한 범위를 검증했다.
 
-D5 운영 전환은 [별도 #25](https://github.com/hanbeulYou/Gilmok/pull/25)다. 2026-10-06 원격 migration·등록 PNU/좌표 재사용·실제 webhook→Actions→ready→Realtime 화면 갱신을 통과했고, **19:22:36 KST 웹훅 상시 운영을 시작**했다. variable=true·주소 트리거 활성·JUSO_COORD_ENABLED=true이며, 6시간 cron과 좌표 키/flag 전달은 #25 사용자 머지 시 적용된다(머지 전 main은 hourly). 13,542건 교체와 익명 실제 삭제는 실행하지 않았다. [실증·운영 기록](../validation/s3-2-d5-20261002.md)을 따른다.
+D5 운영 전환 [#25](https://github.com/hanbeulYou/Gilmok/pull/25)는 main 머지됐고 **2026-10-07 종결**했다. 웹훅 상시 시작은 10-06 19:22:36 KST이며, main 6시간 cron·월간 좌표 key/flag 전달·Production 등록을 확인했다. 실제 [schedule run 37511542422](https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422)이 10-07 03:28 KST 성공했다(pending/needs_coord/투영 오류0). INGEST_REMOTE_ENABLED=true·주소 trigger O·JUSO_COORD_ENABLED=true, AUTH_CLEANUP_ENABLED=false. 첫 예정 슬롯 미관측과 실제 실행 지연을 [종결 검증](../validation/s3-2-d5-closeout-20261006.md)에 보존하며, 정확한 실제 6시간 실행 간격의 보장으로 표현하지 않는다. 13,542건 교체·익명 실제 삭제·공개 전 Small 재시험은 별도 승인 조건을 유지한다.
 
 ### C 트리거 보완 결정 (2026-10-04)
 

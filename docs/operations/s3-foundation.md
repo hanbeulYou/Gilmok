@@ -203,3 +203,13 @@ D5는 [기존 승인 후 실행 절차](../validation/s3-2-b-comparison-20261001
 ### D5 최종 상태 갱신 (2026-10-06)
 
 위 2026-10-02 실패 상태는 해소했다. 원격 migration 1개 적용·등록 PNU/좌표 재사용·실제 Actions/ready/Realtime 화면 갱신을 통과했고 **2026-10-06 19:22:36 KST** 웹훅 상시 운영을 시작했다. `INGEST_REMOTE_ENABLED=true`, 주소 dispatch 활성, `JUSO_COORD_ENABLED=true`, `AUTH_CLEANUP_ENABLED=false`. #25 사용자 머지 전 sweep은 기존 hourly이며, 머지 시 6시간 cron과 좌표 키/flag 전달이 적용된다. [실증](../validation/s3-2-d5-20261002.md), [시작일·설정·롤백](data-refresh.md#2026-10-06-상시-웹훅-시작과-최종-롤백)을 따른다. Micro/공개 전 Small 재시험 조건은 그대로다.
+
+
+### D5 main 반영 확인 (2026-10-06)
+
+#25 main 머지 후 6시간 cron·월간 좌표 key/flag 전달과 Production 등록 UI 배포를 확인했다. 실제 Production 등록의 search/locate는 icn1·HTTP200, RPC registered_pnu 전달·ready, 점수는 Preview와 동일하다. **D5 종결은 첫 6시간 scheduled sweep 성공 확인 대기**이며 [최종 검증](../validation/s3-2-d5-closeout-20261006.md)에 기록한다.
+
+
+### D5 종결 (2026-10-07)
+
+main 6시간 cron의 실제 [schedule run 37511542422](https://github.com/hanbeulYou/Gilmok/actions/runs/37511542422)이 03:28 KST 성공해 **D5를 종결**했다. 월간 좌표 env 전달·Production 등록 검증도 통과했다. pending/needs_coord/투영 오류0, 좌표 key 전달·flag=true를 확인했다. 이전 슬롯 미관측과 실제 실행 시각은 [검증](../validation/s3-2-d5-closeout-20261006.md)에 보존한다. 스케줄 설정의 6시간 간격과 실제 실행 시각은 구분하며 [운영·롤백](data-refresh.md#2026-10-07-d5-종결--main-6시간-cron-실제-실행-확인)을 따른다. 13,542건 교체·실제 삭제·공개 전 Small 재시험 조건은 그대로다.
