@@ -1,0 +1,818 @@
+{
+  "date": "2026-10-07",
+  "pr": "https://github.com/hanbeulYou/Gilmok/pull/32",
+  "base_main": "accae5acd001657904d0fb0349fc8cd29d529fb9",
+  "code_commit": "97cac33b39cae0917a844c371fcfe1dc047c3683",
+  "migration_count": 0,
+  "dependencies_changed": false,
+  "scoring_model": "0.4.0",
+  "production": {
+    "environment": "local real Auth/RPC/Worker/WebGL + fixed public provider and basemap responses",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "totals": [
+      83.10201719669011,
+      92.60289331263688,
+      82.67204741731668,
+      81.84736541572254,
+      85.08500496915157
+    ],
+    "confidence": [
+      85,
+      90,
+      90,
+      90,
+      90
+    ],
+    "slider": {
+      "samples": 100,
+      "p95": 34.09999990463257,
+      "max": 48.59999990463257
+    },
+    "map": {
+      "markerGroups": 3,
+      "candidates": 5,
+      "groupedFloors": [
+        1,
+        3,
+        4
+      ],
+      "coordinateMatch": true,
+      "selectionBothDirections": true,
+      "keyboardFocus": true,
+      "contextFailureIsolated": true
+    },
+    "checks": {
+      "same_uid": true,
+      "saved_reopened": true,
+      "manual_order_restored": true,
+      "named_preset_raw_weights": true,
+      "model_version": "0.4.0",
+      "model_notice_legacy_unknown_same": true,
+      "model_failure_retry": true,
+      "model_tag_requires_save": true,
+      "five_candidates": true,
+      "mobile_totals": true,
+      "floor_elevator_evidence": true,
+      "attention_evidence": true
+    }
+  },
+  "lazy": {
+    "initialMapRequests": 0,
+    "deferred": [
+      "/_next/static/css/7a0052264db98ad6.css",
+      "/_next/static/css/718ee59ff2172a97.css",
+      "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
+      "/_next/static/chunks/999.6c90a751b2011982.js"
+    ]
+  },
+  "mobile": {
+    "widths": [
+      375,
+      390,
+      1024
+    ],
+    "overflow": 0,
+    "threeTabs": true,
+    "singleMapInstance": true,
+    "evidenceReturnFocus": true
+  },
+  "bundle": {
+    "gzip_level": 9,
+    "same_environment": true,
+    "includes_source_maps": false,
+    "baselines": {
+      "v040": {
+        "commit": "80be024",
+        "seconds": 14.045,
+        "initial": [
+          {
+            "url": "/_next/static/chunks/307-9c88b6b02f3a5448.js",
+            "bytes": 173665,
+            "gzip": 45643,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/484-25f96c5b56965d36.js",
+            "bytes": 180508,
+            "gzip": 49867,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/665-8a35e6280d718a18.js",
+            "bytes": 35667,
+            "gzip": 13285,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/754e3d6e-91e8ae5ae87ff980.js",
+            "bytes": 67480,
+            "gzip": 14246,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/7e92ce5b-03560437dbac1124.js",
+            "bytes": 173017,
+            "gzip": 54224,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/925-a66e68aa173a8b92.js",
+            "bytes": 8536,
+            "gzip": 3377,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/compare/page-528f1306468f5618.js",
+            "bytes": 36736,
+            "gzip": 12128,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/layout-aaf427f11bf65639.js",
+            "bytes": 1769,
+            "gzip": 1108,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/main-app-acfa51de37938250.js",
+            "bytes": 555,
+            "gzip": 227,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+            "bytes": 112594,
+            "gzip": 39373,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/webpack-8b85c3976f4efeb2.js",
+            "bytes": 3484,
+            "gzip": 1754,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/css/4fa4b4ce3bc282d8.css",
+            "bytes": 55382,
+            "gzip": 11913,
+            "maplibre": false,
+            "map_implementation": false
+          }
+        ],
+        "initial_js_gzip": 235232,
+        "map_files": [],
+        "map_js_gzip": 0,
+        "map_css_gzip": 0
+      },
+      "model_notice": {
+        "commit": "e3490fe",
+        "seconds": 14.939,
+        "initial": [
+          {
+            "url": "/_next/static/chunks/307-9c88b6b02f3a5448.js",
+            "bytes": 173665,
+            "gzip": 45643,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/484-25f96c5b56965d36.js",
+            "bytes": 180508,
+            "gzip": 49867,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/665-4565853478d30720.js",
+            "bytes": 35799,
+            "gzip": 13311,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/754e3d6e-91e8ae5ae87ff980.js",
+            "bytes": 67480,
+            "gzip": 14246,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/7e92ce5b-03560437dbac1124.js",
+            "bytes": 173017,
+            "gzip": 54224,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/925-a66e68aa173a8b92.js",
+            "bytes": 8536,
+            "gzip": 3377,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/compare/page-b88a2d62328e03f7.js",
+            "bytes": 38340,
+            "gzip": 12530,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/layout-e684cf29fcfb4fef.js",
+            "bytes": 1771,
+            "gzip": 1108,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/main-app-acfa51de37938250.js",
+            "bytes": 555,
+            "gzip": 227,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+            "bytes": 112594,
+            "gzip": 39373,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/webpack-8b85c3976f4efeb2.js",
+            "bytes": 3484,
+            "gzip": 1754,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/css/4fa4b4ce3bc282d8.css",
+            "bytes": 55382,
+            "gzip": 11913,
+            "maplibre": false,
+            "map_implementation": false
+          }
+        ],
+        "initial_js_gzip": 235660,
+        "map_files": [],
+        "map_js_gzip": 0,
+        "map_css_gzip": 0
+      }
+    },
+    "map": {
+      "seconds": 8.958,
+      "initial": [
+        {
+          "url": "/_next/static/chunks/214-4044f25f6252e3f8.js",
+          "bytes": 180506,
+          "gzip": 50055,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/409-601d748e314bd9d7.js",
+          "bytes": 8535,
+          "gzip": 3371,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/4ef3cc75-eac7824852770cf4.js",
+          "bytes": 67481,
+          "gzip": 14240,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/529-8dd1939c67a1cc0c.js",
+          "bytes": 173653,
+          "gzip": 46405,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/874-a602cf8fec99c28c.js",
+          "bytes": 35888,
+          "gzip": 13287,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/app/compare/page-ef4fc60969eb1d4e.js",
+          "bytes": 42952,
+          "gzip": 13847,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/app/layout-7d0108351b5b9ea9.js",
+          "bytes": 1772,
+          "gzip": 1102,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/f177dbf6-9a3a8471778d321d.js",
+          "bytes": 173019,
+          "gzip": 54228,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/main-app-9f421256ff7e52d1.js",
+          "bytes": 555,
+          "gzip": 225,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+          "bytes": 112594,
+          "gzip": 39373,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/webpack-1b75e94e121afc67.js",
+          "bytes": 4899,
+          "gzip": 2320,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/css/f211c08d13c20b1c.css",
+          "bytes": 19714,
+          "gzip": 5327,
+          "maplibre": false,
+          "map_implementation": false
+        }
+      ],
+      "initial_js_gzip": 238453,
+      "map_files": [
+        {
+          "url": "/_next/static/css/7a0052264db98ad6.css",
+          "bytes": 1523,
+          "gzip": 632
+        },
+        {
+          "url": "/_next/static/css/718ee59ff2172a97.css",
+          "bytes": 65534,
+          "gzip": 9239
+        },
+        {
+          "url": "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
+          "bytes": 785544,
+          "gzip": 206987
+        },
+        {
+          "url": "/_next/static/chunks/999.6c90a751b2011982.js",
+          "bytes": 13490,
+          "gzip": 5327
+        }
+      ],
+      "map_js_gzip": 212314,
+      "map_css_gzip": 9871
+    },
+    "map_shell_delta_gzip": 2793,
+    "model_notice_delta_gzip": 428,
+    "total_shell_delta_gzip": 3221
+  },
+  "realtime": {
+    "status": "passed",
+    "delay_enabled": true,
+    "scope": "realtime",
+    "environment": "local real Postgres/Auth/Realtime/RPC + production React bundle + actual Worker",
+    "checks": {
+      "initial_pending_score": true,
+      "opaque_request_id_per_uid": true,
+      "state_view_owner_rls": true,
+      "real_ws_two_uid_isolation": true,
+      "projection_only_three_fields": true,
+      "raw_ws_payload_and_rls": true,
+      "selection_retained_after_ready": true,
+      "pending_to_ready_no_reload": true,
+      "ready_refresh_primary_only": true,
+      "ready_reuses_worker": true,
+      "out_of_order_real_event_ignored": true,
+      "disconnected_remains_pending": true,
+      "reconnect_recovers_ready": true,
+      "ready_before_subscribe_reconciled": true,
+      "real_180s_delay_badge": true,
+      "ready_after_delay_still_subscribed": true,
+      "no_browser_errors": true
+    },
+    "rpc_failures": [],
+    "pending_before_after": {
+      "total": [
+        57.9900108117868,
+        61.147905548628906
+      ],
+      "confidence": [
+        60,
+        75
+      ]
+    },
+    "browser_errors": []
+  },
+  "realtime_first_attempt": {
+    "status": "timeout",
+    "stage": "ready refresh",
+    "timeout_ms": 25000,
+    "two_uid_isolation_passed": true,
+    "rpc_failures": [],
+    "cause": "not established",
+    "product_change_before_retry": false
+  },
+  "preview": {
+    "environment": "Vercel PR Preview + real Juso/Vworld + remote anonymous Auth/RPC/exposure Worker + live OpenFreeMap",
+    "deployment": "https://gilmok-klidlxx9a-vineyard.vercel.app",
+    "started_at": "2026-10-07T14:20:04.515Z",
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      }
+    ],
+    "providers": [
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "map": [
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      }
+    ],
+    "checks": {
+      "remote_anonymous_session": true,
+      "real_address_providers": true,
+      "real_webgl_canvas": true,
+      "exact_scoring_coordinates": true,
+      "three_groups_five_candidates": true,
+      "group_floors_1_3_4": true,
+      "group_selection": true,
+      "two_geodesic_rings": true,
+      "attribution_links": true,
+      "live_cdn_200": true,
+      "selectionBothDirections": true
+    },
+    "stage": "passed",
+    "grouped_floor_labels": [
+      "2. e · 1층",
+      "3. a · 3층",
+      "5. d · 4층",
+      "목록 닫기"
+    ],
+    "totals": [
+      92.60289331263688,
+      85.08500496915157,
+      83.10201719669011,
+      82.67204741731668,
+      81.84736541572254
+    ],
+    "credits": {
+      "text": "OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors",
+      "links": [
+        "https://openfreemap.org/",
+        "https://openmaptiles.org/",
+        "https://www.openstreetmap.org/copyright"
+      ]
+    },
+    "groups": [
+      {
+        "coordinate": [
+          127.05516718391107,
+          37.497368428505624
+        ],
+        "candidates": 1
+      },
+      {
+        "coordinate": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "candidates": 3
+      },
+      {
+        "coordinate": [
+          127.06287290714192,
+          37.50428792732002
+        ],
+        "candidates": 1
+      }
+    ],
+    "live_cdn": {
+      "requests": 80,
+      "response_bytes": 8223317,
+      "non_200": [],
+      "vector_tiles": 50
+    },
+    "mobile": {
+      "widths": [
+        375,
+        390,
+        1024
+      ],
+      "overflow": 0,
+      "threeTabs": true,
+      "singleMapInstance": true,
+      "evidenceReturnFocus": true
+    },
+    "seconds": 28.355,
+    "cleanup": [
+      {
+        "own_test_uid": true,
+        "success": true
+      }
+    ]
+  },
+  "ci": {
+    "code_commit": "97cac33",
+    "url": "https://github.com/hanbeulYou/Gilmok/actions/runs/37635114271",
+    "conclusion": "success",
+    "vitest_files": 26,
+    "vitest_tests": 191,
+    "python_tests": 269,
+    "db_tests": 243,
+    "slider": {
+      "samples": 100,
+      "p95_ms": 50.1,
+      "max_ms": 112.5
+    }
+  },
+  "limits": [
+    "Production deployment awaits user merge",
+    "No new remote SQL benchmark; unchanged A RPC proof reused",
+    "Realtime transition uses isolated local cache fixture, not a new Actions/webhook proof",
+    "Micro 2uid + 5-score public launch gate is not satisfied by these tests"
+  ]
+}
