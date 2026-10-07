@@ -30,6 +30,7 @@ interface ComparisonState {
   setWeight: (key: AxisKey, value: number) => void;
   beginAdjustment: () => void; endAdjustment: () => void; resetWeights: () => void;
   move: (id: string, before: string) => void; sortByScore: () => void;
+  selectCandidate: (id: string) => void;
   select: (id: string, axis?: AxisKey) => void; closeEvidence: () => void;
 }
 export function scoreOrder(rows: readonly ComparisonCandidate[], weights: Weights, order: readonly string[]) {
@@ -104,6 +105,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
   move(id, before) { if (get().snapshotReadOnly) return; set(state => { if (id === before || !state.order.includes(id) || !state.order.includes(before)) return state;
     const order = state.order.filter(v => v !== id); order.splice(order.indexOf(before), 0, id); return { order, manualOrder: true }; }); },
   sortByScore() { set(state => ({ manualOrder: false, order: scoreOrder(state.candidates, state.weights, state.order) })); },
+  selectCandidate(id) { if (get().candidates.some(row => row.id === id)) set({ selectedId: id }); },
   select(id, axis) { set({ selectedId: id, selectedAxis: axis ?? null, evidenceOpen: true }); },
   closeEvidence() { set({ evidenceOpen: false }); },
 }));

@@ -1,0 +1,9 @@
+.map-canvas{height:min(55vh,36rem);min-height:22rem;width:100%;background:#f3f2ef;border-radius:.6rem}
+.comparison button.map-candidate{border-radius:2rem;background:#fff;border:2px solid #805819;min-width:2.1rem;height:2.1rem;padding:0 .4rem;font-weight:750;color:#593b0d;box-shadow:0 1px 6px #0004}
+.comparison button.map-candidate[aria-pressed=true]{background:#805819;color:white;outline:2px solid white}
+.map-school-icon{font:10px/16px sans-serif;color:white;pointer-events:none;text-align:center;width:16px;height:16px}
+.map-candidate-list,.map-floor-list{display:flex;gap:.3rem;flex-wrap:wrap;margin:.3rem 0 .6rem}.map-candidate-list button,.map-floor-list button{font-size:.8rem;margin:0;padding:.3rem .45rem}.map-candidate-list button[aria-pressed=true]{background:#e4f1ec;border-color:#0f766e}
+.map-floor-list{padding:.5rem;background:#fff6df;border:1px solid #bc9b68;border-radius:.5rem}
+.map-legend,.map-context-status{font-size:.8rem;margin:.5rem 0}.map-source-dates{font-size:.72rem;color:#52616d}
+.maplibregl-ctrl-attrib{font-size:10px;line-height:16px!important;max-width:100%;white-space:normal}.maplibregl-ctrl-attrib a{color:#284348}
+@media(max-width:1023px){.map-canvas{height:55vh;min-height:20rem}.map-candidate-list button{min-height:2.5rem}}

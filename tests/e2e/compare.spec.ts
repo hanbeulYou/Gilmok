@@ -2,8 +2,20 @@ import { expect, test } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
 import { execFileSync } from 'node:child_process';
 import fixtures from './fixtures/addresses.json';
+import { mapFixture, checkMap } from './map-network';
 
-test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page }, info) => {
+test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page, browser }, info) => {
+  await page.addInitScript(() => {
+    const send = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function(message: unknown, transfer?: Transferable[] | StructuredSerializeOptions) {
+      if (message && typeof message === 'object' && 'scene' in message && document.documentElement)
+        document.documentElement.dataset.exposureRuns = String(Number(document.documentElement.dataset.exposureRuns ?? '0') + 1);
+      return Reflect.apply(send, this, transfer === undefined ? [message] : [message, transfer]);
+    };
+  });
+  await mapFixture(page);
+  const scoringCoordinates: number[][] = [];
+  page.on('request', request => { if (request.url().endsWith('/rpc/score_inputs')) { const body = request.postDataJSON(); scoringCoordinates.push([body.lng, body.lat]); } });
   const users: string[] = [], rpc: { name:string; status:number }[] = [];
   const errors: string[] = [];
   const percentileResponses: unknown[] = [];
@@ -61,7 +73,9 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await page.getByRole('button',{ name:'근거 닫기', exact:true }).click();
     await page.setViewportSize({ width:1440,height:1000 });
     expect(users).toHaveLength(1);
+    const mapProof = await checkMap(page, scoringCoordinates);
     const before = rpc.length;
+    const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
     const performance = await page.evaluate(async () => {
       const input = document.querySelector<HTMLInputElement>('#desktop-demand')!;
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!;
@@ -78,6 +92,8 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     });
     expect(performance.p95).toBeLessThanOrEqual(100);
     expect(rpc.length).toBe(before);
+    expect(exposureBefore).toBeGreaterThan(0);
+    expect(Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0')).toBe(exposureBefore);
     await expect(page.locator('#desktop-demand')).toHaveValue('17');
     await page.getByRole('button',{ name:'프리셋으로 저장', exact:true }).click();
     await page.getByLabel('프리셋 이름',{ exact:true }).fill('수요 17');
@@ -132,11 +148,22 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await expect(page.getByTestId('model-version-notice')).toHaveCount(0);
     expect(await totals()).toEqual(changed); expect(users).toHaveLength(1);
     expect(errors).toEqual([]);
-    const evidence = { environment:'local real Auth/RPC/Worker + fixed public provider responses',
+    const evidence = { environment:'local real Auth/RPC/Worker/WebGL + fixed public provider and basemap responses', map:mapProof, coldMobileMapDeferred:true, sliderExposureRequests:0,
       userAgent:await page.evaluate(() => navigator.userAgent), totals:expected, confidence,
       slider:performance, rpc, checks:{ same_uid:true, saved_reopened:true, manual_order_restored:true, named_preset_raw_weights:true,
         model_version:'0.4.0', model_notice_legacy_unknown_same:true, model_failure_retry:true, model_tag_requires_save:true, five_candidates:true, mobile_totals:true, floor_elevator_evidence:true, attention_evidence:true } };
     await info.attach('comparison-proof', { body:JSON.stringify(evidence,null,2), contentType:'application/json' });
+    const coldMobile = await browser.newContext({ viewport:{width:390,height:844}, storageState:await page.context().storageState() });
+    const mobile = await coldMobile.newPage(); await mapFixture(mobile);
+    const mobileRequests: string[] = []; mobile.on('request', request => mobileRequests.push(request.url()));
+    await mobile.goto(savedUrl);
+    await expect(mobile.locator('.mobile-cards [data-total]')).toHaveCount(5);
+    await expect(mobile.getByTestId('compare-map')).toHaveCount(0);
+    expect(mobileRequests.filter(url => url.includes('map.gilmok.test') || url.endsWith('/compare_map_context'))).toEqual([]);
+    await mobile.getByRole('button',{name:'지도 보기',exact:true}).click();
+    await expect(mobile.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
+    await expect(mobile.locator('.map-context-status')).toContainText(/학교 \d+곳/);
+    await coldMobile.close();
     console.log(JSON.stringify(evidence));
   } finally {
     // Delete only this test's new local Auth users; no service key reaches the browser.

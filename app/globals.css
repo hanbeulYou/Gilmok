@@ -90,3 +90,10 @@ body { background: #f8fafc; color: #172033; font-family: Arial, sans-serif; }
  .evidence-panel { max-height:none; margin-top:1rem; padding:.8rem; }.evidence-panel>header { position:static; }.evidence-values>div { grid-template-columns:minmax(6rem,1fr) minmax(0,1.5fr); }.comparison-header { align-items:flex-start; }.comparison-toolbar { gap:.4rem; }.comparison-toolbar button { padding:.4rem .6rem; }
 }
 @media (prefers-reduced-motion:reduce) { .score-change { animation:none; } }
+
+/* The gate belongs to the shell; full MapLibre CSS stays in the lazy module. */
+.compare-workspace{display:grid;grid-template-columns:minmax(0,55fr) minmax(0,45fr);gap:1rem;align-items:start}
+.map-panel{margin-top:1rem;border:1px solid #d6dfd9;border-radius:.75rem;padding:.7rem;min-width:0;background:#fafcfb}
+.map-heading{display:flex;gap:.6rem;align-items:center;margin-bottom:.5rem}.map-heading h2{font-size:1rem;margin:0}.map-heading span{font-size:.75rem;color:#52616d}.map-heading button{margin-left:auto}
+.map-placeholder{min-height:28rem;display:grid;place-items:center;color:#52616d;background:#eef2ef;border-radius:.6rem}
+@media(max-width:1023px){.compare-workspace{display:block}.map-panel:not(.map-activated) .map-placeholder{display:none}}

@@ -10,11 +10,13 @@ export default defineConfig({
   testDir:'tests/e2e', testMatch:'compare.spec.ts', fullyParallel:false, workers:1, retries:0,
   timeout:180_000, expect:{ timeout:60_000 }, outputDir:'.local/playwright-results',
   reporter:[['list']], use:{ baseURL:'http://127.0.0.1:3105', browserName:'chromium',
-    viewport:{ width:1440, height:1000 }, trace:'off', screenshot:'only-on-failure' },
+    viewport:{ width:1440, height:1000 }, trace:'off', screenshot:'only-on-failure', actionTimeout:30000,
+    launchOptions:{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']} },
   webServer:{ command:'pnpm exec next dev --hostname 127.0.0.1 --port 3105', url:'http://127.0.0.1:3105',
     reuseExistingServer:false, timeout:120_000, env:{
       NEXT_PUBLIC_SUPABASE_URL:local.API_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:local.ANON_KEY,
       JUSO_API_KEY:'local-fixture', VWORLD_API_KEY:'local-fixture',
       NODE_OPTIONS:`--import=${resolve('tests/e2e/providers.mjs')}`, NEXT_TELEMETRY_DISABLED:'1',
+      NEXT_PUBLIC_MAP_STYLE_URL:'https://map.gilmok.test/style.json',
     } },
 });
