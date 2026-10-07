@@ -1,6 +1,6 @@
 {
   "date": "2026-10-07",
-  "code_commit": "0468b48",
+  "code_commit": "b8fedf5",
   "base": "e3490fe",
   "bundles": {
     "gzip_level": 9,
@@ -197,7 +197,7 @@
       }
     },
     "map": {
-      "seconds": 9.611,
+      "seconds": 9.468,
       "initial": [
         {
           "url": "/_next/static/chunks/214-4044f25f6252e3f8.js",
@@ -228,23 +228,23 @@
           "map_implementation": false
         },
         {
-          "url": "/_next/static/chunks/874-b20019b2d4f780d5.js",
+          "url": "/_next/static/chunks/874-fc5e98040bac15e6.js",
           "bytes": 35870,
-          "gzip": 13291,
+          "gzip": 13285,
           "maplibre": false,
           "map_implementation": false
         },
         {
-          "url": "/_next/static/chunks/app/compare/page-3a30bbeddc12573a.js",
-          "bytes": 40179,
-          "gzip": 13112,
+          "url": "/_next/static/chunks/app/compare/page-30d8ef0666dfcaff.js",
+          "bytes": 40196,
+          "gzip": 13117,
           "maplibre": false,
           "map_implementation": false
         },
         {
-          "url": "/_next/static/chunks/app/layout-058d8b07a7ae6581.js",
+          "url": "/_next/static/chunks/app/layout-2b84ee4653603e73.js",
           "bytes": 1772,
-          "gzip": 1104,
+          "gzip": 1100,
           "maplibre": false,
           "map_implementation": false
         },
@@ -270,9 +270,9 @@
           "map_implementation": false
         },
         {
-          "url": "/_next/static/chunks/webpack-7c1d080055308ea7.js",
+          "url": "/_next/static/chunks/webpack-c420f4c095926e9a.js",
           "bytes": 4899,
-          "gzip": 2315,
+          "gzip": 2321,
           "maplibre": false,
           "map_implementation": false
         },
@@ -284,7 +284,7 @@
           "map_implementation": false
         }
       ],
-      "initial_js_gzip": 237720,
+      "initial_js_gzip": 237721,
       "map_files": [
         {
           "url": "/_next/static/css/fa44f03044ce8c3c.css",
@@ -297,22 +297,22 @@
           "gzip": 9239
         },
         {
-          "url": "/_next/static/chunks/762.72a42cf9b6cfc78e.js",
-          "bytes": 10793,
-          "gzip": 4397
-        },
-        {
           "url": "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
           "bytes": 785544,
           "gzip": 206987
+        },
+        {
+          "url": "/_next/static/chunks/999.d0527b1521d28485.js",
+          "bytes": 11853,
+          "gzip": 4755
         }
       ],
-      "map_js_gzip": 211384,
+      "map_js_gzip": 211742,
       "map_css_gzip": 9807
     },
-    "map_shell_delta_gzip": 2060,
+    "map_shell_delta_gzip": 2061,
     "model_notice_delta_gzip": 428,
-    "total_shell_delta_gzip": 2488
+    "total_shell_delta_gzip": 2489
   },
   "rpc": {
     "environment": "local full-source DB, read-only authenticated SQL / real anonymous-session HTTP",
@@ -414,8 +414,8 @@
     ],
     "slider": {
       "samples": 100,
-      "p95": 33.69999980926514,
-      "max": 100.7999997138977
+      "p95": 33.80000019073486,
+      "max": 56.09999990463257
     },
     "checks": {
       "same_uid": true,
@@ -435,29 +435,29 @@
     "slider_rpc_requests": 0
   },
   "desktop_lazy": {
-    "shell": 1590.4000000953674,
-    "idle": 9576.60000038147,
-    "idleUnix": 1791374550403.4001,
+    "shell": 1046.5,
+    "idle": 9352.099999904633,
+    "idleUnix": 1791376449371.8,
     "resources": [
       {
         "url": "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
-        "start": 1613.5,
-        "duration": 22
+        "start": 1080.5,
+        "duration": 15.400000095367432
       },
       {
-        "url": "/_next/static/chunks/762.72a42cf9b6cfc78e.js",
-        "start": 1613.6000003814697,
-        "duration": 5.5
+        "url": "/_next/static/chunks/999.d0527b1521d28485.js",
+        "start": 1080.5999999046326,
+        "duration": 3
       },
       {
         "url": "/_next/static/css/718ee59ff2172a97.css",
-        "start": 1614.3000001907349,
-        "duration": 5.699999809265137
+        "start": 1081.3000001907349,
+        "duration": 2.799999713897705
       },
       {
         "url": "/_next/static/css/fa44f03044ce8c3c.css",
-        "start": 1614.4000000953674,
-        "duration": 5.800000190734863
+        "start": 1081.4000000953674,
+        "duration": 2
       }
     ]
   },
@@ -469,91 +469,91 @@
   "live_fixed_view": {
     "environment": "local production build, one a candidate, live OpenFreeMap, Playwright context including worker requests",
     "timing": {
-      "shell": 1197.5,
-      "idle": 3467.7999997138977
+      "shell": 1076.5999999046326,
+      "idle": 3580.300000190735
     },
     "requestCount": 16,
-    "responseBytes": 1644256,
+    "responseBytes": 1644306,
     "requests": [
       {
         "url": "https://tiles.openfreemap.org/styles/liberty",
         "status": 200,
-        "bytes": 5953
-      },
-      {
-        "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
-        "status": 200,
-        "bytes": 3724
+        "bytes": 5951
       },
       {
         "url": "https://tiles.openfreemap.org/planet",
         "status": 200,
-        "bytes": 2137
+        "bytes": 2141
       },
       {
         "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.png",
         "status": 200,
-        "bytes": 49813
+        "bytes": 49878
+      },
+      {
+        "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
+        "status": 200,
+        "bytes": 3654
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13975/6347.pbf",
         "status": 200,
-        "bytes": 91965
-      },
-      {
-        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13974/6348.pbf",
-        "status": 200,
-        "bytes": 176321
-      },
-      {
-        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
-        "status": 200,
-        "bytes": 48170
-      },
-      {
-        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
-        "status": 200,
-        "bytes": 43194
+        "bytes": 91972
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13975/6348.pbf",
         "status": 200,
-        "bytes": 132109
+        "bytes": 132115
+      },
+      {
+        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+        "status": 200,
+        "bytes": 43195
+      },
+      {
+        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+        "status": 200,
+        "bytes": 48160
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13974/6348.pbf",
+        "status": 200,
+        "bytes": 176326
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13974/6347.pbf",
         "status": 200,
-        "bytes": 186678
+        "bytes": 186693
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13973/6348.pbf",
         "status": 200,
-        "bytes": 294994
+        "bytes": 295015
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13973/6347.pbf",
         "status": 200,
-        "bytes": 360007
+        "bytes": 360028
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6987/3174.pbf",
         "status": 200,
-        "bytes": 54147
-      },
-      {
-        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6986/3174.pbf",
-        "status": 200,
-        "bytes": 65308
-      },
-      {
-        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6987/3173.pbf",
-        "status": 200,
-        "bytes": 60651
+        "bytes": 54149
       },
       {
         "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6986/3173.pbf",
         "status": 200,
-        "bytes": 69085
+        "bytes": 69082
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6986/3174.pbf",
+        "status": 200,
+        "bytes": 65300
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6987/3173.pbf",
+        "status": 200,
+        "bytes": 60647
       }
     ]
   },
@@ -583,5 +583,17 @@
       "exit_code": 0,
       "seconds": 0.444
     }
+  },
+  "ci_initial_performance_failures": {
+    "run_ids": [
+      37620622916,
+      37620793232
+    ],
+    "slider_p95_ms": [
+      115.8,
+      116.7
+    ],
+    "fix": "map-only shallow subscription, memoized gate, current idle before unchanged benchmark",
+    "threshold_ms": 100
   }
 }
