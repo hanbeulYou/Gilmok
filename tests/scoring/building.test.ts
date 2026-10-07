@@ -18,12 +18,12 @@ describe('building rules and real register fixtures', () => {
     expect(buildingAxis(p, candidate).axis.evidence.rules_applied).not.toContain('R1:+25');
   });
   for (const path of ['footprint', 'address_cache']) for (const floor of [3, 4]) {
-    it(`${path} 역삼로460 ${floor}층 = ${floor === 3 ? 100 : 90}`, () => {
+    it(`${path} 역삼로460 ${floor}층 = ${floor === 3 ? 85 : 75}`, () => {
       const p = structuredClone(real[path][floor].result) as ScoreInputs;
       // gross_area is the verified title field, not the 173.68m² floor-use area.
       p.building!.gross_area = 849.97;
       const result = buildingAxis(p, { ...candidate, floor, exclusive_area_m2: null });
-      expect(result.axis.normalized).toBe(floor === 3 ? 100 : 90);
+      expect(result.axis.normalized).toBe(floor === 3 ? 85 : 75);
       expect(result.axis.evidence.values.other_academy_floor_count).toBe(3);
       expect(result.axis.evidence.rules_applied.filter(r => r.startsWith('R1:'))).toHaveLength(1);
     });
@@ -37,9 +37,9 @@ describe('building rules and real register fixtures', () => {
   it('does not stack elevator penalties and distinguishes unknown from zero', () => {
     const p = inputs();
     const six = buildingAxis(p, { ...candidate, floor: 6 });
-    expect(six.axis.evidence.rules_applied.filter(r => r.startsWith('R3:'))).toEqual(['R3:-30']);
+    expect(six.axis.evidence.rules_applied.filter(r => r.startsWith('R3_R4:'))).toEqual(['R3_R4:-30']);
     p.building!.elevators.passenger = null;
-    expect(buildingAxis(p, { ...candidate, floor: 6 }).axis.evidence.rules_applied).not.toContain('R3:-30');
+    expect(buildingAxis(p, { ...candidate, floor: 6 }).axis.evidence.rules_applied).toContain('R3_R4:+0');
   });
   it.each([-1, -2])('basement %s applies only R7 for floor preference, preserving other rules', floor => {
     const result = buildingAxis(inputs(), { ...candidate, floor });
@@ -89,4 +89,34 @@ describe('building rules and real register fixtures', () => {
       expect(buildingAxis(p, { ...candidate, floor: 6 }).axis).toMatchObject({ normalized: 60, status: 'pending' });
     }
   });
+});
+
+it.each([
+  [0,1,10], [0,2,5], [0,3,-5], [0,4,-15], [0,5,-15], [0,6,-30], [0,12,-30],
+  [1,1,10], [1,2,5], [1,3,5], [1,4,0], [1,5,0], [1,6,-5], [1,12,-5],
+])('passenger=%s floor=%s applies one combined adjustment %s', (passenger, floor, delta) => {
+  const p = inputs(); p.building!.elevators.passenger = passenger;
+  const result = buildingAxis(p, { ...candidate, floor });
+  expect(result.axis.raw).toBe(60 + 25 + delta);
+  expect(result.axis.evidence.values.floor_adjustment).toBe(delta);
+  expect(result.axis.evidence.rules_applied.filter(r => r.startsWith('R3_R4:'))).toHaveLength(1);
+  expect(result.axis.evidence.rules_applied.some(r => /^R[34]:/.test(r))).toBe(false);
+});
+it('caps only combined R1/R5 gains, preserving harmful and use penalties', () => {
+  const p = inputs();
+  p.building!.all_floors = [1,3,4].map(floor_no => ({ floor_no, floor_kind:'20', use_name:'학원', area_m2:10 }));
+  expect(buildingAxis(p, candidate).axis.raw).toBe(95);
+  p.building!.all_floors = [...p.building!.all_floors, { floor_no:-1, floor_kind:'10', use_name:'숙박', area_m2:10 }];
+  expect(buildingAxis(p, candidate).axis.raw).toBe(55);
+  p.building!.floor_use = [{ floor_no:2, floor_kind:'20', use_name:'주택', area_m2:10 }];
+  const result = buildingAxis(p, candidate);
+  expect(result.axis.raw).toBe(0); // 60 −40 +5 +15 −40, negative R1 retained.
+  expect(result.axis.evidence.rules_applied.some(r => r.startsWith('R1_R5_CAP'))).toBe(false);
+});
+it('keeps unknown passenger lifts distinct from absent or emergency-only lifts', () => {
+  const p = inputs(); p.building!.elevators = { passenger:null, emergency:1 };
+  const result = buildingAxis(p, { ...candidate, floor:4 });
+  expect(result.axis.raw).toBe(85);
+  expect(result.axis.evidence.values.floor_elevator_row).toContain('미확인');
+  expect(result.axis.evidence.values.floor_adjustment).toBe(0);
 });

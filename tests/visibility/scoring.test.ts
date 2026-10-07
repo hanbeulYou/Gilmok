@@ -10,7 +10,7 @@ it('injects ready evidence and deducts missing self occlusion once, invariant un
   const p = inputs(), visibility = computeVisibility(s);
   const result = score(p, inputs(1000), [], visibility, candidate, academyV0, reference(p), context);
   const axis = result.axes.find(a => a.key === 'exposure')!;
-  expect(axis.normalized).toBe(100); expect(axis.evidence.notes).toContain(FOOTPRINT_MISSING);
+  expect(axis.normalized).toBe(90); expect(axis.evidence.notes).toContain(FOOTPRINT_MISSING);
   expect(result.confidence.reasons.filter(r => r.includes(FOOTPRINT_MISSING))).toHaveLength(1);
   const changed = reweight(result, { ...academyV0.weights, exposure: 0 });
   expect(changed.confidence).toEqual(result.confidence); expect(changed.axes.find(a => a.key === 'exposure')!.evidence).toEqual(axis.evidence);
@@ -32,7 +32,7 @@ it('always shows the field limitation and rejects an old computed visibility res
   expect(r.axes.find(a => a.key === 'exposure')!.missing_reason).toBe('exposure_model_version_mismatch');
   expect(academyV0.weights.demand).toBe(30); expect(academyV0.weights.exposure).toBe(5);
   expect(Object.values(academyV0.weights).reduce((a, b) => a + b, 0)).toBe(100);
-  expect(r.preset.version).toBe('0.3');
+  expect(r.preset.version).toBe('0.4.0');
   expect(academyV0.reference_version).toBe('0.1.2');
 });
 

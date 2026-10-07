@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { execFileSync } from 'node:child_process';
 import fixtures from './fixtures/addresses.json';
 
-test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page }, info) => {
+test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page }, info) => {
   const users: string[] = [], rpc: { name:string; status:number }[] = [];
   const errors: string[] = [];
   const percentileResponses: unknown[] = [];
@@ -15,14 +15,15 @@ test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid �
       percentileResponses.push(await response.json());
   });
   try {
-    const expected = [85.08500496915157,93.3997327394482,83.86448162784299];
-    for (let i=0; i<fixtures.length; i++) {
+    const expected = [83.10201719669011,92.60289331263688,82.67204741731668,81.84736541572254,85.08500496915157];
+    const candidates = [...fixtures, { ...fixtures[0], floor:4 }, { ...fixtures[0], floor:1 }];
+    for (let i=0; i<candidates.length; i++) {
       if (!i) await page.goto('/new'); else await page.getByRole('link',{ name:'후보 추가', exact:true }).first().click();
       await expect(page.getByLabel('주소 *',{ exact:true })).toBeEnabled();
-      await page.getByLabel('주소 *',{ exact:true }).fill(fixtures[i].address);
-      await page.locator('.address-options button').filter({ has:page.locator('strong',{ hasText:fixtures[i].address }) }).first().click();
-      await page.getByLabel('층 *',{ exact:true }).fill(String(fixtures[i].floor));
-      await page.locator('#alias').fill(['a','b','c'][i]);
+      await page.getByLabel('주소 *',{ exact:true }).fill(candidates[i].address);
+      await page.locator('.address-options button').filter({ has:page.locator('strong',{ hasText:candidates[i].address }) }).first().click();
+      await page.getByLabel('층 *',{ exact:true }).fill(String(candidates[i].floor));
+      await page.locator('#alias').fill(['a','b','c','d','e'][i]);
       await page.getByRole('button',{ name:'후보 추가하고 채점', exact:true }).click();
       await expect(page).toHaveURL(/\/compare/);
       await expect(page.locator('.desktop-matrix [data-total]')).toHaveCount(i+1);
@@ -40,7 +41,21 @@ test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid �
     expect((await totals()).sort((a,b)=>a-b)).toEqual([...expected].sort((a,b)=>a-b));
     const confidence = await page.locator('.desktop-matrix .confidence').evaluateAll(nodes =>
       nodes.map(n => Number(n.querySelector('text')?.textContent)).sort((a,b)=>a-b));
-    expect(confidence).toEqual([85,90,90]);
+    expect(confidence).toEqual([85,90,90,90,90]);
+    await page.locator('.desktop-matrix').getByRole('button',{ name:'a 건물 적합성 근거', exact:true }).click();
+    await expect(page.getByTestId('floor-elevator-rule')).toHaveText('적용 행: 3층 · 승용승강기 없음 · 보정 -5점');
+    await page.getByRole('button',{ name:'근거 닫기', exact:true }).click();
+    await page.locator('.desktop-matrix').getByRole('button',{ name:'a 건물 앞 도로·맞은편에서의 간판 노출 근거', exact:true }).click();
+    await expect(page.getByTestId('floor-attention-rule')).toContainText('3층 · 주목도 Y 계수 0.8 (모델 가정)');
+    const attentionText = await page.getByTestId('floor-attention-rule').innerText();
+    await page.getByRole('button',{ name:'근거 닫기', exact:true }).click();
+    await page.setViewportSize({ width:390,height:844 });
+    const mobileTotals = await page.locator('.mobile-cards [data-total]').evaluateAll(nodes => nodes.map(n => Number((n as HTMLElement).dataset.total)));
+    expect(mobileTotals).toEqual(await totals());
+    await page.locator('.mobile-cards').getByRole('button',{ name:'a 건물 앞 도로·맞은편에서의 간판 노출 근거', exact:true }).click();
+    await expect(page.getByTestId('floor-attention-rule')).toHaveText(attentionText);
+    await page.getByRole('button',{ name:'근거 닫기', exact:true }).click();
+    await page.setViewportSize({ width:1440,height:1000 });
     expect(users).toHaveLength(1);
     const before = rpc.length;
     const performance = await page.evaluate(async () => {
@@ -73,17 +88,18 @@ test('등록 → v0.3 채점 → 슬라이더 → 익명 저장 → 같은 uid �
     await expect(page.getByText('비교를 저장했습니다. 같은 브라우저에서 다시 열 수 있습니다.',{ exact:true })).toBeVisible();
     const savedUrl = page.url();
     await page.reload();
-    await expect(page.locator('.desktop-matrix [data-total]')).toHaveCount(3);
+    await expect(page.locator('.desktop-matrix [data-total]')).toHaveCount(5);
     await expect(page.locator('#desktop-demand')).toHaveValue('17');
     expect(await totals()).toEqual(changed); expect(users).toHaveLength(1); expect(page.url()).toBe(savedUrl);
-    await page.getByLabel('가중치 프리셋',{ exact:true }).selectOption({ label:'학원 v0.3(기본)' });
+    await page.getByLabel('가중치 프리셋',{ exact:true }).selectOption({ label:'학원 v0.4.0(기본)' });
     expect((await totals()).sort((a,b)=>a-b)).toEqual([...expected].sort((a,b)=>a-b));
     await page.getByLabel('가중치 프리셋',{ exact:true }).selectOption({ label:'수요 17' });
     await expect(page.locator('#desktop-demand')).toHaveValue('17');
     expect(errors).toEqual([]);
     const evidence = { environment:'local real Auth/RPC/Worker + fixed public provider responses',
       userAgent:await page.evaluate(() => navigator.userAgent), totals:expected, confidence,
-      slider:performance, rpc, checks:{ same_uid:true, saved_reopened:true, manual_order_restored:true, named_preset_raw_weights:true } };
+      slider:performance, rpc, checks:{ same_uid:true, saved_reopened:true, manual_order_restored:true, named_preset_raw_weights:true,
+        model_version:'0.4.0', five_candidates:true, mobile_totals:true, floor_elevator_evidence:true, attention_evidence:true } };
     await info.attach('comparison-proof', { body:JSON.stringify(evidence,null,2), contentType:'application/json' });
     console.log(JSON.stringify(evidence));
   } finally {

@@ -97,3 +97,19 @@ describe('metric visibility, spec 0.2.1', () => {
     expect(() => computeVisibility({ ...scene(), buildings: [building('bad', [[[[1, 1], [2, 2], [3, 3], [4, 4]]]])] })).toThrow('ring');
   });
 });
+
+it.each([-1, -3, -100])('basement floor %s raycasts an entrance sign at the same 2m as floor one', floor => {
+  const s = scene();
+  s.buildings = [building('wall', rectangle(1, -12, 2, 12), 1.8)];
+  const first = computeVisibility({ ...s, floor: 1 });
+  const basement = computeVisibility({ ...s, floor });
+  expect(basement.status).toBe('ready');
+  if (basement.status !== 'ready' || first.status !== 'ready') throw new Error('fixture missing');
+  expect(basement.evidence.values.target_height_m).toBe(2);
+  expect(basement.evidence.values.target_height_estimated).toBe(true);
+  expect(basement.evidence.notes).toContain('지하: 입구 간판 기준 노출');
+  expect(basement.samples).toEqual(first.samples);
+  expect(basement.visible_ratio).toBe(first.visible_ratio);
+  expect(basement.summary.ring.blocked).toBeGreaterThan(0);
+  expect(basement.summary.ring.visible).toBeGreaterThan(0);
+});

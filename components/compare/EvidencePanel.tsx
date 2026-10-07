@@ -44,13 +44,19 @@ function Histograms({ row, axis }: { row: ComparisonCandidate; axis: AxisResult 
 }
 function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResult }) {
   const floors = row.inputs?.primary?.building?.all_floors ?? [];
+  const numeric = (key: string) => typeof axis.evidence.values[key] === 'number' ? axis.evidence.values[key] as number : null;
   return <div data-evidence-axis={axis.key}>
     <p>설정 가중치 {number(axis.weight)} · 결측 재배분 후 유효 가중치 {number(axis.effective_weight)}</p>
     <p>정규화 {number(axis.normalized)}점 · 원시값 {number(axis.raw, 8)} · 서울 백분위 {number(axis.evidence.percentile)}
       {axis.evidence.reference && <> · 모집단 {number(axis.evidence.reference.population_size, 0)} · 커버리지 {number(axis.evidence.reference.coverage * 100)}%</>}</p>
     {axis.missing_reason && <p className="missing-explanation">{reason(axis.missing_reason)}</p>}
     {axis.key === 'exposure' && <p className="limitation">{EXPOSURE_LIMITATION}</p>}
-    {axis.key === 'rent_efficiency' && <><p>임대료 점수는 v0.3 미확정입니다. 아래 값은 사용자 입력·환산·매매 참고 자료입니다.</p>
+    {axis.key === 'building' && typeof axis.evidence.values.floor_elevator_row === 'string' &&
+      <p data-testid="floor-elevator-rule">적용 행: {axis.evidence.values.floor_elevator_row} · 보정 {number(numeric('floor_adjustment'))}점</p>}
+    {axis.key === 'exposure' && typeof axis.evidence.values.floor_attention_coefficient === 'number' &&
+      <p data-testid="floor-attention-rule">{number(numeric('requested_floor'), 0)}층 · 주목도 Y 계수 {number(numeric('floor_attention_coefficient'), 2)} (모델 가정)
+        {' · 원래 가시 비율 '}{number(numeric('visible_ratio'), 8)}</p>}
+    {axis.key === 'rent_efficiency' && <><p>임대료 점수 범위는 미확정입니다. 아래 값은 사용자 입력·환산·매매 참고 자료입니다.</p>
       <ValueTree value={{ '전용면적㎡': row.candidate.exclusive_area_m2, 보증금원: row.candidate.deposit_krw,
         월세원: row.candidate.monthly_rent_krw, 관리비원: row.candidate.maintenance_krw }}/></>}
     <Histograms row={row} axis={axis}/>

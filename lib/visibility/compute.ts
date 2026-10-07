@@ -1,7 +1,7 @@
 import { blocks, bounds, covers, nearestBoundary, overlaps, pushOutside } from './geometry.ts';
 import { generateSamples } from './samples.ts';
 import { approachEvidence } from './approach.ts';
-import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION } from './types.ts';
+import { FOOTPRINT_MISSING, EXPOSURE_LIMITATION, BASEMENT_ENTRANCE } from './types.ts';
 import type { SampleResult, SampleSummary, VisibilityResult, VisibilityScene, XY } from './types.ts';
 function validate(scene: VisibilityScene): void {
   const point = (p: XY) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);
@@ -40,7 +40,8 @@ export function computeVisibility(scene: VisibilityScene): VisibilityResult {
   validate(scene);
   const summary = { all: emptySummary(), ring: emptySummary(), station: emptySummary(), school: emptySummary() };
   const samples: SampleResult[] = [], notes: string[] = [EXPOSURE_LIMITATION];
-  const targetZ = (scene.floor - 1) * 3.3 + 2;
+  const targetZ = scene.floor < 0 ? 2 : (scene.floor - 1) * 3.3 + 2;
+  if (scene.floor < 0) notes.push(BASEMENT_ENTRANCE, '지하 목표 높이 2.0m는 입구 간판을 가정한 값이며 실측 높이가 아님');
   const evidence = { values: { srid: 5186, radius_m: scene.radius_m, station_radius_m: scene.station_radius_m,
     school_radius_m: scene.school_radius_m, eye_height_m: 1.5, target_height_m: targetZ,
     score_sample_group: 'ring', approach_distances: [] as ReturnType<typeof approachEvidence>,

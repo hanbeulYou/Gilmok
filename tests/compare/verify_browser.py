@@ -9,7 +9,7 @@ from playwright.sync_api import sync_playwright
 from psycopg.types.json import Jsonb
 
 OUT = Path(".local/compare-browser")
-# Approved A0 / v0.3 addresses and coordinates; live RPCs supply all score inputs.
+# Approved A0 / v0.4.0 addresses and coordinates; live RPCs supply all score inputs.
 inputs = [
     {
         "key": "a",
@@ -371,7 +371,7 @@ try:
             print("loading", json.dumps(loading, ensure_ascii=False), flush=True)
             results = b.evaluate("comparisonProof.state().candidates.map(c=>c.result)")
             check("all_five_candidates_scored", all(result is not None for result in results))
-            expected = [85.08500496915157, 93.3997327394482, 83.86448162784299]
+            expected = [83.10201719669011, 92.60289331263688, 82.67204741731668]
             check(
                 "v03_fixture_totals",
                 all(abs(results[i]["total"] - expected[i]) < 1e-10 for i in range(3)),
