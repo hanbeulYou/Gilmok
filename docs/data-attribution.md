@@ -57,3 +57,11 @@
 ## A0 신규 주소 공급자 (2026-09-30)
 
 주소 검색·식별자는 행정안전부 [주소정보누리집](https://www.juso.go.kr/) Juso 검색API다. 임시 좌표는 [Vworld 지오코더](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do)이며 Juso 출입구 좌표로 표시하지 않는다. 좌표 키 승인 후 제공 API로 전환한다. 공급자·조회일·원CRS·PNU를 provenance에 보존하며, 화면에는 실제 출처와 기준일을 표시한다. 기존 Kakao 결과는 역사 기록이며 전량 재산출/manifest 승인 전 삭제하지 않는다. 상세 정책은 [data-sources §2.8](planning/data-sources.md#28-지오코딩--juso-전환-계약).
+
+## 2D 배경 지도 (S3-3 A, 2026-10-07)
+
+- 표시 엔진은 [MapLibre GL JS4.7.1](https://github.com/maplibre/maplibre-gl-js/blob/v4.7.1/LICENSE.txt), BSD-3-Clause다. 배경은 [OpenFreeMap Quick Start](https://openfreemap.org/quick_start/)의 Liberty style을 브라우저가 직접 읽는다. 화면에 **OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors** 링크를 유지한다. [OpenStreetMap 저작권/ODbL](https://www.openstreetmap.org/copyright).
+- [공식 라이선스 목록](https://github.com/hyperknot/openfreemap/blob/main/LICENSE.md): OpenFreeMap 프로젝트는 MIT, OpenMapTiles/Liberty의 코드와 디자인은 각각 BSD-3-Clause와 CC BY4.0, Noto Sans는 SIL Open Font License1.1이다. 지도 데이터 전체를 MIT로 표시하지 않는다. 타일·glyph·sprite를 리포지토리에 복제하지 않는다.
+- GILMOK의 runtime 변경: 배경·물 색을 옅게 조정, 3D extrusion 제거, 배경 POI 이름 비표시, 한글 `name:ko → name → name:latin` 순서. 화면의 학교/역은 Supabase 원천이고 배경 지도 POI를 채점에 섞지 않는다. 기본 스타일과 다른 부분을 이 절에 기록한다.
+- [이용약관](https://openfreemap.org/tos/)은 무료/as-is이며 가용성을 보장하지 않는다. CDN 장애 시 지도 상태/재시도만 표시하고 점수/근거는 유지한다. [개인정보 정책](https://openfreemap.org/privacy/)에 따라 브라우저의 CDN 연결과 URL/IP 정보 처리를 고려하며 후보 별칭·uid·임대료·PNU를 지도 URL에 넣지 않는다. 공개 style URL은 환경변수로 관리한다.
+- 실제 Liberty 응답·한글 도로명 렌더·출처·style/TileJSON/sprite/glyph/vector tile의 HTTP200을 확인했다. [검증과 스크린샷](validation/s3-3-a-20261007.md). 레이어로 추가하는 서울 교통·NEIS 학교의 출처/기준일/추정 위치는 위 원천 절과 지도 범례를 함께 따른다.

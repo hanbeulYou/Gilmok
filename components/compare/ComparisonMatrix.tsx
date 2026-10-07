@@ -16,6 +16,7 @@ import { EvidencePanel } from './EvidencePanel';
 import { number, rawSummary, reason } from './format';
 import { WeightSlider } from './WeightSlider';
 import { SaveControls } from './SaveControls';
+import { MapGate } from '../map/MapGate';
 import { deleteCandidate } from '../../lib/compare/persistence';
 function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
   const [uid, setUid] = useState<string | null>(null), [connection, setConnection] = useState<ConnectionState>('connecting');
@@ -115,7 +116,7 @@ export function ComparisonMatrix() {
       {rows.length === 1 && <p>비교하려면 후보를 더 추가하세요.</p>}
       <div className="mobile-tabs" role="tablist" aria-label="비교 화면"><button role="tab" aria-selected={tab === 'compare'} onClick={() => setTab('compare')}>비교</button>
         <button role="tab" aria-selected={tab === 'evidence'} onClick={() => { setTab('evidence'); if (selected) state.select(selected.id); }}>근거</button></div>
-      <div className="desktop-matrix matrix-scroll"><table className="comparison-matrix" aria-label="후보별 8축 비교"><thead><tr><th scope="col">평가 항목</th>
+      <div className="compare-workspace"><div className="desktop-matrix matrix-scroll" data-testid="matrix-shell"><table className="comparison-matrix" aria-label="후보별 8축 비교"><thead><tr><th scope="col">평가 항목</th>
         {rows.map(row => <th scope="col" key={row.id} draggable onDragStart={e => e.dataTransfer.setData('text/plain', row.id)} onDragOver={e => e.preventDefault()}
           onDrop={e => { e.preventDefault(); state.move(e.dataTransfer.getData('text/plain'), row.id); }} data-candidate-id={row.id}>
           <button className="candidate-name" onClick={() => select(row.id)}>{row.alias} · {row.candidate.floor}층</button><small>{row.candidate.address}</small><CandidateMenu row={row} order={state.order}/></th>)}</tr>
@@ -129,7 +130,7 @@ export function ComparisonMatrix() {
                 <span key={`${axis.normalized}:${axis.status}`} className="axis-score score-change" data-score={axis.normalized ?? 'null'}>{number(axis.normalized)}</span><small>{rawSummary(axis)}</small><AxisBadges axis={axis} result={result}/></button> : row.stage === 'error' ? <span>조회 실패</span> : <span className="cell-skeleton" aria-label="점수 불러오는 중"/>}
             </td>;
           })}</tr>;
-        })}</tbody></table></div>
+        })}</tbody></table></div><MapGate/></div>
       <div className={`mobile-cards ${tab !== 'compare' ? 'mobile-hidden' : ''}`}>{rows.map((row, index) => {
         const result = results.get(row.id);
         return <article key={row.id} className={row.id === state.selectedId ? 'selected-card' : ''} aria-label={row.alias} data-candidate-id={row.id}>

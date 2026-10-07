@@ -627,3 +627,23 @@ S3-1에서는 아래 결정을 문서에만 반영한다. 구현은 S3-2다.
 ### 2026-10-06 Juso 배치 좌표 실제 1건 검증
 
 D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 역삼로 460으로 각 1회 호출했다. HTTP 200/errorCode 0, 좌표 응답의 bdMgtSn을 검색 결과와 대조했다. entX/entY는 EPSG:5179 원본을 보존하고 PostGIS로 4326 변환했으며 PNU 1168010600109120013 도형 안임을 확인했다. Vworld 호출·DB/캐시 쓰기 0건. [수치와 호출 범위](../validation/address-worker-input-reuse-20261006.md)를 따른다. 기존 캐시 전량 교체/전체 월간 좌표 활성화 승인을 의미하지 않으며 JUSO_COORD_ENABLED는 계속 비활성이다.
+
+## S3-3 A 지도 전용 입력 계약 (2026-10-07)
+
+`public.compare_map_context(lat double precision, lng double precision)` → JSONB schema `1.0`. 기존 score_inputs/exposure/채점 모델과 독립이며 read-only다. 새 함수·해당 권한만 추가하고 기존 객체/행은 바꾸지 않는다. 사용자 승인 후 원격 적용·익명 RPC·직접 SQL·Preview 검증 완료. [실측](../validation/s3-3-a-20261007.md), [운영](../operations/compare-map.md).
+
+| 경로 | 계약 |
+|---|---|
+| `center` | 채점 candidate와 같은 `[lng,lat]`, EPSG:4326. HTTP double 정밀도 보존(`extra_float_digits=3`) |
+| `collection` | GeoJSON FeatureCollection; feature geometry는 4326 Point 또는 Polygon |
+| radius | `id=radius:800/radius:1000`, `kind=radius`, `radius_m`, `purpose=primary/school`. PostGIS geography ST_Project 원주128점+폐합점 |
+| station | `id=station:<원천ID>`, kind/source_id/name/line/distance_m/estimated. subway만 geography≤1200m, 환승역 노선별 ID 보존 |
+| school | `id=school:<원천ID>`, kind/source_id/name/level/distance_m/estimated. 유효 geom, elem/mid/high, geography≤1000m |
+| `meta` | crs=`EPSG:4326`, covered/coverage=`Seoul`, radius_m=[800,1000], station_radius_m=1200, school_radius_m=1000, unlocated_scope=`whole_source_not_radius` |
+| `meta.sources.transit_stops/schools` | available, coverage, source_versions/sources 배열, latest_ingested_at, unlocated_count |
+
+- Seoul 포함 여부는 admin_dongs의 서울 코드·ST_Covers로 판정한다. 서울 밖이면 링만 반환하고 역/학교 available=false. 서울 원천 0행도 available=false, 원천은 있으나 반경 내 0건이면 available=true + 해당 feature 없음으로 구분한다.
+- 학교 좌표 NULL 수는 원천 전체 건수다. 반경 안 위치를 추정하지 않는다. 지도 POI 원천과 배경 지도 OSM은 서로 다른 소스이며 배경 지도 정보를 채점 원천으로 합치지 않는다.
+- 유효 좌표 범위는 lat33..39/lng124..132, NULL/NaN/범위 밖은 SQLSTATE22023. security invoker·빈 search_path·authenticated만 EXECUTE이며 anon/PUBLIC은 거부한다. private 큐/캐시·score_inputs·candidates에 접근하지 않는다.
+- 클라이언트는 초기 채점 종료 뒤 선택 후보 1건만 요청한다. 같은 좌표+admin_boundaries/subway_positions/schools fingerprint의 요청 공유/메모리 캐시를 사용하며 가중치/층 변화로 RPC를 다시 호출하지 않는다.
+- 로컬 실데이터 a/b/c payload14,492~18,000bytes, authenticated SQL30회 warm p95 1.431~1.489ms. 실제 익명 세션 HTTP center 정확 일치. 원격 실측값으로 대체하지 않는다.

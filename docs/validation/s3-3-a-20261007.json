@@ -1,0 +1,599 @@
+{
+  "date": "2026-10-07",
+  "code_commit": "b8fedf5",
+  "base": "e3490fe",
+  "bundles": {
+    "gzip_level": 9,
+    "same_environment": true,
+    "includes_source_maps": false,
+    "baselines": {
+      "v040": {
+        "commit": "80be024",
+        "seconds": 14.045,
+        "initial": [
+          {
+            "url": "/_next/static/chunks/307-9c88b6b02f3a5448.js",
+            "bytes": 173665,
+            "gzip": 45643,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/484-25f96c5b56965d36.js",
+            "bytes": 180508,
+            "gzip": 49867,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/665-8a35e6280d718a18.js",
+            "bytes": 35667,
+            "gzip": 13285,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/754e3d6e-91e8ae5ae87ff980.js",
+            "bytes": 67480,
+            "gzip": 14246,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/7e92ce5b-03560437dbac1124.js",
+            "bytes": 173017,
+            "gzip": 54224,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/925-a66e68aa173a8b92.js",
+            "bytes": 8536,
+            "gzip": 3377,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/compare/page-528f1306468f5618.js",
+            "bytes": 36736,
+            "gzip": 12128,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/layout-aaf427f11bf65639.js",
+            "bytes": 1769,
+            "gzip": 1108,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/main-app-acfa51de37938250.js",
+            "bytes": 555,
+            "gzip": 227,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+            "bytes": 112594,
+            "gzip": 39373,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/webpack-8b85c3976f4efeb2.js",
+            "bytes": 3484,
+            "gzip": 1754,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/css/4fa4b4ce3bc282d8.css",
+            "bytes": 55382,
+            "gzip": 11913,
+            "maplibre": false,
+            "map_implementation": false
+          }
+        ],
+        "initial_js_gzip": 235232,
+        "map_files": [],
+        "map_js_gzip": 0,
+        "map_css_gzip": 0
+      },
+      "model_notice": {
+        "commit": "e3490fe",
+        "seconds": 14.939,
+        "initial": [
+          {
+            "url": "/_next/static/chunks/307-9c88b6b02f3a5448.js",
+            "bytes": 173665,
+            "gzip": 45643,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/484-25f96c5b56965d36.js",
+            "bytes": 180508,
+            "gzip": 49867,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/665-4565853478d30720.js",
+            "bytes": 35799,
+            "gzip": 13311,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/754e3d6e-91e8ae5ae87ff980.js",
+            "bytes": 67480,
+            "gzip": 14246,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/7e92ce5b-03560437dbac1124.js",
+            "bytes": 173017,
+            "gzip": 54224,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/925-a66e68aa173a8b92.js",
+            "bytes": 8536,
+            "gzip": 3377,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/compare/page-b88a2d62328e03f7.js",
+            "bytes": 38340,
+            "gzip": 12530,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/app/layout-e684cf29fcfb4fef.js",
+            "bytes": 1771,
+            "gzip": 1108,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/main-app-acfa51de37938250.js",
+            "bytes": 555,
+            "gzip": 227,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+            "bytes": 112594,
+            "gzip": 39373,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/chunks/webpack-8b85c3976f4efeb2.js",
+            "bytes": 3484,
+            "gzip": 1754,
+            "maplibre": false,
+            "map_implementation": false
+          },
+          {
+            "url": "/_next/static/css/4fa4b4ce3bc282d8.css",
+            "bytes": 55382,
+            "gzip": 11913,
+            "maplibre": false,
+            "map_implementation": false
+          }
+        ],
+        "initial_js_gzip": 235660,
+        "map_files": [],
+        "map_js_gzip": 0,
+        "map_css_gzip": 0
+      }
+    },
+    "map": {
+      "seconds": 9.468,
+      "initial": [
+        {
+          "url": "/_next/static/chunks/214-4044f25f6252e3f8.js",
+          "bytes": 180506,
+          "gzip": 50055,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/409-601d748e314bd9d7.js",
+          "bytes": 8535,
+          "gzip": 3371,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/4ef3cc75-eac7824852770cf4.js",
+          "bytes": 67481,
+          "gzip": 14240,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/529-8dd1939c67a1cc0c.js",
+          "bytes": 173653,
+          "gzip": 46405,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/874-fc5e98040bac15e6.js",
+          "bytes": 35870,
+          "gzip": 13285,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/app/compare/page-30d8ef0666dfcaff.js",
+          "bytes": 40196,
+          "gzip": 13117,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/app/layout-2b84ee4653603e73.js",
+          "bytes": 1772,
+          "gzip": 1100,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/f177dbf6-9a3a8471778d321d.js",
+          "bytes": 173019,
+          "gzip": 54228,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/main-app-2f5208ca69d819d9.js",
+          "bytes": 557,
+          "gzip": 226,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+          "bytes": 112594,
+          "gzip": 39373,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/chunks/webpack-c420f4c095926e9a.js",
+          "bytes": 4899,
+          "gzip": 2321,
+          "maplibre": false,
+          "map_implementation": false
+        },
+        {
+          "url": "/_next/static/css/452bc4422cdf04bc.css",
+          "bytes": 18792,
+          "gzip": 5114,
+          "maplibre": false,
+          "map_implementation": false
+        }
+      ],
+      "initial_js_gzip": 237721,
+      "map_files": [
+        {
+          "url": "/_next/static/css/fa44f03044ce8c3c.css",
+          "bytes": 1257,
+          "gzip": 568
+        },
+        {
+          "url": "/_next/static/css/718ee59ff2172a97.css",
+          "bytes": 65534,
+          "gzip": 9239
+        },
+        {
+          "url": "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
+          "bytes": 785544,
+          "gzip": 206987
+        },
+        {
+          "url": "/_next/static/chunks/999.d0527b1521d28485.js",
+          "bytes": 11853,
+          "gzip": 4755
+        }
+      ],
+      "map_js_gzip": 211742,
+      "map_css_gzip": 9807
+    },
+    "map_shell_delta_gzip": 2061,
+    "model_notice_delta_gzip": 428,
+    "total_shell_delta_gzip": 2489
+  },
+  "rpc": {
+    "environment": "local full-source DB, read-only authenticated SQL / real anonymous-session HTTP",
+    "first_execution_definition": "new DB connection first call; shared buffers may already be warm after QA. Not a flushed server-cache cold measurement.",
+    "samples": [
+      {
+        "address": "서울특별시 강남구 역삼로 460",
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "session_first_sql_ms": 17.462,
+        "warm_sql_samples": 30,
+        "warm_sql_p95_ms": 1.431,
+        "warm_sql_max_ms": 1.541,
+        "http_authenticated_ms": 45.0699171051383,
+        "http_json_bytes": 16564,
+        "json_gzip_bytes": 4626,
+        "stations": 6,
+        "schools": 11,
+        "ring_vertices": [
+          129,
+          129
+        ],
+        "http_center_exact": true
+      },
+      {
+        "address": "서울특별시 강남구 도곡로 409",
+        "center": [
+          127.05516718391107,
+          37.497368428505624
+        ],
+        "session_first_sql_ms": 17.36,
+        "warm_sql_samples": 30,
+        "warm_sql_p95_ms": 1.489,
+        "warm_sql_max_ms": 1.523,
+        "http_authenticated_ms": 28.778249863535166,
+        "http_json_bytes": 18000,
+        "json_gzip_bytes": 4811,
+        "stations": 6,
+        "schools": 16,
+        "ring_vertices": [
+          129,
+          129
+        ],
+        "http_center_exact": true
+      },
+      {
+        "address": "서울특별시 강남구 역삼로 546",
+        "center": [
+          127.06287290714192,
+          37.50428792732002
+        ],
+        "session_first_sql_ms": 19.414,
+        "warm_sql_samples": 30,
+        "warm_sql_p95_ms": 1.489,
+        "warm_sql_max_ms": 1.534,
+        "http_authenticated_ms": 25.91345924884081,
+        "http_json_bytes": 14492,
+        "json_gzip_bytes": 4405,
+        "stations": 5,
+        "schools": 5,
+        "ring_vertices": [
+          129,
+          129
+        ],
+        "http_center_exact": true
+      }
+    ]
+  },
+  "production_e2e": {
+    "map": {
+      "groups": 3,
+      "candidates": 5,
+      "exactScoringCoordinates": true,
+      "groupedFloors": [
+        1,
+        3,
+        4
+      ],
+      "mapFailureIsolated": true
+    },
+    "coldMobileMapDeferred": true,
+    "sliderExposureRequests": 0,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "totals": [
+      83.10201719669011,
+      92.60289331263688,
+      82.67204741731668,
+      81.84736541572254,
+      85.08500496915157
+    ],
+    "confidence": [
+      85,
+      90,
+      90,
+      90,
+      90
+    ],
+    "slider": {
+      "samples": 100,
+      "p95": 33.80000019073486,
+      "max": 56.09999990463257
+    },
+    "checks": {
+      "same_uid": true,
+      "saved_reopened": true,
+      "manual_order_restored": true,
+      "named_preset_raw_weights": true,
+      "model_version": "0.4.0",
+      "model_notice_legacy_unknown_same": true,
+      "model_failure_retry": true,
+      "model_tag_requires_save": true,
+      "five_candidates": true,
+      "mobile_totals": true,
+      "floor_elevator_evidence": true,
+      "attention_evidence": true
+    },
+    "environment": "local production Next, real Auth/RPC/exposure Worker/MapLibre/WebGL; live OpenFreeMap; fixed public address-provider responses",
+    "slider_rpc_requests": 0
+  },
+  "desktop_lazy": {
+    "shell": 1046.5,
+    "idle": 9352.099999904633,
+    "idleUnix": 1791376449371.8,
+    "resources": [
+      {
+        "url": "/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
+        "start": 1080.5,
+        "duration": 15.400000095367432
+      },
+      {
+        "url": "/_next/static/chunks/999.d0527b1521d28485.js",
+        "start": 1080.5999999046326,
+        "duration": 3
+      },
+      {
+        "url": "/_next/static/css/718ee59ff2172a97.css",
+        "start": 1081.3000001907349,
+        "duration": 2.799999713897705
+      },
+      {
+        "url": "/_next/static/css/fa44f03044ce8c3c.css",
+        "start": 1081.4000000953674,
+        "duration": 2
+      }
+    ]
+  },
+  "mobile_lazy": {
+    "mapJsCssRequestsBeforeOpen": 0,
+    "mapRpcRequestsBeforeOpen": 0,
+    "tileRequestsBeforeOpen": 0
+  },
+  "live_fixed_view": {
+    "environment": "local production build, one a candidate, live OpenFreeMap, Playwright context including worker requests",
+    "timing": {
+      "shell": 1076.5999999046326,
+      "idle": 3580.300000190735
+    },
+    "requestCount": 16,
+    "responseBytes": 1644306,
+    "requests": [
+      {
+        "url": "https://tiles.openfreemap.org/styles/liberty",
+        "status": 200,
+        "bytes": 5951
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet",
+        "status": 200,
+        "bytes": 2141
+      },
+      {
+        "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.png",
+        "status": 200,
+        "bytes": 49878
+      },
+      {
+        "url": "https://tiles.openfreemap.org/sprites/ofm_f384/ofm.json",
+        "status": 200,
+        "bytes": 3654
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13975/6347.pbf",
+        "status": 200,
+        "bytes": 91972
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13975/6348.pbf",
+        "status": 200,
+        "bytes": 132115
+      },
+      {
+        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+        "status": 200,
+        "bytes": 43195
+      },
+      {
+        "url": "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+        "status": 200,
+        "bytes": 48160
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13974/6348.pbf",
+        "status": 200,
+        "bytes": 176326
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13974/6347.pbf",
+        "status": 200,
+        "bytes": 186693
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13973/6348.pbf",
+        "status": 200,
+        "bytes": 295015
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/14/13973/6347.pbf",
+        "status": 200,
+        "bytes": 360028
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6987/3174.pbf",
+        "status": 200,
+        "bytes": 54149
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6986/3173.pbf",
+        "status": 200,
+        "bytes": 69082
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6986/3174.pbf",
+        "status": 200,
+        "bytes": 65300
+      },
+      {
+        "url": "https://tiles.openfreemap.org/planet/20261004_113936_pt/13/6987/3173.pbf",
+        "status": 200,
+        "bytes": 60647
+      }
+    ]
+  },
+  "remote_preflight": {
+    "migration": "20261007111513_compare_map_context.sql",
+    "sha256": "8a00ce42fb5e60656f260b2f93d0d8251fb5fc1a7b999a0ba96991686bda63ac",
+    "existing_object_changes": false,
+    "new_objects": [
+      "public.compare_map_context(double precision,double precision)"
+    ],
+    "remote_writes_executed": false,
+    "remote_migration_count": 43,
+    "last_remote_migration": "20261007085130",
+    "pending": [
+      "20261007111513_compare_map_context.sql"
+    ],
+    "comparison_count": 3,
+    "existing_public_function_count": 19,
+    "all_public_function_environment_diff": [
+      "rls_auto_enable()"
+    ],
+    "remote_only_platform_event_triggers": [
+      "rls_auto_enable()"
+    ],
+    "existing_application_function_diff": [],
+    "dry_run": {
+      "exit_code": 0,
+      "seconds": 0.444
+    }
+  },
+  "ci_initial_performance_failures": {
+    "run_ids": [
+      37620622916,
+      37620793232
+    ],
+    "slider_p95_ms": [
+      115.8,
+      116.7
+    ],
+    "fix": "map-only shallow subscription, memoized gate, current idle before unchanged benchmark",
+    "threshold_ms": 100
+  }
+}

@@ -1,6 +1,6 @@
 # S3-3 2D 지도·선택 동기화 구현 계획
 
-2026-10-07 · **D1~D5 추천안 사용자 승인, PR 1(M) 원격 검증 완료**. base `main`의 `80be024`(#29 머지, scoring v0.4.0) 기준. 계획 작성 브랜치는 `s3/compare-map-plan`이다. 승인에 따라 PR 1(M)을 구현한다. 원격 migration은 최종 dry-run 보고 후 별도 push 승인을 받는다.
+2026-10-07 · **D1~D5 추천안 사용자 승인, PR 1(M) #30 머지, PR 2(A) 로컬·원격·Preview 검증 완료**. 계획 기준은 `main 80be024`(#29, scoring v0.4.0), A의 base는 `main e3490fe`(#30)다. 계획 작성 브랜치는 `s3/compare-map-plan`, A는 `s3/compare-map`이다. 원격 migration은 최종 dry-run 보고 후 push 승인을 받는다.
 
 ## 1. 기준과 범위
 
@@ -207,3 +207,9 @@ D1~D5는 모두 추천안으로 승인됐다. M은 nullable 모델 열·구RPC�
 
 
 2026-10-07 PR 1(M) 승인 migration1개 원격 적용·혼합 클라이언트 저장·uid 격리·재열기·기존 미기록 배지 확인 완료. [실측·검증 경계](../validation/s3-3-model-20261007.md#사용자-승인-후-원격-적용검증)를 기록했으며 머지는 사용자가 수행한다.
+
+## 14. A 실행 기록 (2026-10-07)
+
+[PR #31](https://github.com/hanbeulYou/Gilmok/pull/31)의 [검증](../validation/s3-3-a-20261007.md)·[운영](../operations/compare-map.md)을 따른다. A의 승인 범위 그대로 구현했으며 새 read-only RPC 1개만 추가한다. 기존 객체·행 변경 없음. 원격 dry-run은 대상 1개/exit0(0.444초), 사용자 승인 후 같은 hash push(exit0/0.449초)·원격 익명 RPC·Preview 실증까지 완료했다. 원격 warm SQL p95는 a/b/c=5.457/4.695/4.384ms다. 로컬 좌표·권한·지도 오류 격리·채점 회귀·번들 검증 통과. 지도 JS gzip206.78KiB/CSS9.58KiB, #29 대비 셸 증가2.43KiB, 모바일 진입 전 지도 요청0회, 지도 열린 5후보 슬라이더 p95 33.8ms/max56.1ms다.
+
+A는 같은 좌표 층 목록·지도 후보 선택에 기존 selectedId를 사용한다. 모바일 진입은 임시 `지도 보기` 버튼이며, B에서 기존 계획대로 매트릭스 열 선택·키보드·모바일 3탭을 마감한다. **학원 점 레이어는 S3-4 직후 첫 후속 과제** 순서를 유지한다.

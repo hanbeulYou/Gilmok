@@ -1,0 +1,1118 @@
+{
+  "code_head": "34b125b",
+  "migration_and_sql": {
+    "started_at": "2026-10-07T13:05:10.414627+00:00",
+    "migration": "20261007111513_compare_map_context.sql",
+    "sha256": "8a00ce42fb5e60656f260b2f93d0d8251fb5fc1a7b999a0ba96991686bda63ac",
+    "existing_object_changes": false,
+    "steps": [
+      {
+        "name": "dry_run",
+        "exit_code": 0,
+        "seconds": 0.424
+      },
+      {
+        "name": "push",
+        "exit_code": 0,
+        "seconds": 0.449
+      }
+    ],
+    "compute": "Micro (user dashboard-confirmed; no compute changes)",
+    "samples": [
+      {
+        "address": "서울특별시 강남구 역삼로 460",
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "first": {
+          "execution_ms": 261.307,
+          "planning_ms": 0.022,
+          "shared_hit_blocks": 1040,
+          "shared_read_blocks": 331
+        },
+        "warm_samples": 30,
+        "warm_p95_ms": 5.457,
+        "warm_max_ms": 7.092,
+        "warm_min_ms": 4.187,
+        "warm": [
+          {
+            "execution_ms": 5.037,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.842,
+            "planning_ms": 0.017,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 5.457,
+            "planning_ms": 0.017,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.707,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 5.138,
+            "planning_ms": 0.029,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.419,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.387,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 7.092,
+            "planning_ms": 0.025,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.319,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.346,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.187,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.53,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.273,
+            "planning_ms": 0.042,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.331,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.417,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.317,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.281,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.394,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.313,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.434,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.351,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.236,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.376,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.476,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.382,
+            "planning_ms": 0.023,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.299,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.497,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.423,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.33,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.405,
+            "planning_ms": 0.023,
+            "shared_hit_blocks": 560,
+            "shared_read_blocks": 0
+          }
+        ],
+        "wall_seconds": 1.975
+      },
+      {
+        "address": "서울특별시 강남구 도곡로 409",
+        "center": [
+          127.05516718391107,
+          37.497368428505624
+        ],
+        "first": {
+          "execution_ms": 7.614,
+          "planning_ms": 0.018,
+          "shared_hit_blocks": 567,
+          "shared_read_blocks": 0
+        },
+        "warm_samples": 30,
+        "warm_p95_ms": 4.695,
+        "warm_max_ms": 4.78,
+        "warm_min_ms": 4.307,
+        "warm": [
+          {
+            "execution_ms": 4.394,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.381,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.511,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.489,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.485,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.584,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.523,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.58,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.78,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.652,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.307,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.495,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.501,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.695,
+            "planning_ms": 0.03,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.66,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.45,
+            "planning_ms": 0.031,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.366,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.417,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.353,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.443,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.404,
+            "planning_ms": 0.042,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.362,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.559,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.544,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.451,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.498,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.652,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.404,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.409,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.539,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 567,
+            "shared_read_blocks": 0
+          }
+        ],
+        "wall_seconds": 1.764
+      },
+      {
+        "address": "서울특별시 강남구 역삼로 546",
+        "center": [
+          127.06287290714192,
+          37.50428792732002
+        ],
+        "first": {
+          "execution_ms": 6.946,
+          "planning_ms": 0.019,
+          "shared_hit_blocks": 555,
+          "shared_read_blocks": 0
+        },
+        "warm_samples": 30,
+        "warm_p95_ms": 4.384,
+        "warm_max_ms": 4.441,
+        "warm_min_ms": 4.049,
+        "warm": [
+          {
+            "execution_ms": 4.049,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.072,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.169,
+            "planning_ms": 0.018,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.31,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.229,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.115,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.258,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.118,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.18,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.147,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.158,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.384,
+            "planning_ms": 0.023,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.139,
+            "planning_ms": 0.121,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.256,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.261,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.301,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.256,
+            "planning_ms": 0.039,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.272,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.318,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.142,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.333,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.192,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.081,
+            "planning_ms": 0.021,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.35,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.441,
+            "planning_ms": 0.022,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.209,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.144,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.234,
+            "planning_ms": 0.019,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.294,
+            "planning_ms": 0.02,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          },
+          {
+            "execution_ms": 4.079,
+            "planning_ms": 0.043,
+            "shared_hit_blocks": 555,
+            "shared_read_blocks": 0
+          }
+        ],
+        "wall_seconds": 1.714
+      }
+    ],
+    "preflight": {
+      "pending": [
+        "20261007111513_compare_map_context.sql"
+      ],
+      "migrations": 43,
+      "row_counts": {
+        "public.candidates": 6,
+        "public.comparisons": 3
+      }
+    },
+    "preservation": {
+      "previous_rows_unchanged": true,
+      "all_existing_public_function_diff": []
+    },
+    "function": {
+      "security_definer": false,
+      "settings": [
+        "search_path=\"\"",
+        "extra_float_digits=3"
+      ],
+      "authenticated_execute": true,
+      "anon_execute": false,
+      "public_execute": false
+    },
+    "database": {
+      "server_version": "17.6",
+      "shared_buffers": "256MB",
+      "work_mem": "3500kB",
+      "postmaster_start": "2026-10-02 06:21:15.152362+00:00"
+    },
+    "migration_count_after": 44,
+    "cold_definition": "First invocation of newly deployed function (a); first invocation at each coordinate/new connection (b,c). Shared buffers/OS cache not forcibly flushed; EXPLAIN shared read/hit blocks recorded."
+  },
+  "http": {
+    "environment": "remote Supabase real anonymous sign-in session (authenticated)",
+    "started_at": "2026-10-07T13:10:37.180730+00:00",
+    "samples": [
+      {
+        "address": "서울특별시 강남구 역삼로 460",
+        "status": 200,
+        "authenticated_http_ms": 290.904,
+        "json_bytes": 16557,
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "center_exact": true,
+        "rings": [
+          {
+            "radius_m": 1000,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          }
+        ],
+        "stations": 6,
+        "schools": 11,
+        "covered": true
+      },
+      {
+        "address": "서울특별시 강남구 도곡로 409",
+        "status": 200,
+        "authenticated_http_ms": 154.43,
+        "json_bytes": 18001,
+        "center": [
+          127.05516718391107,
+          37.497368428505624
+        ],
+        "center_exact": true,
+        "rings": [
+          {
+            "radius_m": 1000,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          }
+        ],
+        "stations": 6,
+        "schools": 16,
+        "covered": true
+      },
+      {
+        "address": "서울특별시 강남구 역삼로 546",
+        "status": 200,
+        "authenticated_http_ms": 166.945,
+        "json_bytes": 14491,
+        "center": [
+          127.06287290714192,
+          37.50428792732002
+        ],
+        "center_exact": true,
+        "rings": [
+          {
+            "radius_m": 1000,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129,
+            "max_distance_error_m": 0.0
+          }
+        ],
+        "stations": 5,
+        "schools": 5,
+        "covered": true
+      }
+    ],
+    "anonymous_session": true,
+    "without_session": {
+      "status": 401,
+      "code": "42501"
+    },
+    "invalid_coordinate": {
+      "status": 400,
+      "code": "22023"
+    },
+    "own_test_uid_cleanup_status": 200,
+    "cleanup_retry_note": "Management API key reveal=true required for secret; only this run anonymous uid deleted",
+    "target_verified_from_project_ref": true
+  },
+  "preview": {
+    "environment": "Vercel PR Preview + real Juso/Vworld + remote anonymous Auth/RPC/exposure Worker + live OpenFreeMap",
+    "deployment": "https://gilmok-jnw4jnvs8-vineyard.vercel.app",
+    "started_at": "2026-10-07T13:15:49.448Z",
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      }
+    ],
+    "providers": [
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      },
+      {
+        "path": "/api/address-search",
+        "status": 200,
+        "region": "icn1"
+      }
+    ],
+    "map": [
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      },
+      {
+        "center": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "radii": [
+          {
+            "radius_m": 1000,
+            "vertices": 129
+          },
+          {
+            "radius_m": 800,
+            "vertices": 129
+          }
+        ],
+        "stations": 6,
+        "schools": 11
+      }
+    ],
+    "checks": {
+      "remote_anonymous_session": true,
+      "real_address_providers": true,
+      "real_webgl_canvas": true,
+      "exact_scoring_coordinates": true,
+      "three_groups_five_candidates": true,
+      "group_floors_1_3_4": true,
+      "group_selection": true,
+      "two_geodesic_rings": true,
+      "attribution_links": true,
+      "live_cdn_200": true
+    },
+    "stage": "passed",
+    "grouped_floor_labels": [
+      "2. e · 1층",
+      "3. a · 3층",
+      "5. d · 4층",
+      "목록 닫기"
+    ],
+    "totals": [
+      92.60289331263688,
+      85.08500496915157,
+      83.10201719669011,
+      82.67204741731668,
+      81.84736541572254
+    ],
+    "credits": {
+      "text": "OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors",
+      "links": [
+        "https://openfreemap.org/",
+        "https://openmaptiles.org/",
+        "https://www.openstreetmap.org/copyright"
+      ]
+    },
+    "groups": [
+      {
+        "coordinate": [
+          127.05516718391107,
+          37.497368428505624
+        ],
+        "candidates": 1
+      },
+      {
+        "coordinate": [
+          127.05758573871447,
+          37.5025721944737
+        ],
+        "candidates": 3
+      },
+      {
+        "coordinate": [
+          127.06287290714192,
+          37.50428792732002
+        ],
+        "candidates": 1
+      }
+    ],
+    "live_cdn": {
+      "requests": 80,
+      "response_bytes": 8223256,
+      "non_200": [],
+      "vector_tiles": 50
+    },
+    "seconds": 19.166,
+    "cleanup": [
+      {
+        "own_test_uid": true,
+        "success": true
+      }
+    ]
+  },
+  "readback": {
+    "migration_count": 44,
+    "candidate_rows": 6,
+    "comparison_rows": 3,
+    "final_dry_run": {
+      "exit_code": 0,
+      "seconds": 0.462,
+      "remote_up_to_date": true
+    }
+  },
+  "vercel_environment": {
+    "NEXT_PUBLIC_MAP_STYLE_URL": [
+      "production",
+      "preview"
+    ],
+    "style_url": "https://tiles.openfreemap.org/styles/liberty",
+    "registered_by": "user",
+    "redeployed_target": "preview",
+    "tested_deployment": "https://gilmok-jnw4jnvs8-vineyard.vercel.app",
+    "production_modified_by_agent": false
+  }
+}
