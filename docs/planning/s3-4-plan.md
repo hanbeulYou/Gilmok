@@ -1,10 +1,10 @@
 # S3-4 계획 — 건물 3D·노출 오버레이
 
-2026-10-08 · **계획 승인 대기, 구현 미착수**. 문서 브랜치 `s3/exposure-overlay-plan`, base `origin/main accae5a`.
+2026-10-08 · **계획 승인 대기, 구현 미착수**. 문서 브랜치 `s3/exposure-overlay-plan`, base `origin/main 8abef05`(#32 머지).
 
-사용자는 #32 머지 완료로 알려주었으나 계획 작성 시 GitHub 조회는 `OPEN`·`mergedAt=null`, main은 #31 merge였다. #32 최종 `603311d`의 문서/코드를 별도 worktree에서 읽었다. 계획은 그 결과를 인계 기준으로 삼으며 **구현 전 #32 머지와 최신 main을 다시 확인**한다. 사용자의 머지를 대신 실행하지 않는다.
+2026-10-08 GitHub에서 [#32](https://github.com/hanbeulYou/Gilmok/pull/32)의 `MERGED` 상태와 main merge `8abef05`를 확인했다. 최신 main에 계획 문서만 반영한 docs PR이며, **D1~D6와 계획 승인 후** 구현한다.
 
-기준: `AGENTS.md`, [기획서](location-simulator.md), [screens §4.3~4.5·§4.8·§8](screens.md), [S3-3의 S3-4 진입 조건](https://github.com/hanbeulYou/Gilmok/blob/603311d/docs/planning/s3-3-plan.md#15-b-완료와-s3-3-마감), [scoring v0.4.0 §5.5](scoring-spec.md), [데이터 소스](data-sources.md). S3-3 [M](../validation/s3-3-model-20261007.md)·[A](../validation/s3-3-a-20261007.md)·[B](https://github.com/hanbeulYou/Gilmok/blob/603311d/docs/validation/s3-3-b-20261007.md) 검증과 [v0.4.0 검증](../validation/scoring-v040-20261007.md)을 따른다. B 문서는 #32의 파일이며 현재 main에는 아직 없다.
+기준: `AGENTS.md`, [기획서](location-simulator.md), [screens §4.3~4.5·§4.8·§8](screens.md), [S3-3의 S3-4 진입 조건](s3-3-plan.md#15-b-완료와-s3-3-마감), [scoring v0.4.0 §5.5](scoring-spec.md), [데이터 소스](data-sources.md). S3-3 [M](../validation/s3-3-model-20261007.md)·[A](../validation/s3-3-a-20261007.md)·[B](../validation/s3-3-b-20261007.md) 검증과 [v0.4.0 검증](../validation/scoring-v040-20261007.md)을 따른다. B 검증·인계 문서는 #32를 통해 main에 반영됐다.
 
 ## 1. 범위와 완료 기준
 
@@ -194,7 +194,7 @@ P1 migration은 `supabase migration new`로 생성하고 과거 파일을 수정
 
 ## 12. 사용자 처리 단계
 
-1. 아래 D1~D6 선택과 계획을 승인한다. #32는 현재 조회와 사용자 메시지가 달라 구현 직전 머지를 재확인한다.
+1. 아래 D1~D6 선택과 계획을 승인한다. #32 머지는 확인했으며 구현은 승인 후 최신 main에서 시작한다.
 2. P1 최종 dry-run·hash·기존 객체 변경 여부를 보고받은 후 원격 push를 승인한다. 코드 계획 승인만으로 원격 migration을 실행하지 않는다.
 3. 추천안에는 새 Vercel 환경변수/타일 계정/API key가 없다. 기존 `NEXT_PUBLIC_MAP_STYLE_URL`과 서버 주소 키를 유지한다. `.env` 전체 업로드는 하지 않는다.
 4. 기준 기기를 더 낮은 사양으로 정하려면 기기/OS/GPU/화면 조건을 지정한다. 추천은 현재 사용 가능한 M5 Pro/60Hz이며, 추가 기기 검증을 했다고 임의로 적지 않는다.
