@@ -9,3 +9,5 @@
 @media(max-width:1023px){.map-canvas{height:55vh;min-height:20rem}.map-candidate-list button{min-height:2.5rem}}
 
 @media(max-width:1023px){#compare-map-content> :is(.map-candidate-list,.map-floor-list){flex-wrap:wrap}#compare-map-content{display:flex;flex-direction:column}.map-candidate-list{order:10;background:#fafcfb;padding:.5rem 0}.map-candidate-list button{min-height:44px}}
+
+.map-viewport{position:relative}.map-mode{position:absolute;right:3rem;top:.6rem;z-index:2;display:flex;background:white;border:1px solid #b9c9c8;border-radius:.5rem}.map-mode button{margin:0;min-height:36px}.map-mode button[aria-pressed=true]{background:#e4f1ec;border-color:#0f766e}

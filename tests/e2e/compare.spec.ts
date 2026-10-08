@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
 import { execFileSync } from 'node:child_process';
 import fixtures from './fixtures/addresses.json';
+import { installMapProbe, checkBuilding3D } from './building-3d';
 import { mapFixture, checkMap, checkMobileTabs } from './map-network';
 import { measureSliderSet, sliderPolicy, summarizeSliderSets } from './slider-performance';
 
@@ -14,6 +15,7 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
       return Reflect.apply(send, this, transfer === undefined ? [message] : [message, transfer]);
     };
   });
+  await installMapProbe(page);
   await mapFixture(page);
   const scoringCoordinates: number[][] = [];
   page.on('request', request => { if (request.url().endsWith('/rpc/score_inputs')) { const body = request.postDataJSON(); scoringCoordinates.push([body.lng, body.lat]); } });
@@ -79,6 +81,8 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     const mapProof = await checkMap(page, scoringCoordinates);
     expect(scoringCalls()).toBe(selectionScoringBefore);
     expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(selectionWorkerBefore);
+    const buildings3D = await checkBuilding3D(page, info);
+    await info.attach('building-3d-proof', { body:JSON.stringify(buildings3D), contentType:'application/json' });
     const before = rpc.length;
     const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
     const sets: number[][] = [];
