@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { navigationIndex } from '../../lib/compare/navigation';
 import { useShallow } from 'zustand/react/shallow';
 import maplibregl, { type GeoJSONSource, type Map as LibreMap, type StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -27,19 +28,21 @@ function openStyle(_previous: StyleSpecification | undefined, style: StyleSpecif
   }) } as StyleSpecification;
 }
 
-export default function CompareMap({ retry }: { retry: () => void }) {
+export default function CompareMap({ retry, active }: { retry: () => void; active: boolean }) {
   // Weights and evidence panels do not change the map; subscribe only to map inputs.
   const state = useComparisonStore(useShallow(({ candidates, order, selectedId, selectCandidate }) => ({ candidates, order, selectedId, selectCandidate })));
   const host = useRef<HTMLDivElement>(null), map = useRef<LibreMap | null>(null);
   const [ready, setReady] = useState(false), [mapError, setMapError] = useState(''), [contextError, setContextError] = useState('');
   const [context, setContext] = useState<MapContext | null>(null), [loading, setLoading] = useState(false), [attempt, setAttempt] = useState(0);
+  const markerElements = useRef(new Map<string, HTMLButtonElement>()), markerFocus = useRef<string | null>(null);
+  const floorList = useRef<HTMLDivElement>(null);
   const [groupKey, setGroupKey] = useState<string | null>(null);
   const rows = useMemo(() => state.order.flatMap(id => state.candidates.filter(row => row.id === id)), [state.order, state.candidates]);
   const groups = useMemo(() => groupCandidates(rows), [rows]);
   const selected = rows.find(row => row.id === state.selectedId) ?? rows[0];
   const initial = useRef(selected?.candidate);
   const initialGroups = useRef(groups);
-  const fittedCenter = useRef('');
+  const fittedCenter = useRef(''), cameraCenter = useRef('');
   const lat = selected?.candidate.lat, lng = selected?.candidate.lng;
   const fingerprint = selected ? mapSourceFingerprint(selected) : '';
   const scoringFinished = selected && ['scored', 'scored_provisional', 'error'].includes(selected.stage) && !selected.refreshing;
@@ -51,13 +54,14 @@ export default function CompareMap({ retry }: { retry: () => void }) {
   }), []);
   useEffect(() => () => loader.dispose(), [loader]);
   useEffect(() => {
+    if (!active) return;
     if (!styleUrl || lat === undefined || lng === undefined || !scoringFinished) { setContext(null); return; }
-    let active = true; setContext(null); setLoading(true); setContextError('');
-    void loader.load(lat, lng, fingerprint).then(value => { if (active) setContext(value); }, error => {
-      if (active) setContextError(error instanceof Error && error.name !== 'AbortError' ? error.message : '지도 자료 조회를 다시 시도해 주세요.');
-    }).finally(() => { if (active) setLoading(false); });
-    return () => { active = false; };
-  }, [lat, lng, scoringFinished, fingerprint, attempt, loader]);
+    let alive = true; setContext(null); setLoading(true); setContextError('');
+    void loader.load(lat, lng, fingerprint).then(value => { if (alive) setContext(value); }, error => {
+      if (alive) setContextError(error instanceof Error && error.name !== 'AbortError' ? error.message : '지도 자료 조회를 다시 시도해 주세요.');
+    }).finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, [lat, lng, scoringFinished, fingerprint, attempt, loader, active]);
 
   useEffect(() => {
     if (!host.current || !initial.current || !styleUrl) return;
@@ -99,32 +103,60 @@ export default function CompareMap({ retry }: { retry: () => void }) {
 
   useEffect(() => {
     const instance = map.current; if (!instance) return;
-    const markers = groups.map(group => {
+    const markers = groups.map((group, index) => {
       const element = document.createElement('button'); element.type = 'button'; element.className = 'map-candidate';
       element.textContent = group.members.length > 1 ? `${group.members.length}곳` : String(group.members[0].rank);
       const label = group.members.length > 1 ? `같은 좌표 후보 ${group.members.length}곳` : `${group.members[0].rank}위 ${group.members[0].alias} ${group.members[0].floor}층`;
-      element.setAttribute('aria-pressed', String(group.members.some(member => member.id === selected?.id)));
       element.dataset.coordinate = JSON.stringify(group.coordinate); element.dataset.candidateIds = JSON.stringify(group.members.map(member => member.id));
+      element.dataset.groupKey = group.key;
       element.onclick = () => { if (group.members.length > 1) setGroupKey(group.key); else state.selectCandidate(group.members[0].id); };
+      element.onkeydown = event => {
+        const next = navigationIndex(event.key, index, groups.length); if (next === null) return;
+        event.preventDefault(); markerElements.current.get(groups[next].key)?.focus();
+      };
       const marker = new maplibregl.Marker({ element, anchor: 'center' }).setLngLat(group.coordinate).addTo(instance);
       element.setAttribute('aria-label', label); // MapLibre 4 replaces the label in addTo().
-      return marker;
+      markerElements.current.set(group.key, element); return marker;
     });
-    return () => { markers.forEach(marker => marker.remove()); };
-  }, [groups, selected?.id, state.selectCandidate]);
+    if (markerFocus.current) markerElements.current.get(markerFocus.current)?.focus({ preventScroll: true });
+    markerFocus.current = null;
+    return () => {
+      const focused = document.activeElement as HTMLElement | null;
+      markerFocus.current = focused?.dataset.groupKey ?? null;
+      markers.forEach(marker => marker.remove()); markerElements.current.clear();
+    };
+  }, [groups, state.selectCandidate]);
   useEffect(() => {
-    if (ready && lat !== undefined && lng !== undefined) map.current?.easeTo({ center: [lng, lat], zoom: 14,
-      duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450 });
-  }, [ready, lat, lng]);
+    groups.forEach(group => {
+      const element = markerElements.current.get(group.key), chosen = group.members.some(member => member.id === selected?.id);
+      element?.setAttribute('aria-pressed', String(chosen)); if (element) element.tabIndex = chosen ? 0 : -1;
+    });
+  }, [groups, selected?.id]);
+  useEffect(() => {
+    if (!active) { setGroupKey(null); return; }
+    if (groupKey) (floorList.current?.querySelector<HTMLButtonElement>('[aria-pressed="true"]') ?? floorList.current?.querySelector('button'))?.focus();
+  }, [groupKey, active]);
+  const closeGroup = () => {
+    setGroupKey(null);
+    requestAnimationFrame(() => { if (groupKey) markerElements.current.get(groupKey)?.focus({ preventScroll: true }); });
+  };
+  useEffect(() => { if (active) map.current?.resize(); }, [active]);
+  useEffect(() => {
+    const center = JSON.stringify([lng, lat]);
+    if (active && ready && lat !== undefined && lng !== undefined && cameraCenter.current !== center) {
+      map.current?.easeTo({ center: [lng, lat], zoom: 14, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450 });
+      cameraCenter.current = center;
+    }
+  }, [ready, lat, lng, active]);
   useEffect(() => {
     if (ready) (map.current?.getSource('comparison-context') as GeoJSONSource | undefined)?.setData(context?.collection ?? { type: 'FeatureCollection', features: [] });
     const ring = context?.collection.features.find(feature => feature.properties.radius_m === 1000);
-    if (ready && context && ring?.geometry.type === 'Polygon' && fittedCenter.current !== JSON.stringify(context.center)) {
+    if (active && ready && context && ring?.geometry.type === 'Polygon' && fittedCenter.current !== JSON.stringify(context.center)) {
       const bounds = new maplibregl.LngLatBounds(); ring.geometry.coordinates[0].forEach(point => bounds.extend(point as [number, number]));
       map.current?.fitBounds(bounds, { padding: 24, maxZoom: 15, duration: 0 });
       fittedCenter.current = JSON.stringify(context.center);
     }
-  }, [ready, context]);
+  }, [ready, context, active]);
   useEffect(() => {
     const instance = map.current; if (!instance || !context) return;
     const markers = context.collection.features.flatMap(feature => {
@@ -142,9 +174,18 @@ export default function CompareMap({ retry }: { retry: () => void }) {
   const group = groups.find(value => value.key === groupKey);
   return <>
     <div className="map-candidate-list" aria-label="지도 후보">{rows.map((row, index) => <button key={row.id} aria-pressed={row.id === selected?.id}
-      onClick={() => state.selectCandidate(row.id)}>{index + 1}. {row.alias} · {row.candidate.floor}층</button>)}</div>
-    {group && <div className="map-floor-list" role="group" aria-label="같은 좌표 후보 층 목록">{group.members.map(member => <button key={member.id}
-      onClick={() => { state.selectCandidate(member.id); setGroupKey(null); }}>{member.rank}. {member.alias} · {member.floor}층</button>)}<button onClick={() => setGroupKey(null)}>목록 닫기</button></div>}
+      tabIndex={row.id === selected?.id ? 0 : -1} onKeyDown={event => {
+        const next = navigationIndex(event.key, index, rows.length); if (next === null) return;
+        event.preventDefault(); state.selectCandidate(rows[next].id);
+        event.currentTarget.parentElement?.querySelectorAll('button')[next]?.focus();
+      }} onClick={() => state.selectCandidate(row.id)}>{index + 1}. {row.alias} · {row.candidate.floor}층</button>)}</div>
+    {group && <div ref={floorList} className="map-floor-list" role="group" aria-label="같은 좌표 후보 층 목록" onKeyDown={event => {
+      if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeGroup(); return; }
+      const buttons = [...event.currentTarget.querySelectorAll('button')];
+      const next = navigationIndex(event.key, buttons.indexOf(event.target as HTMLButtonElement), buttons.length);
+      if (next !== null) { event.preventDefault(); buttons[next]?.focus(); }
+    }}>{group.members.map(member => <button key={member.id} aria-pressed={member.id === selected?.id}
+      onClick={() => { state.selectCandidate(member.id); closeGroup(); }}>{member.rank}. {member.alias} · {member.floor}층</button>)}<button onClick={closeGroup}>목록 닫기</button></div>}
     <div ref={host} className="map-canvas" data-testid="compare-map" aria-label="후보와 주변 역·학교 지도"/>
     {mapError && <p role="alert">{mapError} <button onClick={retry}>지도 다시 시도</button></p>}
     <p className="map-legend">초록 영역 800m · 바깥 점선 1km · 파랑 역 · 초/중/고 학교</p>

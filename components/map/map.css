@@ -7,3 +7,5 @@
 .map-legend,.map-context-status{font-size:.8rem;margin:.5rem 0}.map-source-dates{font-size:.72rem;color:#52616d}
 .maplibregl-ctrl-attrib{font-size:10px;line-height:16px!important;max-width:100%;white-space:normal}.maplibregl-ctrl-attrib a{color:#284348}
 @media(max-width:1023px){.map-canvas{height:55vh;min-height:20rem}.map-candidate-list button{min-height:2.5rem}}
+
+@media(max-width:1023px){#compare-map-content> :is(.map-candidate-list,.map-floor-list){flex-wrap:wrap}#compare-map-content{display:flex;flex-direction:column}.map-candidate-list{order:10;background:#fafcfb;padding:.5rem 0}.map-candidate-list button{min-height:44px}}

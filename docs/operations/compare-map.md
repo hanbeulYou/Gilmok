@@ -40,3 +40,13 @@
 로컬 `.env`의 NEXT_PUBLIC_SUPABASE_URL/공개 키는 개발 DB일 수 있다. 원격 검증은 승인된 SUPABASE_PROJECT_REF·linked Session pooler와 원격 API origin의 일치를 먼저 확인한다. Preview의 실제 Supabase 요청 origin도 같은 프로젝트인지 검증한다. 로컬 HTTP 결과를 원격 실측에 넣지 않는다.
 
 콜드 관측을 위해 migration 직후 새 함수의 직접 SQL을 HTTP보다 먼저 실행한다. 첫 호출과 이후30회를 분리하고 EXPLAIN BUFFERS의 shared hit/read를 함께 남긴다. DB 재시작·캐시 강제 초기화 없이 측정했으면 완전한 I/O 콜드라고 표시하지 않는다.
+
+## S3-3 B 선택·모바일 운영 (2026-10-07)
+
+[PR #32](https://github.com/hanbeulYou/Gilmok/pull/32)은 선택 동기화와 모바일3탭을 마감한다. [검증](../validation/s3-3-b-20261007.md)·[S3-4 인계](../planning/s3-3-plan.md#15-b-완료와-s3-3-마감)를 따른다. **새 migration/기존 DB 객체 변경/추가 환경변수/의존성 변경 없음**. 기존 지도 공개 URL을 그대로 사용하며 사용자 단계는 PR 검토·머지다. Preview 검증이 Production 반영을 뜻하지 않으며 main 배포는 머지 후다.
+
+- 모바일의 임시 `지도 보기` 버튼을 매트릭스/지도/근거3탭으로 대체한다. 기본은 매트릭스, 첫 지도 진입 전 JS/CSS·지도 RPC·타일 요청0. 재진입은 같은 지도 인스턴스와 뷰를 보존하고 resize한다.
+- 열/총점/카드/칩/마커는 같은 선택을 사용한다. 묶음 마커에서는 층 목록으로 후보를 고른다. 방향키·Home/End, 층 목록 Escape, 근거 닫기 시 이전 조작 위치 복귀를 지원한다.
+- 모바일 출처는 후보 칩과 겹치지 않도록 자연스러운 흐름에 둔다. 화면 폭375/390/1024px에서 출처 링크와 탭·키보드 포커스를 확인한다.
+- 회귀 확인은 실제 Auth/RPC/Worker의 a~e 점수, 선택만 변경 시 채점 호출0, 슬라이더 p95≤100ms/max 기록, 새 모바일 세션의 지도 미진입 요청0으로 한다. Realtime 검증의 ready 전환/선택 유지도 확인한다.
+- 프론트 문제는 이전 Vercel 배포로 롤백한다. B는 DB 롤백이나 webhook/cron/좌표/정리 스위치 변경을 요구하지 않는다. 기존 Micro 유지·Small 전환 후 공개 합본 재시험 조건은 별개다.

@@ -70,7 +70,7 @@ function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResul
 }
 export function EvidencePanel({ row, axisKey, close }: { row: ComparisonCandidate; axisKey: AxisKey | null; close: () => void }) {
   const axes = row.result?.axes.filter(axis => !axisKey || axis.key === axisKey) ?? [];
-  return <section className="evidence-panel" aria-label="근거 패널"><header><h2>{row.alias} · {axisKey ? axes[0]?.label : '후보 전체'} 근거</h2><button onClick={close}>근거 닫기</button></header>
+  return <section className="evidence-panel" aria-label="근거 패널"><header><h2 id="evidence-heading" tabIndex={-1}>{row.alias} · {axisKey ? axes[0]?.label : '후보 전체'} 근거</h2><button onClick={close}>근거 닫기</button></header>
     {!row.result ? <p>점수가 준비되면 근거를 볼 수 있습니다.</p> : <>
       {!axisKey && <><h3>신뢰도 {row.result.confidence.value}점 · 감점 사유</h3><ul>{row.result.confidence.reasons.map((r, i) => <li key={i}>{reason(r)}</li>)}</ul></>}
       {axes.map(axis => axisKey ? <AxisEvidence key={axis.key} row={row} axis={axis}/> : <details className="axis-accordion" key={axis.key}><summary>{axis.label} · {number(axis.normalized)}점</summary><AxisEvidence row={row} axis={axis}/></details>)}

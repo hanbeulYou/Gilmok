@@ -31,7 +31,7 @@ interface ComparisonState {
   beginAdjustment: () => void; endAdjustment: () => void; resetWeights: () => void;
   move: (id: string, before: string) => void; sortByScore: () => void;
   selectCandidate: (id: string) => void;
-  select: (id: string, axis?: AxisKey) => void; closeEvidence: () => void;
+  openEvidence: (id: string, axis?: AxisKey) => void; closeEvidence: () => void;
 }
 export function scoreOrder(rows: readonly ComparisonCandidate[], weights: Weights, order: readonly string[]) {
   const totals = new Map(rows.map(row => [row.id, row.result ? reweight(row.result, weights).total : null]));
@@ -76,7 +76,7 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
     jobs.get(id)?.controller.abort(); jobs.delete(id); refreshes.delete(id);
     set(state => { const candidates = state.candidates.filter(c => c.id !== id);
       return { candidates, order: state.order.filter(v => v !== id),
-        selectedId: state.selectedId === id ? candidates[0]?.id ?? null : state.selectedId,
+        selectedId: state.selectedId === id ? state.order.find(value => value !== id) ?? null : state.selectedId,
         evidenceOpen: candidates.length > 0 && state.evidenceOpen }; });
   },
   edit(id, alias, floor) {
@@ -105,8 +105,8 @@ export const useComparisonStore = create<ComparisonState>((set, get) => ({
   move(id, before) { if (get().snapshotReadOnly) return; set(state => { if (id === before || !state.order.includes(id) || !state.order.includes(before)) return state;
     const order = state.order.filter(v => v !== id); order.splice(order.indexOf(before), 0, id); return { order, manualOrder: true }; }); },
   sortByScore() { set(state => ({ manualOrder: false, order: scoreOrder(state.candidates, state.weights, state.order) })); },
-  selectCandidate(id) { if (get().candidates.some(row => row.id === id)) set({ selectedId: id }); },
-  select(id, axis) { set({ selectedId: id, selectedAxis: axis ?? null, evidenceOpen: true }); },
+  selectCandidate(id) { if (get().candidates.some(row => row.id === id)) set({ selectedId: id, selectedAxis: null }); },
+  openEvidence(id, axis) { set({ selectedId: id, selectedAxis: axis ?? null, evidenceOpen: true }); },
   closeEvidence() { set({ evidenceOpen: false }); },
 }));
 const jobs = new Map<string, { controller: AbortController; generation: number }>();

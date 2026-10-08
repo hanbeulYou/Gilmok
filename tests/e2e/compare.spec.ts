@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
 import { execFileSync } from 'node:child_process';
 import fixtures from './fixtures/addresses.json';
-import { mapFixture, checkMap } from './map-network';
+import { mapFixture, checkMap, checkMobileTabs } from './map-network';
 
 test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page, browser }, info) => {
   await page.addInitScript(() => {
@@ -73,7 +73,11 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await page.getByRole('button',{ name:'근거 닫기', exact:true }).click();
     await page.setViewportSize({ width:1440,height:1000 });
     expect(users).toHaveLength(1);
+    const scoringCalls = () => rpc.filter(call => ['score_inputs', 'exposure_inputs_v022', 'score_reference_percentiles'].includes(call.name)).length;
+    const selectionScoringBefore = scoringCalls(), selectionWorkerBefore = await page.locator('html').getAttribute('data-exposure-runs');
     const mapProof = await checkMap(page, scoringCoordinates);
+    expect(scoringCalls()).toBe(selectionScoringBefore);
+    expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(selectionWorkerBefore);
     const before = rpc.length;
     const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
     const performance = await page.evaluate(async () => {
@@ -161,7 +165,9 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await expect(mobile.locator('.mobile-cards [data-total]')).toHaveCount(5);
     await expect(mobile.getByTestId('compare-map')).toHaveCount(0);
     expect(mobileRequests.filter(url => url.includes('map.gilmok.test') || url.endsWith('/compare_map_context'))).toEqual([]);
-    await mobile.getByRole('button',{name:'지도 보기',exact:true}).click();
+    const mobileProof = await checkMobileTabs(mobile);
+    console.log('mobile-navigation', JSON.stringify(mobileProof));
+    await mobile.getByRole('tab',{name:'지도',exact:true}).click();
     await expect(mobile.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
     await expect(mobile.locator('.map-context-status')).toContainText(/학교 \d+곳/);
     await coldMobile.close();

@@ -268,10 +268,28 @@ try:
         )
         before = len(requests)
         workers = a.evaluate("workerCalls") + b.evaluate("workerCalls")
+        a.evaluate("id => comparisonProof.state().selectCandidate(id)", ida)
         ready(shared)
-        waitready(a, ida)
-        waitready(b, idb)
+        try:
+            waitready(a, ida)
+            waitready(b, idb)
+        except Exception:
+            print("ready diagnostic", {
+                "rows": [
+                    {k: row(page, id).get(k) for k in (
+                        "stage", "lookupStatus", "lookupState", "refreshing", "error"
+                    )}
+                    for page, id in ((a, ida), (b, idb))
+                ],
+                "events": [page.evaluate("comparisonProof.events") for page in (a, b)],
+                "errors": errors,
+            }, flush=True)
+            raise
         updated = row(a, ida)
+        check(
+            "selection_retained_after_ready",
+            a.evaluate("comparisonProof.state().selectedId") == ida,
+        )
         beforebuilding = next(x for x in ra["result"]["axes"] if x["key"] == "building")
         afterbuilding = next(x for x in updated["result"]["axes"] if x["key"] == "building")
         check(
