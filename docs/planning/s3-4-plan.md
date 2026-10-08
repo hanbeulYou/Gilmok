@@ -1,6 +1,6 @@
 # S3-4 계획 — 건물 3D·노출 오버레이
 
-2026-10-08 · **계획 승인 완료, P0 구현·검증**. 브랜치 `s3/slider-performance-policy`, base `origin/main 6ff6ba9`(#33 머지).
+2026-10-08 · **계획 승인 완료, P0(#34) main 머지·P1 구현/검증 중**. 브랜치 `s3/building-3d`, base `origin/main ec72095`.
 
 2026-10-08 [#33](https://github.com/hanbeulYou/Gilmok/pull/33) main 머지(`6ff6ba9`)와 사용자 계획 승인을 확인했다. **D1~D6 모두 추천안으로 확정**했다. P0를 먼저 구현하고, P0 머지 후 P1에 착수한다. P1 원격 migration push는 최종 dry-run 보고 후 별도 승인을 받는다.
 
@@ -214,7 +214,7 @@ P1 migration은 `supabase migration new`로 생성하고 과거 파일을 수정
 | **D5 60fps 기준** |①M5 Pro 실제GPU/60Hz에서 각회 평균≥55fps+p95≤33.4ms+50ms초과≤1% /②사용자 지정 최소사양으로 동일 판정 | **①**, 지금 측정 가능한 명시적 기준. 지원 최소사양 보장은 별도 |
 | **D6 슬라이더 CI** |A 1회p95≤150ms /B 3회p95 중앙값≤100ms. production은 양쪽 모두각회≤100ms | **B**, 모든 세트·max·실패 이력 공개 |
 
-## 14. 이번 계획에서 실행한 것 / 아직 검증하지 않은 것
+## 14. 계획 PR 작성 당시 실행/미검증 기록 (이력 보존)
 
 실행: 지정 문서와 #32 인계 읽기, main/#32 상태 조회, 현행 TS/RPC/Worker 데이터 경로 확인, **로컬 scene3곳 read-only 건물/높이/꼭짓점/JSON 크기 조회**, 기준 장치 사양 확인, 버전 고정 공식 렌더러 문서와 PostGIS 문서 확인.
 
@@ -226,3 +226,10 @@ P1 migration은 `supabase migration new`로 생성하고 과거 파일을 수정
 - P0: 문서 PR 경로 필터, CI 3세트 중앙값 판정, production 각 세트 엄격 판정. 채점·지도 제품 코드와 DB 변경 없음.
 - 공개 전 추가 확인: **내장 GPU 일반 노트북 FPS 확인**. [공개 전 체크리스트](../operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)에서 별도 기록한다.
 - P1(건물 3D)은 P0 머지 후, 학원 점 레이어는 S3-4 직후 첫 후속 과제 순서를 유지한다.
+
+## 16. P1 진행 기록
+
+- #34 main 머지 확인 후 P1 착수. MapLibre fill-extrusion·2D/3D·모바일 건물·순수 표시 RPC1개·높이/범위 안내·lazy load 구현. 새 라이브러리·채점 변경 없음.
+- 원격 push 전 dry-run 보고/승인 절차와 D5 실측 조건을 유지한다. [P1 검증](../validation/s3-4-p1-20261008.md)에 현재 완료/미완료를 구분한다.
+- P2 오버레이와 학원 점 레이어는 이번 PR에 포함하지 않는다.
+- 2026-10-08 사용자 지시: FPS 환경은 사용자가 나중에 설정해 알린다. P1 기능·번들·migration dry-run을 먼저 완료하고 FPS만 미완료로 기록하며 Draft를 유지한다. 원격 push는 별도 승인 후 진행한다.
