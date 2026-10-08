@@ -7,8 +7,11 @@ import { getSupabaseClient } from '../../lib/supabase/client';
 import { ensureSession } from '../../lib/supabase/session';
 import { subscribeLookups } from '../../lib/compare/subscriptions';
 import type { LookupState } from '../../lib/compare/status';
+import { measureSliderSet, summarizeSliderSets } from '../e2e/slider-performance';
 const client = getSupabaseClient();
 const proof = {
+  measureSliderSet,
+  summarizeSliderSets: (sets: number[][]) => summarizeSliderSets(sets, 'production'),
   ready: false, events: [] as LookupState[], states: [] as string[],
   async add(value: NewCandidate) {
     const {data,error} = await client.rpc('resolve_candidate_location', {lat:value.candidate.lat,lng:value.candidate.lng,pnu:value.selection.pnu || null});

@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { execFileSync } from 'node:child_process';
 import fixtures from './fixtures/addresses.json';
 import { mapFixture, checkMap, checkMobileTabs } from './map-network';
+import { measureSliderSet, sliderPolicy, summarizeSliderSets } from './slider-performance';
 
 test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page, browser }, info) => {
   await page.addInitScript(() => {
@@ -80,25 +81,27 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(selectionWorkerBefore);
     const before = rpc.length;
     const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
-    const performance = await page.evaluate(async () => {
-      const input = document.querySelector<HTMLInputElement>('#desktop-demand')!;
-      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!;
-      const times: number[] = [];
-      input.dispatchEvent(new PointerEvent('pointerdown',{ bubbles:true }));
-      for (let i=0; i<100; i++) {
-        const start = window.performance.now(); setter.call(input,String(i%41));
-        input.dispatchEvent(new Event('input',{ bubbles:true }));
-        await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-        times.push(window.performance.now()-start);
-      }
-      input.dispatchEvent(new PointerEvent('pointerup',{ bubbles:true })); times.sort((a,b)=>a-b);
-      return { samples:times.length, p95:times[94], max:times[99] };
-    });
+    const sets: number[][] = [];
+    for (let set = 1; set <= 3; set++) {
+      await expect(page.getByTestId('compare-map')).toHaveAttribute('data-map-idle', 'true');
+      const result = await page.evaluate(measureSliderSet);
+      // Preserve each completed set even if a later set or correctness check fails.
+      await info.attach(`slider-set-${set}`, { body:JSON.stringify(result), contentType:'application/json' });
+      expect(result.scoresChanged).toBe(true);
+      expect(result.restored).toBe(true);
+      sets.push(result.times);
+    }
+    const performance = summarizeSliderSets(sets, sliderPolicy(process.env.SLIDER_PERFORMANCE_POLICY));
     console.log('slider-performance', JSON.stringify(performance));
-    expect(performance.p95).toBeLessThanOrEqual(100);
+    await info.attach('slider-performance', { body:JSON.stringify(performance,null,2), contentType:'application/json' });
+    expect(performance.passed, JSON.stringify(performance)).toBe(true);
     expect(rpc.length).toBe(before);
     expect(exposureBefore).toBeGreaterThan(0);
     expect(Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0')).toBe(exposureBefore);
+    await page.locator('#desktop-demand').evaluate((input: HTMLInputElement) => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, '17');
+      input.dispatchEvent(new Event('input', { bubbles:true }));
+    });
     await expect(page.locator('#desktop-demand')).toHaveValue('17');
     await page.getByRole('button',{ name:'프리셋으로 저장', exact:true }).click();
     await page.getByLabel('프리셋 이름',{ exact:true }).fill('수요 17');
