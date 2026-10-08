@@ -33,7 +33,7 @@
 1. 로컬 Supabase에 migration을 적용한 뒤 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:db`, `pnpm test:e2e`를 실행한다. 통합 테스트는 로컬 DB만 허용하며 rollback한다. E2E의 공급자/배경 style은 공개 고정 fixture, Auth/RPC/MapLibre/WebGL/노출 Worker는 실제다.
 2. 같은 공개 환경변수로 #29/#30/A를 각각 production build하고 `/compare` HTML의 초기 script/link와 지도 비동기 파일을 나눈다. 파일별 `gzip(...,level=9,mtime=0)` 길이를 합산해 [기록 JSON](../validation/s3-3-a-20261007.json)의 목록과 대조한다. 소스맵·CDN 응답·API JSON을 앱 JS 예산에 섞지 않는다.
 3. live 점검은 실제 Liberty URL로 production build/start, 새 BrowserContext에서 a 등록→첫 map idle을 측정한다. BrowserContext의 response/request.sizes로 Worker 타일까지 수집한다. page 단위 CDP Network만으로 합산하면 Worker 전송량이 누락될 수 있다. 공개 URL·상태·바이트만 기록하고 인증 헤더·토큰은 출력하지 않는다.
-4. 모바일은 새 BrowserContext에서 열어 지도 진입 전 지도 chunk/style/tile/glyph/sprite/RPC 0회를 확인한다. desktop 지도 열린 a~e 5후보에서 슬라이더 100회 p95≤100ms, max 기록, RPC/노출 Worker scene 요청 증가 0회를 확인한다.
+4. 모바일은 새 BrowserContext에서 열어 지도 진입 전 지도 chunk/style/tile/glyph/sprite/RPC 0회를 확인한다. desktop 지도 열린 a~e 5후보에서 슬라이더 100회×3세트 각각 p95≤100ms, 각 세트·전체 max 기록, RPC/노출 Worker scene 요청 증가 0회를 확인한다.
 
 ## 원격 검증 대상 고정
 
@@ -50,3 +50,11 @@
 - 모바일 출처는 후보 칩과 겹치지 않도록 자연스러운 흐름에 둔다. 화면 폭375/390/1024px에서 출처 링크와 탭·키보드 포커스를 확인한다.
 - 회귀 확인은 실제 Auth/RPC/Worker의 a~e 점수, 선택만 변경 시 채점 호출0, 슬라이더 p95≤100ms/max 기록, 새 모바일 세션의 지도 미진입 요청0으로 한다. Realtime 검증의 ready 전환/선택 유지도 확인한다.
 - 프론트 문제는 이전 Vercel 배포로 롤백한다. B는 DB 롤백이나 webhook/cron/좌표/정리 스위치 변경을 요구하지 않는다. 기존 Micro 유지·Small 전환 후 공개 합본 재시험 조건은 별개다.
+
+## S3-4 P0 슬라이더 검증 정책 (2026-10-08)
+
+- PR CI: `SLIDER_PERFORMANCE_POLICY=ci pnpm test:e2e`. 100회×3세트의 p95 중앙값≤100ms. 단일 세트의 초과도 숨기지 않고 p95/max·100개 원시 시간을 JSON/log에 기록한다. 실패해도 `e2e-proof` artifact를 14일 보존한다. 재시도는 0이며 실패 세트를 버리지 않는다.
+- Production 빌드: `E2E_APP_MODE=production SLIDER_PERFORMANCE_POLICY=production pnpm test:e2e`. 로컬 Supabase·공개 주소/타일 fixture 환경에서 Next build/start로 실행하고 **3세트 각각 p95≤100ms**를 적용한다. 기본 정책도 production(엄격)이며 CI 변수로 제품 판정을 대체하지 않는다. 실제 배포·CDN·기기 검증 여부는 별도로 표기한다.
+- 양쪽 모두 input→두 번의 rAF까지, nearest-rank p95(100개 중 index94)로 측정한다. 각 세트 전에 같은 5후보·가중치를 유지하고 지도 idle을 확인한다. 각 세트 후 가중치·점수·열 순서를 복원하고 실제 점수 변경·RPC/Worker 추가 호출0을 확인한다. 기존 standalone `verify_browser.py`도 같은 측정 함수를 사용하며 production 각 세트 기준으로 판정한다.
+- 문서 전용 PR(`docs/**`, `**/*.md`, `**/*.mdx`, 루트 Markdown 포함)은 E2E 준비·브라우저/성능 테스트만 건너뛴다. lint/typecheck/test/build/test:db는 그대로 실행하고 main push는 전체 검증한다. Git 전체 diff에 코드·설정·삭제/이름 변경이 섞이거나 diff 판정이 불가능하면 E2E를 실행한다. 최상위 `paths-ignore`로 workflow 전체를 생략하지 않는다([GitHub 경로 필터 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)).
+- #33의 p95 116.8ms 실패는 사용자 확인 결과 CI 러너 변동이며 점수 정상이다. 재조사·과거 실패 소급 통과 처리 없이 [P0 신규 검증](../validation/s3-4-p0-20261008.md)을 기록한다.
