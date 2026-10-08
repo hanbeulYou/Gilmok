@@ -433,26 +433,19 @@ try:
             b.set_viewport_size({"width": 1440, "height": 1050})
             before = len(requests)
             workers = b.evaluate("workerCalls")
-            perf = b.evaluate("""async()=>{
-     const slider=document.querySelector('#desktop-demand'),times=[];
-     const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;
-     slider.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
-     const order=comparisonProof.state().order.join();
-     for(let i=0;i<100;i++){
-      const t=performance.now();set.call(slider,String(i%41));
-      slider.dispatchEvent(new Event('input',{bubbles:true}));
-      await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-      times.push(performance.now()-t);
-      if(comparisonProof.state().order.join()!==order)throw Error('sort during drag');
-     }
-     slider.dispatchEvent(new PointerEvent('pointerup',{bubbles:true}));
-     times.sort((a,b)=>a-b);
-     return {samples:100,p50:times[49],p95:times[94],max:times[99],
-      heap:performance.memory?.usedJSHeapSize,userAgent:navigator.userAgent,
-      weight:comparisonProof.state().weights.demand};
-    }""")
+            slider_sets = []
+            for index in range(3):
+                measured = b.evaluate("() => comparisonProof.measureSliderSet()")
+                slider_sets.append(measured["times"])
+                report["slider_sets"] = slider_sets
+                check(
+                    f"slider_set_{index + 1}_scores_restored",
+                    measured["scoresChanged"] and measured["restored"],
+                )
+            perf = b.evaluate("sets => comparisonProof.summarizeSliderSets(sets)", slider_sets)
             report["slider"] = perf
-            check("slider_p95_100ms", perf["p95"] <= 100 and perf["weight"] == 17)
+            print("slider-performance", json.dumps(perf))
+            check("slider_each_set_p95_100ms", perf["passed"])
             check(
                 "slider_no_rpc_or_worker",
                 len(requests) == before and workers == b.evaluate("workerCalls"),

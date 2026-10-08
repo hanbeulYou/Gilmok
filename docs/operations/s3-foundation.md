@@ -176,6 +176,7 @@ B 완료/PR #24 Ready의 차단 조건에서 제외하고 **공개 전 체크리
 기존 Micro 시험에서 `score_inputs`/`exposure_inputs_v022`의 HTTP500·SQLSTATE57014
 (15초 statement timeout)이 발생한 [실패·진단 기록](../validation/s3-2-b-comparison-20261001.md#공개-전-합본-시험--기존-실패-기록)은 보존한다.
 
+- [ ] 내장 GPU 일반 노트북 FPS 확인 — S3-4 3D·오버레이 장면에서 기기·GPU·뷰·건물 수와 FPS를 기록한다.
 - [ ] 공개 전 컴퓨트를 Small로 전환하고, 재시작/복구 완료 후 실제 컴퓨트와 DB 정상 상태를 기록한다.
 - [ ] 같은 브라우저별 후보 동시 채점 최대2개, v0.3 프리셋·원천 snapshot·3곳 좌표를 유지한 채
   원격 합본(서로 다른 익명 authenticated uid2개, Realtime 유지, 연속5채점)을 다시 실행한다.

@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 10.7.1
@@ -21,6 +23,11 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - name: Select E2E scope (documentation-only PRs skip browser tests)
+        id: scope
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node .github/scripts/e2e-scope.mjs
       - uses: astral-sh/setup-uv@v6
         with:
           version: 0.12.15
@@ -39,9 +46,24 @@ jobs:
         run: supabase start > /dev/null
       - run: pnpm test:db
       - name: Load fixed public source subset for real RPC E2E
+        if: steps.scope.outputs.run_e2e == 'true'
         run: uv run --frozen python tests/e2e/snapshot.py
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
+        if: steps.scope.outputs.run_e2e == 'true'
+      - name: E2E and slider performance (3 sets)
+        id: e2e
+        if: steps.scope.outputs.run_e2e == 'true'
+        env:
+          SLIDER_PERFORMANCE_POLICY: ci
+        run: pnpm test:e2e
+      - name: Preserve E2E measurements including failures
+        if: always() && steps.e2e.outcome != 'skipped' && steps.e2e.outcome != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-proof
+          path: .local/playwright-results
+          include-hidden-files: true
+          retention-days: 14
       - name: Stop local services
         if: always()
         run: supabase stop
