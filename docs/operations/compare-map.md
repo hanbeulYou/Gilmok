@@ -78,3 +78,5 @@ DROP FUNCTION public.project_exposure_geometry(jsonb);
 FPS 실측은 M5 Pro 실제 GPU·AC 전원·저전력 해제·60Hz 화면·Chrome foreground·1440×1000CSSpx/DPR2에서 production build/start로 한다. `E2E_APP_MODE=production E2E_REAL_GPU=1 E2E_REAL_MAP_STYLE=1 BUILDING_3D_FPS=1 SLIDER_PERFORMANCE_POLICY=production pnpm test:e2e`. 실제 renderer를 확인하고 SwiftShader를 거부한다. zoom17/14.5에서 각각60초×3회, 회전/팬/줌 중 Map render 간격·rAF·Chrome frame trace와 보이는 건물 수를 남긴다. 각 회 평균≥55fps, render 간격p95≤33.4ms, 50ms초과 비율≤1%. P1은 건물만이며 P2 오버레이를 포함한 재측정은 별도다. 내장 GPU 일반 노트북 검증은 공개 전 체크리스트에 남긴다.
 
 2026-10-08 P1: 사용자 요청으로 실제 GPU FPS 측정을 보류했다. 기능·번들·dry-run은 [검증 문서](../validation/s3-4-p1-20261008.md)에 기록하고 Draft를 유지한다. 사용자의 AC/60Hz 환경 설정 완료 통보 후 위 명령을 실행하며, headless E2E 통과를 FPS 통과로 대체하지 않는다.
+
+2026-10-09: [실제 GPU FPS 6회 통과](../validation/s3-4-p1-fps-20261009.md). 실행 전/후 pmset과 화면 주사율, Chrome 창이 LG60Hz 화면에 놓인 것을 기록했다. 측정 종료를 사용자에게 알렸으며 설정 복원은 사용자 담당이다. 보조 trace는 약185초만 보존되어 전체 회차 자료와 구분한다. 원격 push는 별도 승인 대기이므로 Draft를 유지한다.
