@@ -80,3 +80,5 @@ FPS 실측은 M5 Pro 실제 GPU·AC 전원·저전력 해제·60Hz 화면·Chrom
 2026-10-08 P1: 사용자 요청으로 실제 GPU FPS 측정을 보류했다. 기능·번들·dry-run은 [검증 문서](../validation/s3-4-p1-20261008.md)에 기록하고 Draft를 유지한다. 사용자의 AC/60Hz 환경 설정 완료 통보 후 위 명령을 실행하며, headless E2E 통과를 FPS 통과로 대체하지 않는다.
 
 2026-10-09: [실제 GPU FPS 6회 통과](../validation/s3-4-p1-fps-20261009.md). 실행 전/후 pmset과 화면 주사율, Chrome 창이 LG60Hz 화면에 놓인 것을 기록했다. 측정 종료를 사용자에게 알렸으며 설정 복원은 사용자 담당이다. 보조 trace는 약185초만 보존되어 전체 회차 자료와 구분한다. 원격 push는 별도 승인 대기이므로 Draft를 유지한다.
+
+2026-10-10 P1: 사용자 승인으로 `20261008085649_project_exposure_geometry.sql` 적용 완료. 기존 함수 정의 diff0, authenticated 실행 권한 확인. [원격·Preview 검증](../validation/s3-4-p1-remote-20261010.md)에서 최대8,336개 셀3회 모두3초 이내·실제 gzip 약72.5% 감소·timeout0. 새 Vercel 변수·컴퓨트/반경/정밀도 변경 없음. P1 머지 후 Production에도 같은 화면을 적용하며 롤백 SQL은 위 절을 따른다.

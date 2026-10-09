@@ -235,3 +235,5 @@ P1 migration은 `supabase migration new`로 생성하고 과거 파일을 수정
 - 2026-10-08 사용자 지시: FPS 환경은 사용자가 나중에 설정해 알린다. P1 기능·번들·migration dry-run을 먼저 완료하고 FPS만 미완료로 기록하며 Draft를 유지한다. 원격 push는 별도 승인 후 진행한다.
 
 - 2026-10-09: 사용자 환경 설정 후 AC·주 화면 LG60Hz·powermode0 재확인. [P1 실제 GPU FPS](../validation/s3-4-p1-fps-20261009.md) 근경/광역 60초×3회 전부 통과(평균59.982~60.000fps, p95 17.7~17.8ms). FPS 보류 해제, 원격 migration 승인/실증은 대기이며 Draft 유지. OS 설정은 에이전트가 변경하지 않았다.
+
+- 2026-10-10 P1 완료: 승인된 표시 RPC1개 원격 push, a/b/c 및 서울 최대8,336개 셀의 authenticated HTTP/gzip·SQL30회 검증 통과. 최대 셀 HTTP 1.670~1.749초(timeout0), 웜SQL p95505.982ms. Preview 실제 3D/높이3분류/범위/2D복귀 통과. [원격 검증](../validation/s3-4-p1-remote-20261010.md). #35 Ready 전환 후 사용자 머지, 그 뒤 P2 착수.
