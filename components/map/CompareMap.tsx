@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { navigationIndex } from '../../lib/compare/navigation';
 import { useShallow } from 'zustand/react/shallow';
 import maplibregl, { type GeoJSONSource, type Map as LibreMap, type StyleSpecification } from 'maplibre-gl';
@@ -11,6 +11,7 @@ import { ensureSession } from '../../lib/supabase/session';
 import { createMapContextLoader } from '../../lib/map/context';
 import { contextSummary, groupCandidates, mapSourceFingerprint, type MapContext } from '../../lib/map/features';
 
+import { MapBoundary } from './MapBoundary';
 const styleUrl = process.env.NEXT_PUBLIC_MAP_STYLE_URL;
 const credits = '<a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> · '
   + '<a href="https://openmaptiles.org/" target="_blank" rel="noopener noreferrer">© OpenMapTiles</a> · '
@@ -36,6 +37,16 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
   const [context, setContext] = useState<MapContext | null>(null), [loading, setLoading] = useState(false), [attempt, setAttempt] = useState(0);
   const markerElements = useRef(new Map<string, HTMLButtonElement>()), markerFocus = useRef<string | null>(null);
   const floorList = useRef<HTMLDivElement>(null);
+  const [sceneAttempt, setSceneAttempt] = useState(0);
+  const BuildingScene3D = useMemo(() => lazy(() => import('./BuildingScene3D')), [sceneAttempt]);
+  const [is3D, setIs3D] = useState(false), [visited3D, setVisited3D] = useState(false);
+  const savedView = useRef<{ center: [number, number]; zoom: number; bearing: number } | null>(null);
+  const candidateIds = state.candidates.map(row => row.id).sort().join('|');
+  const chooseMode = (value: boolean) => {
+    setIs3D(value); if (value) setVisited3D(true);
+    try { localStorage.setItem('gilmok-map-mode', value ? '3d' : '2d'); } catch { /* Storage can be unavailable. */ }
+  };
+  useEffect(() => { try { if (localStorage.getItem('gilmok-map-mode') === '3d') { setIs3D(true); setVisited3D(true); } } catch { /* Default 2D. */ } }, []);
   const [groupKey, setGroupKey] = useState<string | null>(null);
   const rows = useMemo(() => state.order.flatMap(id => state.candidates.filter(row => row.id === id)), [state.order, state.candidates]);
   const groups = useMemo(() => groupCandidates(rows), [rows]);
@@ -143,20 +154,21 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
   useEffect(() => { if (active) map.current?.resize(); }, [active]);
   useEffect(() => {
     const center = JSON.stringify([lng, lat]);
-    if (active && ready && lat !== undefined && lng !== undefined && cameraCenter.current !== center) {
+    if (!is3D && active && ready && lat !== undefined && lng !== undefined && cameraCenter.current !== center) {
       map.current?.easeTo({ center: [lng, lat], zoom: 14, duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450 });
       cameraCenter.current = center;
     }
-  }, [ready, lat, lng, active]);
+  }, [ready, lat, lng, active, is3D]);
   useEffect(() => {
     if (ready) (map.current?.getSource('comparison-context') as GeoJSONSource | undefined)?.setData(context?.collection ?? { type: 'FeatureCollection', features: [] });
+    if (is3D) { if (context) fittedCenter.current = JSON.stringify(context.center); return; }
     const ring = context?.collection.features.find(feature => feature.properties.radius_m === 1000);
     if (active && ready && context && ring?.geometry.type === 'Polygon' && fittedCenter.current !== JSON.stringify(context.center)) {
       const bounds = new maplibregl.LngLatBounds(); ring.geometry.coordinates[0].forEach(point => bounds.extend(point as [number, number]));
       map.current?.fitBounds(bounds, { padding: 24, maxZoom: 15, duration: 0 });
       fittedCenter.current = JSON.stringify(context.center);
     }
-  }, [ready, context, active]);
+  }, [ready, context, active, is3D]);
   useEffect(() => {
     const instance = map.current; if (!instance || !context) return;
     const markers = context.collection.features.flatMap(feature => {
@@ -169,6 +181,27 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
     });
     return () => { markers.forEach(marker => marker.remove()); };
   }, [context, ready]);
+
+  useEffect(() => {
+    const instance = map.current;
+    if (!instance || !ready) return;
+    instance.stop();
+    if (!active) return;
+    const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 600;
+    if (is3D && lng !== undefined && lat !== undefined) {
+      savedView.current ??= { center: instance.getCenter().toArray(), zoom: instance.getZoom(), bearing: instance.getBearing() };
+      instance.setMaxPitch(60); instance.dragRotate.enable(); instance.touchPitch.enable(); instance.touchZoomRotate.enableRotation();
+      instance.easeTo({ center: [lng, lat], zoom: 17, pitch: 55, duration });
+    } else {
+      instance.dragRotate.disable(); instance.touchPitch.disable(); instance.touchZoomRotate.disableRotation();
+      if (savedView.current) {
+        instance.easeTo({ ...savedView.current, pitch: 0, duration }); savedView.current = null;
+      }
+      const finish = () => instance.setMaxPitch(0);
+      if (instance.isMoving()) instance.once('moveend', finish); else finish();
+      return () => { instance.off('moveend', finish); };
+    }
+  }, [ready, active, is3D, lng, lat]);
 
   if (!styleUrl) return <p role="status">지도 설정을 준비 중입니다. 후보 점수와 근거는 계속 확인할 수 있습니다.</p>;
   const group = groups.find(value => value.key === groupKey);
@@ -186,7 +219,17 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
       if (next !== null) { event.preventDefault(); buttons[next]?.focus(); }
     }}>{group.members.map(member => <button key={member.id} aria-pressed={member.id === selected?.id}
       onClick={() => { state.selectCandidate(member.id); closeGroup(); }}>{member.rank}. {member.alias} · {member.floor}층</button>)}<button onClick={closeGroup}>목록 닫기</button></div>}
-    <div ref={host} className="map-canvas" data-testid="compare-map" aria-label="후보와 주변 역·학교 지도"/>
+    <div className="map-viewport">
+      <div className="map-mode" role="group" aria-label="지도 차원">
+        <button aria-pressed={!is3D} onClick={() => chooseMode(false)}>2D</button>
+        <button aria-pressed={is3D} disabled={!ready || !!mapError} onClick={() => chooseMode(true)}>3D</button>
+      </div>
+      <div ref={host} className="map-canvas" data-testid="compare-map" data-mode={is3D ? '3d' : '2d'} aria-label="후보와 주변 역·학교 지도"/>
+    </div>
+    {visited3D && ready && map.current && <MapBoundary key={sceneAttempt} retry={() => setSceneAttempt(value => value + 1)} fallback={is3D ? <p role="alert">건물 3D 화면을 불러오지 못했습니다. <button onClick={() => setSceneAttempt(value => value + 1)}>3D 다시 시도</button> <button onClick={() => chooseMode(false)}>2D로 돌아가기</button></p> : <></>}><Suspense fallback={is3D ? <p role="status">건물 3D 화면을 준비하는 중입니다.</p> : null}>
+      <BuildingScene3D map={map.current} active={active && is3D} selected={selected} candidateIds={candidateIds}
+        inSeoul={context?.meta.covered} exit={() => chooseMode(false)}/>
+    </Suspense></MapBoundary>}
     {mapError && <p role="alert">{mapError} <button onClick={retry}>지도 다시 시도</button></p>}
     <p className="map-legend">초록 영역 800m · 바깥 점선 1km · 파랑 역 · 초/중/고 학교</p>
     <p role="status" className="map-context-status">{context ? contextSummary(context) : contextError || (loading ? '반경·역·학교를 불러오는 중입니다.' : '채점 입력을 확인한 뒤 주변 자료를 표시합니다.')}

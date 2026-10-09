@@ -647,3 +647,17 @@ D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 �
 - 유효 좌표 범위는 lat33..39/lng124..132, NULL/NaN/범위 밖은 SQLSTATE22023. security invoker·빈 search_path·authenticated만 EXECUTE이며 anon/PUBLIC은 거부한다. private 큐/캐시·score_inputs·candidates에 접근하지 않는다.
 - 클라이언트는 초기 채점 종료 뒤 선택 후보 1건만 요청한다. 같은 좌표+admin_boundaries/subway_positions/schools fingerprint의 요청 공유/메모리 캐시를 사용하며 가중치/층 변화로 RPC를 다시 호출하지 않는다.
 - 로컬 실데이터 a/b/c payload14,492~18,000bytes, authenticated SQL30회 warm p95 1.431~1.489ms. 실제 익명 세션 HTTP center 정확 일치. 원격 실측값으로 대체하지 않는다.
+
+## S3-4 P1 표시용 좌표 변환 계약 (2026-10-08)
+
+`project_exposure_geometry(items jsonb) → jsonb array`는 채점 캐시의 geometry만 변환한다. 입력은 `[{id: string, geometry: GeoJSON geometry}]`이며 입력 EPSG:5186, 출력 EPSG:4326(`[lng, lat]`) 고정이다. id·순서·geometry 종류·홀·MultiPolygon을 보존한다. Point/LineString/Polygon/MultiPolygon을 지원하고 높이·층·가시 판정·score·개인 정보는 전달하지 않는다. 기존 DB 건물 도형을 재조회하거나 변경하지 않는다.
+
+- 새 함수1개·authenticated EXECUTE만 추가. `IMMUTABLE`, `SECURITY INVOKER`, 빈 search_path, extra_float_digits=3. anon/PUBLIC EXECUTE 없음. 새 테이블·캐시·트리거·기존 객체/행 변경 없음.
+- 상한: JSONB 정규 직렬화(`items::text`, UTF-8) 8MiB, 10,000개 item, 총 200,000개 꼭짓점. 이는 공백 없는 HTTP body 바이트와 다를 수 있다. id는 고유한 1~200자 문자열이다. 빈 배열은 빈 배열을 반환한다.
+- 비유한 좌표·3차원 좌표·비어 있거나 유효하지 않은 도형·폐합되지 않은 ring·미지원 종류를 거부한다. EPSG:5186 허용 범위는 X −100,000~700,000m / Y 100,000~1,000,000m다. 오류/초과는 SQLSTATE22023이며 부분 도형 반환·묵시적 생략·도형 수리/단순화 없음. GeoJSON 출력 정밀도15자리.
+- 클라이언트는 같은 scene의 높이/estimated/원천 메타데이터를 결합한다. RPC 변환 결과가 scene의 id·개수·순서와 다르면 표시 오류로 처리한다. 원래 후보의4326 좌표를 변환 출력으로 덮어쓰지 않는다.
+- 최근2개 geometry/source/candidate XY를 메모리에 보관하고 요청은 동시1개. 같은 좌표의 층 전환은 건물 변환만 재사용한다. 후보ID·generation·층을 포함한 채점 결과 캐시는 유지하며 별도 노출 재계산 없음. 후보 집합/uid 변경·라우트 이탈 시 표시 캐시를 비운다.
+- 서울10,127격자 중심 전수의 최대 장면은8,336개·74,753꼭짓점, compact 요청3,687,353byte/응답3,696,953byte. 새 함수로 최대 장면 전부 반환 확인. a/b/c 전체 도형 역변환 오차<0.01m.
+- 표시는 원천 `height_m` 그대로이며 새 추정 없음. source/floors_estimate/unknown를 색·범례·건물 정보로 구분한다. unknown은 기존4m 가정. SHP·WFS·부속/소형을 모두 보존하고 MapLibre GeoJSON source `tolerance:0`으로 추가 단순화를 하지 않는다.
+
+[검증·배포 승인 상태](../validation/s3-4-p1-20261008.md). 원격은 최종 dry-run 보고 후 push 승인 대상이다.

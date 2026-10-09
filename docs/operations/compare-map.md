@@ -58,3 +58,27 @@
 - 양쪽 모두 input→두 번의 rAF까지, nearest-rank p95(100개 중 index94)로 측정한다. 각 세트 전에 같은 5후보·가중치를 유지하고 지도 idle을 확인한다. 각 세트 후 가중치·점수·열 순서를 복원하고 실제 점수 변경·RPC/Worker 추가 호출0을 확인한다. 기존 standalone `verify_browser.py`도 같은 측정 함수를 사용하며 production 각 세트 기준으로 판정한다.
 - 문서 전용 PR(`docs/**`, `**/*.md`, `**/*.mdx`, 루트 Markdown 포함)은 E2E 준비·브라우저/성능 테스트만 건너뛴다. lint/typecheck/test/build/test:db는 그대로 실행하고 main push는 전체 검증한다. Git 전체 diff에 코드·설정·삭제/이름 변경이 섞이거나 diff 판정이 불가능하면 E2E를 실행한다. 최상위 `paths-ignore`로 workflow 전체를 생략하지 않는다([GitHub 경로 필터 안내](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)).
 - #33의 p95 116.8ms 실패는 사용자 확인 결과 CI 러너 변동이며 점수 정상이다. 재조사·과거 실패 소급 통과 처리 없이 [P0 신규 검증](../validation/s3-4-p0-20261008.md)을 기록한다.
+
+## S3-4 P1 건물 3D 운영
+
+- 동일 MapLibre 인스턴스에서 2D/3D를 전환한다. 선택 후보 중심 zoom17/pitch55°, 600ms easeTo. 2D 복귀는 이전 center/zoom/bearing을 복원하고 회전을 제한한다. reduced-motion은 즉시 전환한다. 화면 선택은 localStorage `gilmok-map-mode`에 기억한다(최초2D). 저장된3D 선호로 지도에 들어오면 3D 진입으로 처리한다.
+- `BuildingScene3D`/표시 좌표 RPC는 최초3D 진입에만 로드한다. 2D나 근거만 보는 새 세션에는 추가3D JS/CSS·RPC·노출 Worker 요청0. 모바일도 건물3D까지 지원하며 deck.gl/샘플 오버레이는 P2다.
+- 항상 “건물 3D 자료: 강남구 적재분” 및 현장 확인 문구를 표시한다. 전체1.23km 일부 미적재와 점수 링 범위 밖을 구분한다. 서울 밖·원천 미적재·적재 범위 안 관측0개는 서로 다른 안내다. 배경 타일 건물로 결측을 채우지 않는다.
+- 새 Vercel 환경변수/라이브러리 없음. 기존 `NEXT_PUBLIC_MAP_STYLE_URL` 사용. 원격 `project_exposure_geometry`가 없거나 실패하면 점수를 보존하고 오류·재시도·2D 복귀를 제공한다.
+- 배포: additive migration dry-run·hash·기존 객체 변경 여부 확인 → 사용자 push 승인 → 원격 SQL30회/익명 로그인 HTTP 및 Preview 3D 확인 → 사용자 PR 머지. [P1 검증](../validation/s3-4-p1-20261008.md)을 따른다.
+- 롤백: 프론트 P1 되돌리기 또는 새 함수 EXECUTE 회수 후 2D 사용. 이 함수에는 데이터가 없으며 기존 후보/비교/주소/원천 행을 수정하지 않는다.
+
+```sql
+-- 새 표시 기능만 비활성화. 기존 객체/행은 보존한다.
+REVOKE EXECUTE ON FUNCTION public.project_exposure_geometry(jsonb) FROM authenticated;
+-- 프론트가 2D로 복귀한 뒤 새 함수 자체를 제거할 때만 실행한다.
+DROP FUNCTION public.project_exposure_geometry(jsonb);
+```
+
+FPS 실측은 M5 Pro 실제 GPU·AC 전원·저전력 해제·60Hz 화면·Chrome foreground·1440×1000CSSpx/DPR2에서 production build/start로 한다. `E2E_APP_MODE=production E2E_REAL_GPU=1 E2E_REAL_MAP_STYLE=1 BUILDING_3D_FPS=1 SLIDER_PERFORMANCE_POLICY=production pnpm test:e2e`. 실제 renderer를 확인하고 SwiftShader를 거부한다. zoom17/14.5에서 각각60초×3회, 회전/팬/줌 중 Map render 간격·rAF·Chrome frame trace와 보이는 건물 수를 남긴다. 각 회 평균≥55fps, render 간격p95≤33.4ms, 50ms초과 비율≤1%. P1은 건물만이며 P2 오버레이를 포함한 재측정은 별도다. 내장 GPU 일반 노트북 검증은 공개 전 체크리스트에 남긴다.
+
+2026-10-08 P1: 사용자 요청으로 실제 GPU FPS 측정을 보류했다. 기능·번들·dry-run은 [검증 문서](../validation/s3-4-p1-20261008.md)에 기록하고 Draft를 유지한다. 사용자의 AC/60Hz 환경 설정 완료 통보 후 위 명령을 실행하며, headless E2E 통과를 FPS 통과로 대체하지 않는다.
+
+2026-10-09: [실제 GPU FPS 6회 통과](../validation/s3-4-p1-fps-20261009.md). 실행 전/후 pmset과 화면 주사율, Chrome 창이 LG60Hz 화면에 놓인 것을 기록했다. 측정 종료를 사용자에게 알렸으며 설정 복원은 사용자 담당이다. 보조 trace는 약185초만 보존되어 전체 회차 자료와 구분한다. 원격 push는 별도 승인 대기이므로 Draft를 유지한다.
+
+2026-10-10 P1: 사용자 승인으로 `20261008085649_project_exposure_geometry.sql` 적용 완료. 기존 함수 정의 diff0, authenticated 실행 권한 확인. [원격·Preview 검증](../validation/s3-4-p1-remote-20261010.md)에서 최대8,336개 셀3회 모두3초 이내·실제 gzip 약72.5% 감소·timeout0. 새 Vercel 변수·컴퓨트/반경/정밀도 변경 없음. P1 머지 후 Production에도 같은 화면을 적용하며 롤백 SQL은 위 절을 따른다.
