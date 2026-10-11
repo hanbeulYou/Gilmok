@@ -36,7 +36,7 @@ export async function checkExposureOverlay(page:Page,info:TestInfo) {
   m.jumpTo({pitch:0,bearing:0});await new Promise<void>(resolve=>{m.once('idle',()=>resolve());m.triggerRepaint();});
   const candidate=m.getSource('scored-buildings')._data.features.find((f:{properties:{candidate:boolean}})=>f.properties.candidate),height=candidate.properties.height_m;
   const read=async(z:number)=>{
-   const position=[127.05758573871447,37.5025721944737,z];deck.setProps({layers:[...old,sampleLayer.clone({id:'occlusion-verification',data:[{position}],getPosition:(d:{position:number[]})=>d.position,getRadius:2,radiusMinPixels:8,getFillColor:[0,255,255,255],stroked:false,pickable:false})]});
+   const position=[127.05758573871447,37.5025721944737,z];deck.setProps({layers:[...old,sampleLayer.clone({id:'occlusion-verification',data:[{position}],getPosition:(d:{position:number[]})=>d.position,getRadius:2,radiusMinPixels:8,getFillColor:[0,255,255,255],getLineColor:[0,0,0,0],stroked:false,pickable:false})]});
    await new Promise<void>(resolve=>{m.once('idle',()=>resolve());m.triggerRepaint();});
    return await new Promise<number[]>(resolve=>{m.once('render',()=>{const canvas=m.getCanvas(),gl=canvas.getContext('webgl2'),pixel=new Uint8Array(4),p=deck.getViewports()[0].project(position),ratio=canvas.width/canvas.clientWidth;gl.readPixels(Math.floor(p[0]*ratio),canvas.height-1-Math.floor(p[1]*ratio),1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);resolve([...pixel]);});m.triggerRepaint();});
   };
