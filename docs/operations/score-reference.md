@@ -1,6 +1,6 @@
 # score_reference 운영 — S2-1
 
-기준은 [채점 명세 v0.1.2](../planning/scoring-spec.md)다. 이번 PR은 기준 분포와 공통 원시값 추출만 구현한다. 종합/축 점수, 가시성, 실제 학원 순위 검증은 포함하지 않는다. 원격 활성화 변수는 기존처럼 false 상태를 유지한다.
+현재 앱 채점 모델은 [v0.4.0](../planning/scoring-spec.md), 기준 분포의 원시값 계약은 `academy_v0 / 0.1.2`, RPC schema는 1.3이다. 2026-10-11 source/reference 불일치의 [복구 승인 범위](../planning/reference-refresh-recovery-plan.md)와 [로컬 검증](../validation/reference-refresh-20261011.md)을 따른다. 원격 복구는 승인 대기이며 문서 변경만으로 실행되지 않는다.
 
 ## 실행
 
@@ -11,14 +11,14 @@ uv run --frozen python -m ingest.score_reference
 
 기본은 로컬 Supabase, 주소 없는 floor=2. 검증된 250m 격자 10,127셀의 EPSG:5179 중심점을 4326으로 바꿔 800/1000m를 호출한다. 새 격자 수가 다르면 자동 축소/표본 적재하지 않고 실패한다. 기준 분포 갱신은 원본 수집 API를 재호출하지 않는다.
 
-월간 workflow는 기존 6소스 matrix 성공 후 `needs: refresh`로 reference를 한 번 실행한다. 단일 소스 재시도 선택 시에도 완료 후 현재 모든 소스 버전으로 다시 만든다. 실패 시 별도 `score-reference.yml` 수동 실행이 가능하다. job은 30분 timeout, concurrency 중복 방지, 원격/R2 가드, 고정 main checkout을 사용한다. 실제 원격 전체 시간은 미검증이다.
+월간 workflow는 `ingest.refresh_monthly` 한 실행에서 모든 원천 준비를 끝내고 원천·기준 분포·manifest를 단일 트랜잭션으로 교체한다. 하나라도 실패하면 구버전 쌍을 유지한다. 단일 소스 재시도도 같은 coordinator를 쓴다. `score-reference.yml`은 원천이 이미 고정된 경우의 분포 단독 복구용이며 별도 승인 후 실행한다.
 
 원격은 `--target remote`, `INGEST_REMOTE_ENABLED=true`, 일치하는 프로젝트 ref·TLS DB URL·R2가 모두 필요하다. 기존 `ingest-production` Secrets만 사용하며 새 키는 없다. CLI 실행 코드가 달라졌으면 반드시 TS bridge를 다시 빌드한다.
 
 ## 수집과 원자 교체
 
 1. 기존 refresh의 소스별 advisory lock으로 reference 작업 중복을 막는다.
-2. 단일 REPEATABLE READ / READ ONLY 스냅샷에서 전체 셀·RPC·10개 관련 소스 버전을 읽는다. inside_seoul은 RPC와 같은 ST_Covers 조건이다. 주소 큐를 만들지 않는다.
+2. 단일 REPEATABLE READ / READ ONLY 스냅샷에서 전체 셀·RPC·10개 관련 소스 버전을 읽는다. inside_seoul은 RPC와 같은 ST_Covers 조건이다. 주소 큐를 만들지 않는다. 월간 원자적 갱신에서는 바깥 REPEATABLE READ 쓰기 트랜잭션의 미커밋 원천을 같은 연결로 읽는다. 전수 검증 후 원천과 분포를 함께 커밋하며 일반 SELECT는 이전 버전을 읽는다.
 3. Python 수집 파일을 기존 tsc로 컴파일한 `/lib/scoring/raw.ts`에 전달한다. 같은 TypeScript 함수를 S2-2도 사용하므로 두 언어에 가중식을 중복 구현하지 않는다.
 4. NULL 행을 보존하고 셀×반경×지표 완전성·중복·유한값·버전을 검사한다. R2 입력/분포 Parquet를 게시 후 재읽기하고 **게시 입력에서 전 행을 재계산**해 게시 분포와 EXCEPT ALL 양방향 대조한다.
 5. 활성화 전에 관련 소스 테이블을 짧게 SHARE NOWAIT 잠그고 source fingerprint가 수집 시점과 같은지 확인한다. 동시 갱신·변경 감지 시 이전 reference를 유지한다.
