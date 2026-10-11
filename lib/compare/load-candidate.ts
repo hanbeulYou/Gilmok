@@ -3,7 +3,7 @@ import { extractReferenceRaw } from '../scoring/raw';
 import { academyV0 } from '../scoring/presets';
 import { score } from '../scoring/score';
 import type { Candidate, ScoreContext, ScoreInputs, PercentileReference, ExposureInput, ScoreResult } from '../scoring/types';
-import type { VisibilityScene } from '../visibility/types';
+import type { VisibilityScene, VisibilityResult } from '../visibility/types';
 
 export interface ResolvedLocation {
   status: 'matched' | 'footprint_missing'; context: ScoreContext;
@@ -12,7 +12,7 @@ export interface ResolvedLocation {
 export type RegistrationStage = 'fetching' | 'scoring' | 'scored' | 'scored_provisional' | 'error';
 export interface CandidateInputs {
   key: string; primary?: ScoreInputs; school?: ScoreInputs; scene?: VisibilityScene;
-  reference?: PercentileReference; exposure?: ExposureInput;
+  reference?: PercentileReference; exposure?: (NonNullable<ExposureInput> & Partial<Pick<VisibilityResult, 'samples' | 'summary'>>) | null;
 }
 export interface LoadProgress {
   stage?: RegistrationStage; inputs?: CandidateInputs; result?: ScoreResult;

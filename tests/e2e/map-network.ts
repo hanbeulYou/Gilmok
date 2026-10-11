@@ -1,6 +1,7 @@
 import { expect, type Page } from '@playwright/test';
 // Real MapLibre/WebGL and RPC; only CI's external basemap is deterministic.
 export async function mapFixture(page: Page) {
+  if (process.env.E2E_REAL_MAP_STYLE === '1') return;
   await page.route('https://map.gilmok.test/**', route => route.fulfill({ contentType: 'application/json', body: JSON.stringify({
     version: 8, sources: {}, layers: [{ id: 'background', type: 'background', paint: { 'background-color': '#edf2ef' } }],
   }) }));

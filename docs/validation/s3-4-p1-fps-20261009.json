@@ -1,0 +1,2280 @@
+{
+  "code_commit": "09642d3",
+  "tested_head": "834d16c6867c8560f04a9285ab50c63e3d59717f",
+  "command": "E2E_APP_MODE=production E2E_REAL_GPU=1 E2E_REAL_MAP_STYLE=1 BUILDING_3D_FPS=1 SLIDER_PERFORMANCE_POLICY=production pnpm test:e2e",
+  "preflight": {
+    "captured_at": "2026-10-09T08:02:43.872734+00:00",
+    "battery": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=7340131)\t100%; charged; 0:00 remaining present: true",
+    "power_modes": "Battery Power:\n Sleep On Power Button 1\n powermode            1\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         60\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           1\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         60\n womp                 1\n networkoversleep     0\n sleep                0\n tcpkeepalive         1\n disksleep            10",
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t26.5.2\nBuildVersion:\t\t25F84",
+    "displays": {
+      "chromeWindows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1920,
+            "X": 0,
+            "Y": 30
+          },
+          "id": 141285,
+          "pid": 41195
+        }
+      ],
+      "screens": [
+        {
+          "cgBounds": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "frame": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "id": 4,
+          "main": true,
+          "name": "LG HDR 4K",
+          "refreshHz": 60,
+          "scale": 2
+        },
+        {
+          "cgBounds": [
+            1920,
+            376,
+            1512,
+            982
+          ],
+          "frame": [
+            1920,
+            -278,
+            1512,
+            982
+          ],
+          "id": 1,
+          "main": false,
+          "name": "Built-in Retina Display",
+          "refreshHz": 120,
+          "scale": 2
+        }
+      ]
+    }
+  },
+  "postflight": {
+    "captured_at": "2026-10-09T08:10:14.936852+00:00",
+    "battery": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=7340131)\t100%; charged; 0:00 remaining present: true",
+    "power_modes": "Battery Power:\n Sleep On Power Button 1\n powermode            1\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         60\n womp                 0\n networkoversleep     0\n sleep                1\n lessbright           1\n tcpkeepalive         1\n disksleep            10\nAC Power:\n Sleep On Power Button 1\n powermode            0\n standby              1\n ttyskeepawake        1\n hibernatemode        3\n powernap             1\n hibernatefile        /var/vm/sleepimage\n displaysleep         60\n womp                 1\n networkoversleep     0\n sleep                0\n tcpkeepalive         1\n disksleep            10",
+    "displays": {
+      "chromeWindows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        },
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1920,
+            "X": 0,
+            "Y": 30
+          },
+          "id": 141285,
+          "pid": 41195
+        }
+      ],
+      "screens": [
+        {
+          "cgBounds": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "frame": [
+            0,
+            0,
+            1920,
+            1080
+          ],
+          "id": 4,
+          "main": true,
+          "name": "LG HDR 4K",
+          "refreshHz": 60,
+          "scale": 2
+        },
+        {
+          "cgBounds": [
+            1920,
+            376,
+            1512,
+            982
+          ],
+          "frame": [
+            1920,
+            -278,
+            1512,
+            982
+          ],
+          "id": 1,
+          "main": false,
+          "name": "Built-in Retina Display",
+          "refreshHz": 120,
+          "scale": 2
+        }
+      ]
+    }
+  },
+  "window_observations": [
+    {
+      "observed_at": "2026-10-09T08:03:03.384756+00:00",
+      "windows": [],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:03:13.452395+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:03:23.508157+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:03:33.576495+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:03:43.635474+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:03:53.699135+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:03.755172+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:13.823528+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:23.893163+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:33.947168+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 365,
+            "Width": 501,
+            "X": 373,
+            "Y": 643
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:44.005850+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:04:54.078723+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:04.146178+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:14.216571+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:24.281562+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:34.351622+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:44.419205+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:05:54.482226+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:04.533019+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:14.586816+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:24.643291+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:34.701040+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:44.763934+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:06:54.824632+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:04.899971+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:14.982768+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:25.042144+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:35.101075+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:45.168756+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:07:55.226885+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:05.293005+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:15.363702+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:25.420350+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:35.469838+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:45.539406+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:08:55.608426+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:05.675309+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:15.739523+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:25.809045+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:35.865629+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:45.914859+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:09:55.972015+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    },
+    {
+      "observed_at": "2026-10-09T08:10:06.035344+00:00",
+      "windows": [
+        {
+          "bounds": {
+            "Height": 1050,
+            "Width": 1442,
+            "X": 22,
+            "Y": 30
+          },
+          "id": 197596,
+          "pid": 29561
+        }
+      ],
+      "main_display": {
+        "cgBounds": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "frame": [
+          0,
+          0,
+          1920,
+          1080
+        ],
+        "id": 4,
+        "main": true,
+        "name": "LG HDR 4K",
+        "refreshHz": 60,
+        "scale": 2
+      }
+    }
+  ],
+  "runs": [
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 17,
+      "run": 1,
+      "duration": 60003.2000002861,
+      "renderedFrames": 3600,
+      "averageFps": 59.99680017037149,
+      "p95": 17.700000286102295,
+      "max": 25.100000381469727,
+      "over50": 0,
+      "visibleStart": 380,
+      "visibleEnd": 319,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    },
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 17,
+      "run": 2,
+      "duration": 60000.2999997139,
+      "renderedFrames": 3600,
+      "averageFps": 59.999700001786096,
+      "p95": 17.700000286102295,
+      "max": 19.59999990463257,
+      "over50": 0,
+      "visibleStart": 380,
+      "visibleEnd": 319,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    },
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 17,
+      "run": 3,
+      "duration": 60001,
+      "renderedFrames": 3600,
+      "averageFps": 59.99900001666639,
+      "p95": 17.700000286102295,
+      "max": 19.699999809265137,
+      "over50": 0,
+      "visibleStart": 380,
+      "visibleEnd": 319,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    },
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 14.5,
+      "run": 1,
+      "duration": 60001.199999809265,
+      "renderedFrames": 3600,
+      "averageFps": 59.998800024190245,
+      "p95": 17.699999809265137,
+      "max": 20.09999990463257,
+      "over50": 0,
+      "visibleStart": 3751,
+      "visibleEnd": 2812,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    },
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 14.5,
+      "run": 2,
+      "duration": 60001.5,
+      "renderedFrames": 3599,
+      "averageFps": 59.98183378748865,
+      "p95": 17.700000286102295,
+      "max": 19.199999809265137,
+      "over50": 0,
+      "visibleStart": 3751,
+      "visibleEnd": 2812,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    },
+    {
+      "device": {
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+        "dpr": 2,
+        "viewport": [
+          1440,
+          1000
+        ],
+        "canvas": [
+          598,
+          550,
+          1196,
+          1100
+        ]
+      },
+      "zoom": 14.5,
+      "run": 3,
+      "duration": 60001.199999809265,
+      "renderedFrames": 3599,
+      "averageFps": 59.98213369085019,
+      "p95": 17.799999713897705,
+      "max": 25.300000190734863,
+      "over50": 0,
+      "visibleStart": 3751,
+      "visibleEnd": 2812,
+      "focusedStart": true,
+      "focusedEnd": true,
+      "passed": true
+    }
+  ],
+  "trace": {
+    "path": ".local/fps-20261009/building-frame-trace.json",
+    "sha256": "1b170b70d7d3162810ad6ce3d1b7373855f6a1d90f0e0c6dbb48158bd2a3802d",
+    "bytes": 804265355,
+    "event_counts": {
+      "Graphics.Pipeline": 337979,
+      "DisplayScheduler::DrawAndSwap": 10844,
+      "Display::DrawAndSwap": 10844,
+      "DirectRenderer::DrawFrame": 10843,
+      "DirectRenderer::DrawFrame ProcessForOverlays": 10843,
+      "SkiaRenderer::SwapBuffers": 10843,
+      "SkiaOutputSurfaceImplOnGpu::SwapBuffers": 10844,
+      "ImageTransportSurfaceOverlayMac::Present": 10844,
+      "CommitPresentedFrameToCA": 10844,
+      "OnVSyncPresentation": 10881,
+      "Display::FrameDisplayed": 10842,
+      "FramePresented": 6,
+      "DrawFrame": 10832,
+      "PipelineReporter": 22954,
+      "SubmitCompositorFrameToPresentationCompositorFrame": 22822,
+      "Graphics.Pipeline.DrawAndSwap": 21687,
+      "Graphics.Pipeline.Draw": 21686,
+      "Graphics.Pipeline.WaitForSwap": 10843,
+      "WaitForPresentation": 10843,
+      "SwapEndToPresentationCompositorFrame": 22822,
+      "Presentation": 55,
+      "Extrapolated presentation": 45
+    },
+    "limitation": "Display::FrameDisplayed events span 184.994305 seconds; trace does not cover all six runs. Full map render/rAF intervals are retained separately.",
+    "displayed_event_span_seconds": 184.994305,
+    "displayed_interval_p50_ms": 16.668,
+    "displayed_interval_p95_ms": 16.668
+  },
+  "slider": {
+    "policy": "production",
+    "limitMs": 100,
+    "sets": [
+      {
+        "set": 1,
+        "samples": 100,
+        "p95": 34.19999980926514,
+        "max": 34.40000009536743,
+        "times": [
+          10.599999904632568,
+          33.09999990463257,
+          32.5,
+          34.200000286102295,
+          32.5,
+          34.19999980926514,
+          33.40000009536743,
+          33.299999713897705,
+          33.30000019073486,
+          33.09999990463257,
+          33.09999990463257,
+          33.40000009536743,
+          33.30000019073486,
+          33.299999713897705,
+          32.700000286102295,
+          34,
+          33.299999713897705,
+          32.80000019073486,
+          33.90000009536743,
+          32.69999980926514,
+          33.90000009536743,
+          33.40000009536743,
+          33.19999980926514,
+          32.700000286102295,
+          33.90000009536743,
+          33.299999713897705,
+          33.200000286102295,
+          32.59999990463257,
+          33,
+          33.39999961853027,
+          34.10000038146973,
+          32.5,
+          33.799999713897705,
+          33.40000009536743,
+          33.59999990463257,
+          33.30000019073486,
+          32.59999990463257,
+          33.799999713897705,
+          32.90000009536743,
+          32.90000009536743,
+          34.40000009536743,
+          33.19999980926514,
+          32.40000009536743,
+          34.299999713897705,
+          33.5,
+          32.30000019073486,
+          33.30000019073486,
+          34.19999980926514,
+          33,
+          32.700000286102295,
+          34.299999713897705,
+          33.30000019073486,
+          32.799999713897705,
+          32.90000009536743,
+          34.10000038146973,
+          33.39999961853027,
+          33.30000019073486,
+          33.30000019073486,
+          33.299999713897705,
+          33.30000019073486,
+          32.90000009536743,
+          33.700000286102295,
+          32.39999961853027,
+          34.10000038146973,
+          33.19999980926514,
+          33.19999980926514,
+          33.39999961853027,
+          33.60000038146973,
+          33.09999990463257,
+          33.40000009536743,
+          32.59999990463257,
+          34,
+          33,
+          33.30000019073486,
+          32.90000009536743,
+          34.09999990463257,
+          33.30000019073486,
+          33.299999713897705,
+          33.30000019073486,
+          32.59999990463257,
+          33,
+          34.200000286102295,
+          33.40000009536743,
+          33,
+          33.69999980926514,
+          32.59999990463257,
+          33.80000019073486,
+          32.799999713897705,
+          33.80000019073486,
+          32.90000009536743,
+          33.09999990463257,
+          33.200000286102295,
+          33.40000009536743,
+          34.19999980926514,
+          32.90000009536743,
+          33.69999980926514,
+          32.59999990463257,
+          34,
+          33,
+          33.69999980926514
+        ]
+      },
+      {
+        "set": 2,
+        "samples": 100,
+        "p95": 34,
+        "max": 34.200000286102295,
+        "times": [
+          28.100000381469727,
+          33.89999961853027,
+          33.30000019073486,
+          33.5,
+          32.30000019073486,
+          33.799999713897705,
+          33.5,
+          32.700000286102295,
+          33.5,
+          33.69999980926514,
+          33.60000038146973,
+          32.799999713897705,
+          33.5,
+          33.59999990463257,
+          33,
+          32.90000009536743,
+          33.69999980926514,
+          33.09999990463257,
+          32.799999713897705,
+          33.30000019073486,
+          33.40000009536743,
+          33.299999713897705,
+          33.700000286102295,
+          33.69999980926514,
+          32.60000038146973,
+          33.69999980926514,
+          33.69999980926514,
+          33.40000009536743,
+          33.30000019073486,
+          33,
+          33.09999990463257,
+          33.09999990463257,
+          33.89999961853027,
+          33.10000038146973,
+          33,
+          33,
+          34,
+          32.5,
+          34.19999980926514,
+          33,
+          33.60000038146973,
+          33.299999713897705,
+          32.39999961853027,
+          33.5,
+          33.700000286102295,
+          32.799999713897705,
+          33.69999980926514,
+          33.69999980926514,
+          33.40000009536743,
+          33.30000019073486,
+          33.19999980926514,
+          33.299999713897705,
+          33.200000286102295,
+          33.30000019073486,
+          33.299999713897705,
+          32.40000009536743,
+          34.19999980926514,
+          33.299999713897705,
+          33.30000019073486,
+          32.59999990463257,
+          33.30000019073486,
+          33.69999980926514,
+          33,
+          33.59999990463257,
+          33,
+          33.30000019073486,
+          33.799999713897705,
+          33.30000019073486,
+          33.200000286102295,
+          33.799999713897705,
+          33.30000019073486,
+          32.69999980926514,
+          33.799999713897705,
+          33,
+          32.90000009536743,
+          33.30000019073486,
+          34.19999980926514,
+          32.40000009536743,
+          33.69999980926514,
+          33,
+          33.40000009536743,
+          33.80000019073486,
+          33.69999980926514,
+          32.40000009536743,
+          34,
+          33.30000019073486,
+          32.89999961853027,
+          33.89999961853027,
+          32.40000009536743,
+          34,
+          32.700000286102295,
+          33.19999980926514,
+          34.200000286102295,
+          33.299999713897705,
+          33.200000286102295,
+          33.30000019073486,
+          33.39999961853027,
+          32.40000009536743,
+          34.200000286102295,
+          33.299999713897705
+        ]
+      },
+      {
+        "set": 3,
+        "samples": 100,
+        "p95": 34.09999990463257,
+        "max": 34.30000019073486,
+        "times": [
+          28.5,
+          33.799999713897705,
+          32.80000019073486,
+          32.80000019073486,
+          34.09999990463257,
+          33.30000019073486,
+          32.5,
+          33.59999990463257,
+          33.5,
+          32.90000009536743,
+          33.700000286102295,
+          33.5,
+          33.39999961853027,
+          33.40000009536743,
+          33.09999990463257,
+          33.200000286102295,
+          32.69999980926514,
+          33.60000038146973,
+          33.19999980926514,
+          33.40000009536743,
+          33.09999990463257,
+          34.19999980926514,
+          32.700000286102295,
+          33.69999980926514,
+          33.59999990463257,
+          33.299999713897705,
+          32.700000286102295,
+          33.59999990463257,
+          33,
+          33.200000286102295,
+          33.59999990463257,
+          32.90000009536743,
+          33.69999980926514,
+          33.80000019073486,
+          33.19999980926514,
+          33.30000019073486,
+          33.299999713897705,
+          32.59999990463257,
+          33,
+          33.30000019073486,
+          33.5,
+          33.40000009536743,
+          34,
+          33,
+          32.89999961853027,
+          34,
+          33.40000009536743,
+          33.30000019073486,
+          32.5,
+          33.299999713897705,
+          33.40000009536743,
+          33.30000019073486,
+          34.19999980926514,
+          33.30000019073486,
+          33.30000019073486,
+          33.299999713897705,
+          33.40000009536743,
+          33,
+          33.5,
+          32.700000286102295,
+          34,
+          33.39999961853027,
+          33.19999980926514,
+          32.59999990463257,
+          33.5,
+          33.09999990463257,
+          33.30000019073486,
+          34.09999990463257,
+          32.5,
+          33.30000019073486,
+          33.40000009536743,
+          34.09999990463257,
+          33.30000019073486,
+          32.5,
+          33.69999980926514,
+          33.80000019073486,
+          33.299999713897705,
+          32.90000009536743,
+          33,
+          33.40000009536743,
+          33.09999990463257,
+          33.700000286102295,
+          33.59999990463257,
+          32.69999980926514,
+          33.40000009536743,
+          32.90000009536743,
+          34,
+          32.30000019073486,
+          34.09999990463257,
+          33.40000009536743,
+          32.5,
+          34.30000019073486,
+          33.299999713897705,
+          32.59999990463257,
+          33.30000019073486,
+          33.30000019073486,
+          33.5,
+          33,
+          33.40000009536743,
+          33.299999713897705
+        ]
+      }
+    ],
+    "medianP95": 34.09999990463257,
+    "max": 34.40000009536743,
+    "passed": true
+  },
+  "building": {
+    "count": 4693,
+    "unknown": 784,
+    "estimated": 948,
+    "renderedIdsValid": true,
+    "layer": "fill-extrusion",
+    "camera": {
+      "pitch": 55.00000000000001,
+      "zoom": 17
+    },
+    "otherExtrusions": 0,
+    "first3DReadyMs": 1676,
+    "projectionRequests": 3,
+    "http": [
+      {
+        "requestBytes": 2270918,
+        "responseBytes": 2398870,
+        "durationMs": 252.737,
+        "status": 200
+      },
+      {
+        "requestBytes": 1769038,
+        "responseBytes": 37,
+        "durationMs": 41.846,
+        "status": 503
+      },
+      {
+        "requestBytes": 1769038,
+        "responseBytes": 1872198,
+        "durationMs": 249.024,
+        "status": 200
+      }
+    ],
+    "resourcesBefore": [
+      "http://127.0.0.1:3105/_next/static/css/f211c08d13c20b1c.css",
+      "http://127.0.0.1:3105/_next/static/chunks/webpack-91c4f9ee3c1ebae9.js",
+      "http://127.0.0.1:3105/_next/static/chunks/main-app-c4fe1de0693b4301.js",
+      "http://127.0.0.1:3105/_next/static/chunks/4ef3cc75-eac7824852770cf4.js",
+      "http://127.0.0.1:3105/_next/static/chunks/f177dbf6-9a3a8471778d321d.js",
+      "http://127.0.0.1:3105/_next/static/chunks/529-8dd1939c67a1cc0c.js",
+      "http://127.0.0.1:3105/_next/static/chunks/app/layout-33ebb8983dd10b5a.js",
+      "http://127.0.0.1:3105/_next/static/chunks/409-601d748e314bd9d7.js",
+      "http://127.0.0.1:3105/_next/static/chunks/app/new/page-1c32e2febcf88caf.js",
+      "http://127.0.0.1:3105/_next/static/chunks/874-4e711923ec38af34.js",
+      "http://127.0.0.1:3105/_next/static/chunks/214-4044f25f6252e3f8.js",
+      "http://127.0.0.1:54321/auth/v1/signup",
+      "http://127.0.0.1:3105/compare?_rsc=0_RRP2DtmQjVPHQy",
+      "http://127.0.0.1:3105/favicon.ico",
+      "http://127.0.0.1:3105/_next/static/chunks/app/compare/page-f0385ffc9d5c88ad.js",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/exposure_inputs_v022",
+      "http://127.0.0.1:54321/rest/v1/user_weight_presets?select=id%2Cname%2Cweights%2Cnormalized_weights&order=name.asc",
+      "http://127.0.0.1:3105/?_rsc=o1Qt2uzCYnU2mlUP",
+      "http://127.0.0.1:3105/_next/static/chunks/app/page-e581ae249ebe8e7e.js",
+      "http://127.0.0.1:3105/_next/static/chunks/999.2ad4a4630009b678.js",
+      "http://127.0.0.1:3105/_next/static/chunks/4fa69f74.a1be3e42cfcbd242.js",
+      "http://127.0.0.1:3105/_next/static/css/718ee59ff2172a97.css",
+      "http://127.0.0.1:3105/_next/static/css/d6163214a7e502fb.css",
+      "https://tiles.openfreemap.org/styles/liberty",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_reference_percentiles",
+      "http://127.0.0.1:3105/_next/static/chunks/234.02e95e7b077dbdd0.js",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "https://tiles.openfreemap.org/planet",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.json",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.png",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/exposure_inputs_v022",
+      "http://127.0.0.1:54321/rest/v1/user_weight_presets?select=id%2Cname%2Cweights%2Cnormalized_weights&order=name.asc",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_reference_percentiles",
+      "https://tiles.openfreemap.org/styles/liberty",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.json",
+      "https://tiles.openfreemap.org/planet",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.png",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/exposure_inputs_v022",
+      "http://127.0.0.1:54321/rest/v1/user_weight_presets?select=id%2Cname%2Cweights%2Cnormalized_weights&order=name.asc",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_reference_percentiles",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/exposure_inputs_v022",
+      "http://127.0.0.1:54321/rest/v1/user_weight_presets?select=id%2Cname%2Cweights%2Cnormalized_weights&order=name.asc",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_reference_percentiles",
+      "https://tiles.openfreemap.org/styles/liberty",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "https://tiles.openfreemap.org/planet",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.json",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.png",
+      "http://127.0.0.1:54321/rest/v1/rpc/touch_user_activity",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:3105/api/address-search",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_inputs",
+      "http://127.0.0.1:54321/rest/v1/rpc/exposure_inputs_v022",
+      "http://127.0.0.1:54321/rest/v1/user_weight_presets?select=id%2Cname%2Cweights%2Cnormalized_weights&order=name.asc",
+      "http://127.0.0.1:54321/rest/v1/rpc/score_reference_percentiles",
+      "https://tiles.openfreemap.org/styles/liberty",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "https://tiles.openfreemap.org/planet",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.json",
+      "https://tiles.openfreemap.org/sprites/ofm_f384/ofm@2x.png",
+      "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf",
+      "https://tiles.openfreemap.org/fonts/Noto%20Sans%20Italic/0-255.pbf",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context",
+      "http://127.0.0.1:54321/rest/v1/rpc/compare_map_context"
+    ],
+    "resources3D": [
+      "http://127.0.0.1:3105/_next/static/chunks/260.e6d3296d38327062.js",
+      "http://127.0.0.1:3105/_next/static/css/06a23e4543145bdb.css",
+      "http://127.0.0.1:54321/rest/v1/rpc/project_exposure_geometry"
+    ],
+    "restore2D": true,
+    "mobileBuildings": true,
+    "sameFloorGeometryReused": true,
+    "rapidToggles": 10,
+    "noAdditionalScoring": true,
+    "projectionFailureIsolated": true
+  },
+  "result": "passed",
+  "remote_push_executed": false,
+  "settings_modified_by_agent": false,
+  "raw_frame_intervals": {
+    "file": "s3-4-p1-fps-20261009-frames.json.gz",
+    "sha256": "95c4e5f013b530385071ea4ace9bd6d4d9e43dd536a3e753a61dd68b97403165",
+    "gzip_bytes": 52450,
+    "units": "milliseconds",
+    "map_render_and_raf": true
+  }
+}
