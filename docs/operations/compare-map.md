@@ -82,3 +82,17 @@ FPS 실측은 M5 Pro 실제 GPU·AC 전원·저전력 해제·60Hz 화면·Chrom
 2026-10-09: [실제 GPU FPS 6회 통과](../validation/s3-4-p1-fps-20261009.md). 실행 전/후 pmset과 화면 주사율, Chrome 창이 LG60Hz 화면에 놓인 것을 기록했다. 측정 종료를 사용자에게 알렸으며 설정 복원은 사용자 담당이다. 보조 trace는 약185초만 보존되어 전체 회차 자료와 구분한다. 원격 push는 별도 승인 대기이므로 Draft를 유지한다.
 
 2026-10-10 P1: 사용자 승인으로 `20261008085649_project_exposure_geometry.sql` 적용 완료. 기존 함수 정의 diff0, authenticated 실행 권한 확인. [원격·Preview 검증](../validation/s3-4-p1-remote-20261010.md)에서 최대8,336개 셀3회 모두3초 이내·실제 gzip 약72.5% 감소·timeout0. 새 Vercel 변수·컴퓨트/반경/정밀도 변경 없음. P1 머지 후 Production에도 같은 화면을 적용하며 롤백 SQL은 위 절을 따른다.
+
+## S3-4 P2 노출 오버레이
+
+데스크톱에서 `노출 샘플 보기`를 누르면 3D 진입 후 deck.gl을 로드한다. 샘플을 클릭하면 근거 패널이 열리고, 근거의 링/방향 목록에서 선택하면 해당 점·실제 목표점·Worker 기록 차폐 건물을 강조한다. 차폐 건물은 가장 가까운 건물이라는 뜻이 아니다. 모바일에는 버튼/deck 로드가 없으며 숫자 근거와 건물3D만 제공한다.
+
+신규 migration·환경변수·데이터 변경 없음. 기존 `project_exposure_geometry`를 건물/샘플 공용 단일 요청 큐로 사용한다. 표시 실패는 오버레이 안에서 재시도하고 2D/점수를 보존한다. 원천/채점 자료가 없으면 표시용 점을 합성하지 않는다. 회색 제외점에는 광선을 그리지 않고, 이동점은 원래/최종 위치를 연결한다. 링 가중치는 원래 반경 기준이다.
+
+[검증](../validation/s3-4-p2-20261011.md). 실제 GPU FPS는 환경 설정 통보 후 실행한다. 시작 전 `pmset -g batt`·AC 저전력 모드·실제로 Chrome이 놓인 화면의60Hz를 기록한다. P1에서 넓은 cc/gpu trace가 부분 구간만 남았으므로 이번 harness는 frame/display 범주로 좁혔다. 전체6회 trace 보존 여부는 실제 측정 뒤 확인하며, 미실행 상태에서 완전성을 주장하지 않는다.
+
+```sh
+E2E_APP_MODE=production E2E_REAL_GPU=1 E2E_REAL_MAP_STYLE=1 EXPOSURE_OVERLAY_FPS=1 SLIDER_PERFORMANCE_POLICY=production pnpm test:e2e
+```
+
+FPS 통과 후에도 사용자가 머지한다. 앱 롤백은 이 PR의 프론트 변경을 되돌리며 P1의 변환 RPC를 유지한다. P2 종료 후 첫 후속은 학원 점 레이어 계획이며 이 PR에서 활성화하지 않는다.
