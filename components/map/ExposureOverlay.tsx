@@ -8,6 +8,7 @@ import type {ComparisonCandidate} from '../../lib/compare/store';
 import type {GeometryItem} from '../../lib/map/buildings';
 import {exposureGeometryItems,exposureGeometry,sampleLabel,type ExposureGeometry,type DisplaySample} from '../../lib/map/exposure';
 import {getSupabaseClient} from '../../lib/supabase/client';
+import {alignExposureCamera} from '../../lib/map/exposure-camera';
 import {projectGeometry} from '../../lib/map/project';
 import {useExposureLink} from '../compare/ExposureLink';
 import {ExposureEvidence} from '../compare/ExposureEvidence';
@@ -48,7 +49,7 @@ export default function ExposureOverlay({map,row,active}:{map:LibreMap;row?:Comp
    new ScatterplotLayer({id:'exposure-target',data:selected?.target&&selected.sample.status!=='excluded'?[selected]:[],getPosition:d=>d.target!,getRadius:.7,radiusMinPixels:4,getFillColor:[255,220,80,255],pickable:false})];
  },[active,data,selected,link]);
  useEffect(()=>{if(!active||!data)return;const overlay=new MapboxOverlay({interleaved:true,layers:[]});map.addControl(overlay);control.current=overlay;return()=>{control.current=null;map.removeControl(overlay)};},[active,Boolean(data),map]);
- useEffect(()=>{control.current?.setProps({layers,getTooltip:({object}:PickingInfo<DisplaySample>)=>object?.sample?`${sampleLabel(object.sample)} · 이동 ${object.sample.moved_m.toFixed(3)}m`:null});},[layers]);
+ useEffect(()=>{control.current?.setProps({layers,getTooltip:({object}:PickingInfo<DisplaySample>)=>object?.sample?`${sampleLabel(object.sample)} · 이동 ${object.sample.moved_m.toFixed(3)}m`:null});const align=()=>alignExposureCamera(map,layers.map(layer=>layer.id));align();map.on('styledata',align);return()=>{map.off('styledata',align)};},[layers,map]);
  if(!active)return null;
  return <section className="exposure-overlay" data-testid="exposure-overlay" data-state={error?'error':data?'ready':samples?.length?'loading':'missing'} data-sample-count={data?.samples.length??0} data-selected-sample={link.sampleId??''} aria-label="노출 샘플 지도">
   <p>초록 가시 · 빨강 차폐 · 회색 제외 · 노랑 테두리 이동 · 분홍 선택 차폐 건물</p>

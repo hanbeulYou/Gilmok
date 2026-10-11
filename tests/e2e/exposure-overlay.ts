@@ -31,20 +31,23 @@ export async function checkExposureOverlay(page:Page,info:TestInfo,before:string
  await page.locator('.map-panel').screenshot({path:info.outputPath('exposure-overlay-top.png')});
  await page.evaluate(()=>Reflect.get(window,'__gilmokProofMap').jumpTo({pitch:55,bearing:0}));await expect(page.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
  const depth=await page.evaluate(async()=>{
-  const m=Reflect.get(window,'__gilmokProofMap'),deck=m._controls.find((c:Record<string,unknown>)=>c._deck)._deck,old=deck.props.layers,sampleLayer=old.find((l:{id:string})=>l.id==='exposure-samples');
+  const m=Reflect.get(window,'__gilmokProofMap'),overlay=m._controls.find((c:Record<string,unknown>)=>c._deck),deck=overlay._deck,old=deck.props.layers,sampleLayer=old.find((l:{id:string})=>l.id==='exposure-samples');
   m.jumpTo({pitch:0,bearing:0});await new Promise<void>(resolve=>{m.once('idle',()=>resolve());m.triggerRepaint();});
   const candidate=m.getSource('scored-buildings')._data.features.find((f:{properties:{candidate:boolean}})=>f.properties.candidate),height=candidate.properties.height_m;
   const read=async(z:number)=>{
-   const position=[127.05758573871447,37.5025721944737,z];deck.setProps({layers:[...old,sampleLayer.clone({id:'occlusion-verification',data:[{position}],getPosition:(d:{position:number[]})=>d.position,getRadius:2,radiusMinPixels:8,getFillColor:[0,255,255,255],getLineColor:[0,0,0,0],stroked:false,pickable:false})]});
+   const position=[127.05758573871447,37.5025721944737,z];overlay.setProps({layers:[...old.filter((l:{id:string})=>l.id!=='exposure-target'),sampleLayer.clone({id:'exposure-target',data:[{position}],getPosition:(d:{position:number[]})=>d.position,getRadius:2,radiusMinPixels:8,getFillColor:[0,255,255,255],getLineColor:[0,0,0,0],stroked:false,pickable:false})]});await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
    await new Promise<void>(resolve=>{m.once('idle',()=>resolve());m.triggerRepaint();});
    return await new Promise<number[]>(resolve=>{m.once('render',()=>{const canvas=m.getCanvas(),gl=canvas.getContext('webgl2'),pixel=new Uint8Array(4),p=deck.getViewports()[0].project(position),ratio=canvas.width/canvas.clientWidth;gl.readPixels(Math.floor(p[0]*ratio),canvas.height-1-Math.floor(p[1]*ratio),1,1,gl.RGBA,gl.UNSIGNED_BYTE,pixel);resolve([...pixel]);});m.triggerRepaint();});
   };
-  try{return {above:await read(height+3),inside:await read(1.5),height};}finally{deck.setProps({layers:old});m.jumpTo({pitch:55,bearing:0});m.triggerRepaint();}
+  try{return {above:await read(height+3),inside:await read(1.5),height};}finally{overlay.setProps({layers:old});m.jumpTo({pitch:55,bearing:0});m.triggerRepaint();}
  });
  await info.attach('occlusion-probe',{body:JSON.stringify(depth),contentType:'application/json'});
  expect(depth.above[0]<40&&depth.above[1]>220&&depth.above[2]>220).toBe(true);
  expect(depth.inside[0]<40&&depth.inside[1]>220&&depth.inside[2]>220).toBe(false);
+ await expect(page.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
+ await page.evaluate(()=>{const m=Reflect.get(window,'__gilmokProofMap');Reflect.set(window,'__overlayFrames',0);Reflect.set(window,'__overlayFrameListener',()=>Reflect.set(window,'__overlayFrames',Reflect.get(window,'__overlayFrames')+1));m.on('render',Reflect.get(window,'__overlayFrameListener'));Reflect.set(window,'__overlayMarkers',[...document.querySelectorAll('.map-candidate')]);});
  const sets:number[][]=[];for(let i=0;i<3;i++){const result=await page.evaluate(measureSliderSet);expect(result.scoresChanged&&result.restored).toBe(true);sets.push(result.times);}
+ const runtime=await page.evaluate(()=>{const m=Reflect.get(window,'__gilmokProofMap');m.off('render',Reflect.get(window,'__overlayFrameListener'));return {mapFrames:Reflect.get(window,'__overlayFrames'),markersPreserved:Reflect.get(window,'__overlayMarkers').every((node:Element,i:number)=>document.querySelectorAll('.map-candidate')[i]===node)};});await info.attach('overlay-slider-runtime',{body:JSON.stringify(runtime),contentType:'application/json'});
  const slider=summarizeSliderSets(sets,sliderPolicy(process.env.SLIDER_PERFORMANCE_POLICY));await info.attach('overlay-slider-performance',{body:JSON.stringify(slider),contentType:'application/json'});expect(slider.passed).toBe(true);
  if(process.env.EXPOSURE_OVERLAY_FPS==='1'){const {measureBuildingPerformance}=await import('./building-performance');await measureBuildingPerformance(page,info);}
  await page.locator('[data-overlay-toggle]').click();await expect(page.getByTestId('exposure-overlay')).toHaveCount(0);
