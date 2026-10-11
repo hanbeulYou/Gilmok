@@ -1,3 +1,4 @@
+import { checkExposureOverlay } from './exposure-overlay';
 import { expect, type Page, type TestInfo } from '@playwright/test';
 import type { Map as LibreMap } from 'maplibre-gl';
 
@@ -29,10 +30,10 @@ export async function checkBuilding3D(page: Page, info: TestInfo) {
   expect(resourcesBefore.filter(url=>url.endsWith('/rpc/project_exposure_geometry'))).toEqual([]);
   const scoringCalls: string[] = [], http: {requestBytes:number;responseBytes:number;durationMs:number;status:number}[] = [];
   const workersBefore = await page.locator('html').getAttribute('data-exposure-runs');
-  page.on('request', request => { if (request.url().endsWith('/rpc/project_exposure_geometry')) calls.push(request.url()); });
+  page.on('request', request => { if (request.url().endsWith('/rpc/project_exposure_geometry') && request.postDataJSON().items[0]?.geometry.type === 'MultiPolygon') calls.push(request.url()); });
   page.on('request', request => { if (/\/rpc\/(score_inputs|exposure_inputs_v022|score_reference_percentiles)$/.test(request.url())) scoringCalls.push(request.url()); });
   page.on('response', async response => {
-    if (!response.url().endsWith('/rpc/project_exposure_geometry')) return;
+    if (!response.url().endsWith('/rpc/project_exposure_geometry') || response.request().postDataJSON().items[0]?.geometry.type !== 'MultiPolygon') return;
     await response.finished();
     http.push({requestBytes:Buffer.byteLength(response.request().postData() ?? ''),responseBytes:(await response.body()).length,
       durationMs:response.request().timing().responseEnd,status:response.status()});
@@ -67,6 +68,7 @@ export async function checkBuilding3D(page: Page, info: TestInfo) {
   expect(proof).toMatchObject({count:4693,unknown:784,estimated:948,layer:'fill-extrusion',otherExtrusions:0,renderedIdsValid:true});
   expect(calls).toHaveLength(1);
   const resources3D = await page.evaluate(() => performance.getEntriesByType('resource').map(entry=>entry.name));
+  const overlayProof = await checkExposureOverlay(page, info);
   if (process.env.BUILDING_3D_FPS === '1') {
     const { measureBuildingPerformance } = await import('./building-performance');
     await measureBuildingPerformance(page, info);
@@ -112,6 +114,6 @@ export async function checkBuilding3D(page: Page, info: TestInfo) {
   expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(workersBefore);
   await expect.poll(()=>http.length).toBe(3);
   expect(http.map(value=>value.status)).toEqual([200,503,200]);
-  return {...proof,first3DReadyMs,projectionRequests:calls.length,http,resourcesBefore,resources3D:resources3D.filter(url=>!resourcesBefore.includes(url)),
+  return {...proof,...overlayProof,first3DReadyMs,projectionRequests:calls.length,http,resourcesBefore,resources3D:resources3D.filter(url=>!resourcesBefore.includes(url)),
     restore2D:true,mobileBuildings:true,sameFloorGeometryReused:true,rapidToggles:10,noAdditionalScoring:true,projectionFailureIsolated:true};
 }

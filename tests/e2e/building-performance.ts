@@ -15,7 +15,8 @@ export async function measureBuildingPerformance(page: Page, info: TestInfo) {
   expect(device.dpr).toBe(2);
   const results = [];
   const cdp = await page.context().newCDPSession(page);
-  await cdp.send('Tracing.start', { categories:'disabled-by-default-devtools.timeline.frame,cc,gpu,viz', transferMode:'ReturnAsStream' });
+  // Frame-only categories avoid the broad cc/gpu trace buffer limit observed in P1.
+  await cdp.send('Tracing.start', { categories:'disabled-by-default-devtools.timeline.frame,disabled-by-default-display.framedisplayed', transferMode:'ReturnAsStream' });
   try {
   for (const zoom of [17,14.5]) {
     for (let run=1;run<=3;run++) {

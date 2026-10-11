@@ -11,6 +11,7 @@ import { ensureSession } from '../../lib/supabase/session';
 import { createMapContextLoader } from '../../lib/map/context';
 import { contextSummary, groupCandidates, mapSourceFingerprint, type MapContext } from '../../lib/map/features';
 
+import { useExposureLink } from '../compare/ExposureLink';
 import { MapBoundary } from './MapBoundary';
 const styleUrl = process.env.NEXT_PUBLIC_MAP_STYLE_URL;
 const credits = '<a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> · '
@@ -37,16 +38,21 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
   const [context, setContext] = useState<MapContext | null>(null), [loading, setLoading] = useState(false), [attempt, setAttempt] = useState(0);
   const markerElements = useRef(new Map<string, HTMLButtonElement>()), markerFocus = useRef<string | null>(null);
   const floorList = useRef<HTMLDivElement>(null);
+  const exposureLink = useExposureLink();
+  const [overlayAttempt, setOverlayAttempt] = useState(0), [visitedOverlay, setVisitedOverlay] = useState(false);
+  const ExposureOverlay = useMemo(() => lazy(() => import('./ExposureOverlay')), [overlayAttempt]);
   const [sceneAttempt, setSceneAttempt] = useState(0);
   const BuildingScene3D = useMemo(() => lazy(() => import('./BuildingScene3D')), [sceneAttempt]);
   const [is3D, setIs3D] = useState(false), [visited3D, setVisited3D] = useState(false);
   const savedView = useRef<{ center: [number, number]; zoom: number; bearing: number } | null>(null);
   const candidateIds = state.candidates.map(row => row.id).sort().join('|');
   const chooseMode = (value: boolean) => {
+    if (!value) exposureLink.setEnabled(false);
     setIs3D(value); if (value) setVisited3D(true);
     try { localStorage.setItem('gilmok-map-mode', value ? '3d' : '2d'); } catch { /* Storage can be unavailable. */ }
   };
   useEffect(() => { try { if (localStorage.getItem('gilmok-map-mode') === '3d') { setIs3D(true); setVisited3D(true); } } catch { /* Default 2D. */ } }, []);
+  useEffect(() => { if (exposureLink.enabled) { setIs3D(true); setVisited3D(true); setVisitedOverlay(true); } }, [exposureLink.enabled]);
   const [groupKey, setGroupKey] = useState<string | null>(null);
   const rows = useMemo(() => state.order.flatMap(id => state.candidates.filter(row => row.id === id)), [state.order, state.candidates]);
   const groups = useMemo(() => groupCandidates(rows), [rows]);
@@ -226,11 +232,16 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
       </div>
       <div ref={host} className="map-canvas" data-testid="compare-map" data-mode={is3D ? '3d' : '2d'} aria-label="후보와 주변 역·학교 지도"/>
     </div>
-    {visited3D && ready && map.current && <MapBoundary key={sceneAttempt} retry={() => setSceneAttempt(value => value + 1)} fallback={is3D ? <p role="alert">건물 3D 화면을 불러오지 못했습니다. <button onClick={() => setSceneAttempt(value => value + 1)}>3D 다시 시도</button> <button onClick={() => chooseMode(false)}>2D로 돌아가기</button></p> : <></>}><Suspense fallback={is3D ? <p role="status">건물 3D 화면을 준비하는 중입니다.</p> : null}>
+    {visited3D && ready && map.current && <MapBoundary key={`buildings-${sceneAttempt}`} retry={() => setSceneAttempt(value => value + 1)} fallback={is3D ? <p role="alert">건물 3D 화면을 불러오지 못했습니다. <button onClick={() => setSceneAttempt(value => value + 1)}>3D 다시 시도</button> <button onClick={() => chooseMode(false)}>2D로 돌아가기</button></p> : <></>}><Suspense fallback={is3D ? <p role="status">건물 3D 화면을 준비하는 중입니다.</p> : null}>
       <BuildingScene3D map={map.current} active={active && is3D} selected={selected} candidateIds={candidateIds}
         inSeoul={context?.meta.covered} exit={() => chooseMode(false)}/>
     </Suspense></MapBoundary>}
     {mapError && <p role="alert">{mapError} <button onClick={retry}>지도 다시 시도</button></p>}
+    {ready && exposureLink.desktop && <button data-overlay-toggle aria-pressed={exposureLink.enabled} onClick={() => exposureLink.setEnabled(!exposureLink.enabled)}>노출 샘플 {exposureLink.enabled?'숨기기':'보기'}</button>}
+    {is3D && !exposureLink.desktop && <p>샘플점 지도는 데스크톱에서 확인</p>}
+    {visitedOverlay && ready && map.current && exposureLink.desktop && <MapBoundary key={`exposure-${overlayAttempt}`} retry={() => setOverlayAttempt(v=>v+1)} fallback={exposureLink.enabled?<p role="alert">노출 오버레이를 불러오지 못했습니다. <button onClick={()=>setOverlayAttempt(v=>v+1)}>오버레이 다시 시도</button><button onClick={()=>exposureLink.setEnabled(false)}>오버레이 닫기</button></p>:<></>}><Suspense fallback={exposureLink.enabled?<p role="status">노출 오버레이를 준비하는 중입니다.</p>:null}>
+      <ExposureOverlay map={map.current} row={selected} active={active && is3D && exposureLink.enabled}/>
+    </Suspense></MapBoundary>}
     <p className="map-legend">초록 영역 800m · 바깥 점선 1km · 파랑 역 · 초/중/고 학교</p>
     <p role="status" className="map-context-status">{context ? contextSummary(context) : contextError || (loading ? '반경·역·학교를 불러오는 중입니다.' : '채점 입력을 확인한 뒤 주변 자료를 표시합니다.')}
       {contextError && <button onClick={() => setAttempt(value => value + 1)}>주변 자료 다시 시도</button>}</p>

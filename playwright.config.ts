@@ -11,7 +11,7 @@ if (process.env.E2E_APP_MODE === 'production' && process.env.SLIDER_PERFORMANCE_
 }
 export default defineConfig({
   testDir:'tests/e2e', testMatch:'compare.spec.ts', fullyParallel:false, workers:1, retries:0,
-  timeout:process.env.BUILDING_3D_FPS === '1' ? 600_000 : 180_000, expect:{ timeout:60_000 }, outputDir:'.local/playwright-results',
+  timeout:(process.env.BUILDING_3D_FPS === '1' || process.env.EXPOSURE_OVERLAY_FPS === '1') ? 600_000 : 180_000, expect:{ timeout:60_000 }, outputDir:'.local/playwright-results',
   reporter:[['list'], ['json', { outputFile:'.local/playwright-results/report.json' }]], use:{ baseURL:'http://127.0.0.1:3105', browserName:'chromium',
     viewport:{ width:1440, height:1000 }, trace:'off', screenshot:'only-on-failure', actionTimeout:30000,
     ...(process.env.E2E_REAL_GPU === '1' ? { headless:false, channel:'chrome', deviceScaleFactor:2, launchOptions:{args:[]} }

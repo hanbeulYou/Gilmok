@@ -9,7 +9,10 @@ import { measureSliderSet, sliderPolicy, summarizeSliderSets } from './slider-pe
 test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page, browser }, info) => {
   await page.addInitScript(() => {
     const send = Worker.prototype.postMessage;
+    const observed = new WeakSet<Worker>();
+    Reflect.set(window,'__workerExposureResults',[]);
     Worker.prototype.postMessage = function(message: unknown, transfer?: Transferable[] | StructuredSerializeOptions) {
+      if (!observed.has(this)) { observed.add(this); this.addEventListener('message',e=>{if(e.data?.result){const results=Reflect.get(window,'__workerExposureResults');results.push(e.data.result);if(results.length>20)results.shift();}}); }
       if (message && typeof message === 'object' && 'scene' in message && document.documentElement)
         document.documentElement.dataset.exposureRuns = String(Number(document.documentElement.dataset.exposureRuns ?? '0') + 1);
       return Reflect.apply(send, this, transfer === undefined ? [message] : [message, transfer]);
@@ -177,6 +180,13 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await mobile.getByRole('tab',{name:'지도',exact:true}).click();
     await expect(mobile.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
     await expect(mobile.locator('.map-context-status')).toContainText(/학교 \d+곳/);
+    await mobile.getByRole('button',{name:'3D',exact:true}).click();
+    await expect(mobile.getByTestId('building-3d')).toHaveAttribute('data-state','ready');
+    await expect(mobile.locator('[data-overlay-toggle]')).toHaveCount(0);
+    await expect(mobile.getByTestId('exposure-overlay')).toHaveCount(0);
+    const deckResources=buildings3D.overlayJS;
+    expect(mobileRequests.filter(url=>deckResources.includes(url))).toEqual([]);
+    await info.attach('mobile-overlay-deferred',{body:JSON.stringify({deckResources,requests:mobileRequests,noDeck:true}),contentType:'application/json'});
     await coldMobile.close();
     console.log(JSON.stringify(evidence));
   } finally {
