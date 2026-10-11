@@ -17,7 +17,7 @@ export function ExposureLinkProvider({row,desktop,openEvidence,children}:{row?:C
     if (from==='map') openRef.current();
     else requestAnimationFrame(()=>{const el=document.querySelector<HTMLButtonElement>('[data-overlay-toggle]');el?.scrollIntoView({block:'nearest'});el?.focus();});
   },[owner,key,desktop]);
-  const enabled=valid&&state.enabled&&desktop,sampleId=valid?state.sampleId:null;
+  const enabled=state.enabled&&desktop,sampleId=valid?state.sampleId:null;
   const value=useMemo(()=>({enabled,sampleId,desktop,setEnabled,pick}),[enabled,sampleId,desktop,setEnabled,pick]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }

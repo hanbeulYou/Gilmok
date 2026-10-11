@@ -44,6 +44,12 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
   const [sceneAttempt, setSceneAttempt] = useState(0);
   const BuildingScene3D = useMemo(() => lazy(() => import('./BuildingScene3D')), [sceneAttempt]);
   const [is3D, setIs3D] = useState(false), [visited3D, setVisited3D] = useState(false);
+  const previousDesktop3D = useRef(false);
+  useEffect(() => {
+    const desktop3D = is3D && exposureLink.desktop;
+    if (desktop3D && !previousDesktop3D.current) exposureLink.setEnabled(true);
+    previousDesktop3D.current = desktop3D;
+  }, [is3D, exposureLink.desktop, exposureLink.setEnabled]);
   const savedView = useRef<{ center: [number, number]; zoom: number; bearing: number } | null>(null);
   const candidateIds = state.candidates.map(row => row.id).sort().join('|');
   const chooseMode = (value: boolean) => {

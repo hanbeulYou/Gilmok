@@ -1,9 +1,8 @@
 import {expect,type Page,type TestInfo} from '@playwright/test';
 import {measureSliderSet,summarizeSliderSets,sliderPolicy} from './slider-performance';
-export async function checkExposureOverlay(page:Page,info:TestInfo) {
- const before=await page.evaluate(()=>performance.getEntriesByType('resource').map(r=>r.name));
- const response=page.waitForResponse(r=>r.url().endsWith('/rpc/project_exposure_geometry')&&r.request().postDataJSON().items[0]?.geometry.type==='Point');
- await page.locator('[data-overlay-toggle]').click();await expect(page.getByTestId('exposure-overlay')).toHaveAttribute('data-state','ready');await response;
+export async function checkExposureOverlay(page:Page,info:TestInfo,before:string[]) {
+ await expect(page.locator('[data-overlay-toggle]')).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByTestId('exposure-overlay')).toHaveAttribute('data-state','ready');
  await expect(page.getByTestId('exposure-overlay')).toHaveAttribute('data-sample-count','108');
  await expect(page.getByTestId('exposure-overlay')).toContainText('32/108');await expect(page.getByTestId('exposure-overlay')).toContainText('38.383838%');await expect(page.getByTestId('exposure-overlay')).toContainText('30.707071점');
  await expect(page.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
@@ -50,8 +49,15 @@ export async function checkExposureOverlay(page:Page,info:TestInfo) {
  if(process.env.EXPOSURE_OVERLAY_FPS==='1'){const {measureBuildingPerformance}=await import('./building-performance');await measureBuildingPerformance(page,info);}
  await page.locator('[data-overlay-toggle]').click();await expect(page.getByTestId('exposure-overlay')).toHaveCount(0);
  expect(await page.evaluate(()=>Reflect.get(window,'__gilmokProofMap')._controls.some((c:Record<string,unknown>)=>c._deck))).toBe(false);
- const overlayJS=await page.evaluate(before=>{const urls=performance.getEntriesByType('resource').map(r=>r.name).filter(u=>!before.includes(u)&&u.includes('/_next/static/')&&u.endsWith('.js'));return urls},before);
+ // Classify the unique incremental resources after default-on 3D entry. These
+ // diagnostic reads happen after the interaction benchmark, not during startup.
+ const overlayResources=await page.evaluate(async before=>{
+  const urls=[...new Set(performance.getEntriesByType('resource').map(r=>r.name).filter(u=>!before.includes(u)&&u.includes('/_next/static/')&&/\.(js|css)$/.test(u)))];
+  const bodies=await Promise.all(urls.map(async url=>({url,text:await (await fetch(url)).text()})));
+  return bodies.filter(({url,text})=>url.endsWith('.css')?text.includes('.exposure-overlay'):!text.includes('data-building-count')).map(r=>r.url);
+ },before);
+ const overlayJS=overlayResources.filter(u=>u.endsWith('.js'));
  await info.attach('exposure-overlay-proof',{body:JSON.stringify({...proof,depth,overlayJS,workerSampleDiff:0,picked:pick!.id,highlightedBlocker:blocked.building_id,twoWay:true}),contentType:'application/json'});
- return {overlayJS};
+ return {overlayJS,overlayResources};
 }
 

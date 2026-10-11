@@ -68,7 +68,7 @@ export async function checkBuilding3D(page: Page, info: TestInfo) {
   expect(proof).toMatchObject({count:4693,unknown:784,estimated:948,layer:'fill-extrusion',otherExtrusions:0,renderedIdsValid:true});
   expect(calls).toHaveLength(1);
   const resources3D = await page.evaluate(() => performance.getEntriesByType('resource').map(entry=>entry.name));
-  const overlayProof = await checkExposureOverlay(page, info);
+  const overlayProof = await checkExposureOverlay(page, info, resourcesBefore);
   if (process.env.BUILDING_3D_FPS === '1') {
     const { measureBuildingPerformance } = await import('./building-performance');
     await measureBuildingPerformance(page, info);
@@ -114,6 +114,6 @@ export async function checkBuilding3D(page: Page, info: TestInfo) {
   expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(workersBefore);
   await expect.poll(()=>http.length).toBe(3);
   expect(http.map(value=>value.status)).toEqual([200,503,200]);
-  return {...proof,...overlayProof,first3DReadyMs,projectionRequests:calls.length,http,resourcesBefore,resources3D:resources3D.filter(url=>!resourcesBefore.includes(url)),
+  return {...proof,...overlayProof,first3DReadyMs,projectionRequests:calls.length,http,resourcesBefore,resources3D:resources3D.filter(url=>!resourcesBefore.includes(url)&&!overlayProof.overlayResources.includes(url)),
     restore2D:true,mobileBuildings:true,sameFloorGeometryReused:true,rapidToggles:10,noAdditionalScoring:true,projectionFailureIsolated:true};
 }
