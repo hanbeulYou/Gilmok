@@ -84,8 +84,7 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     const mapProof = await checkMap(page, scoringCoordinates);
     expect(scoringCalls()).toBe(selectionScoringBefore);
     expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(selectionWorkerBefore);
-    const buildings3D = await checkBuilding3D(page, info);
-    await info.attach('building-3d-proof', { body:JSON.stringify(buildings3D), contentType:'application/json' });
+    // Preserve the matrix regression baseline before initializing software WebGL deck.
     const before = rpc.length;
     const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
     const sets: number[][] = [];
@@ -100,11 +99,14 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     }
     const performance = summarizeSliderSets(sets, sliderPolicy(process.env.SLIDER_PERFORMANCE_POLICY));
     console.log('slider-performance', JSON.stringify(performance));
-    await info.attach('slider-performance', { body:JSON.stringify(performance,null,2), contentType:'application/json' });
+    await info.attach('slider-performance', { body:JSON.stringify({...performance,phase:'matrix_before_3d'},null,2), contentType:'application/json' });
     expect(performance.passed, JSON.stringify(performance)).toBe(true);
     expect(rpc.length).toBe(before);
     expect(exposureBefore).toBeGreaterThan(0);
     expect(Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0')).toBe(exposureBefore);
+    const buildings3D = await checkBuilding3D(page, info);
+    await info.attach('building-3d-proof', { body:JSON.stringify(buildings3D), contentType:'application/json' });
+
     await page.locator('#desktop-demand').evaluate((input: HTMLInputElement) => {
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, '17');
       input.dispatchEvent(new Event('input', { bubbles:true }));
