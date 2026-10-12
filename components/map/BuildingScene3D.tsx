@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Map as LibreMap, MapLayerMouseEvent } from 'maplibre-gl';
 import type { ComparisonCandidate } from '../../lib/compare/store';
 import { getSupabaseClient } from '../../lib/supabase/client';
-import { ensureSession } from '../../lib/supabase/session';
-import { buildingCoverage, createBuildingProjectionLoader, heightLabel, type GeometryItem, type BuildingCollection } from '../../lib/map/buildings';
+import { projectGeometry } from '../../lib/map/project';
+import { buildingCoverage, createBuildingProjectionLoader, heightLabel, type BuildingCollection } from '../../lib/map/buildings';
 import { EXPOSURE_LIMITATION } from '../../lib/visibility/types';
 import './building-3d.css';
 
@@ -18,12 +18,7 @@ export default function BuildingScene3D({ map, active, selected, candidateIds, i
   const scene = selected?.inputs?.scene;
   const [data, setData] = useState<BuildingCollection | null>(null), [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0), [clicked, setClicked] = useState<string | null>(null);
-  const loader = useMemo(() => createBuildingProjectionLoader(async (items, signal) => {
-    await ensureSession(); signal.throwIfAborted();
-    const { data, error } = await getSupabaseClient().rpc('project_exposure_geometry', { items }).abortSignal(signal);
-    if (error || !Array.isArray(data)) throw new Error('건물 좌표를 변환하지 못했습니다. 잠시 후 다시 시도해 주세요.');
-    return data as GeometryItem[];
-  }), []);
+  const loader = useMemo(() => createBuildingProjectionLoader(projectGeometry), []);
   useEffect(() => () => loader.dispose(), [loader]);
   useEffect(() => {
     let owner: string | null | undefined;
@@ -50,7 +45,7 @@ export default function BuildingScene3D({ map, active, selected, candidateIds, i
     map.addSource(source, { type: 'geojson', data, attribution, tolerance:0, promoteId:'id' });
     map.addLayer({ id: layer, type: 'fill-extrusion', source, paint: {
       'fill-extrusion-height': ['get', 'height_m'], 'fill-extrusion-base': 0,
-      'fill-extrusion-color': ['case', ['get', 'candidate'], '#b57921', ['match', ['get', 'height_source'],
+      'fill-extrusion-color': ['case', ['boolean', ['feature-state', 'exposure-blocker'], false], '#cb3b86', ['get', 'candidate'], '#b57921', ['match', ['get', 'height_source'],
         'floors_estimate', '#b8946d', 'unknown', '#867b9c', '#829b9e']],
       'fill-extrusion-opacity': 0.9, 'fill-extrusion-vertical-gradient': true,
     } }, 'station-points');

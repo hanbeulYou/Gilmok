@@ -34,11 +34,21 @@
     "vitest": "5.0.1"
   },
   "dependencies": {
+    "@deck.gl/core": "9.1.14",
+    "@deck.gl/layers": "9.1.14",
+    "@deck.gl/mapbox": "9.1.14",
     "@supabase/supabase-js": "2.117.2",
     "maplibre-gl": "4.7.1",
     "next": "15.5.26",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "zustand": "5.0.8"
+  },
+  "pnpm": {
+    "overrides": {
+      "@loaders.gl/core": "4.3.4",
+      "@loaders.gl/images": "4.3.4",
+      "@loaders.gl/schema": "4.3.4"
+    }
   }
 }

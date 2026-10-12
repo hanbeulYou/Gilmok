@@ -9,7 +9,10 @@ import { measureSliderSet, sliderPolicy, summarizeSliderSets } from './slider-pe
 test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은 uid 재열기', async ({ page, browser }, info) => {
   await page.addInitScript(() => {
     const send = Worker.prototype.postMessage;
+    const observed = new WeakSet<Worker>();
+    Reflect.set(window,'__workerExposureResults',[]);
     Worker.prototype.postMessage = function(message: unknown, transfer?: Transferable[] | StructuredSerializeOptions) {
+      if (!observed.has(this)) { observed.add(this); this.addEventListener('message',e=>{if(e.data?.result){const results=Reflect.get(window,'__workerExposureResults');results.push(e.data.result);if(results.length>20)results.shift();}}); }
       if (message && typeof message === 'object' && 'scene' in message && document.documentElement)
         document.documentElement.dataset.exposureRuns = String(Number(document.documentElement.dataset.exposureRuns ?? '0') + 1);
       return Reflect.apply(send, this, transfer === undefined ? [message] : [message, transfer]);
@@ -81,8 +84,7 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     const mapProof = await checkMap(page, scoringCoordinates);
     expect(scoringCalls()).toBe(selectionScoringBefore);
     expect(await page.locator('html').getAttribute('data-exposure-runs')).toBe(selectionWorkerBefore);
-    const buildings3D = await checkBuilding3D(page, info);
-    await info.attach('building-3d-proof', { body:JSON.stringify(buildings3D), contentType:'application/json' });
+    // Preserve the matrix regression baseline before initializing software WebGL deck.
     const before = rpc.length;
     const exposureBefore = Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0');
     const sets: number[][] = [];
@@ -97,11 +99,14 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     }
     const performance = summarizeSliderSets(sets, sliderPolicy(process.env.SLIDER_PERFORMANCE_POLICY));
     console.log('slider-performance', JSON.stringify(performance));
-    await info.attach('slider-performance', { body:JSON.stringify(performance,null,2), contentType:'application/json' });
+    await info.attach('slider-performance', { body:JSON.stringify({...performance,phase:'matrix_before_3d'},null,2), contentType:'application/json' });
     expect(performance.passed, JSON.stringify(performance)).toBe(true);
     expect(rpc.length).toBe(before);
     expect(exposureBefore).toBeGreaterThan(0);
     expect(Number(await page.locator('html').getAttribute('data-exposure-runs') ?? '0')).toBe(exposureBefore);
+    const buildings3D = await checkBuilding3D(page, info);
+    await info.attach('building-3d-proof', { body:JSON.stringify(buildings3D), contentType:'application/json' });
+
     await page.locator('#desktop-demand').evaluate((input: HTMLInputElement) => {
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, '17');
       input.dispatchEvent(new Event('input', { bubbles:true }));
@@ -177,6 +182,13 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await mobile.getByRole('tab',{name:'지도',exact:true}).click();
     await expect(mobile.getByTestId('compare-map')).toHaveAttribute('data-map-idle','true');
     await expect(mobile.locator('.map-context-status')).toContainText(/학교 \d+곳/);
+    await mobile.getByRole('button',{name:'3D',exact:true}).click();
+    await expect(mobile.getByTestId('building-3d')).toHaveAttribute('data-state','ready');
+    await expect(mobile.locator('[data-overlay-toggle]')).toHaveCount(0);
+    await expect(mobile.getByTestId('exposure-overlay')).toHaveCount(0);
+    const deckResources=buildings3D.overlayJS;
+    expect(mobileRequests.filter(url=>deckResources.includes(url))).toEqual([]);
+    await info.attach('mobile-overlay-deferred',{body:JSON.stringify({deckResources,requests:mobileRequests,noDeck:true}),contentType:'application/json'});
     await coldMobile.close();
     console.log(JSON.stringify(evidence));
   } finally {

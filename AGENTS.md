@@ -82,7 +82,7 @@
 
 ## 7. 현재 스프린트
 
-- **S3-1 기반 구축·기능 검증 완료** (2026-09-29, PR #20 main·PR #21 마감 문서). 원격6조합 p95·익명 uid RLS·실제 웹훅 Actions→ready→RPC·배포 `/compare` JSON·uid 재사용을 통과했다. variable=false·트리거 D 복귀. 다음 S3-2는 별도 계획/승인 후 구현한다. Vercel 앱 변수23개를 승인 후 Production·Preview에서 삭제해 공개2개만 유지하며, 재배포 없이 `/compare` 재검증을 통과했다. S3-2부터 서버 전용 Juso 서버 키는 후속 배포 시 별도 등록 허용한다. [마감 검증](docs/validation/s3-1-closeout-20260929.md).
+- **S3-4 P2(#36) 구현·Preview·실제 GPU D5 검증 완료, Ready·사용자 머지 대기**. S3-3(#32)·P0(#34)·P1(#35)은 main 머지 완료. #37 동기화 후 Preview 총점83.08·신뢰도90 복구와 오버레이32/108을 확인했다. 실제 M5 Pro/AC/60Hz에서 평균59.98~60.00fps·p95 17.5~17.6ms, production 슬라이더 세트별p95≤100ms를 통과했다. 채점 v0.4.0/노출0.2.2 유지, P2 신규 migration 없음. [마감·증거](docs/validation/s3-4-p2-closeout-20261012.md), [계획](docs/planning/s3-4-plan.md)을 따른다. 사용자 #36 머지 후 S3-4 main 반영 완료를 확정한다. 첫 후속은 줌15+ 학원 점 레이어 계획이며 구현은 별도 승인이다. 일반 노트북 FPS와 Small 전환 후 합본 시험 등 [공개 전 체크리스트](docs/operations/s3-foundation.md#공개-전-체크리스트-2026-10-02)는 유지한다. 아래 과거 스프린트 기록은 이력으로 보존한다.
 - 적재 범위: 인구·생활인구·교통·상가·학원·학교는 서울 전체, 건축물·실거래·임대동향은 강남구 한정. 서울 전체 건축물 적재는 S2에서 이월했으며 Pro 전환 검토 후 별도 태스크로 진행한다.
 - 생활인구는 사용자 승인에 따라 250m 격자로 전환한다. 공간 키는 `(resolution_m, cell_id)`, 경계는 `population_cells`다. 원천 EPSG:5179 → DB EPSG:4326. 실제 경계·생성 규칙과 컬럼·용량 증거는 `docs/validation/pr2-population-20260919.md`를 따른다. 기존 집계구 테이블은 보존한다.
 - 생활인구 DB는 고정 연령 컬럼을 사용하고 JSONB는 채택하지 않는다. 연령대별 유효 날짜만 평균내며 표본 수 `sample_days`는 total 기준이다. 학원 생활인구 입력은 원천 15~19세 그대로, 0~4·5~9세는 원천에서 분리 불가하여 NULL. `docs/planning/data-sources.md`의 결측·편향 정책을 따른다.

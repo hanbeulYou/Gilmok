@@ -17,6 +17,7 @@ import { number, rawSummary, reason } from './format';
 import { WeightSlider } from './WeightSlider';
 import { SaveControls } from './SaveControls';
 import { navigationIndex } from '../../lib/compare/navigation';
+import { ExposureLinkProvider } from './ExposureLink';
 import { MapGate } from '../map/MapGate';
 import { deleteCandidate } from '../../lib/compare/persistence';
 function useLookupUpdates(rows: readonly ComparisonCandidate[]) {
@@ -153,7 +154,7 @@ export function ComparisonMatrix() {
     const timer = setTimeout(() => tick(n => n + 1), Math.min(...deadlines) - now + 1);
     return () => clearTimeout(timer);
   }, [state.candidates, clockTick]);
-  return <main className={`page comparison ${state.evidenceOpen ? 'has-evidence' : ''}`}>
+  return <ExposureLinkProvider row={selected} desktop={desktop} openEvidence={()=>{if(selected)select(selected.id,'exposure');}}><main className={`page comparison ${state.evidenceOpen ? 'has-evidence' : ''}`}>
     <header className="comparison-header"><div><Link href="/">길목</Link><h1>후보 비교</h1><p>서울 · 학원업 · 반경 800m</p></div>
       <div><span className="preset">학원 v{academyV0.version}{modified ? ' · 수정됨' : ' (기본)'}</span><nav>{rows.length < 5 && <Link href="/new" className="primary">후보 추가</Link>}</nav></div></header>
     <SaveControls/>
@@ -209,5 +210,5 @@ export function ComparisonMatrix() {
       <dialog className="weight-sheet" ref={dialog} onClose={() => setSheet(false)}><header><h2>축별 가중치</h2><button onClick={() => setSheet(false)}>닫기</button></header>
         {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button></dialog>
     </>}
-  </main>;
+  </main></ExposureLinkProvider>;
 }

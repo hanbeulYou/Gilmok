@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import type { AxisKey, AxisResult } from '../../lib/scoring/types';
 import type { ComparisonCandidate } from '../../lib/compare/store';
-import { EXPOSURE_LIMITATION } from '../../lib/visibility/types';
+import { ExposureEvidence } from './ExposureEvidence';
 import { number, reason } from './format';
 const names: Record<string, string> = {
   population: '학령인구', pop_5_9: '5~9세', pop_10_14: '10~14세', pop_15_18: '15~18세',
@@ -50,7 +50,7 @@ function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResul
     <p>정규화 {number(axis.normalized)}점 · 원시값 {number(axis.raw, 8)} · 서울 백분위 {number(axis.evidence.percentile)}
       {axis.evidence.reference && <> · 모집단 {number(axis.evidence.reference.population_size, 0)} · 커버리지 {number(axis.evidence.reference.coverage * 100)}%</>}</p>
     {axis.missing_reason && <p className="missing-explanation">{reason(axis.missing_reason)}</p>}
-    {axis.key === 'exposure' && <p className="limitation">{EXPOSURE_LIMITATION}</p>}
+    {axis.key === 'exposure' && <ExposureEvidence row={row}/>}
     {axis.key === 'building' && typeof axis.evidence.values.floor_elevator_row === 'string' &&
       <p data-testid="floor-elevator-rule">적용 행: {axis.evidence.values.floor_elevator_row} · 보정 {number(numeric('floor_adjustment'))}점</p>}
     {axis.key === 'exposure' && typeof axis.evidence.values.floor_attention_coefficient === 'number' &&
