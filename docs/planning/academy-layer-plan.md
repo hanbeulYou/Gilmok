@@ -217,3 +217,7 @@ ScoreResult.axes.cluster.evidence.values.n_field
 - PR G: 13,542주소 inventory 재확인 → 로컬 Juso 재산출 → PNU/이동 검산 → a~e8축/총점/순위·무작위5셀 영향 → 원천/층 파생/기준분포 원자적 승격 로컬 검증 → rollback manifest. 기존 데이터와 캐시/키를 보존한다.
 - **Juso 해외 저장 조건은 사용자가 공식 문의 중. 답변 전 원격 승격 보류.** 새 좌표 원본과 상세 journal/rollback 자료는 로컬에만 둔다. PR에는 코드·집계 결과·해시를 기록하고 R2/Actions artifact/원격 DB에 새 좌표를 올리지 않는다.
 - 계획은 Draft docs PR, screens §4.3 정합은 별도 문서 커밋. 실제 구현 PR은 main 기반으로 분리한다.
+
+### G 로컬 검증 보고 (2026-10-13)
+
+[Draft PR #39](https://github.com/hanbeulYou/Gilmok/pull/39)에 전수 재산출·8축 영향·원자적 승격/롤백 결과를 기록했다. 과거/최신 합집합13,591주소 중13,460주소 확보, a~e 순위 b>e>a>c>d 유지. 원격 데이터와 카카오 캐시/키는 변경하지 않았다. 다른 PNU 도형에 포함된 학원46행(18주소)은 검토 대상으로 명시했으며, 공식 해외 저장 조건 회신·예외 검토·별도 승인 전 G 원격 승격 보류와 A/B Ready 조건은 그대로다.
