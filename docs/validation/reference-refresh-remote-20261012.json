@@ -1,0 +1,1761 @@
+{
+  "date": "2026-10-12",
+  "snapshot": "20261011T120000Z",
+  "promotion": {
+    "started_at": "2026-10-12T01:11:46.178351+00:00",
+    "snapshot": "20261011T120000Z",
+    "approval": "2026-10-12 user approval",
+    "stages": [
+      {
+        "stage": "preflight",
+        "status": "success",
+        "seconds": 3.51,
+        "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+        "old_snapshot": "20260923T111436Z",
+        "disk": {
+          "node_filesystem_avail_bytes": 6982483968,
+          "node_filesystem_free_bytes": 7104118784,
+          "node_filesystem_size_bytes": 8416882688
+        }
+      },
+      {
+        "stage": "preserve_old_reference",
+        "status": "success",
+        "seconds": 10.165,
+        "rows": 162032,
+        "local_restore_digest_match": true,
+        "manifest_key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/manifest.json",
+        "manifest_sha256": "86964f2902f59e58b8cd2ba4be82dda0abec3e04fc1667da75736bc1b9c707d2"
+      },
+      {
+        "stage": "publish_verified_new_reference",
+        "status": "success",
+        "seconds": 15.302,
+        "recompute_mismatches": 0,
+        "rows": 162032
+      },
+      {
+        "stage": "atomic_promotion",
+        "status": "success",
+        "seconds": 13.239,
+        "active_snapshot": "20261011T120000Z",
+        "rows": 162032
+      },
+      {
+        "stage": "vacuum_analyze",
+        "status": "success",
+        "seconds": 0.8
+      },
+      {
+        "stage": "six_case_warmup",
+        "status": "success",
+        "seconds": 7.231,
+        "cases": 6
+      }
+    ],
+    "committed": true,
+    "disk_before": {
+      "node_filesystem_avail_bytes": 6982483968,
+      "node_filesystem_free_bytes": 7104118784,
+      "node_filesystem_size_bytes": 8416882688
+    },
+    "old_snapshot": "20260923T111436Z",
+    "old_source_fingerprint": "bd9603fd3a7aab0ec79b4c9a8590f10d2a1ffcd22a7f0ce1e5565ae702262b17",
+    "rollback_archive": {
+      "snapshot": "20260923T111436Z",
+      "source_fingerprint": "bd9603fd3a7aab0ec79b4c9a8590f10d2a1ffcd22a7f0ce1e5565ae702262b17",
+      "created_at": "2026-10-12T01:11:49.688965+00:00",
+      "tables": [
+        {
+          "table": "public.score_reference_sets",
+          "columns": [
+            "preset_id",
+            "preset_version",
+            "snapshot",
+            "computed_at",
+            "inputs_schema_version",
+            "cell_count",
+            "source_fingerprint",
+            "source_versions",
+            "statistics"
+          ],
+          "rows": 1,
+          "file": "public.score_reference_sets.csv.gz",
+          "csv_sha256": "9a26a00d9f62670b983f8fd7b1e0fa6c791639c0afd29f2911f88f1620be2359",
+          "order": "",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/public.score_reference_sets.csv.gz",
+            "bytes": 1567,
+            "sha256": "bcd202b5671d7ff13edf804a1b1c5c4baa69a43e7d4a63b7158778969e93951d",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        },
+        {
+          "table": "public.score_reference",
+          "columns": [
+            "preset_id",
+            "preset_version",
+            "snapshot",
+            "radius_m",
+            "cell_id",
+            "axis_key",
+            "raw_value",
+            "computed_at",
+            "inputs_schema_version"
+          ],
+          "rows": 162032,
+          "file": "public.score_reference.csv.gz",
+          "csv_sha256": "748214ac9e39c9778fc00d30fdb194d5646898712d6a8f86bac59f4740df91bd",
+          "order": "order by radius_m,cell_id collate \"C\",axis_key collate \"C\"",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/public.score_reference.csv.gz",
+            "bytes": 1572717,
+            "sha256": "7d8d3390880365b757208cb4d81e9d75d022feaaaf751f5e69909e2d4c630679",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        },
+        {
+          "table": "ingest_private.refresh_snapshots",
+          "columns": [
+            "source",
+            "period_end",
+            "snapshot",
+            "manifest",
+            "committed_at"
+          ],
+          "rows": 1,
+          "file": "ingest_private.refresh_snapshots.csv.gz",
+          "csv_sha256": "0053c680d47286ae2071aaa55b3b0fb5ebd88a000c4bd7f44120d4eb5e582df1",
+          "order": "",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/ingest_private.refresh_snapshots.csv.gz",
+            "bytes": 2377,
+            "sha256": "b124cd7fcc3cb51549c77d47e1765be1d9e3cbeeb05c471357c4398a41d26bbe",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        }
+      ],
+      "retention": "Retain for rollback; no deletion in this operation"
+    },
+    "rollback_manifest_object": {
+      "key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/manifest.json",
+      "bytes": 2666,
+      "sha256": "86964f2902f59e58b8cd2ba4be82dda0abec3e04fc1667da75736bc1b9c707d2",
+      "status": "published"
+    },
+    "new_objects": {
+      "score_reference_inputs": {
+        "key": "raw/score_reference_inputs/revisions/20261011T120000Z/2026-10.parquet",
+        "bytes": 26342237,
+        "sha256": "26318f293f7a6c7765338540ddf80445cbd69645bc563de13a8583e55b643025",
+        "status": "published"
+      },
+      "score_reference": {
+        "key": "raw/score_reference/revisions/20261011T120000Z/2026-10.parquet",
+        "bytes": 735018,
+        "sha256": "e57e5d4b53a67c5fef9f68d9a575a617022e76378acf3dc1a75436e4dbc04913",
+        "status": "published"
+      },
+      "score_reference_manifest": {
+        "key": "raw/score_reference_manifest/revisions/20261011T120000Z/2026-10.parquet",
+        "bytes": 4473,
+        "sha256": "32664e93145e1658c1630dafd80925fcfabf847c8d946b4e9417c04c63fb735a",
+        "status": "published"
+      }
+    },
+    "committed_at": "2026-10-12T01:12:28.232516+00:00",
+    "warmup": [
+      {
+        "case": {
+          "name": "대치",
+          "lat": 37.494612,
+          "lng": 127.063642,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 2272.384,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "대치",
+          "lat": 37.494612,
+          "lng": 127.063642,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 2562.034,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "학여울",
+          "lat": 37.496663,
+          "lng": 127.070594,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 88.181,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "학여울",
+          "lat": 37.496663,
+          "lng": 127.070594,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 482.501,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "한티",
+          "lat": 37.496237,
+          "lng": 127.052873,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 270.254,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "한티",
+          "lat": 37.496237,
+          "lng": 127.052873,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 1251.878,
+        "schema_version": "1.3"
+      }
+    ],
+    "status": "promoted_verified_sql",
+    "seconds": 50.293
+  },
+  "binary_capture": {
+    "database": "gilmok_s3_replay_reference_exact1012",
+    "tables": [
+      {
+        "table": "public.admin_dongs",
+        "columns": [
+          "adm_cd",
+          "name",
+          "geom",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 427,
+        "binary_sha256": "6d25b618db1fbe10798ba3e59a97c96e3a23f3b9382b9eff4026f8411f5289de",
+        "binary_bytes": 358400,
+        "gzip_bytes": 157581,
+        "seconds": 0.376
+      },
+      {
+        "table": "public.population_age",
+        "columns": [
+          "adm_cd",
+          "age_band",
+          "population",
+          "ref_month",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 1281,
+        "binary_sha256": "360463a69d0c49fbd266a76ae501ae242910b67df43d1c683897a6901ed95fb4",
+        "binary_bytes": 120862,
+        "gzip_bytes": 6976,
+        "seconds": 0.169
+      },
+      {
+        "table": "public.population_cells",
+        "columns": [
+          "resolution_m",
+          "cell_id",
+          "geom",
+          "boundary_generated",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 10127,
+        "binary_sha256": "3f77126d88c709efa766337c1b4ca1f1ab4ecee1c3a8c37dec2a527813b4430d",
+        "binary_bytes": 2177326,
+        "gzip_bytes": 237993,
+        "seconds": 0.445
+      },
+      {
+        "table": "public.living_pop",
+        "columns": [
+          "resolution_m",
+          "cell_id",
+          "dow_type",
+          "hour",
+          "total",
+          "age_0_4",
+          "age_5_9",
+          "age_10_14",
+          "age_15_19",
+          "age_20_29",
+          "age_30_39",
+          "age_40_49",
+          "age_50_59",
+          "age_60_plus",
+          "sample_days",
+          "period_start",
+          "period_end",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 411597,
+        "binary_sha256": "948f7e2bd691d136e33c55b2b52846cb45e7f049339877346cb56cc10b692d4a",
+        "binary_bytes": 90698796,
+        "gzip_bytes": 16531812,
+        "seconds": 21.354
+      },
+      {
+        "table": "public.transit_stops",
+        "columns": [
+          "id",
+          "type",
+          "name",
+          "line",
+          "geom",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 11620,
+        "binary_sha256": "e7a002ba750278c788d0638959e6ee653bf37d2b6fed1b4a7e6d0148efae8584",
+        "binary_bytes": 1582422,
+        "gzip_bytes": 296005,
+        "seconds": 0.556
+      },
+      {
+        "table": "public.transit_boardings",
+        "columns": [
+          "stop_id",
+          "hour",
+          "boarding",
+          "alighting",
+          "sample_months",
+          "period_start",
+          "period_end",
+          "unit",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 264720,
+        "binary_sha256": "cfacac221dc6289816c1c9b55163af5cb7d507d3d22149995a527d39a9c336c4",
+        "binary_bytes": 41039781,
+        "gzip_bytes": 2461546,
+        "seconds": 9.711
+      },
+      {
+        "table": "public.stores",
+        "columns": [
+          "store_id",
+          "inds_lcls",
+          "inds_mcls",
+          "inds_scls",
+          "floor",
+          "geom"
+        ],
+        "rows": 554092,
+        "binary_sha256": "193ce02106eff70d571eef80afda9ca33aa6576d73a253159789e9ed135a87dc",
+        "binary_bytes": 46399954,
+        "gzip_bytes": 11288107,
+        "seconds": 17.204
+      },
+      {
+        "table": "public.academies",
+        "columns": [
+          "id",
+          "name",
+          "institution_type",
+          "registration_status",
+          "field",
+          "affiliation",
+          "course_list",
+          "course",
+          "address",
+          "geom",
+          "geocode_failed",
+          "geocode_provider",
+          "geocode_reason",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 25527,
+        "binary_sha256": "5916346b1191821d07bb68664afff972d496c70474473c5443f45ad41914dde7",
+        "binary_bytes": 7158114,
+        "gzip_bytes": 1197465,
+        "seconds": 1.481
+      },
+      {
+        "table": "public.schools",
+        "columns": [
+          "id",
+          "name",
+          "level",
+          "school_type",
+          "address",
+          "geom",
+          "geocode_failed",
+          "geocode_provider",
+          "geocode_reason",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 1320,
+        "binary_sha256": "b642c889a1e05d625ecc7ec89163cd922d7a6db182420dcad21329004fbd5e58",
+        "binary_bytes": 267228,
+        "gzip_bytes": 44940,
+        "seconds": 0.2
+      },
+      {
+        "table": "public.building_registers",
+        "columns": [
+          "register_pk",
+          "pnu",
+          "name",
+          "dong_name",
+          "floors_above",
+          "floors_below",
+          "height_m",
+          "main_use_code",
+          "main_use_name",
+          "other_use",
+          "gross_area",
+          "passenger_elevators",
+          "emergency_elevators",
+          "use_approval_date",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 24324,
+        "binary_sha256": "07606adc4a8d7401afb63e3228f0ce20cada8cf87644386a34930bd5557aeb41",
+        "binary_bytes": 5790480,
+        "gzip_bytes": 744598,
+        "seconds": 1.095
+      },
+      {
+        "table": "public.buildings",
+        "columns": [
+          "id",
+          "source_id",
+          "gis_id",
+          "pnu",
+          "source",
+          "source_version",
+          "source_register_pk",
+          "register_pk",
+          "register_link_status",
+          "geom",
+          "geometry_repaired",
+          "source_height_m",
+          "floors_above",
+          "floors_below",
+          "main_use_code",
+          "main_use_name",
+          "height_m",
+          "height_source",
+          "height_estimated",
+          "ingested_at"
+        ],
+        "rows": 30112,
+        "binary_sha256": "16054008ac983d633a9c6d08ac1a5923bbeb5132b9d879edb0579801fd89a413",
+        "binary_bytes": 13426530,
+        "gzip_bytes": 4351702,
+        "seconds": 3.197
+      },
+      {
+        "table": "public.building_floors",
+        "columns": [
+          "id",
+          "source_register_pk",
+          "register_pk",
+          "register_link_status",
+          "pnu",
+          "floor_kind",
+          "floor_kind_name",
+          "floor_no",
+          "floor_name",
+          "use_code",
+          "use_name",
+          "other_use",
+          "area",
+          "main_attached_code",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 198637,
+        "binary_sha256": "b05d3dea2b7fb6e475ac647f3de3ea6605ad1d234c0e1fed583f2e63cbd1384e",
+        "binary_bytes": 57853341,
+        "gzip_bytes": 13513739,
+        "seconds": 10.244
+      },
+      {
+        "table": "public.legal_dongs",
+        "columns": [
+          "code8",
+          "name",
+          "geom",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 14,
+        "binary_sha256": "15016f8270a9fa95dba0d228dda54b310271e835bc6a5eb64c86853d1a56115e",
+        "binary_bytes": 66245,
+        "gzip_bytes": 38304,
+        "seconds": 0.218
+      },
+      {
+        "table": "public.commercial_trade_stats",
+        "columns": [
+          "legal_dong_code",
+          "trade_kind",
+          "aggregation_level",
+          "floor",
+          "period_start",
+          "period_end",
+          "median_price_per_m2",
+          "sample_count",
+          "unknown_floor_count",
+          "area_basis",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 180,
+        "binary_sha256": "257859eb7d78672978ddf001d9de715ab85efb67351e6647e84be58f9f4fbfc4",
+        "binary_bytes": 32014,
+        "gzip_bytes": 2766,
+        "seconds": 0.142
+      },
+      {
+        "table": "public.rent_areas",
+        "columns": [
+          "area_code",
+          "area_name",
+          "level",
+          "gu_code",
+          "geom",
+          "valid_from",
+          "valid_to",
+          "mapping_verified",
+          "mapping_evidence",
+          "source",
+          "source_version",
+          "ingested_at"
+        ],
+        "rows": 12,
+        "binary_sha256": "6f4d2f7ffcceabf0abd23595a3012cad790df1dc19ece3321aef42a6137a7dce",
+        "binary_bytes": 22574,
+        "gzip_bytes": 1222,
+        "seconds": 0.139
+      },
+      {
+        "table": "public.rent_survey",
+        "columns": [
+          "area_code",
+          "building_class",
+          "quarter",
+          "rent_per_m2",
+          "vacancy_rate",
+          "rent_statbl_id",
+          "rent_cls_id",
+          "vacancy_statbl_id",
+          "vacancy_cls_id",
+          "source",
+          "source_version",
+          "ingested_at",
+          "estimated"
+        ],
+        "rows": 34,
+        "binary_sha256": "1f26cb3e42e50fac67f915c4b8558a2f24e4c723db7f480d2628a3dd2c97cb85",
+        "binary_bytes": 6375,
+        "gzip_bytes": 1304,
+        "seconds": 0.137
+      },
+      {
+        "table": "public.score_reference_sets",
+        "columns": [
+          "preset_id",
+          "preset_version",
+          "snapshot",
+          "computed_at",
+          "inputs_schema_version",
+          "cell_count",
+          "source_fingerprint",
+          "source_versions",
+          "statistics"
+        ],
+        "rows": 1,
+        "binary_sha256": "f8cea3ba554bf787cf27f222b9055c8693fb4ccbb63c97ff0226b78de67447b9",
+        "binary_bytes": 8023,
+        "gzip_bytes": 1561,
+        "seconds": 0.14
+      },
+      {
+        "table": "public.score_reference",
+        "columns": [
+          "preset_id",
+          "preset_version",
+          "snapshot",
+          "radius_m",
+          "cell_id",
+          "axis_key",
+          "raw_value",
+          "computed_at",
+          "inputs_schema_version"
+        ],
+        "rows": 162032,
+        "binary_sha256": "2183d19a1e1519e78f56672bc8cb82744f440fad8c82be29ccfa1dfbe4a235c2",
+        "binary_bytes": 19778983,
+        "gzip_bytes": 1433529,
+        "seconds": 6.256
+      },
+      {
+        "table": "ingest_private.place_snapshots",
+        "columns": [
+          "target_table",
+          "source",
+          "source_version",
+          "raw_key",
+          "row_count",
+          "located_count",
+          "estimated",
+          "report",
+          "ingested_at"
+        ],
+        "rows": 3,
+        "binary_sha256": "37c88363b38105869d4cbd89a9c502b876f723eb11bfc0048fae5b944e562932",
+        "binary_bytes": 694,
+        "gzip_bytes": 418,
+        "seconds": 0.133
+      },
+      {
+        "table": "ingest_private.building_snapshots",
+        "columns": [
+          "scope",
+          "snapshot_version",
+          "raw_objects",
+          "report",
+          "ingested_at"
+        ],
+        "rows": 1,
+        "binary_sha256": "d2d24b64e228d18422f3d18414f5378a7c3fc573fbac70dea93dc31e2956535b",
+        "binary_bytes": 221601,
+        "gzip_bytes": 14413,
+        "seconds": 0.303
+      },
+      {
+        "table": "ingest_private.rent_snapshots",
+        "columns": [
+          "source",
+          "source_version",
+          "report",
+          "ingested_at"
+        ],
+        "rows": 2,
+        "binary_sha256": "53d8279ed5874cfc4ee25aa11e5c66c3d392a6cc2968fff5b23e64aa3b93e480",
+        "binary_bytes": 8852,
+        "gzip_bytes": 2424,
+        "seconds": 0.139
+      },
+      {
+        "table": "ingest_private.transit_coverage",
+        "columns": [
+          "type",
+          "report",
+          "ingested_at"
+        ],
+        "rows": 2,
+        "binary_sha256": "4dce61e25a9c2599a0327cd9f15337ca8020a3913888939110206c91b01cbc2a",
+        "binary_bytes": 1097050,
+        "gzip_bytes": 115887,
+        "seconds": 0.312
+      },
+      {
+        "table": "ingest_private.refresh_snapshots",
+        "columns": [
+          "source",
+          "period_end",
+          "snapshot",
+          "manifest",
+          "committed_at"
+        ],
+        "rows": 6,
+        "binary_sha256": "13645cfbef5e10c399f5eff79e5c65ec8dd54ca713f5a185b9080a6f01f04f65",
+        "binary_bytes": 15759,
+        "gzip_bytes": 3738,
+        "seconds": 0.142
+      }
+    ],
+    "remote_write": false,
+    "format": "binary",
+    "captured_at": "2026-10-12 01:29:03.945270+00:00",
+    "sources": {
+      "stores": {
+        "source": "semas_stores",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-06",
+        "source_version": "2026-06",
+        "unlocated_count": 0
+      },
+      "schools": {
+        "source": "neis_schools",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:04.352229+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-10",
+        "source_version": "2026-10-10",
+        "unlocated_count": 6
+      },
+      "academies": {
+        "source": "seoul_neis_academies",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-10-10T01:51:28.474572+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-10",
+        "source_version": "2026-10-10",
+        "unlocated_count": 81
+      },
+      "rent_survey": {
+        "source": "R-ONE",
+        "quarter": "2026-Q2",
+        "coverage": "Gangnam-linked survey areas",
+        "available": true,
+        "date_kind": "quarter",
+        "period_end": null,
+        "ingested_at": "2026-09-20T12:11:36.518016+00:00",
+        "limitations": [
+          "no_verified_spatial_mapping"
+        ],
+        "period_start": null,
+        "reference_date": null,
+        "source_version": "20260920T120200Z",
+        "unlocated_count": null
+      },
+      "building_shp": {
+        "source": "gis_buildings_shp",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "source_version",
+        "period_end": null,
+        "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-06",
+        "source_version": "2026-09-06",
+        "unlocated_count": null
+      },
+      "building_wfs": {
+        "source": "vworld_wfs_supplement",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+        "limitations": [
+          "register_unlinked"
+        ],
+        "period_start": null,
+        "reference_date": "2026-09-20",
+        "source_version": "2026-09-20",
+        "unlocated_count": null
+      },
+      "bus_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+        "limitations": [
+          "historical_positions_unverified"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-09",
+        "source_version": "2026-10-09",
+        "unlocated_count": null
+      },
+      "transit_counts": {
+        "source": "seoul_subway_boardings",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "period",
+        "period_end": "2026-09-30",
+        "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+        "limitations": [
+          "daily_mean_without_weekday_split",
+          "unmatched_units_not_imputed"
+        ],
+        "period_start": "2026-07-01",
+        "reference_date": null,
+        "source_version": "2026-07-01/2026-09-30",
+        "unlocated_count": null
+      },
+      "building_floors": {
+        "source": "building_hub_floor",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-20",
+        "source_version": "2026-09-20",
+        "unlocated_count": null
+      },
+      "population_grid": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "unknown",
+        "period_end": null,
+        "ingested_at": "2026-09-19T10:12:14.655762+00:00",
+        "limitations": [
+          "boundary_reference_date_not_verified"
+        ],
+        "period_start": null,
+        "reference_date": null,
+        "source_version": "2026-09-19;raw:2026-06/2026-08",
+        "unlocated_count": null
+      },
+      "admin_boundaries": {
+        "source": "sgis_admdongkor",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "boundary_version",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:51.788292+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-07-01",
+        "source_version": "2026-07-01",
+        "unlocated_count": null
+      },
+      "legal_boundaries": {
+        "source": "vworld_lt_c_ademd_info",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-20",
+        "source_version": "20260920T120200Z",
+        "unlocated_count": null
+      },
+      "subway_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+        "limitations": [
+          "historical_positions_unverified",
+          "Shinbundang not imputed"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-09",
+        "source_version": "2026-10-09",
+        "unlocated_count": null
+      },
+      "commercial_trades": {
+        "source": "molit_commercial_trades",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "contract_period",
+        "period_end": "2026-08-31",
+        "ingested_at": "2026-09-20T12:07:27.825784+00:00",
+        "limitations": [
+          "legal_dong_not_radius",
+          "late_reports_and_cancellations_possible"
+        ],
+        "period_start": "2024-09-01",
+        "reference_date": null,
+        "source_version": "20260920T120200Z",
+        "unlocated_count": null
+      },
+      "living_population": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "period",
+        "period_end": "2026-09-30",
+        "ingested_at": "2026-10-09T22:54:06.949698+00:00",
+        "limitations": [
+          "valid_days_mean",
+          "age_0_4_and_5_9_not_separable"
+        ],
+        "period_start": "2026-07-01",
+        "reference_date": null,
+        "source_version": "2026-07-01/2026-09-30",
+        "unlocated_count": null
+      },
+      "building_registers": {
+        "source": "building_hub_title",
+        "quarter": null,
+        "coverage": "Gangnam-gu",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-09-20T10:33:29.603051+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-20",
+        "source_version": "2026-09-20",
+        "unlocated_count": null
+      },
+      "resident_population": {
+        "source": "mois_resident_population",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "reference_month",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:51.788292+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-01",
+        "source_version": "2026-09",
+        "unlocated_count": null
+      }
+    },
+    "local_database_bytes": 457354387,
+    "seconds": 77.131
+  },
+  "verification": {
+    "rows": [
+      {
+        "key": "a",
+        "original_rounded_clone_total": 83.07558801574415,
+        "corrected_binary_clone_total": 83.07558801574415,
+        "remote_total": 83.07558801574415,
+        "production_total": 83.07558801574415,
+        "production_display": "83.08점",
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "delta_from_original_local": 0,
+        "axes": [
+          {
+            "axis": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "local": 30.707070707070706,
+            "remote": 30.707070707070706
+          },
+          {
+            "axis": "building",
+            "local": 85,
+            "remote": 85
+          },
+          {
+            "axis": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "local": null,
+            "remote": null
+          }
+        ],
+        "authenticated_http_seconds": 2.545565084
+      },
+      {
+        "key": "b",
+        "original_rounded_clone_total": 92.61630957198977,
+        "corrected_binary_clone_total": 92.61758072970372,
+        "remote_total": 92.61758072970372,
+        "production_total": 92.61758072970372,
+        "production_display": "92.62점",
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "delta_from_original_local": 0.0012711577139441488,
+        "axes": [
+          {
+            "axis": "demand",
+            "local": 99.76300977584674,
+            "remote": 99.76300977584674
+          },
+          {
+            "axis": "flow",
+            "local": 98.7976947535771,
+            "remote": 98.7976947535771
+          },
+          {
+            "axis": "transit",
+            "local": 81.8250699839299,
+            "remote": 81.8250699839299
+          },
+          {
+            "axis": "cluster",
+            "local": 98.45823271065888,
+            "remote": 98.45823271065888
+          },
+          {
+            "axis": "exposure",
+            "local": 46.25954198473283,
+            "remote": 46.25954198473283
+          },
+          {
+            "axis": "building",
+            "local": 95,
+            "remote": 95
+          },
+          {
+            "axis": "environment",
+            "local": 87.65344088005983,
+            "remote": 87.65344088005983
+          },
+          {
+            "axis": "rent_efficiency",
+            "local": null,
+            "remote": null
+          }
+        ],
+        "authenticated_http_seconds": 1.8625992500000002
+      },
+      {
+        "key": "c",
+        "original_rounded_clone_total": 82.53098738393125,
+        "corrected_binary_clone_total": 82.53098738393125,
+        "remote_total": 82.53098738393125,
+        "production_total": 82.53098738393125,
+        "production_display": "82.53점",
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "delta_from_original_local": 0,
+        "axes": [
+          {
+            "axis": "demand",
+            "local": 84.09203120371285,
+            "remote": 84.09203120371285
+          },
+          {
+            "axis": "flow",
+            "local": 96.83028616852147,
+            "remote": 96.83028616852147
+          },
+          {
+            "axis": "transit",
+            "local": 60.78723216127797,
+            "remote": 60.78723216127797
+          },
+          {
+            "axis": "cluster",
+            "local": 86.02535938867672,
+            "remote": 86.02535938867672
+          },
+          {
+            "axis": "exposure",
+            "local": 50.624999999999986,
+            "remote": 50.624999999999986
+          },
+          {
+            "axis": "building",
+            "local": 95,
+            "remote": 95
+          },
+          {
+            "axis": "environment",
+            "local": 91.98293991698833,
+            "remote": 91.98293991698833
+          },
+          {
+            "axis": "rent_efficiency",
+            "local": null,
+            "remote": null
+          }
+        ],
+        "authenticated_http_seconds": 1.8319690420000005
+      },
+      {
+        "key": "d",
+        "original_rounded_clone_total": 81.82093623477657,
+        "corrected_binary_clone_total": 81.82093623477657,
+        "remote_total": 81.82093623477657,
+        "production_total": 81.82093623477657,
+        "production_display": "81.82점",
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "delta_from_original_local": 0,
+        "axes": [
+          {
+            "axis": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "local": 26.868686868686865,
+            "remote": 26.868686868686865
+          },
+          {
+            "axis": "building",
+            "local": 75,
+            "remote": 75
+          },
+          {
+            "axis": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "local": null,
+            "remote": null
+          }
+        ],
+        "authenticated_http_seconds": 1.8386322090000002
+      },
+      {
+        "key": "e",
+        "original_rounded_clone_total": 85.0585757882056,
+        "corrected_binary_clone_total": 85.0585757882056,
+        "remote_total": 85.0585757882056,
+        "production_total": 85.0585757882056,
+        "production_display": "85.06점",
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "delta_from_original_local": 0,
+        "axes": [
+          {
+            "axis": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "local": 38.38383838383838,
+            "remote": 38.38383838383838
+          },
+          {
+            "axis": "building",
+            "local": 100,
+            "remote": 100
+          },
+          {
+            "axis": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "local": null,
+            "remote": null
+          }
+        ],
+        "authenticated_http_seconds": 1.877252292000001
+      }
+    ],
+    "rank": [
+      "b",
+      "e",
+      "a",
+      "c",
+      "d"
+    ],
+    "eight_axes_match": true,
+    "total_exact_match_corrected_local": true,
+    "confidence_exact_match": true,
+    "production": "https://gilmok-weld.vercel.app/compare",
+    "production_visible": true,
+    "original_local_total_exact_match": false,
+    "production_cleanup": [
+      {
+        "own_test_uid": true,
+        "success": true
+      }
+    ],
+    "http_cleanup": {
+      "own_test_uid": true,
+      "success": true
+    },
+    "mock": false
+  },
+  "precision_correction": {
+    "cause": "Original temporary CSV clone omitted extra_float_digits=3; binary source values changed. Corrected COPY binary clone preserves all 23 table hashes.",
+    "source_row_example": {
+      "stop_id": "subway:0334",
+      "hour": 15,
+      "original_local_boarding_hex": "407609e9bd37a6f0",
+      "remote_boarding_hex": "407609e9bd37a6f5"
+    },
+    "b_subway_raw_original": 25550.999999999996,
+    "b_subway_raw_remote": 25551,
+    "extra_remote_promotion": false
+  },
+  "local_regeneration": {
+    "approved_snapshot": "20261011T120000Z",
+    "local_only_corrected_snapshot": "20261012T013000Z",
+    "remote_writes": false,
+    "reference_statistics": [
+      {
+        "radius_m": 800,
+        "axis_key": "cluster",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "cluster.saturation",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "demand",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "environment.stores_total",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "flow",
+        "rows": 10127,
+        "changed": 5720,
+        "null_changed": 0,
+        "max_abs_raw_delta": 5.820766091346741e-11
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "transit.bus_stops",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "transit.nearest_subway_m",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 800,
+        "axis_key": "transit.subway_boardings_golden",
+        "rows": 10127,
+        "changed": 4075,
+        "null_changed": 0,
+        "max_abs_raw_delta": 7.275957614183426e-11
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "cluster",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "cluster.saturation",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "demand",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "environment.stores_total",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "flow",
+        "rows": 10127,
+        "changed": 5412,
+        "null_changed": 0,
+        "max_abs_raw_delta": 1.1641532182693481e-10
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "transit.bus_stops",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "transit.nearest_subway_m",
+        "rows": 10127,
+        "changed": 0,
+        "null_changed": 0,
+        "max_abs_raw_delta": 0.0
+      },
+      {
+        "radius_m": 1000,
+        "axis_key": "transit.subway_boardings_golden",
+        "rows": 10127,
+        "changed": 4487,
+        "null_changed": 0,
+        "max_abs_raw_delta": 8.731149137020111e-11
+      }
+    ],
+    "changed_rows": 19694,
+    "rows": [
+      {
+        "key": "a",
+        "approved_reference_total": 83.07558801574415,
+        "exact_rebuilt_total": 83.07558801574415,
+        "delta": 0.0,
+        "confidence_before": 90,
+        "confidence_after": 90,
+        "axes": [
+          {
+            "axis": "demand",
+            "before": 96.47477041572036,
+            "after": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "before": 99.29451510333864,
+            "after": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "before": 38.336803260049486,
+            "after": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "before": 97.52731075268464,
+            "after": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "before": 30.707070707070706,
+            "after": 30.707070707070706
+          },
+          {
+            "axis": "building",
+            "before": 85,
+            "after": 85
+          },
+          {
+            "axis": "environment",
+            "before": 93.40459174952771,
+            "after": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "before": null,
+            "after": null
+          }
+        ]
+      },
+      {
+        "key": "b",
+        "approved_reference_total": 92.61758072970372,
+        "exact_rebuilt_total": 92.61630957198977,
+        "delta": -0.0012711577139441488,
+        "confidence_before": 90,
+        "confidence_after": 90,
+        "axes": [
+          {
+            "axis": "demand",
+            "before": 99.76300977584674,
+            "after": 99.76300977584674
+          },
+          {
+            "axis": "flow",
+            "before": 98.7976947535771,
+            "after": 98.7976947535771
+          },
+          {
+            "axis": "transit",
+            "before": 81.8250699839299,
+            "after": 81.81701931840821
+          },
+          {
+            "axis": "cluster",
+            "before": 98.45823271065888,
+            "after": 98.45823271065888
+          },
+          {
+            "axis": "exposure",
+            "before": 46.25954198473283,
+            "after": 46.25954198473283
+          },
+          {
+            "axis": "building",
+            "before": 95,
+            "after": 95
+          },
+          {
+            "axis": "environment",
+            "before": 87.65344088005983,
+            "after": 87.65344088005983
+          },
+          {
+            "axis": "rent_efficiency",
+            "before": null,
+            "after": null
+          }
+        ]
+      },
+      {
+        "key": "c",
+        "approved_reference_total": 82.53098738393125,
+        "exact_rebuilt_total": 82.53098738393125,
+        "delta": 0.0,
+        "confidence_before": 85,
+        "confidence_after": 85,
+        "axes": [
+          {
+            "axis": "demand",
+            "before": 84.09203120371285,
+            "after": 84.09203120371285
+          },
+          {
+            "axis": "flow",
+            "before": 96.83028616852147,
+            "after": 96.83028616852147
+          },
+          {
+            "axis": "transit",
+            "before": 60.78723216127797,
+            "after": 60.78723216127797
+          },
+          {
+            "axis": "cluster",
+            "before": 86.02535938867672,
+            "after": 86.02535938867672
+          },
+          {
+            "axis": "exposure",
+            "before": 50.624999999999986,
+            "after": 50.624999999999986
+          },
+          {
+            "axis": "building",
+            "before": 95,
+            "after": 95
+          },
+          {
+            "axis": "environment",
+            "before": 91.98293991698833,
+            "after": 91.98293991698833
+          },
+          {
+            "axis": "rent_efficiency",
+            "before": null,
+            "after": null
+          }
+        ]
+      },
+      {
+        "key": "d",
+        "approved_reference_total": 81.82093623477657,
+        "exact_rebuilt_total": 81.82093623477657,
+        "delta": 0.0,
+        "confidence_before": 90,
+        "confidence_after": 90,
+        "axes": [
+          {
+            "axis": "demand",
+            "before": 96.47477041572036,
+            "after": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "before": 99.29451510333864,
+            "after": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "before": 38.336803260049486,
+            "after": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "before": 97.52731075268464,
+            "after": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "before": 26.868686868686865,
+            "after": 26.868686868686865
+          },
+          {
+            "axis": "building",
+            "before": 75,
+            "after": 75
+          },
+          {
+            "axis": "environment",
+            "before": 93.40459174952771,
+            "after": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "before": null,
+            "after": null
+          }
+        ]
+      },
+      {
+        "key": "e",
+        "approved_reference_total": 85.0585757882056,
+        "exact_rebuilt_total": 85.0585757882056,
+        "delta": 0.0,
+        "confidence_before": 90,
+        "confidence_after": 90,
+        "axes": [
+          {
+            "axis": "demand",
+            "before": 96.47477041572036,
+            "after": 96.47477041572036
+          },
+          {
+            "axis": "flow",
+            "before": 99.29451510333864,
+            "after": 99.29451510333864
+          },
+          {
+            "axis": "transit",
+            "before": 38.336803260049486,
+            "after": 38.336803260049486
+          },
+          {
+            "axis": "cluster",
+            "before": 97.52731075268464,
+            "after": 97.52731075268464
+          },
+          {
+            "axis": "exposure",
+            "before": 38.38383838383838,
+            "after": 38.38383838383838
+          },
+          {
+            "axis": "building",
+            "before": 100,
+            "after": 100
+          },
+          {
+            "axis": "environment",
+            "before": 93.40459174952771,
+            "after": 93.40459174952771
+          },
+          {
+            "axis": "rent_efficiency",
+            "before": null,
+            "after": null
+          }
+        ]
+      }
+    ],
+    "artifacts": {
+      "reference.parquet": {
+        "bytes": 734577,
+        "sha256": "5b845c9712341faf290a77e2d316afb34bc441a95467b27e4e527f3306cb33cb"
+      },
+      "manifest.parquet": {
+        "bytes": 4481,
+        "sha256": "808cd2ba36f53e5103da7e6f9204449c594d02037a08fac7175cb8ac4815a32e"
+      },
+      "verified-score_reference_inputs.parquet": {
+        "bytes": 26363411,
+        "sha256": "af50c9aa33778f01d9b4a9547be2c7af6979beab025e3bf3d0f088b82afc7143"
+      },
+      "inputs.parquet": {
+        "bytes": 26363411,
+        "sha256": "af50c9aa33778f01d9b4a9547be2c7af6979beab025e3bf3d0f088b82afc7143"
+      },
+      "verified-score_reference.parquet": {
+        "bytes": 734577,
+        "sha256": "5b845c9712341faf290a77e2d316afb34bc441a95467b27e4e527f3306cb33cb"
+      },
+      "replay.parquet": {
+        "bytes": 734577,
+        "sha256": "5b845c9712341faf290a77e2d316afb34bc441a95467b27e4e527f3306cb33cb"
+      }
+    },
+    "wall_seconds": 501.1842094580643
+  },
+  "status": "approved_snapshot_restored_accepted_display_precision",
+  "acceptance": {
+    "date": "2026-10-12",
+    "authority": "user decision",
+    "display_decimal_places": 2,
+    "display_match": true,
+    "rank_match": true,
+    "confidence_match": true,
+    "exact_total_exception": {
+      "key": "b",
+      "delta": 0.0012711577139441488
+    },
+    "active_snapshot": "20261011T120000Z",
+    "additional_promotion": false,
+    "precision_followup": "docs/planning/percentile-precision-plan.md"
+  },
+  "superseded_by": "reference-refresh-correction-20261012.json",
+  "historical_record": true
+}
