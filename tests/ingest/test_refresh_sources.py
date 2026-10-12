@@ -33,6 +33,7 @@ def publication(args):
 
 @pytest.mark.parametrize("source", ["academies", "schools"])
 def test_places_refresh_uses_only_selected_source(args, publication, monkeypatch, source):
+    monkeypatch.setattr("ingest.academy_display.display_enabled", lambda _: False)
     from test_places import academy
 
     args.source = source
@@ -56,7 +57,8 @@ def test_places_refresh_uses_only_selected_source(args, publication, monkeypatch
     monkeypatch.setattr(academies if source == "academies" else schools, "fetch", lambda _: raw)
     monkeypatch.setattr("ingest.geocode.resolve_one", Mock(return_value="cached"))
 
-    def geocodes(db, frame):
+    def geocodes(db, frame, *, require_juso=False):
+        assert not require_juso
         return frame.assign(lng=127.05, lat=37.5, estimated=False, geocode_failed=False)
 
     monkeypatch.setattr("ingest.commerce_education_database.attach_geocodes", geocodes)

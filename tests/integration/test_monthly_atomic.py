@@ -3,6 +3,7 @@
 import uuid
 from contextlib import contextmanager
 from datetime import date
+from pathlib import Path
 
 import psycopg
 import pytest
@@ -12,6 +13,78 @@ from psycopg.conninfo import conninfo_to_dict, make_conninfo
 from ingest.database import LOCAL_DB_URL
 from ingest.refresh_monthly import execute_monthly
 from ingest.score_reference import fingerprint
+
+
+@pytest.mark.parametrize("failure", ["source", "display", "reference", None])
+def test_academy_floor_source_reference_are_one_release(monthly_db, failure):
+    from ingest.academy_display import load_display
+
+    migration = Path("supabase/migrations/20261012150926_academy_display_provenance.sql")
+    with monthly_db() as db:
+        db.execute(migration.read_text())
+        db.execute("create table public.academies(id text primary key,geocode_provider text)")
+        db.execute("insert into public.academies values('1','juso')")
+        load_display(
+            db,
+            [("1", "1층", "explicit", "old", "a" * 64)],
+            revision="old",
+            version="2026-09-19",
+            raw_sha256="a" * 64,
+        )
+        if failure == "display":
+            db.execute("""create function app_private.force_display_failure() returns trigger
+                language plpgsql as $$begin raise exception 'forced display failure'
+                using errcode='P0001'; end$$;
+                create trigger display_fail before insert on app_private.academy_display
+                for each row execute function app_private.force_display_failure()""")
+
+    def observe():
+        with monthly_db() as db:
+            return db.execute("""select s.value,r.value,d.floor_label,m.source_revision
+                from public.monthly_source s cross join public.score_reference r
+                cross join app_private.academy_display d
+                cross join app_private.academy_display_release m""").fetchone()
+
+    old = observe()
+    seen = []
+
+    def prepare(_, db):
+        def loader(db):
+            db.execute("update public.monthly_source set value=2")
+            seen.append(observe())
+            if failure == "source":
+                raise ValueError("forced source failure")
+            load_display(
+                db,
+                [("1", "3층", "explicit", "new", "b" * 64)],
+                revision="new",
+                version="2026-10-10",
+                raw_sha256="b" * 64,
+            )
+            seen.append(observe())
+
+        return date(2026, 10, 10), {}, loader
+
+    def reference(db):
+        def loader(db):
+            db.execute("update public.score_reference set value=2")
+            seen.append(observe())
+            if failure == "reference":
+                raise ValueError("forced reference failure")
+
+        return date(2026, 10, 13), {}, loader
+
+    result = execute_monthly(
+        ("monthly_test",),
+        "20261013T000000Z",
+        monthly_db,
+        prepare,
+        reference,
+        maintenance=lambda *_: None,
+    )
+    assert result["committed"] == (failure is None)
+    assert all(row == old for row in seen)
+    assert observe() == ((2, 2, "3층", "new") if failure is None else old)
 
 
 @pytest.fixture
