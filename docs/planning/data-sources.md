@@ -661,3 +661,7 @@ D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 �
 - 표시는 원천 `height_m` 그대로이며 새 추정 없음. source/floors_estimate/unknown를 색·범례·건물 정보로 구분한다. unknown은 기존4m 가정. SHP·WFS·부속/소형을 모두 보존하고 MapLibre GeoJSON source `tolerance:0`으로 추가 단순화를 하지 않는다.
 
 [검증·배포 승인 상태](../validation/s3-4-p1-20261008.md). 원격은 최종 dry-run 보고 후 push 승인 대상이다.
+
+### 월간 조회 원천·기준 분포 일관성 (2026-10-11)
+
+월간 갱신과 단일 소스 재시도는 모든 수집/검증 후 원천·기준 분포·manifest를 단일 트랜잭션으로 교체한다. 실패 시 모두 이전 버전을 유지한다. 수동 원본 갱신·재개형 DB 복원과는 별도 정책이며 [운영 절차](../operations/data-refresh.md#월간-원자적-갱신-2026-10-11-수정)를 따른다.

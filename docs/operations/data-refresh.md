@@ -16,12 +16,26 @@ PR 8은 로컬 S1을 마감하고 실행 경로를 준비한다. 원격 전환·
 
 ```sh
 # 로컬 기본. 실제 적재 및 R2 게시가 발생하므로 대상/월 확인 후 실행.
-uv run --frozen python -m ingest.refresh --source population --end-month 2026-08
+uv run --frozen python -m ingest.refresh_monthly --source population --end-month 2026-08
 # GitHub: 워크플로우가 main에 반영되고 원격 준비를 완료한 이후
 # gh workflow run refresh-monthly.yml -f source=transit -f end_month=2026-08
 ```
 
 원격은 `--target remote`, `INGEST_REMOTE_ENABLED=true`, 프로젝트 ref와 일치하는 TLS DB URL 및 R2를 모두 요구한다. 기본 동작은 로컬이며 원격에서 임시 로컬 저장소로 대체하지 않는다. 기존 verify_* CLI에는 로컬 전용 연결이 있으므로 원격 실행용 명령으로 쓰지 않는다.
+
+## 월간 원자적 갱신 (2026-10-11 수정)
+
+2026-10-12 추가 승인으로 정정 snapshot `20261012T013000Z` 승격 및 원정밀도 검증 완료. [최신 결과·이전 분포 보존](../validation/reference-refresh-correction-20261012.md)을 따른다.
+
+**2026-10-12 운영 기한: #37의 월간 원자적 갱신 수정은 다음 예약 실행인 2026-11-10 03:17 KST(2026-11-09 18:17 UTC, `17 18 9 * *`) 전에 main에 머지해야 한다. 그보다 먼저 수동 월간 refresh를 실행한다면 그 실행 전에도 머지가 필요하다.** 기존 main의 소스별 커밋 workflow를 다시 실행하면 동일한 불일치가 재발할 수 있다. 머지 전에는 해당 월간 갱신을 실행하지 않는다. 이번 복구에서 cron·운영 variable·주소 sweep은 변경하지 않았다.
+
+10/10에는 앞선 다섯 소스 커밋 뒤 trades가 실패하여 reference job이 skipped되었고 total=NULL이 발생했다. [원인·복구 승인 계획](../planning/reference-refresh-recovery-plan.md), [실측](../validation/reference-refresh-20261011.md)을 따른다. 이 PR의 workflow는 main 머지 후 적용된다. 2026-10-12 승인된 분포 `20261011T120000Z` 원격 승격과 production 총점 복구는 완료했다. [원격 검증·정밀도 정정](../validation/reference-refresh-remote-20261012.md)을 따른다.
+
+월간은 matrix 대신 `ingest.refresh_monthly`: 모든 외부 수집/검증 완료 → 쓰기 잠금과 source fingerprint 확인 → 한 트랜잭션에서 선택 소스 loader + 전수 reference 계산/검증/적재 → COMMIT → 별도 VACUUM → 성공 후 6조합 예열이다. 중간 실패는 **원천과 기준 분포 모두** 이전 버전을 유지한다. `--source=population` 같은 재시도에도 reference가 포함된다. 자동 소스 운영 갱신을 개별 `ingest.refresh`로 우회하지 않는다.
+
+`report.json`에는 phase·커밋 여부·전체/원천 적재/분포 생성 시간을 남긴다. `commit_unknown`은 COMMIT ACK 유실 가능성이므로 활성 source/ref snapshot을 조회해 판정하고 자동 롤백하지 않는다. 동일 완료 snapshot 재실행은 fingerprint 검증 후 유지보수만 한다. 준비 단계에서 만든 불변 R2 원본과 지오코딩 claim/cache는 남을 수 있으나 활성 원천/분포를 뜻하지 않는다.
+
+330분 한도·TCP keepalive를 유지한다. 전수 계산 중 구버전 SELECT는 허용되나 원천 쓰기는 직렬화되고 MVCC/WAL·CPU 부담이 있다. 원격 월간 전체 시간은 아직 미실측이다. 실패 시 시간을 아끼려고 일부 원천만 커밋하거나 기준 분포 검증을 생략하지 않는다. 예전 7단계 재개형 DB 복원 스크립트의 커밋 정책은 변경하지 않는다.
 
 ## 수동 파일 준비
 
@@ -44,7 +58,7 @@ uv run --frozen python -m ingest.refresh --source stores --end-month 2026-06 \
 ## 스냅샷 보존과 유지보수
 
 1. 소스별 advisory lock으로 동시 적재를 막고 수집·정규화·R2 게시 및 재읽기를 끝낸다.
-2. 기존 loader의 단일 트랜잭션에서 조회 테이블과 `ingest_private.refresh_snapshots`를 함께 갱신한다. 더 오래된 기준일/실행 스냅샷은 거부하고 동일 실행은 중복 반영하지 않는다. 다른 소스와는 독립적으로 성공/실패한다.
+2. 기존 loader의 단일 트랜잭션에서 조회 테이블과 `ingest_private.refresh_snapshots`를 함께 갱신한다. 더 오래된 기준일/실행 스냅샷은 거부하고 동일 실행은 중복 반영하지 않는다. 이 소스별 교체는 수동 갱신의 경계다. 월간/월간 단일 소스 재시도는 `refresh_monthly`의 바깥 트랜잭션에서 원천과 기준 분포를 함께 커밋한다.
 3. 커밋 뒤 **별도 연결·autocommit**에서 대상 테이블만 `VACUUM (ANALYZE)` 한다. VACUUM FULL은 실행하지 않는다. 잠금 대기 5초·문장 15분 한도다.
 4. 수집/원본 검증/DB 적재 실패는 `refresh_failed, committed=false`: 이전 데이터와 manifest 유지. R2에 미참조 원본이 남을 수 있다. VACUUM 실패는 `maintenance_failed, committed=true`: 새 스냅샷은 유효하며 유지보수만 재실행한다. 성공한 갱신을 실패한 것처럼 되돌리지 않는다.
 

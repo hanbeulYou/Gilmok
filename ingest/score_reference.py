@@ -11,6 +11,7 @@ from pathlib import Path
 
 import duckdb
 from psycopg import sql
+from psycopg.pq import TransactionStatus
 from psycopg.types.json import Jsonb
 
 from ingest.common import ROOT, RawStore, Settings
@@ -80,13 +81,16 @@ def fingerprint(state):
     ).hexdigest()
 
 
-def collect_inputs(db, directory, *, expected_cells=10127):
-    """One read-only MVCC snapshot; never enqueue addresses or alter S1 source rows."""
+def collect_inputs(db, directory, *, expected_cells=10127, uncommitted_refresh=False):
+    """Read one MVCC snapshot (or own pending release); never mutate source rows."""
+    if uncommitted_refresh and db.info.transaction_status != TransactionStatus.INTRANS:
+        raise ValueError("Uncommitted reference collection requires the release transaction")
     started = time.monotonic()
     path = directory / "inputs.ndjson"
     durations = {radius: [] for radius in RADII}
     with db.transaction():
-        db.execute("set transaction isolation level repeatable read read only")
+        if not uncommitted_refresh:
+            db.execute("set transaction isolation level repeatable read read only")
         db.execute("set local statement_timeout='30s'")
         state = source_state(db)
         cells = db.execute("""select cell_id,extensions.st_y(p),extensions.st_x(p),
