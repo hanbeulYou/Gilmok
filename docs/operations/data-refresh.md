@@ -25,7 +25,9 @@ uv run --frozen python -m ingest.refresh_monthly --source population --end-month
 
 ## 월간 원자적 갱신 (2026-10-11 수정)
 
-10/10에는 앞선 다섯 소스 커밋 뒤 trades가 실패하여 reference job이 skipped되었고 total=NULL이 발생했다. [원인·복구 승인 계획](../planning/reference-refresh-recovery-plan.md), [실측](../validation/reference-refresh-20261011.md)을 따른다. 이 PR의 workflow는 main 머지 후 적용되며 원격 분포 복구는 별도 승인 대기다.
+**2026-10-12 운영 기한: #37의 월간 원자적 갱신 수정은 다음 예약 실행인 2026-11-10 03:17 KST(2026-11-09 18:17 UTC, `17 18 9 * *`) 전에 main에 머지해야 한다. 그보다 먼저 수동 월간 refresh를 실행한다면 그 실행 전에도 머지가 필요하다.** 기존 main의 소스별 커밋 workflow를 다시 실행하면 동일한 불일치가 재발할 수 있다. 머지 전에는 해당 월간 갱신을 실행하지 않는다. 이번 복구에서 cron·운영 variable·주소 sweep은 변경하지 않았다.
+
+10/10에는 앞선 다섯 소스 커밋 뒤 trades가 실패하여 reference job이 skipped되었고 total=NULL이 발생했다. [원인·복구 승인 계획](../planning/reference-refresh-recovery-plan.md), [실측](../validation/reference-refresh-20261011.md)을 따른다. 이 PR의 workflow는 main 머지 후 적용된다. 2026-10-12 승인된 분포 `20261011T120000Z` 원격 승격과 production 총점 복구는 완료했다. [원격 검증·정밀도 정정](../validation/reference-refresh-remote-20261012.md)을 따른다.
 
 월간은 matrix 대신 `ingest.refresh_monthly`: 모든 외부 수집/검증 완료 → 쓰기 잠금과 source fingerprint 확인 → 한 트랜잭션에서 선택 소스 loader + 전수 reference 계산/검증/적재 → COMMIT → 별도 VACUUM → 성공 후 6조합 예열이다. 중간 실패는 **원천과 기준 분포 모두** 이전 버전을 유지한다. `--source=population` 같은 재시도에도 reference가 포함된다. 자동 소스 운영 갱신을 개별 `ingest.refresh`로 우회하지 않는다.
 

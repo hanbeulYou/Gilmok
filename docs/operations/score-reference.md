@@ -1,6 +1,6 @@
 # score_reference 운영 — S2-1
 
-현재 앱 채점 모델은 [v0.4.0](../planning/scoring-spec.md), 기준 분포의 원시값 계약은 `academy_v0 / 0.1.2`, RPC schema는 1.3이다. 2026-10-11 source/reference 불일치의 [복구 승인 범위](../planning/reference-refresh-recovery-plan.md)와 [로컬 검증](../validation/reference-refresh-20261011.md)을 따른다. 원격 복구는 승인 대기이며 문서 변경만으로 실행되지 않는다.
+현재 앱 채점 모델은 [v0.4.0](../planning/scoring-spec.md), 기준 분포의 원시값 계약은 `academy_v0 / 0.1.2`, RPC schema는 1.3이다. 2026-10-11 source/reference 불일치의 [복구 승인 범위](../planning/reference-refresh-recovery-plan.md)와 [로컬 검증](../validation/reference-refresh-20261011.md)을 따른다. 2026-10-12 승인 snapshot `20261011T120000Z` 원격 승격·production 총점 복구 완료. 이전 `20260923T111436Z`의 R2 불변 롤백 백업과 원정밀도 검산·최초 로컬값 정정은 [원격 검증](../validation/reference-refresh-remote-20261012.md)을 따른다. 검증용 DB 복제는 COPY BINARY 또는 `extra_float_digits=3`으로 원정밀도를 보존하고 바이너리 대조까지 수행한다. 메타데이터 fingerprint만으로 원천 행의 비트 일치를 주장하지 않는다.
 
 ## 실행
 
