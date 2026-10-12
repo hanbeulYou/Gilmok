@@ -1,0 +1,760 @@
+{
+  "date": "2026-10-12",
+  "snapshot": "20261012T013000Z",
+  "status": "promoted_exact_local_remote_production_match",
+  "promotion": {
+    "started_at": "2026-10-12T04:24:22.166310+00:00",
+    "snapshot": "20261012T013000Z",
+    "approval": "2026-10-12 explicit user approval for 20261012T013000Z; exact total equality required",
+    "stages": [
+      {
+        "stage": "preflight",
+        "status": "success",
+        "seconds": 6.017,
+        "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+        "old_snapshot": "20261011T120000Z",
+        "disk": {
+          "node_filesystem_avail_bytes": 6941433856,
+          "node_filesystem_size_bytes": 8416882688,
+          "node_filesystem_free_bytes": 7063068672
+        }
+      },
+      {
+        "stage": "preserve_old_reference",
+        "status": "success",
+        "seconds": 11.007,
+        "rows": 162032,
+        "local_restore_digest_match": true,
+        "manifest_key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/manifest.json",
+        "manifest_sha256": "2457cb6e965b636242f14cd50071d83eed5e64be296d004260446881a9ff7095"
+      },
+      {
+        "stage": "publish_verified_new_reference",
+        "status": "success",
+        "seconds": 13.946,
+        "recompute_mismatches": 0,
+        "rows": 162032
+      },
+      {
+        "stage": "atomic_promotion",
+        "status": "success",
+        "seconds": 11.942,
+        "active_snapshot": "20261012T013000Z",
+        "rows": 162032
+      },
+      {
+        "stage": "vacuum_analyze",
+        "status": "success",
+        "seconds": 0.871
+      },
+      {
+        "stage": "six_case_warmup",
+        "status": "success",
+        "seconds": 1.777,
+        "cases": 6
+      }
+    ],
+    "committed": true,
+    "preserved_20260923": {
+      "manifest_key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/manifest.json",
+      "manifest_sha256": "86964f2902f59e58b8cd2ba4be82dda0abec3e04fc1667da75736bc1b9c707d2",
+      "all_three_objects_download_hash_match": true
+    },
+    "disk_before": {
+      "node_filesystem_avail_bytes": 6941433856,
+      "node_filesystem_size_bytes": 8416882688,
+      "node_filesystem_free_bytes": 7063068672
+    },
+    "old_snapshot": "20261011T120000Z",
+    "old_source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+    "rollback_archive": {
+      "snapshot": "20261011T120000Z",
+      "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+      "created_at": "2026-10-12T04:24:28.184159+00:00",
+      "tables": [
+        {
+          "table": "public.score_reference_sets",
+          "columns": [
+            "preset_id",
+            "preset_version",
+            "snapshot",
+            "computed_at",
+            "inputs_schema_version",
+            "cell_count",
+            "source_fingerprint",
+            "source_versions",
+            "statistics"
+          ],
+          "rows": 1,
+          "file": "public.score_reference_sets.csv.gz",
+          "csv_sha256": "9e9dbf707603a18dd144e6ca58b4c6b8d177112eb6e6814ec6dda30d93cff3f9",
+          "order": "",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/public.score_reference_sets.csv.gz",
+            "bytes": 1529,
+            "sha256": "401ef68fef15baddbf18c0c16a91207b518c01cf4743a4208ed2a093033f7abe",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        },
+        {
+          "table": "public.score_reference",
+          "columns": [
+            "preset_id",
+            "preset_version",
+            "snapshot",
+            "radius_m",
+            "cell_id",
+            "axis_key",
+            "raw_value",
+            "computed_at",
+            "inputs_schema_version"
+          ],
+          "rows": 162032,
+          "file": "public.score_reference.csv.gz",
+          "csv_sha256": "cb961d733200e42af47da0c516420f10178679beaffbc405a01cef8fd23118de",
+          "order": "order by radius_m,cell_id collate \"C\",axis_key collate \"C\"",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/public.score_reference.csv.gz",
+            "bytes": 1574766,
+            "sha256": "0661deba5a1079a82e7857e176757783c4d593c722c483c71bfebd7cb014b63d",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        },
+        {
+          "table": "ingest_private.refresh_snapshots",
+          "columns": [
+            "source",
+            "period_end",
+            "snapshot",
+            "manifest",
+            "committed_at"
+          ],
+          "rows": 1,
+          "file": "ingest_private.refresh_snapshots.csv.gz",
+          "csv_sha256": "d18703cc3ab52b8b05a549d5417251d5741be8f6c2a42ac2d9df498e85166f77",
+          "order": "",
+          "object": {
+            "key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/ingest_private.refresh_snapshots.csv.gz",
+            "bytes": 2247,
+            "sha256": "9a5088a0ab98009e9c91d456a65dd4d3ee20bb9eeb337efc33812ed326f1d138",
+            "status": "published"
+          },
+          "local_restore_csv_digest_match": true
+        }
+      ],
+      "retention": "Retain for rollback; no deletion in this operation"
+    },
+    "rollback_manifest_object": {
+      "key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/manifest.json",
+      "bytes": 2666,
+      "sha256": "2457cb6e965b636242f14cd50071d83eed5e64be296d004260446881a9ff7095",
+      "status": "published"
+    },
+    "new_objects": {
+      "score_reference_inputs": {
+        "key": "raw/score_reference_inputs/revisions/20261012T013000Z/2026-10.parquet",
+        "bytes": 26363411,
+        "sha256": "af50c9aa33778f01d9b4a9547be2c7af6979beab025e3bf3d0f088b82afc7143",
+        "status": "published"
+      },
+      "score_reference": {
+        "key": "raw/score_reference/revisions/20261012T013000Z/2026-10.parquet",
+        "bytes": 734577,
+        "sha256": "5b845c9712341faf290a77e2d316afb34bc441a95467b27e4e527f3306cb33cb",
+        "status": "published"
+      },
+      "score_reference_manifest": {
+        "key": "raw/score_reference_manifest/revisions/20261012T013000Z/2026-10.parquet",
+        "bytes": 4481,
+        "sha256": "808cd2ba36f53e5103da7e6f9204449c594d02037a08fac7175cb8ac4815a32e",
+        "status": "published"
+      }
+    },
+    "committed_at": "2026-10-12T04:25:04.961292+00:00",
+    "warmup": [
+      {
+        "case": {
+          "name": "대치",
+          "lat": 37.494612,
+          "lng": 127.063642,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 468.899,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "대치",
+          "lat": 37.494612,
+          "lng": 127.063642,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 324.691,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "학여울",
+          "lat": 37.496663,
+          "lng": 127.070594,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 79.927,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "학여울",
+          "lat": 37.496663,
+          "lng": 127.070594,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 178.244,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "한티",
+          "lat": 37.496237,
+          "lng": 127.052873,
+          "radius_m": 500,
+          "floor": 2
+        },
+        "ms": 112.548,
+        "schema_version": "1.3"
+      },
+      {
+        "case": {
+          "name": "한티",
+          "lat": 37.496237,
+          "lng": 127.052873,
+          "radius_m": 1000,
+          "floor": 2
+        },
+        "ms": 339.886,
+        "schema_version": "1.3"
+      }
+    ],
+    "status": "promoted_verified_sql",
+    "seconds": 45.603
+  },
+  "validation": {
+    "comparison": "Object.is(local_total,remote_total) and production numeric equality; no rounding/tolerance; independently confirmed binary64 hex",
+    "rows": [
+      {
+        "key": "a",
+        "candidate": {
+          "lat": 37.5025721944737,
+          "lng": 127.05758573871447,
+          "floor": 3,
+          "address": "서울특별시 강남구 역삼로 460",
+          "exclusive_area_m2": null,
+          "deposit_krw": null,
+          "monthly_rent_krw": null,
+          "maintenance_krw": null
+        },
+        "local_total": 83.07558801574415,
+        "remote_total": 83.07558801574415,
+        "production_total": 83.07558801574415,
+        "ieee754_binary64_hex": "4054c4d66f1de5cd",
+        "delta": 0,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036,
+            "production": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864,
+            "production": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486,
+            "production": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464,
+            "production": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "local": 30.707070707070706,
+            "remote": 30.707070707070706,
+            "production": 30.707070707070706
+          },
+          {
+            "key": "building",
+            "local": 85,
+            "remote": 85,
+            "production": 85.0
+          },
+          {
+            "key": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771,
+            "production": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "local": null,
+            "remote": null,
+            "production": null
+          }
+        ],
+        "raw_differences": [
+          {
+            "key": "demand",
+            "local": 9267.137532036744,
+            "remote": 9267.137532038552,
+            "delta": 1.8080754671245813e-09
+          },
+          {
+            "key": "flow",
+            "local": 103464.09476137225,
+            "remote": 103464.09476136377,
+            "delta": -8.483766578137875e-09
+          }
+        ],
+        "http_seconds": 2.641732
+      },
+      {
+        "key": "b",
+        "candidate": {
+          "lat": 37.497368428505624,
+          "lng": 127.05516718391107,
+          "floor": 2,
+          "address": "서울특별시 강남구 도곡로 409",
+          "exclusive_area_m2": null,
+          "deposit_krw": null,
+          "monthly_rent_krw": null,
+          "maintenance_krw": null
+        },
+        "local_total": 92.61630957198977,
+        "remote_total": 92.61630957198977,
+        "production_total": 92.61630957198977,
+        "ieee754_binary64_hex": "405727719db3fa1a",
+        "delta": 0,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "local": 99.76300977584674,
+            "remote": 99.76300977584674,
+            "production": 99.76300977584674
+          },
+          {
+            "key": "flow",
+            "local": 98.7976947535771,
+            "remote": 98.7976947535771,
+            "production": 98.7976947535771
+          },
+          {
+            "key": "transit",
+            "local": 81.81701931840821,
+            "remote": 81.81701931840821,
+            "production": 81.81701931840821
+          },
+          {
+            "key": "cluster",
+            "local": 98.45823271065888,
+            "remote": 98.45823271065888,
+            "production": 98.45823271065888
+          },
+          {
+            "key": "exposure",
+            "local": 46.25954198473283,
+            "remote": 46.25954198473283,
+            "production": 46.25954198473283
+          },
+          {
+            "key": "building",
+            "local": 95,
+            "remote": 95,
+            "production": 95.0
+          },
+          {
+            "key": "environment",
+            "local": 87.65344088005983,
+            "remote": 87.65344088005983,
+            "production": 87.65344088005983
+          },
+          {
+            "key": "rent_efficiency",
+            "local": null,
+            "remote": null,
+            "production": null
+          }
+        ],
+        "raw_differences": [
+          {
+            "key": "demand",
+            "local": 13149.223936519682,
+            "remote": 13149.223936519327,
+            "delta": -3.54702933691442e-10
+          },
+          {
+            "key": "flow",
+            "local": 93259.29075509416,
+            "remote": 93259.2907551183,
+            "delta": 2.4141627363860607e-08
+          }
+        ],
+        "http_seconds": 1.91387975
+      },
+      {
+        "key": "c",
+        "candidate": {
+          "lat": 37.50428792732002,
+          "lng": 127.06287290714192,
+          "floor": 3,
+          "address": "서울특별시 강남구 역삼로 546",
+          "exclusive_area_m2": null,
+          "deposit_krw": null,
+          "monthly_rent_krw": null,
+          "maintenance_krw": null
+        },
+        "local_total": 82.53098738393125,
+        "remote_total": 82.53098738393125,
+        "production_total": 82.53098738393125,
+        "ieee754_binary64_hex": "4054a1fbb28224b1",
+        "delta": 0,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "local": 84.09203120371285,
+            "remote": 84.09203120371285,
+            "production": 84.09203120371285
+          },
+          {
+            "key": "flow",
+            "local": 96.83028616852147,
+            "remote": 96.83028616852147,
+            "production": 96.83028616852147
+          },
+          {
+            "key": "transit",
+            "local": 60.78723216127797,
+            "remote": 60.78723216127797,
+            "production": 60.78723216127797
+          },
+          {
+            "key": "cluster",
+            "local": 86.02535938867672,
+            "remote": 86.02535938867672,
+            "production": 86.02535938867672
+          },
+          {
+            "key": "exposure",
+            "local": 50.624999999999986,
+            "remote": 50.624999999999986,
+            "production": 50.624999999999986
+          },
+          {
+            "key": "building",
+            "local": 95,
+            "remote": 95,
+            "production": 95.0
+          },
+          {
+            "key": "environment",
+            "local": 91.98293991698833,
+            "remote": 91.98293991698833,
+            "production": 91.98293991698833
+          },
+          {
+            "key": "rent_efficiency",
+            "local": null,
+            "remote": null,
+            "production": null
+          }
+        ],
+        "raw_differences": [
+          {
+            "key": "demand",
+            "local": 6973.397395053683,
+            "remote": 6973.397395052199,
+            "delta": -1.4842953532934189e-09
+          },
+          {
+            "key": "flow",
+            "local": 77489.4381086913,
+            "remote": 77489.43810869723,
+            "delta": 5.922629497945309e-09
+          }
+        ],
+        "http_seconds": 1.616743958
+      },
+      {
+        "key": "d",
+        "candidate": {
+          "lat": 37.5025721944737,
+          "lng": 127.05758573871447,
+          "floor": 4,
+          "address": "서울특별시 강남구 역삼로 460",
+          "exclusive_area_m2": null,
+          "deposit_krw": null,
+          "monthly_rent_krw": null,
+          "maintenance_krw": null
+        },
+        "local_total": 81.82093623477657,
+        "remote_total": 81.82093623477657,
+        "production_total": 81.82093623477657,
+        "ieee754_binary64_hex": "4054748a38221ddf",
+        "delta": 0,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036,
+            "production": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864,
+            "production": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486,
+            "production": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464,
+            "production": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "local": 26.868686868686865,
+            "remote": 26.868686868686865,
+            "production": 26.868686868686865
+          },
+          {
+            "key": "building",
+            "local": 75,
+            "remote": 75,
+            "production": 75.0
+          },
+          {
+            "key": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771,
+            "production": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "local": null,
+            "remote": null,
+            "production": null
+          }
+        ],
+        "raw_differences": [
+          {
+            "key": "demand",
+            "local": 9267.137532036744,
+            "remote": 9267.137532038552,
+            "delta": 1.8080754671245813e-09
+          },
+          {
+            "key": "flow",
+            "local": 103464.09476137225,
+            "remote": 103464.09476136377,
+            "delta": -8.483766578137875e-09
+          }
+        ],
+        "http_seconds": 1.9633821659999995
+      },
+      {
+        "key": "e",
+        "candidate": {
+          "lat": 37.5025721944737,
+          "lng": 127.05758573871447,
+          "floor": 1,
+          "address": "서울특별시 강남구 역삼로 460",
+          "exclusive_area_m2": null,
+          "deposit_krw": null,
+          "monthly_rent_krw": null,
+          "maintenance_krw": null
+        },
+        "local_total": 85.0585757882056,
+        "remote_total": 85.0585757882056,
+        "production_total": 85.0585757882056,
+        "ieee754_binary64_hex": "405543bfb4a9ab8d",
+        "delta": 0,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "local": 96.47477041572036,
+            "remote": 96.47477041572036,
+            "production": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "local": 99.29451510333864,
+            "remote": 99.29451510333864,
+            "production": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "local": 38.336803260049486,
+            "remote": 38.336803260049486,
+            "production": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "local": 97.52731075268464,
+            "remote": 97.52731075268464,
+            "production": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "local": 38.38383838383838,
+            "remote": 38.38383838383838,
+            "production": 38.38383838383838
+          },
+          {
+            "key": "building",
+            "local": 100,
+            "remote": 100,
+            "production": 100.0
+          },
+          {
+            "key": "environment",
+            "local": 93.40459174952771,
+            "remote": 93.40459174952771,
+            "production": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "local": null,
+            "remote": null,
+            "production": null
+          }
+        ],
+        "raw_differences": [
+          {
+            "key": "demand",
+            "local": 9267.137532036744,
+            "remote": 9267.137532038552,
+            "delta": 1.8080754671245813e-09
+          },
+          {
+            "key": "flow",
+            "local": 103464.09476137225,
+            "remote": 103464.09476136377,
+            "delta": -8.483766578137875e-09
+          }
+        ],
+        "http_seconds": 1.9463892500000002
+      }
+    ],
+    "rank": [
+      "b",
+      "e",
+      "a",
+      "c",
+      "d"
+    ],
+    "confidence_values": [
+      90,
+      90,
+      85,
+      90,
+      90
+    ],
+    "http_auth": {
+      "is_anonymous": true,
+      "role": "authenticated"
+    },
+    "http_cleanup": {
+      "own_test_uid": true,
+      "success": true
+    },
+    "http_wall_seconds": 11.281,
+    "production_url": "https://gilmok-weld.vercel.app",
+    "production_checks": {
+      "real_production": true,
+      "anonymous_authenticated_session": true,
+      "new_reference_all_requests": true,
+      "all_five_http_totals_exact": true,
+      "all_five_local_totals_exact": true,
+      "all_five_display_match": true,
+      "all_five_confidences_exact": true,
+      "production_totals_visible": true,
+      "ranking_unchanged": true,
+      "no_mock": true
+    },
+    "production_cleanup": [
+      {
+        "own_test_uid": true,
+        "success": true
+      }
+    ],
+    "production_seconds": 22.232,
+    "production_reference_snapshots": [
+      "20261012T013000Z"
+    ]
+  },
+  "precision_fix": {
+    "method": "COPY BINARY preserving source bits in 23 tables, compare remote/local re-export SHA256, regenerate full reference with existing scoring/raw logic",
+    "source_copy_report": "reference-refresh-remote-20261012.json#binary_capture",
+    "reference_rebuild_seconds": 501.1842094580643,
+    "reference_rows": 162032,
+    "rpc_calls": 20254,
+    "raw_rounding_added": false,
+    "sum_order_modified": false,
+    "scoring_version": "0.4.0",
+    "new_migration": false
+  }
+}

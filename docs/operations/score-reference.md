@@ -1,5 +1,7 @@
 # score_reference 운영 — S2-1
 
+**최신(2026-10-12 추가 승인): 활성 분포 `20261012T013000Z`, a~e 총점 로컬·원격·production 원정밀도 완전 일치.** [정정 방식·대조 기준·9/23 및 10/11 롤백 백업](../validation/reference-refresh-correction-20261012.md)을 따른다. 총점 비교는 반올림/허용오차 없이 정확 일치가 현재 기준이다. 아래 첫 복구와 두 자리 승인 기록은 추가 승격 이전의 이력이다.
+
 현재 앱 채점 모델은 [v0.4.0](../planning/scoring-spec.md), 기준 분포의 원시값 계약은 `academy_v0 / 0.1.2`, RPC schema는 1.3이다. 2026-10-11 source/reference 불일치의 [복구 승인 범위](../planning/reference-refresh-recovery-plan.md)와 [로컬 검증](../validation/reference-refresh-20261011.md)을 따른다. 2026-10-12 승인 snapshot `20261011T120000Z` 원격 승격·production 총점 복구 완료. 이전 `20260923T111436Z`의 R2 불변 롤백 백업과 원정밀도 검산·최초 로컬값 정정은 [원격 검증](../validation/reference-refresh-remote-20261012.md)을 따른다. 검증용 DB 복제는 COPY BINARY 또는 `extra_float_digits=3`으로 원정밀도를 보존하고 바이너리 대조까지 수행한다. 메타데이터 fingerprint만으로 원천 행의 비트 일치를 주장하지 않는다.
 
 2026-10-12 사용자 결정: 이번 복구는 표시 소수 둘째 자리·순위·신뢰도 일치로 승인했다. b의 원정밀도 차이 +0.0012711577139441488은 기록하고 `20261011T120000Z`를 유지한다. 추가 승격 없이 [정밀값 안정화·향후 대조 기준](../planning/percentile-precision-plan.md)을 별도 PR로 검토한다.

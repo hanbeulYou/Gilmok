@@ -1755,5 +1755,7 @@
     "active_snapshot": "20261011T120000Z",
     "additional_promotion": false,
     "precision_followup": "docs/planning/percentile-precision-plan.md"
-  }
+  },
+  "superseded_by": "reference-refresh-correction-20261012.json",
+  "historical_record": true
 }
