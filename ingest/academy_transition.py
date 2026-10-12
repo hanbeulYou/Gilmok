@@ -172,15 +172,41 @@ class Journal:
             ),
         )
         count, items = parse_search(raw)
-        exact = [item for item in items if matches_address(item, address)]
+        page = 1
+        while len(items) < count:
+            page += 1
+            total, batch = parse_search(
+                self.call(
+                    "search",
+                    json.dumps([address, page], ensure_ascii=False),
+                    SEARCH_URL,
+                    dict(
+                        confmKey=search_key,
+                        currentPage=page,
+                        countPerPage=100,
+                        keyword=address,
+                        resultType="json",
+                    ),
+                )
+            )
+            if total != count or not batch or len(items) + len(batch) > count:
+                raise GeocodeStopped("Juso search pagination changed; inspect saved responses")
+            items.extend(batch)
+        # Several public search rows can identify the very same parcel and entrance.
+        # Group only identical official identities, never nearby/first result guesses.
+        exact = {
+            (item["pnu"], item["bdMgtSn"], *(item[k] for k in IDENTIFIERS)): item
+            for item in items
+            if matches_address(item, address)
+        }
         result = dict(address=address, status="not_found")
         if count:
-            if count != len(items) or len(exact) > 1:
+            if len(exact) > 1:
                 result["status"] = "ambiguous"
             elif not exact:
                 result["status"] = "invalid"
             else:
-                item = exact[0]
+                item = next(iter(exact.values()))
                 identity = json.dumps({k: item[k] for k in IDENTIFIERS}, sort_keys=True)
                 provider = JusoCoordinates(
                     coordinate_key,

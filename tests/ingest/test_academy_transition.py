@@ -40,8 +40,10 @@ def test_completed_requests_replay_and_same_building_reuses_coordinate(tmp_path)
         )
 
     journal = Journal(tmp_path / "journal", request, interval=0)
+
     def project(x, y):
         return 127.05, 37.5
+
     a = "서울특별시 강남구 역삼로 460"
     b = "서울특별시 강남구 대치동 912-13"
     assert journal.resolve(a, "key", "coord", project)["status"] == "ready"
@@ -101,3 +103,73 @@ def test_echoed_key_is_not_persisted(tmp_path):
 def test_remote_or_remote_hostaddr_rejected_before_connect(url):
     with pytest.raises(ValueError, match="explicit local"):
         local_connection(url)
+
+
+def test_identical_parcel_and_entrance_are_not_ambiguous(tmp_path):
+    calls = []
+
+    def request(url, params):
+        calls.append(url)
+        return (
+            response([item(), item()])
+            if "currentPage" in params
+            else response([dict(bdMgtSn=item()["bdMgtSn"], entX="1000000", entY="2000000")])
+        )
+
+    result = Journal(tmp_path / "journal", request, interval=0).resolve(
+        "서울특별시 강남구 역삼로 460", "SEARCH", "COORD", lambda *_: (127.05, 37.5)
+    )
+    assert result["status"] == "ready"
+    assert len(calls) == 2
+
+
+@pytest.mark.parametrize("different_parcel", [False, True])
+def test_all_search_pages_checked_before_selecting(tmp_path, different_parcel):
+    pages = []
+    coords = []
+
+    def request(url, params):
+        if "currentPage" not in params:
+            coords.append(1)
+            return response([dict(bdMgtSn=item()["bdMgtSn"], entX="1000000", entY="2000000")])
+        page = params["currentPage"]
+        pages.append(page)
+        last = item() | (dict(lnbrSlno="14") if different_parcel else {})
+        result = response([item()] * 100 if page == 1 else [last])
+        result["results"]["common"]["totalCount"] = "101"
+        return result
+
+    journal = Journal(tmp_path / "journal", request, interval=0)
+    args = ("서울특별시 강남구 역삼로 460", "SEARCH", "COORD", lambda *_: (127.05, 37.5))
+    result = journal.resolve(*args)
+    assert result["status"] == ("ambiguous" if different_parcel else "ready")
+    assert pages == [1, 2]
+    assert len(coords) == (0 if different_parcel else 1)
+    assert journal.resolve(*args) == result
+    assert pages == [1, 2]
+
+
+def test_changing_pagination_stops_without_inventing_address_failure(tmp_path):
+    def request(_, params):
+        result = response([item()])
+        result["results"]["common"]["totalCount"] = "2" if params["currentPage"] == 1 else "3"
+        return result
+
+    journal = Journal(tmp_path / "journal", request)
+    with pytest.raises(GeocodeStopped, match="pagination changed"):
+        journal.resolve(
+            "서울특별시 강남구 역삼로 460", "SEARCH", "COORD", lambda *_: (127.05, 37.5)
+        )
+    assert journal.db.execute("select count(*) from outcomes").fetchone()[0] == 0
+
+
+def test_same_coordinate_key_with_distinct_building_identity_stays_ambiguous(tmp_path):
+    entries = [item(), item() | dict(bdMgtSn="1168010600109120013000001")]
+    journal = Journal(tmp_path / "journal", lambda *_: response(entries))
+    result = journal.resolve(
+        "서울특별시 강남구 역삼로 460", "SEARCH", "COORD", lambda *_: (127.05, 37.5)
+    )
+    assert result["status"] == "ambiguous"
+    assert (
+        journal.db.execute("select count(*) from calls where kind='coordinate'").fetchone()[0] == 0
+    )
