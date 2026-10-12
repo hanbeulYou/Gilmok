@@ -279,6 +279,8 @@ def promote_local(url, directory, revision):
 
 
 def capture_scores(db, directory, label):
+    if label == "after":
+        verify_preserved_cache(db, directory)
     with gzip.open(ROOT / "tests/scoring/fixtures/v040-inputs.json.gz", "rt") as file:
         cases = json.load(file)["cases"]
     reference = db.execute(
@@ -297,6 +299,28 @@ def capture_scores(db, directory, label):
         case["reference"] = reference
     with gzip.open(directory / f"{label}-inputs.json.gz", "wt") as file:
         json.dump(cases, file, ensure_ascii=False)
+
+
+def verify_preserved_cache(db, directory):
+    """Compare non-Juso cache bytes with the immutable rollback copy before rollback."""
+    db.execute("create temp table g_cache_before (like public.geocode_cache) on commit drop")
+    with (
+        db.cursor() as cursor,
+        cursor.copy("copy g_cache_before from stdin (format binary)") as copy,
+    ):
+        with gzip.open(directory / "rollback/public.geocode_cache.bin.gz", "rb") as source:
+            while block := source.read(1024 * 1024):
+                copy.write(block)
+    db.execute("""create temp view g_cache_kept_before as
+        select * from g_cache_before where provider in ('kakao','vworld');
+        create temp view g_cache_kept_after as
+        select * from public.geocode_cache where provider in ('kakao','vworld')""")
+    before = table_digest(db, "pg_temp.g_cache_kept_before")
+    after = table_digest(db, "pg_temp.g_cache_kept_after")
+    equal = before["rows"] == after["rows"] and before["binary_sha256"] == after["binary_sha256"]
+    if not equal:
+        raise ValueError("Existing Kakao/Vworld cache changed")
+    write_json(directory / "preserved-cache.json", dict(passed=True, before=before, after=after))
 
 
 def spatial(db, directory):
