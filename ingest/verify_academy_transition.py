@@ -4,11 +4,14 @@ import argparse
 import gzip
 import hashlib
 import json
+import math
 import sqlite3
 import time
+from collections import Counter
 from contextlib import contextmanager
 from datetime import date
 from pathlib import Path
+from statistics import median
 
 import duckdb
 from psycopg import sql
@@ -349,14 +352,19 @@ def spatial(db, directory):
             total=len(items),
             ready=len(ready),
             unlocated=len(items) - len(ready),
+            statuses=dict(Counter(r["status"] for r in items)),
             footprint_available=sum(r["footprint_available"] for r in ready),
             inside_pnu_footprint=sum(r["inside_pnu_footprint"] is True for r in ready),
             outside_pnu_footprint=sum(r["inside_pnu_footprint"] is False for r in ready),
+            footprint_unavailable=sum(not r["footprint_available"] for r in ready),
             outside_seoul=sum(not r["inside_seoul"] for r in ready),
             move_m_max=max(distances, default=None),
-            move_m_median=distances[len(distances) // 2] if distances else None,
+            move_m_median=median(distances) if distances else None,
+            move_m_p95=distances[math.ceil(len(distances) * 0.95) - 1] if distances else None,
+            move_not_comparable=len(ready) - len(distances),
             move_over_50m=sum(d > 50 for d in distances),
             move_over_100m=sum(d > 100 for d in distances),
+            move_over_500m=sum(d > 500 for d in distances),
         )
     report = dict(
         tables=summary,
