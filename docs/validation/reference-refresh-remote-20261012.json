@@ -1740,5 +1740,20 @@
     },
     "wall_seconds": 501.1842094580643
   },
-  "status": "approved_snapshot_promoted_production_restored_corrected_snapshot_approval_pending"
+  "status": "approved_snapshot_restored_accepted_display_precision",
+  "acceptance": {
+    "date": "2026-10-12",
+    "authority": "user decision",
+    "display_decimal_places": 2,
+    "display_match": true,
+    "rank_match": true,
+    "confidence_match": true,
+    "exact_total_exception": {
+      "key": "b",
+      "delta": 0.0012711577139441488
+    },
+    "active_snapshot": "20261011T120000Z",
+    "additional_promotion": false,
+    "precision_followup": "docs/planning/percentile-precision-plan.md"
+  }
 }
