@@ -47,6 +47,10 @@ Migration `20261012150926_academy_display_provenance.sql`: **새 private 테이�
 
 롤백은 학원·학교·캐시·분포2테이블·place/refresh snapshot·ingest_runs·층 파생2테이블, 총10개를 COPY BINARY로 백업한다. manifest에 행 수, 바이너리/압축파일 SHA256, source fingerprint를 남긴다. 파일 해시를 확인하고 전체를 단일 트랜잭션으로 복원한 뒤 행 수·바이너리 digest·fingerprint가 일치해야 커밋한다. float8 전체 자릿수를 보존하며 sequence를 되감지 않는다. baseline 복원 시험10테이블 일치 통과. 실제 재산출 승격 후 복원 결과도 아래에 기록했다.
 
+## 2026-10-14 후속 품질 검토
+
+[후속 검토](academy-coordinate-quality-20261014.md): Vworld 저장 금지 안내로 재조회 보류, 147행 건물 동일성 대조·학교79행 목록·고정10후보 재채점을 기록했다. 이 문서의 Juso 단독 결과를 보완 완료나 원격 승격 승인으로 해석하지 않는다.
+
 ## 검사 상태
 
 - lint/typecheck 통과.

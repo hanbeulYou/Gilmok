@@ -1,0 +1,1186 @@
+{
+  "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+  "journal_sha256": "106648746f4e2d9c4333e517def989fea2b22304cdbf3a10945e24328a34e125",
+  "reviewed_rows": 147,
+  "over_500m": {
+    "rows": 101,
+    "addresses": 8,
+    "classifications": {
+      "판단 불가": 101
+    }
+  },
+  "other_pnu": {
+    "rows": 46,
+    "addresses": 18,
+    "classifications": {
+      "같은 건물": 27,
+      "판단 불가": 18,
+      "다른 건물": 1
+    }
+  },
+  "rejected_addresses": [],
+  "unresolved_schools": 79,
+  "missing_addresses": 131,
+  "vworld_requests": 0,
+  "vworld_hold": "official_geocoder_no_storage_clause",
+  "school_total": 1320,
+  "school_ready": 1241,
+  "score_replay": {
+    "mode": "frozen inputs; no new DB promotion or distribution collection",
+    "exact_matches": 10,
+    "axes": [
+      "demand",
+      "flow",
+      "transit",
+      "cluster",
+      "exposure",
+      "building",
+      "environment",
+      "rent_efficiency"
+    ]
+  },
+  "files": {
+    "review.json": {
+      "bytes": 233134,
+      "sha256": "298c5b31a9c1851af397f7b1ae85412922bf82cc3d9ea9ae8b708bda5e9d0876"
+    },
+    "review.csv": {
+      "bytes": 83282,
+      "sha256": "af8c09a94046754d36690b2f1a0c348523454c9f8eaf294547ca8e051414207e"
+    },
+    "review.md": {
+      "bytes": 88594,
+      "sha256": "fe4de0c2059114937aa9ed30923ef106cc1078db73db11cd4140955e5ab54719"
+    },
+    "unresolved-schools.json": {
+      "bytes": 26370,
+      "sha256": "8d75176db1eee4effb2ad76ab42b12ff02c500e18eb0f0ec0c11158f7fd9c4ac"
+    },
+    "unresolved-schools.md": {
+      "bytes": 10139,
+      "sha256": "945d30c6a9d26c5027417634717eebc0efcdfb8936187db13597650f2c78604c"
+    },
+    "rejections.json": {
+      "bytes": 3,
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    "outcomes-preserved.json": {
+      "bytes": 187,
+      "sha256": "17b483b4c3157a18b49f78577f172ef9647632657e505386f1869c19ccb1acc6"
+    },
+    "preservation.json": {
+      "bytes": 2360,
+      "sha256": "ca33267cad3dedeeca87e06b3fff5c8710a7b8e16c9ecc73fafcc97acbf5da69"
+    },
+    "before-inputs.json.gz": {
+      "bytes": 7068568,
+      "sha256": "1ec74397115219f366a7ff4d723b1402362253be25357ad860b761987e967d24"
+    },
+    "current-inputs.json.gz": {
+      "bytes": 7068807,
+      "sha256": "389e9476999b428509e53c3c2136f269f70e40b002b12502baea27109abc641a"
+    }
+  },
+  "scores": {
+    "before": [
+      {
+        "key": "a",
+        "total": 83.07558801574415,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.9782137426306985,
+            "normalized": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "raw": 0.30707070707070705,
+            "normalized": 30.707070707070706
+          },
+          {
+            "key": "building",
+            "raw": 85,
+            "normalized": 85
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "b",
+        "total": 92.61630957198977,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 13149.223936519682,
+            "normalized": 99.76300977584674
+          },
+          {
+            "key": "flow",
+            "raw": 93259.29075509416,
+            "normalized": 98.7976947535771
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 81.81701931840821
+          },
+          {
+            "key": "cluster",
+            "raw": 7.01301578963963,
+            "normalized": 98.45823271065888
+          },
+          {
+            "key": "exposure",
+            "raw": 0.46259541984732827,
+            "normalized": 46.25954198473283
+          },
+          {
+            "key": "building",
+            "raw": 95,
+            "normalized": 95
+          },
+          {
+            "key": "environment",
+            "raw": 4931,
+            "normalized": 87.65344088005983
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "c",
+        "total": 82.53098738393125,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 6973.397395053683,
+            "normalized": 84.09203120371285
+          },
+          {
+            "key": "flow",
+            "raw": 77489.4381086913,
+            "normalized": 96.83028616852147
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 60.78723216127797
+          },
+          {
+            "key": "cluster",
+            "raw": 6.548219102762372,
+            "normalized": 86.02535938867672
+          },
+          {
+            "key": "exposure",
+            "raw": 0.5062499999999999,
+            "normalized": 50.624999999999986
+          },
+          {
+            "key": "building",
+            "raw": 95,
+            "normalized": 95
+          },
+          {
+            "key": "environment",
+            "raw": 6566,
+            "normalized": 91.98293991698833
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "d",
+        "total": 81.82093623477657,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.9782137426306985,
+            "normalized": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "raw": 0.26868686868686864,
+            "normalized": 26.868686868686865
+          },
+          {
+            "key": "building",
+            "raw": 75,
+            "normalized": 75
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "e",
+        "total": 85.0585757882056,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.47477041572036
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.9782137426306985,
+            "normalized": 97.52731075268464
+          },
+          {
+            "key": "exposure",
+            "raw": 0.3838383838383838,
+            "normalized": 38.38383838383838
+          },
+          {
+            "key": "building",
+            "raw": 100,
+            "normalized": 100
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-1",
+        "total": 42.7527538898681,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 68.3%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 1578.09766672282,
+            "normalized": 22.188209736348377
+          },
+          {
+            "key": "flow",
+            "raw": 43736.64840649139,
+            "normalized": 66.93163751987281
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 85.40616025564763
+          },
+          {
+            "key": "cluster",
+            "raw": 1.9459101490553132,
+            "normalized": 0
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 6732,
+            "normalized": 93.90141049323807
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-2",
+        "total": 60.09801284720904,
+        "confidence": {
+          "value": 65,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 71.1%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 5825.172069140831,
+            "normalized": 73.33859978275896
+          },
+          {
+            "key": "flow",
+            "raw": 47072.474545440615,
+            "normalized": 72.34697933227345
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 74.51610035661442
+          },
+          {
+            "key": "cluster",
+            "raw": 3.5263605246161616,
+            "normalized": 5.193490402143997
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 2312,
+            "normalized": 65.36689658569529
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-3",
+        "total": 57.25415670520244,
+        "confidence": {
+          "value": 75,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 4929.101083377062,
+            "normalized": 62.022316579441096
+          },
+          {
+            "key": "flow",
+            "raw": 35437.723536776226,
+            "normalized": 54.689984101748806
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 78.39990495331466
+          },
+          {
+            "key": "cluster",
+            "raw": 4.465908118654584,
+            "normalized": 30.32550305725482
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 1875,
+            "normalized": 53.68643146963758
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-4",
+        "total": 51.238119575110446,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 62.5%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 8022.877879516314,
+            "normalized": 91.6065962279056
+          },
+          {
+            "key": "flow",
+            "raw": 23943.763531389974,
+            "normalized": 40.79888712241653
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 28.700946028772407
+          },
+          {
+            "key": "cluster",
+            "raw": 3.5263605246161616,
+            "normalized": 5.193490402143997
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 573,
+            "normalized": 46.09036517433464
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-5",
+        "total": 4.700066973199586,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 2.9%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 218.2079938759981,
+            "normalized": 3.1203712846845066
+          },
+          {
+            "key": "flow",
+            "raw": 145.53238091317866,
+            "normalized": 2.7027027027027026
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 8.824218155861326
+          },
+          {
+            "key": "cluster",
+            "raw": 0,
+            "normalized": 0
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 0,
+            "normalized": 21.898081287394266
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      }
+    ],
+    "current": [
+      {
+        "key": "a",
+        "total": 83.15731166992899,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216
+          },
+          {
+            "key": "exposure",
+            "raw": 0.30707070707070705,
+            "normalized": 30.707070707070706
+          },
+          {
+            "key": "building",
+            "raw": 85,
+            "normalized": 85
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "b",
+        "total": 92.79389472431806,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 12999.223936519682,
+            "normalized": 99.78275896119285
+          },
+          {
+            "key": "flow",
+            "raw": 93259.29075509416,
+            "normalized": 98.7976947535771
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 81.81701931840821
+          },
+          {
+            "key": "cluster",
+            "raw": 7.053585727193677,
+            "normalized": 99.54344030471255
+          },
+          {
+            "key": "exposure",
+            "raw": 0.46259541984732827,
+            "normalized": 46.25954198473283
+          },
+          {
+            "key": "building",
+            "raw": 95,
+            "normalized": 95
+          },
+          {
+            "key": "environment",
+            "raw": 4931,
+            "normalized": 87.65344088005983
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "c",
+        "total": 82.57757498306235,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 6973.397395053683,
+            "normalized": 85.31648069517132
+          },
+          {
+            "key": "flow",
+            "raw": 77489.4381086913,
+            "normalized": 96.83028616852147
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 60.78723216127797
+          },
+          {
+            "key": "cluster",
+            "raw": 6.467698726104354,
+            "normalized": 83.87151520025675
+          },
+          {
+            "key": "exposure",
+            "raw": 0.5062499999999999,
+            "normalized": 50.624999999999986
+          },
+          {
+            "key": "building",
+            "raw": 95,
+            "normalized": 95
+          },
+          {
+            "key": "environment",
+            "raw": 6566,
+            "normalized": 91.98293991698833
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "d",
+        "total": 81.90265988896141,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216
+          },
+          {
+            "key": "exposure",
+            "raw": 0.26868686868686864,
+            "normalized": 26.868686868686865
+          },
+          {
+            "key": "building",
+            "raw": 75,
+            "normalized": 75
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "e",
+        "total": 85.14029944239044,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192
+          },
+          {
+            "key": "flow",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 38.336803260049486
+          },
+          {
+            "key": "cluster",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216
+          },
+          {
+            "key": "exposure",
+            "raw": 0.3838383838383838,
+            "normalized": 38.38383838383838
+          },
+          {
+            "key": "building",
+            "raw": 100,
+            "normalized": 100
+          },
+          {
+            "key": "environment",
+            "raw": 9678,
+            "normalized": 93.40459174952771
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-1",
+        "total": 41.901070271817346,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 68.3%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 1278.09766672282,
+            "normalized": 19.91705342154636
+          },
+          {
+            "key": "flow",
+            "raw": 43736.64840649139,
+            "normalized": 66.93163751987281
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 85.40616025564763
+          },
+          {
+            "key": "cluster",
+            "raw": 1.9459101490553132,
+            "normalized": 0
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 6732,
+            "normalized": 93.90141049323807
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-2",
+        "total": 60.468310072448496,
+        "confidence": {
+          "value": 65,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 71.1%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 5825.172069140831,
+            "normalized": 74.32605905006419
+          },
+          {
+            "key": "flow",
+            "raw": 47072.474545440615,
+            "normalized": 72.34697933227345
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 74.51610035661442
+          },
+          {
+            "key": "cluster",
+            "raw": 3.5263605246161616,
+            "normalized": 5.193490402143997
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 2312,
+            "normalized": 65.36689658569529
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-3",
+        "total": 57.96432760581394,
+        "confidence": {
+          "value": 75,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 4929.101083377062,
+            "normalized": 63.61212599980251
+          },
+          {
+            "key": "flow",
+            "raw": 35437.723536776226,
+            "normalized": 54.689984101748806
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 78.39990495331466
+          },
+          {
+            "key": "cluster",
+            "raw": 4.48863636973214,
+            "normalized": 30.93346235312665
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 1875,
+            "normalized": 53.68643146963758
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-4",
+        "total": 49.3590709269109,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 62.5%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 7422.877879516314,
+            "normalized": 88.72321516737435
+          },
+          {
+            "key": "flow",
+            "raw": 23943.763531389974,
+            "normalized": 40.79888712241653
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 28.700946028772407
+          },
+          {
+            "key": "cluster",
+            "raw": 3.367295829986474,
+            "normalized": 0.9386597328089394
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 573,
+            "normalized": 46.09036517433464
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      },
+      {
+        "key": "random-5",
+        "total": 4.6963640009471925,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 2.9%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "raw": 218.2079938759981,
+            "normalized": 3.1104966920114547
+          },
+          {
+            "key": "flow",
+            "raw": 145.53238091317866,
+            "normalized": 2.7027027027027026
+          },
+          {
+            "key": "transit",
+            "raw": null,
+            "normalized": 8.824218155861326
+          },
+          {
+            "key": "cluster",
+            "raw": 0,
+            "normalized": 0
+          },
+          {
+            "key": "exposure",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "building",
+            "raw": null,
+            "normalized": null
+          },
+          {
+            "key": "environment",
+            "raw": 0,
+            "normalized": 21.898081287394266
+          },
+          {
+            "key": "rent_efficiency",
+            "raw": null,
+            "normalized": null
+          }
+        ]
+      }
+    ]
+  }
+}
