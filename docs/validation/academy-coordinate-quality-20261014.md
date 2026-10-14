@@ -12,7 +12,7 @@ Vworld 이용약관(`v4po_prcint_a001.do`)·지오코더 안내(`v4dv_geocodergu
 
 ## 147행 나란히 대조
 
-로컬 `.local/academy-transition/quality-20261014-v2/review.md`와 `review.csv`에 **147행 각각** 원문 도로명·상세 주소, 이전/새 경위도, 이동거리, Juso 도로명·지번·건물명·PNU·건물관리번호, 이전/새 포함 도형 ID/PNU, 분류·사유·한계를 나란히 기록했다. 상세 좌표/응답은 기존 G 보관 원칙대로 로컬에만 두고 아래 집계·해시를 PR에 기록한다.
+로컬 `.local/academy-transition/quality-20261014-v3/review.md`와 `review.csv`에 **147행 각각** 원문 도로명·상세 주소, 이전/새 경위도, 이동거리, Juso 도로명·지번·건물명·PNU·건물관리번호, 이전/새 포함 도형 ID/PNU, 분류·사유·한계를 나란히 기록했다. 상세 좌표/응답은 기존 G 보관 원칙대로 로컬에만 두고 아래 집계·해시를 PR에 기록한다.
 
 분류 기준: 원문 도로명·건물번호 대조에 더해 이전/새 점을 **동일한 적재 도형 ID**가 포함하면 `같은 건물`; 둘 다 포함 도형이 있고 공통 ID가 없으면 `다른 건물`; 어느 쪽의 건물 단위 증거가 없으면 `판단 불가`. 이 분류는 **두 좌표의 건물 동일성**이며, 같은 도형이라는 것만으로 현행 PNU 또는 원천 주소가 맞다고 확정하지 않는다. 다른 도형이라는 사실도 새 좌표가 오매칭이라는 증거와는 구분한다.
 
@@ -21,7 +21,7 @@ Vworld 이용약관(`v4po_prcint_a001.do`)·지오코더 안내(`v4dv_geocodergu
 | 500m 초과 이동 | 101 | 8 | 0 | 0 | 101 |
 | 다른 PNU 도형 | 46 | 18 | 27 | 1 | 18 |
 
-두 집합은 겹치지 않는다. 원문 도로명·건물번호와 Juso 선택 주소의 불일치0. **확정 오매칭0, 미확보 전환0**이며, 판단 불가119행을 정확성 통과로 처리하지 않는다. 도형은 기존 강남구 적재본이므로 타 지역의 개별 건물 동일성을 증명하지 못한다. PNU46행의 불일치 원인(필지 변경/단지 대표점/도형 오류)은 미확정이다.
+두 집합은 겹치지 않는다. 원문 도로명·건물번호와 Juso 선택 주소의 불일치0. **확정 오매칭0, 미확보 전환0**이며, 판단 불가119행을 정확성 통과로 처리하지 않는다. 강남구 운영 도형에 더해 보존 중인 서울 전체 SHP 원본695,754행도 확인했다(강남구 외667,526행을 로컬 임시 테이블에 추가). 여전히 이동101행의 새 점 모두 건물 footprint 밖이며 이전 점은13행만 건물 안이다. 출입구 점이 건물 외부에 있으므로 footprint 포함만으로 단지 내 개별 건물을 확정하지 못한다. PNU46행의 불일치 원인(필지 변경/단지 대표점/도형 오류)은 미확정이다.
 
 ### 500m 초과 이동의 주소별 근거
 
@@ -180,12 +180,12 @@ seed20260926·후보좌표/반경800m·임대료 미입력 조건 유지. 노출
 
 ## 재현·보존·검사
 
-- `ingest.review_academy_coordinates`는 외부 요청 없이 로컬 격리 DB의 임시 도형 복사본/인덱스와 고정 journal/raw만 읽는다. 원천 테이블 갱신은 없다. 새 출력 폴더를 요구하고 기존 검토본을 덮어쓰지 않는다.
+- `ingest.review_academy_coordinates`는 외부 요청 없이 로컬 격리 DB의 임시 도형 복사본/인덱스와 고정 journal/raw만 읽는다. `--seoul-footprints`로 기존 서울 SHP를 더해 EPSG:5186에서 대조했다. 공공누리/CC BY 원본 파일 재사용은 지오코더 API 결과 저장과 구분하며 [기존 SHP 검증](pr5-buildings-20260920.md)을 따른다. 원본 SHA256 `67b91c04322701467de8b36e3f489e43b840697d5d8abb9639062e5108e9f4f1`. 원천 테이블 갱신은 없다. 새 출력 폴더를 요구하고 기존 검토본을 덮어쓰지 않는다.
 - 미확보·오매칭을 카카오 캐시로 채우지 않는다. 공급자 재분류/새 provider 저장도 없다. 오매칭 확정 시 사유를 `rejections.json`에 남기며 이번은 빈 객체다. 미확정 자동 격리는 실행하지 않는다.
 - 원본/고정 사본 journal의 outcome 의미 digest 동일: `e83c74462b25620e2969f4bbf8ace9c00b969253f3e92fcebcd1f7af854b78f8`. SQLite 파일 바이트는 WAL 체크포인트 시 달라질 수 있어 outcome 대조를 함께 남긴다.
 - 로컬10테이블 행 수·COPY BINARY digest·source fingerprint는 기존 rollback manifest와 일치. 원격은 접속/쓰기하지 않았다. 토큰·캐시 삭제0.
 - `pnpm lint`, `pnpm typecheck`, `pnpm test` 통과(Vitest208·Python302). 신규4시험은 도형 동일/상이/부재·주소 불일치의 오매칭 오판 방지를 검증한다. DB migration/운영 변경 없음으로 새 DB 계약 시험은 해당 없음.
-- 로컬 상세 산출물은 `.local/academy-transition/quality-20261014-v2/`; 파일별 SHA256·바이트와 원정밀도 집계는 동명 JSON에 기록한다. 원본 Juso/rollback manifest는 보존했다.
+- 로컬 상세 산출물은 `.local/academy-transition/quality-20261014-v3/`; 파일별 SHA256·바이트와 원정밀도 집계는 동명 JSON에 기록한다. 원본 Juso/rollback manifest는 보존했다.
 
 재현(실제 DB URL은 로컬 전용, 새 출력 디렉터리 사용):
 
@@ -193,7 +193,8 @@ seed20260926·후보좌표/반경800m·임대료 미입력 조건 유지. 노출
 .venv/bin/python -m ingest.review_academy_coordinates \
   --database-url postgresql://postgres:postgres@127.0.0.1:54322/gilmok_academy_transition_20261013 \
   --directory .local/academy-transition/final \
-  --output .local/academy-transition/quality-new-review
+  --output .local/academy-transition/quality-new-review \
+  --seoul-footprints /Users/hanbyeol/Desktop/gilmok/.local/restore/s3-1/raw/gis_buildings_shp/2026-09.parquet
 ```
 
 ## 남은 승인/확인

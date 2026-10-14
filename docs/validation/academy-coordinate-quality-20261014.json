@@ -41,16 +41,16 @@
   },
   "files": {
     "review.json": {
-      "bytes": 233134,
-      "sha256": "298c5b31a9c1851af397f7b1ae85412922bf82cc3d9ea9ae8b708bda5e9d0876"
+      "bytes": 236428,
+      "sha256": "38262a7d9e6d70620a3597c44f816aadd9393e8f3507cc27fdbb73a9049116e0"
     },
     "review.csv": {
-      "bytes": 83282,
-      "sha256": "af8c09a94046754d36690b2f1a0c348523454c9f8eaf294547ca8e051414207e"
+      "bytes": 84127,
+      "sha256": "21c726facaf0152c6856dcf8813227031cec6ec22da50da9830febb7e5ba0069"
     },
     "review.md": {
-      "bytes": 88594,
-      "sha256": "fe4de0c2059114937aa9ed30923ef106cc1078db73db11cd4140955e5ab54719"
+      "bytes": 89361,
+      "sha256": "2e14aaec61663f7723463c5eef8bc901e854b717b8e7743a9f79820c38c358db"
     },
     "unresolved-schools.json": {
       "bytes": 26370,
@@ -1182,5 +1182,13 @@
         ]
       }
     ]
+  },
+  "seoul_footprints_sha256": "67b91c04322701467de8b36e3f489e43b840697d5d8abb9639062e5108e9f4f1",
+  "footprint_audit": {
+    "seoul_raw_rows": 695754,
+    "outside_gangnam_rows": 667526,
+    "far_old_inside": 13,
+    "far_new_inside": 0,
+    "comparison_crs": "EPSG:5186"
   }
 }
