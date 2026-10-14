@@ -57,7 +57,7 @@ def raw_sources(directory):
     return output
 
 
-def review(url, directory, output):
+def review(url, directory, output, seoul_footprints=None):
     if output.exists():
         raise ValueError("Use a new immutable review directory")
     inventory = json.loads((directory / "inventory.json").read_text())
@@ -75,8 +75,28 @@ def review(url, directory, output):
         # No writes even to local source tables. Index a transaction-local copy.
         db.execute(
             "create temp table quality_buildings on commit drop as "
-            "select id,pnu,geom from public.buildings"
+            "select id,pnu,extensions.st_transform(geom,5186) geom,"
+            "source,floors_above,main_use_name from public.buildings"
         )
+        if seoul_footprints:
+            # Reuse the preserved Seoul SHP, without widening production coverage.
+            # Gangnam retains the actual loaded/repaired shapes and WFS supplements.
+            db.execute("""create temp table quality_raw(
+                id text,pnu text,wkb bytea,floors_above integer,main_use_name text)
+                on commit drop""")
+            with duckdb.connect() as raw, db.cursor() as cursor:
+                data = raw.execute(
+                    "select 'shp:'||A1,A2,source_geometry_wkb,A26,A9 "
+                    "from read_parquet(?) where A23 <> '11680'",
+                    [str(seoul_footprints)],
+                )
+                with cursor.copy("copy quality_raw from stdin") as copy:
+                    while batch := data.fetchmany(5000):
+                        for row in batch:
+                            copy.write_row(row)
+            db.execute("""insert into quality_buildings
+                select id,pnu,extensions.st_makevalid(extensions.st_geomfromwkb(wkb,5186)),
+                'gis_buildings_shp',floors_above,main_use_name from quality_raw""")
         db.execute("create index on quality_buildings using gist(geom)")
         db.execute("analyze quality_buildings")
 
@@ -85,8 +105,8 @@ def review(url, directory, output):
                 return []
             return db.execute(
                 """select id,pnu from quality_buildings
-                where extensions.st_covers(geom,extensions.st_setsrid(
-                extensions.st_makepoint(%s,%s),4326)) order by id""",
+                where extensions.st_covers(geom,extensions.st_transform(extensions.st_setsrid(
+                extensions.st_makepoint(%s,%s),4326),5186)) order by id""",
                 (lng, lat),
             ).fetchall()
 
@@ -100,7 +120,7 @@ def review(url, directory, output):
             matched = matches_address(selected, original[1])
             category, rejected, reason = classify(matched, [r[0] for r in old], [r[0] for r in new])
             building_details = db.execute(
-                "select id,source,pnu,floors_above,main_use_name from public.buildings "
+                "select id,source,pnu,floors_above,main_use_name from quality_buildings "
                 "where id=any(%s) order by id",
                 ([r[0] for r in old + new],),
             ).fetchall()
@@ -149,6 +169,9 @@ def review(url, directory, output):
     summary = dict(
         source_fingerprint=inventory["source_fingerprint"],
         journal_sha256=hashlib.sha256((directory / "journal.sqlite3").read_bytes()).hexdigest(),
+        seoul_footprints_sha256=hashlib.sha256(seoul_footprints.read_bytes()).hexdigest()
+        if seoul_footprints
+        else None,
         reviewed_rows=len(rows),
         over_500m=dict(
             rows=len(far),
@@ -272,8 +295,14 @@ def main():
     parser.add_argument("--database-url", required=True)
     parser.add_argument("--directory", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--seoul-footprints", type=Path)
     args = parser.parse_args()
-    print(json.dumps(review(args.database_url, args.directory, args.output), ensure_ascii=False))
+    print(
+        json.dumps(
+            review(args.database_url, args.directory, args.output, args.seoul_footprints),
+            ensure_ascii=False,
+        )
+    )
 
 
 if __name__ == "__main__":
