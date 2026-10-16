@@ -1,0 +1,775 @@
+{
+  "observed_at": "2026-10-16T02:09:53Z",
+  "mode": "read_only_no_replacement",
+  "database": {
+    "candidate_provenance": 6,
+    "comparisons_referencing_candidates": 3,
+    "academies": 10,
+    "schools": 0,
+    "geocode_vworld_success": 11,
+    "geocode_vworld_failure": 17,
+    "registration_queue_inferred": 1,
+    "registration_cache_inferred": 1
+  },
+  "r2_objects": [
+    {
+      "Key": "raw/academies/2026-09.parquet",
+      "Size": 1403883,
+      "ETag": "\"f472b4351393bb21da0bcd7c5b1626f9\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/academies/revisions/20261009T230110Z/2026-10.parquet",
+      "Size": 1408099,
+      "ETag": "\"d25dd30b033b23924eeedafc7436d1a0\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/academies_profile/revisions/20261009T230110Z/2026-10.parquet",
+      "Size": 852492,
+      "ETag": "\"a6b0c4271970e97b9fe738c630eee9c5\"",
+      "classification": "confirmed_geocoder_coordinates",
+      "content_inspected": true,
+      "sha256": "5bf754a062ea0b00c1ada2ed8426f81ba2e07fadd22572caa681c7e6f0ae5601"
+    },
+    {
+      "Key": "raw/address_building_1168010100106490007/revisions/20261006T102014Z/2026-10.parquet",
+      "Size": 3293,
+      "ETag": "\"96433921826d596987ba90c54450b4bd\"",
+      "classification": "registration_lineage_provider_inferred_vworld",
+      "content_inspected": true,
+      "sha256": "55753c5f89026cfb97bb3f0e6238b2591352f3757873dd1c59086cf46b469465"
+    },
+    {
+      "Key": "raw/address_building_1168010600109110013/revisions/20260929T085757Z/2026-09.parquet",
+      "Size": 3317,
+      "ETag": "\"e259b78a580bcddb52af1f34c452f5a0\"",
+      "classification": "kakao_legacy_not_vworld",
+      "content_inspected": true,
+      "sha256": "d58bc65274f519e17bc458d77929646fc0da93186ebd43e2069ef43c6fbdd4df"
+    },
+    {
+      "Key": "raw/address_building_1168010600109120013/revisions/20260921T065938Z/2026-09.parquet",
+      "Size": 3128,
+      "ETag": "\"81fb6ba2ee8830a86c9c6c1b6cc2fb4c\"",
+      "classification": "kakao_legacy_not_vworld",
+      "content_inspected": true,
+      "sha256": "3865f692f09d12b81499605e367e7791c39bffd11a8f33f15ec06a555f07f221"
+    },
+    {
+      "Key": "raw/admin_boundaries/2026-08.parquet",
+      "Size": 389338,
+      "ETag": "\"5a44d7e83cd24b4387a6a48dfa27d050\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/building_geometry_baseline/revisions/20260926T101914Z/2026-09.parquet",
+      "Size": 3784027,
+      "ETag": "\"e37642a045d2ad54741d5088c19f14aa\"",
+      "classification": "geometry_source_not_address_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/building_hub_floors/2026-09.parquet",
+      "Size": 2587900,
+      "ETag": "\"ddfc93ac0e40ea0cda878d4c952e805a\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/building_hub_titles/2026-09.parquet",
+      "Size": 1579150,
+      "ETag": "\"d57eeafd998f463e13f07f00170eda2e\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/2026-06.parquet",
+      "Size": 2708115,
+      "ETag": "\"f3879fefe73400443c874ab9f61a4692\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/2026-07.parquet",
+      "Size": 2697565,
+      "ETag": "\"e54f0d19b33117ce7fe5f6f2969151b7\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/2026-08.parquet",
+      "Size": 2672331,
+      "ETag": "\"41cd6d7af32559987df58c2fec414300\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/revisions/20261009T225456Z/2026-07.parquet",
+      "Size": 2697565,
+      "ETag": "\"e54f0d19b33117ce7fe5f6f2969151b7\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/revisions/20261009T225456Z/2026-08.parquet",
+      "Size": 2672331,
+      "ETag": "\"41cd6d7af32559987df58c2fec414300\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_boardings/revisions/20261009T225456Z/2026-09.parquet",
+      "Size": 2658484,
+      "ETag": "\"541f1f35b4150555e47ea67434f25a36\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_stops/2026-09.parquet",
+      "Size": 252755,
+      "ETag": "\"eb151513a22b135ac9a59064cf83f6b3\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/bus_stops/revisions/20261009T225456Z/2026-10.parquet",
+      "Size": 252755,
+      "ETag": "\"eb151513a22b135ac9a59064cf83f6b3\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2024-09.parquet",
+      "Size": 7543,
+      "ETag": "\"815244a2d3573d96ae7a587c78523da9\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2024-10.parquet",
+      "Size": 7359,
+      "ETag": "\"1ba55ebe5e75baeb86fed5b879e14d85\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2024-11.parquet",
+      "Size": 7434,
+      "ETag": "\"3ff7575309d75641e9de326ad271d544\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2024-12.parquet",
+      "Size": 7497,
+      "ETag": "\"3b89a97ea4cbdf77b87197dc8334dec9\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-01.parquet",
+      "Size": 6580,
+      "ETag": "\"06556fdfe57aa73b07ef6955a7a43fc1\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-02.parquet",
+      "Size": 7160,
+      "ETag": "\"38d13a2fc9d118bda9992a2e19307d82\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-03.parquet",
+      "Size": 7254,
+      "ETag": "\"25904e298a88766d32d2a8b7013f0d96\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-04.parquet",
+      "Size": 7941,
+      "ETag": "\"18fd8aa1dece7f8fb7403c7172b4f6b5\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-05.parquet",
+      "Size": 7331,
+      "ETag": "\"ce269bcc2297dabfac159cd6bce0a2be\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-06.parquet",
+      "Size": 7594,
+      "ETag": "\"66b8f82a6b33b22a03604b35685686a5\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-07.parquet",
+      "Size": 7893,
+      "ETag": "\"6bee3e548675cbc3cbcbb215abf4d4fe\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-08.parquet",
+      "Size": 6810,
+      "ETag": "\"6912f06f5e778d6a5145ceca690ebfef\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-09.parquet",
+      "Size": 7927,
+      "ETag": "\"205cb585123a8b1635bcda4e8731bd1e\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-10.parquet",
+      "Size": 6647,
+      "ETag": "\"50ead737e815f0dfa327c6e9eb3bd9ee\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-11.parquet",
+      "Size": 7592,
+      "ETag": "\"13147cd90d3614af17d019c636ae52b4\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2025-12.parquet",
+      "Size": 7581,
+      "ETag": "\"554ce183d104d45f564c9882c22bc49f\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-01.parquet",
+      "Size": 7200,
+      "ETag": "\"09632350b14f98545ae0f78f1d012694\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-02.parquet",
+      "Size": 6970,
+      "ETag": "\"d05c34dfc7eced46aef2d8eea5ef371d\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-03.parquet",
+      "Size": 8198,
+      "ETag": "\"187ae8d44a14d91dbcf3a00288348ca6\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-04.parquet",
+      "Size": 7530,
+      "ETag": "\"e9a20c4f33a0243b5dff2de094d83816\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-05.parquet",
+      "Size": 6865,
+      "ETag": "\"9e91d3858c4abc83313e7fe26a1d349c\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-06.parquet",
+      "Size": 6609,
+      "ETag": "\"58a521cb40b19213e374ba6859e9192f\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-07.parquet",
+      "Size": 7145,
+      "ETag": "\"e61fcf6daf23ae865e4b5591d3a97e4c\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/commercial_trades/2026-08.parquet",
+      "Size": 6630,
+      "ETag": "\"8cd5f6add20538b20f4df3cba2cb1a42\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/gis_buildings_shp/2026-09.parquet",
+      "Size": 106742592,
+      "ETag": "\"a2d24afd3278ff5f09b3ec76465bab6a-13\"",
+      "classification": "geometry_source_not_address_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/gis_buildings_shp/2026-09.zip",
+      "Size": 135736236,
+      "ETag": "\"46eaf134ec9d34fcc3968aae8d21d2f1-17\"",
+      "classification": "geometry_source_not_address_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/legal_boundaries/2026-09.parquet",
+      "Size": 346410,
+      "ETag": "\"7d8673e024b66095995729af50edd27d\"",
+      "classification": "geometry_source_not_address_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/2026-06.parquet",
+      "Size": 454527464,
+      "ETag": "\"643c8cd5a13027756d2e60f8bf53fe2a-55\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/2026-07.parquet",
+      "Size": 469086652,
+      "ETag": "\"5e9178732dfc5f49713c8f51586d4375-56\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/2026-08.parquet",
+      "Size": 468798845,
+      "ETag": "\"7bfdfef3dae59995b88ae58ca42058cc-56\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/revisions/20261009T224232Z/2026-07.parquet",
+      "Size": 469086652,
+      "ETag": "\"5e9178732dfc5f49713c8f51586d4375-56\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/revisions/20261009T224232Z/2026-08.parquet",
+      "Size": 468798845,
+      "ETag": "\"7bfdfef3dae59995b88ae58ca42058cc-56\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_population/revisions/20261009T224232Z/2026-09.parquet",
+      "Size": 453384429,
+      "ETag": "\"7d0a4890ea2e17a2d012d9a9074ea3b0-55\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_profile/revisions/20261009T224232Z/2026-09.parquet",
+      "Size": 12255519,
+      "ETag": "\"c14f954edc6bc5ffd0500a44d5a1ae6e-2\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/living_restore_baseline/revisions/20260926T100920Z/2026-09.parquet",
+      "Size": 12244569,
+      "ETag": "\"1042c3b001ca4019bd01270e13cb4765-2\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/population_grid/2026-08.parquet",
+      "Size": 167768,
+      "ETag": "\"452082fe89f00bb5adde505eb28d93d7\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/public_place_geocodes/revisions/20260926T095229Z/2026-09.parquet",
+      "Size": 432484,
+      "ETag": "\"dc61b5f76a6edca40a2accb9df3eba79\"",
+      "classification": "confirmed_geocoder_coordinates",
+      "content_inspected": true,
+      "sha256": "c3e31dd8dc97bd6f9e0437ede3c05bbe57877f8ad63038be6cdaf45425da3ea5"
+    },
+    {
+      "Key": "raw/refresh_manifest_academies/revisions/20261009T230110Z/2026-10.parquet",
+      "Size": 1599,
+      "ETag": "\"4661f31f1bd2be01462af24ea792b6e5\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": true,
+      "sha256": "8d3614dd9f2d5ef0259324c1bd196c2f9c983c7b140f22d0286815e8ae5573cb"
+    },
+    {
+      "Key": "raw/refresh_manifest_living/revisions/20261009T224232Z/2026-09.parquet",
+      "Size": 1715,
+      "ETag": "\"bdea7c6a8749d530da302c32719c10d3\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/refresh_manifest_population/revisions/20261010T020723Z/2026-09.parquet",
+      "Size": 1607,
+      "ETag": "\"079191c264f3e198fd36e697537d8753\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/refresh_manifest_schools/revisions/20261010T015151Z/2026-10.parquet",
+      "Size": 1592,
+      "ETag": "\"3eaa94c8fcca04c4357d47034f67fdb6\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": true,
+      "sha256": "8f23478aa5b783b3c138b8bcb1e5b1e3d8758ce7ac0e662b30b1d6a387b88558"
+    },
+    {
+      "Key": "raw/refresh_manifest_transit/revisions/20261009T225456Z/2026-09.parquet",
+      "Size": 1986,
+      "ETag": "\"ea1e39843baef9b30e20e3e5e59b87f9\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/rent_survey/revisions/20260920T120200Z/2026-06.parquet",
+      "Size": 36850,
+      "ETag": "\"2d6b9c8934bbebdb4cb3b4f43fced009\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/rent_survey_scope/revisions/20260920T120200Z/2026-06.parquet",
+      "Size": 72349,
+      "ETag": "\"e5b789c57d4b8394878a9c81006e368e\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/resident_population/2026-08.parquet",
+      "Size": 408846,
+      "ETag": "\"9f52139d89283a686bedccc861689c52\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/resident_population/revisions/20261010T020723Z/2026-09.parquet",
+      "Size": 408080,
+      "ETag": "\"b17066d4ea95600edc1bbdce1bd0977a\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/resident_profile/revisions/20261010T020723Z/2026-09.parquet",
+      "Size": 4209,
+      "ETag": "\"e418bb7f7ac920fa7d6a081524eb0d1d\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/restore_provenance/revisions/20260926T095229Z/2026-09.parquet",
+      "Size": 101059,
+      "ETag": "\"4ad3cb0c922024c165e9d31b93192d95\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": true,
+      "sha256": "7f700a413ddea35f7f4bc8eab1db8935b4fb1faa17e056625f6efef8751207fc"
+    },
+    {
+      "Key": "raw/schools/2026-09.parquet",
+      "Size": 91011,
+      "ETag": "\"f1cbd17beae7b8d2ad0b38805f468532\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/schools/revisions/20261010T015151Z/2026-10.parquet",
+      "Size": 91156,
+      "ETag": "\"3a2b9fd37d8e981f2ff87beefaa00693\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/schools_profile/revisions/20261010T015151Z/2026-10.parquet",
+      "Size": 42556,
+      "ETag": "\"a96e7190bb9da4ae2f02987193986004\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": true,
+      "sha256": "ab355bb01bd08654c54f07de3b3144bd224f128d0784aa7e64ef6b5c493756f1"
+    },
+    {
+      "Key": "raw/score_reference/revisions/20260923T101705Z/2026-09.parquet",
+      "Size": 734130,
+      "ETag": "\"35acd6534f13f21d0b25c63a81c68380\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "910bba4754946f8d2166607398bbf5c25625526172b6ccdebf9f7e27bd5a921d"
+    },
+    {
+      "Key": "raw/score_reference/revisions/20260923T111436Z/2026-09.parquet",
+      "Size": 734432,
+      "ETag": "\"2b0dc8a1af60d8d31d6142546219cdea\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "0c48770c17d51a00da08dbfebdcbd27f830f25353160ca7a52f9cfe936470ccb"
+    },
+    {
+      "Key": "raw/score_reference/revisions/20261011T120000Z/2026-10.parquet",
+      "Size": 735018,
+      "ETag": "\"0d8e4f9656109a0c091acc852631f28d\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "e57e5d4b53a67c5fef9f68d9a575a617022e76378acf3dc1a75436e4dbc04913"
+    },
+    {
+      "Key": "raw/score_reference/revisions/20261012T013000Z/2026-10.parquet",
+      "Size": 734577,
+      "ETag": "\"2727988be821e240532843efec41822e\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "5b845c9712341faf290a77e2d316afb34bc441a95467b27e4e527f3306cb33cb"
+    },
+    {
+      "Key": "raw/score_reference_inputs/revisions/20260923T101705Z/2026-09.parquet",
+      "Size": 25019366,
+      "ETag": "\"74e7808a48b5dcb1decbf76d724fd528-3\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "32a417b20cbe78e7db0a5bffcb98dd0c8d056e474688ac52b4a991c0fb0d669b"
+    },
+    {
+      "Key": "raw/score_reference_inputs/revisions/20260923T111436Z/2026-09.parquet",
+      "Size": 26293540,
+      "ETag": "\"72f47a0f8391728c12ad682b3dec7fa7-4\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "183cddec688f7adab2b6ececbdffcc8f39a5dfdc3078ccb7629adc7bc989a05c"
+    },
+    {
+      "Key": "raw/score_reference_inputs/revisions/20261011T120000Z/2026-10.parquet",
+      "Size": 26342237,
+      "ETag": "\"7ac73cd51529ab4eb1b352633c588bb3-4\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "26318f293f7a6c7765338540ddf80445cbd69645bc563de13a8583e55b643025"
+    },
+    {
+      "Key": "raw/score_reference_inputs/revisions/20261012T013000Z/2026-10.parquet",
+      "Size": 26363411,
+      "ETag": "\"edd13ac68a47cdb96bf5863c0b045802-4\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "af50c9aa33778f01d9b4a9547be2c7af6979beab025e3bf3d0f088b82afc7143"
+    },
+    {
+      "Key": "raw/score_reference_manifest/revisions/20260923T101705Z/2026-09.parquet",
+      "Size": 4450,
+      "ETag": "\"f27230addd3eac01c601078936c226a5\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "eaa20147865410bcec3e1e1e084ccfaf70e209d9fa789ac04e6ae0176246d186"
+    },
+    {
+      "Key": "raw/score_reference_manifest/revisions/20260923T111436Z/2026-09.parquet",
+      "Size": 4645,
+      "ETag": "\"8aeca56d076945b43d62f05a61f80d7f\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "af30daa35202df9bee398b6b0aad2b640f9bf4a92221555d38660602ea176f7c"
+    },
+    {
+      "Key": "raw/score_reference_manifest/revisions/20261011T120000Z/2026-10.parquet",
+      "Size": 4473,
+      "ETag": "\"99b7ccc9b402de05c1de3635d5f2be2b\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "32664e93145e1658c1630dafd80925fcfabf847c8d946b4e9417c04c63fb735a"
+    },
+    {
+      "Key": "raw/score_reference_manifest/revisions/20261012T013000Z/2026-10.parquet",
+      "Size": 4481,
+      "ETag": "\"7c574c2b842a946826b356606c6de840\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": true,
+      "sha256": "808cd2ba36f53e5103da7e6f9204449c594d02037a08fac7175cb8ac4815a32e"
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011049Z/20260923T111436Z/ingest_private.refresh_snapshots.csv.gz",
+      "Size": 2377,
+      "ETag": "\"bb20513666b741934201e89260e23969\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011049Z/20260923T111436Z/manifest.json",
+      "Size": 2666,
+      "ETag": "\"ee89701cd1e173e8dd448b27abf1c603\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011049Z/20260923T111436Z/public.score_reference.csv.gz",
+      "Size": 1572717,
+      "ETag": "\"169ed7c2102f73d87809a5dbf7025c5e\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011049Z/20260923T111436Z/public.score_reference_sets.csv.gz",
+      "Size": 1567,
+      "ETag": "\"95536af55c4246b5ae02d3f56201261f\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/ingest_private.refresh_snapshots.csv.gz",
+      "Size": 2377,
+      "ETag": "\"3a45484e05909533b6b125c5303e43aa\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/manifest.json",
+      "Size": 2666,
+      "ETag": "\"d87783b71c79947b703e4fd6c3af110e\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/public.score_reference.csv.gz",
+      "Size": 1572717,
+      "ETag": "\"2dbd19f0de5bb3f47b74b556388099e5\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T011149Z/20260923T111436Z/public.score_reference_sets.csv.gz",
+      "Size": 1567,
+      "ETag": "\"bc815b8b3a0002a0fabde0af9cf0da1e\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/ingest_private.refresh_snapshots.csv.gz",
+      "Size": 2247,
+      "ETag": "\"7571cb8ff43b3471024abdefd3fbbb4c\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/manifest.json",
+      "Size": 2666,
+      "ETag": "\"52bee1c94e4d065c0f913901b6ced197\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/public.score_reference.csv.gz",
+      "Size": 1574766,
+      "ETag": "\"c06e8c9f93f6eaa00d945c99391754b4\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/score_reference_rollback/revisions/20261012T042428Z/20261011T120000Z/public.score_reference_sets.csv.gz",
+      "Size": 1529,
+      "ETag": "\"d9bb276d5eeb4ad88d3c07bb69aab9db\"",
+      "classification": "derived_statistics_or_rollback_preserve_until_review",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/stores/2026-06.parquet",
+      "Size": 46256338,
+      "ETag": "\"cf40b3c3f1d6b7e530f7fd9a391a3ce5-6\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/2026-06.parquet",
+      "Size": 84312,
+      "ETag": "\"6f2b628f8a6f967388c5a7b792e572f8\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/2026-07.parquet",
+      "Size": 88632,
+      "ETag": "\"c274161c9ccef221cacd53f74f2ccfa4\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/2026-08.parquet",
+      "Size": 84328,
+      "ETag": "\"4d97cc8ef54b3705ff37eb89fed52f6c\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/revisions/20261009T225456Z/2026-07.parquet",
+      "Size": 88632,
+      "ETag": "\"c274161c9ccef221cacd53f74f2ccfa4\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/revisions/20261009T225456Z/2026-08.parquet",
+      "Size": 84328,
+      "ETag": "\"4d97cc8ef54b3705ff37eb89fed52f6c\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_boardings/revisions/20261009T225456Z/2026-09.parquet",
+      "Size": 83763,
+      "ETag": "\"1872b1156805be7620e188529d1ebaf7\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_stops/2026-09.parquet",
+      "Size": 13378,
+      "ETag": "\"5aaf380fda757e1c04c148ed81fa84f0\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/subway_stops/revisions/20261009T225456Z/2026-10.parquet",
+      "Size": 13378,
+      "ETag": "\"5aaf380fda757e1c04c148ed81fa84f0\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/transit_profile/revisions/20261009T225456Z/2026-09.parquet",
+      "Size": 1210051,
+      "ETag": "\"a7332a1a2a85cd9040387727501f3333\"",
+      "classification": "source_contract_not_vworld_geocoder",
+      "content_inspected": false
+    },
+    {
+      "Key": "raw/vworld_building_footprints/2026-09.parquet",
+      "Size": 4600279,
+      "ETag": "\"9dba8e6e75d9707068a1e7ca8757f282\"",
+      "classification": "geometry_source_not_address_geocoder",
+      "content_inspected": false
+    }
+  ],
+  "local_row_inventory_sha256": {
+    "candidates.json": "5975a0af56c628b261bbde78dd5eb92ec04852744ea0108002e45620accdb7ab",
+    "academies.json": "7028f93afa093dd4f8f529826fbe5943ca2a1f783a67bddfd9f2ca81a6301056",
+    "geocode_cache.json": "9924fd7f638ca6af1538602028798cb47520debb09f6e69670cfef1ba718a42a",
+    "db-counts.json": "00a4e1238b5c966e18394559bf5cd3a5153d727bb1d719e8d7901cf2f1d12e96",
+    "schools.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comparisons.json": "013cbce3ab9cc25fc74af9e06b3eba174c5a8281bc1caa915839a4817d025e94",
+    "building_address_requests.json": "cdd328c36f03122c234c670985e494ad226fc4c7ad2593b6728d53ba8c75b0c6",
+    "building_address_cache.json": "01e853fec787012c65e2381e05fafbe57709702ae548e578f769784fc37c6e8a"
+  }
+}
