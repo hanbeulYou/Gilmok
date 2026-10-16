@@ -229,13 +229,15 @@ ScoreResult.axes.cluster.evidence.values.n_field
 
 신규 사용자 등록의 Juso 좌표 전환은 별도 PR에서 구현하며 기존 Vworld 저장 데이터는 목록·교체 계획만 작성한다. #39는 학교 네이티브 좌표 검토와 기존101행의 품질 플래그 계획을 반영한다. 원격 쓰기·삭제 금지, 해외 저장 회신 대기, G 승격 뒤 A/B Ready 순서는 유지한다.
 
-### 학교 공급자 제안
+### 학교 공급자 채택 — 2026-10-16 사용자 승인, 로컬만 적용
 
-[공식 표준데이터 실제 검토](../validation/school-standard-review-20261016.md): 서울교육청1,313행, 현재 NEIS1,320행. SCHOOL_ID는 NEIS 코드와 달라 직접 매칭0; 이름+급+도로명주소로1,304행 연결, 서울 경계 밖2행을 보류하면 안전 연결1,302행이다. 미확보79행 중73행 보완 가능, 예외의 기존 Juso를 유지하는 제안은1,314/1,320(99.55%)·잔여6행이다. 적재 결과가 아닌 분석값이다.
+[공식 표준데이터 검토](../validation/school-standard-review-20261016.md) 후 한국교육시설안전원 위치 표준데이터를 채택했다. **기존 Juso 좌표 1,241행은 전부 유지**하고, 미확보 79행 중 학교명·급·도로명주소가 일치하며 서울 경계 안인 **73행만 보완**한다. 기존 제안의 안전 연결 1,302행 전량 대체는 실행하지 않는다. 결과는 1,314/1,320(99.55%), 미확보 6행이다. 학교 명부·이름·급·NEIS ID는 계속 NEIS다.
 
-이1,302행은 주소 지오코딩 없이 표준 위경도를 사용하도록 제안한다. `school_standard` provider·SCHOOL_ID·기준일·NEIS crosswalk·품질 상태를 별도 보존한다. Juso-only 로더의 공급자 분기와 snapshot fingerprint, 분포 재생성, rollback 계약은 후속 구현에서 함께 바꾸며 기존 migration을 수정하지 않는다. 서울 밖 표준점2행과 표준↔Juso >500m 화랑초등학교1행은 검토 대상으로 남긴다. 학교명/상세주소/건물관리번호 Juso 재조회는 이번에 하지 않았다. 먼저 잔여6행 등 예외의 공식 주소를 확인하고 필요한 경우만 제안한다.
+기존 `public.schools.geocode_provider`에 `juso` / `edu_facility_standard`를 구분한다. 공급자 SCHOOL_ID·기준일·원본 SHA·NEIS crosswalk는 로컬 snapshot manifest와 `ingest_private.place_snapshots.report.school_coordinate_supplement`에 보존한다. 경계 밖 표준점의 태강삼육초·한국삼육고, 표준↔Juso 538.2m의 화랑초는 Juso 좌표를 유지하고 `geocode_reason`의 `coordinate_verification_pending:` 접두사로 보류 표시한다. 이 플래그는 결측이 아니므로 `geocode_failed=false`를 유지한다. 향후 지도/근거는 이를 `좌표 검증 보류`로 표시하며 채점 제외·신뢰도 감점은 하지 않는다.
 
-학교 원격 승격 전에는 공식 컬럼에 명시되지 않은 위경도 기준 좌표계도 확인한다. 현재 거리/경계 결과는 EPSG:4326 해석 가정이며 이름/주소 매칭과 구분한다. 학교 네이티브 좌표를 적용한 뒤 별도 로컬 a~e 8축·총점·신뢰도·순위/무작위5셀 영향, 원천/층 파생/분포 원자적 승격·롤백을 다시 검증한다. 기존 Juso-only 점수를 보완 후 결과라고 표시하지 않는다. 실행은 사용자 검토 후 진행한다.
+제공기관 파일 메타에는 좌표계 명시가 없다. 승인된 판단 절차에 따라 동일 학교 1,229교의 Juso 대조(중앙값72.7m·최대538.2m, 일률 편이 없음)를 근거로 **EPSG:4326으로 판정**했다. 공식 EPSG 선언으로 표현하지 않는다. 동서/남북 오차 분포와 메타 원본 해시는 [보완 검증](../validation/school-supplement-20261016.md)을 따른다.
+
+`ingest/supplement_school_coordinates.py`로 격리 로컬 DB에만 적용하며 학교 원천·출처·보류 사유·기준 분포는 같은 트랜잭션으로 반영한다. migration은 없고 기존 컬럼/테이블만 사용한다. 전후 10테이블 binary snapshot과 로컬 학교 Parquet·기준 분포를 보존하고 rollback→재복원 digest를 검증한다. 원격 승격·push·카카오 캐시/키 삭제는 금지 상태다. Juso 해외 저장 공식 회신과 별도 승인을 기다린다. Juso 학교명/상세주소/건물관리번호 추가 조회는 잔여 6행의 공식 주소 확인 후 필요한 경우만 제안한다.
 
 ### 기존 >500m101행의 표시 계약 (계획)
 
