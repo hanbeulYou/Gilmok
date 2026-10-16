@@ -1,0 +1,67 @@
+{
+  "national": 12004,
+  "seoul": 1313,
+  "neis": 1320,
+  "direct_id_matches": 0,
+  "name_unique": 1312,
+  "status_counts": {
+    "name_missing": 8,
+    "address_match": 1304,
+    "address_diff": 8
+  },
+  "accepted": 1302,
+  "accepted_rate": 98.63636363636363,
+  "identity_matches": 1304,
+  "old_missing": 79,
+  "old_missing_matched": 73,
+  "missing_after_standard": 18,
+  "combined_missing": 6,
+  "outside_seoul": 2,
+  "blank_neis_code": 1,
+  "distance": {
+    "count": 1229,
+    "median": 72.73950969,
+    "p95": 170.5968166,
+    "max": 538.18514016,
+    "over_100": 385,
+    "over_500": 1
+  },
+  "reference_dates": {
+    "2026-10-01": 12004
+  },
+  "change_dates": {
+    "2026-07-08": 11970,
+    "2026-09-10": 2,
+    "2026-09-09": 2,
+    "2026-09-16": 16,
+    "2023-11-29": 1,
+    "2025-10-25": 1,
+    "2026-07-06": 4,
+    "2021-03-23": 4,
+    "2022-03-17": 3,
+    "2023-09-14": 1
+  },
+  "files": [
+    {
+      "name": "standard-page-1.json",
+      "sha256": "19f3b1ced2dc6a811594d32424cf80fba3620dacd992d2db26924ef91ad6f70e"
+    },
+    {
+      "name": "standard-page-2.json",
+      "sha256": "0a79ba74967bd22c98f3e7ddde1fe0f53672dd499a03c0a0a264174da94bb00a"
+    }
+  ],
+  "mode": "proposal_analysis_only_no_source_promotion",
+  "all_identity_matched_distance": {
+    "count": 1231,
+    "median": 72.83480357,
+    "p95": 171.38006569,
+    "max": 538.5418207,
+    "over_500": 3
+  },
+  "source_url": "https://www.data.go.kr/data/15021148/standard.do",
+  "supplier": "한국교육시설안전원",
+  "license_label": "이용허락범위 제한 없음",
+  "update_interval": "반기",
+  "next_update": "2027-04-01"
+}
