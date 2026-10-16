@@ -75,7 +75,7 @@ A0는 **공개 좌표 API의 Tokyo DB/해외 백업 적용 범위 미확정**을
 ```text
 ScoreResult.axes.cluster.evidence.values.n_field
  = score_inputs.compete.academies_by_field[preset.cluster_field] (해당 키 없음은0)
- = academy_layer.same_field_count
+ = academy_layer.counts.radius_same_field
  = 지도 반경 집합에서 같은 field인 고유 기관 ID 수
  = 겹친 위치별 same_field_count 합
 ```
@@ -221,3 +221,13 @@ ScoreResult.axes.cluster.evidence.values.n_field
 ### G 로컬 검증 보고 (2026-10-13)
 
 [Draft PR #39](https://github.com/hanbeulYou/Gilmok/pull/39)에 전수 재산출·8축 영향·원자적 승격/롤백 결과를 기록했다. 과거/최신 합집합13,591주소 중13,460주소 확보, a~e 순위 b>e>a>c>d 유지. 원격 데이터와 카카오 캐시/키는 변경하지 않았다. 다른 PNU 도형에 포함된 학원46행(18주소)은 검토 대상으로 명시했으며, 공식 해외 저장 조건 회신·예외 검토·별도 승인 전 G 원격 승격 보류와 A/B Ready 조건은 그대로다.
+
+### A 합성 구현 (2026-10-16, Draft)
+
+- 사용자 승인 범위: 전체반경 RPC·TypeScript 계약·좌표 검증 보류 필드·응답 예산. **합성 fixture만 사용하고 원격 DB/R2는 읽기·쓰기 모두 하지 않는다.** 실제 기관 ID/좌표와 101행 목록을 이 PR로 옮기지 않는다.
+- `public.academy_layer`는 채점 중심·800/1000m·분야·`score_inputs.meta.sources.academies`를 받는다. 전체 분야를 반환하고 `counts.radius_same_field`로 반경 N을 제공한다. TS 어댑터는 채점의 `n_field`와 대조하며, 화면 M은 렌더된 고유 기관 ID로 계산한다. 분야 강조·배지는 B에서 구현한다.
+- 500m 초과 이동 101행은 **학원 99행 + 학교 2행**으로 구분한다. `coordinate_verification_pending`, `coordinate_review_reason`, `coordinate_review_version`을 점 속성에 넣는다. 학교 ID는 학원 점에 포함하지 않는다. 보류 학원은 개원·좌표 조건을 만족하면 N에 포함하고 보류 부분집합 수도 따로 반환한다.
+- G와의 연결: G의 `academy_display`/`academy_display_release`와 A의 `academy_coordinate_reviews`/`academy_layer_release`를 원천·층·기준분포와 같은 트랜잭션으로 게시해야 한다. 표시는 학원 원천 revision/SHA를 사용하며 학교만 갱신한 기준분포 revision으로 바꾸지 않는다. G 스키마나 승격 gate가 없으면 `coordinate_replacement_pending`, 원천/검토 manifest가 다르면 `source_mismatch`다. 빈 신규 테이블로 실제 데이터 표시를 자동 활성화하지 않는다.
+- 기존 객체 변경 여부: **신규 private 테이블 2개·공개 RPC 1개·신규 객체 권한만 추가. 기존 테이블/함수/트리거/데이터 변경·DROP 없음.** 로컬 격리 DB 적용·local dry-run exit 0. 원격 dry-run도 이력 조회가 필요하므로 원격 읽기 금지 해제 전 보류한다.
+- 800m 목표: SQL 웜 p95 ≤300ms, raw ≤1.5MiB, gzip ≤256KiB. 합성 1,500기관 단독 측정 SQL p95 17.203ms, raw 563,058B, 오프라인 gzip 36,285B. 5,000기관은 완성 응답이 1,870,056B여서 `too_dense`로 닫으며 LIMIT로 일부 점을 정상처럼 표시하지 않는다. 로컬 합성 결과는 Micro 실제 밀집 지역 검증을 대체하지 않는다.
+- [검증](../validation/academy-layer-a-20261016.md), [RPC 계약](data-sources.md#학원-점-레이어-rpc--a-합성-계약-2026-10-16), [승격/롤백 인계](../operations/academy-layer.md)를 따른다. **A Ready는 G 원격 승격·실제 원천 대조 이후**다. B는 합성 fixture로 지도·분야 강조·N/M·팝업/보류 배지·근거 연동을 개발할 수 있다.

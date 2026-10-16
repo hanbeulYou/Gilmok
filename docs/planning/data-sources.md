@@ -665,3 +665,29 @@ D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 �
 ### 월간 조회 원천·기준 분포 일관성 (2026-10-11)
 
 월간 갱신과 단일 소스 재시도는 모든 수집/검증 후 원천·기준 분포·manifest를 단일 트랜잭션으로 교체한다. 실패 시 모두 이전 버전을 유지한다. 수동 원본 갱신·재개형 DB 복원과는 별도 정책이며 [운영 절차](../operations/data-refresh.md#월간-원자적-갱신-2026-10-11-수정)를 따른다.
+
+### 학원 점 레이어 RPC — A 합성 계약 (2026-10-16)
+
+`academy_layer(lat float8,lng float8,radius_m integer,requested_field text,expected_source jsonb)` → schema_version `1.0`. 현재 **합성 fixture 검증만 완료**, G 원격 승격 전 비활성/Draft다. [계획](academy-layer-plan.md), [검증](../validation/academy-layer-a-20261016.md), [운영 인계](../operations/academy-layer.md)를 따른다. 외부 API 호출·원격 DB/R2 조회/쓰기는 하지 않았다.
+
+- 입력 중심은 채점에 쓴 EPSG:4326 값 그대로, 반경은 800/1000m, 분야는 `preset.cluster_field` 원문(빈 분야도 허용)이다. `expected_source`는 채점 RPC `meta.sources.academies` 전체 descriptor다. 후보 ID·주소·임대료·uid를 인자로 보내지 않는다.
+- 개원 학원·교습소 전 분야의 geography `ST_DWithin` 집합을 반환한다. 같은 위치라도 기관 ID가 다르면 별개다. 좌표는 `ST_X/Y` 그대로이며 소수점 축소를 하지 않는다. 분야·수 집계는 `score_internal.compete`와 같다.
+- authenticated(uid 필요)만 실행 가능하다. 공개 기관 자료이므로 두 uid의 같은 입력 응답은 동일하다. private 표시/검토 metadata 직접 SELECT는 허용하지 않는다.
+
+| 응답 | 계약 |
+|---|---|
+| 공통 | `schema_version`, `status`, `reason`, `center:[lng,lat]`, `radius_m`, `field` |
+| `ready.collection` | GeoJSON FeatureCollection, feature `id`=기관 ID, geometry=Point(4326) |
+| 점 properties | 공개 `name`, 원문 `field`, `floor_label`, `floor_status`, `coordinate_verification_pending`, `coordinate_review_reason`, `coordinate_review_version`만 |
+| 층 | `floor_status=explicit`일 때 명시 층 label(지하/복수층 포함). `missing/ambiguous`이면 label=null. 상세주소·호수·전화·대표자 제외, 추정층 없음 |
+| 보류 | 500m 초과 이동 미확정이면 pending=true, reason=`movement_gt_500m`, review_version=검토 manifest 버전. 그 외 false/null/null. UI 배지 `좌표 검증 보류`에 사용 |
+| `ready.counts` | `radius_all`, `radius_same_field`(N), `radius_pending`, `radius_same_field_pending`, `by_field`(원문 분야별 기관 수) |
+| `ready.meta` | `crs`, `source`, 학원 `source_revision`, `coordinate_provider=juso`, `review_version`, `unlocated_count_seoul`, `quality_inventory:{academy,school}` |
+| 미승격/결측 | `coordinate_replacement_pending`(원천 또는 G 표시/gate 없음), `source_mismatch`(채점/원천/표시/검토 불일치), `outside_coverage`(서울 밖). collection/counts/meta=null로 정상 0건과 구분 |
+| 예산 초과 | `too_dense`, reason=`response_budget_exceeded`, collection/counts=null. meta에 전체 `radius_count`, `jsonb_bytes`, `raw_budget_bytes`. 부분 feature 반환 없음 |
+
+초기 보류 101행은 학원 99+학교 2다. 학원 점의 보류 수는 반경·개원 조건에 맞는 부분집합이며 학교 2행은 점 목록에 들어가지 않는다. 보류 여부로 학원을 점수 모집단에서 임의 제외하지 않는다. 새 원천에는 검토 manifest와 release를 다시 게시해야 하며 다른 원천의 검토를 자동 승계하지 않는다.
+
+`lib/map/academies.ts`는 반환 N을 채점 `n_field`와 대조하고 필드별/보류별 수를 feature에서 재집계한다. 화면 M은 지도에서 보이는 **고유 기관 ID** 중 같은 분야 기관 수이며 pan으로 N을 바꾸지 않는다. loader는 최근 5개 메모리 캐시, 동시 요청 1개, 이전 요청 abort/세대 검증을 제공한다. B에서 줌 15 이상·선택 debounce 250ms·분야 강조·공개 이름 text 렌더·팝업/배지를 연결한다.
+
+800m 기준 목표는 SQL 웜 p95 ≤300ms(>1,000ms 중단·보고), raw ≤1.5MiB, gzip ≤256KiB이며 1000m에도 동일 적용한다. 5,000기관 초과 또는 JSONB 응답 1.5MiB 초과는 닫는다. A의 1,500기관 합성 실측은 SQL p95 17.203ms/raw 563,058B/오프라인 gzip 36,285B이고 실제 Micro·전송 압축 검증은 G 이후다.
