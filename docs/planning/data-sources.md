@@ -165,6 +165,9 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 
 ### 2.8 지오코딩 — Juso 전환 계약
 
+> 2026-10-16 신규 등록 전환: 사용자 승인으로 Route Handler의 Vworld 좌표 호출을 Juso 좌표 API로 교체한다. 아래 A0 임시 폴백 기록은 과거 결정이다. 신규 코드는 Juso만 사용하며 기존 데이터 교체는 계획만 작성한다. Production 미배포·원격 migration 미적용. [전환·기존 데이터 목록](juso-registration-retirement-plan.md), [검증](../validation/juso-registration-20261016.md)을 따른다. Vworld 저장 금지 안내([공식 카탈로그](https://www.data.go.kr/catalog/15101106/openapi.json))에 따라 실패 시 Vworld로 대체하지 않는다. WFS/건물 도형 공급자는 이 지오코더 전환과 구분한다.
+
+
 2026-09-30 사용자 결정: 사용자 검색과 배치 모두 Kakao를 제거한다. **아래는 A0/A에서 구현할 승인 방향이며 현재 운영 코드·기존 데이터가 이미 교체됐다는 뜻은 아니다.** 실행은 [A0 계획](s3-2-a0-juso-plan.md) 승인 후, 원격 변경/삭제는 최종 dry-run·manifest 승인 후다. 과거 S1 실측은 [PR4 검증](../validation/pr4-places-20260920.md)에 남기며 현행 공급자 계약과 구분한다.
 
 #### 2.8.1 검색·좌표·PNU

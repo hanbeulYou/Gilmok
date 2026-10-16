@@ -21,7 +21,7 @@ export default defineConfig({
     : 'pnpm exec next dev --hostname 127.0.0.1 --port 3105', url:'http://127.0.0.1:3105',
     reuseExistingServer:false, timeout:120_000, env:{
       NEXT_PUBLIC_SUPABASE_URL:local.API_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:local.ANON_KEY,
-      JUSO_API_KEY:'local-fixture', VWORLD_API_KEY:'local-fixture',
+      JUSO_API_KEY:'local-fixture', JUSO_COORD_API_KEY:'local-fixture',
       NODE_OPTIONS:`--import=${resolve('tests/e2e/providers.mjs')}`, NEXT_TELEMETRY_DISABLED:'1',
       NEXT_PUBLIC_MAP_STYLE_URL:process.env.E2E_REAL_MAP_STYLE === '1'
         ? 'https://tiles.openfreemap.org/styles/liberty' : 'https://map.gilmok.test/style.json',

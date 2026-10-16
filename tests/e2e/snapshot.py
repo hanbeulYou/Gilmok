@@ -12,6 +12,24 @@ from psycopg.conninfo import conninfo_to_dict
 
 DIRECTORY = Path(__file__).parent / "fixtures" / "snapshot"
 DB_URL = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+
+
+def prepare_juso_provider(db):
+    """Synthetic provider IO only; preserve original points and score expectations."""
+    fixtures = json.loads((DIRECTORY.parent / "addresses.json").read_text())
+    coordinates = {}
+    for fixture in fixtures:
+        point = fixture["location"]
+        x, y = db.execute("""select extensions.st_x(p),extensions.st_y(p) from
+            (select extensions.st_transform(extensions.st_setsrid(
+            extensions.st_makepoint(%s,%s),4326),5179) p) transformed""",
+            (point["lng"], point["lat"])).fetchone()
+        coordinates[fixture["selection"]["bdMgtSn"]] = {"entX": str(x), "entY": str(y)}
+    destination = Path(__file__).resolve().parents[2] / ".local/e2e-juso-coordinates.json"
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(coordinates))
+
+
 NEAR = (
     "extensions.st_dwithin(geom::extensions.geography,"
     "extensions.st_setsrid(extensions.st_makepoint(127.0575,37.5013),4326)"
@@ -156,6 +174,7 @@ def load(db):
         if count != t["rows"] or binary_digest(db, select) != t["binary_sha256"]:
             raise ValueError(f"Snapshot binary round-trip mismatch: {t['table']}")
     db.execute("analyze")
+    prepare_juso_provider(db)
     print("Fixed public snapshot loaded; Auth/owner rows untouched")
 
 
