@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 import math
+import re
+import subprocess
 from datetime import date
 from pathlib import Path
 
@@ -24,6 +26,12 @@ from ingest.verify_academy_transition import (
 
 PROVIDER = "edu_facility_standard"
 PENDING = "coordinate_verification_pending:"
+
+
+def require_node_version(version):
+    match = re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)", version.strip())
+    if not match or int(match[1]) != 22 or int(match[2]) < 12:
+        raise ValueError("Use package.json Node >=22.12 <23 before rebuilding references")
 
 
 def build_plan(rows):
@@ -119,6 +127,8 @@ def apply_plan(db, plan, report):
 
 
 def run(url, rows_path, raw_directory, output, revision):
+    # The raw bridge calls node directly, outside pnpm's engines check.
+    require_node_version(subprocess.check_output(["node", "--version"], text=True))
     # The only connection factory rejects remote hosts and non-isolated DB names.
     with isolated(url) as db:
         pass

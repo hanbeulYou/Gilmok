@@ -1,6 +1,16 @@
 import pytest
 
-from ingest.supplement_school_coordinates import build_plan
+from ingest.supplement_school_coordinates import build_plan, require_node_version
+
+
+@pytest.mark.parametrize("version", ["v18.16.1", "v22.11.0", "v23.0.0", "unknown"])
+def test_wrong_node_stops_before_reference_generation(version):
+    with pytest.raises(ValueError, match="Node >=22.12 <23"):
+        require_node_version(version)
+
+
+def test_project_node_version_allowed():
+    require_node_version("v22.22.0\n")
 
 
 def school(id="1", **changes):
