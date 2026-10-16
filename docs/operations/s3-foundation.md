@@ -233,3 +233,18 @@ S3-4 구현·검증 마감 후 첫 과제는 줌15+ 학원 점 레이어 계획�
 배포 순서는 [전환 계획](../planning/juso-registration-retirement-plan.md)을 따른다. 원격 migration과 Production 배포/저장 검증은 승인 대기다. Juso 해외 저장 공식 회신도 대기 중이며, 코드의 로컬 실증을 해외 DB 저장 허용의 근거로 간주하지 않는다. 기존 후보·캐시·R2 교체/삭제와 실제 비밀 삭제는 별도 manifest 승인 전 실행하지 않는다.
 
 Draft PR의 Preview 빌드는 GitHub 연동으로 자동 생성된다. 이는 원격 migration 적용이나 등록/저장 실증 완료를 뜻하지 않는다. 새 Preview에서 등록 경로를 검증하는 단계는 migration 승인 후다.
+
+### #40 승인 후 배포: migration과 Production을 한 세트로 실행
+
+현재는 Draft이며 아래 실행 전체가 승인 대기다. 기존 저장 데이터의 교체·키 삭제 승인은 포함하지 않는다.
+
+1. 승인 창을 잡기 전에 CI 통과, 머지 담당자 대기, Vercel Production·Preview의 서버 전용 `JUSO_API_KEY`·`JUSO_COORD_API_KEY` 설정을 확인한다. `NEXT_PUBLIC_` 접두사를 붙이지 않고 값은 기록하지 않는다.
+2. 최종 dry-run·해시 확인 후 승인된 원격 migration `20261016021224_juso_registration_coordinates.sql`을 push한다. 실패하면 머지하지 않고 중단·보고한다.
+3. 성공 직후 사용자가 #40을 머지하고 Production 배포를 이어서 완료한다. **원격 migration push → 즉시 머지·Production 배포**를 한 승인 창에서 처리한다. 두 단계 사이에 다른 작업을 끼우지 않는다.
+4. Production에서 익명 세션 검색→좌표→PNU 검증을 확인한다. 실패하면 DB의 호환 확장을 유지한 채 보고한다. 자동 Vworld 복귀나 기존 데이터·키 삭제는 하지 않는다.
+
+두 단계 사이의 요청은 아직 구 Production 코드로 처리된다. migration은 `vworld_coordinate`를 계속 허용하므로 **이 순서 자체가 새 오류를 만들지는 않는다**. 기존 Vworld 호출·카운터·후보 저장이 계속 가능하므로 이 구간을 최소화해야 한다. 국내 IP 제한 등 기존 공급자 실패는 여전히 발생할 수 있다. 등록 중지·요청 drain 기능이 구현된 것으로 간주하지 않는다. 기존 일일 합계 100회를 소진하면 구·신 클라이언트 모두 HTTP 429 `daily_limit_reached`다.
+
+반대로 새 앱을 migration보다 먼저 배포하면 좌표 예약의 `juso_coordinate`가 구 함수에서 SQLSTATE `22023`(`invalid_address_provider`)로 거부되고 Route Handler는 HTTP 503 `address_limit_unavailable`을 반환한다. 좌표 예약만 설치되고 투영 RPC가 없거나 스키마 캐시에 반영되지 않은 경우 HTTP 503 `coordinate_projection_unavailable`이다. 서버 키 누락은 HTTP 503 `address_provider_not_configured`, 공급자 통신 실패는 HTTP 502 `address_provider_unavailable`이다. 따라서 앱 선배포는 금지한다.
+
+기존 Vworld 키 정리는 새 Production 확인 및 별도 승인 후다. 이 절의 추가는 배포 실행·키 변경을 뜻하지 않는다.
