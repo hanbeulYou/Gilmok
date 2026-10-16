@@ -45,6 +45,11 @@ def atomic_promote(db, prepared, snapshot, reference_builder, *, expected_state)
             "ingest_private.building_snapshots, ingest_private.rent_snapshots "
             "in share row exclusive mode"
         )
+        if db.execute("select to_regclass('app_private.academy_display')").fetchone()[0]:
+            db.execute(
+                "lock table app_private.academy_display, "
+                "app_private.academy_display_release in share row exclusive mode"
+            )
         if fingerprint(source_state(db)) != expected_state:
             raise ValueError("Sources changed during preparation; retry entire monthly release")
         stages = []
@@ -134,8 +139,10 @@ def execute_monthly(
                     db.execute("select pg_advisory_unlock(7412808,%s)", (lock,))
     except Exception as error:
         status = "finalization_failed" if report["committed"] else "refresh_failed"
-        if not report["committed"] and report.get("phase") == "atomic_promotion" and isinstance(
-            error, (OperationalError, InterfaceError)
+        if (
+            not report["committed"]
+            and report.get("phase") == "atomic_promotion"
+            and isinstance(error, (OperationalError, InterfaceError))
         ):
             # A lost COMMIT acknowledgement is not proof of rollback. Resolve via snapshots.
             report["committed"] = None

@@ -165,6 +165,7 @@ def save_result(connection, address, provider, data):
                                 "location",
                                 "fetched_at",
                                 "call_counts",
+                                "coordinate_policy",
                             )
                         }
                     ),
@@ -198,6 +199,7 @@ def resolve_one(
     provider="juso",
     coordinate_key=None,
     coordinates_enabled=False,
+    require_juso=False,
 ):
     """Durable claims; new batch coordinates need explicit Juso approval."""
     if not connection.autocommit:
@@ -221,13 +223,28 @@ def resolve_one(
     with connection.transaction():
         connection.execute("select pg_advisory_xact_lock(7412401)")
         if cached(connection, address, provider) is not None:
+            if (
+                require_juso
+                and not connection.execute(
+                    "select 1 from public.geocode_cache where address=%s and provider='juso' "
+                    "and provenance->>'coordinate_policy'='juso_only' and "
+                    "(geocode_failed or provenance#>>'{location,coordinate_provider}'='juso')",
+                    (address,),
+                ).fetchone()
+            ):
+                raise GeocodeStopped("Unapproved cached coordinate provenance; transition required")
             return "cached"
         # Existing approved cache rows stay usable until the separate provider
         # replacement manifest is approved; only missing coordinates need new API calls.
-        if batch_juso and connection.execute(
-            "select 1 from public.geocode_cache where address=%s "
-            "and not geocode_failed and geom is not null limit 1", (address,),
-        ).fetchone():
+        if (
+            batch_juso
+            and not require_juso
+            and connection.execute(
+                "select 1 from public.geocode_cache where address=%s "
+                "and not geocode_failed and geom is not null limit 1",
+                (address,),
+            ).fetchone()
+        ):
             return "cached"
         prior = connection.execute(
             "select status from ingest_private.geocode_requests where address=%s and provider=%s",

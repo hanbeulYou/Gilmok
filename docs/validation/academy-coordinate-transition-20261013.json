@@ -1,0 +1,1207 @@
+{
+  "before": {
+    "a": {
+      "total": 83.07558801574415,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 30.707070707070706,
+        "building": 85,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.30707070707070705,
+        "building": 85,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "b": {
+      "total": 92.61630957198977,
+      "confidence": 90,
+      "axes": {
+        "demand": 99.76300977584674,
+        "flow": 98.7976947535771,
+        "transit": 81.81701931840821,
+        "cluster": 98.45823271065888,
+        "exposure": 46.25954198473283,
+        "building": 95,
+        "environment": 87.65344088005983,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 13149.223936519682,
+        "flow": 93259.29075509416,
+        "transit": null,
+        "cluster": 7.01301578963963,
+        "exposure": 0.46259541984732827,
+        "building": 95,
+        "environment": 4931,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.5139949109414759
+    },
+    "c": {
+      "total": 82.53098738393125,
+      "confidence": 85,
+      "axes": {
+        "demand": 84.09203120371285,
+        "flow": 96.83028616852147,
+        "transit": 60.78723216127797,
+        "cluster": 86.02535938867672,
+        "exposure": 50.624999999999986,
+        "building": 95,
+        "environment": 91.98293991698833,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 6973.397395053683,
+        "flow": 77489.4381086913,
+        "transit": null,
+        "cluster": 6.548219102762372,
+        "exposure": 0.5062499999999999,
+        "building": 95,
+        "environment": 6566,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.6328124999999998
+    },
+    "d": {
+      "total": 81.82093623477657,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 26.868686868686865,
+        "building": 75,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.26868686868686864,
+        "building": 75,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "e": {
+      "total": 85.0585757882056,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 38.38383838383838,
+        "building": 100,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.3838383838383838,
+        "building": 100,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "random-1": {
+      "total": 42.7527538898681,
+      "confidence": 60,
+      "axes": {
+        "demand": 22.188209736348377,
+        "flow": 66.93163751987281,
+        "transit": 85.40616025564763,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 93.90141049323807,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 1578.09766672282,
+        "flow": 43736.64840649139,
+        "transit": null,
+        "cluster": 1.9459101490553132,
+        "exposure": null,
+        "building": null,
+        "environment": 6732,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-2": {
+      "total": 60.09801284720904,
+      "confidence": 65,
+      "axes": {
+        "demand": 73.33859978275896,
+        "flow": 72.34697933227345,
+        "transit": 74.51610035661442,
+        "cluster": 5.193490402143997,
+        "exposure": null,
+        "building": null,
+        "environment": 65.36689658569529,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 5825.172069140831,
+        "flow": 47072.474545440615,
+        "transit": null,
+        "cluster": 3.5263605246161616,
+        "exposure": null,
+        "building": null,
+        "environment": 2312,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-3": {
+      "total": 57.25415670520244,
+      "confidence": 75,
+      "axes": {
+        "demand": 62.022316579441096,
+        "flow": 54.689984101748806,
+        "transit": 78.39990495331466,
+        "cluster": 30.32550305725482,
+        "exposure": null,
+        "building": null,
+        "environment": 53.68643146963758,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 4929.101083377062,
+        "flow": 35437.723536776226,
+        "transit": null,
+        "cluster": 4.465908118654584,
+        "exposure": null,
+        "building": null,
+        "environment": 1875,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-4": {
+      "total": 51.238119575110446,
+      "confidence": 60,
+      "axes": {
+        "demand": 91.6065962279056,
+        "flow": 40.79888712241653,
+        "transit": 28.700946028772407,
+        "cluster": 5.193490402143997,
+        "exposure": null,
+        "building": null,
+        "environment": 46.09036517433464,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 8022.877879516314,
+        "flow": 23943.763531389974,
+        "transit": null,
+        "cluster": 3.5263605246161616,
+        "exposure": null,
+        "building": null,
+        "environment": 573,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-5": {
+      "total": 4.700066973199586,
+      "confidence": 60,
+      "axes": {
+        "demand": 3.1203712846845066,
+        "flow": 2.7027027027027026,
+        "transit": 8.824218155861326,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 21.898081287394266,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 218.2079938759981,
+        "flow": 145.53238091317866,
+        "transit": null,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 0,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    }
+  },
+  "after": {
+    "a": {
+      "total": 83.15731166992899,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.77100819591192,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.45241833547216,
+        "exposure": 30.707070707070706,
+        "building": 85,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.975413927455952,
+        "exposure": 0.30707070707070705,
+        "building": 85,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "b": {
+      "total": 92.79389472431806,
+      "confidence": 90,
+      "axes": {
+        "demand": 99.78275896119285,
+        "flow": 98.7976947535771,
+        "transit": 81.81701931840821,
+        "cluster": 99.54344030471255,
+        "exposure": 46.25954198473283,
+        "building": 95,
+        "environment": 87.65344088005983,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 12999.223936519682,
+        "flow": 93259.29075509416,
+        "transit": null,
+        "cluster": 7.053585727193677,
+        "exposure": 0.46259541984732827,
+        "building": 95,
+        "environment": 4931,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.5139949109414759
+    },
+    "c": {
+      "total": 82.57757498306235,
+      "confidence": 85,
+      "axes": {
+        "demand": 85.31648069517132,
+        "flow": 96.83028616852147,
+        "transit": 60.78723216127797,
+        "cluster": 83.87151520025675,
+        "exposure": 50.624999999999986,
+        "building": 95,
+        "environment": 91.98293991698833,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 6973.397395053683,
+        "flow": 77489.4381086913,
+        "transit": null,
+        "cluster": 6.467698726104354,
+        "exposure": 0.5062499999999999,
+        "building": 95,
+        "environment": 6566,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.6328124999999998
+    },
+    "d": {
+      "total": 81.90265988896141,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.77100819591192,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.45241833547216,
+        "exposure": 26.868686868686865,
+        "building": 75,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.975413927455952,
+        "exposure": 0.26868686868686864,
+        "building": 75,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "e": {
+      "total": 85.14029944239044,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.77100819591192,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.45241833547216,
+        "exposure": 38.38383838383838,
+        "building": 100,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.975413927455952,
+        "exposure": 0.3838383838383838,
+        "building": 100,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "random-1": {
+      "total": 41.901070271817346,
+      "confidence": 60,
+      "axes": {
+        "demand": 19.91705342154636,
+        "flow": 66.93163751987281,
+        "transit": 85.40616025564763,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 93.90141049323807,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 1278.09766672282,
+        "flow": 43736.64840649139,
+        "transit": null,
+        "cluster": 1.9459101490553132,
+        "exposure": null,
+        "building": null,
+        "environment": 6732,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-2": {
+      "total": 60.468310072448496,
+      "confidence": 65,
+      "axes": {
+        "demand": 74.32605905006419,
+        "flow": 72.34697933227345,
+        "transit": 74.51610035661442,
+        "cluster": 5.193490402143997,
+        "exposure": null,
+        "building": null,
+        "environment": 65.36689658569529,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 5825.172069140831,
+        "flow": 47072.474545440615,
+        "transit": null,
+        "cluster": 3.5263605246161616,
+        "exposure": null,
+        "building": null,
+        "environment": 2312,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-3": {
+      "total": 57.96432760581394,
+      "confidence": 75,
+      "axes": {
+        "demand": 63.61212599980251,
+        "flow": 54.689984101748806,
+        "transit": 78.39990495331466,
+        "cluster": 30.93346235312665,
+        "exposure": null,
+        "building": null,
+        "environment": 53.68643146963758,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 4929.101083377062,
+        "flow": 35437.723536776226,
+        "transit": null,
+        "cluster": 4.48863636973214,
+        "exposure": null,
+        "building": null,
+        "environment": 1875,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-4": {
+      "total": 49.3590709269109,
+      "confidence": 60,
+      "axes": {
+        "demand": 88.72321516737435,
+        "flow": 40.79888712241653,
+        "transit": 28.700946028772407,
+        "cluster": 0.9386597328089394,
+        "exposure": null,
+        "building": null,
+        "environment": 46.09036517433464,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 7422.877879516314,
+        "flow": 23943.763531389974,
+        "transit": null,
+        "cluster": 3.367295829986474,
+        "exposure": null,
+        "building": null,
+        "environment": 573,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-5": {
+      "total": 4.6963640009471925,
+      "confidence": 60,
+      "axes": {
+        "demand": 3.1104966920114547,
+        "flow": 2.7027027027027026,
+        "transit": 8.824218155861326,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 21.898081287394266,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 218.2079938759981,
+        "flow": 145.53238091317866,
+        "transit": null,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 0,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    }
+  },
+  "restored": {
+    "a": {
+      "total": 83.07558801574415,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 30.707070707070706,
+        "building": 85,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.30707070707070705,
+        "building": 85,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "b": {
+      "total": 92.61630957198977,
+      "confidence": 90,
+      "axes": {
+        "demand": 99.76300977584674,
+        "flow": 98.7976947535771,
+        "transit": 81.81701931840821,
+        "cluster": 98.45823271065888,
+        "exposure": 46.25954198473283,
+        "building": 95,
+        "environment": 87.65344088005983,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 13149.223936519682,
+        "flow": 93259.29075509416,
+        "transit": null,
+        "cluster": 7.01301578963963,
+        "exposure": 0.46259541984732827,
+        "building": 95,
+        "environment": 4931,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.5139949109414759
+    },
+    "c": {
+      "total": 82.53098738393125,
+      "confidence": 85,
+      "axes": {
+        "demand": 84.09203120371285,
+        "flow": 96.83028616852147,
+        "transit": 60.78723216127797,
+        "cluster": 86.02535938867672,
+        "exposure": 50.624999999999986,
+        "building": 95,
+        "environment": 91.98293991698833,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 6973.397395053683,
+        "flow": 77489.4381086913,
+        "transit": null,
+        "cluster": 6.548219102762372,
+        "exposure": 0.5062499999999999,
+        "building": 95,
+        "environment": 6566,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.6328124999999998
+    },
+    "d": {
+      "total": 81.82093623477657,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 26.868686868686865,
+        "building": 75,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.26868686868686864,
+        "building": 75,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "e": {
+      "total": 85.0585757882056,
+      "confidence": 90,
+      "axes": {
+        "demand": 96.47477041572036,
+        "flow": 99.29451510333864,
+        "transit": 38.336803260049486,
+        "cluster": 97.52731075268464,
+        "exposure": 38.38383838383838,
+        "building": 100,
+        "environment": 93.40459174952771,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 9267.137532036744,
+        "flow": 103464.09476137225,
+        "transit": null,
+        "cluster": 6.9782137426306985,
+        "exposure": 0.3838383838383838,
+        "building": 100,
+        "environment": 9678,
+        "rent_efficiency": null
+      },
+      "visible_ratio": 0.3838383838383838
+    },
+    "random-1": {
+      "total": 42.7527538898681,
+      "confidence": 60,
+      "axes": {
+        "demand": 22.188209736348377,
+        "flow": 66.93163751987281,
+        "transit": 85.40616025564763,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 93.90141049323807,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 1578.09766672282,
+        "flow": 43736.64840649139,
+        "transit": null,
+        "cluster": 1.9459101490553132,
+        "exposure": null,
+        "building": null,
+        "environment": 6732,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-2": {
+      "total": 60.09801284720904,
+      "confidence": 65,
+      "axes": {
+        "demand": 73.33859978275896,
+        "flow": 72.34697933227345,
+        "transit": 74.51610035661442,
+        "cluster": 5.193490402143997,
+        "exposure": null,
+        "building": null,
+        "environment": 65.36689658569529,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 5825.172069140831,
+        "flow": 47072.474545440615,
+        "transit": null,
+        "cluster": 3.5263605246161616,
+        "exposure": null,
+        "building": null,
+        "environment": 2312,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-3": {
+      "total": 57.25415670520244,
+      "confidence": 75,
+      "axes": {
+        "demand": 62.022316579441096,
+        "flow": 54.689984101748806,
+        "transit": 78.39990495331466,
+        "cluster": 30.32550305725482,
+        "exposure": null,
+        "building": null,
+        "environment": 53.68643146963758,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 4929.101083377062,
+        "flow": 35437.723536776226,
+        "transit": null,
+        "cluster": 4.465908118654584,
+        "exposure": null,
+        "building": null,
+        "environment": 1875,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-4": {
+      "total": 51.238119575110446,
+      "confidence": 60,
+      "axes": {
+        "demand": 91.6065962279056,
+        "flow": 40.79888712241653,
+        "transit": 28.700946028772407,
+        "cluster": 5.193490402143997,
+        "exposure": null,
+        "building": null,
+        "environment": 46.09036517433464,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 8022.877879516314,
+        "flow": 23943.763531389974,
+        "transit": null,
+        "cluster": 3.5263605246161616,
+        "exposure": null,
+        "building": null,
+        "environment": 573,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    },
+    "random-5": {
+      "total": 4.700066973199586,
+      "confidence": 60,
+      "axes": {
+        "demand": 3.1203712846845066,
+        "flow": 2.7027027027027026,
+        "transit": 8.824218155861326,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 21.898081287394266,
+        "rent_efficiency": null
+      },
+      "raw": {
+        "demand": 218.2079938759981,
+        "flow": 145.53238091317866,
+        "transit": null,
+        "cluster": 0,
+        "exposure": null,
+        "building": null,
+        "environment": 0,
+        "rent_efficiency": null
+      },
+      "visible_ratio": null
+    }
+  },
+  "geocoding": {
+    "outcomes": {
+      "ambiguous": 85,
+      "invalid": 24,
+      "not_found": 22,
+      "ready": 13460
+    },
+    "calls": [
+      {
+        "kind": "coordinate",
+        "status": "complete",
+        "count": 13429
+      },
+      {
+        "kind": "search",
+        "status": "complete",
+        "count": 13808
+      }
+    ],
+    "total": 13591,
+    "seconds": 102.44,
+    "processed": 13591
+  },
+  "spatial": {
+    "tables": {
+      "academies": {
+        "total": 25527,
+        "ready": 25380,
+        "unlocated": 147,
+        "statuses": {
+          "ready": 25380,
+          "not_found": 23,
+          "ambiguous": 94,
+          "invalid": 30
+        },
+        "footprint_available": 3373,
+        "inside_pnu_footprint": 2892,
+        "outside_pnu_footprint": 481,
+        "footprint_unavailable": 22007,
+        "outside_seoul": 0,
+        "move_m_max": 878.51077305,
+        "move_m_median": 0.29226954,
+        "move_m_p95": 161.28272154,
+        "move_not_comparable": 15,
+        "move_over_50m": 2965,
+        "move_over_100m": 2085,
+        "move_over_500m": 99
+      },
+      "schools": {
+        "total": 1320,
+        "ready": 1241,
+        "unlocated": 79,
+        "statuses": {
+          "ready": 1241,
+          "ambiguous": 73,
+          "invalid": 6
+        },
+        "footprint_available": 76,
+        "inside_pnu_footprint": 10,
+        "outside_pnu_footprint": 66,
+        "footprint_unavailable": 1165,
+        "outside_seoul": 0,
+        "move_m_max": 538.54245456,
+        "move_m_median": 72.61133048,
+        "move_m_p95": 170.09741191,
+        "move_not_comparable": 0,
+        "move_over_50m": 808,
+        "move_over_100m": 395,
+        "move_over_500m": 2
+      }
+    },
+    "seconds": 61.639,
+    "outside_footprint_policy": "review_only_no_snapping_local_impact_uses_provider_point"
+  },
+  "rollback": {
+    "passed": true,
+    "table_count": 10,
+    "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8"
+  },
+  "rollback_manifest": {
+    "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+    "tables": [
+      {
+        "table": "public.academies",
+        "rows": 25527,
+        "binary_sha256": "5916346b1191821d07bb68664afff972d496c70474473c5443f45ad41914dde7",
+        "binary_bytes": 7158114,
+        "file": "public.academies.bin.gz",
+        "gzip_sha256": "b21652b024625eacb63ce113b3b2f7c296cfca1316d39bd092d7bfa3861a16c5"
+      },
+      {
+        "table": "public.schools",
+        "rows": 1320,
+        "binary_sha256": "b642c889a1e05d625ecc7ec89163cd922d7a6db182420dcad21329004fbd5e58",
+        "binary_bytes": 267228,
+        "file": "public.schools.bin.gz",
+        "gzip_sha256": "79621d56658c22037aed3488eedaa2fbd321a8907523606caf37abdec023a4af"
+      },
+      {
+        "table": "public.geocode_cache",
+        "rows": 13669,
+        "binary_sha256": "b095fb80b96d94164b22a13406cf768864143084979b263240471389a5354bbe",
+        "binary_bytes": 2240604,
+        "file": "public.geocode_cache.bin.gz",
+        "gzip_sha256": "5f60f9b86399f18aecd39ad93f4d1b3994f81eee136671cb4654effe95f214f8"
+      },
+      {
+        "table": "public.score_reference",
+        "rows": 162032,
+        "binary_sha256": "a123da450f8101aec4a024df5473cd836458774b294c0f9f1daccc36c9359a87",
+        "binary_bytes": 19778983,
+        "file": "public.score_reference.bin.gz",
+        "gzip_sha256": "5b5899f5980c5304ae831af4aa2c0660b98452c2f7438ccabebe81dcc776f5ee"
+      },
+      {
+        "table": "public.score_reference_sets",
+        "rows": 1,
+        "binary_sha256": "c2a26ebbfc3cf393e1be23c42b8b5697a21fb546677e876b5211b7bcd1f501bf",
+        "binary_bytes": 8027,
+        "file": "public.score_reference_sets.bin.gz",
+        "gzip_sha256": "8a31f4d7499961b61456a5fd37cf998cc773ab441e680e32ad1a2d5e0274655e"
+      },
+      {
+        "table": "ingest_private.place_snapshots",
+        "rows": 3,
+        "binary_sha256": "6f6116f6d3cb0cb2fe3fce53026f629b7ce1c8432c9de49ace8e5d0ec864ba06",
+        "binary_bytes": 694,
+        "file": "ingest_private.place_snapshots.bin.gz",
+        "gzip_sha256": "cf2489f3a7d6c846fe6b8f88e10e933eaf375c6b9b7482c230d31f05477bee73"
+      },
+      {
+        "table": "ingest_private.refresh_snapshots",
+        "rows": 6,
+        "binary_sha256": "abcebd044a007819e328ca38fe8a8e9210f22a2ff5683e79a6baed1c9b02a2b4",
+        "binary_bytes": 15765,
+        "file": "ingest_private.refresh_snapshots.bin.gz",
+        "gzip_sha256": "81720232be940d9e199aaf2361cec3b90bb5151c06ecead23ff254179e28b205"
+      },
+      {
+        "table": "ingest_private.ingest_runs",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21,
+        "file": "ingest_private.ingest_runs.bin.gz",
+        "gzip_sha256": "b73d54bb1ba96f16e761dce6a93316194549f7a1c827186988d06662f16e5bae"
+      },
+      {
+        "table": "app_private.academy_display",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21,
+        "file": "app_private.academy_display.bin.gz",
+        "gzip_sha256": "534c435bef27c3399bd3dba2b0fe20c17241df9dda2ffa54b60d030cec7deea1"
+      },
+      {
+        "table": "app_private.academy_display_release",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21,
+        "file": "app_private.academy_display_release.bin.gz",
+        "gzip_sha256": "49296b93bb212372e5ea5309552ee3d15b788ccd977cceaf5f901deaf5e8f198"
+      }
+    ],
+    "mode": "local_only",
+    "cache_and_keys_deleted": false
+  },
+  "execution": {
+    "status": "complete",
+    "steps": [
+      {
+        "name": "spatial",
+        "exit_code": 0,
+        "seconds": 72.26
+      },
+      {
+        "name": "promote",
+        "exit_code": 0,
+        "seconds": 509.3
+      },
+      {
+        "name": "after",
+        "exit_code": 0,
+        "seconds": 6.772
+      },
+      {
+        "name": "scores",
+        "exit_code": 0,
+        "seconds": 0.925
+      },
+      {
+        "name": "rollback",
+        "exit_code": 0,
+        "seconds": 6.223
+      },
+      {
+        "name": "restore-capture",
+        "exit_code": 0,
+        "seconds": 6.533
+      },
+      {
+        "name": "restored-scores",
+        "exit_code": 0,
+        "seconds": 1.307
+      }
+    ]
+  },
+  "snapshot": "20261012T175142Z",
+  "journal_sha256": "2e333a894b5fe99eb4c1465f25a915e55fbaa7a3c2d21403e35eeb9ef3a3bbb0",
+  "coverage_change": {
+    "academies": {
+      "old_located": 25446,
+      "new_located": 25380,
+      "gained": 15,
+      "lost": 81,
+      "still_missing": 66
+    },
+    "schools": {
+      "old_located": 1314,
+      "new_located": 1241,
+      "gained": 0,
+      "lost": 73,
+      "still_missing": 6
+    }
+  },
+  "radius_and_pnu": {
+    "radius": [
+      {
+        "candidate": "a",
+        "source": "academies",
+        "before": 1072,
+        "after": 1069,
+        "entered": 0,
+        "exited": 3
+      },
+      {
+        "candidate": "a",
+        "source": "schools",
+        "before": 11,
+        "after": 11,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "b",
+        "source": "academies",
+        "before": 1110,
+        "after": 1156,
+        "entered": 51,
+        "exited": 5
+      },
+      {
+        "candidate": "b",
+        "source": "schools",
+        "before": 16,
+        "after": 16,
+        "entered": 2,
+        "exited": 2
+      },
+      {
+        "candidate": "c",
+        "source": "academies",
+        "before": 697,
+        "after": 643,
+        "entered": 0,
+        "exited": 54
+      },
+      {
+        "candidate": "c",
+        "source": "schools",
+        "before": 5,
+        "after": 5,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "d",
+        "source": "academies",
+        "before": 1072,
+        "after": 1069,
+        "entered": 0,
+        "exited": 3
+      },
+      {
+        "candidate": "d",
+        "source": "schools",
+        "before": 11,
+        "after": 11,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "e",
+        "source": "academies",
+        "before": 1072,
+        "after": 1069,
+        "entered": 0,
+        "exited": 3
+      },
+      {
+        "candidate": "e",
+        "source": "schools",
+        "before": 11,
+        "after": 11,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-1",
+        "source": "academies",
+        "before": 6,
+        "after": 6,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-1",
+        "source": "schools",
+        "before": 2,
+        "after": 1,
+        "entered": 0,
+        "exited": 1
+      },
+      {
+        "candidate": "random-2",
+        "source": "academies",
+        "before": 33,
+        "after": 33,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-2",
+        "source": "schools",
+        "before": 7,
+        "after": 7,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-3",
+        "source": "academies",
+        "before": 86,
+        "after": 88,
+        "entered": 2,
+        "exited": 0
+      },
+      {
+        "candidate": "random-3",
+        "source": "schools",
+        "before": 11,
+        "after": 11,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-4",
+        "source": "academies",
+        "before": 33,
+        "after": 28,
+        "entered": 0,
+        "exited": 5
+      },
+      {
+        "candidate": "random-4",
+        "source": "schools",
+        "before": 10,
+        "after": 7,
+        "entered": 0,
+        "exited": 3
+      },
+      {
+        "candidate": "random-5",
+        "source": "academies",
+        "before": 0,
+        "after": 0,
+        "entered": 0,
+        "exited": 0
+      },
+      {
+        "candidate": "random-5",
+        "source": "schools",
+        "before": 0,
+        "after": 0,
+        "entered": 0,
+        "exited": 0
+      }
+    ],
+    "pnu_conflicts": {
+      "academies": {
+        "inside_other_only": 46,
+        "inside_own_and_other": 0
+      },
+      "schools": {
+        "inside_other_only": 0,
+        "inside_own_and_other": 0
+      }
+    }
+  },
+  "pnu_review": {
+    "institutions": 46,
+    "unique_addresses": 18,
+    "unique_pnus": 18,
+    "old_also_inside_other": 28,
+    "new_only_inside_other": 18,
+    "own_footprint_available": 28,
+    "building_prefix_matches_pnu": 29,
+    "move_m_median": 2.9718759400000003,
+    "move_m_max": 171.11395196
+  },
+  "preserved_cache": {
+    "passed": true,
+    "before": {
+      "table": "pg_temp.g_cache_kept_before",
+      "rows": 13570,
+      "binary_sha256": "08fd938054dbdcc42fc39d7cad15c0bf5d5b7b21337fef3d22c85c7e3b6d3d8e",
+      "binary_bytes": 2169246
+    },
+    "after": {
+      "table": "pg_temp.g_cache_kept_after",
+      "rows": 13570,
+      "binary_sha256": "08fd938054dbdcc42fc39d7cad15c0bf5d5b7b21337fef3d22c85c7e3b6d3d8e",
+      "binary_bytes": 2169246
+    }
+  },
+  "reference_release": {
+    "snapshot": "20261012T175142Z",
+    "row_count": 162032,
+    "cell_count": 10127,
+    "source_fingerprint": "a24684a89a8ab8b7d755db79766955272ff2cfad683e39e6849a12b67a501577",
+    "reread_recompute_mismatches": 0,
+    "objects": {
+      "score_reference_inputs": {
+        "key": "raw/score_reference_inputs/revisions/20261012T175142Z/2026-10.parquet",
+        "bytes": 26319574,
+        "sha256": "4a9977ddcf0d7860e29e97dcbf8ff5e36de58775abd0b8a53164005a4d63a9c1",
+        "status": "published",
+        "rows": 20254,
+        "reread_mismatches": 0
+      },
+      "score_reference": {
+        "key": "raw/score_reference/revisions/20261012T175142Z/2026-10.parquet",
+        "bytes": 734202,
+        "sha256": "fe021337b48bd3da598368b7ab3d0c8368f94e405ae2f7ecaf0d5fb7a59017de",
+        "status": "published",
+        "rows": 162032,
+        "reread_mismatches": 0
+      }
+    }
+  }
+}
