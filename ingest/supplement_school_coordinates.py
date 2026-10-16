@@ -215,7 +215,10 @@ def run(url, rows_path, raw_directory, output, revision):
     after.mkdir()
     with isolated(url) as db:
         backup(db, after)
-        capture_scores(db, output, "after")
+        # Generic G's "after" label expects a root-level rollback folder. Here
+        # before/after each own a manifest; cache preservation is checked by digest.
+        capture_scores(db, output, "supplemented")
+        (output / "supplemented-inputs.json.gz").rename(output / "after-inputs.json.gz")
         records = db.execute("""select to_jsonb(s)-'geom' || jsonb_build_object(
             'lng',extensions.st_x(geom),'lat',extensions.st_y(geom))
             from public.schools s order by id""").fetchall()
