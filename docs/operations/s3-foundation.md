@@ -224,10 +224,12 @@ main 6시간 cron의 실제 [schedule run 37511542422](https://github.com/hanbeu
 S3-4 구현·검증 마감 후 첫 과제는 줌15+ 학원 점 레이어 계획이다. 일반 내장 GPU 노트북 FPS와 Small 전환 후 원격 합본 시험은 공개 전 체크리스트에 그대로 남는다. M5 Pro 실측이나 이번 Preview 1건으로 이 조건을 대체하지 않는다.
 
 
-## 신규 등록 Juso 전환 준비 (2026-10-16, 미배포)
+## 신규 등록 Juso 전환 준비 (2026-10-16, Production 미배포)
 
 새 등록 코드의 서버 변수는 `JUSO_API_KEY`와 `JUSO_COORD_API_KEY`다. 둘 다 서버 전용이며 `NEXT_PUBLIC_`를 붙이지 않는다. 기존 PR A 절의 `VWORLD_API_KEY` 좌표 폴백은 이 전환 배포 후 종료한다. 공개 Supabase 2개·지도 스타일 URL은 유지한다. 관리자키·DB URL·R2 키를 Vercel에 추가하지 않는다. `JUSO_COORD_ENABLED`는 배치 전용이며 Route Handler의 스위치로 쓰지 않는다.
 
 좌표 API는 `icn1`의 Route Handler에서 호출하고, 사용자 JWT로 5179→4326 투영 RPC와 기존 PNU 도형 검증 RPC를 호출한다. 공용 캐시 쓰기·Vworld 폴백은 없다. 누락 키/좌표 실패는 등록 오류로 반환한다.
 
 배포 순서는 [전환 계획](../planning/juso-registration-retirement-plan.md)을 따른다. 원격 migration과 Production 배포/저장 검증은 승인 대기다. Juso 해외 저장 공식 회신도 대기 중이며, 코드의 로컬 실증을 해외 DB 저장 허용의 근거로 간주하지 않는다. 기존 후보·캐시·R2 교체/삭제와 실제 비밀 삭제는 별도 manifest 승인 전 실행하지 않는다.
+
+Draft PR의 Preview 빌드는 GitHub 연동으로 자동 생성된다. 이는 원격 migration 적용이나 등록/저장 실증 완료를 뜻하지 않는다. 새 Preview에서 등록 경로를 검증하는 단계는 migration 승인 후다.

@@ -31,3 +31,12 @@ base: main (`9023d75`). 원격 DB/R2 변경0, 기존 데이터 교체/삭제0. �
 - 로컬 복제 DB는 migration 이력이 없어서 CLI dry-run이 전체 과거 목록을 보인다. 그 목록을 실제 push하지 않았으며 로컬에는 새 SQL만 적용했다. 원격 dry-run의 단일 pending 결과와 구분한다.
 
 원격 push/Preview·Production 실증은 승인 대기다. 해외 저장 회신을 기다리는 기존 #39 승격도 이 검증으로 승인된 것이 아니다. [기존 데이터 목록·롤백/배포 계획](../planning/juso-registration-retirement-plan.md).
+
+
+## CI 등록→저장 회귀
+
+코드 커밋 `b10bf0e`의 [PR checks](https://github.com/hanbeulYou/Gilmok/actions/runs/38842583307)가 5분25초에 통과했다. 실제 CI 로컬 Supabase/Auth/RPC/Worker를 쓰는 등록→채점→슬라이더3세트→저장→같은 uid 재열기를 통과했고, 기존 a~e 총점 기대값은 변경하지 않았다. 이는 실제 Juso API가 아닌 **공급자 IO만 합성한 E2E**이며 위 국내 실제 API3건 실증과 구분한다.
+
+처음에는 E2E dev-server가 Vworld fixture 키/응답을 주입하여 `/new`에서 멈췄다. `JUSO_COORD_API_KEY=local-fixture`와 Juso 좌표 응답 형태로 고쳤다. 기존 좌표/응답 fixture 파일은 수정하지 않고, snapshot 준비 시 고정 점을 PostGIS로 역투영한 EPSG:5179 합성 응답을 `.local/e2e-juso-coordinates.json`에 생성한다. 실제 Juso 출입구 응답을 GitHub에 새로 게시하지 않았다. RPC/채점 기대값 완화나 Production 데이터 변경은 없다.
+
+Preview 빌드는 PR 연동으로 생성되지만 원격 migration/실제 등록 검증은 보류다. Production은 기존 경로 상태이며 이번 PR이 자동으로 기존 데이터나 원격 함수를 바꾸지 않는다.
