@@ -63,5 +63,10 @@
   "supplier": "한국교육시설안전원",
   "license_label": "이용허락범위 제한 없음",
   "update_interval": "반기",
-  "next_update": "2027-04-01"
+  "next_update": "2027-04-01",
+  "coordinate_crs": {
+    "analysis_assumption": "EPSG:4326",
+    "official_epsg_explicitly_confirmed": false,
+    "promotion_gate": "confirm native longitude/latitude datum with official source"
+  }
 }
