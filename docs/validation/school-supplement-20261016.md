@@ -97,3 +97,7 @@
 `pnpm lint`, `pnpm typecheck`, `pnpm test` 통과(Vitest208·Python310). 추가 회귀는 기존 확보 좌표 보존 선택·경계/거리 보류·중복 ID·무효 좌표·Node 버전 거부를 확인한다. 원격 DB/RPC·Production UI 검증은 이번 범위가 아니다.
 
 현재 브랜치/main에 README가 없음을 확인하여 README.md에 데이터 소스 표를 신설했고 `학교 | NEIS(명부) + 한국교육시설안전원(위치)`로 기록했다. 계획·데이터 소스 명세·이전 학교 조사에는 이번 채택 결정과 로컬 적용 결과를 연결했다. Juso 해외 저장 답변 전 원격 승격 보류와 G 승격 후 A/B Ready 조건을 유지한다.
+
+## 후속 읽기 전용 원인 진단
+
+[후보별 학교 수·학생 수 제공 여부·demand raw/백분위·서울 중앙값/p90 전후](school-supplement-demand-diagnosis-20261016.md): a~e raw 감소0, 전부 기준 분포 효과로 확인했다. 학생 수는 미수집이며 학교 개수의 모델 환산값과 구분한다. 추가 데이터 적용·원격 쓰기는 없다.
