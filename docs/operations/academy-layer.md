@@ -41,3 +41,7 @@ supabase db push --local --workdir .local/academy-layer-supabase --dry-run
 ```
 
 800m/1000m 공통: SQL 웜 p95 ≤300ms 목표(>1,000ms면 중단·원인 보고), raw ≤1.5MiB, gzip ≤256KiB. 5,000기관 초과 또는 SQL JSONB 직렬화 1.5MiB 초과는 `too_dense`와 전체 건수/byte 진단만 반환한다. 부분 점 목록을 정상 응답으로 내보내지 않는다. gzip은 실제 전송 압축 보장이 아니며 A의 로컬 증거는 오프라인 압축 크기다. 실제 밀도가 예산을 넘으면 속성 경량화/MVT 대안을 먼저 보고하고 기준을 임의 완화하지 않는다.
+
+## 2026-10-18 승인 범위 확대·G 연결 상태
+
+로컬 실자료 읽기와 원격 migration dry-run이 승인되었다. A 브랜치 dry-run exit 0/대기 1개, push 없음. [결과](../validation/academy-layer-a-density-20261018.md). G에는 같은 migration 파일/hash를 공유하고 strict release callback·12테이블 rollback 코드를 로컬 커밋으로 추가했다. G 기존 명시층 migration까지 합친 최종 dry-run/원격 적용은 Juso 회신 후 승인 대상이다. 월간 승격 시 새 검토 manifest를 함께 제공하지 않으면 기존 gate의 source mismatch로 표시가 닫히며, 보류 해제를 자동 추정하지 않는다.

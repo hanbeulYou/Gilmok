@@ -231,3 +231,7 @@ ScoreResult.axes.cluster.evidence.values.n_field
 - 기존 객체 변경 여부: **신규 private 테이블 2개·공개 RPC 1개·신규 객체 권한만 추가. 기존 테이블/함수/트리거/데이터 변경·DROP 없음.** 로컬 격리 DB 적용·local dry-run exit 0. 원격 dry-run도 이력 조회가 필요하므로 원격 읽기 금지 해제 전 보류한다.
 - 800m 목표: SQL 웜 p95 ≤300ms, raw ≤1.5MiB, gzip ≤256KiB. 합성 1,500기관 단독 측정 SQL p95 17.203ms, raw 563,058B, 오프라인 gzip 36,285B. 5,000기관은 완성 응답이 1,870,056B여서 `too_dense`로 닫으며 LIMIT로 일부 점을 정상처럼 표시하지 않는다. 로컬 합성 결과는 Micro 실제 밀집 지역 검증을 대체하지 않는다.
 - [검증](../validation/academy-layer-a-20261016.md), [RPC 계약](data-sources.md#학원-점-레이어-rpc--a-합성-계약-2026-10-16), [승격/롤백 인계](../operations/academy-layer.md)를 따른다. **A Ready는 G 원격 승격·실제 원천 대조 이후**다. B는 합성 fixture로 지도·분야 강조·N/M·팝업/보류 배지·근거 연동을 개발할 수 있다.
+
+### A 보완 (2026-10-18)
+
+로컬 Juso 25,527행으로 a~e 800/1000m와 10,127셀 800m 상위 10셀을 측정했다. 최대 관측 raw는 b/1000m 635,425B(40.40%), 전체 800m 셀 보수적 상한은 746,228B(47.44%)로 70% 미만이다. 포맷 변경 없음. 사용자 승인 원격 dry-run은 exit 0, 대기 `20261016084609_academy_layer_rpc.sql` 1개. 실제 push 없음. G와 동일 파일/hash를 공유하며 최종 통합 dry-run은 별도다. [측정·기준](../validation/academy-layer-a-density-20261018.md). G metadata 게시/복원 코드는 #39 로컬 커밋에서 검증했다. B 진입용 (1)(2) 결과를 보고하며 Ready는 G 원격 승격 이후다.

@@ -69,3 +69,7 @@ HTTP는 실제 로컬 익명 로그인 authenticated 세션으로 30회, 별도 
 실제 **로컬 합성 SQL/HTTP** 응답을 확인했다. 외부 API·원격 실제 기관 데이터 응답을 확인한 것은 아니다. count 이름을 `counts.radius_same_field`로 확정했고, 101행을 학원 99/학교 2로 나눠 inventory와 반경 보류 수를 분리했다. 5,000기관 synthetic에서는 byte 예산이 먼저 걸리므로 과밀 안내와 원본 JSONB byte 진단을 명시했다.
 
 다음 B는 MapLibre 줌 15 이상 전 분야 점/동일 분야 강조, N/M 숫자, 공개 기관명·명시층 팝업, 좌표 보류 배지와 cluster 근거 연동을 합성 자료로 구현한다. G 승격 이후 실제 수 일치·성능·품질을 확인하기 전 A/B Ready는 보류한다.
+
+## 2026-10-18 보완
+
+[로컬 실자료 밀도·응답 크기와 승인된 원격 dry-run](academy-layer-a-density-20261018.md)을 추가했다. 최초 합성 결과는 보존한다. 원격 dry-run exit 0/대기 1개이며 push는 하지 않았다.
