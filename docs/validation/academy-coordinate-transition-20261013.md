@@ -193,3 +193,36 @@ seed20260926·기존5셀·800m·임대료 미입력. 후보 위치·프리셋·�
 - 최종10후보 모두 총점NULL 없음, 신뢰도·결측 축 집합 불변. 무작위5셀의 exposure/building/rent 결측도 그대로다.
 - 사용 도구: `ingest.academy_transition` inventory/geocode, `ingest.verify_academy_transition` backup/spatial/promote/after/rollback, `ingest/academy_transition_scores.mjs`. 상세 결과·최종 manifest 위치는 `.local/academy-transition/final/`, 원본/초기 실행은 상위 디렉터리에 보존한다.
 - remote migration dry-run/push, 원격 데이터 승격, 캐시/키 삭제는 이번 실행에 포함하지 않았다. Draft 유지. A/B Ready는 G 원격 승격 이후다.
+
+## 2026-10-18 보완 — A metadata 동시 게시·12테이블 rollback
+
+사용자 승인에 따라 `academy_coordinate_reviews`와 `academy_layer_release`를 G 원천·명시층·기준분포와 같은 트랜잭션에 포함했다. `atomic_promote`의 마지막 strict callback으로 게시하며 metadata에 실패하면 앞선 source/reference loader와 refresh snapshot 기록까지 롤백한다. 새 부수 기록/DB 트리거는 만들지 않았다. 기존 보류를 원천 변경 후 자동 해제하지 않는다.
+
+**기존 객체 변경 여부:** G의 기존 신규 표시 테이블 2개에 A의 신규 metadata 테이블 2개와 공개 RPC 1개를 더한다(총 신규 private 테이블 4개·RPC 1개). 기존 DB 함수/테이블/트리거 정의 교체·DROP 없음. 원천·층·기준분포의 데이터 교체는 G 승격 시 별도 승인 범위다. A에서 CLI로 이미 생성한 `20261016084609_academy_layer_rpc.sql`을 같은 파일명/hash(`add798767fb4375416b349adea70a157ce8dacce07175a4b14cf93309b274e45`)로 공유하므로 통합 시 1회만 적용한다. 기존 migration 수정/중복 생성 없음.
+
+실데이터 원본 `gilmok_academy_transition_school_20261016`은 그대로 두고 로컬 복제본 `gilmok_academy_transition_release_20261018`에서 시험했다. 해외/원격 DB/R2 읽기·쓰기·승격 없음. 새 migration은 복제본에만 적용했다. 원격 적용은 Juso 공식 회신과 최종 manifest/dry-run 승인 이후다.
+
+| 시험 | 결과 |
+|---|---|
+| release INSERT 강제 P0001 | 학원·학교 이름, 층 label, reference raw를 먼저 시험 변경한 후 release 삽입을 실패시켰다. 실패 전/후 **12테이블 binary SHA 전부 일치**; metadata 부분 반영 없음 |
+| 성공 게시 | 현재 원천/학교 73행 보완/층/기준분포의 값을 유지한 복제본 재게시 트랜잭션 끝에 review 101행(학원99+학교2), release 1행을 게시 |
+| 같은 manifest 왕복 | before 12테이블 복원→gate 0행, after 12테이블 재복원→gate 1행/reviews101. 각 복원에서 행수·binary SHA·source fingerprint 일치 |
+| 기존 10테이블 manifest 호환 | 10/16 학교 보완 after manifest 복원 시 신규 gate/reviews는 비워 닫는다. 원천10 digest 일치 후 신규 after12를 다시 복원해 gate/reviews 포함 전부 일치 |
+| A 실제 응답 대조 | 복제본 실제 RPC의 a~e 2반경+상위10셀 **20/20 raw 바이트가 예상값과 정확히 일치**. 원격/HTTP 호출 없음 |
+
+강제 실패와 두 uid 관측을 포함한 월간 원자성 자동 시험 13개 통과. `pnpm lint`, `pnpm typecheck`, `pnpm test`(Vitest208/Python310), `pnpm test:db`(272) 통과. 정상 게시 callback은 0.006초였으며 전체 원천 재수집/기준분포 재생성 소요 시간이 아니다. 이번에는 기존 검증된 행을 복제본에서 유지하고 metadata 동시성/복원 경로를 검증했다.
+
+[12테이블 manifest·강제 실패·복원·RPC 대조 JSON](academy-layer-release-20261018.json). 전체 binary 파일은 다음 로컬 경로에만 두며 R2/Actions artifact/Git에 올리지 않는다.
+
+```text
+.local/academy-transition/layer-release-20261018/
+  before/rollback/manifest.json  # 원천·층·기준분포 + 빈 review/release
+  after/rollback/manifest.json   # 같은 원천 + 101 review / 1 release
+  result.json
+```
+
+기존 `BACKUP_TABLES`는 10→12개로 확장했다. 신규 manifest는 항상 두 metadata 테이블을 포함한다. 기존10 manifest 복원 전에도 공유 schema migration이 필요하며, legacy snapshot은 레이어 게시 전 상태이므로 gate를 닫는다. 이 때 현재12 snapshot을 먼저 보존해야 한다. 신/구 전체 digest를 검증하지 않고 복원을 완료로 간주하지 않는다.
+
+G 신규 승격 CLI에는 고정 `--reviews <quality-20261014-v3/review.json> --review-version 20261014-v3`가 필요하다. raw revision/SHA와 보류 ID·종류·버전을 검산하고, 원천 manifest에 검토 파일 SHA/버전/행수를 기록한다. `supplement_school_coordinates.run`과 CLI도 두 검토 인자를 요구하고 같은 strict callback을 실행한다. 학교 보완은 학원 표시 revision을 유지하면서 기준분포와 두 metadata 테이블을 함께 커밋한다. 과거 Juso-only prepare를 그대로 실행해 학교 보완을 덮어쓰지 않는다. 이미 완료된 snapshot을 재사용해 gate만 사후 활성화하지 않고 최종 새 snapshot을 승인받는다.
+
+커밋은 사용자 요청대로 **G 로컬 브랜치에만 추가**한다. PR 본문에는 로컬 commit ID와 검증 결과를 기재하며, 원격 Git 브랜치/배포/DB에 반영됐다고 표시하지 않는다.
