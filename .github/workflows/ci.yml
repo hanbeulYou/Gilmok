@@ -50,6 +50,18 @@ jobs:
         run: uv run --frozen python tests/e2e/snapshot.py
       - run: pnpm exec playwright install --with-deps chromium
         if: steps.scope.outputs.run_e2e == 'true'
+      - name: Synthetic academy layer (no DB or data API)
+        id: academy
+        if: steps.scope.outputs.run_e2e == 'true'
+        run: pnpm test:e2e:academy
+      - name: Preserve synthetic academy measurements
+        if: always() && steps.academy.outcome != 'skipped' && steps.academy.outcome != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: academy-layer-proof
+          path: .local/academy-b
+          include-hidden-files: true
+          retention-days: 14
       - name: E2E and slider performance (3 sets)
         id: e2e
         if: steps.scope.outputs.run_e2e == 'true'

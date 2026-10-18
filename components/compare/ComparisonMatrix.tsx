@@ -1,5 +1,5 @@
 'use client';
-import { type KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { type KeyboardEvent, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { axisKeys, labels } from '../../lib/scoring/axes';
 import { academyV0 } from '../../lib/scoring/presets';
@@ -12,7 +12,7 @@ import { ensureSession } from '../../lib/supabase/session';
 import { getSupabaseClient } from '../../lib/supabase/client';
 import { EXPOSURE_LIMITATION } from '../../lib/visibility/types';
 import { AxisBadges, Confidence } from './Badges';
-import { EvidencePanel } from './EvidencePanel';
+const EvidencePanel = lazy(() => import('./EvidencePanel').then(module => ({ default: module.EvidencePanel })));
 import { number, rawSummary, reason } from './format';
 import { WeightSlider } from './WeightSlider';
 import { SaveControls } from './SaveControls';
@@ -205,7 +205,7 @@ export function ComparisonMatrix() {
         <MapGate active={desktop || tab === 'map'}/></section></div>
       <p className="exposure-limit">{EXPOSURE_LIMITATION}</p>
       <section id="compare-panel-evidence" role={desktop ? undefined : 'tabpanel'} aria-labelledby="compare-tab-evidence" hidden={!desktop && tab !== 'evidence'} tabIndex={-1}>
-        {selected && state.evidenceOpen ? <EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={closeEvidence}/> : <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
+        {selected && state.evidenceOpen ? <Suspense fallback={<p role="status">근거를 준비하는 중입니다.</p>}><EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={closeEvidence}/></Suspense> : <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
       </section>
       <dialog className="weight-sheet" ref={dialog} onClose={() => setSheet(false)}><header><h2>축별 가중치</h2><button onClick={() => setSheet(false)}>닫기</button></header>
         {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button></dialog>

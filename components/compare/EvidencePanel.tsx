@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import type { AxisKey, AxisResult } from '../../lib/scoring/types';
 import type { ComparisonCandidate } from '../../lib/compare/store';
 import { ExposureEvidence } from './ExposureEvidence';
@@ -50,6 +50,7 @@ function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResul
     <p>정규화 {number(axis.normalized)}점 · 원시값 {number(axis.raw, 8)} · 서울 백분위 {number(axis.evidence.percentile)}
       {axis.evidence.reference && <> · 모집단 {number(axis.evidence.reference.population_size, 0)} · 커버리지 {number(axis.evidence.reference.coverage * 100)}%</>}</p>
     {axis.missing_reason && <p className="missing-explanation">{reason(axis.missing_reason)}</p>}
+    {axis.key === 'cluster' && <p data-testid="academy-radius-evidence">{numeric('n_field') === null ? '반경 학원 수 미확인' : `반경 ${numeric('n_field')}곳`} · 같은 분야 학원</p>}
     {axis.key === 'exposure' && <ExposureEvidence row={row}/>}
     {axis.key === 'building' && typeof axis.evidence.values.floor_elevator_row === 'string' &&
       <p data-testid="floor-elevator-rule">적용 행: {axis.evidence.values.floor_elevator_row} · 보정 {number(numeric('floor_adjustment'))}점</p>}
@@ -69,6 +70,7 @@ function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResul
   </div>;
 }
 export function EvidencePanel({ row, axisKey, close }: { row: ComparisonCandidate; axisKey: AxisKey | null; close: () => void }) {
+  useEffect(() => { document.getElementById('evidence-heading')?.focus({ preventScroll: true }); }, [row.id, axisKey]);
   const axes = row.result?.axes.filter(axis => !axisKey || axis.key === axisKey) ?? [];
   return <section className="evidence-panel" aria-label="근거 패널"><header><h2 id="evidence-heading" tabIndex={-1}>{row.alias} · {axisKey ? axes[0]?.label : '후보 전체'} 근거</h2><button onClick={close}>근거 닫기</button></header>
     {!row.result ? <p>점수가 준비되면 근거를 볼 수 있습니다.</p> : <>

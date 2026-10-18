@@ -13,6 +13,7 @@ import {projectGeometry} from '../../lib/map/project';
 import {useExposureLink} from '../compare/ExposureLink';
 import {ExposureEvidence} from '../compare/ExposureEvidence';
 import './exposure-overlay.css';
+import {registerExposurePicker} from '../../lib/map/picking';
 const source='scored-buildings';
 export default function ExposureOverlay({map,row,active}:{map:LibreMap;row?:ComparisonCandidate;active:boolean}) {
  const link=useExposureLink(),scene=row?.inputs?.scene,samples=row?.inputs?.exposure?.samples;
@@ -48,7 +49,7 @@ export default function ExposureOverlay({map,row,active}:{map:LibreMap;row?:Comp
    new LineLayer({id:'exposure-sightline',data:selected?.target&&selected.sample.status!=='excluded'?[selected]:[],getSourcePosition:d=>d.point,getTargetPosition:d=>d.target!,getColor:[255,220,80,255],getWidth:2,pickable:false}),
    new ScatterplotLayer({id:'exposure-target',data:selected?.target&&selected.sample.status!=='excluded'?[selected]:[],getPosition:d=>d.target!,getRadius:.7,radiusMinPixels:4,getFillColor:[255,220,80,255],pickable:false})];
  },[active,data,selected,link]);
- useEffect(()=>{if(!active||!data)return;const overlay=new MapboxOverlay({interleaved:true,layers:[]});map.addControl(overlay);control.current=overlay;return()=>{control.current=null;map.removeControl(overlay)};},[active,Boolean(data),map]);
+ useEffect(()=>{if(!active||!data)return;const overlay=new MapboxOverlay({interleaved:true,layers:[]});map.addControl(overlay);control.current=overlay;const unregister=registerExposurePicker(map,(x,y)=>Boolean(overlay.pickObject({x,y,layerIds:['exposure-samples']})?.object));return()=>{unregister();control.current=null;map.removeControl(overlay)};},[active,Boolean(data),map]);
  useEffect(()=>{control.current?.setProps({layers,getTooltip:({object}:PickingInfo<DisplaySample>)=>object?.sample?`${sampleLabel(object.sample)} · 이동 ${object.sample.moved_m.toFixed(3)}m`:null});const align=()=>alignExposureCamera(map,layers.map(layer=>layer.id));align();map.on('styledata',align);return()=>{map.off('styledata',align)};},[layers,map]);
  if(!active)return null;
  return <section className="exposure-overlay" data-testid="exposure-overlay" data-state={error?'error':data?'ready':samples?.length?'loading':'missing'} data-sample-count={data?.samples.length??0} data-selected-sample={link.sampleId??''} aria-label="노출 샘플 지도">
