@@ -15,15 +15,24 @@ from ingest.refresh_monthly import execute_monthly
 from ingest.score_reference import fingerprint
 
 
-@pytest.mark.parametrize("failure", ["source", "display", "reference", None])
+@pytest.mark.parametrize("failure", ["source", "display", "reference", "release", None])
 def test_academy_floor_source_reference_are_one_release(monthly_db, failure):
     from ingest.academy_display import load_display
+    from ingest.academy_layer_release import publish_layer_release
 
     migration = Path("supabase/migrations/20261012150926_academy_display_provenance.sql")
     with monthly_db() as db:
         db.execute(migration.read_text())
         db.execute("create table public.academies(id text primary key,geocode_provider text)")
         db.execute("insert into public.academies values('1','juso')")
+        db.execute("create table public.schools(id text primary key)")
+        schema = Path("supabase/migrations/20261016084609_academy_layer_rpc.sql").read_text()
+        db.execute(schema.split("create function public.academy_layer(")[0])
+        db.execute("create schema score_internal")
+        db.execute("""create function score_internal.sources() returns jsonb language sql as $$
+            select jsonb_build_object('academies',jsonb_build_object('source_version',
+            case when value=1 then '2026-09-19' else '2026-10-10' end))
+            from public.monthly_source $$""")
         load_display(
             db,
             [("1", "1층", "explicit", "old", "a" * 64)],
@@ -31,6 +40,18 @@ def test_academy_floor_source_reference_are_one_release(monthly_db, failure):
             version="2026-09-19",
             raw_sha256="a" * 64,
         )
+        with db.transaction():
+            publish_layer_release(
+                db,
+                [("academy", "1", "old", "a" * 64, "old-review", "movement_gt_500m")],
+                review_version="old-review",
+            )
+        if failure == "release":
+            db.execute("""create function app_private.force_release_failure() returns trigger
+                language plpgsql as $$begin raise exception 'forced release failure'
+                using errcode='P0001'; end$$;
+                create trigger release_fail before insert on app_private.academy_layer_release
+                for each row execute function app_private.force_release_failure()""")
         if failure == "display":
             db.execute("""create function app_private.force_display_failure() returns trigger
                 language plpgsql as $$begin raise exception 'forced display failure'
@@ -40,10 +61,13 @@ def test_academy_floor_source_reference_are_one_release(monthly_db, failure):
 
     def observe():
         with monthly_db() as db:
-            return db.execute("""select s.value,r.value,d.floor_label,m.source_revision
+            return db.execute("""select s.value,r.value,d.floor_label,
+                m.source_revision,l.source_revision,
+                (select count(*) from app_private.academy_coordinate_reviews)
                 from public.monthly_source s cross join public.score_reference r
                 cross join app_private.academy_display d
-                cross join app_private.academy_display_release m""").fetchone()
+                cross join app_private.academy_display_release m
+                cross join app_private.academy_layer_release l""").fetchone()
 
     old = observe()
     seen = []
@@ -81,10 +105,15 @@ def test_academy_floor_source_reference_are_one_release(monthly_db, failure):
         prepare,
         reference,
         maintenance=lambda *_: None,
+        release_loader=lambda db: publish_layer_release(
+            db,
+            [("academy", "1", "new", "b" * 64, "new-review", "movement_gt_500m")],
+            review_version="new-review",
+        ),
     )
     assert result["committed"] == (failure is None)
     assert all(row == old for row in seen)
-    assert observe() == ((2, 2, "3층", "new") if failure is None else old)
+    assert observe() == ((2, 2, "3층", "new", "new", 2) if failure is None else old)
 
 
 @pytest.fixture

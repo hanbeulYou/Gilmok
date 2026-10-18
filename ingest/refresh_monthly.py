@@ -23,7 +23,9 @@ from ingest.refresh_sources import prepare_source
 from ingest.score_reference import collect_inputs, fingerprint, publish_reference, source_state
 
 
-def atomic_promote(db, prepared, snapshot, reference_builder, *, expected_state):
+def atomic_promote(
+    db, prepared, snapshot, reference_builder, *, expected_state, release_loader=None
+):
     """Readers see the old pair until commit; any failure rolls back every loader.
 
     External collection is already complete. Keep ordinary SELECT available; never
@@ -50,6 +52,11 @@ def atomic_promote(db, prepared, snapshot, reference_builder, *, expected_state)
                 "lock table app_private.academy_display, "
                 "app_private.academy_display_release in share row exclusive mode"
             )
+        if db.execute("select to_regclass('app_private.academy_layer_release')").fetchone()[0]:
+            db.execute(
+                "lock table app_private.academy_coordinate_reviews, "
+                "app_private.academy_layer_release in share row exclusive mode"
+            )
         if fingerprint(source_state(db)) != expected_state:
             raise ValueError("Sources changed during preparation; retry entire monthly release")
         stages = []
@@ -63,11 +70,24 @@ def atomic_promote(db, prepared, snapshot, reference_builder, *, expected_state)
         period_end, manifest, loader = reference_builder(db)
         promote(db, "score_reference", period_end, snapshot, manifest, loader)
         stages.append(dict(source="score_reference", seconds=round(time.monotonic() - start, 3)))
+        if release_loader is not None:
+            start = time.monotonic()
+            release_loader(db)
+            stages.append(
+                dict(source="academy_layer_release", seconds=round(time.monotonic() - start, 3))
+            )
     return stages, manifest
 
 
 def execute_monthly(
-    sources, snapshot, factory, prepare, reference_builder, *, maintenance=maintain
+    sources,
+    snapshot,
+    factory,
+    prepare,
+    reference_builder,
+    *,
+    maintenance=maintain,
+    release_loader=None,
 ):
     report = dict(snapshot=snapshot, sources=list(sources), committed=False, status="preparing")
     locks = []
@@ -112,7 +132,12 @@ def execute_monthly(
                     report["preparation_seconds"] = round(time.monotonic() - started, 3)
                     report["phase"] = "atomic_promotion"
                     stages, manifest = atomic_promote(
-                        db, prepared, snapshot, reference_builder, expected_state=baseline
+                        db,
+                        prepared,
+                        snapshot,
+                        reference_builder,
+                        expected_state=baseline,
+                        release_loader=release_loader,
                     )
                     report.update(
                         committed=True,

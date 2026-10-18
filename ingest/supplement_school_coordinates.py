@@ -13,6 +13,7 @@ import duckdb
 import pandas as pd
 from psycopg.types.json import Jsonb
 
+from ingest.academy_layer_release import prepare_reviews, publish_layer_release
 from ingest.academy_transition import write_json
 from ingest.common import RawStore, Settings
 from ingest.refresh_monthly import execute_monthly
@@ -126,12 +127,25 @@ def apply_plan(db, plan, report):
     )
 
 
-def run(url, rows_path, raw_directory, output, revision):
+def run(url, rows_path, raw_directory, output, revision, *, reviews_path, review_version):
     # The raw bridge calls node directly, outside pnpm's engines check.
     require_node_version(subprocess.check_output(["node", "--version"], text=True))
     # The only connection factory rejects remote hosts and non-isolated DB names.
     with isolated(url) as db:
-        pass
+        academy = db.execute(
+            "select source_revision,raw_sha256 from app_private.academy_display_release"
+            " where singleton"
+        ).fetchone()
+        school = db.execute(
+            "select report from ingest_private.place_snapshots where target_table='schools'"
+        ).fetchone()[0]
+        if not academy:
+            raise ValueError("G academy display release required")
+        reviews = prepare_reviews(
+            reviews_path,
+            version=review_version,
+            sources={"academies": academy, "schools": (school["snapshot"], school["raw_sha256"])},
+        )
     if output.exists():
         raise ValueError("Use a fresh output directory; preserve previous manifests")
     rows = json.loads(rows_path.read_text())
@@ -167,6 +181,11 @@ def run(url, rows_path, raw_directory, output, revision):
         provider=PROVIDER,
         files=files,
         plan=plan,
+        academy_layer_review=dict(
+            version=review_version,
+            sha256=hashlib.sha256(reviews_path.read_bytes()).hexdigest(),
+            rows=len(reviews),
+        ),
     )
     write_json(output / "plan.json", report)
     before = output / "before"
@@ -194,6 +213,7 @@ def run(url, rows_path, raw_directory, output, revision):
         prepare,
         fail_reference,
         maintenance=lambda *_: None,
+        release_loader=lambda db: publish_layer_release(db, reviews, review_version=review_version),
     )
     write_json(output / "forced-failure.json", failure)
     if failure["committed"]:
@@ -217,6 +237,7 @@ def run(url, rows_path, raw_directory, output, revision):
         prepare,
         reference,
         maintenance=lambda *_: None,
+        release_loader=lambda db: publish_layer_release(db, reviews, review_version=review_version),
     )
     write_json(output / "promotion.json", result)
     if not result["committed"]:
@@ -258,10 +279,20 @@ if __name__ == "__main__":
     parser.add_argument("--raw-directory", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--revision", required=True)
+    parser.add_argument("--reviews", type=Path, required=True)
+    parser.add_argument("--review-version", required=True)
     args = parser.parse_args()
     print(
         json.dumps(
-            run(args.database_url, args.rows, args.raw_directory, args.output, args.revision),
+            run(
+                args.database_url,
+                args.rows,
+                args.raw_directory,
+                args.output,
+                args.revision,
+                reviews_path=args.reviews,
+                review_version=args.review_version,
+            ),
             ensure_ascii=False,
             default=str,
         )

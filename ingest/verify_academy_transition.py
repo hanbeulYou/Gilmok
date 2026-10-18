@@ -20,6 +20,7 @@ from psycopg.types.json import Jsonb
 
 from ingest import academies, schools
 from ingest.academy_display import load_display, prepare_display
+from ingest.academy_layer_release import prepare_reviews, publish_layer_release
 from ingest.academy_transition import local_connection, write_json
 from ingest.commerce_education_database import load_snapshot
 from ingest.common import ROOT, RawStore, Settings
@@ -37,6 +38,8 @@ BACKUP_TABLES = (
     "ingest_private.ingest_runs",
     "app_private.academy_display",
     "app_private.academy_display_release",
+    "app_private.academy_coordinate_reviews",
+    "app_private.academy_layer_release",
 )
 
 
@@ -97,7 +100,8 @@ def backup(db, directory):
 def restore(db, directory):
     folder = directory / "rollback"
     manifest = json.loads((folder / "manifest.json").read_text())
-    if {item["table"] for item in manifest["tables"]} != set(BACKUP_TABLES):
+    tables = {item["table"] for item in manifest["tables"]}
+    if tables not in (set(BACKUP_TABLES), set(BACKUP_TABLES[:-2])):
         raise ValueError("Rollback table set differs from the fixed transition scope")
     for item in manifest["tables"]:
         if item["file"] != item["table"] + ".bin.gz":
@@ -111,6 +115,8 @@ def restore(db, directory):
                 sql.SQL(",").join(sql.Identifier(*t.split(".")) for t in BACKUP_TABLES)
             )
         )
+        # Legacy 10-table manifests predate the gate: restore sources with the gate closed.
+        # New 12-table manifests restore exact release/review state as well.
         # Reference rows depend on the reference set. Existing sources are never dropped.
         for table in BACKUP_TABLES:
             db.execute(sql.SQL("delete from {}").format(sql.Identifier(*table.split("."))))
@@ -222,8 +228,15 @@ def load_cache(db, outcomes):
         )
 
 
-def promote_local(url, directory, revision):
+def promote_local(url, directory, revision, *, reviews_path=None, review_version=None):
+    if reviews_path is None or not review_version:
+        raise ValueError("G promotion requires a pinned quality review manifest/version")
     frames, outcomes = prepare(directory, revision)
+    reviews = prepare_reviews(
+        reviews_path,
+        version=review_version,
+        sources={table: (revision, data["raw_sha256"]) for table, data in frames.items()},
+    )
     raw_manifest = {
         r["table"]: r for r in json.loads((directory / "raw-manifest.json").read_text())
     }
@@ -232,6 +245,11 @@ def promote_local(url, directory, revision):
         data = frames[table]
         manifest = dict(
             snapshot=revision, raw_sha256=data["raw_sha256"], provider="juso", local_only=True
+        )
+        manifest["academy_layer_review"] = dict(
+            version=review_version,
+            sha256=hashlib.sha256(reviews_path.read_bytes()).hexdigest(),
+            rows=len(reviews),
         )
 
         def loader(db):
@@ -271,6 +289,7 @@ def promote_local(url, directory, revision):
         prepare_source,
         reference,
         maintenance=lambda *_: None,
+        release_loader=lambda db: publish_layer_release(db, reviews, review_version=review_version),
     )
     write_json(directory / "promotion.json", report)
     if not report.get("committed"):
@@ -407,9 +426,17 @@ def main():
     parser.add_argument("--database-url", required=True)
     parser.add_argument("--directory", type=Path, required=True)
     parser.add_argument("--revision", default="20261012T150643Z")
+    parser.add_argument("--reviews", type=Path)
+    parser.add_argument("--review-version")
     args = parser.parse_args()
     if args.stage == "promote":
-        report = promote_local(args.database_url, args.directory, args.revision)
+        report = promote_local(
+            args.database_url,
+            args.directory,
+            args.revision,
+            reviews_path=args.reviews,
+            review_version=args.review_version,
+        )
     else:
         with isolated(args.database_url) as db:
             if args.stage in ("before", "after"):
