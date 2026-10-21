@@ -76,3 +76,7 @@ Would push these migrations:
 - **4단계 #41**: G 승격/앞 단계 확인 후 실제 데이터 RPC/권한/반경N·출처·응답 예산 등 남은 완료 기준을 확인하고 Ready로 전환한다. 합성 결과만으로 자동 Ready 처리하지 않는다. 끝나면 보고하며 사용자 머지 권한은 유지한다.
 
 집계 증거는 [JSON](academy-g-remote-preflight-20261021.json)에 기록했다. 새 원격 COPY/적재·API 호출·R2 변경은 없었다. 이 문서는 승인 요청 자료이며 실행 승인을 대신하지 않는다.
+
+## 2026-10-22 후속
+
+① 두 migration 원격 적용과 기존 45건 불변 확인을 완료했다. ② 검증에 Production 구 코드의 저장 비교 불일치 안내·새 채점 분포 ID 확인 및 Juso 99행의 갱신 전 rollback 검증을 추가했다. [실행 기록](academy-g-migrations-20261022.md)을 따른다. ②는 별도 승인 대기다.
