@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-22",
+  "exit_code": 0,
+  "seconds": 0.35396558279171586,
+  "output": "Finished supabase db push.\n\nUsing workdir /Users/hanbyeol/Desktop/gilmok/.local/worktrees/s3-vworld-retirement-plan/.local/juso-migration-order-20261022/cli\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261021000000_juso_registration_coordinates.sql\nA new version of Supabase CLI is available: v2.121.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n",
+  "filename": "20261021000000_juso_registration_coordinates.sql",
+  "sha256": "b904c835d1695ad439a2737a552071face389a40aa96d734ae170de92cc576df",
+  "push_executed": false,
+  "include_all": false,
+  "cli_workdir": "ignored isolated directory containing branch migrations plus the two already-applied #39/#41 migrations"
+}

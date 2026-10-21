@@ -40,3 +40,12 @@ base: main (`9023d75`). 원격 DB/R2 변경0, 기존 데이터 교체/삭제0. �
 처음에는 E2E dev-server가 Vworld fixture 키/응답을 주입하여 `/new`에서 멈췄다. `JUSO_COORD_API_KEY=local-fixture`와 Juso 좌표 응답 형태로 고쳤다. 기존 좌표/응답 fixture 파일은 수정하지 않고, snapshot 준비 시 고정 점을 PostGIS로 역투영한 EPSG:5179 합성 응답을 `.local/e2e-juso-coordinates.json`에 생성한다. 실제 Juso 출입구 응답을 GitHub에 새로 게시하지 않았다. RPC/채점 기대값 완화나 Production 데이터 변경은 없다.
 
 Preview 빌드는 PR 연동으로 생성되지만 원격 migration/실제 등록 검증은 보류다. Production은 기존 경로 상태이며 이번 PR이 자동으로 기존 데이터나 원격 함수를 바꾸지 않는다.
+
+## 2026-10-22 미적용 migration 순서 조정
+
+- 사용자 승인으로 `20261016021224_juso_registration_coordinates.sql`을 `20261021000000_juso_registration_coordinates.sql`로 이름만 바꿨다. 이전 날짜의 dry-run 기록은 당시 파일명으로 보존한다.
+- 파일명 변경 커밋: `33f7f23`. git rename 100%, SQL 바이트 동일. 새 파일 SHA256: `b904c835d1695ad439a2737a552071face389a40aa96d734ae170de92cc576df` (이전 SHA256과 동일).
+- #39·#41 migration 적용 후 일반 `supabase db push --linked --dry-run` exit **0**, **0.354초**. 대기는 새 파일 **1개**뿐이다. `--include-all` 없음, 실제 push 없음.
+- #40 브랜치와 이미 적용된 #39·#41 두 파일을 합친 ignored CLI 작업 디렉터리에서 실행했다. 원격 이력이 로컬에 없어서 생기는 오탐을 피하되, 승인되지 않은 새 migration을 섞지 않았다. ③ 직전 최신 main과 이력을 맞추고 dry-run을 다시 확인한다.
+- 기존 객체 변경 여부는 동일: `address_daily_usage` 열 1개 추가, `claim_address_call(text)` 교체, 좌표 변환 RPC 추가. 실행은 ③ 승인 후다.
+- [전체 dry-run 증거](juso-registration-order-20261022.json).

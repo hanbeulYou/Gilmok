@@ -14,7 +14,7 @@
 
 **기존 객체 변경 있음:** `app_private.address_daily_usage`에 `juso_coordinate` 열(default 0, 기존 행의 새 열도 0) 추가, `public.claim_address_call(text)` 본문 교체, `public.project_juso_coordinate(float8,float8)` 신규 추가. 기존 열/행 삭제·기존 좌표 교체 없음. 트리거 없음.
 
-`20261016021224_juso_registration_coordinates.sql`은 CLI로 생성했다. 호출 한도 RPC의 시그니처·SECURITY DEFINER·빈 search_path·authenticated EXECUTE·일일 합계100·부수 활동 기록을 유지한다. 투영 RPC는 STABLE/SECURITY INVOKER/빈 search_path/authenticated 전용이며 외부 IO/DB 쓰기가 없다. 5179 범위, 변환 후 한국 범위, NULL/NaN/Infinity를 거부한다. 새 라이브러리는 없다.
+`20261021000000_juso_registration_coordinates.sql`은 CLI로 생성했다. 호출 한도 RPC의 시그니처·SECURITY DEFINER·빈 search_path·authenticated EXECUTE·일일 합계100·부수 활동 기록을 유지한다. 투영 RPC는 STABLE/SECURITY INVOKER/빈 search_path/authenticated 전용이며 외부 IO/DB 쓰기가 없다. 5179 범위, 변환 후 한국 범위, NULL/NaN/Infinity를 거부한다. 새 라이브러리는 없다.
 
 원격 dry-run은 이 migration 1개만 표시, exit 0. 적용/배포는 별도 승인 대기. [실측·해시](../validation/juso-registration-20261016.md).
 

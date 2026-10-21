@@ -239,7 +239,7 @@ Draft PR의 Preview 빌드는 GitHub 연동으로 자동 생성된다. 이는 �
 현재는 Draft이며 아래 실행 전체가 승인 대기다. 기존 저장 데이터의 교체·키 삭제 승인은 포함하지 않는다.
 
 1. 승인 창을 잡기 전에 CI 통과, 머지 담당자 대기, Vercel Production·Preview의 서버 전용 `JUSO_API_KEY`·`JUSO_COORD_API_KEY` 설정을 확인한다. `NEXT_PUBLIC_` 접두사를 붙이지 않고 값은 기록하지 않는다.
-2. 최종 dry-run·해시 확인 후 승인된 원격 migration `20261016021224_juso_registration_coordinates.sql`을 push한다. 실패하면 머지하지 않고 중단·보고한다.
+2. 최종 dry-run·해시 확인 후 승인된 원격 migration `20261021000000_juso_registration_coordinates.sql`을 push한다. 실패하면 머지하지 않고 중단·보고한다.
 3. 성공 직후 사용자가 #40을 머지하고 Production 배포를 이어서 완료한다. **원격 migration push → 즉시 머지·Production 배포**를 한 승인 창에서 처리한다. 두 단계 사이에 다른 작업을 끼우지 않는다.
 4. Production에서 익명 세션 검색→좌표→PNU 검증을 확인한다. 실패하면 DB의 호환 확장을 유지한 채 보고한다. 자동 Vworld 복귀나 기존 데이터·키 삭제는 하지 않는다.
 
