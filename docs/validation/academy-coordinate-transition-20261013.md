@@ -226,3 +226,7 @@ seed20260926·기존5셀·800m·임대료 미입력. 후보 위치·프리셋·�
 G 신규 승격 CLI에는 고정 `--reviews <quality-20261014-v3/review.json> --review-version 20261014-v3`가 필요하다. raw revision/SHA와 보류 ID·종류·버전을 검산하고, 원천 manifest에 검토 파일 SHA/버전/행수를 기록한다. `supplement_school_coordinates.run`과 CLI도 두 검토 인자를 요구하고 같은 strict callback을 실행한다. 학교 보완은 학원 표시 revision을 유지하면서 기준분포와 두 metadata 테이블을 함께 커밋한다. 과거 Juso-only prepare를 그대로 실행해 학교 보완을 덮어쓰지 않는다. 이미 완료된 snapshot을 재사용해 gate만 사후 활성화하지 않고 최종 새 snapshot을 승인받는다.
 
 커밋은 사용자 요청대로 **G 로컬 브랜치에만 추가**한다. PR 본문에는 로컬 commit ID와 검증 결과를 기재하며, 원격 Git 브랜치/배포/DB에 반영됐다고 표시하지 않는다.
+
+## 2026-10-21 G 원격 승격 사전 확인
+
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)로 공식 회신 대기는 종결했다. [최종 원격 dry-run](academy-g-remote-preflight-20261021.md)은 exit0/0.542초, 대기2개, 신규 private 테이블4개+RPC1개이며 기존 스키마 객체 교체 없음. 원격은 현재 분포20261012T013000Z, 로컬 목표20261016T040000Z이고 학원·학교 외 원천/격자 차이0. 실제 push/승격은 하지 않았으며 승인 대기다. 원격 ingest_runs20행을 로컬2행으로 덮어쓰지 않고, Juso cache 대상만 병합한다. 사용자 지정 단계별 보고·정지를 따른다.

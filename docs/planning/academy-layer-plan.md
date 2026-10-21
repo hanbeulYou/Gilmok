@@ -250,3 +250,9 @@ ScoreResult.axes.cluster.evidence.values.n_field
 - 테스트: 보류 기관이 반경·동일 분야 집합에 들어가는/빠지는 경우, 겹친 마커, 분야 변경, 800/1000m, 학교를 학원으로 세지 않음, 팝업·근거 동일K, 보류0일 때 불필요 문구 없음. source ID가 바뀌면 자동 해제하지 않고 검토 필요를 보고한다.
 
 이번 커밋은 표시 계약/학교 공급자 제안 문서만 추가한다. 품질 열/RPC/UI 구현과 학교 좌표 교체는 수행하지 않았다. G의 최종 원격 승격에는 업데이트된 manifest와 별도 승인, Juso 해외 저장 공식 회신이 필요하다.
+
+## 2026-10-21 운영 결정과 G 승격 순서
+
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 Juso 문의는 무응답으로 종결하고 API 좌표의 기존 도쿄 DB 저장을 사용자 결정으로 확정했다. 앞선 공식 회신 대기 조건은 해제하되 원격 쓰기 승인은 별도다. 위치정보요약DB 조사는 중단하고 [대안 기록](juso-file-source-alternative.md)만 남긴다. 게시판 긍정 답변 날짜/원문과 실제 문의 접수일은 미확보 상태로 ADR에 구분했다.
+
+[원격 dry-run/쓰기 범위](../validation/academy-g-remote-preflight-20261021.md) 보고 → 승인 대기 → G 원자적 승격/a~e 원격 대조 후 보고 → #40 migration push·사용자 머지·배포 한 세트 후 보고 → #41 완료 기준 확인/Ready 순서이며 각 단계에서 멈춘다. #40 머지 전 Vercel 서버 전용 JUSO_COORD_API_KEY 존재 확인을 요청한다. Kakao/Vworld 캐시·키 삭제는 계속 별도 승인이다.

@@ -685,3 +685,9 @@ NEIS 코드와 표준 SCHOOL_ID의 직접 일치0/1,320. 이름+급+도로명주
 태강삼육초·한국삼육고(표준점 서울 경계 밖), 화랑초(538.2m 차이)는 Juso 좌표를 유지한다. `geocode_reason='coordinate_verification_pending:standard_outside_seoul'` 또는 `...:standard_juso_distance_gt_500m`가 보류 플래그이고 좌표가 있으므로 `geocode_failed=false`다. 현재 UI 표시 추가는 후속 A/B 범위다. 기존 이동>500m101행(학원99/학교2)의 품질 배지 계획과 결합하되 학교 경계 밖2행은 그101행과 중복이므로 중복 집계하지 않는다. 플래그만으로 채점 규칙을 바꾸지 않는다.
 
 원천·기준 분포의 원자적 승격과 rollback을 로컬 격리 DB에서만 검증한다. 원격 쓰기·승격·캐시/키 삭제는 미실행이며 Juso 해외 저장 회신·별도 승인이 필요하다. [G 계획](academy-layer-plan.md#2026-10-16-g-보완-결정--학교-표준-좌표와-품질-보류-표시).
+
+## 2026-10-21 Juso API 도쿄 저장 결정
+
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 문의를 무응답으로 종결하고 기존 도쿄 DB에서 Juso API 좌표를 사용하기로 사용자 결정했다. 앞선 해외 적용 범위 미확정 기록을 공식 허가로 소급 변경하지 않는다. 일반약관 제1~19조/부칙에는 응답 저장 금지·저장국가 제한 문구가 없었지만, 제공 규정 §5에는 국외 관련 조건이 있으며 공개 API 적용 범위는 확정하지 못했다. 과거 ‘제한제공 자료에만 해당’이라는 축약을 확정적 적용 해석으로 사용하지 않는다.
+
+배포 파일 좌표 대안은 조사 중단. G migration/dataset 승격은 [별도 승인](../validation/academy-g-remote-preflight-20261021.md) 후 진행하며 원천·명시층·분포·검토/release를 원자적으로 반영한다. 기존 Kakao/Vworld 행·키 삭제 및 R2 게시/리전 이전을 자동 실행하지 않는다.
