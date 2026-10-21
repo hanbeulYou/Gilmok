@@ -253,6 +253,6 @@ ScoreResult.axes.cluster.evidence.values.n_field
 
 ## 2026-10-21 운영 결정과 G 승격 순서
 
-[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 Juso 문의는 무응답으로 종결하고 API 좌표의 기존 도쿄 DB 저장을 사용자 결정으로 확정했다. 앞선 공식 회신 대기 조건은 해제하되 원격 쓰기 승인은 별도다. 위치정보요약DB 조사는 중단하고 [대안 기록](juso-file-source-alternative.md)만 남긴다. 게시판 긍정 답변 날짜/원문과 실제 문의 접수일은 미확보 상태로 ADR에 구분했다.
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 Juso 문의는 무응답으로 종결하고 API 좌표의 기존 도쿄 DB 저장을 사용자 결정으로 확정했다. 앞선 공식 회신 대기 조건은 해제하되 원격 쓰기 승인은 별도다. 위치정보요약DB 조사는 중단하고 [대안 기록](juso-file-source-alternative.md)만 남긴다. 직접 문의147547의 접수 시각2026-10-13 21:14:43과 10/21 공개 답변0건은 확인했다. 별도 긍정 답변 날짜/원문은 미확인으로 ADR에 구분했다.
 
 [원격 dry-run/쓰기 범위](../validation/academy-g-remote-preflight-20261021.md) 보고 → 승인 대기 → G 원자적 승격/a~e 원격 대조 후 보고 → #40 migration push·사용자 머지·배포 한 세트 후 보고 → #41 완료 기준 확인/Ready 순서이며 각 단계에서 멈춘다. #40 머지 전 Vercel 서버 전용 JUSO_COORD_API_KEY 존재 확인을 요청한다. Kakao/Vworld 캐시·키 삭제는 계속 별도 승인이다.

@@ -1,0 +1,16 @@
+{
+  "retrieved_at": "2026-10-21T06:19:57.155424+00:00",
+  "page_url": "https://business.juso.go.kr/jsi/jsiInquiryDetails?qaPstUnqMgno=147547&qaPstRfrncMgno=147547&pageNumber=3&searchType=&keyword=",
+  "read_only_api_url": "https://business.juso.go.kr/api/jsi/qna-board/147547/147547",
+  "post_id": "147547",
+  "title": "[API]API 조회 결과(주소·좌표)의 해외 리전 클라우드 저장 가능 여부 문의",
+  "registered_at_source": "20261013211443",
+  "registered_at_display": "2026-10-13 21:14:43",
+  "source_timezone": "not specified in response",
+  "reply_count": 0,
+  "calendar_days_until_20261021": 8,
+  "calendar_days_note": "Date difference only; not eight complete 24-hour periods.",
+  "response_sha256": "ecc29ec621a7526b0be635ec2aafa5a8dc2df80ad0180165a5c4bd237ff47cb5",
+  "scope_summary": "검색/좌표 API 개별 조회 약 1만4천건의 도쿄 DB 저장·처리와 해외 원본 백업 허용 여부에 대한 질문.",
+  "interpretation": "사용자가 접수한 문의 원문이며 해외 전송 가능이라는 긍정 답변이 아님."
+}
