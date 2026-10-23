@@ -1,0 +1,109 @@
+{
+  "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+  "tables": [
+    {
+      "table": "public.academies",
+      "rows": 25527,
+      "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+      "binary_bytes": 7131644,
+      "file": "public.academies.bin.gz",
+      "gzip_sha256": "ecc7115d8df760954623d2e165ba5f8a5656e8cedd307013903a6717a022c38f"
+    },
+    {
+      "table": "public.schools",
+      "rows": 1320,
+      "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+      "binary_bytes": 267323,
+      "file": "public.schools.bin.gz",
+      "gzip_sha256": "eb51b6e71c3b28ab839835df85081b0144c7e9757d5445c242e80e05bbada520"
+    },
+    {
+      "table": "public.geocode_cache",
+      "rows": 27161,
+      "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+      "binary_bytes": 14639154,
+      "file": "public.geocode_cache.bin.gz",
+      "gzip_sha256": "dfa7ff8e28e221344622e19ad397cc98b7d947acd3ace8cd0a4de5a9eae963eb"
+    },
+    {
+      "table": "public.score_reference",
+      "rows": 162032,
+      "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+      "binary_bytes": 19778983,
+      "file": "public.score_reference.bin.gz",
+      "gzip_sha256": "89f0a1d7ea41d5976d9a5502e40a8bf5f2278528e13d9a880d6efd32f144f6ae"
+    },
+    {
+      "table": "public.score_reference_sets",
+      "rows": 1,
+      "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+      "binary_bytes": 8030,
+      "file": "public.score_reference_sets.bin.gz",
+      "gzip_sha256": "f40695aea53443f0eea2dd8d555800271634daa17fa757b875c0e079fce5c65c"
+    },
+    {
+      "table": "ingest_private.place_snapshots",
+      "rows": 3,
+      "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+      "binary_bytes": 13201,
+      "file": "ingest_private.place_snapshots.bin.gz",
+      "gzip_sha256": "84d1ba5b0c090ea46dd2fff82537e5892f52c39e088d370e8ae66e8883db1ae3"
+    },
+    {
+      "table": "ingest_private.refresh_snapshots",
+      "rows": 6,
+      "binary_sha256": "73fabb8447508dce72a9ce0bb1763f415b557cb14542e8eb191b3c22404c3500",
+      "binary_bytes": 26721,
+      "file": "ingest_private.refresh_snapshots.bin.gz",
+      "gzip_sha256": "0a386380be466598390f67268042b6bb54b7793020742221b5af616c1dc9ccb6"
+    },
+    {
+      "table": "ingest_private.ingest_runs",
+      "rows": 2,
+      "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+      "binary_bytes": 189,
+      "file": "ingest_private.ingest_runs.bin.gz",
+      "gzip_sha256": "777b26cec56b1ccb86d7ca052f8e124ca43055397203cfae43d9fecf005f4a19"
+    },
+    {
+      "table": "app_private.academy_display",
+      "rows": 25527,
+      "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+      "binary_bytes": 3106592,
+      "file": "app_private.academy_display.bin.gz",
+      "gzip_sha256": "b70754f337a709766efc9bf67099038e30d38b13f7c374afda57e96670dc949e"
+    },
+    {
+      "table": "app_private.academy_display_release",
+      "rows": 1,
+      "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+      "binary_bytes": 158,
+      "file": "app_private.academy_display_release.bin.gz",
+      "gzip_sha256": "53ffcd0984dd7c46256a1c1e5a6c29b9bcf870086ec66326fae98c014a1c49fb"
+    },
+    {
+      "table": "app_private.academy_coordinate_reviews",
+      "rows": 101,
+      "binary_sha256": "6f58161ae165f40635abd77eee0b1fc78b4b952578bfb9e0ec722fa5f63bbfcb",
+      "binary_bytes": 15127,
+      "file": "app_private.academy_coordinate_reviews.bin.gz",
+      "gzip_sha256": "d77191790ec1df44850a4c5d7d7ea2593ae5c28ee6ed3b886fae7b3f39b45553"
+    },
+    {
+      "table": "app_private.academy_layer_release",
+      "rows": 1,
+      "binary_sha256": "3235725899d0846ff8af57f75eb1a58ccddbf8c080e5336d1884ae53571519ff",
+      "binary_bytes": 509,
+      "file": "app_private.academy_layer_release.bin.gz",
+      "gzip_sha256": "dc10bb4daf59ead7074b194534511df2dfc0234560ee4ca87fea5c1c3ff5982c"
+    }
+  ],
+  "mode": "local_only",
+  "cache_and_keys_deleted": false,
+  "purpose": "promotion",
+  "reference_release": {
+    "snapshot": "20261016T040000Z",
+    "rows": 162032,
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+  }
+}

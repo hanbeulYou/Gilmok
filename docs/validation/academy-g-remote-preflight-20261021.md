@@ -80,3 +80,7 @@ Would push these migrations:
 ## 2026-10-22 후속
 
 ① 두 migration 원격 적용과 기존 45건 불변 확인을 완료했다. ② 검증에 Production 구 코드의 저장 비교 불일치 안내·새 채점 분포 ID 확인 및 Juso 99행의 갱신 전 rollback 검증을 추가했다. [실행 기록](academy-g-migrations-20261022.md)을 따른다. ②는 별도 승인 대기다.
+
+## 2026-10-23 현재 승격 후보 정정 — 원격 재개 전
+
+이 문서의 10/18 target manifest `081faf63…a1da7`은 시험 메타데이터 혼입으로 승격 후보에서 제외했다. 원천/분포 바이트는 같고 운영 메타데이터만 정정했다. 새 정본은 `gilmok_academy_transition_canonical_20261023`, 분포 **20261016T040000Z**, manifest SHA256 **b5d8d7d636a262a2c986be00a5d0ce52dcc09696435e9251968ba062bd1af604**다. [원인·검산](academy-g-metadata-repair-20261023.md)을 최신 기준으로 삼는다. 10/22 원격 백업은 재개용으로 만료했으며 재승인 후 새로 생성한다. ②는 재개하지 않았다.
