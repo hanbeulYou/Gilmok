@@ -16,6 +16,7 @@ from statistics import median
 import duckdb
 from psycopg import sql
 from psycopg.conninfo import conninfo_to_dict
+from psycopg.pq import TransactionStatus
 from psycopg.types.json import Jsonb
 
 from ingest import academies, schools
@@ -24,6 +25,7 @@ from ingest.academy_layer_release import prepare_reviews, publish_layer_release
 from ingest.academy_transition import local_connection, write_json
 from ingest.commerce_education_database import load_snapshot
 from ingest.common import ROOT, RawStore, Settings
+from ingest.reference_release_guard import validate_reference_release
 from ingest.refresh_monthly import execute_monthly
 from ingest.score_reference import collect_inputs, fingerprint, publish_reference, source_state
 
@@ -95,6 +97,42 @@ def backup(db, directory):
             report["tables"].append(row)
     write_json(path, report)
     return report
+
+
+def freeze_promotion(db, directory):
+    """Freeze a canonical release, not an arbitrary rollback/test snapshot."""
+    if db.info.transaction_status != TransactionStatus.IDLE:
+        raise ValueError("Promotion freeze needs its own read-only snapshot")
+    with db.transaction():
+        db.execute("set transaction isolation level repeatable read read only")
+        verified = validate_reference_release(db)
+        if verified["source_fingerprint"] != fingerprint(source_state(db)):
+            raise ValueError("Reference release does not match current sources")
+        report = backup(db, directory)
+        report.update(purpose="promotion", reference_release=verified)
+        write_json(directory / "rollback/manifest.json", report)
+    return report
+
+
+@contextmanager
+def rollback_probe(db):
+    """A local release probe can observe writes but may never leave test metadata."""
+    if db.info.host not in {"127.0.0.1", "localhost", "::1"} or not db.info.dbname.startswith(
+        "gilmok_academy_transition_"
+    ):
+        raise ValueError("Release probes require an isolated loopback transition database")
+    if db.info.transaction_status != TransactionStatus.IDLE:
+        raise ValueError("Release probes require a fresh transaction")
+    with db.transaction():
+        before = {table: table_digest(db, table) for table in BACKUP_TABLES}
+    try:
+        with db.transaction(force_rollback=True):
+            yield db
+    finally:
+        with db.transaction():
+            after = {table: table_digest(db, table) for table in BACKUP_TABLES}
+        if before != after:
+            raise ValueError("Release probe left changes outside its rollback transaction")
 
 
 def restore(db, directory):
@@ -421,7 +459,7 @@ def spatial(db, directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "stage", choices=("backup", "before", "spatial", "promote", "after", "rollback")
+        "stage", choices=("backup", "freeze", "before", "spatial", "promote", "after", "rollback")
     )
     parser.add_argument("--database-url", required=True)
     parser.add_argument("--directory", type=Path, required=True)
@@ -444,6 +482,8 @@ def main():
                 report = dict(stage=args.stage, cases=10)
             elif args.stage == "backup":
                 report = backup(db, args.directory)
+            elif args.stage == "freeze":
+                report = freeze_promotion(db, args.directory)
             elif args.stage == "spatial":
                 report = spatial(db, args.directory)
             else:
