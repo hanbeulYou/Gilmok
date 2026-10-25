@@ -1,5 +1,7 @@
 # G 원격 승격 — 2026-10-23
 
+> 후속: [2026-10-25 Production 재검증 통과](academy-g-production-recheck-20261025.md). 아래 중단 기록은 당시 이력이며 HTTP204 판정 오류는 후속 검증에서 해소했다.
+
 ② 재승인 범위로 새 백업 → staging → 단일 트랜잭션 승격 → 원격 채점 → Production 재열기를 수행했다. **COMMIT 완료. Production 검증 스크립트의 HTTP 상태 판정 오류에서 중단했으며 재실행하지 않았다.** ③ #40 push·머지·배포와 ④ #41 Ready는 진행하지 않았다. #39 Draft 유지.
 
 ## 고정 입력과 사전 점검
