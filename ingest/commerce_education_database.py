@@ -43,11 +43,18 @@ TABLE_COLUMNS = {
 }
 
 
-def attach_geocodes(connection, frame):
+def attach_geocodes(connection, frame, *, require_juso=False):
+    condition = (
+        "where provider='juso' and provenance->>'coordinate_policy'='juso_only' "
+        "and (geocode_failed or provenance#>>'{location,coordinate_provider}'='juso') "
+        if require_juso
+        else ""
+    )
     rows = connection.execute(
         "select address,provider,extensions.st_x(geom),extensions.st_y(geom),"
         "geocode_failed,failure_reason from public.geocode_cache "
-        "order by address,geocode_failed,"
+        + condition
+        + "order by address,geocode_failed,"
         "case provider when 'juso' then 0 when 'kakao' then 1 else 2 end"
     ).fetchall()
     cache = {}
@@ -110,7 +117,8 @@ def load_snapshot(connection, table, frame, *, source, version, raw_key, report)
             sql.SQL("alter table {} add primary key ({})").format(stage, sql.Identifier(identity))
         )
         with chunked_copy(
-                cursor, sql.SQL("copy {} ({}) from stdin").format(stage, identifiers)) as copy:
+            cursor, sql.SQL("copy {} ({}) from stdin").format(stage, identifiers)
+        ) as copy:
             for row in frame[columns].itertuples(index=False, name=None):
                 copy.write_row(tuple(None if pd.isna(value) else value for value in row))
         cursor.execute(

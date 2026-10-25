@@ -1,0 +1,355 @@
+{
+  "local_only": true,
+  "clone": "gilmok_academy_transition_release_20261018",
+  "forced_sqlstate": "P0001",
+  "failed_release_rollback_tables": 12,
+  "failure_seconds": 1.6030177092179656,
+  "source_rows": 25527,
+  "review_rows": 101,
+  "academy_reviews": 99,
+  "school_reviews": 2,
+  "before_restore": {
+    "passed": true,
+    "table_count": 12,
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+  },
+  "after_restore": {
+    "passed": true,
+    "table_count": 12,
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+  },
+  "stages": [
+    {
+      "source": "academies",
+      "changed": true,
+      "seconds": 0.003
+    },
+    {
+      "source": "score_reference",
+      "seconds": 0.001
+    },
+    {
+      "source": "academy_layer_release",
+      "seconds": 0.006
+    }
+  ],
+  "review_sha256": "38262a7d9e6d70620a3597c44f816aadd9393e8f3507cc27fdbb73a9049116e0",
+  "before_manifest": {
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+    "tables": [
+      {
+        "table": "public.academies",
+        "rows": 25527,
+        "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+        "binary_bytes": 7131644,
+        "file": "public.academies.bin.gz",
+        "gzip_sha256": "45172e21c05b740fe9ebdc3ce6e3c6588973947effae2ba7e57abd75e58d68f4"
+      },
+      {
+        "table": "public.schools",
+        "rows": 1320,
+        "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+        "binary_bytes": 267323,
+        "file": "public.schools.bin.gz",
+        "gzip_sha256": "012a928c6bbf294f2a19fe35ff447fd509ce557203fe4b06cc3237c309bc9925"
+      },
+      {
+        "table": "public.geocode_cache",
+        "rows": 27161,
+        "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+        "binary_bytes": 14639154,
+        "file": "public.geocode_cache.bin.gz",
+        "gzip_sha256": "673e25363602675c1fc18cbfb242f98546f27662fc82ead94d77860f6a06fa50"
+      },
+      {
+        "table": "public.score_reference",
+        "rows": 162032,
+        "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+        "binary_bytes": 19778983,
+        "file": "public.score_reference.bin.gz",
+        "gzip_sha256": "2c682c4dc0ad79ab5e510bb54d7b99f4561032c71f79b9f88e5dd7efdbfef93a"
+      },
+      {
+        "table": "public.score_reference_sets",
+        "rows": 1,
+        "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+        "binary_bytes": 8030,
+        "file": "public.score_reference_sets.bin.gz",
+        "gzip_sha256": "7d9805af84c57fcd00cb6c3ed3ea32facc6393e5475c9872cf81fae292b2d1f0"
+      },
+      {
+        "table": "ingest_private.place_snapshots",
+        "rows": 3,
+        "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+        "binary_bytes": 13201,
+        "file": "ingest_private.place_snapshots.bin.gz",
+        "gzip_sha256": "28b4eaf0710be3c653dec90fca13a6fff5d4ef8c391fc498704e979e9734c777"
+      },
+      {
+        "table": "ingest_private.refresh_snapshots",
+        "rows": 6,
+        "binary_sha256": "73fabb8447508dce72a9ce0bb1763f415b557cb14542e8eb191b3c22404c3500",
+        "binary_bytes": 26721,
+        "file": "ingest_private.refresh_snapshots.bin.gz",
+        "gzip_sha256": "0aeafbfd5a7edb47cc9912b112bdb52110388605ebab84b2c63f5113cc9d75ad"
+      },
+      {
+        "table": "ingest_private.ingest_runs",
+        "rows": 2,
+        "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+        "binary_bytes": 189,
+        "file": "ingest_private.ingest_runs.bin.gz",
+        "gzip_sha256": "c68bb2c99e4ccdfb5a161ad252cfa7162ea281b35c7b702bd5ebb216d17679a8"
+      },
+      {
+        "table": "app_private.academy_display",
+        "rows": 25527,
+        "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+        "binary_bytes": 3106592,
+        "file": "app_private.academy_display.bin.gz",
+        "gzip_sha256": "362e9c9593abc4a92bb22af6abd8d12590ac9d5a61ea6464b8e7a3236cb5d063"
+      },
+      {
+        "table": "app_private.academy_display_release",
+        "rows": 1,
+        "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+        "binary_bytes": 158,
+        "file": "app_private.academy_display_release.bin.gz",
+        "gzip_sha256": "6c9f106ec1fb7ab65902292a174159840d04ff05a8a8d2e34c2b650c91e43abf"
+      },
+      {
+        "table": "app_private.academy_coordinate_reviews",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21,
+        "file": "app_private.academy_coordinate_reviews.bin.gz",
+        "gzip_sha256": "53c5f74a865ef49744259040f7fb451cc545ae5b2dc7d9f36efe813e8d419c77"
+      },
+      {
+        "table": "app_private.academy_layer_release",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21,
+        "file": "app_private.academy_layer_release.bin.gz",
+        "gzip_sha256": "cba21941fd2a7c77a9b01f6d0b9a797fbfbc39b625e1d61432dff862c9756e6d"
+      }
+    ],
+    "mode": "local_only",
+    "cache_and_keys_deleted": false
+  },
+  "after_manifest": {
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+    "tables": [
+      {
+        "table": "public.academies",
+        "rows": 25527,
+        "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+        "binary_bytes": 7131644,
+        "file": "public.academies.bin.gz",
+        "gzip_sha256": "53ad6a2f89832dd78eb2a7f7dd7c1009bdf71e1a729d861fb73d6708be85554a"
+      },
+      {
+        "table": "public.schools",
+        "rows": 1320,
+        "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+        "binary_bytes": 267323,
+        "file": "public.schools.bin.gz",
+        "gzip_sha256": "aa2e0eb322ce0cae8e3e3b422516cc5f94d11fa67939411efec6d9a4424a3f62"
+      },
+      {
+        "table": "public.geocode_cache",
+        "rows": 27161,
+        "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+        "binary_bytes": 14639154,
+        "file": "public.geocode_cache.bin.gz",
+        "gzip_sha256": "b537f147c6161fa25cc92917a543d2faf2cdf16bb1c9f884a4cd6cf46a66cb42"
+      },
+      {
+        "table": "public.score_reference",
+        "rows": 162032,
+        "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+        "binary_bytes": 19778983,
+        "file": "public.score_reference.bin.gz",
+        "gzip_sha256": "d567b1efa919a415b52fe30ed09acdf31df8bff14fdf4810b14677bd6336b04f"
+      },
+      {
+        "table": "public.score_reference_sets",
+        "rows": 1,
+        "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+        "binary_bytes": 8030,
+        "file": "public.score_reference_sets.bin.gz",
+        "gzip_sha256": "063e124e95fcab5e7555a6add1dab2e26f437eb2bcd270642bd580701b32bc7d"
+      },
+      {
+        "table": "ingest_private.place_snapshots",
+        "rows": 3,
+        "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+        "binary_bytes": 13201,
+        "file": "ingest_private.place_snapshots.bin.gz",
+        "gzip_sha256": "767e8a0923c35c9876aa15df8a51c602029cb6daa577070285d06ebd8ef74891"
+      },
+      {
+        "table": "ingest_private.refresh_snapshots",
+        "rows": 6,
+        "binary_sha256": "6703acc2fa3521817b0486c3e153e214c09e4bd750df32b541824898713fd3d6",
+        "binary_bytes": 16943,
+        "file": "ingest_private.refresh_snapshots.bin.gz",
+        "gzip_sha256": "8b96bd7bf6eb2c383d6a4f3a88aa81fdaa3f076d65e07776d62102b585a9a8be"
+      },
+      {
+        "table": "ingest_private.ingest_runs",
+        "rows": 2,
+        "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+        "binary_bytes": 189,
+        "file": "ingest_private.ingest_runs.bin.gz",
+        "gzip_sha256": "1caa9100e34e92313db15a40c1d45fca1cae1763891d50b83d5af8671495b713"
+      },
+      {
+        "table": "app_private.academy_display",
+        "rows": 25527,
+        "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+        "binary_bytes": 3106592,
+        "file": "app_private.academy_display.bin.gz",
+        "gzip_sha256": "8a4b6c68fe926141f25ebf7ebe2a1406fd273d2d1ed4c3b042e3f93a44256aa0"
+      },
+      {
+        "table": "app_private.academy_display_release",
+        "rows": 1,
+        "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+        "binary_bytes": 158,
+        "file": "app_private.academy_display_release.bin.gz",
+        "gzip_sha256": "e195a954fee9e3aef922e45eb43772f72d7437486d230ad6d1e8fb5171fbe531"
+      },
+      {
+        "table": "app_private.academy_coordinate_reviews",
+        "rows": 101,
+        "binary_sha256": "6f58161ae165f40635abd77eee0b1fc78b4b952578bfb9e0ec722fa5f63bbfcb",
+        "binary_bytes": 15127,
+        "file": "app_private.academy_coordinate_reviews.bin.gz",
+        "gzip_sha256": "bf0bb2c027eafc704433b432af5d35a7a78f6b3f0551fad05e4d545530bd50e6"
+      },
+      {
+        "table": "app_private.academy_layer_release",
+        "rows": 1,
+        "binary_sha256": "3235725899d0846ff8af57f75eb1a58ccddbf8c080e5336d1884ae53571519ff",
+        "binary_bytes": 509,
+        "file": "app_private.academy_layer_release.bin.gz",
+        "gzip_sha256": "c2bf39e66c9b9f862ba00c34136f53f1270c5dabefc23dc9a2a1bcea6158a0ae"
+      }
+    ],
+    "mode": "local_only",
+    "cache_and_keys_deleted": false
+  },
+  "rpc_size_matches": [
+    {
+      "label": "a",
+      "radius_m": 800,
+      "raw_bytes": 527276
+    },
+    {
+      "label": "a",
+      "radius_m": 1000,
+      "raw_bytes": 598041
+    },
+    {
+      "label": "b",
+      "radius_m": 800,
+      "raw_bytes": 574436
+    },
+    {
+      "label": "b",
+      "radius_m": 1000,
+      "raw_bytes": 635425
+    },
+    {
+      "label": "c",
+      "radius_m": 800,
+      "raw_bytes": 296613
+    },
+    {
+      "label": "c",
+      "radius_m": 1000,
+      "raw_bytes": 420038
+    },
+    {
+      "label": "d",
+      "radius_m": 800,
+      "raw_bytes": 527276
+    },
+    {
+      "label": "d",
+      "radius_m": 1000,
+      "raw_bytes": 598041
+    },
+    {
+      "label": "e",
+      "radius_m": 800,
+      "raw_bytes": 527276
+    },
+    {
+      "label": "e",
+      "radius_m": 1000,
+      "raw_bytes": 598041
+    },
+    {
+      "label": "다사60754425",
+      "radius_m": 800,
+      "raw_bytes": 592484
+    },
+    {
+      "label": "다사60754450",
+      "radius_m": 800,
+      "raw_bytes": 591194
+    },
+    {
+      "label": "다사61004425",
+      "radius_m": 800,
+      "raw_bytes": 571497
+    },
+    {
+      "label": "다사61004450",
+      "radius_m": 800,
+      "raw_bytes": 560421
+    },
+    {
+      "label": "다사60504425",
+      "radius_m": 800,
+      "raw_bytes": 555138
+    },
+    {
+      "label": "다사60754475",
+      "radius_m": 800,
+      "raw_bytes": 528393
+    },
+    {
+      "label": "다사60504450",
+      "radius_m": 800,
+      "raw_bytes": 523914
+    },
+    {
+      "label": "다사60754400",
+      "radius_m": 800,
+      "raw_bytes": 521440
+    },
+    {
+      "label": "다사60504475",
+      "radius_m": 800,
+      "raw_bytes": 513049
+    },
+    {
+      "label": "다사61004475",
+      "radius_m": 800,
+      "raw_bytes": 497750
+    }
+  ],
+  "legacy_10_table_restore": {
+    "passed": true,
+    "table_count": 10,
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+  },
+  "after_legacy_restore": {
+    "passed": true,
+    "table_count": 12,
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+  }
+}

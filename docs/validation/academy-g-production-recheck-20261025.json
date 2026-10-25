@@ -1,0 +1,403 @@
+{
+  "started_at": "2026-10-25T12:21:14.123Z",
+  "finished_at": "2026-10-25T12:21:26.536Z",
+  "status": "passed",
+  "matrix": [
+    {
+      "alias": "b",
+      "total": "92.78765813947193",
+      "display": "92.79점",
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "value": "99.76300977584674"
+        },
+        {
+          "key": "flow",
+          "value": "98.7976947535771"
+        },
+        {
+          "key": "transit",
+          "value": "81.81701931840821"
+        },
+        {
+          "key": "cluster",
+          "value": "99.54344030471255"
+        },
+        {
+          "key": "exposure",
+          "value": "46.25954198473283"
+        },
+        {
+          "key": "building",
+          "value": "95"
+        },
+        {
+          "key": "environment",
+          "value": "87.65344088005983"
+        },
+        {
+          "key": "rent_efficiency",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "alias": "e",
+      "total": "84.99373969850619",
+      "display": "84.99점",
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "value": "96.30690234027847"
+        },
+        {
+          "key": "flow",
+          "value": "99.29451510333864"
+        },
+        {
+          "key": "transit",
+          "value": "38.336803260049486"
+        },
+        {
+          "key": "cluster",
+          "value": "97.45241833547216"
+        },
+        {
+          "key": "exposure",
+          "value": "38.38383838383838"
+        },
+        {
+          "key": "building",
+          "value": "100"
+        },
+        {
+          "key": "environment",
+          "value": "93.40459174952771"
+        },
+        {
+          "key": "rent_efficiency",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "alias": "a",
+      "total": "83.01075192604473",
+      "display": "83.01점",
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "value": "96.30690234027847"
+        },
+        {
+          "key": "flow",
+          "value": "99.29451510333864"
+        },
+        {
+          "key": "transit",
+          "value": "38.336803260049486"
+        },
+        {
+          "key": "cluster",
+          "value": "97.45241833547216"
+        },
+        {
+          "key": "exposure",
+          "value": "30.707070707070706"
+        },
+        {
+          "key": "building",
+          "value": "85"
+        },
+        {
+          "key": "environment",
+          "value": "93.40459174952771"
+        },
+        {
+          "key": "rent_efficiency",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "alias": "c",
+      "total": "82.20961647714019",
+      "display": "82.21점",
+      "confidence": 85,
+      "axes": [
+        {
+          "key": "demand",
+          "value": "84.15127875975116"
+        },
+        {
+          "key": "flow",
+          "value": "96.83028616852147"
+        },
+        {
+          "key": "transit",
+          "value": "60.78723216127797"
+        },
+        {
+          "key": "cluster",
+          "value": "83.87151520025675"
+        },
+        {
+          "key": "exposure",
+          "value": "50.624999999999986"
+        },
+        {
+          "key": "building",
+          "value": "95"
+        },
+        {
+          "key": "environment",
+          "value": "91.98293991698833"
+        },
+        {
+          "key": "rent_efficiency",
+          "value": "null"
+        }
+      ]
+    },
+    {
+      "alias": "d",
+      "total": "81.75610014507716",
+      "display": "81.76점",
+      "confidence": 90,
+      "axes": [
+        {
+          "key": "demand",
+          "value": "96.30690234027847"
+        },
+        {
+          "key": "flow",
+          "value": "99.29451510333864"
+        },
+        {
+          "key": "transit",
+          "value": "38.336803260049486"
+        },
+        {
+          "key": "cluster",
+          "value": "97.45241833547216"
+        },
+        {
+          "key": "exposure",
+          "value": "26.868686868686865"
+        },
+        {
+          "key": "building",
+          "value": "75"
+        },
+        {
+          "key": "environment",
+          "value": "93.40459174952771"
+        },
+        {
+          "key": "rent_efficiency",
+          "value": "null"
+        }
+      ]
+    }
+  ],
+  "checks": {
+    "real_production": true,
+    "old_saved_comparison_new_scoring": true,
+    "unrounded_five_scores_match": true,
+    "confidence_and_ranking_match": true,
+    "new_snapshot_in_live_rpc": true,
+    "reference_mismatch_notice_visible": false
+  },
+  "saved_comparison": {
+    "reference_snapshot": "20261012T013000Z",
+    "model_version": "0.4.0",
+    "candidates": 5
+  },
+  "rpc": [
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "touch_user_activity",
+      "status": 204
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "compare_map_context",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "load_comparison",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "score_inputs",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "exposure_inputs_v022",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    },
+    {
+      "name": "score_reference_percentiles",
+      "status": 200
+    }
+  ],
+  "live_references": [
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    }
+  ],
+  "data_date": {
+    "text": "데이터 출처·기준일\n\n채점 시각 2026-10-25T12:21:23.801931+00:00 · 기준분포 20261016T040000Z\n\nstores\n상세 값 보기\nschools\n상세 값 보기\nacademies\n상세 값 보기\nrent_survey\n상세 값 보기\nbuilding_shp\n상세 값 보기\nbuilding_wfs\n상세 값 보기\nbus_positions\n상세 값 보기\ntransit_counts\n상세 값 보기\nbuilding_floors\n상세 값 보기\npopulation_grid\n상세 값 보기\nadmin_boundaries\n상세 값 보기\nbuilding_address\n상세 값 보기\nlegal_boundaries\n상세 값 보기\nsubway_positions\n상세 값 보기\ncommercial_trades\n상세 값 보기\nliving_population\n상세 값 보기\nbuilding_registers\n상세 값 보기\nresident_population\n상세 값 보기",
+    "expected_snapshot": "20261016T040000Z",
+    "old_snapshot_absent": true
+  },
+  "signup_count": 0,
+  "errors": [],
+  "reference_notice_text": [],
+  "http_policy": {
+    "touch_user_activity": [
+      200,
+      204
+    ],
+    "other_rpc": [
+      200
+    ]
+  },
+  "verification_script_sha256": "b127e21b45d9822e35365a1b5dd8ff28af50dc7c6abd5c43c8d1240f075581bf",
+  "attempt_1": {
+    "status": "timeout in post-verification evidence close; score and date assertions passed",
+    "artifact_sha256": "28e01b658817585bfb1d9d25f398ca8fe016b724eb45a1be75014399905a7ba3"
+  },
+  "scope": "real Production only; no synthetic/stubbed RPC; same anonymous uid; no data promotion or migration or deploy"
+}

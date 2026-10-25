@@ -1,0 +1,167 @@
+{
+  "status": "stopped_before_remote_staging_or_promotion",
+  "reason": "frozen target refresh_snapshots(score_reference) differs from intended reference release",
+  "target_manifest_sha256": "081faf63127aca46fe5c9d716959d7ec85db03dc4ceb9c6c898b285f5a2a1da7",
+  "target_manifest_unchanged": true,
+  "target_reference": "20261016T040000Z",
+  "metadata_difference": {
+    "table": "ingest_private.refresh_snapshots",
+    "source": "score_reference",
+    "changed_fields": {
+      "committed_at": {
+        "remote_before": "2026-10-12T04:24:53.209302+00:00",
+        "target": "2026-10-18T09:16:25.935924+00:00"
+      },
+      "manifest": {
+        "remote_before_sha256": "7f905975e70e452fa42ce2b4fd22d4b19f3d634b5f608dc0334aa51cb7b49882",
+        "remote_before_nonempty": true,
+        "target": {}
+      },
+      "period_end": {
+        "remote_before": "2026-10-12",
+        "target": "2026-10-18"
+      },
+      "snapshot": {
+        "remote_before": "20261012T013000Z",
+        "target": "20261018T091000Z"
+      }
+    }
+  },
+  "backup": {
+    "path": "/Users/hanbyeol/Desktop/gilmok/.local/worktrees/s3-academy-coordinate-transition/.local/g-promotion-20261022/rollback/manifest.json",
+    "sha256": "bf759b8e4e600c133198f5c72615738caac9f5080b5f782a242f038f2db278b2",
+    "status": "verified",
+    "seconds": 25.524999957997352,
+    "table_count": 12,
+    "provider_before": {
+      "juso": {
+        "rows": 99,
+        "binary_sha256": "067a9cfd55eb8672596cb969a816af50f7b2c0d1421fd25b197d2523b364fb4f",
+        "binary_bytes": 71379
+      },
+      "kakao": {
+        "rows": 13542,
+        "binary_sha256": "ac2cfca7dc9d92eda0c9dc2c2480732d38e921cab0329b8813819062cccbd5a7",
+        "binary_bytes": 2164693
+      },
+      "vworld": {
+        "rows": 28,
+        "binary_sha256": "35c6b26a509c15f9c9c7ef0a2b0910a11a6c8b46dec5cd5254bec99b364d0d59",
+        "binary_bytes": 4574
+      }
+    },
+    "juso_99_prior_values_included": true
+  },
+  "rehearsal": {
+    "started_at": "2026-10-22T08:42:55.022092+00:00",
+    "mode": "rehearsal",
+    "target_manifest_sha256": "081faf63127aca46fe5c9d716959d7ec85db03dc4ceb9c6c898b285f5a2a1da7",
+    "stages": [],
+    "commit_attempted": false,
+    "committed": false,
+    "status": "failed",
+    "failure_phase": "staging",
+    "error_type": "AssertionError",
+    "error_message": "('unrelated provenance differs', 'ingest_private.refresh_snapshots')",
+    "rollback_acknowledged": true,
+    "seconds": 4.518373250029981,
+    "finished_at": "2026-10-22T08:42:59.540741+00:00"
+  },
+  "remote_after_stop": {
+    "remote_promotion_executed": false,
+    "remote_fingerprint_now": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+    "remote_reference_now": [
+      [
+        "20261012T013000Z",
+        "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8"
+      ]
+    ],
+    "remote_reference_rows": 162032,
+    "remote_layer_release_rows": 0,
+    "remote_12_tables_unchanged": {
+      "public.academies": true,
+      "public.schools": true,
+      "public.geocode_cache": true,
+      "public.score_reference": true,
+      "public.score_reference_sets": true,
+      "ingest_private.place_snapshots": true,
+      "ingest_private.refresh_snapshots": true,
+      "ingest_private.ingest_runs": true,
+      "app_private.academy_display": true,
+      "app_private.academy_display_release": true,
+      "app_private.academy_coordinate_reviews": true,
+      "app_private.academy_layer_release": true
+    },
+    "remote_protected_unchanged": {
+      "app_private.address_daily_usage": true,
+      "app_private.candidate_lookup_watchers": true,
+      "app_private.projection_errors": true,
+      "app_private.user_activity": true,
+      "ingest_private.address_daily_usage": true,
+      "ingest_private.building_address_cache": true,
+      "ingest_private.building_address_requests": true,
+      "ingest_private.ingest_runs": true,
+      "public.candidate_lookup_status": true,
+      "public.candidates": true,
+      "public.comparisons": true,
+      "public.user_weight_presets": true
+    },
+    "remote_auth_unchanged": true
+  },
+  "metrics": {
+    "interval_seconds": 506.45287680625916,
+    "cpu_non_idle_percent": 5.5089690089587,
+    "cpu_mode_seconds": {
+      "idle": 955.5500000000466,
+      "iowait": 4.1099999999999,
+      "irq": 0.0,
+      "nice": 0.02999999999999403,
+      "softirq": 0.5199999999999818,
+      "steal": 2.639999999999418,
+      "system": 4.710000000000036,
+      "user": 43.69999999999891
+    },
+    "data_device_io_delta": {
+      "node_disk_read_time_seconds_total": 2.0870000000000033,
+      "node_disk_io_time_weighted_seconds_total": 6.6699999999999875,
+      "node_disk_discard_time_seconds_total": 0.0,
+      "node_disk_discarded_sectors_total": 0.0,
+      "node_disk_written_bytes_total": 367534080.0,
+      "node_disk_io_time_seconds_total": 2.066999999999993,
+      "node_disk_read_bytes_total": 223178752.0,
+      "node_disk_reads_merged_total": 500.0,
+      "node_disk_writes_completed_total": 1553.0,
+      "node_disk_reads_completed_total": 2354.0,
+      "node_disk_write_time_seconds_total": 4.581999999999994,
+      "node_disk_filesystem_info": 0.0,
+      "node_disk_writes_merged_total": 159.0,
+      "node_disk_flush_requests_time_seconds_total": 0.0,
+      "node_disk_flush_requests_total": 0.0,
+      "node_disk_discards_merged_total": 0.0,
+      "node_disk_io_now": 0.0,
+      "node_disk_discards_completed_total": 0.0,
+      "node_disk_info": 0.0
+    },
+    "scope": "Project-wide cumulative metrics across read-only preflight/backup/diagnosis and local rehearsal; no remote promotion, not promotion CPU/IO",
+    "disk_available_bytes": [
+      6958792704.0
+    ]
+  },
+  "checks_not_run": [
+    "remote staging",
+    "remote promotion transaction/COMMIT",
+    "post-promotion a-e scores/confidence/ranks/missing axes",
+    "Production saved-comparison reference mismatch UI",
+    "Production new reference scoring"
+  ],
+  "execution_script_sha256": {
+    "rehearse.py": "87db23494f8b05f19bba84d5b54eb93e86e9d4504b6fc5b4f4bff2b726ea54fe",
+    "observe_stop.py": "2297d6e58cc7b61b3bc260c7a83284a0d63694f7c6e7f6db62cbbb3e1f92a0cf",
+    "write_stop_report.py": "45aec26d95c0caef619921d3b5396b906039bcca7c9805ea66a34ac81441a7d8",
+    "common.py": "fd3e9a5c5b3631e5f7e834bf47f48333677fc2b7f9770af5315313325d877527",
+    "promote_frozen.py": "bd9bfb8d909385ad398302942e86471803bceba3b6d9b75c522773c5040fa054",
+    "backup_remote.py": "080c63eead9272c7bc846d938cef4180d4691fdf9ea6203f7449be317affb19f",
+    "diagnose_staging.py": "ad6e170aeca2f1f910fc38d70b13602a683acf7edd45c93bf251463ce56d1958",
+    "preflight.py": "ed5b4a594045884c2aa6e0b641a65cd823059709566ea3bcf6f296e27e398687"
+  }
+}
