@@ -223,4 +223,7 @@ def batch_request_address(connection, address, key, coordinate_key):
             (x, y),
         ).fetchone()
 
-    return resolve_address(address, key, JusoCoordinates(coordinate_key, project))
+    return dict(
+        resolve_address(address, key, JusoCoordinates(coordinate_key, project)),
+        coordinate_policy="juso_only",
+    )
