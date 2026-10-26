@@ -1,0 +1,324 @@
+{
+  "status": "deployed; registration and DB checks verified; full E2E failed on initial activity 401",
+  "migration": {
+    "filename": "20261021000000_juso_registration_coordinates.sql",
+    "sha256": "b904c835d1695ad439a2737a552071face389a40aa96d734ae170de92cc576df",
+    "dry_run_exit": 0,
+    "pending": [
+      "20261021000000_juso_registration_coordinates.sql"
+    ],
+    "push": {
+      "started_at": "2026-10-25T13:12:42.681417+00:00",
+      "filename": "20261021000000_juso_registration_coordinates.sql",
+      "sha256": "b904c835d1695ad439a2737a552071face389a40aa96d734ae170de92cc576df",
+      "include_all": false,
+      "status": "verified",
+      "exit_code": 0,
+      "seconds": 0.5476144999265671,
+      "output": "Finished supabase db push.\n\nUsing workdir /Users/hanbyeol/Desktop/gilmok/.local/worktrees/s3-vworld-retirement-plan/.local/juso-release-20261025/cli\nConnecting to remote database...\nDo you want to push these migrations to the remote database?\n • 20261021000000_juso_registration_coordinates.sql\n\n [Y/n] y\nApplying migration 20261021000000_juso_registration_coordinates.sql...\nA new version of Supabase CLI is available: v2.122.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n",
+      "history_after": 48,
+      "history_old_47_unchanged": true,
+      "candidates_11_unchanged": true,
+      "legacy_quota_13_unchanged": true,
+      "juso_coordinate_initial_zero": true,
+      "acl": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "finished_at": "2026-10-25T13:12:43.935617+00:00"
+    }
+  },
+  "production": {
+    "started_at": "2026-10-26T14:53:52.668Z",
+    "finished_at": "2026-10-26T14:53:57.886Z",
+    "status": "failed",
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+    "signup_count": 1,
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 401
+      },
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "save_comparison_v2",
+        "status": 200
+      }
+    ],
+    "addresses": [
+      {
+        "action": "search",
+        "status": 200,
+        "region": "icn1",
+        "result": {
+          "total": 2,
+          "choices": [
+            {
+              "provider": "juso",
+              "admCd": "1168010600",
+              "mtYn": "0",
+              "lnbrMnnm": "912",
+              "lnbrSlno": "13",
+              "pnu": "1168010600109120013",
+              "rnMgtSn": "116803122008",
+              "udrtYn": "0",
+              "buldMnnm": "460",
+              "buldSlno": "0",
+              "bdMgtSn": "1168010600109120013012822",
+              "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+              "jibunAddr": "서울특별시 강남구 대치동 912-13",
+              "bdNm": "",
+              "rn": "역삼로",
+              "sggNm": "강남구",
+              "emdNm": "대치동"
+            },
+            {
+              "provider": "juso",
+              "admCd": "1168010600",
+              "mtYn": "0",
+              "lnbrMnnm": "912",
+              "lnbrSlno": "12",
+              "pnu": "1168010600109120012",
+              "rnMgtSn": "116803122008",
+              "udrtYn": "0",
+              "buldMnnm": "460",
+              "buldSlno": "2",
+              "bdMgtSn": "1168010600109120012012881",
+              "roadAddrPart1": "서울특별시 강남구 역삼로 460-2",
+              "jibunAddr": "서울특별시 강남구 대치동 912-12 뉴원빌딩",
+              "bdNm": "뉴원빌딩",
+              "rn": "역삼로",
+              "sggNm": "강남구",
+              "emdNm": "대치동"
+            }
+          ]
+        }
+      },
+      {
+        "action": "locate",
+        "status": 200,
+        "region": "icn1",
+        "result": {
+          "selection": {
+            "provider": "juso",
+            "admCd": "1168010600",
+            "mtYn": "0",
+            "lnbrMnnm": "912",
+            "lnbrSlno": "13",
+            "pnu": "1168010600109120013",
+            "rnMgtSn": "116803122008",
+            "udrtYn": "0",
+            "buldMnnm": "460",
+            "buldSlno": "0",
+            "bdMgtSn": "1168010600109120013012822",
+            "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+            "jibunAddr": "서울특별시 강남구 대치동 912-13",
+            "bdNm": "",
+            "rn": "역삼로",
+            "sggNm": "강남구",
+            "emdNm": "대치동"
+          },
+          "location": {
+            "status": "ready",
+            "lng": 127.057585444512,
+            "lat": 37.5025724246771,
+            "coordinate_provider": "juso",
+            "source_crs": "EPSG:5179",
+            "source_x": 960896.1846965668,
+            "source_y": 1944903.6257312004,
+            "reason": null
+          },
+          "resolved": {
+            "lat": 37.5025724246771,
+            "lng": 127.057585444512,
+            "pnu": "1168010600109120013",
+            "status": "matched",
+            "context": {
+              "inside_seoul": true,
+              "legal_dong_names": {
+                "11680106": "대치동"
+              },
+              "seoul_boundary_distance_m": 4689.58122276
+            },
+            "building": {
+              "id": "shp:1980205023774444864800000000",
+              "pnu": "1168010600109120013",
+              "register_pk": "1024123872"
+            },
+            "covering_building_count": 1
+          }
+        }
+      }
+    ],
+    "located": {
+      "selection": {
+        "provider": "juso",
+        "admCd": "1168010600",
+        "mtYn": "0",
+        "lnbrMnnm": "912",
+        "lnbrSlno": "13",
+        "pnu": "1168010600109120013",
+        "rnMgtSn": "116803122008",
+        "udrtYn": "0",
+        "buldMnnm": "460",
+        "buldSlno": "0",
+        "bdMgtSn": "1168010600109120013012822",
+        "roadAddrPart1": "서울특별시 강남구 역삼로 460",
+        "jibunAddr": "서울특별시 강남구 대치동 912-13",
+        "bdNm": "",
+        "rn": "역삼로",
+        "sggNm": "강남구",
+        "emdNm": "대치동"
+      },
+      "location": {
+        "status": "ready",
+        "lng": 127.057585444512,
+        "lat": 37.5025724246771,
+        "coordinate_provider": "juso",
+        "source_crs": "EPSG:5179",
+        "source_x": 960896.1846965668,
+        "source_y": 1944903.6257312004,
+        "reason": null
+      },
+      "resolved": {
+        "lat": 37.5025724246771,
+        "lng": 127.057585444512,
+        "pnu": "1168010600109120013",
+        "status": "matched",
+        "context": {
+          "inside_seoul": true,
+          "legal_dong_names": {
+            "11680106": "대치동"
+          },
+          "seoul_boundary_distance_m": 4689.58122276
+        },
+        "building": {
+          "id": "shp:1980205023774444864800000000",
+          "pnu": "1168010600109120013",
+          "register_pk": "1024123872"
+        },
+        "covering_building_count": 1
+      }
+    },
+    "total": 83.01156632018979,
+    "display": "83.01점",
+    "confidence": "90",
+    "axes": [
+      {
+        "key": "demand",
+        "score": "96.30690234027847"
+      },
+      {
+        "key": "flow",
+        "score": "99.29451510333864"
+      },
+      {
+        "key": "transit",
+        "score": "38.3419610896348"
+      },
+      {
+        "key": "cluster",
+        "score": "97.45241833547216"
+      },
+      {
+        "key": "exposure",
+        "score": "30.707070707070706"
+      },
+      {
+        "key": "building",
+        "score": "85"
+      },
+      {
+        "key": "environment",
+        "score": "93.40459174952771"
+      },
+      {
+        "key": "rent_efficiency",
+        "score": "null"
+      }
+    ],
+    "reference": {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    "errors": []
+  },
+  "database": {
+    "status": "core_data_verified",
+    "production_test_status": "failed",
+    "saved_provider": "juso",
+    "source_crs": "EPSG:5179",
+    "lat": 37.5025724246771,
+    "lng": 127.057585444512,
+    "pnu": "1168010600109120013",
+    "registration_status": "matched",
+    "old_candidates_preserved": 11,
+    "preserved_fields": [
+      "geom",
+      "pnu",
+      "address_provenance"
+    ],
+    "legacy_quota_rows_preserved": 13,
+    "actual_request_quota": {
+      "total": 3,
+      "juso_search": 2,
+      "juso_coordinate": 1,
+      "vworld_coordinate": 0,
+      "day_kst": "2026-10-26"
+    },
+    "single_candidate_saved": true,
+    "reference": {
+      "snapshot": "20261016T040000Z",
+      "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    }
+  },
+  "deployment": {
+    "merge_sha": "8caadcb32ffb57c06aa577bcb1ecb3d882572bdc",
+    "deployment_id": "dpl_6mJsx73iuKf3SppE28fyRyqvvnmc",
+    "alias": "https://gilmok-weld.vercel.app",
+    "url": "https://gilmok-7i58f66aq-vineyard.vercel.app",
+    "ready_utc": "2026-10-26T14:46:17Z"
+  },
+  "verification": {
+    "lint": 0,
+    "typecheck": 0,
+    "unit_tests": 0,
+    "production_e2e": 1
+  },
+  "no_actions": [
+    "no existing-coordinate replacement",
+    "no key deletion",
+    "no stage IV"
+  ],
+  "artifact_sha256": {
+    "production.json": "078ada7dc8fc79372ae89116c61541aaa8574b3f0d56f9b4b26720a2c527500e",
+    "db-verification.json": "b540bad9e118e20d4f0b3e92727a965d6913c49e3a23cfc2c47540b3d87bfce8",
+    "registration.spec.ts": "32be884e22966174a6a7cd051b83e2286e610d284e550acf8cdafe547485e6f3",
+    "playwright.log": "f217a761f908ae00c7b24335f473c2f234386b8cc8ecf0302467bc5db9327f61"
+  }
+}
