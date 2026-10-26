@@ -1,0 +1,2531 @@
+{
+  "local_only": true,
+  "remote_writes": 0,
+  "migrations_added": 0,
+  "node_version": "v22.22.0",
+  "school_baseline": "G Juso-only 20261012T175142Z exact replay",
+  "crs": {
+    "file_metadata_url": "https://www.data.go.kr/tcs/dss/selectDpkDetailInfo.do",
+    "detail_pk": "uddi:9793c2f7-4dba-49ed-bf64-8c6cfd56102a",
+    "metadata_sha256": "2078e55dd0ffbc0cbd00be96d89b7d99bbd46ae6ed4904831efde6ba431da5c2",
+    "explicit_crs_tokens": [],
+    "pairs": 1229,
+    "east_m": {
+      "min": -422.051404149475,
+      "p05": -98.6564182927832,
+      "median": -0.00429474192787893,
+      "p95": 117.975758971879,
+      "max": 319.827065228485,
+      "positive": 586,
+      "negative": 643
+    },
+    "north_m": {
+      "min": -269.101350765093,
+      "p05": -72.4137242910219,
+      "median": 14.3885283756536,
+      "p95": 127.371446750825,
+      "max": 333.940595822292,
+      "positive": 796,
+      "negative": 433
+    }
+  },
+  "schools": {
+    "local_only": true,
+    "after_state_retained": true,
+    "existing_juso_geometry_exact": 1241,
+    "filled": 73,
+    "held": 3,
+    "changed_school_rows": 76,
+    "located_before": 1241,
+    "located_after": 1314,
+    "unchanged_tables": [
+      "public.academies",
+      "public.geocode_cache",
+      "ingest_private.ingest_runs",
+      "app_private.academy_display",
+      "app_private.academy_display_release"
+    ],
+    "rollback_digest_matches": 10,
+    "restored_digest_matches": 10,
+    "source_fingerprint_matches": true,
+    "retry": {
+      "snapshot": "20261016T040000Z",
+      "sources": [
+        "schools"
+      ],
+      "committed": true,
+      "status": "already_current",
+      "phase": "maintenance",
+      "seconds": 0.407
+    },
+    "remaining_missing": [
+      {
+        "id": "7010227",
+        "name": "이화여자고등학교"
+      },
+      {
+        "id": "7010908",
+        "name": "리라아트고등학교"
+      },
+      {
+        "id": "7021106",
+        "name": "서울장평초등학교"
+      },
+      {
+        "id": "7031212",
+        "name": "인왕중학교"
+      },
+      {
+        "id": "7081452",
+        "name": "서울신남초등학교"
+      },
+      {
+        "id": "7091419",
+        "name": "서울우면초등학교"
+      }
+    ],
+    "score_roundtrip": {
+      "before_vs_rollback": 10,
+      "after_vs_restored": 10,
+      "excluded_fields": [
+        "result.computed_at"
+      ],
+      "precision": "full IEEE-754; no rounding"
+    }
+  },
+  "snapshot": {
+    "snapshot": "20261016T040000Z",
+    "local_only": true,
+    "crs": "EPSG:4326",
+    "crs_basis": "user_approved_1229_school_comparison_not_metadata_declaration",
+    "provider": "edu_facility_standard",
+    "files": [
+      {
+        "file": "standard-page-1.json",
+        "sha256": "19f3b1ced2dc6a811594d32424cf80fba3620dacd992d2db26924ef91ad6f70e"
+      },
+      {
+        "file": "standard-page-2.json",
+        "sha256": "0a79ba74967bd22c98f3e7ddde1fe0f53672dd499a03c0a0a264174da94bb00a"
+      }
+    ],
+    "plan": {
+      "fills": [
+        {
+          "id": "7041164",
+          "name": "가산중학교",
+          "standard_id": "B000008174",
+          "lng": 126.8944749,
+          "lat": 37.46877706,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010797",
+          "name": "고려대학교사범대학부속고등학교",
+          "standard_id": "B000011955",
+          "lng": 127.0028302,
+          "lat": 37.60783857,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7121358",
+          "name": "고려대학교사범대학부속중학교",
+          "standard_id": "B000008450",
+          "lng": 127.0028302,
+          "lat": 37.60783857,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011487",
+          "name": "고명외식고등학교",
+          "standard_id": "B000011312",
+          "lng": 127.0191869,
+          "lat": 37.59767468,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7121359",
+          "name": "고명중학교",
+          "standard_id": "B000008443",
+          "lng": 127.0191869,
+          "lat": 37.59767468,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010071",
+          "name": "금옥여자고등학교",
+          "standard_id": "B000011999",
+          "lng": 126.8439717,
+          "lat": 37.51096532,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7081488",
+          "name": "금옥중학교",
+          "standard_id": "B000008314",
+          "lng": 126.8439717,
+          "lat": 37.51096532,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011586",
+          "name": "동국대학교사범대학부속가람고등학교",
+          "standard_id": "B000011938",
+          "lng": 127.0869732,
+          "lat": 37.54192936,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7134161",
+          "name": "동국대학교사범대학부속가람중학교",
+          "standard_id": "B000008430",
+          "lng": 127.0869731,
+          "lat": 37.54192936,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7134129",
+          "name": "동마중학교",
+          "standard_id": "B000008414",
+          "lng": 127.0403512,
+          "lat": 37.56280251,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011490",
+          "name": "동명생활경영고등학교",
+          "standard_id": "B000011327",
+          "lng": 126.9228204,
+          "lat": 37.61441879,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010153",
+          "name": "동명여자고등학교",
+          "standard_id": "B000011988",
+          "lng": 126.9228204,
+          "lat": 37.61441879,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7121337",
+          "name": "매원초등학교",
+          "standard_id": "B000002417",
+          "lng": 127.0191869,
+          "lat": 37.59767468,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010744",
+          "name": "목동고등학교",
+          "standard_id": "B000012006",
+          "lng": 126.860143,
+          "lat": 37.50921598,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010170",
+          "name": "배재고등학교",
+          "standard_id": "B000013490",
+          "lng": 127.1502473,
+          "lat": 37.55505939,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7130181",
+          "name": "배재중학교",
+          "standard_id": "B000008295",
+          "lng": 127.1502473,
+          "lat": 37.55505939,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7081520",
+          "name": "봉영여자중학교",
+          "standard_id": "B000008318",
+          "lng": 126.8601984,
+          "lat": 37.50921598,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010178",
+          "name": "상명대학교사범대학부속여자고등학교",
+          "standard_id": "B000011923",
+          "lng": 126.9551595,
+          "lat": 37.60410891,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061104",
+          "name": "상명대학교사범대학부속여자중학교",
+          "standard_id": "B000008237",
+          "lng": 126.9551595,
+          "lat": 37.60410891,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010916",
+          "name": "상일미디어고등학교",
+          "standard_id": "B000011361",
+          "lng": 127.1708235,
+          "lat": 37.54858748,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010181",
+          "name": "상일여자고등학교",
+          "standard_id": "B000012093",
+          "lng": 127.1708235,
+          "lat": 37.54858748,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7130275",
+          "name": "상일중학교",
+          "standard_id": "B000008297",
+          "lng": 127.1708235,
+          "lat": 37.54858748,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7041100",
+          "name": "서울가산초등학교",
+          "standard_id": "B000001982",
+          "lng": 126.8963297,
+          "lat": 37.47816515,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7132080",
+          "name": "서울강남초등학교",
+          "standard_id": "B000002306",
+          "lng": 126.9533591,
+          "lat": 37.50619275,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031113",
+          "name": "서울고은초등학교",
+          "standard_id": "B000001925",
+          "lng": 126.9439749,
+          "lat": 37.58500184,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061058",
+          "name": "서울교동초등학교",
+          "standard_id": "B000002086",
+          "lng": 126.9881513,
+          "lat": 37.57500567,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7041107",
+          "name": "서울구로남초등학교",
+          "standard_id": "B000001968",
+          "lng": 126.8902182,
+          "lat": 37.48420602,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7121300",
+          "name": "서울길음초등학교",
+          "standard_id": "B000002399",
+          "lng": 127.01666,
+          "lat": 37.61363115,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7132087",
+          "name": "서울남사초등학교",
+          "standard_id": "B000002319",
+          "lng": 126.9782341,
+          "lat": 37.48194349,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7134089",
+          "name": "서울동명초등학교",
+          "standard_id": "B000002355",
+          "lng": 127.0351082,
+          "lat": 37.56812285,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010572",
+          "name": "서울디지텍고등학교",
+          "standard_id": "B000011300",
+          "lng": 126.9906121,
+          "lat": 37.53896942,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061065",
+          "name": "서울명신초등학교",
+          "standard_id": "B000002088",
+          "lng": 127.0146229,
+          "lat": 37.58146865,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011575",
+          "name": "서울반도체고등학교",
+          "standard_id": "B000011304",
+          "lng": 127.0697283,
+          "lat": 37.58521558,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031134",
+          "name": "서울서교초등학교",
+          "standard_id": "B000001938",
+          "lng": 126.9243787,
+          "lat": 37.55488903,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061069",
+          "name": "서울서빙고초등학교",
+          "standard_id": "B000002113",
+          "lng": 126.9923004,
+          "lat": 37.52206892,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7041133",
+          "name": "서울선유초등학교",
+          "standard_id": "B000002003",
+          "lng": 126.8927768,
+          "lat": 37.53287919,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031139",
+          "name": "서울소의초등학교",
+          "standard_id": "B000001944",
+          "lng": 126.9606556,
+          "lat": 37.55278186,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031144",
+          "name": "서울신석초등학교",
+          "standard_id": "B000001942",
+          "lng": 126.9377793,
+          "lat": 37.54453582,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011492",
+          "name": "서울신정고등학교",
+          "standard_id": "B000011339",
+          "lng": 126.8570622,
+          "lat": 37.53838143,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010085",
+          "name": "서울여자고등학교",
+          "standard_id": "B000013469",
+          "lng": 126.94907,
+          "lat": 37.5477805,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031191",
+          "name": "서울여자중학교",
+          "standard_id": "B000008145",
+          "lng": 126.94907,
+          "lat": 37.5477805,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7051144",
+          "name": "서울연지초등학교",
+          "standard_id": "B000002066",
+          "lng": 127.0595343,
+          "lat": 37.63319251,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7132111",
+          "name": "서울영본초등학교",
+          "standard_id": "B000002317",
+          "lng": 126.9486724,
+          "lat": 37.51129869,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031155",
+          "name": "서울용강초등학교",
+          "standard_id": "B000001932",
+          "lng": 126.9440443,
+          "lat": 37.54910215,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7051151",
+          "name": "서울월계초등학교",
+          "standard_id": "B000002068",
+          "lng": 127.0501876,
+          "lat": 37.62762424,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061077",
+          "name": "서울이태원초등학교",
+          "standard_id": "B000002112",
+          "lng": 126.9876727,
+          "lat": 37.53647771,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061079",
+          "name": "서울재동초등학교",
+          "standard_id": "B000002085",
+          "lng": 126.9851778,
+          "lat": 37.58002991,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7051155",
+          "name": "서울중계초등학교",
+          "standard_id": "B000002047",
+          "lng": 127.0733117,
+          "lat": 37.65784243,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7041161",
+          "name": "서울탑동초등학교",
+          "standard_id": "B000001988",
+          "lng": 126.9153675,
+          "lat": 37.45251655,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7051169",
+          "name": "서울한천초등학교",
+          "standard_id": "B000002065",
+          "lng": 127.0692435,
+          "lat": 37.62070936,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031167",
+          "name": "서울홍연초등학교",
+          "standard_id": "B000001922",
+          "lng": 126.9306604,
+          "lat": 37.58211871,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061088",
+          "name": "서울효제초등학교",
+          "standard_id": "B000002093",
+          "lng": 127.003491,
+          "lat": 37.57268283,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010536",
+          "name": "선린인터넷고등학교",
+          "standard_id": "B000011299",
+          "lng": 126.9649361,
+          "lat": 37.54296872,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061105",
+          "name": "선린중학교",
+          "standard_id": "B000008248",
+          "lng": 126.9649361,
+          "lat": 37.54296872,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010202",
+          "name": "숭문고등학교",
+          "standard_id": "B000013471",
+          "lng": 126.9457596,
+          "lat": 37.55087275,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031197",
+          "name": "숭문중학교",
+          "standard_id": "B000008154",
+          "lng": 126.9457689,
+          "lat": 37.55089081,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7081521",
+          "name": "신정여자중학교",
+          "standard_id": "B000008337",
+          "lng": 126.8570622,
+          "lat": 37.53838143,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7081509",
+          "name": "양서중학교",
+          "standard_id": "B000008309",
+          "lng": 126.8291351,
+          "lat": 37.53262929,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010594",
+          "name": "염광고등학교",
+          "standard_id": "B000011981",
+          "lng": 127.0492646,
+          "lat": 37.63028445,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011568",
+          "name": "염광메디텍고등학교",
+          "standard_id": "B000011319",
+          "lng": 127.0492646,
+          "lat": 37.63028445,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7051196",
+          "name": "염광중학교",
+          "standard_id": "B000008226",
+          "lng": 127.0492646,
+          "lat": 37.6302165,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010810",
+          "name": "예일디자인고등학교",
+          "standard_id": "B000011326",
+          "lng": 126.9147928,
+          "lat": 37.6109459,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010219",
+          "name": "예일여자고등학교",
+          "standard_id": "B000011990",
+          "lng": 126.9147928,
+          "lat": 37.6109459,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031209",
+          "name": "예일여자중학교",
+          "standard_id": "B000008128",
+          "lng": 126.9147928,
+          "lat": 37.6109459,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7031172",
+          "name": "예일초등학교",
+          "standard_id": "B000001909",
+          "lng": 126.9147928,
+          "lat": 37.6109459,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010220",
+          "name": "오산고등학교",
+          "standard_id": "B000011928",
+          "lng": 127.0008872,
+          "lat": 37.52350529,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061110",
+          "name": "오산중학교",
+          "standard_id": "B000008251",
+          "lng": 127.0008872,
+          "lat": 37.52358051,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7011495",
+          "name": "용산철도고등학교",
+          "standard_id": "B000011298",
+          "lng": 126.9673581,
+          "lat": 37.52430312,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061093",
+          "name": "운현초등학교",
+          "standard_id": "B000002094",
+          "lng": 126.9881575,
+          "lat": 37.57663053,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7010240",
+          "name": "중앙고등학교",
+          "standard_id": "B000013447",
+          "lng": 126.9874726,
+          "lat": 37.58378822,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7061115",
+          "name": "중앙중학교",
+          "standard_id": "B000008238",
+          "lng": 126.9874726,
+          "lat": 37.58378822,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7021147",
+          "name": "태릉중학교",
+          "standard_id": "B000008106",
+          "lng": 127.0834355,
+          "lat": 37.61253191,
+          "source_date": "2026-10-01"
+        },
+        {
+          "id": "7134118",
+          "name": "한양초등학교",
+          "standard_id": "B000002366",
+          "lng": 127.0502634,
+          "lat": 37.55762103,
+          "source_date": "2026-10-01"
+        }
+      ],
+      "holds": [
+        {
+          "id": "7051171",
+          "name": "태강삼육초등학교",
+          "standard_id": "B000002079",
+          "lng": 127.1088503,
+          "lat": 37.64335737,
+          "source_date": "2026-10-01",
+          "reason": "coordinate_verification_pending:standard_outside_seoul"
+        },
+        {
+          "id": "7010252",
+          "name": "한국삼육고등학교",
+          "standard_id": "B000011980",
+          "lng": 127.1088503,
+          "lat": 37.64335737,
+          "source_date": "2026-10-01",
+          "reason": "coordinate_verification_pending:standard_outside_seoul"
+        },
+        {
+          "id": "7051173",
+          "name": "화랑초등학교",
+          "standard_id": "B000002080",
+          "lng": 127.0889915,
+          "lat": 37.62878266,
+          "source_date": "2026-10-01",
+          "reason": "coordinate_verification_pending:standard_juso_distance_gt_500m"
+        }
+      ]
+    },
+    "raw_school_snapshot": {
+      "file": "schools.parquet",
+      "rows": 1320,
+      "sha256": "f6f452fe992b29352489e94a5e23ebd3dff62777d3d2ff7242acc7b0435d1392"
+    },
+    "rollback_before": "before/rollback/manifest.json",
+    "rollback_after": "after/rollback/manifest.json"
+  },
+  "promotion_seconds": 305.841,
+  "stages": [
+    {
+      "source": "schools",
+      "changed": true,
+      "seconds": 0.048
+    },
+    {
+      "source": "score_reference",
+      "seconds": 304.853
+    }
+  ],
+  "reference": {
+    "score_reference_inputs": {
+      "key": "raw/score_reference_inputs/revisions/20261016T040000Z/2026-10.parquet",
+      "bytes": 26270999,
+      "sha256": "2fb95821b23ef2a853396d0fefb1da129765adf5d9ee603837865d0cd0d8854f",
+      "status": "published",
+      "rows": 20254,
+      "reread_mismatches": 0
+    },
+    "score_reference": {
+      "key": "raw/score_reference/revisions/20261016T040000Z/2026-10.parquet",
+      "bytes": 734175,
+      "sha256": "8f2f814b82e1978bebe87adbe7e4364df72a608849c9bd079f59e67ee185b710",
+      "status": "published",
+      "rows": 162032,
+      "reread_mismatches": 0
+    }
+  },
+  "reference_differences": [
+    {
+      "axis_key": "cluster",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "cluster.saturation",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "demand",
+      "rows": 20254,
+      "changed": 3880,
+      "max_abs_delta": 1650.0
+    },
+    {
+      "axis_key": "environment.stores_total",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "flow",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "transit.bus_stops",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "transit.nearest_subway_m",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    },
+    {
+      "axis_key": "transit.subway_boardings_golden",
+      "rows": 20254,
+      "changed": 0,
+      "max_abs_delta": 0.0
+    }
+  ],
+  "rollback_manifests": {
+    "before": {
+      "source_fingerprint": "6e75cbdc2a01cbe3d20da1b92bbcf935eaf06de4f304b8158d88637967ca6a18",
+      "tables": [
+        {
+          "table": "public.academies",
+          "rows": 25527,
+          "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+          "binary_bytes": 7131644,
+          "file": "public.academies.bin.gz",
+          "gzip_sha256": "2f3235f447a2668d9e43cdbe7c2e433fa3dc9e76a3a7dec4114aeb3141416159"
+        },
+        {
+          "table": "public.schools",
+          "rows": 1320,
+          "binary_sha256": "387284e4f347761a8d33c5fe4228358d4df260f536db3c9a0b4c60ee01226025",
+          "binary_bytes": 264744,
+          "file": "public.schools.bin.gz",
+          "gzip_sha256": "81eef2481eda8e17886497af2073243cd6d37c72ace177ee562cf09aaf8aac51"
+        },
+        {
+          "table": "public.geocode_cache",
+          "rows": 27161,
+          "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+          "binary_bytes": 14639154,
+          "file": "public.geocode_cache.bin.gz",
+          "gzip_sha256": "fb0876dc20d4a50aa844468bceef7c91f8981ac0372fd84606b2fe5f49bdd88b"
+        },
+        {
+          "table": "public.score_reference",
+          "rows": 162032,
+          "binary_sha256": "f7a4cee4ffba1d0b73ce6f2afbfa474c17596c578237a3438f076ee3a1aae610",
+          "binary_bytes": 19778983,
+          "file": "public.score_reference.bin.gz",
+          "gzip_sha256": "cb7a914b02fbfa76da48ee520e348e77df62e9b5f48cd97bc551cd7868e7b496"
+        },
+        {
+          "table": "public.score_reference_sets",
+          "rows": 1,
+          "binary_sha256": "6e8fd5dc7c07597c084934d4111da8094c256ae8858ca4dba32fa8bb2509a2e2",
+          "binary_bytes": 8031,
+          "file": "public.score_reference_sets.bin.gz",
+          "gzip_sha256": "7b3419f7295a07673b46d00d898312439e07bd3f8baa11a969cc8ed67efae66c"
+        },
+        {
+          "table": "ingest_private.place_snapshots",
+          "rows": 3,
+          "binary_sha256": "d58f32fa7986f57d36f73f437c2891706498a64da0fc23926e45befe3037596f",
+          "binary_bytes": 909,
+          "file": "ingest_private.place_snapshots.bin.gz",
+          "gzip_sha256": "5103d1f77550c643a7b960637a1ffc978ca500f55bfe001133a40c37c510c143"
+        },
+        {
+          "table": "ingest_private.refresh_snapshots",
+          "rows": 6,
+          "binary_sha256": "135a1de07d55d4b951c47ed5f03937219dbb182888383b166f194889270afdf8",
+          "binary_bytes": 14615,
+          "file": "ingest_private.refresh_snapshots.bin.gz",
+          "gzip_sha256": "e2c71d091fed50d567ec6e1e54104ea7e1d62af239a7c2c357eac41da28cd756"
+        },
+        {
+          "table": "ingest_private.ingest_runs",
+          "rows": 2,
+          "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+          "binary_bytes": 189,
+          "file": "ingest_private.ingest_runs.bin.gz",
+          "gzip_sha256": "e9b4f2156c6771cadb67d3c3c583a5ca25e7ffc64c4bf43f32ebbb1add33c9b4"
+        },
+        {
+          "table": "app_private.academy_display",
+          "rows": 25527,
+          "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+          "binary_bytes": 3106592,
+          "file": "app_private.academy_display.bin.gz",
+          "gzip_sha256": "a69d934a7102a3c1008c57bdb13fa63957a2beb3f449586081e7ad1ecbbf5fa7"
+        },
+        {
+          "table": "app_private.academy_display_release",
+          "rows": 1,
+          "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+          "binary_bytes": 158,
+          "file": "app_private.academy_display_release.bin.gz",
+          "gzip_sha256": "a7faef3b4ed3954e434344916eb998a1918a32d067a2ca638c827266c8fbd1a5"
+        }
+      ],
+      "mode": "local_only",
+      "cache_and_keys_deleted": false
+    },
+    "after": {
+      "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+      "tables": [
+        {
+          "table": "public.academies",
+          "rows": 25527,
+          "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+          "binary_bytes": 7131644,
+          "file": "public.academies.bin.gz",
+          "gzip_sha256": "5a8ed6c4a8891d4fd3eb6530692d64d258c57e107373ffc5699169fbb72e3f55"
+        },
+        {
+          "table": "public.schools",
+          "rows": 1320,
+          "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+          "binary_bytes": 267323,
+          "file": "public.schools.bin.gz",
+          "gzip_sha256": "072e7642c2cadb87383215be12d97ba2e2259b37f852710bdb5c980491fc9dd1"
+        },
+        {
+          "table": "public.geocode_cache",
+          "rows": 27161,
+          "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+          "binary_bytes": 14639154,
+          "file": "public.geocode_cache.bin.gz",
+          "gzip_sha256": "73c0665ed65f1a6321e6d7d5dbbcee177e36afc82727e9d1d84f8a006554a875"
+        },
+        {
+          "table": "public.score_reference",
+          "rows": 162032,
+          "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+          "binary_bytes": 19778983,
+          "file": "public.score_reference.bin.gz",
+          "gzip_sha256": "0d0ded791cd9291296e172687611c594725a8bb3568731765e5b41a01460be66"
+        },
+        {
+          "table": "public.score_reference_sets",
+          "rows": 1,
+          "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+          "binary_bytes": 8030,
+          "file": "public.score_reference_sets.bin.gz",
+          "gzip_sha256": "50b5c79181262ea990b76ecacf91518dcf66e2e6c9d5f05e35c7e8cb7984c1b9"
+        },
+        {
+          "table": "ingest_private.place_snapshots",
+          "rows": 3,
+          "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+          "binary_bytes": 13201,
+          "file": "ingest_private.place_snapshots.bin.gz",
+          "gzip_sha256": "084df05c3dd2edac6bc07a38dc54476b14d8522a19fa99040c285b597c481fef"
+        },
+        {
+          "table": "ingest_private.refresh_snapshots",
+          "rows": 6,
+          "binary_sha256": "73fabb8447508dce72a9ce0bb1763f415b557cb14542e8eb191b3c22404c3500",
+          "binary_bytes": 26721,
+          "file": "ingest_private.refresh_snapshots.bin.gz",
+          "gzip_sha256": "2644f0592aa97a117500131e7920e767db81a623a100dcbd7f7edebf26ae7130"
+        },
+        {
+          "table": "ingest_private.ingest_runs",
+          "rows": 2,
+          "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+          "binary_bytes": 189,
+          "file": "ingest_private.ingest_runs.bin.gz",
+          "gzip_sha256": "b6c0dc35f310417debc2a25d3329a8cd83dc7b3d7a1c708860ba8779346a1a93"
+        },
+        {
+          "table": "app_private.academy_display",
+          "rows": 25527,
+          "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+          "binary_bytes": 3106592,
+          "file": "app_private.academy_display.bin.gz",
+          "gzip_sha256": "9f216edf7e11837f77548cefb375444cfe6dd0620ffa4a60dbb132cf9976746e"
+        },
+        {
+          "table": "app_private.academy_display_release",
+          "rows": 1,
+          "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+          "binary_bytes": 158,
+          "file": "app_private.academy_display_release.bin.gz",
+          "gzip_sha256": "935f457a8c67653bbc5c52b8e89073958c9423153b39cc01104c36de4d367b17"
+        }
+      ],
+      "mode": "local_only",
+      "cache_and_keys_deleted": false
+    }
+  },
+  "scores": [
+    {
+      "key": "a",
+      "before": {
+        "total": 83.15731166992899,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.30707070707070705,
+            "normalized": 30.707070707070706,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 85,
+            "normalized": 85,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "after": {
+        "total": 83.01075192604473,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.30690234027847,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.30707070707070705,
+            "normalized": 30.707070707070706,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 85,
+            "normalized": 85,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "delta": -0.14655974388425363
+    },
+    {
+      "key": "b",
+      "before": {
+        "total": 92.79389472431806,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 12999.223936519682,
+            "normalized": 99.78275896119285,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 93259.29075509416,
+            "normalized": 98.7976947535771,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 81.81701931840821,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 7.053585727193677,
+            "normalized": 99.54344030471255,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.46259541984732827,
+            "normalized": 46.25954198473283,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 95,
+            "normalized": 95,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 4931,
+            "normalized": 87.65344088005983,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 6,
+          "elem": 4,
+          "high": 6
+        }
+      },
+      "after": {
+        "total": 92.78765813947193,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 12999.223936519682,
+            "normalized": 99.76300977584674,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 93259.29075509416,
+            "normalized": 98.7976947535771,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 81.81701931840821,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 7.053585727193677,
+            "normalized": 99.54344030471255,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.46259541984732827,
+            "normalized": 46.25954198473283,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 95,
+            "normalized": 95,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 4931,
+            "normalized": 87.65344088005983,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 6,
+          "elem": 4,
+          "high": 6
+        }
+      },
+      "delta": -0.006236584846135429
+    },
+    {
+      "key": "c",
+      "before": {
+        "total": 82.57757498306235,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 6973.397395053683,
+            "normalized": 85.31648069517132,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 77489.4381086913,
+            "normalized": 96.83028616852147,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 60.78723216127797,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.467698726104354,
+            "normalized": 83.87151520025675,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.5062499999999999,
+            "normalized": 50.624999999999986,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 95,
+            "normalized": 95,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 6566,
+            "normalized": 91.98293991698833,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 2,
+          "elem": 2,
+          "high": 1
+        }
+      },
+      "after": {
+        "total": 82.20961647714019,
+        "confidence": {
+          "value": 85,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "지하철 일부 시간대 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 6973.397395053683,
+            "normalized": 84.15127875975116,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 77489.4381086913,
+            "normalized": 96.83028616852147,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 60.78723216127797,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.467698726104354,
+            "normalized": 83.87151520025675,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.5062499999999999,
+            "normalized": 50.624999999999986,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 95,
+            "normalized": 95,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 6566,
+            "normalized": 91.98293991698833,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 2,
+          "elem": 2,
+          "high": 1
+        }
+      },
+      "delta": -0.36795850592216084
+    },
+    {
+      "key": "d",
+      "before": {
+        "total": 81.90265988896141,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.26868686868686864,
+            "normalized": 26.868686868686865,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 75,
+            "normalized": 75,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "after": {
+        "total": 81.75610014507716,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.30690234027847,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.26868686868686864,
+            "normalized": 26.868686868686865,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 75,
+            "normalized": 75,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "delta": -0.14655974388425363
+    },
+    {
+      "key": "e",
+      "before": {
+        "total": 85.14029944239044,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.77100819591192,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.3838383838383838,
+            "normalized": 38.38383838383838,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 100,
+            "normalized": 100,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "after": {
+        "total": 84.99373969850619,
+        "confidence": {
+          "value": 90,
+          "reasons": [
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 9267.137532036744,
+            "normalized": 96.30690234027847,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 103464.09476137225,
+            "normalized": 99.29451510333864,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 38.336803260049486,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 6.975413927455952,
+            "normalized": 97.45241833547216,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "scored",
+            "raw": 0.3838383838383838,
+            "normalized": 38.38383838383838,
+            "missing_reason": null
+          },
+          {
+            "key": "building",
+            "status": "scored",
+            "raw": 100,
+            "normalized": 100,
+            "missing_reason": null
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 9678,
+            "normalized": 93.40459174952771,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        }
+      },
+      "delta": -0.14655974388425363
+    },
+    {
+      "key": "random-1",
+      "before": {
+        "total": 41.901070271817346,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 68.3%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 1278.09766672282,
+            "normalized": 19.91705342154636,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 43736.64840649139,
+            "normalized": 66.93163751987281,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 85.40616025564763,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 1.9459101490553132,
+            "normalized": 0,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 6732,
+            "normalized": 93.90141049323807,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 0,
+          "elem": 1,
+          "high": 0
+        }
+      },
+      "after": {
+        "total": 42.78608064013966,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 68.3%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 1578.09766672282,
+            "normalized": 22.277081070405846,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 43736.64840649139,
+            "normalized": 66.93163751987281,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 85.40616025564763,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 1.9459101490553132,
+            "normalized": 0,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 6732,
+            "normalized": 93.90141049323807,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 0,
+          "elem": 2,
+          "high": 0
+        }
+      },
+      "delta": 0.8850103683223125
+    },
+    {
+      "key": "random-2",
+      "before": {
+        "total": 60.468310072448496,
+        "confidence": {
+          "value": 65,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 71.1%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 5825.172069140831,
+            "normalized": 74.32605905006419,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 47072.474545440615,
+            "normalized": 72.34697933227345,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 74.51610035661442,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 3.5263605246161616,
+            "normalized": 5.193490402143997,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 2312,
+            "normalized": 65.36689658569529,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 2,
+          "elem": 5,
+          "high": 0
+        }
+      },
+      "after": {
+        "total": 59.94248801260847,
+        "confidence": {
+          "value": 65,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 71.1%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 5825.172069140831,
+            "normalized": 72.92386689049077,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 47072.474545440615,
+            "normalized": 72.34697933227345,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 74.51610035661442,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 3.5263605246161616,
+            "normalized": 5.193490402143997,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 2312,
+            "normalized": 65.36689658569529,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 2,
+          "elem": 5,
+          "high": 0
+        }
+      },
+      "delta": -0.5258220598400243
+    },
+    {
+      "key": "random-3",
+      "before": {
+        "total": 57.96432760581394,
+        "confidence": {
+          "value": 75,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 4929.101083377062,
+            "normalized": 63.61212599980251,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 35437.723536776226,
+            "normalized": 54.689984101748806,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 78.39990495331466,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 4.48863636973214,
+            "normalized": 30.93346235312665,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 1875,
+            "normalized": 53.68643146963758,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 5,
+          "elem": 5,
+          "high": 1
+        }
+      },
+      "after": {
+        "total": 57.40888176795475,
+        "confidence": {
+          "value": 75,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 4929.101083377062,
+            "normalized": 62.130937098844676,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 35437.723536776226,
+            "normalized": 54.689984101748806,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 78.39990495331466,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 4.48863636973214,
+            "normalized": 30.93346235312665,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 1875,
+            "normalized": 53.68643146963758,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 5,
+          "elem": 5,
+          "high": 1
+        }
+      },
+      "delta": -0.5554458378591889
+    },
+    {
+      "key": "random-4",
+      "before": {
+        "total": 49.3590709269109,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 62.5%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 7422.877879516314,
+            "normalized": 88.72321516737435,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 23943.763531389974,
+            "normalized": 40.79888712241653,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 28.700946028772407,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 3.367295829986474,
+            "normalized": 0.9386597328089394,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 573,
+            "normalized": 46.09036517433464,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 1,
+          "elem": 3,
+          "high": 3
+        }
+      },
+      "after": {
+        "total": 50.410715046590965,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 62.5%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 8022.877879516314,
+            "normalized": 91.52759948652118,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 23943.763531389974,
+            "normalized": 40.79888712241653,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 28.700946028772407,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 3.367295829986474,
+            "normalized": 0.9386597328089394,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 573,
+            "normalized": 46.09036517433464,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 2,
+          "elem": 3,
+          "high": 5
+        }
+      },
+      "delta": 1.0516441196800628
+    },
+    {
+      "key": "random-5",
+      "before": {
+        "total": 4.6963640009471925,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 2.9%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 218.2079938759981,
+            "normalized": 3.1104966920114547,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 145.53238091317866,
+            "normalized": 2.7027027027027026,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 8.824218155861326,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 0,
+            "normalized": 0,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 0,
+            "normalized": 21.898081287394266,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 0,
+          "elem": 0,
+          "high": 0
+        }
+      },
+      "after": {
+        "total": 4.6963640009471925,
+        "confidence": {
+          "value": 60,
+          "reasons": [
+            "건물 앞 도로·맞은편에서의 간판 노출 축 평가 불가: building_coverage_insufficient (-5)",
+            "건물 적합성 축 평가 불가: candidate_building_missing (-10)",
+            "임대료 효율 축 평가 불가: user_rent_inputs_missing (-5)",
+            "생활인구 격자 일부 비공개(최소 커버리지 2.9%) (-10)",
+            "인구는 행정동·격자 면적 비례 추정 (-5)",
+            "경기 정류장 데이터 없음 (-5)"
+          ]
+        },
+        "axes": [
+          {
+            "key": "demand",
+            "status": "scored",
+            "raw": 218.2079938759981,
+            "normalized": 3.1104966920114547,
+            "missing_reason": null
+          },
+          {
+            "key": "flow",
+            "status": "scored",
+            "raw": 145.53238091317866,
+            "normalized": 2.7027027027027026,
+            "missing_reason": null
+          },
+          {
+            "key": "transit",
+            "status": "scored",
+            "raw": null,
+            "normalized": 8.824218155861326,
+            "missing_reason": null
+          },
+          {
+            "key": "cluster",
+            "status": "scored",
+            "raw": 0,
+            "normalized": 0,
+            "missing_reason": null
+          },
+          {
+            "key": "exposure",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "building_coverage_insufficient"
+          },
+          {
+            "key": "building",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "candidate_building_missing"
+          },
+          {
+            "key": "environment",
+            "status": "scored",
+            "raw": 0,
+            "normalized": 21.898081287394266,
+            "missing_reason": null
+          },
+          {
+            "key": "rent_efficiency",
+            "status": "missing",
+            "raw": null,
+            "normalized": null,
+            "missing_reason": "user_rent_inputs_missing"
+          }
+        ],
+        "schools_1km": {
+          "mid": 0,
+          "elem": 0,
+          "high": 0
+        }
+      },
+      "delta": 0.0
+    }
+  ]
+}

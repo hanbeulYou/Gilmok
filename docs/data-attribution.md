@@ -65,3 +65,9 @@
 - GILMOK의 runtime 변경: 배경·물 색을 옅게 조정, 3D extrusion 제거, 배경 POI 이름 비표시, 한글 `name:ko → name → name:latin` 순서. 화면의 학교/역은 Supabase 원천이고 배경 지도 POI를 채점에 섞지 않는다. 기본 스타일과 다른 부분을 이 절에 기록한다.
 - [이용약관](https://openfreemap.org/tos/)은 무료/as-is이며 가용성을 보장하지 않는다. CDN 장애 시 지도 상태/재시도만 표시하고 점수/근거는 유지한다. [개인정보 정책](https://openfreemap.org/privacy/)에 따라 브라우저의 CDN 연결과 URL/IP 정보 처리를 고려하며 후보 별칭·uid·임대료·PNU를 지도 URL에 넣지 않는다. 공개 style URL은 환경변수로 관리한다.
 - 실제 Liberty 응답·한글 도로명 렌더·출처·style/TileJSON/sprite/glyph/vector tile의 HTTP200을 확인했다. [검증과 스크린샷](validation/s3-3-a-20261007.md). 레이어로 추가하는 서울 교통·NEIS 학교의 출처/기준일/추정 위치는 위 원천 절과 지도 범례를 함께 따른다.
+
+## #39 학교 위치 보완 (2026-10-16, 로컬 한정)
+
+- 명부: NEIS 교육정보 개방포털. 기존 Juso 확보 좌표1,241행은 유지한다.
+- 미확보73행 위치: [한국교육시설안전원 · 전국초중등학교위치표준데이터](https://www.data.go.kr/data/15021148/standard.do), 기준일2026-10-01. 제공기관 파일은 무료·이용허락범위 제한 없음, 반기 갱신이다. 공공누리의 특정 유형으로 단정하지 않는다.
+- 파일 메타에 EPSG 표기가 없어 사용자 승인에 따라1,229교 Juso 대조를 근거로4326을 판정했다. [좌표계·원본 SHA·보류·로컬 적용 검증](validation/school-supplement-20261016.md). 원격 자료는 교체하지 않았다.

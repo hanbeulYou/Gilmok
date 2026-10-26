@@ -1,0 +1,284 @@
+{
+  "mode": "read_only_existing_local_artifacts",
+  "database_connections": 0,
+  "remote_calls": 0,
+  "reference_regenerated": true,
+  "reference_before": "20261016T032916Z (exact replay of G 20261012T175142Z)",
+  "reference_after": "20261016T040000Z",
+  "reference_files": {
+    "before": {
+      "path": ".local/academy-transition/school-supplement-20261016/baseline/objects/raw/score_reference/revisions/20261016T032916Z/2026-10.parquet",
+      "sha256": "fe021337b48bd3da598368b7ab3d0c8368f94e405ae2f7ecaf0d5fb7a59017de"
+    },
+    "after": {
+      "path": ".local/academy-transition/school-supplement-20261016/applied-node22/objects/raw/score_reference/revisions/20261016T040000Z/2026-10.parquet",
+      "sha256": "8f2f814b82e1978bebe87adbe7e4364df72a608849c9bd079f59e67ee185b710"
+    }
+  },
+  "quantile_method": "nearest-rank: sorted[ceil(p*n)-1], n=10127; median is observation 5064, p90 is observation 9115",
+  "distribution": {
+    "before": [
+      {
+        "radius_m": 800,
+        "rows": 10127,
+        "non_null": 10127,
+        "median": 3841.374377880738,
+        "p90": 7609.6553907828375
+      },
+      {
+        "radius_m": 1000,
+        "rows": 10127,
+        "non_null": 10127,
+        "median": 5123.109487279156,
+        "p90": 10035.143486419478
+      }
+    ],
+    "after": [
+      {
+        "radius_m": 800,
+        "rows": 10127,
+        "non_null": 10127,
+        "median": 3919.0144461498035,
+        "p90": 7755.010143055303
+      },
+      {
+        "radius_m": 1000,
+        "rows": 10127,
+        "non_null": 10127,
+        "median": 5181.39922564344,
+        "p90": 10132.955898499944
+      }
+    ]
+  },
+  "cell_raw_changes": [
+    {
+      "radius_m": 800,
+      "increased": 1940,
+      "unchanged": 8187,
+      "decreased": 0,
+      "max_increase": 1650.0
+    },
+    {
+      "radius_m": 1000,
+      "increased": 1940,
+      "unchanged": 8187,
+      "decreased": 0,
+      "max_increase": 1650.0
+    }
+  ],
+  "cases": [
+    {
+      "key": "a",
+      "before": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.77100819591192,
+        "less": 9800,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 83.15731166992899
+      },
+      "after": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.30690234027847,
+        "less": 9753,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 83.01075192604473
+      },
+      "raw_delta": 0.0,
+      "percentile_delta": -0.4641058556334485,
+      "total_delta": -0.14655974388425363
+    },
+    {
+      "key": "b",
+      "before": {
+        "schools_1km": {
+          "mid": 6,
+          "elem": 4,
+          "high": 6
+        },
+        "school_count_1km": 16,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 9099.223936519682,
+        "model_school_term": 3900,
+        "demand_raw": 12999.223936519682,
+        "demand_percentile": 99.78275896119285,
+        "less": 10105,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 92.79389472431806
+      },
+      "after": {
+        "schools_1km": {
+          "mid": 6,
+          "elem": 4,
+          "high": 6
+        },
+        "school_count_1km": 16,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 9099.223936519682,
+        "model_school_term": 3900,
+        "demand_raw": 12999.223936519682,
+        "demand_percentile": 99.76300977584674,
+        "less": 10103,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 92.78765813947193
+      },
+      "raw_delta": 0.0,
+      "percentile_delta": -0.019749185346114473,
+      "total_delta": -0.006236584846135429
+    },
+    {
+      "key": "c",
+      "before": {
+        "schools_1km": {
+          "mid": 2,
+          "elem": 2,
+          "high": 1
+        },
+        "school_count_1km": 5,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 5623.397395053683,
+        "model_school_term": 1350,
+        "demand_raw": 6973.397395053683,
+        "demand_percentile": 85.31648069517132,
+        "less": 8640,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 82.57757498306235
+      },
+      "after": {
+        "schools_1km": {
+          "mid": 2,
+          "elem": 2,
+          "high": 1
+        },
+        "school_count_1km": 5,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 5623.397395053683,
+        "model_school_term": 1350,
+        "demand_raw": 6973.397395053683,
+        "demand_percentile": 84.15127875975116,
+        "less": 8522,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 82.20961647714019
+      },
+      "raw_delta": 0.0,
+      "percentile_delta": -1.165201935420157,
+      "total_delta": -0.36795850592216084
+    },
+    {
+      "key": "d",
+      "before": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.77100819591192,
+        "less": 9800,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 81.90265988896141
+      },
+      "after": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.30690234027847,
+        "less": 9753,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 81.75610014507716
+      },
+      "raw_delta": 0.0,
+      "percentile_delta": -0.4641058556334485,
+      "total_delta": -0.14655974388425363
+    },
+    {
+      "key": "e",
+      "before": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.77100819591192,
+        "less": 9800,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 85.14029944239044
+      },
+      "after": {
+        "schools_1km": {
+          "mid": 4,
+          "elem": 3,
+          "high": 4
+        },
+        "school_count_1km": 11,
+        "enrolled_students_sum": null,
+        "enrolled_students_status": "not_collected",
+        "weighted_population_800m": 6567.137532036744,
+        "model_school_term": 2700,
+        "demand_raw": 9267.137532036744,
+        "demand_percentile": 96.30690234027847,
+        "less": 9753,
+        "equal": 0,
+        "population_size": 10127,
+        "total": 84.99373969850619
+      },
+      "raw_delta": 0.0,
+      "percentile_delta": -0.4641058556334485,
+      "total_delta": -0.14655974388425363
+    }
+  ],
+  "conclusion": "reference_distribution_effect",
+  "raw_decreased_candidates": [],
+  "student_count_explanation": "NEIS schoolInfo raw/DB/RPC has no enrollment-count field; school weights 300/300/150 are model coefficients, not measured students"
+}

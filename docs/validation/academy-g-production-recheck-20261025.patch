@@ -1,0 +1,35 @@
+--- production.spec.ts (2026-10-23)
++++ production.spec.ts (2026-10-25)
+@@ -1,6 +1,6 @@
+ import {test,expect} from '@playwright/test';
+ import {readFileSync,writeFileSync} from 'node:fs';
+-const O='.local/g-promotion-20261023/';
++const O='.local/g-promotion-20261025/';
+ const api=process.env.PROOF_SUPABASE_URL!;
+ const expected=JSON.parse(readFileSync(O+'scores-remote.json','utf8')).results;
+ const session=JSON.parse(process.env.PROOF_SESSION!);
+@@ -26,16 +26,15 @@
+   await Promise.all(tasks);report.matrix=await matrix();report.body_text=await page.locator('body').innerText();report.reference_notice_text=report.body_text.split('\n').filter((s:string)=>/불일치|갱신 중|다시 계산|모델 버전/.test(s));
+   expect(report.matrix.map((r:any)=>r.alias)).toEqual(['b','e','a','c','d']);expect(report.signup_count).toBe(0);
+   expect(report.saved_comparison.reference_snapshot).toBe('20261012T013000Z');expect(report.saved_comparison.model_version).toBe('0.4.0');expect(report.references.length).toBeGreaterThanOrEqual(5);
+-  expect([...new Set(report.references.map((r:any)=>r.snapshot))]).toEqual(['20261016T040000Z']);expect(report.rpc.every((r:any)=>r.status===200)).toBe(true);expect(errors).toEqual([]);
++  expect([...new Set(report.references.map((r:any)=>r.snapshot))]).toEqual(['20261016T040000Z']);expect(report.rpc.every((r:any)=>r.status===200 || (r.name==='touch_user_activity' && r.status===204))).toBe(true);expect(errors).toEqual([]);
+   report.checks={real_production:true,old_saved_comparison_new_scoring:true,unrounded_five_scores_match:true,confidence_and_ranking_match:true,new_snapshot_in_live_rpc:true,reference_mismatch_notice_visible:report.reference_notice_text.length>0};
+-  await page.locator('.desktop-matrix').screenshot({path:O+'production-matrix.png'});report.live_references=[...report.references];report.status='live_passed';save();
+-  // Separate controlled browser-only stale-reference observation; never writes server data.
+-  // The actual saved comparison reopened above recomputes fresh inputs, so cannot produce a generation mismatch.
+-  await page.route(api+'/rest/v1/rpc/score_reference_percentiles',async route=>{const response=await route.fetch();const v=await response.json();v.snapshot='20261012T013000Z';v.sources.schools=oldSources.schools;await route.fulfill({response,json:v});});
+-  await page.getByRole('button',{name:'저장한 비교 다시 열기',exact:true}).click();
+-  await expect.poll(async()=>{const rows=await matrix();return rows.length===5&&rows.every(r=>r.axes.some(a=>a.key==='demand'&&a.value===null));}).toBe(true);
+   await page.locator('.desktop-matrix td[data-axis="demand"] button').first().click();
+-  report.controlled_stale_reference={browser_only:true,not_live_rpc_evidence:true,body_text:await page.locator('body').innerText(),evidence_text:await page.getByRole('region',{name:'근거 패널'}).innerText(),matrix:await matrix()};
+-  report.status='passed';save();
++  const evidence=page.getByRole('region',{name:'근거 패널'});
++  await evidence.getByText('데이터 출처·기준일',{exact:true}).click();
++  const dateText=await evidence.locator('details[open]').innerText();
++  expect(dateText).toContain('기준분포 20261016T040000Z');
++  expect(dateText).not.toContain('20261012T013000Z');
++  report.data_date={text:dateText,expected_snapshot:'20261016T040000Z',old_snapshot_absent:true};
++  report.live_references=[...report.references];report.status='passed';save();
+  }catch(e){report.status='failed';report.error=String(e);save();throw e;}finally{await Promise.allSettled(tasks);report.errors=errors;report.finished_at=new Date().toISOString();save();}
+ });

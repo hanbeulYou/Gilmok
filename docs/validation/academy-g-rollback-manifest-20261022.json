@@ -1,0 +1,362 @@
+{
+  "started_at": "2026-10-22T08:40:07Z",
+  "mode": "remote_pre_promotion",
+  "target_manifest_sha256": "081faf63127aca46fe5c9d716959d7ec85db03dc4ceb9c6c898b285f5a2a1da7",
+  "tables": [
+    {
+      "table": "public.academies",
+      "rows": 25527,
+      "binary_sha256": "5916346b1191821d07bb68664afff972d496c70474473c5443f45ad41914dde7",
+      "binary_bytes": 7158114,
+      "file": "public.academies.bin.gz",
+      "gzip_sha256": "1ec133aa1b9f4154e3fef130cf4877c4045ef440c6b65951a5b3794e31b59aa3",
+      "columns": [
+        "id",
+        "name",
+        "institution_type",
+        "registration_status",
+        "field",
+        "affiliation",
+        "course_list",
+        "course",
+        "address",
+        "geom",
+        "geocode_failed",
+        "geocode_provider",
+        "geocode_reason",
+        "source",
+        "source_version",
+        "ingested_at",
+        "estimated"
+      ],
+      "seconds": 5.039163749665022,
+      "reexport_match": true
+    },
+    {
+      "table": "public.schools",
+      "rows": 1320,
+      "binary_sha256": "b642c889a1e05d625ecc7ec89163cd922d7a6db182420dcad21329004fbd5e58",
+      "binary_bytes": 267228,
+      "file": "public.schools.bin.gz",
+      "gzip_sha256": "7636571c9b12d72d74275f8115767a1e8efab42b6b148cd370f6f0e6fa7d349e",
+      "columns": [
+        "id",
+        "name",
+        "level",
+        "school_type",
+        "address",
+        "geom",
+        "geocode_failed",
+        "geocode_provider",
+        "geocode_reason",
+        "source",
+        "source_version",
+        "ingested_at",
+        "estimated"
+      ],
+      "seconds": 0.40944904228672385,
+      "reexport_match": true
+    },
+    {
+      "table": "public.geocode_cache",
+      "rows": 13669,
+      "binary_sha256": "b095fb80b96d94164b22a13406cf768864143084979b263240471389a5354bbe",
+      "binary_bytes": 2240604,
+      "file": "public.geocode_cache.bin.gz",
+      "gzip_sha256": "0f779c4dbfc9b03dc1bfc49805f581e3b937e3b19d62f0ae1f3984d14fd950cd",
+      "columns": [
+        "address",
+        "provider",
+        "geom",
+        "fetched_at",
+        "geocode_failed",
+        "source",
+        "source_version",
+        "ingested_at",
+        "estimated",
+        "failure_reason",
+        "provenance"
+      ],
+      "seconds": 2.619915375020355,
+      "reexport_match": true
+    },
+    {
+      "table": "public.score_reference",
+      "rows": 162032,
+      "binary_sha256": "a123da450f8101aec4a024df5473cd836458774b294c0f9f1daccc36c9359a87",
+      "binary_bytes": 19778983,
+      "file": "public.score_reference.bin.gz",
+      "gzip_sha256": "c684b91a245a107dccec757f70f22e9ce99d979a1aced6d9205aee81c1a6e2d0",
+      "columns": [
+        "preset_id",
+        "preset_version",
+        "snapshot",
+        "radius_m",
+        "cell_id",
+        "axis_key",
+        "raw_value",
+        "computed_at",
+        "inputs_schema_version"
+      ],
+      "seconds": 10.17231791606173,
+      "reexport_match": true
+    },
+    {
+      "table": "public.score_reference_sets",
+      "rows": 1,
+      "binary_sha256": "c2a26ebbfc3cf393e1be23c42b8b5697a21fb546677e876b5211b7bcd1f501bf",
+      "binary_bytes": 8027,
+      "file": "public.score_reference_sets.bin.gz",
+      "gzip_sha256": "367dbd29e0b2748ac66d5f0aa8e134947a3078c15c1740f02a9f46a603b8e648",
+      "columns": [
+        "preset_id",
+        "preset_version",
+        "snapshot",
+        "computed_at",
+        "inputs_schema_version",
+        "cell_count",
+        "source_fingerprint",
+        "source_versions",
+        "statistics"
+      ],
+      "seconds": 0.21499741729348898,
+      "reexport_match": true
+    },
+    {
+      "table": "ingest_private.place_snapshots",
+      "rows": 3,
+      "binary_sha256": "6f6116f6d3cb0cb2fe3fce53026f629b7ce1c8432c9de49ace8e5d0ec864ba06",
+      "binary_bytes": 694,
+      "file": "ingest_private.place_snapshots.bin.gz",
+      "gzip_sha256": "259ad58299bb96019d691e6cb6ecc3fb4b390e0a835b4d18e3e5a427c06c30f5",
+      "columns": [
+        "target_table",
+        "source",
+        "source_version",
+        "raw_key",
+        "row_count",
+        "located_count",
+        "estimated",
+        "report",
+        "ingested_at"
+      ],
+      "seconds": 0.2533550839871168,
+      "reexport_match": true
+    },
+    {
+      "table": "ingest_private.refresh_snapshots",
+      "rows": 6,
+      "binary_sha256": "9e6113d45326b783cb8c9b8c71a76fa52a4b09fee792eb44d715a7a50fae891f",
+      "binary_bytes": 15765,
+      "file": "ingest_private.refresh_snapshots.bin.gz",
+      "gzip_sha256": "a70a3c27f0ef0e45adac9ecbd8d506ce59f8adae45c1ae2c5d345552902decf7",
+      "columns": [
+        "source",
+        "period_end",
+        "snapshot",
+        "manifest",
+        "committed_at"
+      ],
+      "seconds": 0.21736216731369495,
+      "reexport_match": true
+    },
+    {
+      "table": "ingest_private.ingest_runs",
+      "rows": 20,
+      "binary_sha256": "62b075f4140b83b8100e5b1cc396cc6c91e3c7971ba53c5de6ccdbb6e810efce",
+      "binary_bytes": 1885,
+      "file": "ingest_private.ingest_runs.bin.gz",
+      "gzip_sha256": "464ef4d3ec434ec209ce213ec47450bd0ee08f571a8fecde649014d79be6a3e7",
+      "columns": [
+        "id",
+        "source",
+        "source_version",
+        "target_table",
+        "row_count",
+        "completed_at"
+      ],
+      "seconds": 0.210551583673805,
+      "reexport_match": true
+    },
+    {
+      "table": "app_private.academy_display",
+      "rows": 0,
+      "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+      "binary_bytes": 21,
+      "file": "app_private.academy_display.bin.gz",
+      "gzip_sha256": "7e26913155fb38fc56630b7bd08a9ba8e96026ff8b8c0f32a205554492cd776d",
+      "columns": [
+        "academy_id",
+        "floor_label",
+        "floor_status",
+        "source_revision",
+        "raw_sha256"
+      ],
+      "seconds": 0.2100288332439959,
+      "reexport_match": true
+    },
+    {
+      "table": "app_private.academy_display_release",
+      "rows": 0,
+      "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+      "binary_bytes": 21,
+      "file": "app_private.academy_display_release.bin.gz",
+      "gzip_sha256": "b4216bd03300bde9afc3dd6933dd3d9d784a3850272e7390a26fef8a57bab172",
+      "columns": [
+        "singleton",
+        "source_revision",
+        "source_version",
+        "raw_sha256",
+        "row_count",
+        "coordinate_provider",
+        "ingested_at"
+      ],
+      "seconds": 0.21333895763382316,
+      "reexport_match": true
+    },
+    {
+      "table": "app_private.academy_coordinate_reviews",
+      "rows": 0,
+      "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+      "binary_bytes": 21,
+      "file": "app_private.academy_coordinate_reviews.bin.gz",
+      "gzip_sha256": "aff38a259b8e18b3813b85775e6d48d9b5e607ce89854057b16467a44bd09e89",
+      "columns": [
+        "entity_kind",
+        "entity_id",
+        "source_revision",
+        "source_raw_sha256",
+        "review_version",
+        "reason_code"
+      ],
+      "seconds": 0.2074193749576807,
+      "reexport_match": true
+    },
+    {
+      "table": "app_private.academy_layer_release",
+      "rows": 0,
+      "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+      "binary_bytes": 21,
+      "file": "app_private.academy_layer_release.bin.gz",
+      "gzip_sha256": "e4aff4c5892a4f1c154b1090a367cd78b74731a4064e5164c3b8348f06ce16a1",
+      "columns": [
+        "singleton",
+        "source_revision",
+        "raw_sha256",
+        "academy_source",
+        "review_version",
+        "reviewed_academy_count",
+        "reviewed_school_count"
+      ],
+      "seconds": 0.2165171247906983,
+      "reexport_match": true
+    }
+  ],
+  "provider_before": {
+    "juso": {
+      "rows": 99,
+      "binary_sha256": "067a9cfd55eb8672596cb969a816af50f7b2c0d1421fd25b197d2523b364fb4f",
+      "binary_bytes": 71379
+    },
+    "kakao": {
+      "rows": 13542,
+      "binary_sha256": "ac2cfca7dc9d92eda0c9dc2c2480732d38e921cab0329b8813819062cccbd5a7",
+      "binary_bytes": 2164693
+    },
+    "vworld": {
+      "rows": 28,
+      "binary_sha256": "35c6b26a509c15f9c9c7ef0a2b0910a11a6c8b46dec5cd5254bec99b364d0d59",
+      "binary_bytes": 4574
+    }
+  },
+  "protected": {
+    "app_private.address_daily_usage": {
+      "table": "app_private.address_daily_usage",
+      "rows": 13,
+      "binary_sha256": "a58738daa71c2f1760f45ded19ffb70244d396e59b7d072d56e582418d739aa2",
+      "binary_bytes": 723
+    },
+    "app_private.candidate_lookup_watchers": {
+      "table": "app_private.candidate_lookup_watchers",
+      "rows": 4,
+      "binary_sha256": "2a73dc3f10d1a88bc362002824ec155fac0cdc7e4ad6890ef1e49bf43dcbb2eb",
+      "binary_bytes": 389
+    },
+    "app_private.projection_errors": {
+      "table": "app_private.projection_errors",
+      "rows": 0,
+      "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+      "binary_bytes": 21
+    },
+    "app_private.user_activity": {
+      "table": "app_private.user_activity",
+      "rows": 20,
+      "binary_sha256": "68419b262321ba2472f9a8ecb5090a8543ce5dc920039a99f0ed1af2f3b2ec05",
+      "binary_bytes": 701
+    },
+    "ingest_private.address_daily_usage": {
+      "table": "ingest_private.address_daily_usage",
+      "rows": 2,
+      "binary_sha256": "08b3a0d03a37d160dc0794bd9808eeaa834e1b97d54882f9a95fecbc53a6de62",
+      "binary_bytes": 97
+    },
+    "ingest_private.building_address_cache": {
+      "table": "ingest_private.building_address_cache",
+      "rows": 2,
+      "binary_sha256": "cb3a529ed9cfbb8fad57b477a7f1d2d0e0044bedffdd5747900e265db06a6f96",
+      "binary_bytes": 4507
+    },
+    "ingest_private.building_address_requests": {
+      "table": "ingest_private.building_address_requests",
+      "rows": 2,
+      "binary_sha256": "f11979840635b9fd12d5004c969e405cb23ec7c64f9f348e6a1bbb066796cfa1",
+      "binary_bytes": 318
+    },
+    "ingest_private.ingest_runs": {
+      "table": "ingest_private.ingest_runs",
+      "rows": 20,
+      "binary_sha256": "62b075f4140b83b8100e5b1cc396cc6c91e3c7971ba53c5de6ccdbb6e810efce",
+      "binary_bytes": 1885
+    },
+    "public.candidate_lookup_status": {
+      "table": "public.candidate_lookup_status",
+      "rows": 4,
+      "binary_sha256": "f9872015aa997d997ea02434a7809666bf4ce1cce19dcef50e66144724d7e81d",
+      "binary_bytes": 193
+    },
+    "public.candidates": {
+      "table": "public.candidates",
+      "rows": 6,
+      "binary_sha256": "db76d43101d9af38b157fa0cf4427f38b8479bf404f3ef41547ec796a5ee5f33",
+      "binary_bytes": 7864
+    },
+    "public.comparisons": {
+      "table": "public.comparisons",
+      "rows": 3,
+      "binary_sha256": "731941b3296e4fe65a1bea1f5883ca2e5722e0eff00f3dbea3e30eccdd856aaa",
+      "binary_bytes": 962
+    },
+    "public.user_weight_presets": {
+      "table": "public.user_weight_presets",
+      "rows": 1,
+      "binary_sha256": "8c0b333aa38dfc1c21962428cb20add873d026be9ad6acea3c0cd942a97d6a0f",
+      "binary_bytes": 548
+    }
+  },
+  "status": "verified",
+  "source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+  "juso_99_before_in_full_cache_backup": true,
+  "auth_users": {
+    "table": "auth.users",
+    "rows": 20,
+    "binary_sha256": "5973be887502a41b654c5ec14c2045ab0df088d2432580ffbba83aab646bc922",
+    "binary_bytes": 4701
+  },
+  "reference_before": [
+    [
+      "20261012T013000Z",
+      "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8"
+    ]
+  ],
+  "seconds": 25.524999957997352
+}
