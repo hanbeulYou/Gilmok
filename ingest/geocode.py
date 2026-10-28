@@ -12,8 +12,6 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from urllib.error import HTTPError
-from urllib.parse import urlencode
-from urllib.request import urlopen
 
 from dotenv import dotenv_values
 
@@ -102,22 +100,8 @@ def parse_vworld(data, address=None):
 
 
 def request_vworld(address, key):
-    query = urlencode(
-        {
-            "service": "address",
-            "request": "getcoord",
-            "version": "2.0",
-            "crs": "epsg:4326",
-            "address": address,
-            "refine": "true",
-            "simple": "false",
-            "format": "json",
-            "type": "road",
-            "key": key,
-        }
-    )
-    with urlopen("https://api.vworld.kr/req/address?" + query, timeout=30) as response:
-        return json.load(response)
+    """Historical call boundary retained to fail closed; saved-response parsers remain."""
+    raise GeocodeStopped("Vworld network access retired; use Juso coordinates")
 
 
 def parser_for(provider):

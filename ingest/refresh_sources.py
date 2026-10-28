@@ -9,7 +9,6 @@ from datetime import date
 from pathlib import Path
 
 import boto3
-import duckdb
 import pandas as pd
 from dotenv import dotenv_values
 
@@ -305,7 +304,7 @@ def _trades(args, pub, db, files):
 
 
 def _buildings(args, pub, db, files):
-    from ingest.building_footprints import WfsClient, normalize_shp, normalize_wfs, read_shp_zip
+    from ingest.building_footprints import normalize_shp, normalize_wfs, read_shp_zip
     from ingest.building_register import normalize_floors, normalize_titles, pnu_parts
     from ingest.buildings_database import load_snapshot
 
@@ -317,22 +316,10 @@ def _buildings(args, pub, db, files):
         where left(adm_cd,5)='11680') q""").fetchone()
     if not extent or any(x is None for x in extent):
         raise ValueError("Verified Gangnam boundary required")
-    with duckdb.connect() as spatial:
-        spatial.execute("LOAD spatial")
-        spatial.register("raw_shapes", raw)
-        shape = spatial.execute("""select min(ST_XMin(g)),min(ST_YMin(g)),
-            max(ST_XMax(g)),max(ST_YMax(g)) from (select
-            ST_Transform(ST_GeomFromWKB(source_geometry_wkb),
-                'EPSG:5186','EPSG:4326',always_xy:=true) g from raw_shapes) q""").fetchone()
-    extent = (
-        min(shape[0], extent[0]) - 0.00001,
-        min(shape[1], extent[1]) - 0.00001,
-        max(shape[2], extent[2]) + 0.00001,
-        max(shape[3], extent[3]) + 0.00001,
-    )
     version = date.today().isoformat()
-    features, _ = WfsClient(args.directory / "wfs", version).collect(extent)
-    wfs, _ = normalize_wfs(features, set(shp.gis_id), version, args.directory / "wfs.parquet")
+    from ingest.archived_wfs import SNAPSHOT, archived_building_features
+    features = archived_building_features(args.directory / "wfs-archive")
+    wfs, _ = normalize_wfs(features, set(shp.gis_id), SNAPSHOT, args.directory / "wfs.parquet")
     groups = [pnu_parts(p) for p in sorted(set(shp.pnu))]
     # Bulk registry collection may exceed one run's provider budget. Manual refresh
     # accepts the existing resumable collector's completed, checksum-verified artifacts.

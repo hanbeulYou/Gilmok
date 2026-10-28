@@ -1,0 +1,108 @@
+{
+  "inventory": [
+    {
+      "key": "raw/legal_boundaries/2026-09.parquet",
+      "bytes": 346410,
+      "sha256": "8253b39f923001a8874ee08f74c7543156a8822a99fbc674a513d0506fc4340f",
+      "rows": 68,
+      "columns": [
+        "feature_json",
+        "properties_json",
+        "geometry_json",
+        "collection_metadata_json"
+      ],
+      "r2_head_digest_match": true,
+      "download_digest_match": true
+    },
+    {
+      "key": "raw/vworld_building_footprints/2026-09.parquet",
+      "bytes": 4600279,
+      "sha256": "6cda38773a28f479dcdcde157ab1be68c1bf208dbcc40eb60c247a9c93ba7ae5",
+      "rows": 33345,
+      "columns": [
+        "ufid",
+        "bld_nm",
+        "dong_nm",
+        "grnd_flr",
+        "ugrnd_flr",
+        "pnu",
+        "archarea",
+        "totalarea",
+        "platarea",
+        "height",
+        "strct_cd",
+        "usability",
+        "bc_rat",
+        "vl_rat",
+        "bldrgst_pk",
+        "useapr_day",
+        "regist_day",
+        "gb_cd",
+        "viol_bd_yn",
+        "geoidn",
+        "bldg_pnu",
+        "bldg_pnu_y",
+        "bld_unlice",
+        "bd_mgt_sn",
+        "sgg_oid",
+        "col_adm_se",
+        "feature_id",
+        "geometry_json"
+      ],
+      "r2_head_digest_match": true,
+      "download_digest_match": true
+    }
+  ],
+  "replay": {
+    "r2_reads_only": true,
+    "remote_db_writes": false,
+    "source_version": "2026-09-20",
+    "raw_wfs_features": 33345,
+    "shp_normalized": 28227,
+    "wfs_normalized_before_geometry_overlap_filter": 5117,
+    "raw_attributes_and_geometry_equal": true,
+    "normalized_frame_equal": true,
+    "wfs_report": {
+      "raw_rows": 33345,
+      "missing_gis_id_candidates": 5117
+    },
+    "legal_raw": 68,
+    "legal_normalized": 14,
+    "legal_codes": [
+      "11680101",
+      "11680103",
+      "11680104",
+      "11680105",
+      "11680106",
+      "11680107",
+      "11680108",
+      "11680110",
+      "11680111",
+      "11680112",
+      "11680113",
+      "11680114",
+      "11680115",
+      "11680118"
+    ],
+    "original_provider_preserved": true
+  },
+  "juso": {
+    "read_only": true,
+    "search_provider": "juso",
+    "coordinate_provider": "juso",
+    "juso_key_present": true,
+    "juso_coord_key_present": true,
+    "steps": [
+      {
+        "stage": "juso_search",
+        "status": "ok"
+      },
+      {
+        "stage": "juso_coordinate",
+        "status": "ready",
+        "building_identifier_match": true,
+        "source_crs": "EPSG:5179"
+      }
+    ]
+  }
+}

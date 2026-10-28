@@ -87,44 +87,32 @@ def test_bad_boundaries_fail_closed(tmp_path, mutation):
         prepare_legal_boundaries(write(tmp_path, data))
 
 
-def test_network_errors_never_expose_credentials(tmp_path, monkeypatch):
-    def fail(*args, **kwargs):
-        raise OSError("failed URL key=secret-token")
-    monkeypatch.setattr("ingest.legal_boundaries.urlopen", fail)
-    with pytest.raises(RuntimeError) as error:
-        fetch_legal_boundaries(
-            tmp_path / "missing.geojson", environ={"VWORLD_API_KEY": "secret-token"}
-        )
-    assert "secret-token" not in str(error.value)
+def test_archive_failure_does_not_publish(tmp_path, monkeypatch):
+    def fail(*_, **__):
+        raise ValueError("Archived WFS checksum mismatch")
+    monkeypatch.setattr("ingest.archived_wfs.archived_legal_collection", fail)
+    with pytest.raises(ValueError, match="checksum"):
+        fetch_legal_boundaries(tmp_path / "missing.geojson", environ={})
     assert not (tmp_path / "missing.geojson").exists()
 
 
 @pytest.mark.parametrize("truncated", [False, True])
-def test_fetch_publishes_only_complete_validated_response(tmp_path, monkeypatch, truncated):
-    import io
-    from urllib.parse import parse_qs, urlparse
-
+def test_replay_publishes_only_complete_validated_original(tmp_path, monkeypatch, truncated):
     data = collection()
     if truncated:
         data["numberMatched"] = 99
     calls = []
-
-    def respond(request, timeout):
-        params = parse_qs(urlparse(request.full_url).query)
-        assert params["typename"] == ["lt_c_ademd_info"]
-        assert params["key"] == ["private-key"]
-        calls.append(request)
-        return io.BytesIO(json.dumps(data).encode())
-
-    monkeypatch.setattr("ingest.legal_boundaries.urlopen", respond)
-    path = tmp_path / "cache" / "legal.geojson"
+    def replay(*_, **__):
+        calls.append(1)
+        return data
+    monkeypatch.setattr("ingest.archived_wfs.archived_legal_collection", replay)
+    path = tmp_path / "legal.geojson"
     if truncated:
         with pytest.raises(ValueError, match="truncated"):
-            fetch_legal_boundaries(path, environ={"VWORLD_API_KEY": "private-key"})
+            fetch_legal_boundaries(path, environ={})
         assert not path.exists()
-        assert list(path.parent.iterdir()) == []
     else:
-        assert fetch_legal_boundaries(path, environ={"VWORLD_API_KEY": "private-key"}) == path
-        assert "private-key" not in path.read_text()
         assert fetch_legal_boundaries(path, environ={}) == path
-    assert len(calls) == 1
+        assert json.loads(path.read_text()) == data
+        assert fetch_legal_boundaries(path, environ={}) == path
+    assert calls == [1]

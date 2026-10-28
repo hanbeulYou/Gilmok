@@ -1,12 +1,19 @@
-"""Read-only provider diagnosis for the fixed public D5 address; no DB or queue access."""
+"""One public-address Juso diagnosis, no DB/cache writes or sensitive response logging."""
 
 import json
+import math
 import os
 import re
 from urllib.error import HTTPError
 
-from ingest.geocode import parse_vworld, request_vworld
-from ingest.juso import matches_address, parse_search, request_search
+from ingest.juso import (
+    COORD_URL,
+    IDENTIFIERS,
+    api_json,
+    matches_address,
+    parse_search,
+    request_search,
+)
 
 ADDRESS = "서울특별시 강남구 강남대로92길 33"
 
@@ -18,57 +25,79 @@ def safe_code(value, keys):
     return value if re.fullmatch(r"[A-Za-z0-9_-]{1,40}", value) else "unclassified"
 
 
-def diagnose(env, *, search=request_search, coordinate=request_vworld):
-    keys = [env.get("JUSO_API_KEY"), env.get("VWORLD_API_KEY")]
-    result = {
-        "read_only": True,
-        "search_provider": "juso",
-        "coordinate_provider": "vworld",
-        "juso_key_present": bool(keys[0]),
-        "vworld_key_present": bool(keys[1]),
-        "steps": [],
-    }
+def request_coordinate(item, key):
+    return api_json(
+        COORD_URL, dict(confmKey=key, resultType="json", **{k: item[k] for k in IDENTIFIERS})
+    )
+
+
+def diagnose(env, *, search=request_search, coordinate=request_coordinate):
+    keys = [env.get("JUSO_API_KEY"), env.get("JUSO_COORD_API_KEY")]
+    result = dict(
+        read_only=True,
+        search_provider="juso",
+        coordinate_provider="juso",
+        juso_key_present=bool(keys[0]),
+        juso_coord_key_present=bool(keys[1]),
+        steps=[],
+    )
     steps = result["steps"]
     if not all(keys):
-        steps.append({"stage": "preflight", "status": "missing_key"})
+        steps.append(dict(stage="preflight", status="missing_key"))
         return result
     try:
         raw = search(ADDRESS, keys[0])
         code = raw["results"]["common"]["errorCode"]
         if str(code) != "0":
             steps.append(
-                {"stage": "juso_search", "status": "business_error", "code": safe_code(code, keys)}
+                dict(stage="juso_search", status="business_error", code=safe_code(code, keys))
             )
             return result
         count, items = parse_search(raw)
         exact = [item for item in items if matches_address(item, ADDRESS)]
         if count != len(items) or len(exact) != 1:
-            steps.append({"stage": "juso_search", "status": "no_unique_exact_match"})
+            steps.append(dict(stage="juso_search", status="no_unique_exact_match"))
             return result
-        steps.append({"stage": "juso_search", "status": "ok"})
+        steps.append(dict(stage="juso_search", status="ok"))
     except Exception:
-        steps.append({"stage": "juso_search", "status": "transport_or_schema_error"})
+        steps.append(dict(stage="juso_search", status="transport_or_schema_error"))
         return result
     try:
-        raw = coordinate(exact[0]["roadAddrPart1"], keys[1])
-        response = raw["response"]
-        if response["status"] not in {"OK", "NOT_FOUND"}:
+        raw = coordinate(exact[0], keys[1])["results"]
+        common = raw["common"]
+        if str(common["errorCode"]) != "0":
             steps.append(
-                {
-                    "stage": "vworld_coordinate",
-                    "status": "business_error",
-                    "code": safe_code(response.get("error", {}).get("code"), keys),
-                }
+                dict(
+                    stage="juso_coordinate",
+                    status="business_error",
+                    code=safe_code(common["errorCode"], keys),
+                )
             )
             return result
-        status, _, _ = parse_vworld(raw, exact[0]["roadAddrPart1"])
-        steps.append({"stage": "vworld_coordinate", "status": status})
-    except HTTPError as error:
+        count = int(common["totalCount"])
+        if count == 0 and not raw.get("juso"):
+            steps.append(dict(stage="juso_coordinate", status="missing"))
+            return result
+        if count != 1 or len(raw["juso"]) != 1:
+            raise ValueError("Coordinate result not unique")
+        point = raw["juso"][0]
+        if point["bdMgtSn"] != exact[0]["bdMgtSn"]:
+            raise ValueError("Building identifier mismatch")
+        x, y = float(point["entX"]), float(point["entY"])
+        if not all(math.isfinite(v) and v > 0 for v in (x, y)):
+            raise ValueError("Invalid EPSG:5179 coordinate")
         steps.append(
-            {"stage": "vworld_coordinate", "status": "http_error", "http_status": error.code}
+            dict(
+                stage="juso_coordinate",
+                status="ready",
+                building_identifier_match=True,
+                source_crs="EPSG:5179",
+            )
         )
+    except HTTPError as error:
+        steps.append(dict(stage="juso_coordinate", status="http_error", http_status=error.code))
     except Exception:
-        steps.append({"stage": "vworld_coordinate", "status": "transport_or_schema_error"})
+        steps.append(dict(stage="juso_coordinate", status="transport_or_schema_error"))
     return result
 
 

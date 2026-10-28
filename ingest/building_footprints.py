@@ -2,20 +2,14 @@
 
 import hashlib
 import json
-import os
 import re
 import zipfile
 from pathlib import Path
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
 import duckdb
 import pandas as pd
-from dotenv import dotenv_values
 
 from ingest.building_register import atomic_json, current_pk
-from ingest.common import ROOT
 
 SHP_SOURCE = "gis_buildings_shp"
 WFS_SOURCE = "vworld_wfs_supplement"
@@ -157,116 +151,6 @@ def normalize_shp(frame):
         "normalized_rows": len(result),
         "complete_duplicates_removed": original - len(result),
     }
-
-
-class WfsClient:
-    def __init__(self, directory, snapshot, *, fetch=None):
-        self.directory = Path(directory) / snapshot
-        self.fetch = fetch or self._fetch
-        self.requests = 0
-
-    def _fetch(self, bbox):
-        env = {**dotenv_values(ROOT / ".env"), **os.environ}
-        key = env.get("VWORLD_API_KEY") or ""
-        if not key:
-            raise ValueError("VWORLD_API_KEY is required for missing-shape supplements")
-        parameters = {
-            "service": "WFS",
-            "version": "1.1.0",
-            "key": key,
-            "domain": env.get("VWORLD_SERVICE_URL") or "http://localhost",
-            "request": "GetFeature",
-            "typename": "lt_c_bldginfo",
-            "srsname": "EPSG:4326",
-            "output": "application/json",
-            "maxfeatures": 1000,
-            "bbox": ",".join(map(str, bbox)),
-        }
-        try:
-            with urlopen(
-                Request(
-                    "https://api.vworld.kr/req/wfs?" + urlencode(parameters),
-                    headers={"User-Agent": "Gilmok-ingest/1.0"},
-                ),
-                timeout=60,
-            ) as response:
-                raw = response.read()
-            if key.encode() in raw:
-                raise ValueError("Provider response reflected credentials")
-            return json.loads(raw)
-        except HTTPError as error:
-            raise ConnectionError(f"WFS HTTP {error.code}; resume saved tiles") from None
-        except (URLError, TimeoutError, OSError, json.JSONDecodeError):
-            raise ConnectionError("WFS request failed; resume saved tiles") from None
-
-    def tile(self, bbox):
-        key = hashlib.sha256(json.dumps(bbox).encode()).hexdigest()[:12]
-        path = self.directory / f"{key}.json"
-        if path.exists():
-            cached = json.loads(path.read_text())
-            if cached["bbox"] != list(bbox):
-                raise ValueError("WFS cache bbox differs")
-            response = cached["response"]
-        else:
-            self.requests += 1
-            response = self.fetch(bbox)
-            self.validate(response)
-            atomic_json(path, {"bbox": list(bbox), "response": response})
-        self.validate(response)
-        return response
-
-    @staticmethod
-    def validate(response):
-        if response.get("type") != "FeatureCollection":
-            raise ValueError("WFS application error, not a successful feature response")
-        if int(response["numberReturned"]) != len(response["features"]) or int(
-            response["numberMatched"]
-        ) < len(response["features"]):
-            raise ValueError("WFS response count mismatch")
-
-    def collect(self, bbox):
-        features = {}
-        tiles = []
-        root = self.tile(bbox)
-
-        def visit(bounds, response, depth=0):
-            if int(response["numberMatched"]) > len(response["features"]):
-                if depth >= 12:
-                    raise ValueError("WFS response still truncated at maximum subdivision")
-                x0, y0, x1, y1 = bounds
-                xm, ym = (x0 + x1) / 2, (y0 + y1) / 2
-                for child in [
-                    (x0, y0, xm, ym),
-                    (xm, y0, x1, ym),
-                    (x0, ym, xm, y1),
-                    (xm, ym, x1, y1),
-                ]:
-                    visit(child, self.tile(child), depth + 1)
-                return
-            tiles.append(list(bounds))
-            for feature in response["features"]:
-                identity = feature["id"]
-                if identity in features and features[identity] != feature:
-                    raise ValueError("WFS feature changed between tiles")
-                features[identity] = feature
-
-        visit(bbox, root)
-        if len(features) != int(root["numberMatched"]):
-            raise ValueError("WFS tile union differs from complete root count")
-        scoped = [
-            f
-            for _, f in sorted(features.items())
-            if str(f["properties"].get("col_adm_se")) == "11680"
-        ]
-        if not scoped:
-            raise ValueError("No Gangnam WFS features")
-        return scoped, {
-            "bbox": list(bbox),
-            "root_matched": len(features),
-            "leaf_tiles": len(tiles),
-            "scoped_features": len(scoped),
-            "requests_this_run": self.requests,
-        }
 
 
 def normalize_wfs(features, primary_gis_ids, snapshot, raw_path):
