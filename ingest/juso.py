@@ -109,7 +109,7 @@ def point(lng, lat):
 
 
 class VworldCoordinates:
-    """Temporary approved coordinate provider, validated against Juso's road identity."""
+    """Historical saved-response adapter; live network requester is retired."""
 
     provider = "vworld"
 
@@ -209,8 +209,8 @@ def parse_geocode(envelope, address):
     return "success", lng, lat
 
 
-def request_address(address, key, *, coordinate_key):
-    return resolve_address(address, key, VworldCoordinates(coordinate_key))
+def request_address(address, key, *, coordinate_key, project):
+    return resolve_address(address, key, JusoCoordinates(coordinate_key, project))
 
 def batch_request_address(connection, address, key, coordinate_key):
     """Approved batch coordinates: Juso only, without a Vworld fallback."""

@@ -16,7 +16,6 @@ import duckdb
 import pandas as pd
 
 from ingest.building_footprints import (
-    WfsClient,
     normalize_shp,
     normalize_wfs,
     read_shp_zip,
@@ -64,10 +63,13 @@ def footprint_bbox(frame):
 def prepare(args):
     raw, raw_path, manifest = read_shp_zip(args.shp_zip, args.directory)
     shp, shp_report = normalize_shp(raw)
-    bbox = footprint_bbox(raw)
-    features, wfs_report = WfsClient(args.directory / "wfs-pages", args.snapshot).collect(bbox)
+    from ingest.archived_wfs import ARCHIVES, SNAPSHOT, archived_building_features
+    features = archived_building_features(args.directory / "wfs-archive")
+    wfs_report = dict(archived=True, source_version=SNAPSHOT,
+                      raw_key=ARCHIVES["vworld_building_footprints"][0],
+                      scoped_features=len(features), requests_this_run=0)
     wfs, wfs_normalization = normalize_wfs(
-        features, set(shp.gis_id), args.snapshot, args.directory / "wfs-original.parquet"
+        features, set(shp.gis_id), SNAPSHOT, args.directory / "wfs-original.parquet"
     )
     footprints = pd.concat([shp, wfs], ignore_index=True)
     write_frame(footprints, args.directory / "footprints-normalized.parquet")

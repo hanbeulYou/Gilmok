@@ -54,9 +54,7 @@ jobs:
           JUSO_API_KEY: ${{ secrets.JUSO_API_KEY }}
           JUSO_COORD_API_KEY: ${{ secrets.JUSO_COORD_API_KEY }}
           JUSO_COORD_ENABLED: ${{ vars.JUSO_COORD_ENABLED == 'true' }}
-          VWORLD_API_KEY: ${{ secrets.VWORLD_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
-          VWORLD_SERVICE_URL: ${{ vars.VWORLD_SERVICE_URL }}
           RONE_API_KEY: ${{ secrets.RONE_API_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}

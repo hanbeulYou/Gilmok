@@ -2,18 +2,12 @@
 
 import json
 import math
-import os
 import re
 import tempfile
 from pathlib import Path
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
 import duckdb
 import pandas as pd
-from dotenv import dotenv_values
-
-from ingest.common import ROOT
 
 SOURCE = "vworld_lt_c_ademd_info"
 GANGNAM_DONGS = {
@@ -128,29 +122,13 @@ def prepare_legal_boundaries(path: Path, *, source_version: str | None = None) -
 
 
 def fetch_legal_boundaries(cache_path: Path, *, environ=None) -> Path:
-    """Reuse a validated supplied file, or atomically cache one complete WFS response."""
+    """Reuse a validated file, or replay the pinned 2026-09 R2 original (no API)."""
     if cache_path.exists():
         prepare_legal_boundaries(cache_path)
         return cache_path
-    env = {**dotenv_values(ROOT / ".env"), **os.environ} if environ is None else environ
-    key = env.get("VWORLD_API_KEY")
-    if not key:
-        raise ValueError("VWORLD_API_KEY is required for legal-dong WFS")
-    endpoint = env.get("VWORLD_WFS_URL") or "https://api.vworld.kr/req/wfs"
-    if not endpoint.startswith("https://") or "?" in endpoint or "#" in endpoint:
-        raise ValueError("VWORLD_WFS_URL must be an HTTPS endpoint without query parameters")
-    params = {"service": "WFS", "request": "GetFeature", "version": "1.1.0",
-              "typename": "lt_c_ademd_info", "srsname": "EPSG:4326",
-              "output": "application/json", "maxFeatures": 1000,
-              "bbox": "127.0,37.43,127.2,37.55", "key": key,
-              "domain": env.get("VWORLD_SERVICE_URL") or "http://localhost"}
-    try:
-        request = Request(endpoint + "?" + urlencode(params),
-                          headers={"User-Agent": "Gilmok-ingest/1.0"})
-        with urlopen(request, timeout=60) as response:
-            payload = response.read()
-    except Exception:
-        raise RuntimeError("Legal-dong WFS request failed (credentials omitted)") from None
+    from ingest.archived_wfs import archived_legal_collection
+    collection = archived_legal_collection(cache_path.parent / 'archive', environ=environ)
+    payload = json.dumps(collection).encode()
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:

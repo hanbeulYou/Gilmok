@@ -69,5 +69,4 @@ jobs:
       - name: Diagnose providers without queue or DB access
         env:
           JUSO_API_KEY: ${{ secrets.JUSO_API_KEY }}
-          VWORLD_API_KEY: ${{ secrets.VWORLD_API_KEY }}
         run: uv run --frozen python -m ingest.address_provider_diagnostic

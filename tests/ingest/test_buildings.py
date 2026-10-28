@@ -7,7 +7,6 @@ import pandas as pd
 import pytest
 
 from ingest.building_footprints import (
-    WfsClient,
     height_contract,
     normalize_shp,
     read_shp_zip,
@@ -182,23 +181,6 @@ def wfs_response(features, total=None):
         "numberMatched": total if total is not None else len(features),
         "numberReturned": len(features),
     }
-
-
-def test_wfs_subdivision_deduplicates_tiles_and_proves_complete_union(tmp_path):
-    feature = {"id": "one", "properties": {"col_adm_se": "11680"}}
-    second = {"id": "two", "properties": {"col_adm_se": "11680"}}
-    calls = []
-
-    def fetch(bbox):
-        calls.append(bbox)
-        return wfs_response([feature], 2) if len(calls) == 1 else wfs_response([feature, second])
-
-    client = WfsClient(tmp_path, "2026-09-20", fetch=fetch)
-    result, proof = client.collect((0, 0, 2, 2))
-    assert len(result) == 2 and proof["leaf_tiles"] == 4 and len(calls) == 5
-    assert client.collect((0, 0, 2, 2))[0] == result and len(calls) == 5
-    with pytest.raises(ValueError, match="application error"):
-        client.validate({"response": {"status": "ERROR"}})
 
 
 def test_original_archive_is_published_without_changing_any_bytes(tmp_path):

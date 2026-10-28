@@ -17,17 +17,17 @@ from dotenv import dotenv_values
 
 from ingest.common import ROOT
 from ingest.database import connect_database
-from ingest.juso import parse_geocode, request_address
+from ingest.juso import batch_request_address, parse_geocode
 from ingest.score_reference import fingerprint, source_state
 
 BASELINE = ROOT / ".local/validation/s2-4-v03-20260926/inputs.json"
-DEFAULT_DIRECTORY = ROOT / ".local/validation/s3-2-a0-juso"
+DEFAULT_DIRECTORY = ROOT / ".local/validation/juso-coordinates"
 
 
 def collect(directory):
     env = {**dotenv_values(ROOT / ".env"), **os.environ}
-    if not env.get("JUSO_API_KEY") or not env.get("VWORLD_API_KEY"):
-        raise ValueError("JUSO_API_KEY and VWORLD_API_KEY required; no requests issued")
+    if not env.get("JUSO_API_KEY") or not env.get("JUSO_COORD_API_KEY"):
+        raise ValueError("JUSO_API_KEY and JUSO_COORD_API_KEY required; no requests issued")
     baseline = json.loads(BASELINE.read_text())
     directory.mkdir(parents=True, exist_ok=True)
     cases, spatial, responses = [], [], []
@@ -43,9 +43,12 @@ def collect(directory):
             if path.exists():
                 envelope = json.loads(path.read_text())
             else:
-                envelope = request_address(address, env["JUSO_API_KEY"],
-                                           coordinate_key=env["VWORLD_API_KEY"])
+                envelope = batch_request_address(
+                    db, address, env["JUSO_API_KEY"], env["JUSO_COORD_API_KEY"]
+                )
                 path.write_text(json.dumps(envelope, ensure_ascii=False, indent=2) + "\n")
+            if envelope.get("location", {}).get("coordinate_provider") != "juso":
+                raise ValueError("Legacy coordinate journal; use a new Juso-only directory")
             status, lng, lat = parse_geocode(envelope, address)
             if status != "success":
                 raise ValueError(f"{old['key']}: address result {status}; no DB/cache writes")
