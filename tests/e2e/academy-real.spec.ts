@@ -27,7 +27,7 @@ async function open(page:Page, expectMap=true) {
     if(name==='touch_user_activity'){await route.fulfill({status:204});return;}
     if(name==='load_comparison'){
       const ids=config.cases.map((_,i)=>`00000000-0000-4000-8000-00000000000${i+1}`);
-      await send({comparison:{id:ids[0],candidate_ids:ids,weights:academyV0.weights,preset_version:'0.3',scoring_model_version:'0.4.0',reference_snapshot:'20261016T040000Z',manual_order:true},candidates:config.cases.map((c,i)=>({id:ids[i],alias:c.name,lat:c.lat,lng:c.lng,floor:c.floor,address:c.address,pnu:null,deposit:null,user_rent:null,management_fee:null,area_m2:null,address_provenance:{selection:{pnu:'',road_address:c.address},location:{lat:c.lat,lng:c.lng,provider:'juso'}},registration_context:{status:'matched',context:{inside_seoul:true,seoul_boundary_distance_m:2000},building:null},lookup_status:'ready',lookup_request_id:null}))});return;
+      await send({comparison:{id:ids[0],candidate_ids:ids,weights:academyV0.weights,preset_version:'0.3',scoring_model_version:'0.4.0',reference_snapshot:'20261016T040000Z',manual_order:true},candidates:config.cases.map((c,i)=>({id:ids[i],alias:c.name,lat:c.lat,lng:c.lng,floor:c.floor,address:c.address,pnu:null,deposit:null,user_rent:null,management_fee:null,area_m2:null,address_provenance:{selection:{pnu:'',road_address:c.address},location:{lat:c.lat,lng:c.lng,provider:'vworld'}},registration_context:{status:'matched',context:{inside_seoul:true,seoul_boundary_distance_m:2000},building:null},lookup_status:'ready',lookup_request_id:null}))});return;
     }
     if(!allowed.has(name)){await route.abort();throw Error('Write/unexpected RPC blocked: '+name);}
     const start=Date.now();
@@ -84,10 +84,15 @@ test('promoted a/b/c: real RPC geometry, N/M, popup, evidence, overlay and slide
 test('promoted a/b/c: real GPU FPS 2D/3D three sets',async({page},info)=>{
   test.skip(process.env.ACADEMY_FPS!=='1','Requires hardware gate');test.setTimeout(1500000);
   const {config,calls}=await open(page);const results=[];
-  for(const c of config.cases)for(const mode of ['2D','3D'] as const){await select(page,c,mode);for(let run=1;run<=3;run++){
-    await page.bringToFront();const before=calls.length;
+  const cdp=await page.context().newCDPSession(page);
+  const requested=process.env.ACADEMY_FPS_CASES?.split(',')??['a','b','c'];
+  for(const c of config.cases.filter(c=>requested.includes(c.name)))for(const mode of ['2D','3D'] as const){await select(page,c,mode);for(let run=1;run<=3;run++){
+    await page.bringToFront();const browserWindow=await cdp.send('Browser.getWindowForTarget');await cdp.send('Browser.setWindowBounds',{windowId:browserWindow.windowId,bounds:{left:0,top:30,width:1442,height:1050,windowState:'normal'}});
+    const {bounds:windowBefore}=await cdp.send('Browser.getWindowBounds',{windowId:browserWindow.windowId});if(windowBefore.left===undefined||windowBefore.top===undefined||windowBefore.width===undefined||windowBefore.height===undefined)throw Error('Chrome window bounds missing');expect(windowBefore.left).toBeGreaterThanOrEqual(0);expect(windowBefore.top).toBeGreaterThanOrEqual(0);expect(windowBefore.left+windowBefore.width).toBeLessThanOrEqual(1920);expect(windowBefore.top+windowBefore.height).toBeLessThanOrEqual(1080);
+    const before=calls.length;
     const sample=await page.evaluate(async c=>{const map=Reflect.get(window,'__gilmokProofMap') as LibreMap;const gl=map.getCanvas().getContext('webgl2')!,ext=gl.getExtension('WEBGL_debug_renderer_info');const renderer=ext?String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)):'unknown';const times:number[]=[];let first=0,last=0;const start=performance.now();const render=()=>{const n=performance.now();if(n-start<3000)return;if(!first)first=n;else times.push(n-last);last=n;};map.on('render',render);await new Promise<void>(resolve=>{function frame(now:number){const t=(now-start)/1000;map.jumpTo({center:[c.lng+Math.sin(t*.5)*.0006,c.lat+Math.cos(t*.5)*.0004]});if(now-start<63000)requestAnimationFrame(frame);else resolve();}requestAnimationFrame(frame);});map.off('render',render);const sorted=[...times].sort((a,b)=>a-b);return{renderer,averageFps:times.length*1000/(last-first),p95:sorted[Math.ceil(sorted.length*.95)-1],max:sorted.at(-1),frames:times.length,focus:document.hasFocus(),visible:document.visibilityState};},c);
-    results.push({candidate:c.name,mode,run,...sample});console.info('academy-real-fps',JSON.stringify(results.at(-1)));await info.attach(`fps-${c.name}-${mode}-${run}`,{body:JSON.stringify(results.at(-1)),contentType:'application/json'});
+    const {bounds:windowAfter}=await cdp.send('Browser.getWindowBounds',{windowId:browserWindow.windowId});expect(windowAfter).toEqual(windowBefore);expect(sample.averageFps,'60Hz environment changed').toBeLessThanOrEqual(65);
+    results.push({candidate:c.name,mode,run,windowBefore,windowAfter,...sample});console.info('academy-real-fps',JSON.stringify(results.at(-1)));await info.attach(`fps-${c.name}-${mode}-${run}`,{body:JSON.stringify(results.at(-1)),contentType:'application/json'});
     expect(sample.renderer).toContain('Apple M5 Pro');expect(sample.focus).toBe(true);expect(sample.visible).toBe('visible');expect(sample.averageFps).toBeGreaterThanOrEqual(55);expect(sample.p95).toBeLessThanOrEqual(33.4);expect(calls.length).toBe(before);
   }}await info.attach('real-fps',{body:JSON.stringify(results,null,2),contentType:'application/json'});
 });
