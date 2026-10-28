@@ -178,3 +178,20 @@ test('real GPU FPS: 2D and 3D, 1,500 institutions',async({page},info)=>{
   }
   await info.attach('fps',{body:JSON.stringify(results,null,2),contentType:'application/json'}); expect(mock.unexpected).toEqual([]);
 });
+
+for (const mode of ['2D', '3D'] as const) test(`academy cleanup ${mode} survives navigation to candidate registration`, async ({ page }, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.stack ?? error.message));
+  const mock = await open(page);
+  if (mode === '3D') {
+    await page.getByRole('button', { name: '3D', exact: true }).click();
+    await expect(page.getByTestId('building-3d')).toHaveAttribute('data-state', 'ready');
+    await expect(page.getByTestId('exposure-overlay')).toHaveAttribute('data-state', 'ready');
+  }
+  await page.getByRole('link', { name: '후보 추가', exact: true }).first().click();
+  await expect(page).toHaveURL(/\/new$/);
+  await info.attach('navigation-errors', { body: JSON.stringify(errors), contentType: 'application/json' });
+  expect(errors).toEqual([]);
+  await expect(page.getByLabel('주소 *', { exact: true })).toBeEnabled();
+  expect(mock.unexpected).toEqual([]);
+});

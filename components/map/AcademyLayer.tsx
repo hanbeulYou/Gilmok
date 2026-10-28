@@ -65,7 +65,8 @@ export default function AcademyLayer({ map, row, active }: { map: LibreMap; row?
     return () => clearTimeout(timer);
     // The serialized key includes all request fields.
   }, [key, active, zoomed, attempt, loader]);
-  useEffect(() => {
+  // Dispose layers before the parent's passive effect removes the MapLibre map.
+  useLayoutEffect(() => {
     map.addSource(source, { type: 'geojson', data: empty, promoteId: 'academy_id' });
     map.addLayer({ id: layers[0], type: 'circle', source, minzoom: 15,
       filter: ['==', ['get', 'coordinate_verification_pending'], true],
