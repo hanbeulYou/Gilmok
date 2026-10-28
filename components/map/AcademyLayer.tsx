@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Popup, type GeoJSONSource, type Map as LibreMap, type MapMouseEvent } from 'maplibre-gl';
 import type { ComparisonCandidate } from '../../lib/compare/store';
@@ -21,6 +21,11 @@ export default function AcademyLayer({ map, row, active }: { map: LibreMap; row?
   const [popup, setPopup] = useState<{ host: HTMLElement; features: Institution[] } | null>(null), [chosen, choose] = useState(0);
   const popupRef = useRef<Popup | null>(null), attempted = useRef(''), wanted = useRef(key);
   wanted.current = key;
+  useLayoutEffect(() => {
+    // MapLibre first anchors the empty host; remeasure after portal/selection rendering.
+    const current = popupRef.current;
+    if (popup && current) current.setLngLat(current.getLngLat());
+  }, [popup, chosen]);
   const value = reply?.key === key ? reply.value : null;
   const loader = useMemo(() => createAcademyLayerLoader(async (args, signal) => {
     await ensureSession(); signal.throwIfAborted();
@@ -100,7 +105,7 @@ export default function AcademyLayer({ map, row, active }: { map: LibreMap; row?
       const features = value.collection.features.filter(f => hits.has(String(f.id)));
       if (!features.length) return;
       popupRef.current?.remove(); const host = document.createElement('div');
-      const next = new Popup({ maxWidth: '280px', closeOnClick: true }).setLngLat(features[0].geometry.coordinates as [number, number]).setDOMContent(host).addTo(map);
+      const next = new Popup({ className: 'academy-map-popup', maxWidth: '280px', closeOnClick: true }).setLngLat(features[0].geometry.coordinates as [number, number]).setDOMContent(host).addTo(map);
       popupRef.current = next; choose(0); setPopup({ host, features });
       next.on('close', () => { if (popupRef.current === next) { popupRef.current = null; setPopup(null); } });
     };
