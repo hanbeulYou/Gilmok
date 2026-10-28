@@ -10,7 +10,7 @@ export default defineConfig({
   reporter: [['list'], ['json', { outputFile: '.local/academy-b/report.json' }]],
   use: { baseURL: 'http://127.0.0.1:3106', viewport: { width: 1440, height: 1000 },
     screenshot: 'only-on-failure',
-    ...(process.env.ACADEMY_REAL_GPU === '1' ? { headless: false, channel: 'chrome', deviceScaleFactor: 2 }
+    ...(process.env.ACADEMY_REAL_GPU === '1' ? { headless: false, channel: 'chrome', deviceScaleFactor: 2, launchOptions: { args: ['--window-position=0,0'] } }
       : { launchOptions: { args: ['--use-angle=swiftshader','--enable-unsafe-swiftshader'] } }) },
   webServer: { command: 'pnpm build && pnpm start --hostname 127.0.0.1 --port 3106',
     url: 'http://127.0.0.1:3106', timeout: 120_000, reuseExistingServer: false,

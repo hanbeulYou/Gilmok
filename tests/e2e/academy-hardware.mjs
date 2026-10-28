@@ -11,9 +11,9 @@ import Foundation
 print("lowPower", ProcessInfo.processInfo.isLowPowerModeEnabled)
 for screen in NSScreen.screens {
 let id=(screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as! NSNumber).uint32Value
-print(screen.localizedName, CGDisplayCopyDisplayMode(id)!.refreshRate, screen.frame, screen.backingScaleFactor)
+print("display", id, "main", id == CGMainDisplayID(), screen.localizedName, CGDisplayCopyDisplayMode(id)!.refreshRate, screen.frame, screen.backingScaleFactor)
 }`],{encoding:'utf8'});
-const valid=battery.includes('AC Power')&&hardware.includes('Apple M5 Pro')&&display.includes('lowPower false')&&display.trim().split('\n').slice(1).every(line => /\b60\.0\b/.test(line));
+const valid=battery.includes('AC Power')&&hardware.includes('Apple M5 Pro')&&display.includes('lowPower false')&&display.trim().split('\n').some(line => /main true .*\b60\.0\b/.test(line));
 const proof={at:new Date().toISOString(),battery,chip:hardware.match(/Chip:\s*(.*)/)?.[1],display,valid};
 mkdirSync('.local/academy-b',{recursive:true});writeFileSync('.local/academy-b/hardware.json',JSON.stringify(proof,null,2));
 console.log(JSON.stringify(proof,null,2));
