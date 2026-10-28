@@ -226,4 +226,4 @@ ScoreResult.axes.cluster.evidence.values.n_field
 
 사용자가 지정한 **합성 1,500기관**으로 B를 구현했다. 전체반경 GeoJSON/circle, 같은 분야 강조, N/M, 명시층·보류 팝업, 후보 전환 abort/줌 데이터 유지, 네 상태 안내, 노출 클릭 우선순위를 검증했다. 초기 JS 증가 0, 학원 JS 5,329B gzip/CSS 351B, 슬라이더 3세트 p95 중앙값 33.5ms(max 61.6ms). [B 검증](../validation/academy-layer-b-20261018.md).
 
-B는 migration·기존 DB 객체 변경이 없으며 A(#41)의 TypeScript 계약을 재사용한다. 원격/실데이터 DB·R2는 읽고 쓰지 않았다. **Draft 유지**: 현재 화면 120Hz로 FPS 미완료, G 승격 전 Ready 금지. 사용자 60Hz 설정 후 M5 Pro 실제 GPU 측정을 이어간다. G 승격/A 적용 뒤 실제 a/b/c 및 최대 밀도 셀을 재측정한다. 원 계획의 5,000기관 스트레스와 실제 최대 밀도 검증은 이 합성 1,500기관 검증으로 대체했다고 주장하지 않는다.
+B는 migration·기존 DB 객체 변경이 없으며 A(#41)의 TypeScript 계약을 재사용한다. 원격/실데이터 DB·R2는 읽고 쓰지 않았다. **Draft 유지**: 2026-10-21 M5 Pro·AC·주 화면60Hz·저전력off에서 2D/3D 각3회 FPS 통과(평균59.66~60.00fps, p95 17.5~17.7ms). G 승격 전 Ready 금지. 사용자 60Hz 설정 후 M5 Pro 실제 GPU 측정을 이어간다. G 승격/A 적용 뒤 실제 a/b/c 및 최대 밀도 셀을 재측정한다. 원 계획의 5,000기관 스트레스와 실제 최대 밀도 검증은 이 합성 1,500기관 검증으로 대체했다고 주장하지 않는다.

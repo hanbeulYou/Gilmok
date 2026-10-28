@@ -48,24 +48,37 @@ Next production build, Node 22.22.0 / 동일 공개 합성 환경변수. `.next/
 
 p95 중앙값 **33.5ms ≤100ms**, 전체 max **61.6ms**. 각 세트도 ≤100ms다. 직전 전체 기능 실행에서는 p95 33.8/33.9/34.0ms, 중앙값 33.9ms, max 51.3ms였다. 실패값을 버리거나 재시도로 통과시킨 결과가 아니다.
 
-## FPS 미완료
+## FPS 완료 — 2026-10-21
 
-2026-10-18 21:07:37 KST에 `pmset -g batt`, `system_profiler SPHardwareDataType`, CoreGraphics 화면 모드 및 `ProcessInfo.isLowPowerModeEnabled`를 다시 읽었다.
+2026-10-18 내장 화면120Hz로 측정을 보류한 이력은 유지한다. 2026-10-21 13:40:21 KST에 `pmset -g batt`, CoreGraphics 주사율, 저전력 모드를 다시 읽고 측정했다. Apple M5 Pro / AC Power100% / 저전력false. **주 화면 LG HDR 4K는60Hz**, 논리1920×1080/DPR2이고 비주 화면인 내장 Retina는120Hz였다. Chrome 창을 주 화면 원점(0,0)에 고정했으며 실제 GPU renderer는 `ANGLE Metal Renderer: Apple M5 Pro`다. OS 설정은 변경하지 않았다.
 
-- Apple M5 Pro / AC Power / 배터리 100% / 저전력 모드 false.
-- 내장 화면 **120.0Hz**, 논리 해상도 1512×982, DPR 2.
-- 승인된 60Hz 조건과 달라 **FPS 측정은 실행하지 않았다**. OS 설정은 변경하지 않았다. FPS 테스트 skip은 통과가 아니다.
+Headed Chrome viewport1440×1000/DPR2, 2D 줌15 / 3D 줌17·pitch55(노출 포함), 합성1,500기관·884건물·108노출 샘플, pan60초×3회, 회별3초 워밍업 제외. rAF 호출 수가 아닌 **MapLibre render 이벤트** 간격으로 측정했다.
 
-사용자가 60Hz 설정을 알려주면 사전 확인을 다시 수행한다. `ACADEMY_REAL_GPU=1 ACADEMY_FPS=1 pnpm test:e2e:academy --grep 'real GPU FPS'`는 하드웨어 조건을 읽고 불일치 시 중단한다. headed Chrome, viewport 1440×1000/DPR2, 2D 줌15 / 3D 줌17·pitch55(노출 포함), 합성 1,500기관·884건물, pan 60초×3회, 3초 워밍업 제외, **MapLibre render 이벤트** 간격을 집계한다. 실제 GPU renderer·평균 ≥55fps·p95 ≤33.4ms를 확인한 후 기록을 보완한다. M5 Pro가 아닌 CI software GPU 결과로 FPS 통과를 선언하지 않는다.
+| 모드 | 회차 | 평균 fps | 프레임 간격 p95 ms | max ms |
+|---|---:|---:|---:|---:|
+| 2D | 1 | 59.66 | 17.50 | 368.70 |
+| 2D | 2 | 60.00 | 17.60 | 18.50 |
+| 2D | 3 | 60.00 | 17.50 | 18.30 |
+| 3D | 1 | 60.00 | 17.60 | 19.20 |
+| 3D | 2 | 60.00 | 17.70 | 18.80 |
+| 3D | 3 | 60.00 | 17.60 | 19.30 |
+
+전6회 평균≥55fps·p95≤33.4ms 통과. 2D1회에서 max368.7ms가 관측됐으며 숨기지 않는다(max는 승인된 통과 기준이 아님). 실제 GPU E2E1개 통과, 테스트6.4분/빌드 포함7.7분. 원시 소수/하드웨어 증거는 동봉 JSON에 보존했다. 합성 로컬 production build 결과이며 배포/실데이터 FPS로 표현하지 않는다. **G 승격 전 Draft 유지**.
 
 ## 재현·완료 기준
 
-`pnpm lint`, `pnpm typecheck`, `pnpm test` 통과(Vitest 231 / Python 단위 269). `pnpm test:e2e:academy`: 기능·슬라이더 **6 통과**, FPS **1 보류**. 이후 슬라이더 원값 복원/추가 요청 0 assertion을 추가한 단독 시험도 통과했다. CI에 동일 합성 E2E와 결과 artifact를 연결했다. 상세 수치와 원본 슬라이더 300회 값은 [JSON](academy-layer-b-20261018.json)을 따른다.
+`pnpm lint`, `pnpm typecheck`, `pnpm test` 통과(Vitest 231 / Python 단위 269). `pnpm test:e2e:academy`: 기능·슬라이더 **6 통과**, FPS는 당시 **1 보류**, 2026-10-21 별도 실제 GPU 시험 **1 통과**. 이후 슬라이더 원값 복원/추가 요청 0 assertion을 추가한 단독 시험도 통과했다. CI에 동일 합성 E2E와 결과 artifact를 연결했다. 상세 수치와 원본 슬라이더 300회 값은 [JSON](academy-layer-b-20261018.json)을 따른다.
 
 - [x] 선택 후보·줌·circle layer·분야 강조·N/M·최소 팝업·보류 배지.
 - [x] 네 상태 안내, 취소/경합, 캐시 유지, 근거 N 일치.
 - [x] 모바일, 2D/3D·노출 동시 표시, lazy/번들, 슬라이더 회귀.
-- [ ] 승인 환경에서 2D/3D FPS 실측.
+- [x] 승인 환경에서 2D/3D FPS 실측.
 - [ ] G 원격 승격 및 A 적용 후 실제 a/b/c 800/1000m N·좌표·기관 표시·응답/렌더 성능 대조. 그 전 Ready/공개 금지.
 
 다음 단계는 G의 Juso 회신·품질 자료·원천/층/기준분포/검토 플래그/release 원자적 승격 승인이다. 이후 실제 a/b/c 및 최대 밀도 셀로 다시 확인한다. 이 PR에는 원격 승격, Vworld/카카오 데이터·키 삭제, 채점 모델·기준분포 변경이 없다.
+
+### 2026-10-21 추가 검사 범위
+
+FPS 화면 선택 보완 후 lint/typecheck 및 실제 GPU E2E는 통과했다. 전체 `pnpm test` 재실행은 Vitest 시작 이후 진행되지 않았고 threads pool 재시도도 결과가 없었다. 별도 pytest 역시 수집 전 대기했다(프로세스 sample상 psycopg `_enums.cpython-312.pyc` 파일 read에서 대기). 장시간 대기 프로세스는 중단했으며, 위 Vitest231/Python269는 10/18 기존 통과 이력이다. 이 환경 현상의 원인은 확정하지 않았다. 새 전체 테스트 통과나 CI 통과로 표시하지 않는다.
+
+Git 커밋도 해당 worktree `logs/HEAD` 쓰기 대기로 중단했다. 코드/문서 변경과 FPS 증거는 로컬에 보존했으며 이번 추가 결과의 commit/push/PR 갱신은 미완료다. 종료한 자체 커밋 프로세스의 lock만 정리했고 기존 HEAD는 `9ea9370`을 유지했다.

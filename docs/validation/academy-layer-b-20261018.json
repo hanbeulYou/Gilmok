@@ -497,5 +497,84 @@
       "fps_skipped": 1
     },
     "fps": "not measured: display 120Hz"
+  },
+  "fps_verification_20261021": {
+    "hardware": {
+      "at": "2026-10-21T04:40:21.707Z",
+      "battery": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=7340131)\t100%; charged; 0:00 remaining present: true\n",
+      "chip": "Apple M5 Pro",
+      "display": "lowPower false\ndisplay 4 main true LG HDR 4K 60.0 (0.0, 0.0, 1920.0, 1080.0) 2.0\ndisplay 1 main false Built-in Retina Display 120.0 (1920.0, -278.0, 1512.0, 982.0) 2.0\n",
+      "valid": true
+    },
+    "runs": [
+      {
+        "mode": "2D",
+        "run": 1,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3580,
+        "durationMs": 60003.59999990463,
+        "averageFps": 59.66308688154861,
+        "p95": 17.5,
+        "max": 368.7000002861023
+      },
+      {
+        "mode": "2D",
+        "run": 2,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3600,
+        "durationMs": 60003.59999990463,
+        "averageFps": 59.9964002160824,
+        "p95": 17.59999990463257,
+        "max": 18.5
+      },
+      {
+        "mode": "2D",
+        "run": 3,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3600,
+        "durationMs": 60003.5,
+        "averageFps": 59.996500204154756,
+        "p95": 17.5,
+        "max": 18.299999713897705
+      },
+      {
+        "mode": "3D",
+        "run": 1,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3600,
+        "durationMs": 60003.199999809265,
+        "averageFps": 59.99680017084828,
+        "p95": 17.59999990463257,
+        "max": 19.199999809265137
+      },
+      {
+        "mode": "3D",
+        "run": 2,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3600,
+        "durationMs": 60002.800000190735,
+        "averageFps": 59.99720013046985,
+        "p95": 17.699999809265137,
+        "max": 18.800000190734863
+      },
+      {
+        "mode": "3D",
+        "run": 3,
+        "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+        "frames": 3600,
+        "durationMs": 60003.10000038147,
+        "averageFps": 59.99690015977696,
+        "p95": 17.59999990463257,
+        "max": 19.300000190734863
+      }
+    ],
+    "status": "passed",
+    "screen": "primary LG HDR 4K 60Hz; non-primary internal 120Hz",
+    "window_position": [
+      0,
+      0
+    ],
+    "duration": "6.4m test / 7.7m total",
+    "settings_changed": false
   }
 }
