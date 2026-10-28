@@ -1,6 +1,6 @@
 # 학원 레이어 A 원격 실자료 검증 — 2026-10-27
 
-**SQL·N·SQL JSON 크기 기준 통과, authenticated HTTP는 보류. #41 Draft 유지.** #39는2026-10-25 13:09:42 UTC에 머지됐고 G 원격 승격 분포는20261016T040000Z다. 원천·공급자·기준분포·migration 쓰기 없음.
+**SQL·N·SQL JSON 크기 기준 통과. 당시 보류했던 authenticated HTTP는 [10/28 검증](academy-layer-a-http-20261028.md)에서 통과했다.** #39는2026-10-25 13:09:42 UTC에 머지됐고 G 원격 승격 분포는20261016T040000Z다. 원천·공급자·기준분포·migration 쓰기 없음.
 
 ## 측정 조건
 
@@ -23,8 +23,8 @@
 
 모두ready, 반환 고유ID=반경 전분야 수, 같은분야 `입시.검정 및 보습` N=score_inputs.compete 수가 일치했다. 웜p95≤300ms, SQL1,000ms 중단기준 초과0. SQL compact 직렬화 raw≤1.5MiB·오프라인gzip≤256KiB. 실제 HTTP 응답 바이트·Content-Encoding·지연은 아직 측정하지 않았으므로 이 값을 HTTP 실측으로 쓰지 않는다. 
 
-## 남은 완료 기준
+## 10/28 후속 확인
 
-RPC는 auth.uid가 필요하고 authenticated EXECUTE만 허용한다. 기존 원격 검증 세션이 만료됐으며 사용자 지시가 '원격 쓰기 없음'이어서 Auth refresh/sign-up도 실행하지 않았다. **기존 검증 uid 세션 갱신1회만 허용 여부를 사용자에게 질의 중**이다. 허용 전 HTTP 검증·Ready 전환·B 후속진행을 완료로 표기하지 않는다.
+사용자 승인으로 기존 검증 uid의 세션을 갱신하고 authenticated HTTP 240회·실제 gzip 전송 크기·SQL JSON 일치·제품 TS parser 8/8을 검증했다. [HTTP 보고서](academy-layer-a-http-20261028.md)를 따른다. 10/27 SQL 수치는 HTTP 전후 원천/분포/전체 응답 동일을 재확인해 유지했다.
 
-허용 후 같은8조합의 HTTP 지연·raw/gzip·고유ID/분야N·SQL응답 일치를 대조한다. 모두통과하면 #41 Ready, 한별 머지 후 B를 계속한다. [기계 판독 SQL 결과](academy-layer-a-remote-20261027.json).
+[기계 판독 SQL 결과](academy-layer-a-remote-20261027.json).
