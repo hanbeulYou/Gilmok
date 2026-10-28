@@ -37,6 +37,15 @@ uv run --frozen python -m ingest.refresh_monthly --source population --end-month
 
 330분 한도·TCP keepalive를 유지한다. 전수 계산 중 구버전 SELECT는 허용되나 원천 쓰기는 직렬화되고 MVCC/WAL·CPU 부담이 있다. 원격 월간 전체 시간은 아직 미실측이다. 실패 시 시간을 아끼려고 일부 원천만 커밋하거나 기준 분포 검증을 생략하지 않는다. 예전 7단계 재개형 DB 복원 스크립트의 커밋 정책은 변경하지 않는다.
 
+## 승격 사전 점검과 백업 유효기간 (2026-10-23)
+
+- **`refresh_snapshots` 메타데이터 ↔ manifest 분포 ID 일치, manifest 비어 있지 않음:** `source='score_reference'`의 snapshot, manifest.snapshot, `score_reference_sets.snapshot`, 실제 `score_reference` 행의 snapshot이 모두 같아야 한다. manifest의 row_count·source_fingerprint·preset도 실제 행수·활성 set과 대조한다. 빈 `{}` 또는 다른 ID면 승격을 중단한다. `ingest.reference_release_guard.validate_reference_release`로 검사한다.
+- 승격용 파일은 `ingest.verify_academy_transition freeze`로 생성한다. 이 경로는 한 READ ONLY snapshot에서 위 검사를 통과한 뒤 COPY BINARY manifest를 고정한다. `backup`은 실패 상태도 보존할 수 있는 **롤백/진단용**이므로 시험의 `after/rollback` 디렉터리를 검증 없이 승격 대상으로 선택하지 않는다.
+- 시험은 loopback 전용 격리 DB에서만 실행한다. release probe에는 `rollback_probe`를 사용해 정상 반환·예외 모두 강제 롤백하고 12테이블 digest 불변을 확인한다. noop loader와 빈 manifest를 `atomic_promote`에 넣어 운영 snapshot만 바꾸는 시험 방식은 금지한다.
+- G의 정본 분포는 **20261016T040000Z**다. 10/18 시험의 20261018T091000Z는 새 분포가 아니며 승격 ID로 사용하지 않는다. 학원/학교와 함께 **score_reference 운영 메타데이터도 같은 트랜잭션에서** 교체한다. 다른 소스의 운영 이력은 그대로 보존한다. [원인·정정·새 manifest](../validation/academy-g-metadata-repair-20261023.md)를 따른다.
+- 원격 rollback 백업의 **재개용 유효기간은 생성 완료 후 최대 1시간이면서 같은 연속 실행 창 안**이다. 작업 중단, 원천 fingerprint·갱신 대상/보존 대상 digest 변화가 있으면 즉시 만료된다. 재개 시에는 시간 여유와 무관하게 새 원격 백업을 생성하고 Juso 갱신 전 값·Kakao/Vworld·후보/비교·운영 이력을 다시 대조한다.
+- **2026-10-22 백업은 중단으로 재개용 유효기간이 만료됐다.** 당시 상태의 역사적 복원 증거로 보존하며 덮어쓰거나 삭제하지 않는다. 다음 ② 승인 후 새 디렉터리에 백업을 만들고 새 manifest/hash를 기록한다. 로컬 staging에서 이 과거 백업을 비교 자료로 읽은 것은 원격 재실행 승인을 뜻하지 않는다.
+
 ## 수동 파일 준비
 
 R2 raw/에 원본을 게시하고 파일명 → key·sha256 형태 JSON을 만든다. JSON 자체도 raw/에 게시하여 workflow_dispatch의 `asset_manifest_key`로 전달한다. SHA256이 다른 파일은 적재하지 않는다.

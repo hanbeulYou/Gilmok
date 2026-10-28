@@ -1,0 +1,550 @@
+{
+  "date": "2026-10-21",
+  "read_only": true,
+  "db_push_executed": false,
+  "migration_dry_run": {
+    "exit_code": 0,
+    "seconds": 0.5416848338209093,
+    "output": "Finished supabase db push.\n\nDRY RUN: migrations will *not* be pushed to the database.\nConnecting to remote database...\nWould push these migrations:\n • 20261012150926_academy_display_provenance.sql\n • 20261016084609_academy_layer_rpc.sql\nA new version of Supabase CLI is available: v2.121.0 (currently installed v2.72.7)\nWe recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli\n"
+  },
+  "target_manifest": {
+    "path": ".local/academy-transition/layer-release-20261018/after/rollback/manifest.json",
+    "sha256": "081faf63127aca46fe5c9d716959d7ec85db03dc4ceb9c6c898b285f5a2a1da7",
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+    "tables": [
+      {
+        "table": "public.academies",
+        "rows": 25527,
+        "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+        "binary_bytes": 7131644,
+        "file": "public.academies.bin.gz",
+        "gzip_sha256": "53ad6a2f89832dd78eb2a7f7dd7c1009bdf71e1a729d861fb73d6708be85554a"
+      },
+      {
+        "table": "public.schools",
+        "rows": 1320,
+        "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+        "binary_bytes": 267323,
+        "file": "public.schools.bin.gz",
+        "gzip_sha256": "aa2e0eb322ce0cae8e3e3b422516cc5f94d11fa67939411efec6d9a4424a3f62"
+      },
+      {
+        "table": "public.geocode_cache",
+        "rows": 27161,
+        "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+        "binary_bytes": 14639154,
+        "file": "public.geocode_cache.bin.gz",
+        "gzip_sha256": "b537f147c6161fa25cc92917a543d2faf2cdf16bb1c9f884a4cd6cf46a66cb42"
+      },
+      {
+        "table": "public.score_reference",
+        "rows": 162032,
+        "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+        "binary_bytes": 19778983,
+        "file": "public.score_reference.bin.gz",
+        "gzip_sha256": "d567b1efa919a415b52fe30ed09acdf31df8bff14fdf4810b14677bd6336b04f"
+      },
+      {
+        "table": "public.score_reference_sets",
+        "rows": 1,
+        "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+        "binary_bytes": 8030,
+        "file": "public.score_reference_sets.bin.gz",
+        "gzip_sha256": "063e124e95fcab5e7555a6add1dab2e26f437eb2bcd270642bd580701b32bc7d"
+      },
+      {
+        "table": "ingest_private.place_snapshots",
+        "rows": 3,
+        "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+        "binary_bytes": 13201,
+        "file": "ingest_private.place_snapshots.bin.gz",
+        "gzip_sha256": "767e8a0923c35c9876aa15df8a51c602029cb6daa577070285d06ebd8ef74891"
+      },
+      {
+        "table": "ingest_private.refresh_snapshots",
+        "rows": 6,
+        "binary_sha256": "6703acc2fa3521817b0486c3e153e214c09e4bd750df32b541824898713fd3d6",
+        "binary_bytes": 16943,
+        "file": "ingest_private.refresh_snapshots.bin.gz",
+        "gzip_sha256": "8b96bd7bf6eb2c383d6a4f3a88aa81fdaa3f076d65e07776d62102b585a9a8be"
+      },
+      {
+        "table": "ingest_private.ingest_runs",
+        "rows": 2,
+        "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+        "binary_bytes": 189,
+        "file": "ingest_private.ingest_runs.bin.gz",
+        "gzip_sha256": "1caa9100e34e92313db15a40c1d45fca1cae1763891d50b83d5af8671495b713"
+      },
+      {
+        "table": "app_private.academy_display",
+        "rows": 25527,
+        "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+        "binary_bytes": 3106592,
+        "file": "app_private.academy_display.bin.gz",
+        "gzip_sha256": "8a4b6c68fe926141f25ebf7ebe2a1406fd273d2d1ed4c3b042e3f93a44256aa0"
+      },
+      {
+        "table": "app_private.academy_display_release",
+        "rows": 1,
+        "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+        "binary_bytes": 158,
+        "file": "app_private.academy_display_release.bin.gz",
+        "gzip_sha256": "e195a954fee9e3aef922e45eb43772f72d7437486d230ad6d1e8fb5171fbe531"
+      },
+      {
+        "table": "app_private.academy_coordinate_reviews",
+        "rows": 101,
+        "binary_sha256": "6f58161ae165f40635abd77eee0b1fc78b4b952578bfb9e0ec722fa5f63bbfcb",
+        "binary_bytes": 15127,
+        "file": "app_private.academy_coordinate_reviews.bin.gz",
+        "gzip_sha256": "bf0bb2c027eafc704433b432af5d35a7a78f6b3f0551fad05e4d545530bd50e6"
+      },
+      {
+        "table": "app_private.academy_layer_release",
+        "rows": 1,
+        "binary_sha256": "3235725899d0846ff8af57f75eb1a58ccddbf8c080e5336d1884ae53571519ff",
+        "binary_bytes": 509,
+        "file": "app_private.academy_layer_release.bin.gz",
+        "gzip_sha256": "c2bf39e66c9b9f862ba00c34136f53f1270c5dabefc23dc9a2a1bcea6158a0ae"
+      }
+    ]
+  },
+  "target_artifact_checks": [
+    {
+      "table": "public.academies",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "public.schools",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "public.geocode_cache",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "public.score_reference",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "public.score_reference_sets",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "ingest_private.place_snapshots",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "ingest_private.refresh_snapshots",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "ingest_private.ingest_runs",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "app_private.academy_display",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "app_private.academy_display_release",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "app_private.academy_coordinate_reviews",
+      "gzip_match": true,
+      "binary_match": true
+    },
+    {
+      "table": "app_private.academy_layer_release",
+      "gzip_match": true,
+      "binary_match": true
+    }
+  ],
+  "remote_read_only": "on",
+  "remote_migrations": [
+    "20260916095243",
+    "20260919093952",
+    "20260919111139",
+    "20260919111751",
+    "20260919114511",
+    "20260919122817",
+    "20260920073554",
+    "20260920095423",
+    "20260920114642",
+    "20260920115702",
+    "20260920120131",
+    "20260920124903",
+    "20260920125502",
+    "20260921065136",
+    "20260921065937",
+    "20260921070105",
+    "20260922044742",
+    "20260922045014",
+    "20260922053832",
+    "20260923095659",
+    "20260923101606",
+    "20260923111339",
+    "20260923111516",
+    "20260923112209",
+    "20260923133222",
+    "20260923144728",
+    "20260925142522",
+    "20260926073858",
+    "20260926093918",
+    "20260926112125",
+    "20260926123953",
+    "20260930072813",
+    "20260930073201",
+    "20260930083312",
+    "20260930110600",
+    "20260930112203",
+    "20260930112543",
+    "20261001083920",
+    "20261002064719",
+    "20261002064828",
+    "20261004114404",
+    "20261004114603",
+    "20261007085130",
+    "20261007111513",
+    "20261008085649"
+  ],
+  "remote_state": {
+    "sources": {
+      "admin_boundaries": {
+        "source": "sgis_admdongkor",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "boundary_version",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:51.788292+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-07-01",
+        "source_version": "2026-07-01",
+        "unlocated_count": null
+      },
+      "resident_population": {
+        "source": "mois_resident_population",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "reference_month",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:51.788292+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-09-01",
+        "source_version": "2026-09",
+        "unlocated_count": null
+      },
+      "population_grid": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "unknown",
+        "period_end": null,
+        "ingested_at": "2026-09-19T10:12:14.655762+00:00",
+        "limitations": [
+          "boundary_reference_date_not_verified"
+        ],
+        "period_start": null,
+        "reference_date": null,
+        "source_version": "2026-09-19;raw:2026-06/2026-08",
+        "unlocated_count": null
+      },
+      "living_population": {
+        "source": "seoul_living_population_250m",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "period",
+        "period_end": "2026-09-30",
+        "ingested_at": "2026-10-09T22:54:06.949698+00:00",
+        "limitations": [
+          "valid_days_mean",
+          "age_0_4_and_5_9_not_separable"
+        ],
+        "period_start": "2026-07-01",
+        "reference_date": null,
+        "source_version": "2026-07-01/2026-09-30",
+        "unlocated_count": null
+      },
+      "subway_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+        "limitations": [
+          "historical_positions_unverified",
+          "Shinbundang not imputed"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-09",
+        "source_version": "2026-10-09",
+        "unlocated_count": null
+      },
+      "bus_positions": {
+        "source": "seoul_transit",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "retrieved_on",
+        "period_end": null,
+        "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+        "limitations": [
+          "historical_positions_unverified"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-09",
+        "source_version": "2026-10-09",
+        "unlocated_count": null
+      },
+      "transit_counts": [
+        {
+          "source": "seoul_bus_boardings",
+          "quarter": null,
+          "coverage": "Seoul",
+          "available": true,
+          "date_kind": "period",
+          "period_end": "2026-09-30",
+          "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+          "limitations": [
+            "daily_mean_without_weekday_split",
+            "unmatched_units_not_imputed"
+          ],
+          "period_start": "2026-07-01",
+          "reference_date": null,
+          "source_version": "2026-07-01/2026-09-30",
+          "unlocated_count": null
+        },
+        {
+          "source": "seoul_subway_boardings",
+          "quarter": null,
+          "coverage": "Seoul",
+          "available": true,
+          "date_kind": "period",
+          "period_end": "2026-09-30",
+          "ingested_at": "2026-10-09T23:00:42.800127+00:00",
+          "limitations": [
+            "daily_mean_without_weekday_split",
+            "unmatched_units_not_imputed"
+          ],
+          "period_start": "2026-07-01",
+          "reference_date": null,
+          "source_version": "2026-07-01/2026-09-30",
+          "unlocated_count": null
+        }
+      ],
+      "stores": {
+        "source": "semas_stores",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-09-20T08:22:14.138177+00:00",
+        "limitations": [],
+        "period_start": null,
+        "reference_date": "2026-06",
+        "source_version": "2026-06",
+        "unlocated_count": 0
+      },
+      "academies": {
+        "source": "seoul_neis_academies",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-10-10T01:51:28.474572+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-10",
+        "source_version": "2026-10-10",
+        "unlocated_count": 81
+      },
+      "schools": {
+        "source": "neis_schools",
+        "quarter": null,
+        "coverage": "Seoul",
+        "available": true,
+        "date_kind": "snapshot",
+        "period_end": null,
+        "ingested_at": "2026-10-10T02:07:04.352229+00:00",
+        "limitations": [
+          "unlocated_records_not_in_spatial_counts"
+        ],
+        "period_start": null,
+        "reference_date": "2026-10-10",
+        "source_version": "2026-10-10",
+        "unlocated_count": 6
+      }
+    },
+    "grid": {
+      "resolution_m": 250,
+      "cell_count": 10127,
+      "geometry_md5": "9de87aa34f67d7bffbe48fd38a258db4"
+    }
+  },
+  "remote_source_fingerprint": "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+  "remote_reference_sets": [
+    [
+      "20261012T013000Z",
+      "160930013c9cf4c019bb8a8ef0835a239b9287004a28238720ff6d17ce31c6e8",
+      "0.1.2",
+      10127
+    ]
+  ],
+  "row_counts": [
+    {
+      "table": "public.academies",
+      "exists": true,
+      "remote_rows": 25527,
+      "target_rows": 25527
+    },
+    {
+      "table": "public.schools",
+      "exists": true,
+      "remote_rows": 1320,
+      "target_rows": 1320
+    },
+    {
+      "table": "public.geocode_cache",
+      "exists": true,
+      "remote_rows": 13669,
+      "target_rows": 27161
+    },
+    {
+      "table": "public.score_reference",
+      "exists": true,
+      "remote_rows": 162032,
+      "target_rows": 162032
+    },
+    {
+      "table": "public.score_reference_sets",
+      "exists": true,
+      "remote_rows": 1,
+      "target_rows": 1
+    },
+    {
+      "table": "ingest_private.place_snapshots",
+      "exists": true,
+      "remote_rows": 3,
+      "target_rows": 3
+    },
+    {
+      "table": "ingest_private.refresh_snapshots",
+      "exists": true,
+      "remote_rows": 6,
+      "target_rows": 6
+    },
+    {
+      "table": "ingest_private.ingest_runs",
+      "exists": true,
+      "remote_rows": 20,
+      "target_rows": 2
+    },
+    {
+      "table": "app_private.academy_display",
+      "exists": false,
+      "remote_rows": null,
+      "target_rows": 25527
+    },
+    {
+      "table": "app_private.academy_display_release",
+      "exists": false,
+      "remote_rows": null,
+      "target_rows": 1
+    },
+    {
+      "table": "app_private.academy_coordinate_reviews",
+      "exists": false,
+      "remote_rows": null,
+      "target_rows": 101
+    },
+    {
+      "table": "app_private.academy_layer_release",
+      "exists": false,
+      "remote_rows": null,
+      "target_rows": 1
+    }
+  ],
+  "remote_cache_providers": [
+    [
+      "juso",
+      99
+    ],
+    [
+      "kakao",
+      13542
+    ],
+    [
+      "vworld",
+      28
+    ]
+  ],
+  "remote_academy_providers": [
+    [
+      "juso",
+      145
+    ],
+    [
+      "kakao",
+      25372
+    ],
+    [
+      "vworld",
+      10
+    ]
+  ],
+  "remote_school_providers": [
+    [
+      "juso",
+      8
+    ],
+    [
+      "kakao",
+      1312
+    ]
+  ],
+  "remote_region_from_pooler_host": "ap-northeast-1",
+  "local_target_source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+  "local_reference_sets": [
+    [
+      "20261016T040000Z",
+      "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+      "0.1.2",
+      10127
+    ]
+  ],
+  "unaffected_source_differences": [],
+  "grid_same": true,
+  "juso_cache_merge": {
+    "remote_before": 99,
+    "local_target": 13591,
+    "overlap": 99,
+    "remote_only_preserve": 0,
+    "insert": 13492,
+    "update": 99,
+    "after_juso": 13591
+  }
+}

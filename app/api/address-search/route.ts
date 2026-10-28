@@ -26,10 +26,14 @@ export async function POST(request: Request): Promise<Response> {
     let body;
     try { body = JSON.parse(text); } catch { throw new AddressError('invalid_request', 400); }
     if (!body || typeof body !== 'object') throw new AddressError('invalid_request', 400);
-    const provider = createAddressProvider({ juso: process.env.JUSO_API_KEY, vworld: process.env.VWORLD_API_KEY }, async source => {
+    const provider = createAddressProvider({ juso: process.env.JUSO_API_KEY, jusoCoordinate: process.env.JUSO_COORD_API_KEY }, async source => {
       const { data, error } = await client.rpc('claim_address_call', { provider: source });
       if (error) throw new AddressError('address_limit_unavailable', 503);
       if (data !== true) throw new AddressError('daily_limit_reached', 429);
+    }, async (sourceX, sourceY) => {
+      const { data, error } = await client.rpc('project_juso_coordinate', { source_x: sourceX, source_y: sourceY });
+      if (error || !data || typeof data.lng !== 'number' || typeof data.lat !== 'number') throw new AddressError('coordinate_projection_unavailable', 503);
+      return { lng: data.lng, lat: data.lat };
     });
     if (body.action === 'search') {
       if (typeof body.query !== 'string' || body.query.trim().length < 2 || body.query.length > 100)

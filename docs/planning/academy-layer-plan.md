@@ -75,7 +75,7 @@ A0는 **공개 좌표 API의 Tokyo DB/해외 백업 적용 범위 미확정**을
 ```text
 ScoreResult.axes.cluster.evidence.values.n_field
  = score_inputs.compete.academies_by_field[preset.cluster_field] (해당 키 없음은0)
- = academy_layer.same_field_count
+ = academy_layer.counts.radius_same_field
  = 지도 반경 집합에서 같은 field인 고유 기관 ID 수
  = 겹친 위치별 same_field_count 합
 ```
@@ -220,6 +220,8 @@ ScoreResult.axes.cluster.evidence.values.n_field
 
 ### G 로컬 검증 보고 (2026-10-13)
 
+2026-10-14 추가 품질 검토: #38 머지 후 #39에 main을 동기화했다. Vworld 공식 지오코더의 저장 금지 안내가 확인되어 미확보131주소 재조회는 호출 전 보류한다. 이동>500m101행·다른 PNU46행의 원문/신구 좌표 대조, 미확보 학교79행 목록, 10후보 고정 입력 재채점은 [품질 검토](../validation/academy-coordinate-quality-20261014.md)에 기록한다. 미확정 건물 동일성·학교 미확보가 해소됐다고 간주하지 않으며 G 원격 승격과 A/B Ready 조건은 유지한다.
+
 [Draft PR #39](https://github.com/hanbeulYou/Gilmok/pull/39)에 전수 재산출·8축 영향·원자적 승격/롤백 결과를 기록했다. 과거/최신 합집합13,591주소 중13,460주소 확보, a~e 순위 b>e>a>c>d 유지. 원격 데이터와 카카오 캐시/키는 변경하지 않았다. 다른 PNU 도형에 포함된 학원46행(18주소)은 검토 대상으로 명시했으며, 공식 해외 저장 조건 회신·예외 검토·별도 승인 전 G 원격 승격 보류와 A/B Ready 조건은 그대로다.
 
 ## PR B 합성 구현 상태 — 2026-10-18
@@ -227,3 +229,49 @@ ScoreResult.axes.cluster.evidence.values.n_field
 사용자가 지정한 **합성 1,500기관**으로 B를 구현했다. 전체반경 GeoJSON/circle, 같은 분야 강조, N/M, 명시층·보류 팝업, 후보 전환 abort/줌 데이터 유지, 네 상태 안내, 노출 클릭 우선순위를 검증했다. 초기 JS 증가 0, 학원 JS 5,329B gzip/CSS 351B, 슬라이더 3세트 p95 중앙값 33.5ms(max 61.6ms). [B 검증](../validation/academy-layer-b-20261018.md).
 
 B는 migration·기존 DB 객체 변경이 없으며 A(#41)의 TypeScript 계약을 재사용한다. 원격/실데이터 DB·R2는 읽고 쓰지 않았다. **Draft 유지**: 2026-10-21 M5 Pro·AC·주 화면60Hz·저전력off에서 2D/3D 각3회 FPS 통과(평균59.66~60.00fps, p95 17.5~17.7ms). G 승격 전 Ready 금지. 사용자 60Hz 설정 후 M5 Pro 실제 GPU 측정을 이어간다. G 승격/A 적용 뒤 실제 a/b/c 및 최대 밀도 셀을 재측정한다. 원 계획의 5,000기관 스트레스와 실제 최대 밀도 검증은 이 합성 1,500기관 검증으로 대체했다고 주장하지 않는다.
+### A 합성 구현 (2026-10-16, Draft)
+
+- 사용자 승인 범위: 전체반경 RPC·TypeScript 계약·좌표 검증 보류 필드·응답 예산. **합성 fixture만 사용하고 원격 DB/R2는 읽기·쓰기 모두 하지 않는다.** 실제 기관 ID/좌표와 101행 목록을 이 PR로 옮기지 않는다.
+- `public.academy_layer`는 채점 중심·800/1000m·분야·`score_inputs.meta.sources.academies`를 받는다. 전체 분야를 반환하고 `counts.radius_same_field`로 반경 N을 제공한다. TS 어댑터는 채점의 `n_field`와 대조하며, 화면 M은 렌더된 고유 기관 ID로 계산한다. 분야 강조·배지는 B에서 구현한다.
+- 500m 초과 이동 101행은 **학원 99행 + 학교 2행**으로 구분한다. `coordinate_verification_pending`, `coordinate_review_reason`, `coordinate_review_version`을 점 속성에 넣는다. 학교 ID는 학원 점에 포함하지 않는다. 보류 학원은 개원·좌표 조건을 만족하면 N에 포함하고 보류 부분집합 수도 따로 반환한다.
+- G와의 연결: G의 `academy_display`/`academy_display_release`와 A의 `academy_coordinate_reviews`/`academy_layer_release`를 원천·층·기준분포와 같은 트랜잭션으로 게시해야 한다. 표시는 학원 원천 revision/SHA를 사용하며 학교만 갱신한 기준분포 revision으로 바꾸지 않는다. G 스키마나 승격 gate가 없으면 `coordinate_replacement_pending`, 원천/검토 manifest가 다르면 `source_mismatch`다. 빈 신규 테이블로 실제 데이터 표시를 자동 활성화하지 않는다.
+- 기존 객체 변경 여부: **신규 private 테이블 2개·공개 RPC 1개·신규 객체 권한만 추가. 기존 테이블/함수/트리거/데이터 변경·DROP 없음.** 로컬 격리 DB 적용·local dry-run exit 0. 원격 dry-run도 이력 조회가 필요하므로 원격 읽기 금지 해제 전 보류한다.
+- 800m 목표: SQL 웜 p95 ≤300ms, raw ≤1.5MiB, gzip ≤256KiB. 합성 1,500기관 단독 측정 SQL p95 17.203ms, raw 563,058B, 오프라인 gzip 36,285B. 5,000기관은 완성 응답이 1,870,056B여서 `too_dense`로 닫으며 LIMIT로 일부 점을 정상처럼 표시하지 않는다. 로컬 합성 결과는 Micro 실제 밀집 지역 검증을 대체하지 않는다.
+- [검증](../validation/academy-layer-a-20261016.md), [RPC 계약](data-sources.md#학원-점-레이어-rpc--a-합성-계약-2026-10-16), [승격/롤백 인계](../operations/academy-layer.md)를 따른다. **A Ready는 G 원격 승격·실제 원천 대조 이후**다. B는 합성 fixture로 지도·분야 강조·N/M·팝업/보류 배지·근거 연동을 개발할 수 있다.
+
+### A 보완 (2026-10-18)
+
+로컬 Juso 25,527행으로 a~e 800/1000m와 10,127셀 800m 상위 10셀을 측정했다. 최대 관측 raw는 b/1000m 635,425B(40.40%), 전체 800m 셀 보수적 상한은 746,228B(47.44%)로 70% 미만이다. 포맷 변경 없음. 사용자 승인 원격 dry-run은 exit 0, 대기 `20261016084609_academy_layer_rpc.sql` 1개. 실제 push 없음. G와 동일 파일/hash를 공유하며 최종 통합 dry-run은 별도다. [측정·기준](../validation/academy-layer-a-density-20261018.md). G metadata 게시/복원 코드는 #39 로컬 커밋에서 검증했다. B 진입용 (1)(2) 결과를 보고하며 Ready는 G 원격 승격 이후다.
+
+
+## 2026-10-16 G 보완 결정 — 학교 표준 좌표와 품질 보류 표시
+
+신규 사용자 등록의 Juso 좌표 전환은 별도 PR에서 구현하며 기존 Vworld 저장 데이터는 목록·교체 계획만 작성한다. #39는 학교 네이티브 좌표 검토와 기존101행의 품질 플래그 계획을 반영한다. 원격 쓰기·삭제 금지, 해외 저장 회신 대기, G 승격 뒤 A/B Ready 순서는 유지한다.
+
+### 학교 공급자 채택 — 2026-10-16 사용자 승인, 로컬만 적용
+
+[공식 표준데이터 검토](../validation/school-standard-review-20261016.md) 후 한국교육시설안전원 위치 표준데이터를 채택했다. **기존 Juso 좌표 1,241행은 전부 유지**하고, 미확보 79행 중 학교명·급·도로명주소가 일치하며 서울 경계 안인 **73행만 보완**한다. 기존 제안의 안전 연결 1,302행 전량 대체는 실행하지 않는다. 결과는 1,314/1,320(99.55%), 미확보 6행이다. 학교 명부·이름·급·NEIS ID는 계속 NEIS다.
+
+기존 `public.schools.geocode_provider`에 `juso` / `edu_facility_standard`를 구분한다. 공급자 SCHOOL_ID·기준일·원본 SHA·NEIS crosswalk는 로컬 snapshot manifest와 `ingest_private.place_snapshots.report.school_coordinate_supplement`에 보존한다. 경계 밖 표준점의 태강삼육초·한국삼육고, 표준↔Juso 538.2m의 화랑초는 Juso 좌표를 유지하고 `geocode_reason`의 `coordinate_verification_pending:` 접두사로 보류 표시한다. 이 플래그는 결측이 아니므로 `geocode_failed=false`를 유지한다. 향후 지도/근거는 이를 `좌표 검증 보류`로 표시하며 채점 제외·신뢰도 감점은 하지 않는다.
+
+제공기관 파일 메타에는 좌표계 명시가 없다. 승인된 판단 절차에 따라 동일 학교 1,229교의 Juso 대조(중앙값72.7m·최대538.2m, 일률 편이 없음)를 근거로 **EPSG:4326으로 판정**했다. 공식 EPSG 선언으로 표현하지 않는다. 동서/남북 오차 분포와 메타 원본 해시는 [보완 검증](../validation/school-supplement-20261016.md)을 따른다.
+
+`ingest/supplement_school_coordinates.py`로 격리 로컬 DB에만 적용하며 학교 원천·출처·보류 사유·기준 분포는 같은 트랜잭션으로 반영한다. migration은 없고 기존 컬럼/테이블만 사용한다. 전후 10테이블 binary snapshot과 로컬 학교 Parquet·기준 분포를 보존하고 rollback→재복원 digest를 검증한다. 원격 승격·push·카카오 캐시/키 삭제는 금지 상태다. Juso 해외 저장 공식 회신과 별도 승인을 기다린다. Juso 학교명/상세주소/건물관리번호 추가 조회는 잔여 6행의 공식 주소 확인 후 필요한 경우만 제안한다.
+
+### 기존 >500m101행의 표시 계약 (계획)
+
+- 대상은 기존 고정 검토 manifest의 **학원99행·학교2행**이며, 행 ID+source snapshot으로 정확히 연결한다. 단순히 주소가 같거나 새 이동거리가 크다는 이유로 대상 ID를 확장하지 않는다.
+- 품질 필드 제안: `coordinate_quality='verification_pending'`, `coordinate_quality_reason='moved_over_500m'`, `quality_review_version='20261014-v3'`. 플래그 원본은 기존 검토 manifest와 연결한다. 공급자와 품질 플래그는 별개다. 다른 PNU46행의 분류(같은 건물27/다른 건물1/판단불가18)도 보존하되 전부 같은 오류/보류 원인으로 덮어쓰지 않는다.
+- **지도 팝업:** 학원명·분야·주소 명시 층의 기존 표시 범위에 `좌표 검증 보류` 배지와 `기존 좌표에서 500m 넘게 이동해 위치를 확인 중입니다` 문구를 추가한다. 구/신 좌표·원주소 전체·개인 사업자 정보는 팝업에 추가하지 않는다.
+- **cluster 근거:** 동일 분야 반경 집합N에 포함된 보류 기관 수K를 `N곳 중 K곳 좌표 검증 보류`로 표시하고 항목→지도 강조를 유지한다. 줌/viewport로 바뀌는 M과 구분한다. 중첩점은 기관 수로 센다. 99행 전부가 각 후보의 동일 분야/반경에 속하는 것은 아니다.
+- 학교2행은 학원 점으로 그리지 않는다. 학교 표시/관련 demand·environment 근거에서 동일 보류 배지를 전달하도록 계획한다.
+- **점수 유지:** 보류는 오매칭 확정이 아니다. 플래그만으로 기관을 제외하거나 신뢰도/가중치/cluster 정규화를 바꾸지 않는다. 제외 결정은 별도 사용자 승인 후 원천/분포를 함께 갱신한다. 따라서 N/점수 입력/지도 집합의 일치를 유지한다.
+- 테스트: 보류 기관이 반경·동일 분야 집합에 들어가는/빠지는 경우, 겹친 마커, 분야 변경, 800/1000m, 학교를 학원으로 세지 않음, 팝업·근거 동일K, 보류0일 때 불필요 문구 없음. source ID가 바뀌면 자동 해제하지 않고 검토 필요를 보고한다.
+
+이번 커밋은 표시 계약/학교 공급자 제안 문서만 추가한다. 품질 열/RPC/UI 구현과 학교 좌표 교체는 수행하지 않았다. G의 최종 원격 승격에는 업데이트된 manifest와 별도 승인, Juso 해외 저장 공식 회신이 필요하다.
+
+## 2026-10-21 운영 결정과 G 승격 순서
+
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 Juso 문의는 무응답으로 종결하고 API 좌표의 기존 도쿄 DB 저장을 사용자 결정으로 확정했다. 앞선 공식 회신 대기 조건은 해제하되 원격 쓰기 승인은 별도다. 위치정보요약DB 조사는 중단하고 [대안 기록](juso-file-source-alternative.md)만 남긴다. 직접 문의147547의 접수 시각2026-10-13 21:14:43과 10/21 공개 답변0건은 확인했다. 별도 긍정 답변 날짜/원문은 미확인으로 ADR에 구분했다.
+
+[원격 dry-run/쓰기 범위](../validation/academy-g-remote-preflight-20261021.md) 보고 → 승인 대기 → G 원자적 승격/a~e 원격 대조 후 보고 → #40 migration push·사용자 머지·배포 한 세트 후 보고 → #41 완료 기준 확인/Ready 순서이며 각 단계에서 멈춘다. #40 머지 전 Vercel 서버 전용 JUSO_COORD_API_KEY 존재 확인을 요청한다. Kakao/Vworld 캐시·키 삭제는 계속 별도 승인이다.

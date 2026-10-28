@@ -1,0 +1,465 @@
+{
+  "local": {
+    "local": true,
+    "runs": [
+      {
+        "run": 0,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 1,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 2,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 3,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 4,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 5,
+        "delay_ms": 0,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 6,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 7,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 8,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 9,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 10,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      },
+      {
+        "run": 11,
+        "delay_ms": 1500,
+        "events": [
+          {
+            "event": "signup_delivered"
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_requested",
+            "signupDelivered": true,
+            "role": "authenticated",
+            "has_uid": true
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          },
+          {
+            "event": "activity_response",
+            "status": 204,
+            "error": null
+          }
+        ],
+        "pass": true
+      }
+    ]
+  },
+  "remote_api_logs": {
+    "result": [
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "",
+        "jwt_issued_at": "",
+        "jwt_role": "",
+        "path": "/auth/v1/signup",
+        "source": "edge_logs",
+        "status": "200",
+        "timestamp": "2026-10-26T14:53:52.912000"
+      },
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "",
+        "jwt_issued_at": "",
+        "jwt_role": "",
+        "path": "/auth/v1/signup",
+        "source": "edge_logs",
+        "status": "200",
+        "timestamp": "2026-10-26T14:53:52.937000"
+      },
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "",
+        "jwt_issued_at": "",
+        "jwt_role": "",
+        "path": "/rest/v1/rpc/touch_user_activity",
+        "source": "edge_logs",
+        "status": "200",
+        "timestamp": "2026-10-26T14:53:53.173000"
+      },
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "",
+        "jwt_issued_at": "",
+        "jwt_role": "",
+        "path": "/rest/v1/rpc/touch_user_activity",
+        "source": "edge_logs",
+        "status": "200",
+        "timestamp": "2026-10-26T14:53:53.176000"
+      },
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "1793030033",
+        "jwt_issued_at": "1793026433",
+        "jwt_role": "authenticated",
+        "path": "/rest/v1/rpc/touch_user_activity",
+        "source": "edge_logs",
+        "status": "401",
+        "timestamp": "2026-10-26T14:53:53.200000"
+      },
+      {
+        "error_code": "",
+        "jwt_error": "",
+        "jwt_expires_at": "1793030033",
+        "jwt_issued_at": "1793026433",
+        "jwt_role": "authenticated",
+        "path": "/rest/v1/rpc/touch_user_activity",
+        "source": "edge_logs",
+        "status": "204",
+        "timestamp": "2026-10-26T14:53:53.201000"
+      }
+    ]
+  },
+  "postgrest_logs": {
+    "result": []
+  },
+  "remote_write": false
+}

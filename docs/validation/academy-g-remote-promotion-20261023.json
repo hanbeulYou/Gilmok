@@ -1,0 +1,854 @@
+{
+  "status": "committed; stopped after Production harness assertion failure",
+  "target_manifest_sha256": "b5d8d7d636a262a2c986be00a5d0ce52dcc09696435e9251968ba062bd1af604",
+  "rollback_manifest_sha256": "af172307a8e5d6d92a5093efa8e8669c2ce539818723bb4c9ff7d3d8a8dd6d8c",
+  "backup": {
+    "started_at": "2026-10-23T07:03:36Z",
+    "completed_epoch": 1792739037.22813,
+    "expires_epoch": 1792742637.22813,
+    "seconds": 20.78036674996838,
+    "juso_99_before_in_full_cache_backup": true,
+    "provider_before": {
+      "juso": {
+        "rows": 99,
+        "binary_sha256": "067a9cfd55eb8672596cb969a816af50f7b2c0d1421fd25b197d2523b364fb4f",
+        "binary_bytes": 71379
+      },
+      "kakao": {
+        "rows": 13542,
+        "binary_sha256": "ac2cfca7dc9d92eda0c9dc2c2480732d38e921cab0329b8813819062cccbd5a7",
+        "binary_bytes": 2164693
+      },
+      "vworld": {
+        "rows": 28,
+        "binary_sha256": "35c6b26a509c15f9c9c7ef0a2b0910a11a6c8b46dec5cd5254bec99b364d0d59",
+        "binary_bytes": 4574
+      }
+    }
+  },
+  "remote": {
+    "started_at": "2026-10-23T07:05:51.783006+00:00",
+    "finished_at": "2026-10-23T07:07:05.968170+00:00",
+    "seconds": 74.18469262495637,
+    "commit_attempted": true,
+    "committed": true,
+    "stages": [
+      {
+        "stage": "staging",
+        "status": "success",
+        "seconds": 27.111694834195077,
+        "target_tables": [
+          {
+            "table": "public.academies",
+            "rows": 25527,
+            "binary_sha256": "65977f316890726ca51af2f0d50f0a9add7fa48073a50ffb31f4b5a4bb685061",
+            "binary_bytes": 7131644,
+            "passed": true
+          },
+          {
+            "table": "public.schools",
+            "rows": 1320,
+            "binary_sha256": "482b02a0e57f8a8750fb82f66977093a522682903595d4738906e22a01e0393f",
+            "binary_bytes": 267323,
+            "passed": true
+          },
+          {
+            "table": "public.geocode_cache",
+            "rows": 27161,
+            "binary_sha256": "0071415d48bd6e80db92635719e1f2773954bb79d6a8d33ad67c0647753e2715",
+            "binary_bytes": 14639154,
+            "passed": true
+          },
+          {
+            "table": "public.score_reference",
+            "rows": 162032,
+            "binary_sha256": "06920d4b01467bacb70deab8d43c685293bb5b91375ff7e2a4e721a45443168d",
+            "binary_bytes": 19778983,
+            "passed": true
+          },
+          {
+            "table": "public.score_reference_sets",
+            "rows": 1,
+            "binary_sha256": "3d1f319f718c4959ffa492d20358682037f9a74114189614ecff71089f5657ec",
+            "binary_bytes": 8030,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.place_snapshots",
+            "rows": 3,
+            "binary_sha256": "12b7ced5ef637c619c4f7508a9afba83b01b8412a8cdb34f655760589c8306a5",
+            "binary_bytes": 13201,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.refresh_snapshots",
+            "rows": 6,
+            "binary_sha256": "73fabb8447508dce72a9ce0bb1763f415b557cb14542e8eb191b3c22404c3500",
+            "binary_bytes": 26721,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.ingest_runs",
+            "rows": 2,
+            "binary_sha256": "f51a1f11167cca6e05dc2b5cc7272377631f572f6e6a875ffa630bd9507e45f9",
+            "binary_bytes": 189,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_display",
+            "rows": 25527,
+            "binary_sha256": "9063dc1991a3bf17eccc7109fc1ac16da2833a2c12324c05569b94f89634f918",
+            "binary_bytes": 3106592,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_display_release",
+            "rows": 1,
+            "binary_sha256": "fda577e325c44c450c75da1444944d42d73655a5132a19e9628adfc7a19f900d",
+            "binary_bytes": 158,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_coordinate_reviews",
+            "rows": 101,
+            "binary_sha256": "6f58161ae165f40635abd77eee0b1fc78b4b952578bfb9e0ec722fa5f63bbfcb",
+            "binary_bytes": 15127,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_layer_release",
+            "rows": 1,
+            "binary_sha256": "3235725899d0846ff8af57f75eb1a58ccddbf8c080e5336d1884ae53571519ff",
+            "binary_bytes": 509,
+            "passed": true
+          }
+        ],
+        "rollback_tables": [
+          {
+            "table": "public.academies",
+            "rows": 25527,
+            "binary_sha256": "5916346b1191821d07bb68664afff972d496c70474473c5443f45ad41914dde7",
+            "binary_bytes": 7158114,
+            "passed": true
+          },
+          {
+            "table": "public.schools",
+            "rows": 1320,
+            "binary_sha256": "b642c889a1e05d625ecc7ec89163cd922d7a6db182420dcad21329004fbd5e58",
+            "binary_bytes": 267228,
+            "passed": true
+          },
+          {
+            "table": "public.geocode_cache",
+            "rows": 13669,
+            "binary_sha256": "b095fb80b96d94164b22a13406cf768864143084979b263240471389a5354bbe",
+            "binary_bytes": 2240604,
+            "passed": true
+          },
+          {
+            "table": "public.score_reference",
+            "rows": 162032,
+            "binary_sha256": "a123da450f8101aec4a024df5473cd836458774b294c0f9f1daccc36c9359a87",
+            "binary_bytes": 19778983,
+            "passed": true
+          },
+          {
+            "table": "public.score_reference_sets",
+            "rows": 1,
+            "binary_sha256": "c2a26ebbfc3cf393e1be23c42b8b5697a21fb546677e876b5211b7bcd1f501bf",
+            "binary_bytes": 8027,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.place_snapshots",
+            "rows": 3,
+            "binary_sha256": "6f6116f6d3cb0cb2fe3fce53026f629b7ce1c8432c9de49ace8e5d0ec864ba06",
+            "binary_bytes": 694,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.refresh_snapshots",
+            "rows": 6,
+            "binary_sha256": "9e6113d45326b783cb8c9b8c71a76fa52a4b09fee792eb44d715a7a50fae891f",
+            "binary_bytes": 15765,
+            "passed": true
+          },
+          {
+            "table": "ingest_private.ingest_runs",
+            "rows": 20,
+            "binary_sha256": "62b075f4140b83b8100e5b1cc396cc6c91e3c7971ba53c5de6ccdbb6e810efce",
+            "binary_bytes": 1885,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_display",
+            "rows": 0,
+            "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+            "binary_bytes": 21,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_display_release",
+            "rows": 0,
+            "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+            "binary_bytes": 21,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_coordinate_reviews",
+            "rows": 0,
+            "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+            "binary_bytes": 21,
+            "passed": true
+          },
+          {
+            "table": "app_private.academy_layer_release",
+            "rows": 0,
+            "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+            "binary_bytes": 21,
+            "passed": true
+          }
+        ],
+        "juso_99_prior_values_match": true,
+        "metadata_check": "PASS: rows=set=refresh=manifest snapshot 20261016T040000Z; manifest nonempty; rows 162032; fingerprint equal"
+      },
+      {
+        "stage": "transaction_commit",
+        "status": "success",
+        "seconds": 38.65399558423087
+      },
+      {
+        "stage": "post_commit",
+        "status": "success",
+        "seconds": 7.718355250079185
+      }
+    ],
+    "pre_promotion_metadata_check": {
+      "snapshot": "20261016T040000Z",
+      "rows": 162032,
+      "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    "post_metadata_check": {
+      "snapshot": "20261016T040000Z",
+      "rows": 162032,
+      "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+    },
+    "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+    "reference_rows": 162032,
+    "transaction_changes": {
+      "public.academies": 25527,
+      "public.schools": 1320,
+      "public.geocode_cache": 13591,
+      "ingest_private.place_snapshots": 2,
+      "ingest_private.refresh_snapshots": 3,
+      "public.score_reference_sets": 1,
+      "public.score_reference": 162032,
+      "app_private.academy_display": 25527,
+      "app_private.academy_display_release": 1,
+      "app_private.academy_coordinate_reviews": 101,
+      "app_private.academy_layer_release": 1
+    },
+    "cache_after": {
+      "juso": {
+        "rows": 13591,
+        "binary_sha256": "c12c35b360962cd392ea46c24dbf1078ca8b0afe3c4a4f6899d3e464c2e9d191",
+        "binary_bytes": 12469929
+      },
+      "kakao": {
+        "rows": 13542,
+        "binary_sha256": "ac2cfca7dc9d92eda0c9dc2c2480732d38e921cab0329b8813819062cccbd5a7",
+        "binary_bytes": 2164693
+      },
+      "vworld": {
+        "rows": 28,
+        "binary_sha256": "35c6b26a509c15f9c9c7ef0a2b0910a11a6c8b46dec5cd5254bec99b364d0d59",
+        "binary_bytes": 4574
+      }
+    },
+    "protected_before": {
+      "app_private.address_daily_usage": {
+        "table": "app_private.address_daily_usage",
+        "rows": 13,
+        "binary_sha256": "a58738daa71c2f1760f45ded19ffb70244d396e59b7d072d56e582418d739aa2",
+        "binary_bytes": 723
+      },
+      "app_private.candidate_lookup_watchers": {
+        "table": "app_private.candidate_lookup_watchers",
+        "rows": 4,
+        "binary_sha256": "2a73dc3f10d1a88bc362002824ec155fac0cdc7e4ad6890ef1e49bf43dcbb2eb",
+        "binary_bytes": 389
+      },
+      "app_private.projection_errors": {
+        "table": "app_private.projection_errors",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21
+      },
+      "app_private.user_activity": {
+        "table": "app_private.user_activity",
+        "rows": 21,
+        "binary_sha256": "1915aedb1673dd7d39ab9e01819668dd78ec1e4c7363b2d3f7e452960b683d88",
+        "binary_bytes": 735
+      },
+      "ingest_private.address_daily_usage": {
+        "table": "ingest_private.address_daily_usage",
+        "rows": 2,
+        "binary_sha256": "08b3a0d03a37d160dc0794bd9808eeaa834e1b97d54882f9a95fecbc53a6de62",
+        "binary_bytes": 97
+      },
+      "ingest_private.building_address_cache": {
+        "table": "ingest_private.building_address_cache",
+        "rows": 2,
+        "binary_sha256": "cb3a529ed9cfbb8fad57b477a7f1d2d0e0044bedffdd5747900e265db06a6f96",
+        "binary_bytes": 4507
+      },
+      "ingest_private.building_address_requests": {
+        "table": "ingest_private.building_address_requests",
+        "rows": 2,
+        "binary_sha256": "f11979840635b9fd12d5004c969e405cb23ec7c64f9f348e6a1bbb066796cfa1",
+        "binary_bytes": 318
+      },
+      "ingest_private.ingest_runs": {
+        "table": "ingest_private.ingest_runs",
+        "rows": 20,
+        "binary_sha256": "62b075f4140b83b8100e5b1cc396cc6c91e3c7971ba53c5de6ccdbb6e810efce",
+        "binary_bytes": 1885
+      },
+      "public.candidate_lookup_status": {
+        "table": "public.candidate_lookup_status",
+        "rows": 4,
+        "binary_sha256": "f9872015aa997d997ea02434a7809666bf4ce1cce19dcef50e66144724d7e81d",
+        "binary_bytes": 193
+      },
+      "public.candidates": {
+        "table": "public.candidates",
+        "rows": 11,
+        "binary_sha256": "934b2250471cc1f3fecfb31eb12c71ae3e1472c9c4376f9cb3bb31ef526f895a",
+        "binary_bytes": 10912
+      },
+      "public.comparisons": {
+        "table": "public.comparisons",
+        "rows": 4,
+        "binary_sha256": "588d404677e1e646e229f3c078984ec30a97a3a88a09477f62b94692bdee885d",
+        "binary_bytes": 1339
+      },
+      "public.user_weight_presets": {
+        "table": "public.user_weight_presets",
+        "rows": 1,
+        "binary_sha256": "8c0b333aa38dfc1c21962428cb20add873d026be9ad6acea3c0cd942a97d6a0f",
+        "binary_bytes": 548
+      }
+    },
+    "protected_after": {
+      "app_private.address_daily_usage": {
+        "table": "app_private.address_daily_usage",
+        "rows": 13,
+        "binary_sha256": "a58738daa71c2f1760f45ded19ffb70244d396e59b7d072d56e582418d739aa2",
+        "binary_bytes": 723
+      },
+      "app_private.candidate_lookup_watchers": {
+        "table": "app_private.candidate_lookup_watchers",
+        "rows": 4,
+        "binary_sha256": "2a73dc3f10d1a88bc362002824ec155fac0cdc7e4ad6890ef1e49bf43dcbb2eb",
+        "binary_bytes": 389
+      },
+      "app_private.projection_errors": {
+        "table": "app_private.projection_errors",
+        "rows": 0,
+        "binary_sha256": "62a74fd0e2d1e3a59b88b5b71c06ca8d43662c6787430c516b8e0bc28bbbda02",
+        "binary_bytes": 21
+      },
+      "app_private.user_activity": {
+        "table": "app_private.user_activity",
+        "rows": 21,
+        "binary_sha256": "1915aedb1673dd7d39ab9e01819668dd78ec1e4c7363b2d3f7e452960b683d88",
+        "binary_bytes": 735
+      },
+      "ingest_private.address_daily_usage": {
+        "table": "ingest_private.address_daily_usage",
+        "rows": 2,
+        "binary_sha256": "08b3a0d03a37d160dc0794bd9808eeaa834e1b97d54882f9a95fecbc53a6de62",
+        "binary_bytes": 97
+      },
+      "ingest_private.building_address_cache": {
+        "table": "ingest_private.building_address_cache",
+        "rows": 2,
+        "binary_sha256": "cb3a529ed9cfbb8fad57b477a7f1d2d0e0044bedffdd5747900e265db06a6f96",
+        "binary_bytes": 4507
+      },
+      "ingest_private.building_address_requests": {
+        "table": "ingest_private.building_address_requests",
+        "rows": 2,
+        "binary_sha256": "f11979840635b9fd12d5004c969e405cb23ec7c64f9f348e6a1bbb066796cfa1",
+        "binary_bytes": 318
+      },
+      "ingest_private.ingest_runs": {
+        "table": "ingest_private.ingest_runs",
+        "rows": 22,
+        "binary_sha256": "dc38112a89b573b985ac63a12e842cf96f80176754ecc452b14a97e1217934c0",
+        "binary_bytes": 2085
+      },
+      "public.candidate_lookup_status": {
+        "table": "public.candidate_lookup_status",
+        "rows": 4,
+        "binary_sha256": "f9872015aa997d997ea02434a7809666bf4ce1cce19dcef50e66144724d7e81d",
+        "binary_bytes": 193
+      },
+      "public.candidates": {
+        "table": "public.candidates",
+        "rows": 11,
+        "binary_sha256": "934b2250471cc1f3fecfb31eb12c71ae3e1472c9c4376f9cb3bb31ef526f895a",
+        "binary_bytes": 10912
+      },
+      "public.comparisons": {
+        "table": "public.comparisons",
+        "rows": 4,
+        "binary_sha256": "588d404677e1e646e229f3c078984ec30a97a3a88a09477f62b94692bdee885d",
+        "binary_bytes": 1339
+      },
+      "public.user_weight_presets": {
+        "table": "public.user_weight_presets",
+        "rows": 1,
+        "binary_sha256": "8c0b333aa38dfc1c21962428cb20add873d026be9ad6acea3c0cd942a97d6a0f",
+        "binary_bytes": 548
+      }
+    },
+    "operational_history_preserved": true
+  },
+  "authenticated_scoring": {
+    "status": "passed",
+    "started_at": "2026-10-23T07:07:58.228Z",
+    "finished_at": "2026-10-23T07:08:13.162Z",
+    "results": [
+      {
+        "key": "b",
+        "total": 92.78765813947193,
+        "rank": 1,
+        "confidence": 90,
+        "missing": [
+          "rent_efficiency"
+        ]
+      },
+      {
+        "key": "e",
+        "total": 84.99373969850619,
+        "rank": 2,
+        "confidence": 90,
+        "missing": [
+          "rent_efficiency"
+        ]
+      },
+      {
+        "key": "a",
+        "total": 83.01075192604473,
+        "rank": 3,
+        "confidence": 90,
+        "missing": [
+          "rent_efficiency"
+        ]
+      },
+      {
+        "key": "c",
+        "total": 82.20961647714019,
+        "rank": 4,
+        "confidence": 85,
+        "missing": [
+          "rent_efficiency"
+        ]
+      },
+      {
+        "key": "d",
+        "total": 81.75610014507716,
+        "rank": 5,
+        "confidence": 90,
+        "missing": [
+          "rent_efficiency"
+        ]
+      }
+    ],
+    "comparison": "exact unrounded total, full confidence, per-axis normalized/status; canonical local fixture"
+  },
+  "production": {
+    "started_at": "2026-10-23T07:13:12.797Z",
+    "finished_at": "2026-10-23T07:13:23.700Z",
+    "status": "failed",
+    "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+    "saved_comparison": {
+      "reference_snapshot": "20261012T013000Z",
+      "model_version": "0.4.0",
+      "candidates": 5
+    },
+    "matrix": [
+      {
+        "alias": "b",
+        "total": "92.78765813947193",
+        "display": "92.79점",
+        "confidence": 90,
+        "axes": [
+          {
+            "key": "demand",
+            "value": "99.76300977584674"
+          },
+          {
+            "key": "flow",
+            "value": "98.7976947535771"
+          },
+          {
+            "key": "transit",
+            "value": "81.81701931840821"
+          },
+          {
+            "key": "cluster",
+            "value": "99.54344030471255"
+          },
+          {
+            "key": "exposure",
+            "value": "46.25954198473283"
+          },
+          {
+            "key": "building",
+            "value": "95"
+          },
+          {
+            "key": "environment",
+            "value": "87.65344088005983"
+          },
+          {
+            "key": "rent_efficiency",
+            "value": "null"
+          }
+        ]
+      },
+      {
+        "alias": "e",
+        "total": "84.99373969850619",
+        "display": "84.99점",
+        "confidence": 90,
+        "axes": [
+          {
+            "key": "demand",
+            "value": "96.30690234027847"
+          },
+          {
+            "key": "flow",
+            "value": "99.29451510333864"
+          },
+          {
+            "key": "transit",
+            "value": "38.336803260049486"
+          },
+          {
+            "key": "cluster",
+            "value": "97.45241833547216"
+          },
+          {
+            "key": "exposure",
+            "value": "38.38383838383838"
+          },
+          {
+            "key": "building",
+            "value": "100"
+          },
+          {
+            "key": "environment",
+            "value": "93.40459174952771"
+          },
+          {
+            "key": "rent_efficiency",
+            "value": "null"
+          }
+        ]
+      },
+      {
+        "alias": "a",
+        "total": "83.01075192604473",
+        "display": "83.01점",
+        "confidence": 90,
+        "axes": [
+          {
+            "key": "demand",
+            "value": "96.30690234027847"
+          },
+          {
+            "key": "flow",
+            "value": "99.29451510333864"
+          },
+          {
+            "key": "transit",
+            "value": "38.336803260049486"
+          },
+          {
+            "key": "cluster",
+            "value": "97.45241833547216"
+          },
+          {
+            "key": "exposure",
+            "value": "30.707070707070706"
+          },
+          {
+            "key": "building",
+            "value": "85"
+          },
+          {
+            "key": "environment",
+            "value": "93.40459174952771"
+          },
+          {
+            "key": "rent_efficiency",
+            "value": "null"
+          }
+        ]
+      },
+      {
+        "alias": "c",
+        "total": "82.20961647714019",
+        "display": "82.21점",
+        "confidence": 85,
+        "axes": [
+          {
+            "key": "demand",
+            "value": "84.15127875975116"
+          },
+          {
+            "key": "flow",
+            "value": "96.83028616852147"
+          },
+          {
+            "key": "transit",
+            "value": "60.78723216127797"
+          },
+          {
+            "key": "cluster",
+            "value": "83.87151520025675"
+          },
+          {
+            "key": "exposure",
+            "value": "50.624999999999986"
+          },
+          {
+            "key": "building",
+            "value": "95"
+          },
+          {
+            "key": "environment",
+            "value": "91.98293991698833"
+          },
+          {
+            "key": "rent_efficiency",
+            "value": "null"
+          }
+        ]
+      },
+      {
+        "alias": "d",
+        "total": "81.75610014507716",
+        "display": "81.76점",
+        "confidence": 90,
+        "axes": [
+          {
+            "key": "demand",
+            "value": "96.30690234027847"
+          },
+          {
+            "key": "flow",
+            "value": "99.29451510333864"
+          },
+          {
+            "key": "transit",
+            "value": "38.336803260049486"
+          },
+          {
+            "key": "cluster",
+            "value": "97.45241833547216"
+          },
+          {
+            "key": "exposure",
+            "value": "26.868686868686865"
+          },
+          {
+            "key": "building",
+            "value": "75"
+          },
+          {
+            "key": "environment",
+            "value": "93.40459174952771"
+          },
+          {
+            "key": "rent_efficiency",
+            "value": "null"
+          }
+        ]
+      }
+    ],
+    "reference_notice_text": [],
+    "references": [
+      {
+        "snapshot": "20261016T040000Z",
+        "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+      },
+      {
+        "snapshot": "20261016T040000Z",
+        "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+      },
+      {
+        "snapshot": "20261016T040000Z",
+        "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+      },
+      {
+        "snapshot": "20261016T040000Z",
+        "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+      },
+      {
+        "snapshot": "20261016T040000Z",
+        "fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0"
+      }
+    ],
+    "rpc": [
+      {
+        "name": "touch_user_activity",
+        "status": 204
+      },
+      {
+        "name": "load_comparison",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "score_inputs",
+        "status": 200
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200
+      }
+    ],
+    "signup_count": 0,
+    "errors": []
+  },
+  "production_observation": "all requested live score/rank/confidence/snapshot assertions passed before harness incorrectly required HTTP 200 for void touch_user_activity (normal 204); no retry, controlled stale-reference test not reached",
+  "metrics": {
+    "samples": 15,
+    "changed_intervals": 1,
+    "seconds": 72.82111633289605,
+    "non_idle_pct": 44.58711178867898,
+    "interval_non_idle_p95_pct": 44.58711178867898,
+    "interval_non_idle_max_pct": 44.58711178867898,
+    "cpu_modes_pct": {
+      "idle": 55.41288821132102,
+      "iowait": 6.355830190179081,
+      "irq": 0.0,
+      "nice": 0.0,
+      "softirq": 0.46545221089691696,
+      "steal": 2.0223096059650594,
+      "system": 2.1988604445806277,
+      "user": 33.5446593370573
+    },
+    "disk_delta": {
+      "node_disk_flush_requests_total": 0.0,
+      "node_disk_flush_requests_time_seconds_total": 0.0,
+      "node_disk_io_time_weighted_seconds_total": 9.768,
+      "node_disk_io_now": 0.0,
+      "node_disk_discarded_sectors_total": 0.0,
+      "node_disk_read_time_seconds_total": 2.1330000000000098,
+      "node_disk_info": 0.0,
+      "node_disk_io_time_seconds_total": 2.728999999999985,
+      "node_disk_filesystem_info": 0.0,
+      "node_disk_read_bytes_total": 184819712.0,
+      "node_disk_writes_merged_total": 354.0,
+      "node_disk_reads_merged_total": 999.0,
+      "node_disk_write_time_seconds_total": 7.635999999999996,
+      "node_disk_discards_merged_total": 0.0,
+      "node_disk_writes_completed_total": 2616.0,
+      "node_disk_discards_completed_total": 0.0,
+      "node_disk_discard_time_seconds_total": 0.0,
+      "node_disk_written_bytes_total": 600846336.0,
+      "node_disk_reads_completed_total": 2637.0
+    },
+    "available_before": 6958432256.0,
+    "available_after": 6836752384.0,
+    "scope": "whole DB; background activity included; cached identical samples skipped; non-idle includes iowait and steal"
+  },
+  "artifacts": {
+    "remote-promotion.json": "3cce8fa4c4b431d01b814beaa1968d54fefc930f3343f6de505a1816d1107bfb",
+    "scores-remote.json": "0464738f789fcd7199d219f12bc587134245e47a07b1996e22fa3c8c93680086",
+    "production.json": "b880a590cb2b7f465878ca0b01d61d6bb2e72b980e4eb09ebf08d05cc63d9fb5",
+    "preflight.json": "39c7a2db883fcd347b07a3c08e5fb14532c70691640384fb91344fa1adc9cdd8",
+    "rehearsal-promotion.json": "9cc8c99528377d7dff1520b1e17dadad85140b876891f223ceee06ad62369e32"
+  },
+  "stop_boundary": "no further remote actions, proof fixture kept; stage III/IV not started; PR39 Draft remains"
+}

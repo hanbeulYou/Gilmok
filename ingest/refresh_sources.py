@@ -200,6 +200,7 @@ def _transit(args, pub, db, files):
 
 
 def _places(args, pub, db, files):
+    from ingest.academy_display import display_enabled, load_display, prepare_display
     from ingest.commerce_education_database import attach_geocodes, load_snapshot
     from ingest.geocode import resolve_one
 
@@ -217,6 +218,7 @@ def _places(args, pub, db, files):
     restored = args.directory / "places-reread.parquet"
     write_frame(raw, restored)
     frame = module.normalize(restored if args.source == "stores" else raw)
+    independent = args.source != "stores" and display_enabled(db)
     if args.source != "stores":
         env = {**dotenv_values(ROOT / ".env"), **os.environ}
         coordinate_counts = {}
@@ -227,6 +229,7 @@ def _places(args, pub, db, files):
                 key=env.get("JUSO_API_KEY", ""),
                 coordinate_key=env.get("JUSO_COORD_API_KEY", ""),
                 coordinates_enabled=env.get("JUSO_COORD_ENABLED") == "true",
+                require_juso=independent,
                 budget=10000,
                 journal=args.directory / "geocode",
             )
@@ -234,12 +237,17 @@ def _places(args, pub, db, files):
         print(json.dumps({"geocoding": coordinate_counts}))
         if coordinate_counts.get("needs_coord", 0):
             raise ValueError("Snapshot deferred: new addresses need Juso coordinate approval")
-        frame = attach_geocodes(db, frame)
+        frame = attach_geocodes(db, frame, require_juso=independent)
     version = args.end_month if args.source == "stores" else date.today().isoformat()
     pub.frame(args.source + "_profile", month, frame)
     report = dict(rows=len(frame), snapshot=args.snapshot)
-    return (month_end(args.end_month) if args.source == "stores" else date.today()), (
-        lambda connection: load_snapshot(
+    display_rows = None
+    raw_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    if independent and args.source == "academies":
+        display_rows = prepare_display(raw, frame, args.snapshot, raw_hash)
+
+    def loader(connection):
+        load_snapshot(
             connection,
             args.source,
             frame,
@@ -248,7 +256,16 @@ def _places(args, pub, db, files):
             raw_key=manifest["key"],
             report=report,
         )
-    )
+        if display_rows is not None:
+            load_display(
+                connection,
+                display_rows,
+                revision=args.snapshot,
+                version=version,
+                raw_sha256=raw_hash,
+            )
+
+    return (month_end(args.end_month) if args.source == "stores" else date.today()), loader
 
 
 def _trades(args, pub, db, files):

@@ -1,0 +1,132 @@
+{
+  "mode": "synthetic_only",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "db_host": "127.0.0.1",
+  "remote_db_or_r2_access": false,
+  "first_run": "first SQL execution after synthetic seed; OS/Postgres buffers not flushed",
+  "gzip": "offline gzip.compress(mtime=0), not claimed as wire compression",
+  "scenarios": [
+    {
+      "institutions": 300,
+      "radius_m": 800,
+      "status": "ready",
+      "sql_first_ms": 6.563,
+      "sql_warm_p95_ms": 3.62,
+      "sql_warm_max_ms": 3.723,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 5.879499949514866,
+      "http_max_ms": 11.521124746650457,
+      "http_runs": 30,
+      "response_raw_bytes": 115618,
+      "offline_gzip_bytes": 7882,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": null
+    },
+    {
+      "institutions": 300,
+      "radius_m": 1000,
+      "status": "ready",
+      "sql_first_ms": 3.537,
+      "sql_warm_p95_ms": 3.389,
+      "sql_warm_max_ms": 3.481,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 6.59041665494442,
+      "http_max_ms": 7.6872496865689754,
+      "http_runs": 30,
+      "response_raw_bytes": 115619,
+      "offline_gzip_bytes": 7881,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": null
+    },
+    {
+      "institutions": 1500,
+      "radius_m": 800,
+      "status": "ready",
+      "sql_first_ms": 16.282,
+      "sql_warm_p95_ms": 17.203,
+      "sql_warm_max_ms": 18.452,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 28.845041058957577,
+      "http_max_ms": 29.78841681033373,
+      "http_runs": 30,
+      "response_raw_bytes": 563058,
+      "offline_gzip_bytes": 36285,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": null
+    },
+    {
+      "institutions": 1500,
+      "radius_m": 1000,
+      "status": "ready",
+      "sql_first_ms": 16.714,
+      "sql_warm_p95_ms": 18.156,
+      "sql_warm_max_ms": 19.551,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 22.816665936261415,
+      "http_max_ms": 24.499583058059216,
+      "http_runs": 30,
+      "response_raw_bytes": 563059,
+      "offline_gzip_bytes": 36286,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": null
+    },
+    {
+      "institutions": 5000,
+      "radius_m": 800,
+      "status": "too_dense",
+      "sql_first_ms": 61.562,
+      "sql_warm_p95_ms": 61.239,
+      "sql_warm_max_ms": 64.252,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 62.424040865153074,
+      "http_max_ms": 63.17133316770196,
+      "http_runs": 30,
+      "response_raw_bytes": 284,
+      "offline_gzip_bytes": 233,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": {
+        "jsonb_bytes": 1870056,
+        "radius_count": 5000,
+        "raw_budget_bytes": 1572864
+      }
+    },
+    {
+      "institutions": 5000,
+      "radius_m": 1000,
+      "status": "too_dense",
+      "sql_first_ms": 57.3,
+      "sql_warm_p95_ms": 58.743,
+      "sql_warm_max_ms": 65.918,
+      "sql_warm_runs": 30,
+      "http_p95_ms": 63.43425018712878,
+      "http_max_ms": 63.66562517359853,
+      "http_runs": 30,
+      "response_raw_bytes": 285,
+      "offline_gzip_bytes": 232,
+      "content_encoding": [
+        "identity"
+      ],
+      "two_uid_equal": true,
+      "dense_details": {
+        "jsonb_bytes": 1870057,
+        "radius_count": 5000,
+        "raw_budget_bytes": 1572864
+      }
+    }
+  ]
+}

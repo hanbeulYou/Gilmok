@@ -123,6 +123,9 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 
 ### 2.5 학교 (수요 축)
 
+> 2026-10-16 #39 로컬 보완: 현재 NEIS1,320행의 기존 Juso1,241좌표 유지, 한국교육시설안전원 표준 위치73행 추가. 아래 S1 수집 수치는 당시 이력이다. [채택·좌표계·보류 정책](#학교-위치-표준데이터-채택-2026-10-16-39-로컬-한정)을 따른다.
+
+
 - 소스: [NEIS 학교기본정보](https://open.neis.go.kr/) `schoolInfo`, `ATPT_OFCDC_SC_CODE=B10`. 2026-09-19 실응답 1,415행, 고유 `SD_SCHUL_CODE` 1,415개. 인증 정상. 기존 예시 OA-20561의 `neisSchoolInfoIs`는 특수학교 21행을 반환하므로 초·중·고 전체 소스로 사용하지 않는다.
 - `SCHUL_KND_SC_NM`이 정확히 초등학교/중학교/고등학교인 행만 `elem/mid/high`로 대응한다. 각각 **610/390/319개**, 합계 **1,319개**. 다른 학교급 96행은 R2 원본에 보존하며 임의로 세 학교급에 편입하지 않는다. 학생 수는 v2다.
 - `ORG_RDNMA` 본주소를 지오코딩한다. DB `schools`에는 ID·이름·원천 학교급·level·주소·geom·실패/사유/provider·출처 메타데이터를 둔다. 좌표 확보 **1,312행**, 실패 **7행**. 원본은 `raw/schools/2026-09.parquet`.
@@ -165,6 +168,9 @@ Publishable/Secret key는 데이터 API용이며 CLI Access Token이나 DB 비�
 
 ### 2.8 지오코딩 — Juso 전환 계약
 
+> 2026-10-16 신규 등록 전환: 사용자 승인으로 Route Handler의 Vworld 좌표 호출을 Juso 좌표 API로 교체한다. 아래 A0 임시 폴백 기록은 과거 결정이다. 신규 코드는 Juso만 사용하며 기존 데이터 교체는 계획만 작성한다. Production 미배포·원격 migration 미적용. [전환·기존 데이터 목록](juso-registration-retirement-plan.md), [검증](../validation/juso-registration-20261016.md)을 따른다. Vworld 저장 금지 안내([공식 카탈로그](https://www.data.go.kr/catalog/15101106/openapi.json))에 따라 실패 시 Vworld로 대체하지 않는다. WFS/건물 도형 공급자는 이 지오코더 전환과 구분한다.
+
+
 2026-09-30 사용자 결정: 사용자 검색과 배치 모두 Kakao를 제거한다. **아래는 A0/A에서 구현할 승인 방향이며 현재 운영 코드·기존 데이터가 이미 교체됐다는 뜻은 아니다.** 실행은 [A0 계획](s3-2-a0-juso-plan.md) 승인 후, 원격 변경/삭제는 최종 dry-run·manifest 승인 후다. 과거 S1 실측은 [PR4 검증](../validation/pr4-places-20260920.md)에 남기며 현행 공급자 계약과 구분한다.
 
 #### 2.8.1 검색·좌표·PNU
@@ -192,6 +198,10 @@ PNU는 `admCd(10자리) + (mtYn=0→1, mtYn=1→2) + lnbrMnnm(4자리 zero-pad) 
 - `/ingest`는 영속 claim/journal로 중복 외부 요청을 방지한다. 인증·제한·서버 오류는 not_found로 저장하지 않는다. 키 포함 URL·응답 echo·개인 입력은 로그에서 제외한다.
 
 #### 2.8.3 약관·저장 허용·출처 — 2026-09-30 확인
+
+**2026-10-14 Vworld 저장 조건 재확인:** [국토교통부 지오코더 API 공식 카탈로그](https://www.data.go.kr/catalog/15101106/openapi.json)(15101106, 수정일 2025-07-01)는 실시간 사용과 별도 저장장치·DB 저장 금지를 명시한다. 같은 카탈로그의 일반 `license=이용허락범위 제한 없음`만으로 이 구체적 조건을 무시하지 않는다. 일일 최대 40,000건 안내와 저장 허용 여부는 별개다. Vworld 사이트 이용약관/지오코더 안내 원문은 이번 조회에서 접근 실패하여 별도 예외 허용·출처 표기 의무·TTL을 확인하지 못했다. 국내 IP에서 호출할 수 있다는 사실도 저장 허용의 근거가 아니다.
+
+따라서 #39 미확보131주소의 Vworld 재조회·로컬 영속 저장은 **호출 전 보류**했다(호출0, 신규 `provider=vworld`0). Juso 재산출본을 Vworld로 보완하거나 일반 라이선스만 근거로 캐시·원격 적재하지 않는다. 앞뒤 절의 과거 Vworld 폴백 운영 기록을 저장 허용 확인으로 읽으면 안 된다. 기존 사용자 등록 Vworld 임시 경로의 저장 조건 재검토도 필요하나, 이번 품질 검토에서 운영 코드·기존 데이터는 변경하지 않는다. [검토·미확보 학교 목록](../validation/academy-coordinate-quality-20261014.md)을 따른다. Juso 해외 저장 공식 회신과 원격 승격 별도 승인 대기는 그대로다.
 
 | 구분 | 1차 자료와 확인 결과 |
 | --- | --- |
@@ -665,3 +675,48 @@ D5 선행 워커에서 사용하는 Juso 검색→좌표 API를 공개 주소 �
 ### 월간 조회 원천·기준 분포 일관성 (2026-10-11)
 
 월간 갱신과 단일 소스 재시도는 모든 수집/검증 후 원천·기준 분포·manifest를 단일 트랜잭션으로 교체한다. 실패 시 모두 이전 버전을 유지한다. 수동 원본 갱신·재개형 DB 복원과는 별도 정책이며 [운영 절차](../operations/data-refresh.md#월간-원자적-갱신-2026-10-11-수정)를 따른다.
+
+### 학원 점 레이어 RPC — A 합성 계약 (2026-10-16)
+
+`academy_layer(lat float8,lng float8,radius_m integer,requested_field text,expected_source jsonb)` → schema_version `1.0`. 현재 **합성 fixture 검증만 완료**, G 원격 승격 전 비활성/Draft다. [계획](academy-layer-plan.md), [검증](../validation/academy-layer-a-20261016.md), [운영 인계](../operations/academy-layer.md)를 따른다. 외부 API 호출·원격 DB/R2 조회/쓰기는 하지 않았다.
+
+- 입력 중심은 채점에 쓴 EPSG:4326 값 그대로, 반경은 800/1000m, 분야는 `preset.cluster_field` 원문(빈 분야도 허용)이다. `expected_source`는 채점 RPC `meta.sources.academies` 전체 descriptor다. 후보 ID·주소·임대료·uid를 인자로 보내지 않는다.
+- 개원 학원·교습소 전 분야의 geography `ST_DWithin` 집합을 반환한다. 같은 위치라도 기관 ID가 다르면 별개다. 좌표는 `ST_X/Y` 그대로이며 소수점 축소를 하지 않는다. 분야·수 집계는 `score_internal.compete`와 같다.
+- authenticated(uid 필요)만 실행 가능하다. 공개 기관 자료이므로 두 uid의 같은 입력 응답은 동일하다. private 표시/검토 metadata 직접 SELECT는 허용하지 않는다.
+
+| 응답 | 계약 |
+|---|---|
+| 공통 | `schema_version`, `status`, `reason`, `center:[lng,lat]`, `radius_m`, `field` |
+| `ready.collection` | GeoJSON FeatureCollection, feature `id`=기관 ID, geometry=Point(4326) |
+| 점 properties | 공개 `name`, 원문 `field`, `floor_label`, `floor_status`, `coordinate_verification_pending`, `coordinate_review_reason`, `coordinate_review_version`만 |
+| 층 | `floor_status=explicit`일 때 명시 층 label(지하/복수층 포함). `missing/ambiguous`이면 label=null. 상세주소·호수·전화·대표자 제외, 추정층 없음 |
+| 보류 | 500m 초과 이동 미확정이면 pending=true, reason=`movement_gt_500m`, review_version=검토 manifest 버전. 그 외 false/null/null. UI 배지 `좌표 검증 보류`에 사용 |
+| `ready.counts` | `radius_all`, `radius_same_field`(N), `radius_pending`, `radius_same_field_pending`, `by_field`(원문 분야별 기관 수) |
+| `ready.meta` | `crs`, `source`, 학원 `source_revision`, `coordinate_provider=juso`, `review_version`, `unlocated_count_seoul`, `quality_inventory:{academy,school}` |
+| 미승격/결측 | `coordinate_replacement_pending`(원천 또는 G 표시/gate 없음), `source_mismatch`(채점/원천/표시/검토 불일치), `outside_coverage`(서울 밖). collection/counts/meta=null로 정상 0건과 구분 |
+| 예산 초과 | `too_dense`, reason=`response_budget_exceeded`, collection/counts=null. meta에 전체 `radius_count`, `jsonb_bytes`, `raw_budget_bytes`. 부분 feature 반환 없음 |
+
+초기 보류 101행은 학원 99+학교 2다. 학원 점의 보류 수는 반경·개원 조건에 맞는 부분집합이며 학교 2행은 점 목록에 들어가지 않는다. 보류 여부로 학원을 점수 모집단에서 임의 제외하지 않는다. 새 원천에는 검토 manifest와 release를 다시 게시해야 하며 다른 원천의 검토를 자동 승계하지 않는다.
+
+`lib/map/academies.ts`는 반환 N을 채점 `n_field`와 대조하고 필드별/보류별 수를 feature에서 재집계한다. 화면 M은 지도에서 보이는 **고유 기관 ID** 중 같은 분야 기관 수이며 pan으로 N을 바꾸지 않는다. loader는 최근 5개 메모리 캐시, 동시 요청 1개, 이전 요청 abort/세대 검증을 제공한다. B에서 줌 15 이상·선택 debounce 250ms·분야 강조·공개 이름 text 렌더·팝업/배지를 연결한다.
+
+800m 기준 목표는 SQL 웜 p95 ≤300ms(>1,000ms 중단·보고), raw ≤1.5MiB, gzip ≤256KiB이며 1000m에도 동일 적용한다. 5,000기관 초과 또는 JSONB 응답 1.5MiB 초과는 닫는다. A의 1,500기관 합성 실측은 SQL p95 17.203ms/raw 563,058B/오프라인 gzip 36,285B이고 실제 Micro·전송 압축 검증은 G 이후다.
+
+
+## 학교 위치 표준데이터 채택 2026-10-16 (#39, 로컬 한정)
+
+[전국초중등학교위치표준데이터](https://www.data.go.kr/data/15021148/standard.do)의 실제 제공기관은 한국교육시설안전원이다. 제공기관 파일은 이용허락범위 제한 없음·무료, 반기 갱신(2026-10-01판/차기2027-04-01), 포털 전국 병합은 매월 초다. 특정 공공누리 유형을 확인했다고 쓰지 않는다. 명부는 NEIS, 이번 보완 위치는 한국교육시설안전원이다. 표시는 `한국교육시설안전원 · 전국초중등학교위치표준데이터 · 2026-10-01`과 원본 링크로 한다. 주소 지오코더 호출 없이 파일 위경도를 사용한다.
+
+제공기관 파일 상세(`uddi:9793c2f7-4dba-49ed-bf64-8c6cfd56102a`)와 컬럼 목록에는 위도·경도만 있고 좌표계/EPSG 표기가 없다. 사용자 승인에 따라 동일 학교1,229교와 Juso 출입구의 거리 중앙값72.7395m·최대538.1851m, 동서 차이 중앙값−0.0043m·남북+14.3885m 및 양방향 분산을 근거로 EPSG:4326으로 판정한다. 공식 명시가 아닌 경험적 판정이며 출입구와 학교 대표점의 차이를 포함한다. [메타 원본 해시·분포·보완 검증](../validation/school-supplement-20261016.md).
+
+NEIS 코드와 표준 SCHOOL_ID의 직접 일치0/1,320. 이름+급+도로명주소1,304행 연결, 경계 밖2행 제외 안전 연결1,302행이다. 기존 Juso1,241행을 전부 유지하며 미확보79행 중73행만 `geocode_provider='edu_facility_standard'`로 채운다. 좌표 확보율94.02%→99.55%(1,314/1,320), 잔여6행이다. 명부 source/source_version/raw_key는 NEIS를 유지하고 표준 좌표의 SCHOOL_ID·기준일·원본 SHA·crosswalk를 별도 report/snapshot에 보존한다.
+
+태강삼육초·한국삼육고(표준점 서울 경계 밖), 화랑초(538.2m 차이)는 Juso 좌표를 유지한다. `geocode_reason='coordinate_verification_pending:standard_outside_seoul'` 또는 `...:standard_juso_distance_gt_500m`가 보류 플래그이고 좌표가 있으므로 `geocode_failed=false`다. 현재 UI 표시 추가는 후속 A/B 범위다. 기존 이동>500m101행(학원99/학교2)의 품질 배지 계획과 결합하되 학교 경계 밖2행은 그101행과 중복이므로 중복 집계하지 않는다. 플래그만으로 채점 규칙을 바꾸지 않는다.
+
+원천·기준 분포의 원자적 승격과 rollback을 로컬 격리 DB에서만 검증한다. 원격 쓰기·승격·캐시/키 삭제는 미실행이며 Juso 해외 저장 회신·별도 승인이 필요하다. [G 계획](academy-layer-plan.md#2026-10-16-g-보완-결정--학교-표준-좌표와-품질-보류-표시).
+
+## 2026-10-21 Juso API 도쿄 저장 결정
+
+[ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 문의를 무응답으로 종결하고 기존 도쿄 DB에서 Juso API 좌표를 사용하기로 사용자 결정했다. 앞선 해외 적용 범위 미확정 기록을 공식 허가로 소급 변경하지 않는다. 일반약관 제1~19조/부칙에는 응답 저장 금지·저장국가 제한 문구가 없었지만, 제공 규정 §5에는 국외 관련 조건이 있으며 공개 API 적용 범위는 확정하지 못했다. 과거 ‘제한제공 자료에만 해당’이라는 축약을 확정적 적용 해석으로 사용하지 않는다.
+
+배포 파일 좌표 대안은 조사 중단. G migration/dataset 승격은 [별도 승인](../validation/academy-g-remote-preflight-20261021.md) 후 진행하며 원천·명시층·분포·검토/release를 원자적으로 반영한다. 기존 Kakao/Vworld 행·키 삭제 및 R2 게시/리전 이전을 자동 실행하지 않는다.
