@@ -1,7 +1,7 @@
 {
   "date": "2026-10-28",
   "base_main": "e6c4001710a5ac71a7378a5c1e3530b88e897a14",
-  "implementation": "4405d2d4f9066427167482f374a18378fa0ea3d8",
+  "implementation": "b1717b1d7faf85fb13a0d803ade4c5ea45224dd8",
   "reference_snapshot": "20261016T040000Z",
   "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
   "method": "Local Next production build + existing verification Auth session + real remote read-only RPC; candidate bootstrap in browser memory only. No candidate/comparison/preset/quota/source/operation/schema writes. Auth refresh allowed. OpenFreeMap real tiles. Functional tests use headless SwiftShader; FPS uses headed Metal GPU.",
@@ -753,11 +753,11 @@
           "gzip": 226
         },
         {
-          "file": "static/chunks/webpack-86837676de4147f3.js",
-          "gzip": 2498
+          "file": "static/chunks/webpack-a81ce34de24797c8.js",
+          "gzip": 2500
         }
       ],
-      "initial_js_gzip": 196118,
+      "initial_js_gzip": 196120,
       "academy_js": [
         {
           "file": "static/chunks/871.7091fa37b01be451.js",
@@ -904,7 +904,7 @@
     "vitest": 228,
     "python": 319,
     "real_render_mobile": "2 passed",
-    "synthetic": "8 passed, 1 GPU-only skipped, plus focused mobile focus test passed",
-    "ci": "See PR checks; two prior failures reproduced and fixed as map disposal ordering, not Auth"
+    "synthetic": "9 passed, 1 GPU-only skipped; 3D navigation repeat 5 passed",
+    "ci": "See PR checks; map/layer/deck teardown and lazy evidence focus failures were fixed, no errors allowed"
   }
 }

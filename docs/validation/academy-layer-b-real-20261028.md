@@ -43,7 +43,7 @@
 
 | 같은 환경으로 새 빌드한 gzip | main | B | 판정 |
 |---|---:|---:|---|
-| `/compare/page` 초기 JS | 200,196B | 196,118B | 증가0(−4,078B) |
+| `/compare/page` 초기 JS | 200,196B | 196,120B | 증가0(−4,076B) |
 | 학원 전용 lazy JS | — | 5,369B | ≤15KiB |
 | 학원 전용 CSS | — | 362B | ≤2KiB |
 
@@ -69,5 +69,6 @@ a의 6회는 평균≥55fps·p95≤33.4ms 통과. 아래 지도 정리 순서 �
 - `pnpm lint`, `pnpm typecheck`, `pnpm test`: 통과(Vitest228/Python319). 실제 렌더·모바일 시험2개, 합성 회귀8개 통과. 동시 빌드로 `.next/types`가 바뀐 타입 검사와 생성된 `* 2.ts` 중복 파일이 있던 검사는 실패로 보존했으며, 빌드 종료 후 생성 중복만 정리하고 타입·단위 검사를 다시 통과했다. 제품 소스/검사 기준을 완화하지 않았다.
 - #42 CI 두 실행([첫 실행](https://github.com/hanbeulYou/Gilmok/actions/runs/40670645284), [오류 본문 확보](https://github.com/hanbeulYou/Gilmok/actions/runs/40673508697))은 비교에서 다음 후보 `/new`로 이동할 때 `Cannot read properties of undefined (reading 'getLayer')`로 실패했다. 처음 빈 `/new`만 연 로컬 검사는 통과했으나 레이어를 연 뒤 이동하는 회귀 검사는 같은 오류를 재현했다. 부모의 지도 제거 뒤 자식 레이어가 정리되는 순서가 원인이다. 학원과 3D 건물 레이어의 생성/정리를 layout effect로 옮겨 부모의 passive effect보다 먼저 정리하도록 고쳤다. 2D·3D 이동 회귀를 포함한 합성8개, 실데이터 렌더·모바일2개가 수정 후 통과했다. CI 최종 상태는 #42 checks를 따른다. 401이나 제품 오류 허용은 추가하지 않았다.
 - 후속 CI에서 지도 오류는 해소됐으나 모바일 방향키 탭 선택 후 근거 제목으로 포커스를 빼앗는 실패를 확인했다. lazy 근거 패널의 무조건 autofocus가 원인이어서 명시적 점수/근거 열기의 focus request에만 반응하도록 바꿨다. 탭 포커스 유지·명시적 열기 시 제목 이동·닫을 때 원래 버튼 복귀 회귀1개와 수정 후 실데이터 렌더/모바일2개, lint/typecheck/Vitest228/Python319 통과. E2E의 기존 포커스 요구는 완화하지 않았다.
+- 빠른 3D 이탈 회귀에서 두 CI가 deck.gl `null viewport.id`를 포착했다. 설치된 deck.gl의 `getViewport`/`view.makeViewport`와 페이지 이탈 경로를 확인하고 MapboxOverlay control도 부모의 지도/DOM 제거 전에 해제하도록 layout effect로 맞췄다. 수정 후 3D 이탈5회, 합성 전체9개(FPS1개는 별도), lint/typecheck/Vitest228/Python319와 production 빌드가 통과했다. 정상 표시 데이터·계산·레이어 구성은 변경하지 않았다.
 - Preview `gilmok-oimf9lqc8-vineyard.vercel.app`는 Vercel SSO로 리디렉션된다. 프로젝트 읽기 결과 `all_except_custom_domains`, 기존 protection bypass 없음. 보호 설정 변경 없이 중단했다. **Preview 실제 렌더 및 HTTP→첫 점 콜드/웜 판정은 미완료**이며 로컬 production/RPC 결과로 대체해 통과 처리하지 않는다.
 - b/c 유효 60Hz FPS와 Preview 실증은 미완료다. CI 결과는 PR에 별도 기록한다. #42는 Draft를 유지한다. 다음 단계는 완료된 G/A 위에서 B의 남은 실증을 마치고 사용자 머지 후 공개 전 체크리스트로 이동하는 것이다.
