@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFileSync } from 'node:fs';
+import { parseEnv } from 'node:util';
 import { gzipSync } from 'node:zlib';
 import type { Map as LibreMap } from 'maplibre-gl';
 import { installMapProbe } from './building-3d';
@@ -9,7 +10,11 @@ import type { ReadyAcademyLayer } from '../../lib/map/academies';
 
 type Candidate = {name:string;lat:number;lng:number;floor:number;address:string;score_n:number;expected_total:number};
 type Proof = {url:string;key:string;session:{access_token:string;user:Record<string,unknown>};cases:Candidate[]};
-const proof = (): Proof => JSON.parse(readFileSync('.local/academy-real/private.json','utf8'));
+const proof = (): Proof => {
+  const encoded = parseEnv(readFileSync('.local/academy-real/.env', 'utf8')).ACADEMY_PROOF_CONFIG_BASE64;
+  if (!encoded) throw new Error('Existing verification session configuration required');
+  return JSON.parse(Buffer.from(encoded, 'base64').toString('utf8'));
+};
 const allowed = new Set(['score_inputs','score_reference_percentiles','exposure_inputs_v022','project_exposure_geometry','compare_map_context','academy_layer']);
 async function open(page:Page, expectMap=true) {
   page.setDefaultTimeout(15000);
