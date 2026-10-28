@@ -1,0 +1,117 @@
+{
+  "read_only": true,
+  "coordinates_old": {
+    "lat": 37.5025721944737,
+    "lng": 127.05758573871447,
+    "provider": "vworld",
+    "evidence": "docs/validation/s3-2-a0-juso-20260930.md"
+  },
+  "coordinates_new": {
+    "lat": 37.5025724246771,
+    "lng": 127.057585444512,
+    "provider": "juso"
+  },
+  "distance_m": 0.03646252,
+  "snapshot": "20261016T040000Z",
+  "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+  "axes": [
+    {
+      "axis": "demand",
+      "raw_old": 9267.137532038552,
+      "raw_new": 9267.039167512863,
+      "percentile_old": 96.30690234027847,
+      "percentile_new": 96.30690234027847,
+      "score_old": 96.30690234027847,
+      "score_new": 96.30690234027847
+    },
+    {
+      "axis": "flow",
+      "raw_old": 103464.09476136377,
+      "raw_new": 103464.55616872468,
+      "percentile_old": 99.29451510333864,
+      "percentile_new": 99.29451510333864,
+      "score_old": 99.29451510333864,
+      "score_new": 99.29451510333864
+    },
+    {
+      "axis": "transit",
+      "raw_old": null,
+      "raw_new": null,
+      "percentile_old": null,
+      "percentile_new": null,
+      "score_old": 38.336803260049486,
+      "score_new": 38.3419610896348
+    },
+    {
+      "axis": "cluster",
+      "raw_old": 6.975413927455952,
+      "raw_new": 6.975413927455952,
+      "percentile_old": null,
+      "percentile_new": null,
+      "score_old": 97.45241833547216,
+      "score_new": 97.45241833547216
+    },
+    {
+      "axis": "exposure",
+      "raw_old": 0.30707070707070705,
+      "raw_new": 0.30707070707070705,
+      "percentile_old": null,
+      "percentile_new": null,
+      "score_old": 30.707070707070706,
+      "score_new": 30.707070707070706
+    },
+    {
+      "axis": "building",
+      "raw_old": 85,
+      "raw_new": 85,
+      "percentile_old": null,
+      "percentile_new": null,
+      "score_old": 85,
+      "score_new": 85
+    },
+    {
+      "axis": "environment",
+      "raw_old": 9678,
+      "raw_new": 9678,
+      "percentile_old": 99.24695688054467,
+      "percentile_new": 99.24695688054467,
+      "score_old": 93.40459174952771,
+      "score_new": 93.40459174952771
+    },
+    {
+      "axis": "rent_efficiency",
+      "raw_old": null,
+      "raw_new": null,
+      "percentile_old": null,
+      "percentile_new": null,
+      "score_old": null,
+      "score_new": null
+    }
+  ],
+  "transit": [
+    {
+      "component": "transit.nearest_subway_m",
+      "raw_old": 816.56257966,
+      "raw_new": 816.52991906,
+      "percentile_old": 62.15184650299154,
+      "percentile_new": 62.14153084382092
+    },
+    {
+      "component": "transit.subway_boardings_golden",
+      "raw_old": 0,
+      "raw_new": 0,
+      "percentile_old": 20.255474452554743,
+      "percentile_new": 20.255474452554743
+    },
+    {
+      "component": "transit.bus_stops",
+      "raw_old": 48,
+      "raw_new": 48,
+      "percentile_old": 66.68042087889417,
+      "percentile_new": 66.68042087889417
+    }
+  ],
+  "total_old": 83.01075192604473,
+  "total_new": 83.01156632018979,
+  "total_delta": 0.0008143941450526881
+}
