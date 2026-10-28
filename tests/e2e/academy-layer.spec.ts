@@ -195,3 +195,23 @@ for (const mode of ['2D', '3D'] as const) test(`academy cleanup ${mode} survives
   await expect(page.getByLabel('주소 *', { exact: true })).toBeEnabled();
   expect(mock.unexpected).toEqual([]);
 });
+
+test('lazy evidence preserves mobile tab focus and explicit evidence focus', async ({ page }) => {
+  await open(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const tab = (name: string) => page.getByRole('tab', { name, exact: true });
+  await tab('매트릭스').press('ArrowRight');
+  await expect(tab('지도')).toBeFocused();
+  await tab('지도').press('ArrowRight');
+  await expect(page.locator('#evidence-heading')).toBeVisible();
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+  await expect(tab('근거')).toBeFocused();
+  await page.getByRole('button', { name: '근거 닫기', exact: true }).click();
+  await expect(tab('지도')).toBeFocused();
+  await tab('지도').press('Home');
+  const axis = page.locator('.mobile-cards').getByRole('button', { name: '합성 1 학원 집적 근거', exact: true });
+  await axis.click();
+  await expect(page.locator('#evidence-heading')).toBeFocused();
+  await page.getByRole('button', { name: '근거 닫기', exact: true }).click();
+  await expect(axis).toBeFocused();
+});

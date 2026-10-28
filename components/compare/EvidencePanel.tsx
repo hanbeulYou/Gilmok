@@ -69,8 +69,9 @@ function AxisEvidence({ row, axis }: { row: ComparisonCandidate; axis: AxisResul
       <ul>{row.result?.derived.academy_eligible_reasons.map(r => <li key={r}>{reason(r)}</li>)}</ul></>}
   </div>;
 }
-export function EvidencePanel({ row, axisKey, close }: { row: ComparisonCandidate; axisKey: AxisKey | null; close: () => void }) {
-  useEffect(() => { document.getElementById('evidence-heading')?.focus({ preventScroll: true }); }, [row.id, axisKey]);
+export function EvidencePanel({ row, axisKey, focusRequest, close }: { row: ComparisonCandidate; axisKey: AxisKey | null; focusRequest: number; close: () => void }) {
+  // Only explicit evidence actions move focus; arrow-key tab selection stays on its tab.
+  useEffect(() => { if (focusRequest) document.getElementById('evidence-heading')?.focus({ preventScroll: true }); }, [focusRequest]);
   const axes = row.result?.axes.filter(axis => !axisKey || axis.key === axisKey) ?? [];
   return <section className="evidence-panel" aria-label="근거 패널"><header><h2 id="evidence-heading" tabIndex={-1}>{row.alias} · {axisKey ? axes[0]?.label : '후보 전체'} 근거</h2><button onClick={close}>근거 닫기</button></header>
     {!row.result ? <p>점수가 준비되면 근거를 볼 수 있습니다.</p> : <>

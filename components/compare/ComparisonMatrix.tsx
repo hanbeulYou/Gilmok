@@ -95,14 +95,16 @@ export function ComparisonMatrix() {
   const selected = state.candidates.find(r => r.id === state.selectedId);
   const modified = axisKeys.some(key => state.weights[key] !== academyV0.weights[key]);
   const lastTab = useRef<'matrix' | 'map'>('matrix'), returnFocus = useRef<HTMLElement | null>(null);
+  const [evidenceFocusRequest, setEvidenceFocusRequest] = useState(0);
   const tabs = ['matrix', 'map', 'evidence'] as const;
   const select = (id: string, axis?: AxisKey) => {
     if (tab !== 'evidence') lastTab.current = tab;
     returnFocus.current = document.activeElement as HTMLElement;
+    setEvidenceFocusRequest(value => value + 1);
     state.openEvidence(id, axis); setTab('evidence');
-    requestAnimationFrame(() => document.getElementById('evidence-heading')?.focus());
   };
   const changeTab = (next: typeof tab) => {
+    setEvidenceFocusRequest(0);
     if (next === 'evidence') {
       if (tab !== 'evidence') lastTab.current = tab;
       returnFocus.current = document.getElementById(`compare-tab-${lastTab.current}`);
@@ -111,6 +113,7 @@ export function ComparisonMatrix() {
     setTab(next);
   };
   const closeEvidence = () => {
+    setEvidenceFocusRequest(0);
     state.closeEvidence(); setTab(lastTab.current);
     requestAnimationFrame(() => {
       if (returnFocus.current?.isConnected && returnFocus.current.getClientRects().length) returnFocus.current.focus();
@@ -205,7 +208,7 @@ export function ComparisonMatrix() {
         <MapGate active={desktop || tab === 'map'}/></section></div>
       <p className="exposure-limit">{EXPOSURE_LIMITATION}</p>
       <section id="compare-panel-evidence" role={desktop ? undefined : 'tabpanel'} aria-labelledby="compare-tab-evidence" hidden={!desktop && tab !== 'evidence'} tabIndex={-1}>
-        {selected && state.evidenceOpen ? <Suspense fallback={<p role="status">근거를 준비하는 중입니다.</p>}><EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} close={closeEvidence}/></Suspense> : <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
+        {selected && state.evidenceOpen ? <Suspense fallback={<p role="status">근거를 준비하는 중입니다.</p>}><EvidencePanel row={{...selected, result: results.get(selected.id)}} axisKey={state.selectedAxis} focusRequest={evidenceFocusRequest} close={closeEvidence}/></Suspense> : <p className="mobile-only">후보를 선택해 근거를 확인하세요.</p>}
       </section>
       <dialog className="weight-sheet" ref={dialog} onClose={() => setSheet(false)}><header><h2>축별 가중치</h2><button onClick={() => setSheet(false)}>닫기</button></header>
         {axisKeys.map(key => <WeightSlider key={key} axis={key} value={state.weights[key]} prefix="mobile"/>)}<button disabled={state.snapshotReadOnly} onClick={state.resetWeights}>가중치 초기화</button></dialog>
