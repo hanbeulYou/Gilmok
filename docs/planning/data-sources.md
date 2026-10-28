@@ -720,3 +720,7 @@ NEIS 코드와 표준 SCHOOL_ID의 직접 일치0/1,320. 이름+급+도로명주
 [ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 문의를 무응답으로 종결하고 기존 도쿄 DB에서 Juso API 좌표를 사용하기로 사용자 결정했다. 앞선 해외 적용 범위 미확정 기록을 공식 허가로 소급 변경하지 않는다. 일반약관 제1~19조/부칙에는 응답 저장 금지·저장국가 제한 문구가 없었지만, 제공 규정 §5에는 국외 관련 조건이 있으며 공개 API 적용 범위는 확정하지 못했다. 과거 ‘제한제공 자료에만 해당’이라는 축약을 확정적 적용 해석으로 사용하지 않는다.
 
 배포 파일 좌표 대안은 조사 중단. G migration/dataset 승격은 [별도 승인](../validation/academy-g-remote-preflight-20261021.md) 후 진행하며 원천·명시층·분포·검토/release를 원자적으로 반영한다. 기존 Kakao/Vworld 행·키 삭제 및 R2 게시/리전 이전을 자동 실행하지 않는다.
+
+## 2026-10-28 Vworld ingest 호출 종료
+
+신규 좌표 조회·검증·진단은 Juso 검색+좌표 API만 사용한다. 과거 Vworld 응답 파서·출처는 역사 자료 검산을 위해 보존한다. 경계·보조 건물은 **기존 R2 2026-09 원본(수집일 2026-09-20)**을 재생하며 최신 API 응답으로 표시하지 않는다. `ingest/archived_wfs.py`에 key·SHA256·행수를 고정한다. 법정동 원본68행→강남14동, 건물 원본33,345행→SHP ID 제외 후5,117개이며 이후 기존 공간 중복 제거는 그대로다. 보조 건물의 source/source_version은 Vworld/2026-09-20로 유지한다. 새 원본 채택은 별도 품질·권리·해시 검산 후 승인하며 파일 부재/변조 때 API 폴백은 없다. [실측](../validation/vworld-ingest-retirement-20261028.md), [운영](../operations/vworld-ingest-retirement.md).

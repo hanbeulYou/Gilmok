@@ -1,6 +1,6 @@
 # ingest의 Vworld 키 의존 제거·대체안 — 2026-10-27
 
-**계획만 작성. 실행·원격 쓰기·기존 자료 삭제·키 삭제 없음.** 프론트 `app/`·`lib/`의 `VWORLD_API_KEY` 읽기는0곳이며 Vercel 삭제는 한별이 수행한다. 아래4파일 때문에 `.env`와 Actions Secrets의 전역 삭제 조건은 아직 충족되지 않는다.
+**2026-10-28 사용자 승인으로 별도 Draft PR 구현. 원격 쓰기·기존 자료 삭제·키 삭제 없음.** 프론트 `app/`·`lib/`의 `VWORLD_API_KEY` 읽기는0곳이며 Vercel 삭제는 한별이 수행한다. 아래4파일 때문에 `.env`와 Actions Secrets의 전역 삭제 조건은 아직 충족되지 않는다.
 
 공식 [지오코더 API 카탈로그](https://www.data.go.kr/catalog/15101106/openapi.json)는 실시간 사용 및 별도 저장장치/DB 저장 불가를 명시한다(2026-10-27 재확인, 카탈로그 수정일2025-07-01). **이 문구는 지오코더 API에 대한 근거이며 WFS 전체의 저장 금지까지 입증하지 않는다.** WFS는 별도 제공조건 검토가 필요하다. 키 의존 자체를 없애려면 다음 대체를 승인·검산 후 순차 적용한다.
 
@@ -18,3 +18,5 @@
 3. 잔여 호출 그래프 확인: `ingest/juso.py`의 교체형 Vworld 어댑터·`ingest/geocode.py` request_vworld는 직접 env를 읽지 않아4파일 수에 포함되지 않지만, 승인된 제거 PR에서 호출자0인지 검사한다. 과거 기록을 고쳐 출처를 소급 juso로 바꾸지 않는다.
 4. `.github/workflows/{address-queue,refresh-monthly,refresh-source}.yml`의 env 전달, `.env.example`, 운영 문서를 맞춘다. active WFS가 남아 있는 동안 `.env`/Actions 키를 먼저 제거하지 않는다.
 5. 저장소 전체 **실제 읽기0 + 승인된 배치/수동 경로 검증** 후 삭제 대상 목록(서비스·환경·변수명만)을 제출한다. 실제 키 삭제는 한별이 수행한다. 기존 DB/R2 Vworld 유래 데이터의 삭제·교체는 기존 inventory와 새 재산출/차이/manifest 승인을 따른다.
+
+2026-10-28: 현재 R2 원본 재생 가능성을 검산해 채택했다. WFS 출처·수집일을 보존하는 동결 원본 재생이다. [검증](../validation/vworld-ingest-retirement-20261028.md).
