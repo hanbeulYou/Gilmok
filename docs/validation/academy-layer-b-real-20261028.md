@@ -11,6 +11,7 @@
 - 분포 `20261016T040000Z`, fingerprint `ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0`.
 - 반경 800m, 입시·검정 및 보습, 임대료 미입력, 채점 v0.4.0. 후보 좌표는 기존 G 기준점과 같다. 과거 Vworld에서 얻은 **기존 후보 기준 좌표**이며 신규 Juso 등록 좌표로 바꾼 시험이 아니다. 학원 레이어는 원격 승격된 Juso 등 공개 원천의 실제 좌표다.
 - a `(37.5025721944737,127.05758573871447)` 3층, b `(37.497368428505624,127.05516718391107)` 2층, c `(37.50428792732002,127.06287290714192)` 3층. 순서는 위도/경도.
+- 검증 세션 설정은 gitignore 대상 `.local/academy-real/.env`의 `ACADEMY_PROOF_CONFIG_BASE64`(기존 세션·공개 기준점 JSON)에만 둔다. Base64는 직렬화이며 암호화가 아니므로 값은 로그/문서에 남기지 않는다. 파일 권한600, 기존 JSON과 파싱값 동일성 확인.
 - 로컬 Next production 빌드에서 실제 OpenFreeMap 타일과 실제 원격 RPC를 연결했다. Playwright의 허용 목록 프록시가 기존 검증 세션으로 요청을 전달한다. 신규 등록/원격 저장 실증으로 표현하지 않는다.
 - 기능·모바일·슬라이더 검사는 headless/SwiftShader, FPS는 별도 headed Chrome/실제 Metal GPU다. Preview 실증과 구분한다. 원본 숫자는 [JSON](academy-layer-b-real-20261028.json).
 
