@@ -72,3 +72,15 @@ a의 6회는 평균≥55fps·p95≤33.4ms 통과. 아래 지도 정리 순서 �
 - 빠른 3D 이탈 회귀에서 두 CI가 deck.gl `null viewport.id`를 포착했다. 설치된 deck.gl의 `getViewport`/`view.makeViewport`와 페이지 이탈 경로를 확인하고 MapboxOverlay control도 부모의 지도/DOM 제거 전에 해제하도록 layout effect로 맞췄다. 수정 후 3D 이탈5회, 합성 전체9개(FPS1개는 별도), lint/typecheck/Vitest228/Python319와 production 빌드가 통과했다. 정상 표시 데이터·계산·레이어 구성은 변경하지 않았다.
 - Preview `gilmok-oimf9lqc8-vineyard.vercel.app`는 Vercel SSO로 리디렉션된다. 프로젝트 읽기 결과 `all_except_custom_domains`, 기존 protection bypass 없음. 보호 설정 변경 없이 중단했다. **Preview 실제 렌더 및 HTTP→첫 점 콜드/웜 판정은 미완료**이며 로컬 production/RPC 결과로 대체해 통과 처리하지 않는다.
 - b/c 유효 60Hz FPS와 Preview 실증은 미완료다. CI 결과는 PR에 별도 기록한다. #42는 Draft를 유지한다. 다음 단계는 완료된 G/A 위에서 B의 남은 실증을 마치고 사용자 머지 후 공개 전 체크리스트로 이동하는 것이다.
+
+
+## 2026-10-29 후속: FPS 보류·나머지 검증 상태
+
+사용자 지시로 FPS 측정을 보류한다. b/c의 유효 60Hz 결과는 미완료로 유지하며 재측정하지 않았다. 측정 장치·OS 설정도 변경하지 않았다.
+
+- 코드 head `6aa49e43e4341c5dce19054c17950fe07e9d5b15`의 [CI 전체 성공](https://github.com/hanbeulYou/Gilmok/actions/runs/40679698015)을 다시 확인했다. 기존 실데이터 a/b/c 렌더·숫자·모바일·팝업·근거·오버레이 동시 표시·번들 결과는 해당 코드에 유효하므로 불필요하게 반복하지 않았다.
+- 최신 Preview는 `https://gilmok-qgjs6udsx-vineyard.vercel.app/compare`, deployment `dpl_WEzchNQArjsjWJAdBsNSnse83Twv`, 상태 `READY`다. 2026-10-29 14:55:58 KST에 인증 정보 없는 GET을 재확인한 결과 **HTTP 302 → vercel.com/sso-api**였다. 이전 배포 URL만 검사한 결과가 아니다.
+- 따라서 남은 비FPS 항목인 **Preview 실제 렌더·HTTP 요청 시작→첫 학원 점 표시 시간(콜드≤3초, 웜 p95≤1초)**은 접근 대기다. 배포 성공, RPC 응답 시간, 로컬 렌더 성공을 이 항목의 통과 증거로 대체하지 않는다.
+- 보호 설정을 바꾸지 않고 검증할 수 있도록 기존 자동화 보호 우회 키를 로컬 `.env`의 `VERCEL_AUTOMATION_BYPASS_SECRET`에 등록해 달라고 요청했다. [Vercel 공식 방식](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation)에 따라 검증 대상 Preview origin에만 `x-vercel-protection-bypass` 헤더로 전달하고 URL·로그·문서에는 남기지 않는다. 현재 키 발급·설정 변경·보호 우회 요청은 실행하지 않았다.
+
+이번 후속 확인에는 Auth 갱신·RPC 호출·DB/R2 쓰기가 없다. #42는 **Draft 유지**. FPS 보류와 Preview 접근 대기는 별개 미완료 항목이다.
