@@ -1,0 +1,910 @@
+{
+  "date": "2026-10-28",
+  "base_main": "e6c4001710a5ac71a7378a5c1e3530b88e897a14",
+  "implementation": "b1717b1d7faf85fb13a0d803ade4c5ea45224dd8",
+  "reference_snapshot": "20261016T040000Z",
+  "source_fingerprint": "ca9ca0f95422c2b7fe14353cf6f4a5b38c723e0e42acad11930b6ebab1c746d0",
+  "method": "Local Next production build + existing verification Auth session + real remote read-only RPC; candidate bootstrap in browser memory only. No candidate/comparison/preset/quota/source/operation/schema writes. Auth refresh allowed. OpenFreeMap real tiles. Functional tests use headless SwiftShader; FPS uses headed Metal GPU.",
+  "render": {
+    "results": [
+      {
+        "candidate": "a",
+        "mode": "2D",
+        "n": 1069,
+        "m": 868,
+        "features": 1402,
+        "geometry_equal": true,
+        "buildings": 0
+      },
+      {
+        "candidate": "a",
+        "mode": "3D",
+        "n": 1069,
+        "m": 165,
+        "features": 1402,
+        "geometry_equal": true,
+        "buildings": 439
+      },
+      {
+        "candidate": "b",
+        "mode": "2D",
+        "n": 1156,
+        "m": 830,
+        "features": 1530,
+        "geometry_equal": true,
+        "buildings": 0
+      },
+      {
+        "candidate": "b",
+        "mode": "3D",
+        "n": 1156,
+        "m": 229,
+        "features": 1530,
+        "geometry_equal": true,
+        "buildings": 602
+      },
+      {
+        "candidate": "c",
+        "mode": "2D",
+        "n": 643,
+        "m": 415,
+        "features": 786,
+        "geometry_equal": true,
+        "buildings": 0
+      },
+      {
+        "candidate": "c",
+        "mode": "3D",
+        "n": 643,
+        "m": 25,
+        "features": 786,
+        "geometry_equal": true,
+        "buildings": 241
+      }
+    ],
+    "totals": [
+      83.01075192604473,
+      92.78765813947193,
+      82.20961647714019
+    ],
+    "slider": {
+      "policy": "production",
+      "limitMs": 100,
+      "sets": [
+        {
+          "set": 1,
+          "samples": 100,
+          "p95": 33.89999961853027,
+          "max": 63.5,
+          "times": [
+            18.40000009536743,
+            63.5,
+            19.800000190734863,
+            33.19999980926514,
+            33.30000019073486,
+            33.19999980926514,
+            33.40000009536743,
+            33.40000009536743,
+            33.299999713897705,
+            33.200000286102295,
+            33.69999980926514,
+            33,
+            33.700000286102295,
+            33,
+            33.5,
+            33.5,
+            33.39999961853027,
+            33,
+            33.19999980926514,
+            33.40000009536743,
+            33.19999980926514,
+            33.40000009536743,
+            33.200000286102295,
+            33.299999713897705,
+            33.299999713897705,
+            33.59999990463257,
+            33,
+            33.30000019073486,
+            33.200000286102295,
+            33.39999961853027,
+            33.700000286102295,
+            33.299999713897705,
+            33,
+            33.30000019073486,
+            33.40000009536743,
+            33.299999713897705,
+            33.40000009536743,
+            33.200000286102295,
+            33.299999713897705,
+            33.60000038146973,
+            33.299999713897705,
+            33,
+            33.40000009536743,
+            33.30000019073486,
+            33.299999713897705,
+            33.59999990463257,
+            33.40000009536743,
+            33,
+            32.700000286102295,
+            34,
+            33.19999980926514,
+            33.40000009536743,
+            33.200000286102295,
+            33.39999961853027,
+            33.40000009536743,
+            33.59999990463257,
+            33,
+            33.30000019073486,
+            32.80000019073486,
+            33.799999713897705,
+            33.60000038146973,
+            33.299999713897705,
+            33,
+            32.80000019073486,
+            34,
+            33.19999980926514,
+            33.19999980926514,
+            33.30000019073486,
+            33.299999713897705,
+            33.299999713897705,
+            33.59999990463257,
+            33.10000038146973,
+            33.19999980926514,
+            32.700000286102295,
+            34,
+            33.59999990463257,
+            33.19999980926514,
+            33.10000038146973,
+            32.69999980926514,
+            33.80000019073486,
+            33.299999713897705,
+            33.5,
+            33.200000286102295,
+            33.299999713897705,
+            33.30000019073486,
+            33.69999980926514,
+            33,
+            33.40000009536743,
+            32.59999990463257,
+            33.89999961853027,
+            33.700000286102295,
+            32.299999713897705,
+            34,
+            32.80000019073486,
+            33.80000019073486,
+            33.19999980926514,
+            33.30000019073486,
+            33.30000019073486,
+            33.39999961853027,
+            32.700000286102295
+          ]
+        },
+        {
+          "set": 2,
+          "samples": 100,
+          "p95": 34,
+          "max": 34,
+          "times": [
+            31.40000009536743,
+            33.200000286102295,
+            33.89999961853027,
+            33.700000286102295,
+            32.40000009536743,
+            33.89999961853027,
+            32.700000286102295,
+            33.90000009536743,
+            33.299999713897705,
+            33.40000009536743,
+            33.40000009536743,
+            33.09999990463257,
+            32.700000286102295,
+            33.40000009536743,
+            33.299999713897705,
+            33.30000019073486,
+            33.30000019073486,
+            33.89999961853027,
+            33.5,
+            32.5,
+            33.89999961853027,
+            32.700000286102295,
+            34,
+            33.299999713897705,
+            33.40000009536743,
+            33.200000286102295,
+            33.299999713897705,
+            32.700000286102295,
+            33.40000009536743,
+            33.299999713897705,
+            33.30000019073486,
+            33.40000009536743,
+            34,
+            33.5,
+            32.39999961853027,
+            33.799999713897705,
+            32.700000286102295,
+            34,
+            33.19999980926514,
+            33.30000019073486,
+            33.30000019073486,
+            33.19999980926514,
+            32.90000009536743,
+            33.30000019073486,
+            33.19999980926514,
+            33.30000019073486,
+            33.40000009536743,
+            34,
+            33.5,
+            32.5,
+            34,
+            32.59999990463257,
+            33.90000009536743,
+            33.299999713897705,
+            33.30000019073486,
+            33.30000019073486,
+            33.5,
+            32.69999980926514,
+            33.30000019073486,
+            33.299999713897705,
+            33.40000009536743,
+            33.19999980926514,
+            33.90000009536743,
+            33.5,
+            32.60000038146973,
+            34,
+            32.59999990463257,
+            34,
+            33.299999713897705,
+            33.30000019073486,
+            33.30000019073486,
+            33.39999961853027,
+            32.700000286102295,
+            33.40000009536743,
+            33.19999980926514,
+            33.5,
+            33.30000019073486,
+            33.89999961853027,
+            33.60000038146973,
+            32.5,
+            34,
+            32.799999713897705,
+            33.80000019073486,
+            33.19999980926514,
+            33.5,
+            33.200000286102295,
+            33.39999961853027,
+            32.700000286102295,
+            33.30000019073486,
+            33.39999961853027,
+            33.200000286102295,
+            33.40000009536743,
+            33.799999713897705,
+            32.80000019073486,
+            33.30000019073486,
+            33.799999713897705,
+            32.700000286102295,
+            33.80000019073486,
+            33.299999713897705,
+            33.30000019073486
+          ]
+        },
+        {
+          "set": 3,
+          "samples": 100,
+          "p95": 34,
+          "max": 34,
+          "times": [
+            31.199999809265137,
+            33.10000038146973,
+            33.39999961853027,
+            33.19999980926514,
+            33.30000019073486,
+            34,
+            32.59999990463257,
+            33.40000009536743,
+            33.69999980926514,
+            32.90000009536743,
+            33.80000019073486,
+            33.299999713897705,
+            33.40000009536743,
+            33.40000009536743,
+            33.299999713897705,
+            32.700000286102295,
+            33.40000009536743,
+            33.299999713897705,
+            33.30000019073486,
+            33.19999980926514,
+            34,
+            32.69999980926514,
+            33.19999980926514,
+            34,
+            32.700000286102295,
+            33.90000009536743,
+            33.39999961853027,
+            33.30000019073486,
+            33.30000019073486,
+            33.19999980926514,
+            32.90000009536743,
+            33.30000019073486,
+            33.299999713897705,
+            33.30000019073486,
+            33.40000009536743,
+            34,
+            32.69999980926514,
+            33.19999980926514,
+            33.89999961853027,
+            32.700000286102295,
+            33.80000019073486,
+            33.39999961853027,
+            33.30000019073486,
+            33.30000019073486,
+            33.39999961853027,
+            32.80000019073486,
+            33.90000009536743,
+            32.59999990463257,
+            33.30000019073486,
+            33.30000019073486,
+            33.69999980926514,
+            32.80000019073486,
+            33.299999713897705,
+            34,
+            32.59999990463257,
+            34,
+            33.19999980926514,
+            33.40000009536743,
+            33.19999980926514,
+            33.299999713897705,
+            32.80000019073486,
+            33.30000019073486,
+            33.299999713897705,
+            33.80000019073486,
+            32.80000019073486,
+            33.89999961853027,
+            32.700000286102295,
+            33.40000009536743,
+            34,
+            32.59999990463257,
+            33.90000009536743,
+            33.39999961853027,
+            33.30000019073486,
+            33.30000019073486,
+            33.299999713897705,
+            32.700000286102295,
+            33.299999713897705,
+            33.299999713897705,
+            33.30000019073486,
+            33.30000019073486,
+            33.89999961853027,
+            32.700000286102295,
+            33.5,
+            33.69999980926514,
+            32.80000019073486,
+            33.80000019073486,
+            33.19999980926514,
+            33.40000009536743,
+            33.30000019073486,
+            33.39999961853027,
+            32.700000286102295,
+            33.19999980926514,
+            33.30000019073486,
+            33.30000019073486,
+            33.299999713897705,
+            34,
+            32.700000286102295,
+            33.299999713897705,
+            33.799999713897705,
+            32.700000286102295
+          ]
+        }
+      ],
+      "medianP95": 34,
+      "max": 63.5,
+      "passed": true
+    },
+    "calls": [
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 2134
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 2202
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 2324
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 2329
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 3516
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 3552
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 305
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 560
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200,
+        "ms": 167
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 583
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 662
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 1600
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 423
+      },
+      {
+        "name": "academy_layer",
+        "status": 200,
+        "ms": 556
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 3130
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 133
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 146
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200,
+        "ms": 197
+      },
+      {
+        "name": "academy_layer",
+        "status": 200,
+        "ms": 388
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 1401
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 80
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200,
+        "ms": 83
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 112
+      },
+      {
+        "name": "academy_layer",
+        "status": 200,
+        "ms": 156
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 1140
+      },
+      {
+        "name": "project_exposure_geometry",
+        "status": 200,
+        "ms": 190
+      }
+    ]
+  },
+  "mobile": {
+    "initial_scripts": [
+      {
+        "file": "/_next/static/chunks/webpack-86837676de4147f3.js",
+        "raw": 5155,
+        "gzip": 2516
+      },
+      {
+        "file": "/_next/static/chunks/main-app-ffab002db59d83ff.js",
+        "raw": 557,
+        "gzip": 225
+      },
+      {
+        "file": "/_next/static/chunks/app/layout-0f0647daac2612d4.js",
+        "raw": 1529,
+        "gzip": 883
+      },
+      {
+        "file": "/_next/static/chunks/4ef3cc75-eac7824852770cf4.js",
+        "raw": 67481,
+        "gzip": 14295
+      },
+      {
+        "file": "/_next/static/chunks/409-601d748e314bd9d7.js",
+        "raw": 8535,
+        "gzip": 3389
+      },
+      {
+        "file": "/_next/static/chunks/529-8dd1939c67a1cc0c.js",
+        "raw": 173653,
+        "gzip": 46496
+      },
+      {
+        "file": "/_next/static/chunks/f177dbf6-9a3a8471778d321d.js",
+        "raw": 173019,
+        "gzip": 54359
+      },
+      {
+        "file": "/_next/static/chunks/874-111fbd480a9646d3.js",
+        "raw": 35645,
+        "gzip": 13137
+      },
+      {
+        "file": "/_next/static/chunks/app/compare/page-0d325aab850930ea.js",
+        "raw": 36543,
+        "gzip": 12167
+      },
+      {
+        "file": "/_next/static/chunks/214-4044f25f6252e3f8.js",
+        "raw": 180506,
+        "gzip": 50291
+      },
+      {
+        "file": "/_next/static/chunks/app/page-c1963b222b12c6b6.js",
+        "raw": 183,
+        "gzip": 162
+      },
+      {
+        "file": "/_next/static/chunks/app/new/page-da226ecacb3b39fa.js",
+        "raw": 7723,
+        "gzip": 3373
+      },
+      {
+        "file": "/_next/static/chunks/234.02e95e7b077dbdd0.js",
+        "raw": 10170,
+        "gzip": 3897
+      }
+    ],
+    "initial_js_gzip": 205190,
+    "n": 1069,
+    "calls": [
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 1036
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 1119
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 1202
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 1242
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 2420
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 2468
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 322
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 331
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 468
+      },
+      {
+        "name": "score_inputs",
+        "status": 200,
+        "ms": 511
+      },
+      {
+        "name": "exposure_inputs_v022",
+        "status": 200,
+        "ms": 1083
+      },
+      {
+        "name": "score_reference_percentiles",
+        "status": 200,
+        "ms": 233
+      },
+      {
+        "name": "compare_map_context",
+        "status": 200,
+        "ms": 89
+      },
+      {
+        "name": "academy_layer",
+        "status": 200,
+        "ms": 189
+      }
+    ]
+  },
+  "bundle": {
+    "main": {
+      "files": [
+        {
+          "file": "static/chunks/139-2723b5b560b61fe0.js",
+          "gzip": 49914
+        },
+        {
+          "file": "static/chunks/180-63febb8532366fd5.js",
+          "gzip": 46071
+        },
+        {
+          "file": "static/chunks/1db5841b-3df1d1faee03525d.js",
+          "gzip": 14245
+        },
+        {
+          "file": "static/chunks/570-b1b3a05460c3f35f.js",
+          "gzip": 3370
+        },
+        {
+          "file": "static/chunks/673-a334683e7ecbc6f8.js",
+          "gzip": 13060
+        },
+        {
+          "file": "static/chunks/app/compare/page-3c09cebacf03123e.js",
+          "gzip": 16639
+        },
+        {
+          "file": "static/chunks/ecebb611-9be8d02aace72804.js",
+          "gzip": 54226
+        },
+        {
+          "file": "static/chunks/main-app-c6b316bc4264d3d3.js",
+          "gzip": 228
+        },
+        {
+          "file": "static/chunks/webpack-633be616f2121104.js",
+          "gzip": 2443
+        }
+      ],
+      "initial_js_gzip": 200196
+    },
+    "B": {
+      "files": [
+        {
+          "file": "static/chunks/214-4044f25f6252e3f8.js",
+          "gzip": 50055
+        },
+        {
+          "file": "static/chunks/409-601d748e314bd9d7.js",
+          "gzip": 3371
+        },
+        {
+          "file": "static/chunks/4ef3cc75-eac7824852770cf4.js",
+          "gzip": 14240
+        },
+        {
+          "file": "static/chunks/529-8dd1939c67a1cc0c.js",
+          "gzip": 46405
+        },
+        {
+          "file": "static/chunks/874-111fbd480a9646d3.js",
+          "gzip": 13032
+        },
+        {
+          "file": "static/chunks/app/compare/page-0d325aab850930ea.js",
+          "gzip": 12063
+        },
+        {
+          "file": "static/chunks/f177dbf6-9a3a8471778d321d.js",
+          "gzip": 54228
+        },
+        {
+          "file": "static/chunks/main-app-ffab002db59d83ff.js",
+          "gzip": 226
+        },
+        {
+          "file": "static/chunks/webpack-a81ce34de24797c8.js",
+          "gzip": 2500
+        }
+      ],
+      "initial_js_gzip": 196120,
+      "academy_js": [
+        {
+          "file": "static/chunks/871.7091fa37b01be451.js",
+          "gzip": 5369
+        }
+      ],
+      "academy_css": [
+        {
+          "file": "static/css/12ae71d85db08c4b.css",
+          "gzip": 362
+        }
+      ]
+    }
+  },
+  "fps_valid_a": [
+    {
+      "candidate": "a",
+      "mode": "2D",
+      "run": 1,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.99680017084828,
+      "p95": 18.299999713897705,
+      "max": 19.300000190734863,
+      "frames": 3600,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "a",
+      "mode": "2D",
+      "run": 2,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.9967001812993,
+      "p95": 18.300000190734863,
+      "max": 19.5,
+      "frames": 3600,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "a",
+      "mode": "2D",
+      "run": 3,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.99680017037149,
+      "p95": 18.299999713897705,
+      "max": 19.300000190734863,
+      "frames": 3600,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "a",
+      "mode": "3D",
+      "run": 1,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.9456039894219,
+      "p95": 18.299999713897705,
+      "max": 57.09999990463257,
+      "frames": 3597,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "a",
+      "mode": "3D",
+      "run": 2,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.9967001812993,
+      "p95": 17.59999990463257,
+      "max": 18.699999809265137,
+      "frames": 3600,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "a",
+      "mode": "3D",
+      "run": 3,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 59.96067059960671,
+      "p95": 18.299999713897705,
+      "max": 50,
+      "frames": 3598,
+      "focus": true,
+      "visible": "visible"
+    }
+  ],
+  "fps_invalid_display_moved": [
+    {
+      "candidate": "b",
+      "mode": "2D",
+      "run": 1,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 111.44336323620172,
+      "p95": 16.59999990463257,
+      "max": 26.300000190734863,
+      "frames": 6686,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "b",
+      "mode": "2D",
+      "run": 2,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 119.99840002190524,
+      "p95": 9.199999809265137,
+      "max": 10.700000286102295,
+      "frames": 7200,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "b",
+      "mode": "2D",
+      "run": 3,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 120.00026662965507,
+      "p95": 9.099999904632568,
+      "max": 10.299999713897705,
+      "frames": 7201,
+      "focus": true,
+      "visible": "visible"
+    },
+    {
+      "candidate": "b",
+      "mode": "3D",
+      "run": 1,
+      "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+      "averageFps": 119.99860001576096,
+      "p95": 9.199999809265137,
+      "max": 11.599999904632568,
+      "frames": 7200,
+      "focus": true,
+      "visible": "visible"
+    }
+  ],
+  "fps_bc": "pending: Chrome moved from 60Hz main display to 120Hz built-in display; second attempt failed actual window-bound assertion; no product FPS failure concluded",
+  "preview": "blocked: Vercel SSO all_except_custom_domains, no existing protectionBypass; no protection settings changed",
+  "checks": {
+    "lint": "pass",
+    "typecheck": "pass",
+    "vitest": 228,
+    "python": 319,
+    "real_render_mobile": "2 passed",
+    "synthetic": "9 passed, 1 GPU-only skipped; 3D navigation repeat 5 passed",
+    "ci": "See PR checks; map/layer/deck teardown and lazy evidence focus failures were fixed, no errors allowed"
+  }
+}

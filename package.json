@@ -17,7 +17,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:academy": "playwright test -c playwright.academy.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

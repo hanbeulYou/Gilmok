@@ -41,6 +41,9 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
   const exposureLink = useExposureLink();
   const [overlayAttempt, setOverlayAttempt] = useState(0), [visitedOverlay, setVisitedOverlay] = useState(false);
   const ExposureOverlay = useMemo(() => lazy(() => import('./ExposureOverlay')), [overlayAttempt]);
+  const AcademyLayer = useMemo(() => lazy(() => import('./AcademyLayer')), []);
+  const [visitedAcademies, setVisitedAcademies] = useState(false);
+  useEffect(() => { const instance = map.current; if (!ready || !instance) return; const visit = () => { if (instance.getZoom() >= 15) setVisitedAcademies(true); }; visit(); instance.on('zoom', visit); return () => { instance.off('zoom', visit); }; }, [ready]);
   const [sceneAttempt, setSceneAttempt] = useState(0);
   const BuildingScene3D = useMemo(() => lazy(() => import('./BuildingScene3D')), [sceneAttempt]);
   const [is3D, setIs3D] = useState(false), [visited3D, setVisited3D] = useState(false);
@@ -232,6 +235,7 @@ export default function CompareMap({ retry, active }: { retry: () => void; activ
     }}>{group.members.map(member => <button key={member.id} aria-pressed={member.id === selected?.id}
       onClick={() => { state.selectCandidate(member.id); closeGroup(); }}>{member.rank}. {member.alias} · {member.floor}층</button>)}<button onClick={closeGroup}>목록 닫기</button></div>}
     <div className="map-viewport">
+      {visitedAcademies && ready && map.current && <Suspense fallback={null}><AcademyLayer map={map.current} row={selected} active={active}/></Suspense>}
       <div className="map-mode" role="group" aria-label="지도 차원">
         <button aria-pressed={!is3D} onClick={() => chooseMode(false)}>2D</button>
         <button aria-pressed={is3D} disabled={!ready || !!mapError} onClick={() => chooseMode(true)}>3D</button>

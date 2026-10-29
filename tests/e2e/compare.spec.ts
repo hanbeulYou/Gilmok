@@ -192,6 +192,8 @@ test('a~e 등록 → v0.4.0 근거 → 슬라이더 → 익명 저장 → 같은
     await coldMobile.close();
     console.log(JSON.stringify(evidence));
   } finally {
+    await info.attach('browser-errors', { body:JSON.stringify(errors), contentType:'application/json' });
+    if (errors.length) console.error('browser-errors', JSON.stringify(errors));
     // Delete only this test's new local Auth users; no service key reaches the browser.
     for (const uid of users) await admin.auth.admin.deleteUser(uid);
   }

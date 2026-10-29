@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import type { Map as LibreMap, MapLayerMouseEvent } from 'maplibre-gl';
 import type { ComparisonCandidate } from '../../lib/compare/store';
 import { getSupabaseClient } from '../../lib/supabase/client';
@@ -40,7 +40,8 @@ export default function BuildingScene3D({ map, active, selected, candidateIds, i
     });
     return () => { alive = false; };
   }, [scene, selected?.id, selected?.generation, active, attempt, map, loader, candidateIds]);
-  useEffect(() => {
+  // The parent disposes the map in a passive effect; remove its layers first.
+  useLayoutEffect(() => {
     if (!active || !data) return;
     map.addSource(source, { type: 'geojson', data, attribution, tolerance:0, promoteId:'id' });
     map.addLayer({ id: layer, type: 'fill-extrusion', source, paint: {

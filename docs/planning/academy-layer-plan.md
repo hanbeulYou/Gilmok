@@ -224,6 +224,13 @@ ScoreResult.axes.cluster.evidence.values.n_field
 
 [Draft PR #39](https://github.com/hanbeulYou/Gilmok/pull/39)에 전수 재산출·8축 영향·원자적 승격/롤백 결과를 기록했다. 과거/최신 합집합13,591주소 중13,460주소 확보, a~e 순위 b>e>a>c>d 유지. 원격 데이터와 카카오 캐시/키는 변경하지 않았다. 다른 PNU 도형에 포함된 학원46행(18주소)은 검토 대상으로 명시했으며, 공식 해외 저장 조건 회신·예외 검토·별도 승인 전 G 원격 승격 보류와 A/B Ready 조건은 그대로다.
 
+## PR B 합성 구현 상태 — 2026-10-18
+
+**2026-10-28 후속:** G 승격·#41 main 머지 후 실제 a/b/c로 2D/3D 렌더·좌표·N/M·근거·모바일·슬라이더·번들 검증을 진행했다. 해당 기능 검증과 a FPS는 통과했다. b/c FPS는 측정 창이 120Hz 화면으로 이동하여 무효, Preview는 로그인 보호로 미완료다. 지도 이탈 정리 오류를 2D·3D 회귀로 수정했으며, #42는 남은 실증 동안 Draft를 유지한다. [실데이터 검증](../validation/academy-layer-b-real-20261028.md)의 완료/미완료 구분이 아래 합성 시점 상태보다 최신이다.
+
+사용자가 지정한 **합성 1,500기관**으로 B를 구현했다. 전체반경 GeoJSON/circle, 같은 분야 강조, N/M, 명시층·보류 팝업, 후보 전환 abort/줌 데이터 유지, 네 상태 안내, 노출 클릭 우선순위를 검증했다. 초기 JS 증가 0, 학원 JS 5,329B gzip/CSS 351B, 슬라이더 3세트 p95 중앙값 33.5ms(max 61.6ms). [B 검증](../validation/academy-layer-b-20261018.md).
+
+B는 migration·기존 DB 객체 변경이 없으며 A(#41)의 TypeScript 계약을 재사용한다. 원격/실데이터 DB·R2는 읽고 쓰지 않았다. **Draft 유지**: 2026-10-21 M5 Pro·AC·주 화면60Hz·저전력off에서 2D/3D 각3회 FPS 통과(평균59.66~60.00fps, p95 17.5~17.7ms). G 승격 전 Ready 금지. 사용자 60Hz 설정 후 M5 Pro 실제 GPU 측정을 이어간다. G 승격/A 적용 뒤 실제 a/b/c 및 최대 밀도 셀을 재측정한다. 원 계획의 5,000기관 스트레스와 실제 최대 밀도 검증은 이 합성 1,500기관 검증으로 대체했다고 주장하지 않는다.
 ### A 합성 구현 (2026-10-16, Draft)
 
 - 사용자 승인 범위: 전체반경 RPC·TypeScript 계약·좌표 검증 보류 필드·응답 예산. **합성 fixture만 사용하고 원격 DB/R2는 읽기·쓰기 모두 하지 않는다.** 실제 기관 ID/좌표와 101행 목록을 이 PR로 옮기지 않는다.
@@ -270,3 +277,8 @@ ScoreResult.axes.cluster.evidence.values.n_field
 [ADR](../decisions/20261021-juso-api-coordinates-tokyo.md)에 따라 Juso 문의는 무응답으로 종결하고 API 좌표의 기존 도쿄 DB 저장을 사용자 결정으로 확정했다. 앞선 공식 회신 대기 조건은 해제하되 원격 쓰기 승인은 별도다. 위치정보요약DB 조사는 중단하고 [대안 기록](juso-file-source-alternative.md)만 남긴다. 직접 문의147547의 접수 시각2026-10-13 21:14:43과 10/21 공개 답변0건은 확인했다. 별도 긍정 답변 날짜/원문은 미확인으로 ADR에 구분했다.
 
 [원격 dry-run/쓰기 범위](../validation/academy-g-remote-preflight-20261021.md) 보고 → 승인 대기 → G 원자적 승격/a~e 원격 대조 후 보고 → #40 migration push·사용자 머지·배포 한 세트 후 보고 → #41 완료 기준 확인/Ready 순서이며 각 단계에서 멈춘다. #40 머지 전 Vercel 서버 전용 JUSO_COORD_API_KEY 존재 확인을 요청한다. Kakao/Vworld 캐시·키 삭제는 계속 별도 승인이다.
+
+
+### 2026-10-29 B 검증 상태
+
+사용자 요청으로 FPS 재측정을 보류한다(b/c 미완료). 실데이터 기능·모바일·슬라이더·번들 및 코드 head `6aa49e4` CI는 통과했다. 최신 Preview도 Vercel SSO로 리디렉션되어 실제 Preview 렌더와 HTTP→첫 점 표시 시간은 접근 대기다. 두 항목을 통과 처리하지 않고 #42 Draft를 유지한다. 상세는 [실데이터 검증 후속 기록](../validation/academy-layer-b-real-20261028.md)을 따른다.

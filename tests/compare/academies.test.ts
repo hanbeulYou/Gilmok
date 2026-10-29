@@ -97,3 +97,18 @@ describe('academy loader generations and bounded memory',()=>{
     loader.dispose();await rejected;expect(fetcher).not.toHaveBeenCalled();
   });
 });
+
+it('cancel aborts pending selection but preserves the completed public-response cache', async () => {
+  const r=request(); let signal: AbortSignal | undefined;
+  const fetcher=vi.fn(async (_args, active: AbortSignal) => {
+    if (fetcher.mock.calls.length===1) return response(r);
+    signal=active;
+    return new Promise((resolve,reject)=>active.addEventListener('abort',()=>reject(new DOMException('cancelled','AbortError'))));
+  });
+  const loader=createAcademyLayerLoader(fetcher);
+  await loader.load(r);
+  const pending=loader.load({...r,lng:127.01}); const failure=expect(pending).rejects.toMatchObject({name:'AbortError'});
+  await vi.waitFor(()=>expect(signal).toBeDefined()); loader.cancel();
+  expect(signal?.aborted).toBe(true); await failure;
+  expect(await loader.load(r)).toEqual(response(r)); expect(fetcher).toHaveBeenCalledTimes(2); loader.dispose();
+});

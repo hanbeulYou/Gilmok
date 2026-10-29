@@ -163,6 +163,7 @@ export function createAcademyLayerLoader(fetcher: (args: ReturnType<typeof acade
       });
       queue = job; return job;
     },
+    cancel() { generation++; controller?.abort(); },
     dispose() { generation++; controller?.abort(); cache.clear(); },
   };
 }
